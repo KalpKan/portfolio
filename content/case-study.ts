@@ -9,18 +9,32 @@ import type { StaticImageData } from "next/image";
  *
  * Media rules (docs/hosting-plan.md §6):
  *  - images are static imports from public/images/projects/<slug>/ (WebP,
- *    300 KB or less, checked by content/media.test.ts) rendered with next/image;
+ *    300 KB or less, checked by content/media.test.ts) rendered with next/image,
+ *    never remote URLs (see MediaItem.src);
  *  - videos are never committed: a YouTube id (unlisted) or a hosted file URL;
  *  - anything Kalp has not supplied yet is a Placeholder, drawn at the size
  *    the real media will take and labelled so nobody mistakes it for content.
  */
 
 export type MediaItem = {
-  src: StaticImageData | string;
+  /**
+   * A static import of a WebP under public/images/projects/<slug>/ (next/image
+   * reads width and height from it). Never a URL string: the hub's
+   * next.config.ts lists no images.remotePatterns, so next/image would throw
+   * "hostname is not configured" at build time for a remote src. Allowing a
+   * remote host is a separate next.config.ts change, not a content change.
+   */
+  src: StaticImageData;
   alt: string;
   caption?: string;
   /** CSS object-position for a crop, e.g. "50% 60%" to keep a subject low in a portrait frame. */
   position?: string;
+  /**
+   * "document": a white sheet (a KiCad schematic, a printed page). In the dark
+   * theme it is inverted with its hues kept, so the page stays one dark surface
+   * instead of showing a glaring white rectangle. Photos and renders leave it unset.
+   */
+  tone?: "document";
 };
 
 export type Aspect = "16/9" | "4/3" | "9/19.5" | "1/1" | "9/16";

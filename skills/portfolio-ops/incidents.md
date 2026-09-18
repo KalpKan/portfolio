@@ -655,3 +655,35 @@ _Entries begin below, oldest first._
 - **Fix:** Not fixed (application code, out of the audit's remit). Filed for the hoops hardening round (T5.a FIX): check the key first, then validate.
 - **Prevention:** `verification.md` row "Ingest function rejects a bad key" keeps the full body so the check stays meaningful; T5.a picks up the ordering.
 - **Reported by:** Phase 1 quality audit (verifier)
+
+### 2026-09-18: a diagram edge label ran into the next node on the live RC-car page (T4.1 reviewer)
+
+- **Date:** 2026-09-18, found by the T4.1 reviewer on the live page at 1440
+- **Affected:** `https://kalpkan.com/projects/rc-car`, the "How it works" diagram (`components/showcase/diagrams/FlowDiagram.tsx`)
+- **Symptom:** The horizontal edge label "events / frames" (15 glyphs of 11 px mono ≈ 99 px) sat in the 72 px gap between the Inputs and Raspberry Pi nodes, so it crossed the Pi box border and its title. The worker's own committed screenshot `docs/images/showcase/rc-car-1440-dark-diagram.webp` showed it.
+- **What was tried:** n/a; the worker had checked "no overflow" (page `scrollWidth`) and node text lengths, but never label widths against the gap.
+- **Root cause:** `FlowDiagram` placed each edge label as one `<text>` with no width rule, while node text had a documented 27-character limit. The runbook said "2 arrow labels" and nothing about their length.
+- **Fix:** Edge labels split on ` / ` into stacked `<tspan>` lines (`edgeLabelLines`), the gap and glyph width are exported constants, and `components/showcase/diagrams/FlowDiagram.test.tsx` fails when any line of any diagram is wider than `H_GAP - 4` px. Verified in Chrome at 1440 (label box x 711–749 between nodes ending at 696 and starting at 764) and at 390 in both themes; screenshot replaced.
+- **Prevention:** runbook "Add a case study" step 3 now states the label rule (≤ 10 characters per line, ` / ` starts a new line) and the test enforces it; `verification.md` row "Diagram edge labels fit the gap".
+- **Reported by:** T4.1 reviewer
+
+### 2026-09-18: the PCB page and STATUS.md said "DRC clean" from a report that predates the final board (T4.1 reviewer)
+
+- **Date:** 2026-09-18
+- **Affected:** `content/projects/yash-birthday-pcb.ts` (Layout step), `STATUS.md` session log, commit `ac9792f` message
+- **Symptom:** The page said "the design-rule check on 2025-07-14 reported zero violations". `~/Documents/Yash Birthday PCB/DRC Warnings.rpt` does say `0 DRC violations`, but also `17 unconnected pads`, and it was run on an earlier revision with four-pad data LEDs (`Net-(D1-DIN)`, `Net-(D1-DOUT)`), two days before the 2025-07-16 Gerber/pos export that carries the final 0603 LEDs; the `.kicad_pcb` was last saved 2025-08-27, after the Gerbers.
+- **Root cause:** The worker read the headline line of the report and not the rest, and did not compare file dates before attaching the report to the final design.
+- **Fix:** The sentence now states what the files show (no rule violations but 17 unconnected pads on an earlier revision; LEDs swapped before the July 16 export; board saved after the export, so the report says nothing about the final board). STATUS.md wording corrected.
+- **Prevention:** runbook "Add a case study" step 1 already says "numbers on the page are the constants in the code"; the same applies to reports: quote every summary line of a tool report (`grep -n "Found" *.rpt`) and check its date against the exported outputs before calling anything "clean".
+- **Reported by:** T4.1 reviewer
+
+### 2026-09-18: two human checkpoints were both numbered H14 (EEG link, pushups phone test)
+
+- **Date:** 2026-09-18
+- **Affected:** `STATUS.md` "Needs Kalp": "H14 — DIY EEG: link it from the hub?" (`4e2fdb1`, T4.1) and "H14 — pushups: try it on your phone" (`995ed35`, T3.1), written by two agents within the same hour; the later T4.1 commit `a3a71b2` did not notice.
+- **Symptom:** Kalp's one-word replies key on these numbers ("link EEG" vs a pushups report), so a reply "H14 done" would have been ambiguous.
+- **Root cause:** Each agent picked "next free H-number" from its own stale read of STATUS.md; concurrent commits rebased cleanly because the sections do not touch.
+- **Fix:** Pushups checkpoint renumbered to H15 (STATUS.md heading, its session-log line, `verification.md` phone-run row).
+- **Prevention:** Before adding a checkpoint, `git pull --rebase --autostash` and then `grep -o '^### H[0-9]*' STATUS.md | sort -t H -k2 -n | tail -1` to take the next number; after the push, grep again for duplicates (`grep -o '^### H[0-9]*' STATUS.md | sort | uniq -d` must print nothing). Added to runbook "Add a case study" step 8 as the general STATUS.md rule.
+- **Reported by:** T4.1 reviewer
+

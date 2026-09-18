@@ -122,9 +122,14 @@ other.
 
 1. **Registry.** In `projects.json` add (or find) the entry with
    `"type": "showcase"`. Leave `"status": "coming"` until the page is written;
-   the row then links to the repo and says "case study soon".
+   the row then links to the repo and says "case study soon". The status only
+   controls the home-page row and the wording of the page's meta line; what
+   stops an unfinished page from being published is `draft: true` in the
+   content file (step 2), not the status.
 2. **Content.** Copy `content/projects/unpark.ts` to
-   `content/projects/<slug>.ts` (the file name must equal the `slug`) and fill
+   `content/projects/<slug>.ts` (the file name must equal the `slug`), put
+   `draft: true` in it while you are writing (a draft renders only the short
+   "case study coming soon" placeholder, whatever the registry says), and fill
    in each field in plain English:
    - `title`, `lede` (one sentence), `kicker` (a few facts separated by
      ` · `, e.g. `Hardware · iOS · 2025`).
@@ -135,7 +140,11 @@ other.
    - `hero`, `gallery`, `screens`, `video`: real media, or a placeholder
      `{ kind: "placeholder", label: "Photos coming: Kalp will add", aspect: "4/3", count: 2 }`
      that is drawn at the size the real thing will take. Use `null` for a
-     section that does not apply (a car has no app screens).
+     section that does not apply (a car has no app screens). Images are always
+     local WebP files imported from `public/images/projects/<slug>/` (step 4);
+     an image on another website cannot be used, because `next/image` refuses
+     hosts that are not listed in `next.config.ts`, and adding one there is a
+     separate change. Only videos are hosted elsewhere (step 5).
    - `tech` (a short list), `repo` (must match the registry, `null` hides
      the link), `status` (one honest line: prototype / App Store: no / …).
    - `wanted`: the media you still owe this page; copy it into `STATUS.md`
@@ -152,6 +161,16 @@ other.
    in Preview, File → Export as PNG first.
 5. **Video.** Never commit the file. Upload it to YouTube as *Unlisted* and
    set `video: { kind: "youtube", id: "<the id after v=>", title: "…" }`.
-6. **Publish.** `npm test`, then set the registry `status` to `"live"`, commit
-   and push. The row on the home page switches to "case study" / "read" and
-   `/projects/<slug>` shows the full page.
+6. **Publish.** `npm test`, then remove `draft: true` from the content file
+   and set the registry `status` to `"live"`, commit and push. The row on the
+   home page switches to "case study" / "read" and `/projects/<slug>` shows the
+   full page. The two switches are independent, and the test in
+   `app/projects/[slug]/page.test.tsx` pins the rule:
+   - `draft: true` (or no content file): the short placeholder page, always.
+   - no `draft`, status `"coming"`: the full page is published with the meta
+     line **under construction** (the DIY EEG page), but the home-page row
+     does not link to it yet.
+   - no `draft`, status `"live"`: the full page, meta line "case study", row
+     linked.
+   So removing `draft: true` publishes the page even before the status flips;
+   keep the draft flag on until the words are ready to be read.

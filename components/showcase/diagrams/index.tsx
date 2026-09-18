@@ -5,7 +5,7 @@ import { FlowDiagram, type FlowData } from "./FlowDiagram";
  * One diagram per case study, as data for FlowDiagram. Node text is what the
  * code actually does (file names, ports, collections), not marketing.
  */
-const DIAGRAMS: Record<DiagramId, FlowData> = {
+export const DIAGRAMS: Record<DiagramId, FlowData> = {
   unpark: {
     title: "UnPark architecture: Raspberry Pi to Firebase to the iPhone app, with a direct Socket.IO path and an hourly Cloud Function",
     nodes: [

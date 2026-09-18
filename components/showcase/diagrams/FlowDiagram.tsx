@@ -17,6 +17,35 @@ export type FlowData = { nodes: FlowNode[]; edges: string[]; extra?: FlowExtra[]
 
 const MONO = "var(--font-mono), ui-monospace, Menlo, monospace";
 
+/** Gap between nodes in the horizontal layout; an edge label must fit in it. */
+export const H_GAP = 72;
+/** Width of one 11 px mono glyph, the same estimate the node width uses. */
+export const LABEL_GLYPH_PX = 6.6;
+const LINE = 13;
+
+/**
+ * An edge label is one short word per line: "events / frames" becomes two
+ * stacked lines, so no label is wider than the 72 px gap between nodes
+ * (a 15-glyph label ran into the next node on /projects/rc-car, 2026-09-18).
+ * FlowDiagram.test.tsx checks every diagram's lines against H_GAP.
+ */
+export function edgeLabelLines(label: string): string[] {
+  return label.split(" / ").map((s) => s.trim()).filter(Boolean);
+}
+
+function EdgeLabel({ label, x, y, anchor }: { label: string; x: number; y: number; anchor: "middle" | "start" }) {
+  const lines = edgeLabelLines(label);
+  return (
+    <text x={x} y={y} textAnchor={anchor} fontFamily={MONO} fontSize={11} fill="var(--ink-2)">
+      {lines.map((line, i) => (
+        <tspan key={line + i} x={x} dy={i === 0 ? 0 : LINE}>
+          {line}
+        </tspan>
+      ))}
+    </text>
+  );
+}
+
 function Node({ n, x, y, w, h }: { n: FlowNode; x: number; y: number; w: number; h: number }) {
   return (
     <g>
@@ -58,7 +87,7 @@ export function FlowDiagram({ data }: { data: FlowData }) {
   // Horizontal layout (md and up). 11 px mono is ~6.6 px per glyph, so a
   // 196 px node holds 27 characters; diagrams/index.tsx keeps lines under that.
   const W = 196;
-  const GAP = 72;
+  const GAP = H_GAP;
   const PAD = 8;
   const TOP = data.extra?.length ? 44 : PAD;
   const hw = PAD * 2 + N * W + (N - 1) * GAP;
@@ -92,9 +121,7 @@ export function FlowDiagram({ data }: { data: FlowData }) {
           return (
             <g key={label + i}>
               <line x1={x1 + 2} y1={y} x2={x2 - 2} y2={y} stroke="currentColor" strokeWidth={1.25} markerEnd="url(#fd-h)" />
-              <text x={(x1 + x2) / 2} y={y - 8} textAnchor="middle" fontFamily={MONO} fontSize={11} fill="var(--ink-2)">
-                {label}
-              </text>
+              <EdgeLabel label={label} x={(x1 + x2) / 2} y={y - 8 - (edgeLabelLines(label).length - 1) * LINE} anchor="middle" />
             </g>
           );
         })}
@@ -126,9 +153,7 @@ export function FlowDiagram({ data }: { data: FlowData }) {
           return (
             <g key={label + i}>
               <line x1={x} y1={y1 + 2} x2={x} y2={y2 - 2} stroke="currentColor" strokeWidth={1.25} markerEnd="url(#fd-v)" />
-              <text x={x + 10} y={(y1 + y2) / 2 + 4} fontFamily={MONO} fontSize={11} fill="var(--ink-2)">
-                {label}
-              </text>
+              <EdgeLabel label={label} x={x + 10} y={(y1 + y2) / 2 + 4 - ((edgeLabelLines(label).length - 1) * LINE) / 2} anchor="start" />
             </g>
           );
         })}

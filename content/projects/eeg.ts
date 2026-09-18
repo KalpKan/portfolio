@@ -17,6 +17,7 @@ const eeg: CaseStudy = {
     "A single-channel EEG amplifier built from an AD620, two filters and an op-amp gain stage, feeding a 16-bit ADC on a Raspberry Pi: simulated in LTspice, drawn in KiCad, not yet on a board.",
   hero: {
     src: schematic,
+    tone: "document",
     alt: "KiCad schematic of the EEG front end: two 9 V batteries, a DIN-3 electrode connector with 10 kΩ safety resistors into an AD620 instrumentation amplifier, a 1 µF / 330 kΩ high-pass and 33 kΩ / 100 nF low-pass filter, a TL084 non-inverting gain stage, AC coupling and a 1.65 V bias into an ADS1115 ADC wired to a Raspberry Pi 4 over I2C",
     caption: "The full schematic as it stands (August 2026). Left to right: batteries and electrodes, AD620, filters, TL084, ADC, Raspberry Pi.",
   },

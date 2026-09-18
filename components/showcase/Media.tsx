@@ -1,12 +1,13 @@
 import Image from "next/image";
 import type { Aspect, MediaItem, Placeholder } from "@/content/case-study";
+import styles from "./Media.module.css";
 
 /**
  * Media blocks for case-study pages.
  *
- * A Figure is a real image through next/image (WebP from public/images/
- * projects, or a hosted URL) inside an aspect box, so the layout never jumps
- * when the file loads. A PlaceholderBlock is drawn at the same size with a
+ * A Figure is a real image through next/image (a static import of a WebP from
+ * public/images/projects; remote URLs are not allowed, see MediaItem.src)
+ * inside an aspect box, so the layout never jumps when the file loads. A PlaceholderBlock is drawn at the same size with a
  * dashed hairline (the "coming" mark from the site map, not a colour) and a
  * mono label, so a visitor sees an honest gap and Kalp sees exactly what to
  * supply.
@@ -42,7 +43,8 @@ export function Figure({
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover"
+          className={item.tone === "document" ? `object-cover ${styles.document}` : "object-cover"}
+          data-tone={item.tone}
           style={item.position ? { objectPosition: item.position } : undefined}
         />
       </div>

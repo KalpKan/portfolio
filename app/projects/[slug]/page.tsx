@@ -36,8 +36,7 @@ export async function generateMetadata({
   const { p, study } = found;
   const title = `${study?.title ?? p.name} — Kalp Kansara`;
   const description = study?.lede ?? p.tagline;
-  const heroSrc = study && !isPlaceholder(study.hero) ? study.hero.src : null;
-  const image = typeof heroSrc === "string" ? heroSrc : heroSrc?.src;
+  const image = study && !isPlaceholder(study.hero) ? study.hero.src.src : undefined;
   return {
     title,
     description,

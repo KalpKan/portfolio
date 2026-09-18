@@ -1,0 +1,15 @@
+/*
+  A "document" MediaItem (a white schematic sheet) on the dark sheet: invert
+  the lightness but keep the hues, so wires stay green and symbols stay red
+  while the paper becomes near the page's own dark tone (#0e1014). The two
+  selectors mirror the theme rules in app/globals.css (system dark unless
+  data-theme="light"; or data-theme="dark").
+*/
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme="light"])) .document {
+    filter: invert(0.93) hue-rotate(180deg);
+  }
+}
+:global(:root[data-theme="dark"]) .document {
+  filter: invert(0.93) hue-rotate(180deg);
+}

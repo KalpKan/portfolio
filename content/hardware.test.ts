@@ -38,3 +38,11 @@ describe("FlashCards", () => {
     expect(flashcards.draft).toBe(true);
   });
 });
+
+describe("white document images on the dark sheet", () => {
+  it("mark the schematics as documents so the dark theme inverts them instead of showing a white slab", () => {
+    expect(!isPlaceholder(eeg.hero) && eeg.hero.tone).toBe("document");
+    const tile = pcb.gallery && !isPlaceholder(pcb.gallery) ? pcb.gallery.items.find((i) => /schematic/i.test(i.alt)) : undefined;
+    expect(tile?.tone).toBe("document");
+  });
+});

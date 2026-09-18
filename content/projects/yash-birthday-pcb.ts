@@ -7,7 +7,7 @@ import schematic from "@/public/images/projects/yash-birthday-pcb/schematic.webp
 
 // Written from the KiCad project on Kalp's Mac (~/Documents/Yash Birthday PCB:
 // .kicad_sch, .kicad_pcb, the Gerber job, BOM and pick-and-place exports,
-// DRC report of 2025-07-14) and the Gerber/BOM folder used for the order
+// DRC report of 2025-07-14, which predates the final LED footprints) and the Gerber/BOM folder used for the order
 // (~/Desktop/Out and About/Sidequest/Yash Bday Gerber). The renders are
 // `kicad-cli pcb render` of the board file and `kicad-cli sch export svg`
 // of the schematic; the layout view is Kalp's own KiCad screenshot from
@@ -21,7 +21,7 @@ const yashBirthdayPcb: CaseStudy = {
     "A 12 × 37 mm circuit board shaped like a USB stick, with a basketball player cut clean through it and three LEDs behind the cut, designed in KiCad as a birthday present for a friend.",
   hero: {
     src: renderBoth,
-    alt: "3D render of the board from KiCad: front on the left, back on the right. A tall green board with a USB-C plug at the bottom, a basketball player mid-dunk and a ball cut through the board, and three small LEDs on the back beside the cut-out",
+    alt: "3D render of the board from KiCad, lying on its side: front on top, back below. A green board with a USB-C plug at the right end, a basketball player mid-dunk and a ball cut through the board, and three small LEDs on the back beside the cut-out",
     caption: "Front and back of the board, rendered from the KiCad file. The player and the ball are holes in the board, not printed on it.",
   },
   problem:
@@ -44,7 +44,7 @@ const yashBirthdayPcb: CaseStudy = {
       {
         title: "Layout",
         body:
-          "All nine components sit on the back of the board (the front is clean apart from the cut-out) with the three LEDs spaced along the figure's edge, the plug pads at the very bottom, and the CC resistors right behind the connector. Traces run on the back copper, with eight vias to the front for the paths the cut-out gets in the way of. The design-rule check on 2025-07-14 reported zero violations.",
+          "All nine components sit on the back of the board (the front is clean apart from the cut-out) with the three LEDs spaced along the figure's edge, the plug pads at the very bottom, and the CC resistors right behind the connector. Traces run on the back copper, with eight vias to the front for the paths the cut-out gets in the way of. The design-rule check of 2025-07-14 reported no rule violations but 17 unconnected pads, because it ran on an earlier revision that used data-driven four-pad LEDs (DIN/DOUT nets); the LEDs were swapped to plain 0603 parts before the Gerbers were exported on 2025-07-16, and the board file was last saved on 2025-08-27, after that export, so the report is not a statement about the final board.",
       },
       {
         title: "Fabrication files",
@@ -73,6 +73,7 @@ const yashBirthdayPcb: CaseStudy = {
       },
       {
         src: schematic,
+        tone: "document",
         alt: "KiCad schematic: a USB-C plug symbol with 5.1 kΩ resistors on CC and VCONN, VBUS feeding three LEDs each with a 220 Ω resistor to ground",
         caption: "The whole schematic, nine parts, on one sheet.",
       },
