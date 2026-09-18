@@ -34,6 +34,7 @@ Conventions used below:
 | Deploy a Python app to Vercel | Written and executed 2026-09-18 (T1.3, Plato) |
 | Deploy an Express+CRA app to Vercel | Written and executed 2026-09-18 (T2.1, Plant It: `KalpKan/PlantWater` → project `plantit`, `https://plantit.kalpkan.com`) |
 | Create a Neon database | Written and executed 2026-09-18 (T1.3, Plato) |
+| Create a new project from the template | Written and executed 2026-09-18 (T1.2: `KalpKan/portfolio-template`, throwaway `template-smoke` spun up end to end in 10 min 05 s, then removed) |
 
 ## Deploy the hub to Vercel
 
@@ -509,3 +510,30 @@ Common failures:
 - Google sign-in `auth/unauthorized-domain`: step 9.
 - The login page stops responding after a click (automation: CDP clicks/screenshots time out): a native `alert()` is open. Never use `alert()`/`confirm()` in the frontend; render the message inline and disable the button while the popup is pending (fixed 2026-09-18, `incidents.md`).
 - `/api/identify` or `Water now` → 500 `reading 'fromMillis'`: `backend/src/firebase.js` must export `Timestamp` (and everything else `app.js` destructures from `fb()`); `backend/src/firebase.test.js` guards the shape.
+
+## Create a new project from the template
+
+**Status: written and executed 2026-09-18 (T1.2).** The template is the public GitHub template repo **`KalpKan/portfolio-template`** (local `~/projects/portfolio-template`; `is_template: true`). It is a Next.js 16 App Router + TypeScript + Tailwind 4 app with vitest, zod, a Supabase client scoped to `NEXT_PUBLIC_APP_SCHEMA`, migration `0001_create_schema.sql` (placeholder `__APP__`), `GET /api/health` (`{ok, service, db: "ok"|"skipped"|"error", time}`), PostHog exactly as the hub (`/ingest` rewrites, `lib/posthog.ts` verbatim, cookieless, autocapture, `lib/events.ts` TODO for 2-4 custom events), the "part of kalpkan.com" footer, CI (lint, migration guard, test, build) and a non-developer README. Proven 2026-09-18 by a timed throwaway spin-up (`template-smoke`): create-from-template → `npm ci` → 28 tests → build → `vercel deploy --prod` → `curl /api/health` = **10 min 05 s**, of which the build was 16 s and ~9 min was the Hobby one-build-at-a-time queue (README "Verified" section has the raw outputs). Nothing here costs money; no Supabase schema is needed until step 4.
+
+`<app>` is one lowercase word (`hoops`, `plantit`); it becomes the repo name, the Vercel project name, the schema name and the subdomain.
+
+1. **Create the repo from the template** (fresh history, one commit):
+   ```bash
+   cd ~/projects && gh repo create KalpKan/<app> --template KalpKan/portfolio-template --public --clone && cd <app> && npm ci
+   ```
+   The GitHub UI equivalent is the green "Use this template" button on `KalpKan/portfolio-template`. Then confirm `gh repo view KalpKan/<app> --json visibility --jq .visibility` prints `PUBLIC` (the account default is private; the template itself was created private by mistake on 2026-09-18, `incidents.md`).
+2. **Name it.** `sed -i '' 's/__APP__/<app>/g' supabase/migrations/*.sql`, then `grep -rn __APP__ supabase/` must print nothing. Change `"name"` in `package.json` and the title in `app/page.tsx`. `bash scripts/check-migrations.sh` (also runs in CI) fails if `public.` is referenced or, once `NEXT_PUBLIC_APP_SCHEMA` is set, if `__APP__` remains.
+3. **Check it:** `npm test && npm run lint && npm run build` (expect 7 files / 28 tests passing and routes `○ /`, `ƒ /api/health`). Commit and push; CI on the new repo must be green (`gh run list -R KalpKan/<app> --limit 1`).
+4. **Database (only if the app needs one).** Runbook "Add a schema to Supabase Project B" steps 2-3 with the repo's `supabase/migrations/` (the file already contains the grants, default privileges and the `<app>.health_select_one()` function the health route calls; the comment block at the top explains the "Exposed schemas" step). Then runbook "Regenerate Supabase types": `npx supabase@2 gen types typescript --project-id yzppfufqaekgaxcrsqxp --schema <app> > lib/database.types.ts` and narrow `export type Schema = string` to `"<app>"` in `lib/supabase.ts`. Never a third Supabase project; a DB-only app goes to Neon instead (runbook "Create a Neon database").
+5. **Deploy:** from the repo folder `npx vercel@latest deploy --prod --yes --scope kks-projects-2edcb11a` (the first run creates the project named after the folder). If the CLI prints `Error: fetch failed` right after "Uploading", the deployment usually still built: check `npx vercel@latest ls <app> --scope kks-projects-2edcb11a` for `● Ready` before retrying. Hobby builds run one at a time per team, so a queued deploy can sit for minutes; poll, do not re-run. Alternatively import the repo at https://vercel.com/new (team "Kk's projects") so pushes to `main` deploy automatically.
+6. **Env vars on Vercel** (Production + Preview), names only here: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_APP_SCHEMA` (pipe the Supabase values from the Management API, pattern under "Rotate a secret"; skip all three for a DB-less app and health answers `db: "skipped"`), `NEXT_PUBLIC_POSTHOG_KEY` (`--type config`) and `NEXT_PUBLIC_POSTHOG_HOST=/ingest` (runbook "Add PostHog to an app"), optional `NEXT_PUBLIC_APP_NAME`. `NEXT_PUBLIC_*` is baked in at build time: redeploy after setting them.
+7. **Health:** `curl -s https://<app>-<hash>.vercel.app/api/health` (public alias from `vercel ls`) → `{"ok":true,"service":"<app>","db":"ok"|"skipped","time":...}` with `cache-control: no-store`. `db: "error"` (503) means the schema is not exposed, the function is missing, or the env names are wrong.
+8. **Domain:** runbook "Attach a domain to a Vercel project" for `<app>.kalpkan.com` (needs a Ready production build first).
+9. **Custom events:** rename the example in `lib/events.ts` to the app's core action (2-4 snake_case past-tense names; reserved names in `docs/analytics.md`) and call it from the component that performs the action.
+10. **Register it:** `projects.json` entry (stub in the template README step 8; runbook "Add a project to `projects.json`"), UptimeRobot monitor on the health URL, `SKILL.md` system-map row, `settings-map.md` rows, and the app README "Where the settings live" (already written by the template; fill in the app's specifics).
+
+To change the template itself: edit `~/projects/portfolio-template`, `npm test && npm run lint && npm run build`, push to `main` (CI must stay green). Existing apps do not update automatically; the template is a starting point, not a dependency.
+
+Learned on first execution (2026-09-18, `template-smoke`):
+- `vercel deploy` reported `Error: fetch failed` after the upload while the deployment was already building and reached `● Ready` in 40 s; the retry then queued behind four other agents' builds for ~6 min (see `incidents.md`).
+- The `gh` token on this Mac has `repo` but not `delete_repo`, so `gh repo delete` fails; the throwaway was archived instead (`gh repo archive KalpKan/template-smoke -y`) and STATUS.md asks Kalp to run `gh auth refresh -h github.com -s delete_repo` once so agents can delete throwaways. `vercel project rm` needed no extra permission.

@@ -150,6 +150,18 @@ Placeholders: `<domain>` is `kalpkan.com` (bought at human checkpoint H1 on 2026
 | Old coinflip repos archived | `gh repo view KalpKan/token-gamble-coinflip --json isArchived` and same for `token-coinflip` | `{"isArchived":true}` | confirmed 2026-09-18 (T0.2) |
 | No secrets committed | run a secret scan (for example `gitleaks detect --source .`) in any repo before it goes public | no findings | run per task |
 
+### New-project template (`KalpKan/portfolio-template`, local `~/projects/portfolio-template`; no Vercel project, no env, no domain)
+
+| Check | Command | Expect | Status |
+|---|---|---|---|
+| Repo is public and a template | `gh repo view KalpKan/portfolio-template --json isTemplate,visibility --jq '{isTemplate, visibility}'` | `{"isTemplate":true,"visibility":"PUBLIC"}` | confirmed 2026-09-18 (T1.2) |
+| CI green on `main` | `gh run list -R KalpKan/portfolio-template --limit 1` | `completed success ... CI main push` | confirmed 2026-09-18 (runs 35390572161, 35399963290) |
+| Tests, lint, migration guard, build | `cd ~/projects/portfolio-template && npm test && npm run lint && bash scripts/check-migrations.sh && npm run build` | `Test Files 7 passed (7)`, `Tests 28 passed (28)`; eslint silent; `migrations ok`; routes `○ /`, `○ /_not-found`, `ƒ /api/health` | confirmed 2026-09-18 |
+| Contract pieces present | `cd ~/projects/portfolio-template && grep -c "part of kalpkan.com" components/Footer.tsx && grep -c "/ingest" lib/posthog-rewrites.ts next.config.ts && grep -c "schema: cfg.schema" lib/supabase.ts && grep -c "__APP__" supabase/migrations/0001_create_schema.sql` | every count ≥ 1 (the migration has ~12 `__APP__` occurrences until renamed) | confirmed 2026-09-18 |
+| Health without env (what a fresh app answers) | `cd ~/projects/portfolio-template && npm run build >/dev/null && (npx next start -p 3123 & sleep 4; curl -s -D - http://localhost:3123/api/health; kill %1)` | `HTTP/1.1 200`, `cache-control: no-store`, body `{"ok":true,"service":"template","db":"skipped","time":"..."}` | confirmed 2026-09-18 (on the live throwaway `https://template-smoke.vercel.app/api/health`, since removed) |
+| Throwaway removed | `npx vercel@latest project ls --scope kks-projects-2edcb11a \| grep -c template-smoke; curl -s -o /dev/null -w '%{http_code}\n' https://template-smoke.vercel.app/api/health; gh repo view KalpKan/template-smoke --json isArchived --jq .isArchived` | `0`, `404`, `true` (archived; deletion waits on Kalp granting `delete_repo`, STATUS.md H13) | confirmed 2026-09-18 |
+| End-to-end spin-up time (re-run when the template changes) | the README "Verified" table: `gh repo create KalpKan/template-smoke --template KalpKan/portfolio-template --public --clone`, `npm ci`, `npm test`, `npm run build`, `npx vercel@latest deploy --prod --yes --scope kks-projects-2edcb11a`, `curl .../api/health`, then `vercel project rm` + archive/delete the repo | under 15 min; 10 min 05 s on 2026-09-18 (build 16 s, the rest Hobby build queue) | confirmed 2026-09-18 |
+
 ### UptimeRobot (monitors created 2026-09-18, T0.3; inventory in `docs/monitors.md`)
 
 Load the key first: `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`. Free plan rate limit is 10 requests per minute, so do not loop these.

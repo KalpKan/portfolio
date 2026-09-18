@@ -482,3 +482,47 @@ _Entries begin below, oldest first._
 - **Fix:** Signed-in routes were proven with a 1 h ID token minted from the service account for the throwaway uid `e2e-smoke-plantit` (`verification.md` row "Whole flow without hardware (API)"); the plant it created was deleted afterwards. STATUS.md H12 asks Kalp to click through the chooser once (1 minute).
 - **Prevention:** For future apps with OAuth-only sign-in, decide up front whether a guest/demo mode is wanted; if it is, enabling the provider is a Kalp checkpoint, not an agent action.
 - **Reported by:** T2.1 worker (resumed)
+
+### 2026-09-18: `vercel deploy` printed `Error: fetch failed` after the upload while the deployment was already building
+
+- **Date:** 2026-09-18, ~20:19 EDT (16:19 local), during the T1.2 template smoke test.
+- **Affected:** Throwaway Vercel project `template-smoke` (since removed); the same can happen to any CLI deploy.
+- **Symptom:** `npx vercel@latest deploy --prod --yes --scope kks-projects-2edcb11a` uploaded the files, then exited with `Error: fetch failed` and no deployment URL.
+- **What was tried:** `npx vercel@latest ls template-smoke --scope kks-projects-2edcb11a` showed the deployment already `● Building` and then `● Ready` (40 s build). The command was re-run once anyway to get a URL printed; that second deployment queued behind four other agents' builds for about six minutes before building in 16 s.
+- **Root cause:** A transient network failure in the CLI's polling after the upload had already succeeded; the deployment was created server-side. Unknown whether Vercel or the local network dropped the connection.
+- **Fix:** None needed; the deployment was fine. The re-run only cost queue time.
+- **Prevention:** Runbook "Create a new project from the template" step 5 and the template README say: after `fetch failed`, run `vercel ls <project>` and look for `● Ready` before retrying.
+- **Reported by:** T1.2 worker
+
+### 2026-09-18: throwaway GitHub repo `template-smoke` could not be deleted (`gh` token lacks `delete_repo`)
+
+- **Date:** 2026-09-18, ~18:05 EDT.
+- **Affected:** T1.2 clean-up only; `KalpKan/template-smoke` still exists (archived, described as a throwaway). The Vercel project was removed normally.
+- **Symptom:** `gh repo delete KalpKan/template-smoke --yes` refused: the token's scopes are `gist, read:org, repo` (`gh auth status`), and deletion needs `delete_repo`.
+- **What was tried:** `gh auth status` to read the scopes; deletion not forced. The repo was archived instead (`gh repo archive KalpKan/template-smoke -y`, `isArchived: true`) with a description saying it is safe to delete.
+- **Root cause:** `delete_repo` was never granted at H0; adding a scope is an account-level permission change that only Kalp should approve.
+- **Fix:** Human checkpoint H13 in STATUS.md: `gh auth refresh -h github.com -s delete_repo` (one browser click), then `gh repo delete KalpKan/template-smoke --yes`.
+- **Prevention:** Any future task that plans to create and delete a throwaway repo should check `gh auth status` for `delete_repo` first and, if absent, name the repo `*-smoke`/`throwaway` and archive it. Noted in the runbook.
+- **Reported by:** T1.2 worker
+
+### 2026-09-18: T1.2 worker session ended after the code was pushed but before the ops record and STATUS.md were written
+
+- **Date:** 2026-09-18; code pushed 22:05Z, ops record written by the resumed worker ~18:10 EDT.
+- **Affected:** `KalpKan/portfolio` records only (`skills/portfolio-ops/*`, `STATUS.md`, the plan's checkboxes). The template repo itself was complete, CI green, README "Verified" filled.
+- **Symptom:** The plan `docs/superpowers/plans/2026-09-18-template.md` had every Task 1-9 box unticked and no T1.2 row existed in STATUS.md, although `~/projects/portfolio-template` had 8 commits pushed and `template-smoke` had been spun up and torn down.
+- **What was tried:** The resumed worker audited the repo, GitHub, Vercel and CI state, re-ran tests/lint/build locally, then wrote the runbook, settings, verification, system-map row and this entry.
+- **Root cause:** The first worker was stopped (workflow restarted at 17:51 EDT, STATUS.md session log) between plan Task 9 and Task 10, and had not ticked boxes as it went.
+- **Fix:** Records completed in this session; plan boxes ticked.
+- **Prevention:** Tick plan checkboxes and commit the plan after every task, not at the end, so a resumed worker can see where to pick up without re-auditing everything.
+- **Reported by:** T1.2 worker (resumed)
+
+### 2026-09-18: `KalpKan/portfolio-template` was created private although the definition of done says public
+
+- **Date:** 2026-09-18; found 18:10 EDT by the resumed T1.2 worker's verification row.
+- **Affected:** `KalpKan/portfolio-template` visibility only. "Use this template" and `gh repo create --template` already worked for Kalp's own account, so nothing was broken for him, but the repo was not public as required.
+- **Symptom:** `gh repo view KalpKan/portfolio-template --json visibility` → `PRIVATE` (while `isTemplate` was already `true`).
+- **What was tried:** Secret scan of the whole history first (`git log -p --all` grepped for `phc_`/`phx_`/`sbp_`/JWT/private-key patterns: no hits; only `.env.example` tracked), then the visibility was switched to public with `gh repo edit` → `PUBLIC`.
+- **Root cause:** The first worker's `gh repo create` ran without `--public` taking effect (the account default is private); the plan step listed the flag but the result was never checked.
+- **Fix:** Made public 2026-09-18 after the scan. Verification row "Repo is public and a template" now checks `visibility` as well as `isTemplate`.
+- **Prevention:** After any `gh repo create`, print `--json visibility,isTemplate` before moving on; the "Create a new project from the template" runbook step 1 now says so.
+- **Reported by:** T1.2 worker (resumed)

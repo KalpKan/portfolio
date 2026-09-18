@@ -43,6 +43,7 @@ promptflip is one Vercel project, `promptflip-35qv` (H5 resolved 2026-09-18; the
 | `CORS_ORIGINS`, `DEVICE_DISCOVERY_SUBNET` | plantit | optional; extra browser origins / home-network prefix for ESP8266 discovery when the API runs locally. Unset on Vercel | n/a | same-origin only; discovery reports "hardware required" |
 | `REACT_APP_POSTHOG_KEY`, `REACT_APP_POSTHOG_HOST` | plantit (CRA frontend) | Vercel, project `plantit`, Production + Preview (set 2026-09-18). Public `phc_` token of PostHog project "Kalp portfolio"; host always `/ingest`. CRA bakes `REACT_APP_*` in at build time, so a change needs a redeploy | PostHog dashboard, then `vercel env rm` + `env add`, redeploy | analytics silently off; app unaffected |
 | `REACT_APP_API_URL` | plantit | optional; empty means same-origin `/api` (the Vercel layout). Only for hosting the API elsewhere | n/a | same-origin |
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_APP_SCHEMA`, `NEXT_PUBLIC_APP_NAME` (optional), `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` | every app started from `KalpKan/portfolio-template` (T1.2, 2026-09-18); listed by name in the template's `.env.example` and README "Where the settings live" | Vercel, the new app's project, Settings, Environment Variables (Production + Preview). Supabase values come from Project B `platform` (`https://yzppfufqaekgaxcrsqxp.supabase.co`, Management API `api-keys` → `anon`); `NEXT_PUBLIC_APP_SCHEMA` is the app's own schema name (lowercase identifier, zod-validated in `lib/env.ts`; the client sends it as `Accept-Profile`/`Content-Profile`); PostHog key is the public `phc_` token (`--type config`), host always `/ingest`. All are public by design (`NEXT_PUBLIC_`), still never in git. The template itself has no Vercel project and no env set anywhere (the smoke deploy ran with none) | anyone with Vercel access, then redeploy (build-time values); Supabase anon key via Project B dashboard, PostHog via runbook "Rotate the PostHog key" | with the three Supabase names empty the app runs with no database and `/api/health` says `db: "skipped"` (200); with them wrong it says `db: "error"` (503); with the PostHog names empty analytics is silently off |
 
 ## Operator credentials (local machine only, never in any repo)
 
@@ -63,7 +64,7 @@ These are the one-time keys Kalp supplies at human checkpoint H0. They live in t
 
 | Variable | Which app | Task |
 |---|---|---|
-| `NEXT_PUBLIC_APP_SCHEMA` | the new-project template (basketball hard-codes `hoops` in `supabase-admin.ts` instead) | T1.2 |
+| ~~`NEXT_PUBLIC_APP_SCHEMA`~~ | the new-project template | T1.2 landed 2026-09-18: row above ("every app started from `KalpKan/portfolio-template`") |
 | ~~Firebase web config, Pl@ntNet API key, OpenAI API key~~ | PlantWater | T2.1 landed 2026-09-18: rows above; the Firebase *web* config is public and hard-coded in `frontend/src/firebase.js` |
 
 
