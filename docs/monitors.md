@@ -8,7 +8,7 @@ Every uptime monitor for the portfolio platform, what it protects, and its Uptim
 
 | Name | URL | Contains | UptimeRobot PSP id |
 |---|---|---|---|
-| Kalp's projects | **https://stats.uptimerobot.com/a6n3Wx3PBp** | the four monitors below | `1263036` |
+| Kalp's projects | **https://stats.uptimerobot.com/a6n3Wx3PBp** | the five monitors below | `1263036` |
 
 `status.<domain>` (a custom domain for this page) is NOT configured: custom status-page domains are a paid UptimeRobot feature, and the plan spends $0. After H1 the hub footer links to the `stats.uptimerobot.com` URL above; `status.<domain>` stays "optional" in `docs/DNS_PENDING.md`.
 
@@ -22,6 +22,7 @@ All are HTTP(s) monitors (v2 `type: 1`, v3 `type: HTTP`), method `GET`, interval
 | `hoops dashboard` | https://v0-basketball-analytics-dashboard-seven.vercel.app/ | 5 min | basketball dashboard on Vercel (liveness; since T1.1 the page reads Project B, but the keep-alive is the dedicated monitor below). Move to `https://hoops.kalpkan.com/` after the 24 h wait in the decisions log | No (see `platform health (DB, Project B)`) | `804030256` |
 | `hub health` | https://portfolio-alpha-eight-rjbs2nj1q0.vercel.app/api/health | 5 min | the hub on Vercel (`{"ok":true,"service":"hub"}`; no database) | n/a (no DB) | `804030271` |
 | `platform health (DB, Project B)` | https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health | 5 min | Supabase **Project B** `platform` (the `health` Edge Function calls `hoops.health_select_one()`, a real `select 1`, and returns `{"ok":true,"db":"ok"}`); also proves Edge Functions run | **Yes** (Project B) | `804030499` (added 2026-09-18, T1.1) |
+| `plantit health (Firestore)` | https://plantit.kalpkan.com/api/health | 5 min | Plant It on Vercel **and Firebase Firestore** (`plant-it-5e2fc`, Spark): the route does a real Firestore read with a 6 s timeout and answers 503 `firestore: error` when it fails; also reports the Supabase photo bucket config and the two spend counters | no (Firebase Spark does not pause; the ping is liveness only) | `804031032` (created 2026-09-18, T2.1, v3 API; on the status page) |
 
 ### Notes and deviations from the plan
 

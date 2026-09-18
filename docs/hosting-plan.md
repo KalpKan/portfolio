@@ -51,7 +51,7 @@ These do not get their own subdomain or deployment. Each becomes a page on the h
 | **Yash Birthday PCB** (`~/Documents/Yash Birthday PCB/`, KiCad) | Custom PCB designed as a gift | Board render, schematic, photos Kalp supplies | — |
 | **DIY EEG** (`~/Desktop/EEG Circuit /`, KiCad + LTspice) | Hardware, **under construction** | Case-study page marked under construction: schematic, simulation, plan | — |
 | ~~Outline~~ | Removed 2026-09-18: not a real project | — | — |
-| classmyschedule (`~/Desktop/Apps/`) | Chrome extension | Screenshot + Chrome Web Store link | — |
+| ~~classmyschedule~~ | Removed 2026-09-18: not Kalp's work | — | — |
 | DDoS Detector, TouchDesigner MediaPipe | Needs Kafka / TouchDesigner | Static plots / video, optional | — |
 | token-gamble-coinflip, token-coinflip | Superseded by promptflip; plaintext OpenAI keys in DB; unresolved RLS bug | **Take down tokengamblecoinflip.vercel.app, archive both repos** | — |
 

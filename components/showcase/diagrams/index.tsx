@@ -52,15 +52,6 @@ const DIAGRAMS: Record<DiagramId, FlowData> = {
     ],
     edges: ["µV", "V"],
   },
-  classmyschedule: {
-    title: "classmyschedule flow: popup dates, content script scrape, .ics download",
-    nodes: [
-      { id: "popup", title: "Popup", sub: ["term start / end dates"] },
-      { id: "scrape", title: "content.js", sub: ["reads timetable tables", "expands weekly slots"] },
-      { id: "ics", title: ".ics file", sub: ["VEVENTs", "blob download"] },
-    ],
-    edges: ["message", "events"],
-  },
 };
 
 export function Diagram({ id }: { id: DiagramId }) {

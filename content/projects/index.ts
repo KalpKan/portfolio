@@ -2,7 +2,6 @@ import type { CaseStudy } from "@/content/case-study";
 import unpark from "./unpark";
 import rcCar from "./rc-car";
 import flashcards from "./flashcards";
-import classmyschedule from "./classmyschedule";
 import yashBirthdayPcb from "./yash-birthday-pcb";
 import eeg from "./eeg";
 
@@ -18,7 +17,6 @@ export const caseStudies: Record<string, CaseStudy> = {
   [unpark.slug]: unpark,
   [rcCar.slug]: rcCar,
   [flashcards.slug]: flashcards,
-  [classmyschedule.slug]: classmyschedule,
   [yashBirthdayPcb.slug]: yashBirthdayPcb,
   [eeg.slug]: eeg,
 };

@@ -45,7 +45,6 @@ export type DiagramId =
   | "unpark"
   | "rc-car"
   | "flashcards"
-  | "classmyschedule"
   | "yash-birthday-pcb"
   | "eeg";
 

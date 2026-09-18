@@ -84,9 +84,10 @@
       "name": "Emote Detector",
       "tagline": "Face, hand and pose landmarks mapped to Clash Royale emotes in real time.",
       "type": "app",
-      "status": "coming",
-      "repo": null,
-      "healthUrl": null,
+      "status": "live",
+      "url": "https://emotes.kalpkan.com",
+      "repo": "https://github.com/KalpKan/emote-detector-web",
+      "healthUrl": "https://emotes.kalpkan.com/health.json",
       "tags": [
         "MediaPipe",
         "Browser ML",
@@ -150,19 +151,6 @@
         "iOS",
         "Swift",
         "Firebase"
-      ],
-      "hero": null
-    },
-    {
-      "slug": "classmyschedule",
-      "name": "classmyschedule",
-      "tagline": "A Chrome extension that turns a course timetable into a calendar.",
-      "type": "showcase",
-      "status": "coming",
-      "repo": null,
-      "tags": [
-        "Chrome extension",
-        "JavaScript"
       ],
       "hero": null
     },
