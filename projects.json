@@ -70,9 +70,10 @@
       "name": "Pushup Form Tracker",
       "tagline": "Counts reps and grades your form from the webcam, all in the browser.",
       "type": "app",
-      "status": "coming",
-      "repo": "https://github.com/KalpKan/AI-Pushup-Form-Tracker",
-      "healthUrl": null,
+      "status": "live",
+      "url": "https://pushups.kalpkan.com",
+      "repo": "https://github.com/KalpKan/pushup-tracker-web",
+      "healthUrl": "https://pushups.kalpkan.com/health.json",
       "tags": [
         "MediaPipe",
         "TensorFlow.js",
@@ -158,9 +159,9 @@
     {
       "slug": "yash-birthday-pcb",
       "name": "Yash Birthday PCB",
-      "tagline": "A custom printed circuit board designed in KiCad as a birthday gift.",
+      "tagline": "A 12 × 37 mm USB-C board with a basketball player cut through it and three LEDs behind the cut, designed in KiCad as a birthday gift.",
       "type": "showcase",
-      "status": "coming",
+      "status": "live",
       "repo": null,
       "tags": [
         "KiCad",

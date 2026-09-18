@@ -493,6 +493,7 @@ _Entries begin below, oldest first._
 - **Fix:** None needed; the deployment was fine. The re-run only cost queue time.
 - **Prevention:** Runbook "Create a new project from the template" step 5 and the template README say: after `fetch failed`, run `vercel ls <project>` and look for `● Ready` before retrying.
 - **Reported by:** T1.2 worker
+- **Correction (2026-09-18, T1.2 fixer):** the Date line above has the zones swapped. It should read `~20:19Z (16:19 EDT)`: 20:19 is UTC (the README start marker is `20:17:46Z`) and 16:19 is the local EDT time. Left in place because this log is append-only.
 
 ### 2026-09-18: throwaway GitHub repo `template-smoke` could not be deleted (`gh` token lacks `delete_repo`)
 
@@ -526,3 +527,56 @@ _Entries begin below, oldest first._
 - **Fix:** Made public 2026-09-18 after the scan. Verification row "Repo is public and a template" now checks `visibility` as well as `isTemplate`.
 - **Prevention:** After any `gh repo create`, print `--json visibility,isTemplate` before moving on; the "Create a new project from the template" runbook step 1 now says so.
 - **Reported by:** T1.2 worker (resumed)
+
+### 2026-09-18: pushups classifier called every good frame "bad" with the lite pose model (found by the resumed T3.1 worker)
+
+- **Date:** 2026-09-18, ~18:00 EDT
+- **Affected:** `https://pushups.kalpkan.com` (`src/pose.ts` in `KalpKan/pushup-tracker-web`); hosting fine.
+- **Symptom:** The live demo clip ended with "0 good reps · 1 attempt, Bad form 93 %" while the Python reference on the same frames says good (p 0.85-0.98) and counts 2 good reps. Unit tests were green because they replay Python-recorded landmarks, so they never exercise the browser pose model.
+- **What was tried:** Stepped the clip frame by frame in headless Chrome, extracted the 36-float feature vector from `pose_landmarker_lite.task` and from `pose_landmarker_full.task`, and compared with the fixture: x/y agree within 0.015 for both; z differs by 0.05-0.10 with lite (1-2 scaler standard deviations, `SCALE` for z is 0.03-0.14) and by 0.01-0.03 with full. Classifier agreement with Python: lite 2/21 frames, full 19/21.
+- **Root cause:** The Keras model was trained on legacy `mp.solutions.pose` landmarks at `model_complexity=1`, which is the "full" network; the lite network estimates depth differently and the classifier is sensitive to z. The spec assumed "landmark convention is the same" without measuring it.
+- **Fix:** `pose_landmarker_full.task` (9.4 MB, +3.9 MB on first click, still lazy) replaced lite in `public/models/`; index/README/session text updated (`4f0708e`). Verified by replaying a frame-stepped browser trace through the TS rep counter: 1 good + 1 bad attempt on the 8.5 s clip (Python 2 good + 1 bad; the difference is the 10-frame warm-up at 30 fps sampling).
+- **Prevention:** Runbook "Deploy a browser-ML app (MediaPipe) to Vercel" now says: match the model variant the classifier was trained on and prove it by comparing browser features with the Python fixture on the same clip before shipping. `verification.md` pushups table checks that the served model is the full one (size ≈ 9.4 MB).
+- **Reported by:** T3.1 worker (resumed)
+
+### 2026-09-18: `vercel deploy --prod` for pushups printed `fetch failed` twice and three deployments then sat `Queued` behind other agents' builds (T3.1, resumed worker)
+
+- **Date:** 2026-09-18, 16:30-18:10 EDT
+- **Affected:** Vercel project `pushups`; nothing user-visible (the domain was not attached yet).
+- **Symptom:** The first worker's `vercel --prod` deployment sat `● Queued` for over an hour and the worker was stopped. The resumed worker's two `npx vercel deploy --prod --yes` runs both ended with `"reason":"deploy_failed","message":"fetch failed"` after uploading ~30 MB of `public/`, yet each created a deployment (`vercel ls` showed them `Queued`). All four built in 13-33 s once the team's one-build-at-a-time queue reached them (~20 min later).
+- **What was tried:** Nothing destructive; `git connect` confirmed the repo was already connected; ops-record work proceeded while the queue drained; the domain was attached against the first Ready build (the Attach runbook only needs one Ready production build, not the newest).
+- **Root cause:** Hobby's single build slot per team shared by five agents; the CLI's `fetch failed` is its log-polling request timing out, not the deployment failing (same as the T1.2 incident above).
+- **Fix:** None needed; the pushes to `main` build on their own.
+- **Prevention:** Runbook "Deploy a browser-ML app (MediaPipe) to Vercel", common failures: prefer `git push` over `vercel deploy` for a 30 MB static app, treat `fetch failed` after upload as "check `vercel ls`", and attach the domain as soon as any production build is Ready.
+- **Reported by:** T3.1 worker (resumed)
+
+### 2026-09-18: pushups host unresolvable from the worker's Mac for ~20 min after the record existed (negative DNS cache, second occurrence)
+
+- **Date:** 2026-09-18, ~17:55 EDT
+- **Affected:** local verification only; the host resolved via `1.1.1.1` and `8.8.8.8` within a minute of the Cloudflare record.
+- **Symptom:** `curl https://pushups.kalpkan.com/health.json` → `Could not resolve host` while `dig @1.1.1.1 +short pushups.kalpkan.com` returned `80c9fa355067b1a6.vercel-dns-017.com.`; the plain `dig` (system resolver) returned nothing.
+- **Root cause:** The first `dig pushups.kalpkan.com` was run before the record was created (to check for conflicts), so the upstream resolver negative-cached NXDOMAIN for the SOA minimum TTL (Cloudflare: 30 min). Same mechanism as the emotes entry above.
+- **Fix:** `curl --resolve pushups.kalpkan.com:443:216.198.79.65 ...` and, for headless Chrome, `--host-resolver-rules="MAP pushups.kalpkan.com 216.198.79.65"` (now an option in `scripts/e2e-demo.mjs`, `HOST_RULES=`).
+- **Prevention:** `verification.md` pushups table opens with the `--resolve` workaround; the Attach runbook's advice stands: query a new name only through `@1.1.1.1` until its record exists.
+- **Reported by:** T3.1 worker (resumed)
+
+### 2026-09-18: hub deploys stuck QUEUED for over an hour during a Vercel platform incident; production served a pre-showcase build
+
+- **Date:** 2026-09-18, about 16:45 to 18:05 EDT
+- **Affected:** Vercel project `portfolio` (deploys for `e1aa9ed`, `eccbff8` and the prebuilt one), plus `plato`, `microtubules`, `v0-basketball-analytics-dashboard`, `pushups`: seven team deploys in `QUEUED`, the oldest for 84 min, none `BUILDING`.
+- **Symptom:** `https://kalpkan.com/projects/unpark` answered `200` but served the older `32a5994` build (placeholder page, no `How it works` section, `/images/projects/rc-car/*.webp` → 404), so the "live" claim in STATUS.md was ahead of production. `vercel ls portfolio` showed the showcase commit `b93a63a` as READY 52 min ago but a later deploy of the *older* commit `32a5994` as READY 39 min ago (created later, so it took the production alias), and every newer deploy QUEUED. `/v13/deployments/<id>` said `isInConcurrentBuildsQueue: false`; https://www.vercel-status.com reported "Deployment stuck in initializing state — investigating" (21:36 UTC).
+- **What was tried:** `vercel build --prod` locally + `vercel deploy --prebuilt --prod` (skips Vercel's build step) went through the CLI fine but landed in the same queue. The queue then drained on its own around 18:00 EDT; the Git deploys went READY within a minute of each other.
+- **Root cause:** Vercel-side incident (their status page), compounded by the one-build-per-team Hobby limit once the queue started moving. Not the repo, not the config.
+- **Fix:** Wait. Do not cancel other agents' deploys; a prebuilt deploy does not jump the queue.
+- **Prevention:** Before writing "live" in STATUS.md, check the *content* of the production page, not just its status code (`verification.md` "Under-construction page" and "Case-study pages serve" rows; the `grep -o 'id="[a-z-]*-head"'` count is a cheap fingerprint of the case-study template). `vercel env pull` and `vercel build` leave `.env.local`, `.vercel/output` and an edited `.gitignore` / `package-lock.json` behind; delete the first two and `git checkout` the last two before linting (ESLint scans `.vercel/output` and reports 3,000 warnings).
+- **Reported by:** T4.1 worker (resumed)
+
+### 2026-09-18: the task brief and the registry disagreed mid-task (Outline, FlashCards, two new hardware pages)
+
+- **Date:** 2026-09-18, 17:57 EDT
+- **Affected:** T4.1 showcase pages. The brief said write Outline, FlashCards, classmyschedule and "do NOT include EEG research"; while the first worker was stopped, Kalp (via the main agent, commits `dd96393` and `2a618d1`) removed Outline (not a real project), reduced FlashCards to a placeholder, and added `yash-birthday-pcb` and `eeg` (the EEG *hardware* project, under construction).
+- **Symptom:** The resumed worker found `projects.json` and `content/projects/` changed under it, the plan file carrying a "CHANGE FROM KALP" header, and two stub content files with generic prose ("an ADC feeds a microcontroller") that did not match the actual schematic (ADS1115 on a Raspberry Pi 4).
+- **Root cause:** Two writers on the same registry during a long task; the relay through the plan file worked, but the stubs were written without opening the source files.
+- **Fix:** Followed the plan-file header (it names Kalp and overrides the brief), rewrote both content files from the KiCad, LTspice and PDF sources, kept the main agent's registry entries as they were except flipping the PCB to `live`.
+- **Prevention:** A resumed worker reads `git log -- projects.json content/` before anything else; the plan file's top is where mid-task changes from Kalp are recorded (keep doing that). Stub content that has not been checked against the source gets `draft: true` so the page cannot publish it.
+- **Reported by:** T4.1 worker (resumed)
