@@ -222,3 +222,26 @@ _Entries begin below, oldest first._
 - **Fix:** Coordinator confirmed they were leftovers and killed them (`kill 2028 6497 8132 93689`); Lighthouse re-run on a quiet machine (see the hub Lighthouse entry above and STATUS.md).
 - **Prevention:** T1.4-style tests that load a WASM/Emscripten module must run with a per-test timeout and `--pool=forks --maxWorkers=1`, and a worker must `pkill -f` its own vitest processes before reporting done. Before trusting a Lighthouse number, check `sysctl -n vm.loadavg` and `ps -Ao %cpu,etime,args | sort -rn | head` (`verification.md`, hub table, Lighthouse row).
 - **Reported by:** worker (hub polish batch) / coordinator
+
+### 2026-09-18: Plato `/ingest` proxy forwarded the visitor's session cookie to PostHog (reviewer rejection of T1.3)
+
+- **Date:** 2026-09-18, ~15:40 EDT
+- **Affected:** Plato (`https://plato.kalpkan.com`), analytics reverse proxy, commit `8ee15d0` to `de32e96` (about 30 minutes live)
+- **Symptom:** The reviewer stubbed `urlopen` and saw the proxy forward `Authorization`, `Cookie`, `User-agent`, `X-forwarded-for`. The `Cookie` is the signed Flask session (`pdf_hash`, `session_id`, `user_choices`), which is the bearer for that visitor's review/download session, so every PostHog event carried it to a third party.
+- **What was tried:** Reproduced with a new test (`tests/test_analytics.py::test_ingest_proxy_never_forwards_cookie_or_authorization`), which failed on the old code.
+- **Root cause:** The proxy used a blacklist (`_HOP_HEADERS`: host, content-length, connection, transfer-encoding, accept-encoding) and copied everything else. Blacklists forward whatever nobody thought of.
+- **Fix:** Commit `de32e96` in `KalpKan/Plato`: whitelist of `Content-Type`, `User-Agent`, `Accept`, `Origin`, `Referer` plus the `X-Forwarded-For` the proxy sets; test asserts the forwarded set is a subset of that list. Same commit forwards `Cache-Control`/`ETag`/`Last-Modified` for `static/` (the SDK was refetched through the function on every page view), keeps `custom_lead_time_mapping` across the `/review` POST (pre-existing bug from `a5177ab`: the mapping was overwritten with `{}` before the `.ics` was built), gives each upload a uuid-prefixed `/tmp` name and unlinks it in `finally`, removes a duplicate `store_extraction` upsert in the three edit routes, and makes `/download` redirect to `/review` when no section is chosen. `pytest`: 29 passed. Live: `/api/health` `{"db":"ok","ok":true}`; `/ingest/static/array.js` now returns `cache-control` + `etag`; a real-browser `$pageview` arrived in PostHog after the deploy. The exposure window was ~30 minutes with no real visitors expected; `SECRET_KEY` was not rotated because the cookie value is only useful together with the app and PostHog does not expose raw request headers.
+- **Prevention:** Runbook "Deploy a Python app to Vercel" step 6 now says whitelist, never blacklist; `verification.md` Plato table has a "Proxy leaks nothing" row. Any future server-side proxy (Express for plantit) must copy this rule.
+- **Reported by:** reviewer (T1.3) / fixed by fixer
+
+### 2026-09-18: headless Chrome `--window-size=390` renders at 500 px, so a "390 px overflow" report was a measurement artifact
+
+- **Date:** 2026-09-18, ~15:50 EDT
+- **Affected:** review of Plato's landing page; no site was affected
+- **Symptom:** The reviewer's `chrome --headless --window-size=390,844 --screenshot` showed the hero card clipped on the right ("From Course Outli..."). Reproduced identically on the fixer's Mac.
+- **What was tried:** A probe page dumped `innerWidth=500 clientWidth=500 mq480=false` under the same flags: desktop headless Chrome enforces a ~500 px minimum window width, lays the page out at 500 px, and crops the screenshot to 390 px. The `max-width: 480px` media queries never applied. Re-measured in a real Chrome tab with a 390 px `<iframe>`: hero card spans 12-374 px of a 386 px viewport, `scrollWidth == clientWidth` at 390/360/320; only the decorative `.calendar-grid` and `.hero-glow` exceed the viewport and they sit behind the card inside `overflow: hidden`.
+- **Root cause:** Tooling, not CSS.
+- **Fix:** None needed for the report as written; `de32e96` still pins `.hero-content`/`.hero-card` to `width: 100%; max-width: 100%; min-width: 0` with `overflow-wrap: break-word` below 480 px as a guard, and the iframe measurement is unchanged after it.
+- **Prevention:** `verification.md` Plato "Phone layout" row documents the iframe method (same trick T1.4 used for microtubules); do not trust a desktop-headless screenshot narrower than 500 px.
+- **Reported by:** reviewer (T1.3) / diagnosed by fixer
+
