@@ -87,7 +87,7 @@ Placeholders: `<domain>` is `kalpkan.com` (bought at human checkpoint H1 on 2026
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Every host resolves | `for h in "" www. promptflip. hoops. plato. plantit. pushups. emotes. microtubules.; do echo -n "${h}kalpkan.com: "; dig +short "${h}kalpkan.com" \| head -1; done` | apex `76.76.21.21`, each subdomain the project-specific `<hash>.vercel-dns-017.com` name recorded in `docs/DNS_PENDING.md` §5 | confirmed 2026-09-18 for apex (`76.76.21.21`), www (`a9e60d5e9d41cb23.vercel-dns-017.com.`), hoops (`71da701c9c3d8bdf.vercel-dns-017.com.`), promptflip (`0e6549802006eaa1.vercel-dns-017.com.`); plato/plantit/pushups/emotes/microtubules PENDING their Vercel projects |
+| Every host resolves | `for h in "" www. promptflip. hoops. plato. plantit. pushups. emotes. microtubules.; do echo -n "${h}kalpkan.com: "; dig +short "${h}kalpkan.com" \| head -1; done` | apex `76.76.21.21`, each subdomain the project-specific `<hash>.vercel-dns-017.com` name recorded in `docs/DNS_PENDING.md` §5 | confirmed 2026-09-18 for apex (`76.76.21.21`), www (`a9e60d5e9d41cb23.vercel-dns-017.com.`), hoops (`71da701c9c3d8bdf.vercel-dns-017.com.`), promptflip (`0e6549802006eaa1.vercel-dns-017.com.`); microtubules (`bb0edf923bf938a4.vercel-dns-017.com.`, 2026-09-18); plato per its own row; plantit/pushups/emotes PENDING their Vercel projects |
 | TLS valid | `curl -sI https://<sub>.kalpkan.com \| head -1` for each host | `HTTP/2 200`, no certificate error (`HTTP/2 308` + `location: https://kalpkan.com/` for `www`) | confirmed 2026-09-18: `https://kalpkan.com` → `HTTP/2 200`; `https://www.kalpkan.com` → `HTTP/2 308`, `location: https://kalpkan.com/`; `https://hoops.kalpkan.com` → `HTTP/2 200`; `https://promptflip.kalpkan.com` → `HTTP/2 200`; `npx vercel certs ls` lists certs for `kalpkan.com`, `www.kalpkan.com`, `hoops.kalpkan.com`, `promptflip.kalpkan.com`, all `renew: yes`, 90 d |
 | Records are DNS-only | `curl -sI https://<sub>.kalpkan.com \| grep -i '^server:'` | `server: Vercel`, not `cloudflare` (an orange-cloud record shows `cloudflare` and breaks TLS issuance) | confirmed 2026-09-18: `kalpkan.com` and `hoops.kalpkan.com` both `server: Vercel`; every record in the zone has `"proxied": false` |
 | Vercel sees the domain | `npx vercel domains ls --scope kks-projects-2edcb11a` and `npx vercel domains verify <host> --scope kks-projects-2edcb11a` | `kalpkan.com` listed (Registrar/Nameservers "Third Party" is expected: the zone stays on Cloudflare); `verify` prints no `invalid_configuration` | confirmed 2026-09-18: `1 Domain found` (`kalpkan.com`); hub health over the domain `curl -s https://kalpkan.com/api/health` → `{"ok":true,"service":"hub",...}` |
@@ -134,12 +134,30 @@ Load the operator key first: `set -a; source ~/.config/portfolio-ops/secrets.env
 | Still free, no card | `curl -s -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" https://us.posthog.com/api/billing/ \| jq '{has_active_subscription, stripe_customer_id, limits: [.products[] \| {type, custom_limit_usd, free_allocation}]}'` | `false`, `null`, every `custom_limit_usd` null with a non-zero `free_allocation` (the free plan hard-caps there; see runbook "Check PostHog billing") | confirmed 2026-09-18 (T0.5); evidence `docs/images/posthog-billing-limits.png` |
 | Hub unit tests cover the contract | `cd ~/projects/portfolio && npx vitest run lib/posthog.test.ts` | 7 passed (cookieless, `/ingest`, autocapture, masking, rewrites, no-op without key, sendBeacon capture) | confirmed 2026-09-18 (T0.5) |
 
-### Browser-ML demos (pushups, emotes, microtubules)
+### microtubules (`KalpKan/Microtubule-Quantification` `web/`, Vercel project `microtubules`, https://microtubules.kalpkan.com)
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Runs on a phone with no server calls | open the demo on a phone over cellular; on desktop, open DevTools Network tab and use the demo | no requests after initial load except the PostHog `/ingest` events | PENDING (Phase 1 and 3) |
-| Lighthouse performance | same Lighthouse command as the hub, per demo | `>= 0.9` | PENDING (Phase 1 and 3) |
+| Health file | `curl -sf https://microtubules.kalpkan.com/health.json` | `{"ok":true,"service":"microtubules"}` | confirmed 2026-09-18 |
+| Page serves | `curl -sI https://microtubules.kalpkan.com \| head -1; curl -sI https://microtubules.kalpkan.com \| grep -i '^server:'` | `HTTP/2 200`, `server: Vercel` | confirmed 2026-09-18 (cert `cert_fmPCbqPPTF39A1OVZLFfn0sV`, 90 d, renew yes) |
+| DNS | `dig +short microtubules.kalpkan.com \| head -1` | `bb0edf923bf938a4.vercel-dns-017.com.` | confirmed 2026-09-18 |
+| OpenCV served from the site | `curl -sI https://microtubules.kalpkan.com/opencv.js \| grep -iE '^(HTTP\|cache-control\|content-length)'` | `HTTP/2 200`, `cache-control: public, max-age=31536000, immutable`, `content-length: 10964323` | confirmed 2026-09-18 |
+| Accuracy vs Python | `cd ~/projects/microtubules/web && npx vitest run --reporter=verbose` | 4 tests pass; the printed table shows `diff 0.0000` for P1_W1_C1 (24.8321 %), P1_W3_C1 (21.1827 %), P3_W2_C3 (34.7120 %) | confirmed 2026-09-18 |
+| Python reference still reproduces the paper | `cd ~/projects/microtubules && .venv/bin/python web/scripts/reference.py` (venv: `python3 -m venv .venv && .venv/bin/pip install opencv-python-headless numpy pandas matplotlib`) | three lines ending `matches Results CSV` | confirmed 2026-09-18 |
+| `run_analysis.py` flags | `cd ~/projects/microtubules && .venv/bin/python -m unittest tests/test_run_analysis.py -v` | `Ran 3 tests`, `OK` | confirmed 2026-09-18 |
+| Build clean | `cd ~/projects/microtubules/web && npm ci && npm run build` | `✓ built`; `dist/` contains `opencv.js`, `samples/`, `health.json` | confirmed 2026-09-18 |
+| No server calls after load | in Chrome open the site, click a sample, read the Network tab | only same-origin requests (`/samples/<name>.png`) plus PostHog `POST /ingest/e/`, `/ingest/s/`, `/ingest/i/v0/e/`; `curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d '{}' https://microtubules.kalpkan.com/ingest/e/` → `400` (reached PostHog; `404` = rewrite broken) | confirmed 2026-09-18 (Chrome, live host) |
+| Phone width | 390 px viewport (a same-origin `<iframe width=390>` harness over `npx vite preview` when the shared Chrome window will not resize) | buttons wrap, no horizontal scroll, result readable; sample gives the same percentage | confirmed 2026-09-18 (Taxol control → 21.18 %) |
+| Custom events arrive | `curl -s "$POSTHOG_HOST/api/projects/616829/events/?event=image_analyzed&limit=1" -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" \| jq -c '.results[] \| {event, host: .properties["$host"], percent: .properties.percent}'`; same with `event=sample_loaded` | rows with `host: microtubules.kalpkan.com`; `image_analyzed` carries `percent`, `width`, `height`, `source` and never image data | confirmed 2026-09-18 (`sample_loaded {sample: P1_W1_C1}`, `image_analyzed {percent: 24.83, width: 77, height: 58, source: sample}`) |
+| Lighthouse performance | `npx lighthouse https://microtubules.kalpkan.com --only-categories=performance --quiet --chrome-flags="--headless" --output=json \| jq .categories.performance.score` | `>= 0.9` | ✅ 0.98 on 2026-09-18 (FCP 1.5 s, LCP 2.0 s, TBT 60 ms, CLS 0) |
+| Env names present | `cd ~/projects/microtubules && npx vercel env ls --scope kks-projects-2edcb11a` | `VITE_PUBLIC_POSTHOG_KEY` (Production, Preview), `VITE_PUBLIC_POSTHOG_HOST` (Production) | confirmed 2026-09-18 |
+
+### Browser-ML demos (pushups, emotes)
+
+| Check | Command | Expect | Status |
+|---|---|---|---|
+| Runs on a phone with no server calls | open the demo on a phone over cellular; on desktop, open DevTools Network tab and use the demo | no requests after initial load except the PostHog `/ingest` events | PENDING (Phase 3); microtubules done above |
+| Lighthouse performance | same Lighthouse command as the hub, per demo | `>= 0.9` | PENDING (Phase 3) |
 
 ### Money (month end, every month)
 

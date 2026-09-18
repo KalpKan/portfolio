@@ -28,6 +28,7 @@ Conventions used below:
 | Add an UptimeRobot monitor | Written and executed 2026-09-18 (T0.3): three monitors plus the public status page, see `docs/monitors.md` |
 | Add PostHog to an app | Written and executed 2026-09-18 (T0.5, hub); the full copy-paste contract is `docs/analytics.md` (the Flask variant is inside "Deploy a Python app to Vercel") |
 | Check PostHog billing | Written and executed 2026-09-18 (T0.5) |
+| Deploy a static Vite app to Vercel | Written and executed 2026-09-18 (T1.4, microtubules: `KalpKan/Microtubule-Quantification` `web/` → project `microtubules`, `https://microtubules.kalpkan.com`) |
 | Rotate the PostHog key | Written 2026-09-18 (T0.5); not yet executed |
 | Deploy a Python app to Vercel | Written and executed 2026-09-18 (T1.3, Plato) |
 | Create a Neon database | Written and executed 2026-09-18 (T1.3, Plato) |
@@ -379,6 +380,42 @@ Common failures:
 - Static file 404: it is not under `public/`, or Flask's `static_folder` was changed. Check `curl -sI https://<host>/static/style.css`.
 - Slow first request after idle (2 to 3 s): Vercel cold start plus Neon wake; expected. If every request is slow, `curl -w '%{time_total}'` on `/api/health` vs `/` tells whether it is the database or the function.
 - `vercel inspect` shows Ready but the page 500s: run `npx vercel@latest logs <deployment-url> --scope kks-projects-2edcb11a` and look for the Python traceback; the usual cause is an import that works locally (Python 3.14 on the Mac) but not on 3.12, or a missing runtime dependency in `requirements.txt`.
+
+## Deploy a static Vite app to Vercel
+
+**Status: written and executed 2026-09-18 for the microtubule quantifier (`KalpKan/Microtubule-Quantification`, folder `web/` → Vercel project `microtubules`, `https://microtubules.kalpkan.com`).** The same procedure applies to the Phase 3 browser-ML demos (pushups, emotes).
+
+When to use: a browser-only app (Vite + TypeScript, everything runs client-side, no server code) must be hosted on Vercel Hobby, or one of them needs to be redeployed or repaired.
+
+What Vercel does: with `framework: "vite"` it runs `npm install` then `vite build` in the Root Directory and serves `dist/` from the CDN. There are no functions, no cold starts, and static files in `public/` (including a 10 MB `opencv.js`) are served as-is. `vercel.json` in the root directory can add rewrites (used for the PostHog `/ingest` proxy) and headers.
+
+Preconditions: Vercel CLI logged in (team `kks-projects-2edcb11a`), the repo cloned under `~/projects/<name>`, `npm test` and `npm run build` passing locally in the app folder, `web/public/health.json` = `{"ok":true,"service":"<name>"}`.
+
+Steps (what was done for microtubules, in order; run from the **repo root**, not the app folder, so the Git link and the Root Directory setting agree):
+1. **Link and create the project:** `npx vercel@latest link --yes --project <name> --scope kks-projects-2edcb11a`. Side effects to undo before committing: it appends `.vercel` and `.env*` to the repo's `.gitignore` (replace `.env*` with `.env.local` + `.env*.local` so `.env.example` stays tracked) and writes an `.env.local` with a `VERCEL_OIDC_TOKEN` (delete it).
+2. **Root Directory and framework** (the app lives in a subfolder): `curl -s -X PATCH "https://api.vercel.com/v9/projects/<name>?slug=kks-projects-2edcb11a" -H "Authorization: Bearer $(jq -r .token "$HOME/Library/Application Support/com.vercel.cli/auth.json")" -H "Content-Type: application/json" -d '{"rootDirectory":"web","framework":"vite"}'`. The response echoes `rootDirectory` and `framework`. Dashboard equivalent: project → Settings → General → Root Directory / Framework Preset. Never print the token.
+3. **Env vars, non-interactively:** Vite only exposes variables prefixed `VITE_`; the analytics contract uses `VITE_PUBLIC_POSTHOG_KEY` and `VITE_PUBLIC_POSTHOG_HOST` (see `settings-map.md`). `printf '%s' "$VALUE" | npx vercel@latest env add VITE_PUBLIC_POSTHOG_KEY production --scope kks-projects-2edcb11a` (repeat with `preview`; add `--force` to replace). The public `phc_` token can be read from the PostHog API: `GET $POSTHOG_HOST/api/projects/616829/` → `.api_token`, with `POSTHOG_PERSONAL_API_KEY` from `secrets.env`. Vite bakes env vars in at build time, so a changed variable needs a redeploy.
+4. **Deploy:** `npx vercel@latest --prod --yes --scope kks-projects-2edcb11a`. The JSON it prints ends with `"readyState": "READY"` and the deployment URL. Builds take about 10 s. (`Error: fetch failed` on the first try was a transient upload failure; the retry succeeded.)
+5. **Auto-deploys:** `npx vercel@latest git connect --yes --scope kks-projects-2edcb11a`. For microtubules the repo was already connected by `link`; every push to `main` produces a production deployment (confirmed: the push and the CLI deploy both showed up in `vercel ls`).
+6. **Domain:** follow "Attach a domain to a Vercel project": `domains add <sub>.kalpkan.com <name>`, `domains verify <sub>.kalpkan.com --json` → `recommended.records[0].value` (the project-specific `<hash>.vercel-dns-017.com.`), Cloudflare `POST dns_records` with `proxied: false`, poll `curl -s -o /dev/null -w '%{http_code}' https://<sub>.kalpkan.com/health.json` every 30 s. Microtubules: CNAME `microtubules` → `bb0edf923bf938a4.vercel-dns-017.com`, record id `cde1f34a0408fd944c2f40e9da74108c`, HTTPS 200 after about 60 s, cert `cert_fmPCbqPPTF39A1OVZLFfn0sV`. Record the row in `docs/DNS_PENDING.md` §5.
+7. **PostHog proxy in `vercel.json`** (static apps have no server, so the rewrite is the proxy):
+   ```json
+   {
+     "rewrites": [
+       { "source": "/ingest/static/:path(.*)", "destination": "https://us-assets.i.posthog.com/static/:path" },
+       { "source": "/ingest/:path(.*)", "destination": "https://us.i.posthog.com/:path" }
+     ]
+   }
+   ```
+   **Use `:path(.*)`, not `:path*`.** With `:path*` Vercel answered `404` for PostHog's trailing-slash endpoints (`/ingest/e/`, `/ingest/s/`, `/ingest/i/v0/e/`) so every event and replay chunk was dropped (`incidents.md`, 2026-09-18). Check with `curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d '{}' https://<host>/ingest/e/` → `400` (PostHog rejecting the empty body, i.e. the request reached PostHog); `404` means the rewrite did not match. Also cache the big static asset: a `headers` entry for `/opencv.js` with `Cache-Control: public, max-age=31536000, immutable`.
+8. **Prove it:** open the live host in Chrome, run the core action, and read the Network tab: after load the only requests may be same-origin files and `/ingest/*`. For the phone check the shared Chrome window would not resize, so a local harness page with a 390 px `<iframe>` of the built site (same origin, served by `npx vite preview`) was screenshotted instead. Then fill the `verification.md` block.
+
+Common failures:
+- `404` on `/ingest/...` with a trailing slash: step 7.
+- The page says "OpenCV failed to load": `/opencv.js` must be in `public/` and committed (10.96 MB is fine for git and for Vercel); `curl -sI https://<host>/opencv.js | head -1` must be `200`.
+- `npm install` fails with `Cannot read properties of null (reading 'edgesOut')` on npm 10.9: an arborist bug resolving `vitest@4`'s optional peers; use `vitest@^5` (`incidents.md`, 2026-09-18).
+- `await` on the OpenCV module hangs forever: the Emscripten module is a thenable that resolves to itself; wait for `onRuntimeInitialized` and `delete cv.then` before resolving a Promise with it (`web/src/opencv-loader.ts`, `web/tests/pipeline.test.ts` in the repo).
+- Vercel builds but the page has no analytics: the env var is missing for that environment, or was added after the build (Vite inlines it); redeploy.
 
 ## Create a Neon database
 

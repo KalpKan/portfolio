@@ -97,14 +97,15 @@
     {
       "slug": "microtubules",
       "name": "Microtubule Quantification",
-      "tagline": "Classical image analysis that measures microtubule growth from microscopy stacks.",
+      "tagline": "Measures how much of a cell is microtubule, from a microscopy image, entirely in your browser.",
       "type": "app",
-      "status": "coming",
+      "status": "live",
+      "url": "https://microtubules.kalpkan.com",
       "repo": "https://github.com/KalpKan/Microtubule-Quantification",
-      "healthUrl": null,
+      "healthUrl": "https://microtubules.kalpkan.com/health.json",
       "tags": [
-        "OpenCV",
-        "SciPy",
+        "OpenCV.js",
+        "TypeScript",
         "Microscopy"
       ],
       "hero": null

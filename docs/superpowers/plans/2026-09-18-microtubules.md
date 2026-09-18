@@ -33,11 +33,11 @@
 **Interfaces:**
 - Produces: `web/tests/expected.json` = `{"<name>": {"percent": <float>, "threshold": <int>, "width": <int>, "height": <int>, "green_pixels": <int>}}`, consumed by Task 3's vitest test and Task 5's README table.
 
-- [ ] **Step 1: Write `extract_samples.py`** — locate the "1. Original Image" panel in `Results/<name>_analysis.png` (bounding box of non-white pixels below y=290 in the left third; height = `orig_h * panel_w / orig_w`), sample every block centre, assert intra-block variation is 0 and equality with `<name>_overlay.png` outside `<name>_mask.png`, write `web/public/samples/<name>.png`.
-- [ ] **Step 2: Run it**: `.venv/bin/python web/scripts/extract_samples.py` → three PNGs, each assertion printed as OK.
-- [ ] **Step 3: Write `reference.py`** — import `MicrotubuleQuantifier`, run the executed path (no matplotlib) on each sample, print and write `web/tests/expected.json`; also assert the percentage equals `Results/quantification_results.csv` to 6 decimals (proves the recovered pixels are the originals).
-- [ ] **Step 4: Run it** and paste the output into `web/README.md` later (Task 5).
-- [ ] **Step 5: Commit** `feat(web): recover 3 sample cells from the figures + Python reference numbers`.
+- [x] **Step 1: Write `extract_samples.py`** — locate the "1. Original Image" panel in `Results/<name>_analysis.png` (bounding box of non-white pixels below y=290 in the left third; height = `orig_h * panel_w / orig_w`), sample every block centre, assert intra-block variation is 0 and equality with `<name>_overlay.png` outside `<name>_mask.png`, write `web/public/samples/<name>.png`.
+- [x] **Step 2: Run it**: `.venv/bin/python web/scripts/extract_samples.py` → three PNGs, each assertion printed as OK.
+- [x] **Step 3: Write `reference.py`** — import `MicrotubuleQuantifier`, run the executed path (no matplotlib) on each sample, print and write `web/tests/expected.json`; also assert the percentage equals `Results/quantification_results.csv` to 6 decimals (proves the recovered pixels are the originals).
+- [x] **Step 4: Run it** and paste the output into `web/README.md` later (Task 5).
+- [x] **Step 5: Commit** `feat(web): recover 3 sample cells from the figures + Python reference numbers`.
 
 ### Task 2: `run_analysis.py` takes argv with defaults (tested)
 
@@ -45,10 +45,10 @@
 - Modify: `run_analysis.py` (paths → `argparse` with the old paths as defaults, logic in `build_command(input_dir, output_dir, metadata)`)
 - Create: `tests/test_run_analysis.py` (unittest, no third-party deps)
 
-- [ ] **Step 1: Write the failing test**: `build_command("/in","/out","m.csv")` returns `[sys.executable, "microtubule_quantification.py", "--input", "/in", "--output", "/out", "--metadata", "m.csv"]`; `parse_args([])` yields the old defaults; `parse_args(["--input","x"])` overrides.
-- [ ] **Step 2: Run** `.venv/bin/python -m unittest tests/test_run_analysis.py -v` → FAIL (ImportError).
-- [ ] **Step 3: Implement** and re-run → PASS.
-- [ ] **Step 4: Commit** `fix: run_analysis.py accepts --input/--output/--metadata instead of hardcoded Desktop paths`.
+- [x] **Step 1: Write the failing test**: `build_command("/in","/out","m.csv")` returns `[sys.executable, "microtubule_quantification.py", "--input", "/in", "--output", "/out", "--metadata", "m.csv"]`; `parse_args([])` yields the old defaults; `parse_args(["--input","x"])` overrides.
+- [x] **Step 2: Run** `.venv/bin/python -m unittest tests/test_run_analysis.py -v` → FAIL (ImportError).
+- [x] **Step 3: Implement** and re-run → PASS.
+- [x] **Step 4: Commit** `fix: run_analysis.py accepts --input/--output/--metadata instead of hardcoded Desktop paths`.
 
 ### Task 3: Vite app skeleton + pipeline port with a vitest accuracy test
 
@@ -58,45 +58,45 @@
 **Interfaces:**
 - Produces: `analyze(cv: OpenCV, rgba: Uint8ClampedArray, width: number, height: number): { percent: number; threshold: number; greenPixels: number; totalPixels: number; mask: Uint8Array; overlay: Uint8ClampedArray }` in `pipeline.ts` (pure; RGBA in, RGBA overlay out, all Mats deleted). `loadOpenCV(): Promise<OpenCV>` in `opencv-loader.ts` (browser: injects `<script src="/opencv.js">`, waits for `onRuntimeInitialized`; never `await cv` because the Emscripten thenable resolves to itself and loops).
 
-- [ ] **Step 1: Scaffold** `npm create vite@latest web -- --template vanilla-ts`, add `vitest`, `pngjs`, `posthog-js`; copy `opencv.js` from `https://docs.opencv.org/4.x/opencv.js` into `web/public/` and record its sha256 in `web/README.md`.
-- [ ] **Step 2: Write the failing test** `web/tests/pipeline.test.ts`: for each name in `expected.json`, decode `public/samples/<name>.png` with pngjs, run `analyze`, expect `|percent - expected| <= 1` and (stricter) `threshold === expected.threshold`.
-- [ ] **Step 3: Run** `npm test` → FAIL (module not found).
-- [ ] **Step 4: Implement `pipeline.ts`** mirroring `process_image`: `cv.matFromArray(h,w,CV_8UC4)` → `split` → green (index 1) and blue (index 2, RGBA order) → `threshold(green,0,255,THRESH_BINARY+THRESH_OTSU)`; nucleus: `threshold(blue, OTSU)` then `morphologyEx(MORPH_CLOSE, getStructuringElement(MORPH_ELLIPSE,5x5), iterations=2)`; `mask.setTo(0, nucleus)`; `MORPH_OPEN` then `MORPH_CLOSE` with ellipse 3x3; `percent = countNonZero/total`; overlay = input with mask pixels set to `(0,255,0,255)`.
-- [ ] **Step 5: Run** `npm test` → PASS for all three, print the JS percentages.
-- [ ] **Step 6: Commit** `feat(web): OpenCV.js port of the pipeline, matches Python on the 3 samples`.
+- [x] **Step 1: Scaffold** `npm create vite@latest web -- --template vanilla-ts`, add `vitest`, `pngjs`, `posthog-js`; copy `opencv.js` from `https://docs.opencv.org/4.x/opencv.js` into `web/public/` and record its sha256 in `web/README.md`.
+- [x] **Step 2: Write the failing test** `web/tests/pipeline.test.ts`: for each name in `expected.json`, decode `public/samples/<name>.png` with pngjs, run `analyze`, expect `|percent - expected| <= 1` and (stricter) `threshold === expected.threshold`.
+- [x] **Step 3: Run** `npm test` → FAIL (module not found).
+- [x] **Step 4: Implement `pipeline.ts`** mirroring `process_image`: `cv.matFromArray(h,w,CV_8UC4)` → `split` → green (index 1) and blue (index 2, RGBA order) → `threshold(green,0,255,THRESH_BINARY+THRESH_OTSU)`; nucleus: `threshold(blue, OTSU)` then `morphologyEx(MORPH_CLOSE, getStructuringElement(MORPH_ELLIPSE,5x5), iterations=2)`; `mask.setTo(0, nucleus)`; `MORPH_OPEN` then `MORPH_CLOSE` with ellipse 3x3; `percent = countNonZero/total`; overlay = input with mask pixels set to `(0,255,0,255)`.
+- [x] **Step 5: Run** `npm test` → PASS for all three, print the JS percentages.
+- [x] **Step 6: Commit** `feat(web): OpenCV.js port of the pipeline, matches Python on the 3 samples`.
 
 ### Task 4: The page (upload/camera, samples, overlay, percentage, PostHog, offline)
 
 **Files:**
 - Create/modify: `web/index.html`, `web/src/main.ts`, `web/src/style.css`, `web/src/analytics.ts`, `web/vercel.json`, `web/.env.example`
 
-- [ ] **Step 1: `analytics.ts`**: `initAnalytics()` reads `import.meta.env.VITE_PUBLIC_POSTHOG_KEY`; no key → no-op; `capture(event, props)`.
-- [ ] **Step 2: `main.ts`**: `<input type="file" accept="image/*" capture="environment">`, three "Try a sample" buttons (fetch `/samples/<name>.png`, same-origin), decode with `createImageBitmap(blob, { colorSpaceConversion: "none", premultiplyAlpha: "none" })`, draw to a canvas, `getImageData`, `analyze`, paint input + overlay canvases, show `percent.toFixed(2)%`, threshold, and pixel counts; status line while OpenCV loads (10 MB); errors shown in-page.
-- [ ] **Step 3: `vercel.json`**: rewrites `/ingest/static/:path*` → `https://us-assets.i.posthog.com/static/:path*`, `/ingest/:path*` → `https://us.i.posthog.com/:path*`; `Cache-Control: public, max-age=31536000, immutable` header for `/opencv.js` and `/samples/*` so repeat visits are fully cached.
-- [ ] **Step 4: Manual check** `npm run dev`, load a sample, see overlay and %, `npm run build` succeeds, `dist/` contains `opencv.js`, `samples/`, `health.json`.
-- [ ] **Step 5: Commit** `feat(web): page with upload/camera, samples, overlay, PostHog events`.
+- [x] **Step 1: `analytics.ts`**: `initAnalytics()` reads `import.meta.env.VITE_PUBLIC_POSTHOG_KEY`; no key → no-op; `capture(event, props)`.
+- [x] **Step 2: `main.ts`**: `<input type="file" accept="image/*" capture="environment">`, three "Try a sample" buttons (fetch `/samples/<name>.png`, same-origin), decode with `createImageBitmap(blob, { colorSpaceConversion: "none", premultiplyAlpha: "none" })`, draw to a canvas, `getImageData`, `analyze`, paint input + overlay canvases, show `percent.toFixed(2)%`, threshold, and pixel counts; status line while OpenCV loads (10 MB); errors shown in-page.
+- [x] **Step 3: `vercel.json`**: rewrites `/ingest/static/:path*` → `https://us-assets.i.posthog.com/static/:path*`, `/ingest/:path*` → `https://us.i.posthog.com/:path*`; `Cache-Control: public, max-age=31536000, immutable` header for `/opencv.js` and `/samples/*` so repeat visits are fully cached.
+- [x] **Step 4: Manual check** `npm run dev`, load a sample, see overlay and %, `npm run build` succeeds, `dist/` contains `opencv.js`, `samples/`, `health.json`.
+- [x] **Step 5: Commit** `feat(web): page with upload/camera, samples, overlay, PostHog events`.
 
 ### Task 5: Docs (root README for a non-developer, web/README.md with comparison table, .env.example, MIT kept)
 
-- [ ] **Step 1: Root `README.md`**: add a "Try it in your browser" link at the top and a section "How to run this / How to deploy this / Where the settings live" in plain English; note `run_analysis.py` flags.
-- [ ] **Step 2: `web/README.md`**: what it is, the accuracy table (name, Python %, JS %, difference), how samples were recovered, the opencv.js provenance line, the same three plain-English sections, the PostHog events list.
-- [ ] **Step 3: Commit** `docs: READMEs for a non-developer, accuracy table`.
+- [x] **Step 1: Root `README.md`**: add a "Try it in your browser" link at the top and a section "How to run this / How to deploy this / Where the settings live" in plain English; note `run_analysis.py` flags.
+- [x] **Step 2: `web/README.md`**: what it is, the accuracy table (name, Python %, JS %, difference), how samples were recovered, the opencv.js provenance line, the same three plain-English sections, the PostHog events list.
+- [x] **Step 3: Commit** `docs: READMEs for a non-developer, accuracy table`.
 
 ### Task 6: Deploy to Vercel, attach the domain, verify
 
-- [ ] **Step 1**: from `~/projects/microtubules`: `npx vercel link --yes --project microtubules --scope kks-projects-2edcb11a`; set root directory `web` with `PATCH https://api.vercel.com/v9/projects/microtubules?slug=kks-projects-2edcb11a {"rootDirectory":"web","framework":"vite"}` using the CLI's bearer token from `~/Library/Application Support/com.vercel.cli/auth.json` (never printed); add env `VITE_PUBLIC_POSTHOG_KEY` (production+preview) by piping the value from the PostHog API into `npx vercel env add`.
-- [ ] **Step 2**: `npx vercel --prod --yes` → note the URL; `curl -sf <url>/health.json`.
-- [ ] **Step 3**: runbook "Attach a domain": `npx vercel domains add microtubules.kalpkan.com microtubules --scope ...`; `npx vercel domains verify --json` → CNAME target; Cloudflare `POST dns_records` DNS-only; poll `curl -sI https://microtubules.kalpkan.com | head -1` until `HTTP/2 200`; record id into `docs/DNS_PENDING.md` §1 + §5.
-- [ ] **Step 4**: `npx vercel git connect` so pushes to `main` auto-deploy (best effort).
-- [ ] **Step 5**: Phone check with claude-in-chrome at 390 px: load, tap sample, read Network tab: only same-origin + `/ingest/*`.
-- [ ] **Step 6**: push the microtubules repo to GitHub (`main`).
+- [x] **Step 1**: from `~/projects/microtubules`: `npx vercel link --yes --project microtubules --scope kks-projects-2edcb11a`; set root directory `web` with `PATCH https://api.vercel.com/v9/projects/microtubules?slug=kks-projects-2edcb11a {"rootDirectory":"web","framework":"vite"}` using the CLI's bearer token from `~/Library/Application Support/com.vercel.cli/auth.json` (never printed); add env `VITE_PUBLIC_POSTHOG_KEY` (production+preview) by piping the value from the PostHog API into `npx vercel env add`.
+- [x] **Step 2**: `npx vercel --prod --yes` → note the URL; `curl -sf <url>/health.json`.
+- [x] **Step 3**: runbook "Attach a domain": `npx vercel domains add microtubules.kalpkan.com microtubules --scope ...`; `npx vercel domains verify --json` → CNAME target; Cloudflare `POST dns_records` DNS-only; poll `curl -sI https://microtubules.kalpkan.com | head -1` until `HTTP/2 200`; record id into `docs/DNS_PENDING.md` §1 + §5.
+- [x] **Step 4**: `npx vercel git connect` so pushes to `main` auto-deploy (best effort).
+- [x] **Step 5**: Phone check with claude-in-chrome at 390 px: load, tap sample, read Network tab: only same-origin + `/ingest/*`.
+- [x] **Step 6**: push the microtubules repo to GitHub (`main`).
 
 ### Task 7: Ops record (portfolio repo)
 
-- [ ] `skills/portfolio-ops/runbooks.md`: "Deploy a static Vite app to Vercel" (as executed) + index row.
-- [ ] `skills/portfolio-ops/settings-map.md`: `VITE_PUBLIC_POSTHOG_KEY` (microtubules) row.
-- [ ] `skills/portfolio-ops/verification.md`: microtubules section (health.json, dig, server header, `npm test`).
-- [ ] `skills/portfolio-ops/SKILL.md`: system-map row for `microtubules.`.
-- [ ] `skills/portfolio-ops/incidents.md`: entries for anything that went wrong.
-- [ ] `docs/DNS_PENDING.md` rows; `projects.json` entry (`url`, `healthUrl`, `status: "live"`), `npm test` in the hub passes.
-- [ ] `STATUS.md` task row + session-log line; `bash scripts/install-ops-skill.sh`; `git pull --rebase --autostash`; commit own files; push.
+- [x] `skills/portfolio-ops/runbooks.md`: "Deploy a static Vite app to Vercel" (as executed) + index row.
+- [x] `skills/portfolio-ops/settings-map.md`: `VITE_PUBLIC_POSTHOG_KEY` (microtubules) row.
+- [x] `skills/portfolio-ops/verification.md`: microtubules section (health.json, dig, server header, `npm test`).
+- [x] `skills/portfolio-ops/SKILL.md`: system-map row for `microtubules.`.
+- [x] `skills/portfolio-ops/incidents.md`: entries for anything that went wrong.
+- [x] `docs/DNS_PENDING.md` rows; `projects.json` entry (`url`, `healthUrl`, `status: "live"`), `npm test` in the hub passes.
+- [x] `STATUS.md` task row + session-log line; `bash scripts/install-ops-skill.sh`; `git pull --rebase --autostash`; commit own files; push.

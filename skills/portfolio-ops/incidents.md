@@ -167,6 +167,40 @@ _Entries begin below, oldest first._
 - **Prevention:** Verification row "Pageview and custom event arrive" notes the lag and the visibility requirement; when verifying by automation, either use a fresh visible window or the visibility shim, and never conclude the snippet is broken from a hidden tab.
 - **Reported by:** worker (T0.5)
 
+
+### 2026-09-18: PostHog events from the microtubules demo answered 404 through the `/ingest` rewrite
+
+- **Date:** 2026-09-18, ~15:45 EDT (found during T1.4's live check, minutes after the first production deploy)
+- **Affected:** `https://microtubules.kalpkan.com` (Vercel project `microtubules`, static Vite app), analytics only; the analysis itself was unaffected.
+- **Symptom:** In Chrome's Network tab after tapping a sample, `POST https://microtubules.kalpkan.com/ingest/s/` returned `404`; `curl -X POST .../ingest/e/` and `.../ingest/i/v0/e/` also `404`, while `.../ingest/s` (no trailing slash) reached PostHog (`400` for an empty body). No `sample_loaded` / `image_analyzed` rows appeared in PostHog.
+- **What was tried:** compared the same paths on the hub (`https://kalpkan.com/ingest/s/` → 400, works: Next.js rewrites with `skipTrailingSlashRedirect`), then a preview deploy with the rewrite sources changed from `/ingest/:path*` to `/ingest/:path(.*)` and destinations from `/:path*` to `/:path`; all three trailing-slash paths then returned 400 (reached PostHog); promoted to production and re-checked.
+- **Root cause:** In `vercel.json` (static deployments, no framework server), the `:path*` segment matcher does not match PostHog's trailing-slash endpoints (`/e/`, `/s/`, `/i/v0/e/`), so the request fell through to the static file server and 404'd. `:path(.*)` matches the whole remainder including the slash.
+- **Fix:** `web/vercel.json` rewrites now use `"/ingest/static/:path(.*)"` → `https://us-assets.i.posthog.com/static/:path` and `"/ingest/:path(.*)"` → `https://us.i.posthog.com/:path` (commit `KalpKan/Microtubule-Quantification` `efec961`, "fix(web): /ingest rewrites match trailing-slash PostHog paths"). Verified: `curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d '{}' https://microtubules.kalpkan.com/ingest/e/` → `400`; PostHog shows `sample_loaded` and `image_analyzed` with `$host: microtubules.kalpkan.com`.
+- **Prevention:** Runbook "Deploy a static Vite app to Vercel" step 7 carries the correct pattern and the curl check; `verification.md` (microtubules) includes the trailing-slash curl. Any future static app (pushups, emotes) copies that `vercel.json`.
+- **Reported by:** worker (T1.4)
+
+### 2026-09-18: `npm install` failed with `Cannot read properties of null (reading 'edgesOut')` for the microtubules web app
+
+- **Date:** 2026-09-18, ~15:27 EDT
+- **Affected:** local build of `~/projects/microtubules/web` (npm 10.9.2, Node 22.14.0); nothing deployed yet.
+- **Symptom:** `npm install` aborted twice with `npm error Cannot read properties of null (reading 'edgesOut')` while resolving `vitest@^4.0.0` (the log shows it fetching `@vitest/browser-playwright` manifests just before the crash).
+- **What was tried:** deleted `node_modules` and `package-lock.json`, retried (same error); checked `npm view vitest version` (5.0.1).
+- **Root cause:** an npm arborist bug when resolving `vitest@4.x`'s optional peer dependencies on npm 10.9; not a network or registry problem.
+- **Fix:** `"vitest": "^5.0.1"` in `web/package.json`; install succeeded and the tests run in about 0.5 s.
+- **Prevention:** Runbook "Deploy a static Vite app to Vercel", "Common failures". Phase 3 apps should start on vitest 5.
+- **Reported by:** worker (T1.4)
+
+### 2026-09-18: vitest hung forever after loading OpenCV.js (Emscripten thenable)
+
+- **Date:** 2026-09-18, ~15:31 EDT
+- **Affected:** `web/tests/pipeline.test.ts` in `~/projects/microtubules` (local only).
+- **Symptom:** `npm test` printed `RUN v5.0.1` and never finished (killed after 180 s); the `beforeAll` 60 s timeout never fired. The same load in plain `node` initialised in 250 ms.
+- **What was tried:** loaded `public/opencv.js` via `vm.runInThisContext` instead of vitest's transform (needed anyway: the UMD wrapper's `Module = {}` throws "Module is not defined" in strict mode, and Node treats `.js` as ESM because `package.json` has `"type": "module"`); bisected with stderr checkpoints: load, init and `analyze()` all completed; the hang was the Promise `resolve(cv)`.
+- **Root cause:** the OpenCV.js module object has a `then` method (Emscripten's promise-like API) that resolves to itself, so resolving a Promise with it (or `await cv`, or returning it from `.then`) recursively adopts the thenable and never settles. The hook timeout could not interrupt the microtask loop.
+- **Fix:** wait for `cv.onRuntimeInitialized`, then `delete cv.then` before `resolve(cv)`, in both `web/src/opencv-loader.ts` (browser) and the test loader.
+- **Prevention:** documented in the runbook's "Common failures" and in code comments; the pushups/emotes ports that load any Emscripten module should copy the loader.
+- **Reported by:** worker (T1.4)
+
 ### 2026-09-18: hub Lighthouse performance fell from 0.92 to 0.84-0.87 after T0.5 (fonts + posthog-js competing for LCP)
 
 - **Date:** 2026-09-18, ~15:45 EDT (found during the hub polish batch verification)
