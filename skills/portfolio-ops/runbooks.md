@@ -17,7 +17,7 @@ Conventions used below:
 | Add a project to `projects.json` | written |
 | Delete a Vercel project | Written and executed 2026-09-18 (T0.2) |
 | Archive a GitHub repo | Written and executed 2026-09-18 (T0.2) |
-| Attach a domain to a Vercel project | Written 2026-09-18 (T0.4); not yet executed, waits on H1. Record table in `docs/DNS_PENDING.md` |
+| Attach a domain to a Vercel project | Written 2026-09-18 (T0.4); **executed 2026-09-18 for `kalpkan.com` (apex + www → `portfolio`) and `hoops.kalpkan.com`**. Record table and executed log in `docs/DNS_PENDING.md` |
 | Add a schema to Supabase Project B | Not yet written, added when T1.1 lands |
 | Rotate a secret | Not yet written, added when the first rotation lands |
 | Redeploy an app | Not yet written, added when T0.1 lands |
@@ -156,7 +156,13 @@ Use this for a repo whose code lives on in a successor (rename, rewrite, merge).
 
 ## Attach a domain to a Vercel project
 
-**Status: not yet executed. Written 2026-09-18 (T0.4); waits on H1 (domain purchase).** Full record table, verified source URLs and the copy-paste command block live in `docs/DNS_PENDING.md`; this runbook is the procedure and the checks.
+**Status: executed 2026-09-18 for `kalpkan.com` (apex + `www` on `portfolio`) and `hoops.kalpkan.com` (on `v0-basketball-analytics-dashboard`); the procedure below is what worked.** Domain: `kalpkan.com`, Cloudflare zone id `288a6a2d07f7868c85faa8634f86b885`. Full record table, verified source URLs, the copy-paste command block and the executed log (record ids, exact targets) live in `docs/DNS_PENDING.md`; this runbook is the procedure and the checks.
+
+Learned on first execution (2026-09-18):
+- Use `npx vercel domains verify <host> --scope kks-projects-2edcb11a` (JSON) rather than `inspect` to read the record Vercel wants: `recommended.records[0]` gives the **project-specific** CNAME (`<hash>.vercel-dns-017.com`, e.g. `a9e60d5e9d41cb23.vercel-dns-017.com` for `portfolio`), which is what to put in Cloudflare. `inspect` only prints the generic `A 76.76.21.21` line, even for subdomains.
+- `domains add` is refused with `latest production deployment has errored (400)` if the project's newest production build failed, even when the production alias serves an older Ready build. Fix without deleting anything: `npx vercel redeploy <last-Ready-deployment-url> --scope kks-projects-2edcb11a --non-interactive`, wait for Ready, then retry `domains add`. (`vercel promote` returns 409 when that build is already current.)
+- The `www` → apex 308 redirect (step 5) does not need a separate `VERCEL_TOKEN`: the logged-in CLI's bearer token in `~/Library/Application Support/com.vercel.cli/auth.json` (`jq -r .token`) works for the `PATCH` call. Never print or commit it.
+- Certificates issued within about 1 to 2 minutes of the DNS-only record appearing; poll `curl -sI https://<host> | head -1` every 30 s.
 
 When to use: a new project needs `<sub>.<domain>`, or a subdomain stopped resolving and you need to rebuild the record.
 

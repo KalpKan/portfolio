@@ -4,7 +4,7 @@ The exact commands and URLs that prove each part of the platform is healthy. Use
 
 Rows marked **PENDING** target something the plan calls for but that is not live yet; the command is written now so it is ready, and the row is updated (with the real URL and a "confirmed on <date>" note) by the task that makes it live. The source list is `docs/hosting-plan.md` section 10.
 
-Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bought); `<prod-url>` is the `*.vercel.app` URL of the app until then.
+Placeholders: `<domain>` is `kalpkan.com` (bought at human checkpoint H1 on 2026-09-18); `<prod-url>` is the `*.vercel.app` URL of an app that has not been moved onto the domain yet.
 
 ## Quick triage (the "first 5 checks" from SKILL.md, as commands)
 
@@ -14,7 +14,7 @@ Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bo
 | 2 | Failing app's health route | `curl -sf https://<prod-url>/api/health` | promptflip: JSON containing `"db":"ok"`; hub: `{"ok":true,"service":"hub","time":"..."}` | promptflip live; hub PENDING (T0.1) |
 | 3 | Vercel deployment logs | `npx vercel ls <project> --scope kks-projects-2edcb11a` then `npx vercel inspect <deployment-url> --logs` | newest deployment state `Ready`, no build errors | works now |
 | 4 | Supabase project status | Supabase dashboard project list, or Supabase MCP `list_projects` | both projects `ACTIVE_HEALTHY`, none `INACTIVE` (paused) | works now (dashboard); MCP after H0 |
-| 5 | Cloudflare DNS record | `dig +short <sub>.<domain>` and `dig +short <domain>` | subdomain: a `*.vercel-dns*.com` name, specifically whatever `npx vercel domains inspect <host>` printed when the record was created (recorded in `docs/DNS_PENDING.md` §5; general-purpose fallback `cname.vercel-dns-0.com`); apex: `76.76.21.21` | PENDING (H1) |
+| 5 | Cloudflare DNS record | `dig +short <sub>.kalpkan.com` and `dig +short kalpkan.com` | subdomain: the project-specific `<hash>.vercel-dns-017.com` name that `npx vercel domains verify <host>` printed when the record was created (recorded in `docs/DNS_PENDING.md` §5); apex: `76.76.21.21` | confirmed 2026-09-18: `kalpkan.com` → `76.76.21.21`; `www.kalpkan.com` → `a9e60d5e9d41cb23.vercel-dns-017.com.`; `hoops.kalpkan.com` → `71da701c9c3d8bdf.vercel-dns-017.com.` |
 
 ## Per-component checks
 
@@ -59,10 +59,10 @@ Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bo
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Every host resolves | `for h in "" promptflip. hoops. plato. plantit. pushups. emotes. microtubules.; do echo -n "$h<domain>: "; dig +short "$h<domain>" \| head -1; done` | apex `76.76.21.21`, each subdomain a `*.vercel-dns*.com` name, specifically whatever `npx vercel domains inspect <host>` printed when the record was created (recorded in `docs/DNS_PENDING.md` §5; general-purpose fallback `cname.vercel-dns-0.com`) | PENDING (H1) |
-| TLS valid | `curl -sI https://<sub>.<domain> \| head -1` for each host | `HTTP/2 200`, no certificate error | PENDING (H1) |
-| Records are DNS-only | `curl -sI https://<sub>.<domain> \| grep -i '^server:'` | `server: Vercel`, not `cloudflare` (an orange-cloud record shows `cloudflare` and breaks TLS issuance) | PENDING (H1) |
-| Vercel sees the domain | `npx vercel domains ls --scope kks-projects-2edcb11a` | each domain listed with a valid configuration | PENDING (H1) |
+| Every host resolves | `for h in "" www. promptflip. hoops. plato. plantit. pushups. emotes. microtubules.; do echo -n "${h}kalpkan.com: "; dig +short "${h}kalpkan.com" \| head -1; done` | apex `76.76.21.21`, each subdomain the project-specific `<hash>.vercel-dns-017.com` name recorded in `docs/DNS_PENDING.md` §5 | confirmed 2026-09-18 for apex (`76.76.21.21`), www (`a9e60d5e9d41cb23.vercel-dns-017.com.`), hoops (`71da701c9c3d8bdf.vercel-dns-017.com.`); plato/plantit/pushups/emotes/microtubules PENDING their Vercel projects |
+| TLS valid | `curl -sI https://<sub>.kalpkan.com \| head -1` for each host | `HTTP/2 200`, no certificate error (`HTTP/2 308` + `location: https://kalpkan.com/` for `www`) | confirmed 2026-09-18: `https://kalpkan.com` → `HTTP/2 200`; `https://www.kalpkan.com` → `HTTP/2 308`, `location: https://kalpkan.com/`; `https://hoops.kalpkan.com` → `HTTP/2 200`; `npx vercel certs ls` lists certs for `kalpkan.com`, `www.kalpkan.com`, `hoops.kalpkan.com`, `promptflip.kalpkan.com`, all `renew: yes`, 90 d |
+| Records are DNS-only | `curl -sI https://<sub>.kalpkan.com \| grep -i '^server:'` | `server: Vercel`, not `cloudflare` (an orange-cloud record shows `cloudflare` and breaks TLS issuance) | confirmed 2026-09-18: `kalpkan.com` and `hoops.kalpkan.com` both `server: Vercel`; every record in the zone has `"proxied": false` |
+| Vercel sees the domain | `npx vercel domains ls --scope kks-projects-2edcb11a` and `npx vercel domains verify <host> --scope kks-projects-2edcb11a` | `kalpkan.com` listed (Registrar/Nameservers "Third Party" is expected: the zone stays on Cloudflare); `verify` prints no `invalid_configuration` | confirmed 2026-09-18: `1 Domain found` (`kalpkan.com`); hub health over the domain `curl -s https://kalpkan.com/api/health` → `{"ok":true,"service":"hub",...}` |
 
 ### Vercel account (monthly)
 

@@ -1,6 +1,6 @@
 # DNS_PENDING — records to create once H1 (domain purchase) lands
 
-_Status: **PENDING H1.** Nothing below has been executed. Until Kalp buys the `.com` at Cloudflare Registrar, every app stays on its `*.vercel.app` URL._
+_Status: **H1 done 2026-09-18, domain is `kalpkan.com`** (Cloudflare Registrar, zone id `288a6a2d07f7868c85faa8634f86b885`, Free plan, nameservers `carmelo.ns.cloudflare.com` / `sky.ns.cloudflare.com`). **Executed 2026-09-18 for the hub (apex + www) and hoops**; see §5. The remaining rows wait on their Vercel projects (and promptflip on H5)._
 
 Written 2026-09-18 for Task T0.4 (`docs/superpowers/plans/2026-09-18-phase-0-foundation.md`). Source map: `docs/hosting-plan.md` §6 "DNS & subdomain map". Execution runbook: `skills/portfolio-ops/runbooks.md` → "Attach a domain to a Vercel project".
 
@@ -12,15 +12,15 @@ All Vercel-target records are **DNS-only (grey cloud, `proxied: false`)**. Reaso
 
 | Host (Cloudflare `name`) | Type | Target (`content`) | Proxy | Vercel project | Status |
 |---|---|---|---|---|---|
-| `@` (apex `<domain>`) | A | `76.76.21.21` | DNS-only | `portfolio` (hub) | pending H1 |
-| `www` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `portfolio` (hub); Vercel redirects `www` → apex (308) | pending H1 |
-| `promptflip` | CNAME | `cname.vercel-dns-0.com` | DNS-only | whichever H5 resolves to: `promptflip-35qv` if Kalp says "keep 35qv" (the live one today); `promptflip` only after its failed build is fixed (see STATUS.md H5) | pending H1 + **H5 resolved**; then update `NEXT_PUBLIC_APP_URL` + Supabase Auth redirect URLs (§3) |
-| `hoops` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `v0-basketball-analytics-dashboard` (to be re-linked / renamed in T1.1) | pending H1 + T1.1 |
-| `plato` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `plato` (project not yet created, T1.3) | pending H1 + T1.3 |
-| `plantit` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `plantit` (project not yet created) | pending H1 + project |
-| `pushups` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `pushups` (project not yet created) | pending H1 + project |
-| `emotes` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `emotes` (project not yet created) | pending H1 + project |
-| `microtubules` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `microtubules` (project not yet created) | pending H1 + project |
+| `@` (apex `kalpkan.com`) | A | `76.76.21.21` | DNS-only | `portfolio` (hub) | **done 2026-09-18** (§5) |
+| `www` | CNAME | `a9e60d5e9d41cb23.vercel-dns-017.com` (project-specific value from `vercel domains verify`, overrides the general-purpose `cname.vercel-dns-0.com`) | DNS-only | `portfolio` (hub); Vercel redirects `www` → apex (308, set via API) | **done 2026-09-18** (§5) |
+| `promptflip` | CNAME | `0e6549802006eaa1.vercel-dns-017.com` (observed in the zone 2026-09-18, record id `b65067376817169f88cb5c7a09052e63`, comment "Vercel project promptflip-35qv") | DNS-only | `promptflip-35qv` per the record comment. **Not created by the T0.4 execution task**; it was added by the parallel H5/promptflip task, which owns its §5 row and the §3 follow-ups (`NEXT_PUBLIC_APP_URL`, Supabase Auth redirect URLs) | record present; follow-ups per §3 owned by the promptflip task |
+| `hoops` | CNAME | `71da701c9c3d8bdf.vercel-dns-017.com` (project-specific value from `vercel domains verify`) | DNS-only | `v0-basketball-analytics-dashboard` (to be re-linked / renamed in T1.1; if T1.1 creates a *new* Vercel project the CNAME value changes, re-run `verify` and PATCH the record) | **done 2026-09-18** (§5) |
+| `plato` | CNAME | value printed by `vercel domains verify` (expect `<hash>.vercel-dns-017.com`) | DNS-only | `plato` (project not yet created, T1.3) | pending T1.3 |
+| `plantit` | CNAME | value printed by `vercel domains verify` | DNS-only | `plantit` (project not yet created) | pending project |
+| `pushups` | CNAME | value printed by `vercel domains verify` | DNS-only | `pushups` (project not yet created) | pending project |
+| `emotes` | CNAME | value printed by `vercel domains verify` | DNS-only | `emotes` (project not yet created) | pending project |
+| `microtubules` | CNAME | value printed by `vercel domains verify` | DNS-only | `microtubules` (project not yet created) | pending project |
 | `status` | CNAME | — | — | UptimeRobot public status page | **deferred**: UptimeRobot's Free plan does not allow a custom domain on status pages (Solo plan, $9 USD/mo, is the minimum; verified uptimerobot.com/pricing 2026-09-18). Spend rule is $0, so the hub links to the `stats.uptimerobot.com/<id>` page instead. Revisit only if the plan changes. |
 | Future GPU demo | CNAME | `hf.space` custom domain or Modal URL | DNS-only | — | not planned yet; add a row when a demo exists |
 
@@ -128,8 +128,23 @@ If a `curl` to Cloudflare returns `"success": false`, read `errors[0].message`: 
 - No `status.<domain>` (see the row in §1).
 - No email (MX) records: the domain is not used for mail. If that changes, MX/TXT records are additive and unaffected by the above.
 
-## 5. Executed log (fill in when H1 lands)
+## 5. Executed log
 
-| Host | Date | Target actually used (from `inspect`) | Cloudflare record id | Verified by (`dig` + `curl` output) |
+Executed 2026-09-18 from `~/projects/portfolio` for `kalpkan.com` (zone `288a6a2d07f7868c85faa8634f86b885`). The zone was **empty** before execution (`GET /zones/{id}/dns_records` returned `count: 0`; Cloudflare Registrar seeded no parking records), so nothing was replaced or deleted.
+
+What Vercel actually asked for (2026-09-18, CLI 59.23.2): `vercel domains inspect` printed `A kalpkan.com 76.76.21.21` for the apex; `vercel domains verify --json` ranked two A values (`216.198.79.1`, `64.29.17.1`) first and `76.76.21.21` second for the apex, and for every subdomain a **project-specific** CNAME `<hash>.vercel-dns-017.com` first with `cname.vercel-dns.com` second. The apex uses the single `76.76.21.21` (the value `inspect` printed and this plan's expected `dig` output; one record only, per the no-second-A rule). Subdomains use the project-specific CNAME, as the "Per-project values override both" note above requires. The general-purpose `cname.vercel-dns-0.com` was therefore never used.
+
+| Host | Date | Target actually used | Cloudflare record id | Verified by (`dig` + `curl` output) |
 |---|---|---|---|---|
-| — | — | — | — | — |
+| `kalpkan.com` (A) | 2026-09-18 | `76.76.21.21` | `ce04e091bc93b09e5f0a1dfd8782239f` | `dig +short kalpkan.com` → `76.76.21.21`; `curl -sI https://kalpkan.com \| head -1` → `HTTP/2 200`; `curl -s https://kalpkan.com/api/health` → `{"ok":true,"service":"hub","time":"2026-09-18T19:12:11.981Z"}`; `server: Vercel`; cert `cert_egPlm75fpv8BnF7JdaMOVVSp` (90 d, auto-renew) |
+| `www.kalpkan.com` (CNAME) | 2026-09-18 | `a9e60d5e9d41cb23.vercel-dns-017.com` | `28d15d424dc483a68df3f7825e5e7352` | `dig +short www.kalpkan.com` → `a9e60d5e9d41cb23.vercel-dns-017.com.` then `216.198.79.1` / `64.29.17.1`; `curl -sI https://www.kalpkan.com` → `HTTP/2 308`, `location: https://kalpkan.com/`; cert `cert_a8RHbwQplhfsXFmZfGc9Ezed` |
+| `hoops.kalpkan.com` (CNAME) | 2026-09-18 | `71da701c9c3d8bdf.vercel-dns-017.com` | `2aaae4538c91f055c9613907884f7531` | `dig +short hoops.kalpkan.com` → `71da701c9c3d8bdf.vercel-dns-017.com.` then `64.29.17.1` / `216.198.79.1`; `curl -sI https://hoops.kalpkan.com \| head -1` → `HTTP/2 200`; `server: Vercel`; cert `cert_eTirfriGuDAJjxCiOVJhEwrH` |
+| `promptflip.kalpkan.com` (CNAME) | 2026-09-18 | `0e6549802006eaa1.vercel-dns-017.com` | `b65067376817169f88cb5c7a09052e63` | **not executed by this task** (observed in the zone and in `vercel certs ls` as `cert_QAufduOZKLgVC3Bvb9bon3qi` while verifying); the promptflip/H5 task records its own verification |
+
+Notes from execution:
+- **`www` → apex redirect (308)** was set with `PATCH https://api.vercel.com/v9/projects/portfolio/domains/www.kalpkan.com?slug=kks-projects-2edcb11a` and body `{"redirect":"kalpkan.com","redirectStatusCode":308}`. No separate `VERCEL_TOKEN` was needed: the bearer token the logged-in CLI stores in `~/Library/Application Support/com.vercel.cli/auth.json` (`.token`) is accepted by the REST API. Response: `"redirect":"kalpkan.com","redirectStatusCode":308,"verified":true`.
+- **hoops needed a redeploy first.** `vercel domains add hoops.kalpkan.com v0-basketball-analytics-dashboard` failed with `Your project's latest production deployment has errored. Therefore, the domain cannot be assigned. (400)`: the newest production build (`v0-basketball-analytics-dashboard-946t9vobl`, 2026-04-15, from a git branch) had errored with "No Next.js version detected", while the production alias was serving the older Ready build `3k3444buk`. `vercel promote 3k3444buk` returned 409 (already current), so `npx vercel redeploy https://v0-basketball-analytics-dashboard-3k3444buk.vercel.app --scope kks-projects-2edcb11a --non-interactive` rebuilt the same source as a new production deployment (`v0-basketball-analytics-dashboard-ebyuwvmyr`, Ready in about 1 min, aliased to `v0-shootersshoot.vercel.app`), after which `domains add` succeeded. Nothing was deleted.
+- TLS: apex and www answered over HTTPS within about a minute of the records being created; hoops within about 1.5 min of its record. All certs show `renew: yes` in `vercel certs ls`.
+- After the records landed, `vercel domains verify` reports `www.kalpkan.com` and `hoops.kalpkan.com` as `configured_correctly` and `kalpkan.com` as `status: ok`, `reason: dns_change_recommended`, `misconfigured: false`: Vercel would prefer its newer apex pair (`216.198.79.1` + `64.29.17.1`) over `76.76.21.21`, but `76.76.21.21` is still fully supported (TLS issued, site serving). Leave it unless Vercel ever flips it to `invalid_configuration`; if that happens, PATCH record `ce04e091bc93b09e5f0a1dfd8782239f` to `216.198.79.1` and add a second A for `64.29.17.1` (that is the one case where two A records for the apex are correct).
+- `vercel domains ls` reports `kalpkan.com` as Registrar "Third Party" / Nameservers "Third Party": expected, because the zone stays on Cloudflare nameservers by design (§1); Vercel's "intended nameservers" warning in `inspect` is informational and ignored.
+- Still to do per §3: UptimeRobot monitors still point at the `*.vercel.app` hosts (keep for 24 h, then move with `PATCH /v3/monitors/<id>`); `hoops` has no `/api/health` route yet (`https://hoops.kalpkan.com/api/health` → 404), so `projects.json` keeps `healthUrl: null` for it.
