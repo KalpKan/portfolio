@@ -131,12 +131,12 @@
 
 **Interfaces:** none.
 
-- [ ] **Step 1:** `npx vercel project ls` and confirm `tokengamblecoinflip` and `promptflip-35qv` exist. **Before deleting `promptflip-35qv`**, check which project the domain-less production traffic uses: `npx vercel inspect https://promptflip-35qv.vercel.app` and `npx vercel inspect https://promptflip-kks-projects-2edcb11a.vercel.app`. `~/projects/promptflip/.vercel/project.json` links to `promptflip` (prj_rSr9QbGDbB2FLOeAAilYmqO5DKL1). If `promptflip-35qv` has the newer deployment or env vars that `promptflip` lacks, STOP, record in STATUS.md under "Needs Kalp / H5", and skip its deletion. Otherwise proceed.
-- [ ] **Step 2:** `npx vercel project rm tokengamblecoinflip --yes`. `npx vercel project rm promptflip-35qv --yes` (only if Step 1 cleared it).
-- [ ] **Step 3:** `gh repo archive KalpKan/token-gamble-coinflip --yes` and `gh repo archive KalpKan/token-coinflip --yes`.
-- [ ] **Step 4:** Verify: `npx vercel project ls` no longer lists the removed projects; `gh repo view KalpKan/token-gamble-coinflip --json isArchived` → true (same for token-coinflip). `curl -sI https://tokengamblecoinflip.vercel.app` → 404.
-- [ ] **Step 5:** Append runbooks "Delete a Vercel project" and "Archive a GitHub repo" with the exact commands; update `STATUS.md` T0.2 → done.
-- [ ] **Step 6:** Commit and push.
+- [x] **Step 1:** `npx vercel project ls` and confirm `tokengamblecoinflip` and `promptflip-35qv` exist. **Before deleting `promptflip-35qv`**, check which project the domain-less production traffic uses: `npx vercel inspect https://promptflip-35qv.vercel.app` and `npx vercel inspect https://promptflip-kks-projects-2edcb11a.vercel.app`. `~/projects/promptflip/.vercel/project.json` links to `promptflip` (prj_rSr9QbGDbB2FLOeAAilYmqO5DKL1). If `promptflip-35qv` has the newer deployment or env vars that `promptflip` lacks, STOP, record in STATUS.md under "Needs Kalp / H5", and skip its deletion. Otherwise proceed.
+- [x] **Step 2:** `npx vercel project rm tokengamblecoinflip --yes`. `npx vercel project rm promptflip-35qv --yes` (only if Step 1 cleared it).
+- [x] **Step 3:** `gh repo archive KalpKan/token-gamble-coinflip --yes` and `gh repo archive KalpKan/token-coinflip --yes`.
+- [x] **Step 4:** Verify: `npx vercel project ls` no longer lists the removed projects; `gh repo view KalpKan/token-gamble-coinflip --json isArchived` → true (same for token-coinflip). `curl -sI https://tokengamblecoinflip.vercel.app` → 404.
+- [x] **Step 5:** Append runbooks "Delete a Vercel project" and "Archive a GitHub repo" with the exact commands; update `STATUS.md` T0.2 → done.
+- [x] **Step 6:** Commit and push.
 
 ---
 

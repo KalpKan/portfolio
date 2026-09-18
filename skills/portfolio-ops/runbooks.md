@@ -15,8 +15,8 @@ Conventions used below:
 |---|---|
 | Deploy the hub to Vercel | written (from the T0.1 plan; T0.1 confirms and refines the commands) |
 | Add a project to `projects.json` | written |
-| Delete a Vercel project | Not yet written, added when T0.2 lands |
-| Archive a GitHub repo | Not yet written, added when T0.2 lands |
+| Delete a Vercel project | Written and executed 2026-09-18 (T0.2) |
+| Archive a GitHub repo | Written and executed 2026-09-18 (T0.2) |
 | Attach a domain to a Vercel project | Written 2026-09-18 (T0.4); not yet executed, waits on H1. Record table in `docs/DNS_PENDING.md` |
 | Add a schema to Supabase Project B | Not yet written, added when T1.1 lands |
 | Rotate a secret | Not yet written, added when the first rotation lands |
@@ -92,11 +92,57 @@ Use this whenever a new app or showcase should appear on the hub. This is delibe
 
 ## Delete a Vercel project
 
-Not yet written, added when T0.2 lands. (It will cover `npx vercel project ls`, the `npx vercel inspect` check that the project being removed has nothing newer than its replacement, and `npx vercel project rm <name> --yes`.)
+Use this to remove a Vercel project that has been superseded (an old name, a duplicate created by "Import from Git", a v0 experiment). Deleting a project deletes every deployment under it and its `*.vercel.app` URLs go 404 immediately. There is no undo. Written and executed 2026-09-18 (T0.2, removed `tokengamblecoinflip`).
+
+1. List the projects in the team and confirm the exact name:
+   ```bash
+   npx vercel project ls --scope kks-projects-2edcb11a
+   ```
+2. Prove the project is dead before removing it. Do all three; if any one says "this is the live one", stop and record a checkpoint in `STATUS.md` instead of deleting.
+   ```bash
+   # a) is anything answering on its production URL, and is its DB reachable?
+   curl -s -o /dev/null -w "%{http_code}\n" https://<name>.vercel.app
+   curl -s https://<name>.vercel.app/api/health          # apps expose ok/db fields
+
+   # b) what is the production deployment, when was it built, and is it Ready?
+   npx vercel inspect https://<name>.vercel.app --scope kks-projects-2edcb11a
+
+   # c) does it hold env vars that its replacement lacks? (vercel env ls only works
+   #    from a linked directory, so use the API with the CLI's token; names only, never values)
+   TOKEN=$(python3 -c "import json,os;print(json.load(open(os.path.expanduser('~/Library/Application Support/com.vercel.cli/auth.json')))['token'])")
+   curl -s -H "Authorization: Bearer $TOKEN" \
+     "https://api.vercel.com/v9/projects/<name>/env?teamId=team_COuL6hLftYDdKidApgwbIQIK" \
+     | python3 -c "import json,sys;[print(e['key'],e['target']) for e in json.load(sys.stdin)['envs']]"
+   ```
+   The same API base with `/v9/projects/<name>` (no `/env`) returns `link.repo` (which GitHub repo auto-deploys into it) and `targets.production.readyState`. Two projects linked to the same repo both rebuild on every push; the one whose production is `READY` and whose health route returns `db: ok` is the live one.
+3. Remove it. Vercel CLI 59 has no `--yes` for `project rm`; it asks `Are you sure? (y/N)`, so pipe a `y`:
+   ```bash
+   printf 'y\n' | npx vercel project rm <name> --scope kks-projects-2edcb11a
+   ```
+   Expect `Success! Project <name> removed`.
+4. Verify:
+   ```bash
+   npx vercel project ls --scope kks-projects-2edcb11a      # name is gone
+   curl -sI https://<name>.vercel.app | head -1             # HTTP/2 404
+   ```
+5. Record it: `STATUS.md` task row, and if the check in step 2 turned up anything surprising, an `incidents.md` entry.
+
+Never delete `promptflip-35qv` (it is the live promptflip, see incident 2026-09-18 in `incidents.md`), `promptflip` (until Kalp resolves H5) or `v0-basketball-analytics-dashboard`.
 
 ## Archive a GitHub repo
 
-Not yet written, added when T0.2 lands. (`gh repo archive KalpKan/<repo> --yes`, then `gh repo view KalpKan/<repo> --json isArchived`.)
+Use this for a repo whose code lives on in a successor (rename, rewrite, merge). Archiving makes the repo read-only on GitHub but keeps it visible, cloneable and searchable; it is reversible from the repo's Settings page (`gh repo unarchive`). Prefer archiving over deleting: it costs nothing and keeps the history. Written and executed 2026-09-18 (T0.2, archived `token-gamble-coinflip` and `token-coinflip`, both superseded by `promptflip`).
+
+1. Confirm nothing still deploys from it: check `link.repo` on every Vercel project (runbook above, step 2c) and `gh repo view KalpKan/<repo> --json isArchived,pushedAt,url` for when it was last touched.
+2. Archive (`--yes` skips the confirmation; the command prints nothing on success):
+   ```bash
+   gh repo archive KalpKan/<repo> --yes
+   ```
+3. Verify:
+   ```bash
+   gh repo view KalpKan/<repo> --json isArchived      # {"isArchived":true}
+   ```
+4. Record it in the `STATUS.md` task row. Archived repos are not listed in `projects.json`; if the successor is, its card already covers the history.
 
 ## Attach a domain to a Vercel project
 
