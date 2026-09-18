@@ -82,12 +82,102 @@ export function loadProjects(): Project[] {
 }
 
 /**
- * Where a project card points. Apps go off-site to their deployment; showcases
- * stay on the hub; an app that is still "coming" falls back to its repo, or to
- * its future hub page if there is no repo either.
+ * One source of truth for how a row renders. Every visible state word, mark
+ * and destination verb is derived from this single `kind`, so a "coming"
+ * entry can never show "open" and a case study that is not written yet can
+ * never show "read".
+ *
+ *  - live          app, status live|demo, has url        -> mark by signal, "open" its url
+ *  - archived      app, status archived, has url          -> struck mark, "open" its url
+ *  - coming        app, status coming (url ignored)       -> dashed mark, "repo" if it has one
+ *  - showcase-soon showcase whose page is not written yet -> triangle, "case study soon", "repo"
+ *  - showcase      showcase with a written page (status live|demo|archived)
+ *                                                         -> triangle, "case study", "read" on the hub
  */
-export function projectHref(p: Project): string {
-  if (p.type === "app" && p.url) return p.url;
-  if (p.type === "app" && p.repo) return p.repo;
-  return `/projects/${p.slug}`;
+export type Kind = "live" | "archived" | "coming" | "showcase" | "showcase-soon";
+
+export type Verb = "open" | "repo" | "read";
+
+export interface Row {
+  kind: Kind;
+  /** Lower-case mono word shown in the row's meta line. */
+  statusWord: string;
+  /** Destination word next to the arrow; null when there is nowhere to go yet. */
+  verb: Verb | null;
+  /** Where the whole row links; null when there is nowhere to go yet. */
+  href: string | null;
+  /** True when href leaves the hub (new tab, rel=noreferrer). */
+  external: boolean;
+  /** A secondary "repo" link, only when the row itself does not already go there. */
+  repoLink: string | null;
+}
+
+export function projectKind(p: Project): Kind {
+  if (p.type === "showcase") return p.status === "coming" ? "showcase-soon" : "showcase";
+  if (p.status === "coming") return "coming";
+  if (p.status === "archived") return "archived";
+  return "live";
+}
+
+export function rowFor(p: Project): Row {
+  const kind = projectKind(p);
+  switch (kind) {
+    case "live":
+    case "archived": {
+      // The schema guarantees a url once an app is not "coming".
+      const href = p.type === "app" && p.url ? p.url : null;
+      return {
+        kind,
+        statusWord: p.status,
+        verb: href ? "open" : null,
+        href,
+        external: true,
+        repoLink: p.repo && p.repo !== href ? p.repo : null,
+      };
+    }
+    case "coming":
+    case "showcase-soon":
+      return {
+        kind,
+        statusWord: kind === "coming" ? "coming" : "case study soon",
+        verb: p.repo ? "repo" : null,
+        href: p.repo,
+        external: true,
+        repoLink: null,
+      };
+    case "showcase":
+      return {
+        kind,
+        statusWord: "case study",
+        verb: "read",
+        href: `/projects/${p.slug}`,
+        external: false,
+        repoLink: p.repo,
+      };
+  }
+}
+
+/** Where a row links; kept for callers that only need the destination. */
+export function projectHref(p: Project): string | null {
+  return rowFor(p).href;
+}
+
+export interface KindCounts {
+  live: number;
+  archived: number;
+  coming: number;
+  caseStudies: number;
+}
+
+/** The count line above the array, computed from the registry, not claimed. */
+export function countKinds(projects: Project[]): KindCounts {
+  const c: KindCounts = { live: 0, archived: 0, coming: 0, caseStudies: 0 };
+  for (const p of projects) {
+    const k = projectKind(p);
+    if (k === "live") c.live += 1;
+    else if (k === "archived") c.archived += 1;
+    else if (k === "coming") c.coming += 1;
+    else c.caseStudies += 1;
+  }
+  return c;
 }

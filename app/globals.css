@@ -114,6 +114,12 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
+/* A row reached from its pad (#site-<slug>) stays backlit like an active row. */
+li[id^="site-"]:target {
+  background: var(--sheet-raised);
+  box-shadow: inset 2px 0 0 0 var(--signal);
+}
+
 /* The one authored motion: a live pad draws its spike trace once. */
 .trace {
   stroke-dasharray: 160;
