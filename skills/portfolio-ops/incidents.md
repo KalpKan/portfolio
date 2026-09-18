@@ -167,3 +167,13 @@ _Entries begin below, oldest first._
 - **Prevention:** Verification row "Pageview and custom event arrive" notes the lag and the visibility requirement; when verifying by automation, either use a fresh visible window or the visibility shim, and never conclude the snippet is broken from a hidden tab.
 - **Reported by:** worker (T0.5)
 
+### 2026-09-18: hub Lighthouse performance fell from 0.92 to 0.84-0.87 after T0.5 (fonts + posthog-js competing for LCP)
+
+- **Date:** 2026-09-18, ~15:45 EDT (found during the hub polish batch verification)
+- **Affected:** https://kalpkan.com (hub), Lighthouse performance category only; nothing was down.
+- **Symptom:** `npx lighthouse https://kalpkan.com --only-categories=performance ...` printed 0.84 and 0.87 (two runs) against the 0.92 recorded at T0.1 and the >= 0.90 bar in `docs/hosting-plan.md`. LCP 3.9-4.1 s; the LCP element was the hero bio paragraph with 84% of the time in "Render Delay".
+- **What was tried:** Read the LCP breakdown and the network table: the Bricolage Grotesque variable font shipped by `next/font/google` with `axes: ["opsz","wdth"]` was 131 KB because it carried the full 200-800 weight range, and T0.5 had added ~170 KB of posthog-js chunks that download alongside it on simulated 4G. Tried `weight: "400"` on `next/font/google` first; it refuses (`Axes can only be defined for variable fonts when the weight property is nonexistent`).
+- **Root cause:** Two byte budgets added together after T0.5: an unnecessarily large font file (the design only uses weight 400) plus analytics loading in the critical path.
+- **Fix:** (1) Self-host Google Fonts' own latin `wght@400` subsets in `app/fonts/` via `next/font/local` (Bricolage 131 KB -> 77 KB, Geist Mono 23 KB -> 10 KB; commit `e905bb0`). (2) `components/PostHogProvider.tsx` imports `lib/posthog` dynamically after the window `load` event, and `lib/track.ts` is the lazy path for `project_card_clicked`, so posthog-js leaves the initial bundle. Verified on production: PostHog boots at ~660 ms (after `load` at ~600 ms), `/ingest` requests arrive, and a row click still sends `project_card_clicked {slug, type, kind}` over `sendBeacon`.
+- **Prevention:** `verification.md` hub table keeps the Lighthouse row; the font rule is in `app/layout.tsx`'s comment and `DESIGN.md` (weight 400 only). Measurement caveat recorded there too: Lighthouse on this Mac is only meaningful when the load average is low; with four agent builds running (load 10-15 on 8 cores) the same deploy scored 0.84 and 0.97 minutes apart (observed unthrottled FCP 0.16 s vs 1.3 s), so take the median of 5 runs or wait for a quiet machine before believing a number.
+- **Reported by:** worker (hub polish batch)
