@@ -148,10 +148,10 @@
 
 **Interfaces:** consumed by the post-H1 domain task.
 
-- [ ] **Step 1:** Write `docs/DNS_PENDING.md`: a table of every record from `docs/hosting-plan.md` §6 "DNS & subdomain map" with columns Host | Type | Target | Proxy (must be DNS-only / grey cloud) | Vercel project | Status (pending). Vercel targets: apex `A 76.76.21.21`, subdomains `CNAME cname.vercel-dns.com`. Include `www` → CNAME to apex handled by Vercel redirect.
-- [ ] **Step 2:** Add the exact CLI sequence to run after H1: `npx vercel domains add <domain> portfolio`, `npx vercel domains add <sub>.<domain> <project>` per row, and the Cloudflare API `curl` (using `$CLOUDFLARE_API_TOKEN`) to create each record. Note promptflip needs `NEXT_PUBLIC_APP_URL` and Supabase Auth redirect URLs updated afterwards (link to runbook).
-- [ ] **Step 3:** Append the runbook "Attach a domain" to `skills/portfolio-ops/runbooks.md`.
-- [ ] **Step 4:** Update `STATUS.md` T0.4 → done (waiting on H1 for execution). Commit and push.
+- [x] **Step 1:** Write `docs/DNS_PENDING.md`: a table of every record from `docs/hosting-plan.md` §6 "DNS & subdomain map" with columns Host | Type | Target | Proxy (must be DNS-only / grey cloud) | Vercel project | Status (pending). Vercel targets: apex `A 76.76.21.21`, subdomains `CNAME cname.vercel-dns.com`. Include `www` → CNAME to apex handled by Vercel redirect.
+- [x] **Step 2:** Add the exact CLI sequence to run after H1: `npx vercel domains add <domain> portfolio`, `npx vercel domains add <sub>.<domain> <project>` per row, and the Cloudflare API `curl` (using `$CLOUDFLARE_API_TOKEN`) to create each record. Note promptflip needs `NEXT_PUBLIC_APP_URL` and Supabase Auth redirect URLs updated afterwards (link to runbook).
+- [x] **Step 3:** Append the runbook "Attach a domain" to `skills/portfolio-ops/runbooks.md`.
+- [x] **Step 4:** Update `STATUS.md` T0.4 → done (waiting on H1 for execution). Commit and push.
 
 ---
 

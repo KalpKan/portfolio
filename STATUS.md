@@ -35,7 +35,7 @@ Make `promptflip` and `FlashCardsApp` public on GitHub once Claude marks them "r
 | T0.1 | 0 | Hub repo + Next.js skeleton | in progress | | | 2026-09-18 |
 | T0.2 | 0 | Cleanup old Vercel projects + archive repos | in progress | | | 2026-09-18 |
 | T0.3 | 0 | UptimeRobot monitors | blocked on H0 | | | |
-| T0.4 | 0 | DNS_PENDING.md | in progress | | | 2026-09-18 |
+| T0.4 | 0 | DNS_PENDING.md | done (plan written; execution waits on H1) | docs/DNS_PENDING.md | | 2026-09-18 |
 | T0.5 | 0 | PostHog analytics | blocked on H0 | | | |
 
 ## Decisions log
