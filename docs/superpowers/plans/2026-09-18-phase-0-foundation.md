@@ -36,15 +36,15 @@
 **Interfaces:**
 - Produces: the six files above; every later task appends to `runbooks.md`, `settings-map.md`, `incidents.md`, `verification.md`.
 
-- [ ] **Step 1:** Invoke `superpowers:writing-skills` and read its format rules.
-- [ ] **Step 2:** Write `SKILL.md` with frontmatter `name: portfolio-ops`, a `description` that includes trigger phrases: "portfolio is down", "add a project to the portfolio", "Supabase paused", "deploy failed", "subdomain not resolving", "analytics missing". Body: (a) purpose, (b) 1-page system map table (subdomain → host → repo → DB → where env lives) seeded from `docs/hosting-plan.md` §6 with "PENDING" for anything not yet live, (c) "First 5 checks" triage list (UptimeRobot status page, `/api/health` of the failing app, Vercel deployment logs, Supabase project status, Cloudflare DNS record), (d) links to the other five files.
-- [ ] **Step 3:** Write `architecture.md` from `docs/hosting-plan.md` §3 and §6 (layers, two Supabase projects and schema-per-app rule, DNS map, analytics wiring, keep-alive). Include the *reasons* for each choice so no agent "fixes" a deliberate decision.
-- [ ] **Step 4:** Write `runbooks.md` with headings only for now plus the two runbooks that exist today: "Deploy the hub to Vercel" and "Add a project to `projects.json`". Other headings (add schema to Project B, rotate a secret, attach a domain, restore paused Supabase project, re-point OAuth redirects, regenerate Supabase types, purge a large file from git history) get the line "Not yet written — added when the task lands".
-- [ ] **Step 5:** Write `incidents.md` with the entry template (Date / Symptom / What was tried / Root cause / Fix / Prevention) and an "Append only. Never delete." banner.
-- [ ] **Step 6:** Write `verification.md` with the commands from `docs/hosting-plan.md` §10, marked PENDING where the target doesn't exist yet.
-- [ ] **Step 7:** Write `settings-map.md` as a table: variable name | which app | where it lives (dashboard) | what breaks without it. Seed with promptflip's six vars (names only, from `docs/hosting-plan.md` §1).
-- [ ] **Step 8:** Write `scripts/install-ops-skill.sh` (`rsync -a --delete skills/portfolio-ops/ ~/.claude/skills/portfolio-ops/`) and run it.
-- [ ] **Step 9:** Verify: `ls ~/.claude/skills/portfolio-ops/` shows six files; `head -5 ~/.claude/skills/portfolio-ops/SKILL.md` shows the frontmatter.
+- [x] **Step 1:** Invoke `superpowers:writing-skills` and read its format rules.
+- [x] **Step 2:** Write `SKILL.md` with frontmatter `name: portfolio-ops`, a `description` that includes trigger phrases: "portfolio is down", "add a project to the portfolio", "Supabase paused", "deploy failed", "subdomain not resolving", "analytics missing". Body: (a) purpose, (b) 1-page system map table (subdomain → host → repo → DB → where env lives) seeded from `docs/hosting-plan.md` §6 with "PENDING" for anything not yet live, (c) "First 5 checks" triage list (UptimeRobot status page, `/api/health` of the failing app, Vercel deployment logs, Supabase project status, Cloudflare DNS record), (d) links to the other five files.
+- [x] **Step 3:** Write `architecture.md` from `docs/hosting-plan.md` §3 and §6 (layers, two Supabase projects and schema-per-app rule, DNS map, analytics wiring, keep-alive). Include the *reasons* for each choice so no agent "fixes" a deliberate decision.
+- [x] **Step 4:** Write `runbooks.md` with headings only for now plus the two runbooks that exist today: "Deploy the hub to Vercel" and "Add a project to `projects.json`". Other headings (add schema to Project B, rotate a secret, attach a domain, restore paused Supabase project, re-point OAuth redirects, regenerate Supabase types, purge a large file from git history) get the line "Not yet written — added when the task lands".
+- [x] **Step 5:** Write `incidents.md` with the entry template (Date / Symptom / What was tried / Root cause / Fix / Prevention) and an "Append only. Never delete." banner.
+- [x] **Step 6:** Write `verification.md` with the commands from `docs/hosting-plan.md` §10, marked PENDING where the target doesn't exist yet.
+- [x] **Step 7:** Write `settings-map.md` as a table: variable name | which app | where it lives (dashboard) | what breaks without it. Seed with promptflip's six vars (names only, from `docs/hosting-plan.md` §1).
+- [x] **Step 8:** Write `scripts/install-ops-skill.sh` (`rsync -a --delete skills/portfolio-ops/ ~/.claude/skills/portfolio-ops/`) and run it.
+- [x] **Step 9:** Verify: `ls ~/.claude/skills/portfolio-ops/` shows six files; `head -5 ~/.claude/skills/portfolio-ops/SKILL.md` shows the frontmatter.
 - [ ] **Step 10:** Commit and push: `git add skills scripts && git commit -m "feat(ops): scaffold portfolio-ops living skill" && git push`.
 
 ---
