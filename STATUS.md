@@ -10,6 +10,9 @@ All operator keys received and verified (PostHog, Cloudflare, UptimeRobot, Neon,
 ### H1 — buy the .com domain: ✅ DONE 2026-09-18 (`kalpkan.com`)
 Bought on Cloudflare Registrar (zone active, Free plan). Same day the hub went live at **https://kalpkan.com** (www redirects to it) and the basketball dashboard at **https://hoops.kalpkan.com**, both with valid TLS. Records for the other subdomains are added as each Vercel project is created (`docs/DNS_PENDING.md`).
 
+### H6 — hub hero copy + contact links (cosmetic, whenever)
+The hub hero currently shows a bio line the worker wrote: "Western University. Working toward physician-scientist work in neurotech…". Reply keep / edit (give the text) / cut. Also say which contact links to show in the header, if any: email, GitHub (KalpKan), LinkedIn URL.
+
 ### H3 — media for showcase pages (whenever convenient)
 Photos, videos, app screenshots for: UnPark/Antifreeze, Automatic RC Car, Outline, FlashCards. Drop them in `~/projects/portfolio/media-inbox/<project>/` and tell Claude.
 
