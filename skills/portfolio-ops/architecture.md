@@ -34,7 +34,7 @@ Why layers rather than one platform: each layer can be swapped without touching 
 - Why not a VPS (Hetzner + Coolify): it costs the whole budget on day one and turns Kalp into a sysadmin. It is the documented upgrade path if three or more persistent apps ever exist, not the default.
 - Why not Render Free: services sleep after 15 minutes and take about a minute to wake, which is a bad first impression for a recruiter.
 
-Superseded deployments removed in T0.2: Vercel project `tokengamblecoinflip` (old coinflip app, plaintext keys in its DB, unresolved RLS bug), plus archiving GitHub repos `token-gamble-coinflip` and `token-coinflip`. These are the only deletions the plan authorises without a human checkpoint. The plan also listed `promptflip-35qv` as a duplicate of `promptflip` to delete, but T0.2's pre-deletion check found that `promptflip-35qv` is the project actually serving the live promptflip URL, so it was kept and the question of which promptflip project is canonical is a human checkpoint (H5) in `STATUS.md`. Lesson recorded for future agents: always run the "is this the live one" check in the "Delete a Vercel project" runbook before removing anything, even when the plan says it is safe.
+Superseded deployments removed in T0.2: Vercel project `tokengamblecoinflip` (old coinflip app, plaintext keys in its DB, unresolved RLS bug), plus archiving GitHub repos `token-gamble-coinflip` and `token-coinflip`. These are the only deletions the plan authorises without a human checkpoint. The plan also listed `promptflip-35qv` as a duplicate of `promptflip` to delete, but T0.2's pre-deletion check found that `promptflip-35qv` is the project actually serving the live promptflip URL, so it was kept and the question of which promptflip project is canonical was human checkpoint H5 in `STATUS.md`; Kalp resolved it 2026-09-18 ("keep 35qv") and the duplicate `promptflip` project was then deleted. Lesson recorded for future agents: always run the "is this the live one" check in the "Delete a Vercel project" runbook before removing anything, even when the plan says it is safe.
 
 ## Databases: exactly two Supabase projects, schema per app
 
@@ -70,7 +70,7 @@ Registrar and DNS are Cloudflare (at-cost renewals, free DNS with 200 records, f
 | Host | Target | Notes |
 |---|---|---|
 | `@` (apex) + `www` | Vercel hub | `A 76.76.21.21` for apex, `www` CNAME handled by Vercel redirect |
-| `promptflip.` | Vercel | after attaching, update `NEXT_PUBLIC_APP_URL` and the Supabase Auth redirect URLs, and the Google Cloud OAuth redirect URIs (H2 if no API) |
+| `promptflip.` | Vercel (`promptflip-35qv`) | live 2026-09-18; `NEXT_PUBLIC_APP_URL` and the Supabase Auth URLs were re-pointed the same day (runbook "Re-point OAuth redirects"); the Google OAuth redirect URI is Supabase's own callback and did not change |
 | `hoops.` | Vercel | basketball dashboard |
 | `plato.` | Vercel | Flask as a Python function |
 | `plantit.` | Vercel | React static plus `/api/*` Express function |
@@ -116,7 +116,7 @@ UnPark (codename Antifreeze, the Parkinson's freezing-of-gait device: iOS app + 
 | Project ref | Name | Status | Role in this platform |
 |---|---|---|---|
 | nhddxonizdxwbvwcxklu | PromptFlip | ACTIVE_HEALTHY | Project A: promptflip only, isolated |
-| yzppfufqaekgaxcrsqxp | ShootIt | INACTIVE (paused) | Project B: restore and rename `platform` in T1.1; schema per app starting with `hoops` |
+| yzppfufqaekgaxcrsqxp | platform (was ShootIt) | ACTIVE_HEALTHY (restored + renamed 2026-09-18, T1.1) | Project B: one schema per app. Schemas: `hoops` (basketball). Old `public.*` basketball tables kept as a copy until a human checkpoint drops them |
 | ftcqzuzpyebtwihizqfl | plato-course-converter | INACTIVE (paused) | Not used; Plato moves to Neon. Leave paused. |
 | zxjtflnnjxdxiycrdlrv | KalpKan's Project | INACTIVE (paused) | Unknown contents; leave paused, do not delete without a human checkpoint |
 

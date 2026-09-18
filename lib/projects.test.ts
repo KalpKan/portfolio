@@ -315,7 +315,9 @@ describe("countKinds", () => {
     const all = loadProjects();
     const c = countKinds(all);
     expect(c.live + c.coming + c.caseStudies + c.archived).toBe(all.length);
-    expect(c.live).toBe(1);
+    // Live apps grow as Phase 1+ tasks land (promptflip, plato, hoops, ...);
+    // pin only the invariant, not today's count.
+    expect(c.live).toBeGreaterThanOrEqual(1);
     expect(c.caseStudies).toBe(5);
   });
 });

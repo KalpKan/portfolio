@@ -25,6 +25,12 @@ Vercel has two projects auto-deploying from `KalpKan/promptflip`: **`promptflip-
 2. **"keep promptflip"**: Claude fixes the `promptflip` project's build, confirms its health route, then deletes `promptflip-35qv` (URL changes to `promptflip-kks-projects-2edcb11a.vercel.app` until the domain arrives).
 Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 
+### H7 — rotate Supabase Project B's JWT secret? (found 2026-09-18, T1.1; low risk, your call)
+While exposing the `hoops` schema, an agent printed the full Management API `GET /postgrest` response, which includes Project B's `jwt_secret`, into its local Claude Code transcript on your Mac (nowhere else: not in a repo, commit, or Vercel). Rotating it (Supabase → project `platform` → Project Settings → API → "Generate new JWT secret") also regenerates the `anon`/`service_role` keys, so Claude would then re-set `SUPABASE_ANON_KEY`/`SUPABASE_SERVICE_ROLE_KEY` on the basketball Vercel project and redeploy (10 minutes, no data impact). Reply "rotate B" to do it, or ignore if you are fine with a local-only exposure. Details: `skills/portfolio-ops/incidents.md` 2026-09-18.
+
+### H8 — drop the old `public` basketball tables in Project B? (found 2026-09-18, T1.1)
+Basketball now lives in the `hoops` schema; the restored project still holds the identical old copies `public.sessions` (4 rows) and `public.shot_events` (92 rows). They cost nothing and nothing reads them. Reply "drop public copies" and Claude will remove them; otherwise they stay as a backup.
+
 ## Spend tracker
 | Item | Monthly (CAD) |
 |---|---|
@@ -40,6 +46,7 @@ Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 | T0.3 | 0 | UptimeRobot monitors | ✅ verified (3 monitors up, email alerts, public status page, $0) | https://stats.uptimerobot.com/a6n3Wx3PBp (inventory: docs/monitors.md) | verifier 2026-09-18 | 2026-09-18 |
 | T0.4 | 0 | DNS_PENDING.md | ✅ reviewed (plan); **executed for hub + hoops** 2026-09-18; promptflip waits on H5; plato/plantit/pushups/emotes/microtubules wait on their Vercel projects | https://kalpkan.com, https://hoops.kalpkan.com, docs/DNS_PENDING.md §5 | reviewer 2026-09-18 (plan) | 2026-09-18 |
 | T1.3 | 1 | Plato on Vercel Python + Neon | done (live, E2E proven in Chrome: real KIN 2000 outline → 7-event .ics; PostHog events arriving) | https://plato.kalpkan.com (health: /api/health) | | 2026-09-18 |
+| T1.1 | 1 | Supabase Project B "platform" + basketball on `hoops` schema | done (Project B restored + renamed `platform`; `hoops` schema live with 95 shots; dashboard `source: live`, no demo banner; Edge Functions `hoops-ingest-shot` + `health`; PostHog `session_viewed` + `shot_ingested` arriving; keep-alive monitor 804030499) | https://hoops.kalpkan.com (data: /api/dashboard; Project B health: https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health) | | 2026-09-18 |
 | T5.x | 5 | Functional audit + defect reports for every project (docs/reports/) | queued (after all deploys) | | | |
 | T0.5 | 0 | PostHog analytics | queued (starts after T0.1) | | | |
 
@@ -51,6 +58,7 @@ Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 - 2026-09-18: `/goal` mode rejected the prompt (4000-char limit), so the orchestration runs in the interactive session instead. Same operating model (worker → reviewer → verifier).
 
 ## Session log
+- 2026-09-18: T1.1 done. Supabase Project B restored from paused (dashboard Resume; the sandbox refused the API POST), renamed `platform` via the API; basketball's 4 migrations rewritten to a `hoops` schema (+ `health_select_one`), applied through the Management API SQL endpoint, old `public` rows copied over (92 shots kept); `hoops` exposed in PostgREST; Edge Functions `hoops-ingest-shot` and `health` deployed; dashboard client scoped to `hoops`, types regenerated, "Demo data" banner only when env is missing, PostHog via `/ingest` with `session_viewed`/`shot_ingested`; Vercel env set (6 names), Root Directory fixed to `apps/web`, deployed; 3 sample shots ingested (95 total, `source: live` on https://hoops.kalpkan.com); UptimeRobot keep-alive monitor 804030499 on the health function, added to the status page. Human checkpoints H7 (JWT secret rotation) and H8 (drop old public tables) added. Plan: docs/superpowers/plans/2026-09-18-platform.md.
 - 2026-09-18: T1.3 done. Plato runs as one Vercel Python 3.12 function (`src.app:app`, 72.8 MB bundle) at https://plato.kalpkan.com with Neon database `plato` (role `plato_owner`, pooled URL), stateless flow (.ics streamed in the same request, cookie 380 B), `/api/health` with `select 1`, PostHog via `/ingest` proxy + `pdf_uploaded`/`pdf_parsed`/`ics_downloaded`. Warm p50 0.17 s (`/`), 0.31 s (health); first cold 2.2 s; a 12-page parse takes ~16 s on Vercel. Extractor date quality is weak on some outlines (logged in incidents.md for T5.x). No UptimeRobot monitor yet. Plan: docs/superpowers/plans/2026-09-18-plato.md.
 - 2026-09-18: H1 landed (`kalpkan.com`). T0.4 executed: A + www records for the hub and CNAME for hoops created DNS-only via the Cloudflare API; www → apex 308 set via Vercel API; TLS issued for all three within 2 min. The hoops project needed a `vercel redeploy` of its last Ready build first because its newest production build had errored since April (no deletion). Evidence in `docs/DNS_PENDING.md` §5.
 - 2026-09-18: T0.3 done and verified; status page https://stats.uptimerobot.com/a6n3Wx3PBp.

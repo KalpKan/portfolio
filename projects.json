@@ -19,12 +19,12 @@
     {
       "slug": "basketball",
       "name": "Basketball Stat Tracker",
-      "tagline": "Shot-by-shot analytics dashboard with an iOS capture app on the way.",
+      "tagline": "Shot-by-shot basketball analytics dashboard (the iOS capture app is still a stub).",
       "type": "app",
-      "status": "coming",
+      "status": "live",
       "url": "https://hoops.kalpkan.com",
       "repo": "https://github.com/KalpKan/Basketball-Stat-Tracker",
-      "healthUrl": null,
+      "healthUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health",
       "tags": [
         "Next.js",
         "Supabase",

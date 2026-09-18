@@ -8,7 +8,7 @@ Every uptime monitor for the portfolio platform, what it protects, and its Uptim
 
 | Name | URL | Contains | UptimeRobot PSP id |
 |---|---|---|---|
-| Kalp's projects | **https://stats.uptimerobot.com/a6n3Wx3PBp** | the three monitors below | `1263036` |
+| Kalp's projects | **https://stats.uptimerobot.com/a6n3Wx3PBp** | the four monitors below | `1263036` |
 
 `status.<domain>` (a custom domain for this page) is NOT configured: custom status-page domains are a paid UptimeRobot feature, and the plan spends $0. After H1 the hub footer links to the `stats.uptimerobot.com` URL above; `status.<domain>` stays "optional" in `docs/DNS_PENDING.md`.
 
@@ -18,9 +18,10 @@ All are HTTP(s) monitors (v2 `type: 1`, v3 `type: HTTP`), method `GET`, interval
 
 | Name | URL | Interval | What it protects | Keep-alive? | UptimeRobot monitor id |
 |---|---|---|---|---|---|
-| `promptflip health (DB)` | https://promptflip-35qv.vercel.app/api/health | 5 min | promptflip app on Vercel **and Supabase Project A** (the route runs a DB query; JSON contains `"db":"ok"`) | **Yes** (Project A) | `804030255` |
-| `hoops dashboard` | https://v0-basketball-analytics-dashboard-seven.vercel.app/ | 5 min | basketball dashboard on Vercel (liveness only; the dashboard is not yet wired to Supabase Project B, so this does not keep Project B alive) | No (Project B keep-alive lands with the `health` Edge Function in T1.1; add a monitor on it then, see runbook "Add an UptimeRobot monitor") | `804030256` |
+| `promptflip health (DB)` | https://promptflip.kalpkan.com/api/health (moved from `https://promptflip-35qv.vercel.app/api/health` on 2026-09-18 via `PATCH /v3/monitors/804030255`, same id so uptime history is kept) | 5 min | promptflip app on Vercel **and Supabase Project A** (the route runs a DB query; JSON contains `"db":"ok"`) | **Yes** (Project A) | `804030255` |
+| `hoops dashboard` | https://v0-basketball-analytics-dashboard-seven.vercel.app/ | 5 min | basketball dashboard on Vercel (liveness; since T1.1 the page reads Project B, but the keep-alive is the dedicated monitor below). Move to `https://hoops.kalpkan.com/` after the 24 h wait in the decisions log | No (see `platform health (DB, Project B)`) | `804030256` |
 | `hub health` | https://portfolio-alpha-eight-rjbs2nj1q0.vercel.app/api/health | 5 min | the hub on Vercel (`{"ok":true,"service":"hub"}`; no database) | n/a (no DB) | `804030271` |
+| `platform health (DB, Project B)` | https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health | 5 min | Supabase **Project B** `platform` (the `health` Edge Function calls `hoops.health_select_one()`, a real `select 1`, and returns `{"ok":true,"db":"ok"}`); also proves Edge Functions run | **Yes** (Project B) | `804030499` (added 2026-09-18, T1.1) |
 
 ### Notes and deviations from the plan
 

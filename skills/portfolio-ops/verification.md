@@ -18,35 +18,53 @@ Placeholders: `<domain>` is `kalpkan.com` (bought at human checkpoint H1 on 2026
 
 ## Per-component checks
 
-### Hub (`KalpKan/portfolio`, Vercel project `portfolio`)
+### Hub (`KalpKan/portfolio`, Vercel project `portfolio`, https://kalpkan.com)
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Health route | `curl -sf https://<prod-url>/api/health` | `{"ok":true,"service":"hub","time":"<ISO>"}` with header `cache-control: no-store` (`curl -sI ... \| grep -i cache-control`) | PENDING (T0.1) |
-| Page serves | `curl -sI https://<prod-url> \| head -1` | `HTTP/2 200` | PENDING (T0.1) |
-| Registry valid | `cd ~/projects/portfolio && npm test` | all `lib/projects.test.ts` cases pass | PENDING (T0.1) |
-| Build clean | `cd ~/projects/portfolio && npm run lint && npm run build` | no errors | PENDING (T0.1) |
-| CI green | `gh run list --repo KalpKan/portfolio --limit 1` | latest run `completed success` | PENDING (T0.1) |
-| Lighthouse performance | `npx lighthouse https://<prod-url> --only-categories=performance --quiet --chrome-flags="--headless" --output=json \| jq .categories.performance.score` | `>= 0.9` | PENDING (T0.1) |
-| Health badges | open the hub in a browser; each `app` card shows a green dot within 3 s | green for every live app, grey (not an error) for `coming` | PENDING (T0.1) |
+| Health route | `curl -sf https://kalpkan.com/api/health` | `{"ok":true,"service":"hub","time":"<ISO>"}` with header `cache-control: no-store` (`curl -sI ... \| grep -i cache-control`) | ✅ 2026-09-18 |
+| Page serves | `curl -sI https://kalpkan.com \| head -1` | `HTTP/2 200` | ✅ 2026-09-18 |
+| Status proxy | `curl -s https://kalpkan.com/api/status/promptflip` | `{"slug":"promptflip","ok":true,...}`; `ok:false` means promptflip's health route did not answer 2xx JSON `ok: true` (see `lib/health.ts`) | ✅ 2026-09-18 |
+| Share card | `curl -sI https://kalpkan.com/opengraph-image \| head -1` and `curl -s https://kalpkan.com \| grep -o 'og:image" content="[^"]*'` | `HTTP/2 200`; an absolute `https://kalpkan.com/opengraph-image?...` URL | ✅ 2026-09-18 (hub polish) |
+| Registry valid | `cd ~/projects/portfolio && npm test` | all cases in `lib/projects.test.ts`, `lib/health.test.ts`, `components/ContactRow.test.tsx`, `lib/posthog.test.ts` pass | ✅ 2026-09-18 |
+| Build clean | `cd ~/projects/portfolio && npm run lint && npm run build` | no errors | ✅ 2026-09-18 |
+| CI green | `gh run list --repo KalpKan/portfolio --limit 1` | latest run `completed success` | ✅ 2026-09-18 |
+| Node versions agree | `grep node-version .github/workflows/ci.yml`; `grep -A1 engines package.json`; Vercel → project `portfolio` → Settings → General → Node.js Version | all `22` (pinned 2026-09-18 via `PATCH /v9/projects/<id> {"nodeVersion":"22.x"}`) | ✅ 2026-09-18 |
+| Lighthouse performance | `npx lighthouse https://kalpkan.com --only-categories=performance --quiet --chrome-flags="--headless" --output=json \| jq .categories.performance.score` | `>= 0.9` | ✅ 0.92 at T0.1; re-run after the polish batch (see STATUS.md session log) |
+| Live marks | open https://kalpkan.com; a `live` app with a `healthUrl` gets a filled cobalt pad and "health-checked" within ~8 s | filled for every live app; dashed for `coming`; triangle for case studies; a flat quiet mark is "no health url", not an error | ✅ 2026-09-18 |
+| Layout at four widths | in Chrome, view at 390, 700, 768 and 1440 px wide in light and dark (`document.documentElement.dataset.theme = "dark"` forces dark) | phone: 12-pad strip + first row visible without scrolling; tablet: strip capped at 48px pads; desktop: 4-column sticky map beside the list; no horizontal scroll anywhere | ✅ 2026-09-18 (`docs/images/hub-polish/`) |
 
-### promptflip (`KalpKan/promptflip`, Vercel project `promptflip-35qv` (the live one; see H5), Supabase Project A)
+### promptflip (`KalpKan/promptflip`, Vercel project `promptflip-35qv` (the only one since H5, 2026-09-18), Supabase Project A)
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Health (DB-touching) | `curl -sf https://promptflip-35qv.vercel.app/api/health` | JSON with `"db":"ok"` | live; URL changes to `https://promptflip.<domain>/api/health` after H1 |
-| Page serves | `curl -sI https://promptflip-35qv.vercel.app \| head -1` | `HTTP/2 200` | live |
-| Env vars present (names only) | Vercel dashboard, project `promptflip-35qv`, Settings, Environment Variables (note: `cd ~/projects/promptflip && npx vercel env ls` reports the *other*, broken `promptflip` project until H5 is resolved; see `incidents.md` 2026-09-18) | the six names in `settings-map.md` all listed for `production` | live |
-| Google sign-in works on the new domain | sign in from a browser at `https://promptflip.<domain>` | redirect returns to the same host, no `redirect_uri_mismatch` | PENDING (post-H1) |
+| Health (DB-touching) | `curl -sf https://promptflip.kalpkan.com/api/health` | JSON with `"db":"ok"` | confirmed 2026-09-18: `{"ok":true,"db":"ok",...,"commit":"aff55a5...","region":"pdx1"}` (the `promptflip-35qv.vercel.app` alias returns the same) |
+| Page serves | `curl -sI https://promptflip.kalpkan.com \| head -1` | `HTTP/2 200` | confirmed 2026-09-18 (Let's Encrypt cert `cert_QAufduOZKLgVC3Bvb9bon3qi`) |
+| Env vars present (names only) | `cd ~/projects/promptflip && npx vercel env ls --scope kks-projects-2edcb11a` (linked to `promptflip-35qv` since 2026-09-18) | the six names in `settings-map.md` all listed for `production`; `NEXT_PUBLIC_APP_URL` pulled with `npx vercel env pull --environment production <scratch file>` reads `https://promptflip.kalpkan.com` | confirmed 2026-09-18 |
+| Google sign-in works on the new domain | open `https://promptflip.kalpkan.com`, click Sign in with Google | Google consent screen appears with no `redirect_uri_mismatch` / `origin_mismatch` error; after login the redirect returns to `promptflip.kalpkan.com` | GOOGLE_SIGNIN_STATUS |
+
+### basketball / hoops (`KalpKan/Basketball-Stat-Tracker`, Vercel project `v0-basketball-analytics-dashboard`, Supabase Project B schema `hoops`)
+
+| Check | Command | Expect | Status |
+|---|---|---|---|
+| Dashboard reads real rows | `curl -s https://hoops.kalpkan.com/api/dashboard \| jq -c '{source, totalShotsRecorded}'` | `"source":"live"` and a count > 0 (`95` on 2026-09-18); `"mock"` means the Supabase env vars are missing or Project B is paused | confirmed 2026-09-18 (T1.1); same on the public alias `https://v0-basketball-analytics-dashboard-seven.vercel.app` |
+| Demo banner absent | `curl -s https://hoops.kalpkan.com/ \| grep -c 'Demo data'` | `0` (the banner only renders when `/api/dashboard` says `mock`) | confirmed 2026-09-18 |
+| Page serves | `curl -sI https://hoops.kalpkan.com \| head -1` | `HTTP/2 200`, `server: Vercel` | confirmed 2026-09-18 |
+| PostHog proxy | `curl -sI https://hoops.kalpkan.com/ingest/static/array.js \| head -1`; in a browser, the Network tab shows `POST /ingest/e/` and `/ingest/s/` returning 200 | `HTTP/2 200` | confirmed 2026-09-18 |
+| Custom events arrive | `curl -s "$POSTHOG_HOST/api/projects/616829/events/?event=session_viewed&limit=1" -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" \| jq -c '.results[] \| {event, host: .properties["$host"]}'`; same with `event=shot_ingested` | one row each with `host: hoops.kalpkan.com` | confirmed 2026-09-18 (`session_viewed` from a pill click, `shot_ingested` from the Edge Function) |
+| Tests and typecheck | `cd ~/projects/basketball && npx pnpm test && npx pnpm --filter @basketball-stat-tracker/web typecheck` | `# pass 4`, `# fail 0`, tsc silent | confirmed 2026-09-18 |
+| Migrations never touch `public` | `bash ~/projects/basketball/supabase/migrations/test_hoops_schema.sh` | `PASS` | confirmed 2026-09-18 |
+| Env names present | `cd ~/projects/basketball && npx vercel env ls production --scope kks-projects-2edcb11a` | `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `INGEST_API_KEY`, `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` | confirmed 2026-09-18 |
 
 ### Supabase (two projects, never three)
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Project count | Supabase dashboard, or MCP `list_projects` | exactly 2 projects: `promptflip` (A) and `platform` (B, currently still named for basketball, ref `yzppfufqaekgaxcrsqxp`) | works now |
-| Both active | same | both `ACTIVE_HEALTHY`; a paused project shows `INACTIVE` | works now |
-| Keep-alive proven | `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json&monitors=804030255&custom_uptime_ratios=8" \| jq '.monitors[0].custom_uptime_ratio'` (monitor `promptflip health (DB)`, Project A); Project B gets its own monitor on the `health` Edge Function in T1.1 | `"100.000"` (8-day uptime ratio, past the 7-day pause threshold) with no manual restore in `incidents.md` | monitor live since 2026-09-18 (T0.3); earliest confirmation 2026-09-26. Project B PENDING (T1.1) |
-| Project B health function | `curl -sf https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health` | `{"ok":true}` (runs `select 1`) | PENDING (T1.1; then add a monitor on it per runbook "Add an UptimeRobot monitor") |
+| Project count / both active | `set -a; source ~/.config/portfolio-ops/secrets.env; set +a; curl -s https://api.supabase.com/v1/projects -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \| jq -c '.[] \| {name,status}'` | exactly two `ACTIVE_HEALTHY`: `PromptFlip` (A, `nhddxonizdxwbvwcxklu`) and `platform` (B, `yzppfufqaekgaxcrsqxp`); `plato-course-converter` and `KalpKan's Project` stay `INACTIVE` | confirmed 2026-09-18 (T1.1): PromptFlip + platform `ACTIVE_HEALTHY`, other two `INACTIVE` |
+| `hoops` schema exposed and populated | `curl -s -X POST https://api.supabase.com/v1/projects/yzppfufqaekgaxcrsqxp/database/query -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" -d '{"query":"select (select count(*) from hoops.sessions) as sessions, (select count(*) from hoops.shot_events) as shots"}'` and `curl -s https://api.supabase.com/v1/projects/yzppfufqaekgaxcrsqxp/postgrest -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \| jq -r .db_schema` (print only `db_schema`; the full response holds the JWT secret) | counts > 0 (5 sessions / 95 shots on 2026-09-18); `db_schema` contains `hoops` | confirmed 2026-09-18 (T1.1) |
+| Keep-alive proven | `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json&monitors=804030255-804030499&custom_uptime_ratios=8" \| jq '.monitors[] \| {friendly_name, custom_uptime_ratio}'` (`promptflip health (DB)` = Project A, `platform health (DB, Project B)` = Project B) | `"100.000"` for both (8-day uptime ratio, past the 7-day pause threshold) with no manual restore in `incidents.md` | Project A monitor live since 2026-09-18 (T0.3); Project B monitor `804030499` live since 2026-09-18 (T1.1); earliest confirmation 2026-09-26 |
+| Project B health function | `curl -sf https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health` | `{"ok":true,"db":"ok","project":"platform","time":"..."}` (calls `hoops.health_select_one()`, i.e. `select 1`, through PostgREST) | confirmed 2026-09-18 (T1.1); UptimeRobot monitor `804030499` on it |
+| Ingest function rejects a bad key | `curl -s -o /dev/null -w '%{http_code}\n' -X POST https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/hoops-ingest-shot -H 'content-type: application/json' -H 'x-device-api-key: wrong' -d '{"id":"x","deviceId":"d","sessionId":"s","capturedAt":"2026-01-01T00:00:00Z","result":"made","x":0.5,"y":0.5,"confidence":1}'` | `401` | confirmed 2026-09-18 (T1.1) |
 | Quota | Supabase dashboard, Project B, Usage | DB, storage, egress, Realtime each under 10 percent | PENDING (monthly glance once Phase 1 lands) |
 
 ### Plato (`KalpKan/Plato`, Vercel project `plato`, Neon database `plato`)
@@ -69,8 +87,8 @@ Placeholders: `<domain>` is `kalpkan.com` (bought at human checkpoint H1 on 2026
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Every host resolves | `for h in "" www. promptflip. hoops. plato. plantit. pushups. emotes. microtubules.; do echo -n "${h}kalpkan.com: "; dig +short "${h}kalpkan.com" \| head -1; done` | apex `76.76.21.21`, each subdomain the project-specific `<hash>.vercel-dns-017.com` name recorded in `docs/DNS_PENDING.md` §5 | confirmed 2026-09-18 for apex (`76.76.21.21`), www (`a9e60d5e9d41cb23.vercel-dns-017.com.`), hoops (`71da701c9c3d8bdf.vercel-dns-017.com.`); plato/plantit/pushups/emotes/microtubules PENDING their Vercel projects |
-| TLS valid | `curl -sI https://<sub>.kalpkan.com \| head -1` for each host | `HTTP/2 200`, no certificate error (`HTTP/2 308` + `location: https://kalpkan.com/` for `www`) | confirmed 2026-09-18: `https://kalpkan.com` → `HTTP/2 200`; `https://www.kalpkan.com` → `HTTP/2 308`, `location: https://kalpkan.com/`; `https://hoops.kalpkan.com` → `HTTP/2 200`; `npx vercel certs ls` lists certs for `kalpkan.com`, `www.kalpkan.com`, `hoops.kalpkan.com`, `promptflip.kalpkan.com`, all `renew: yes`, 90 d |
+| Every host resolves | `for h in "" www. promptflip. hoops. plato. plantit. pushups. emotes. microtubules.; do echo -n "${h}kalpkan.com: "; dig +short "${h}kalpkan.com" \| head -1; done` | apex `76.76.21.21`, each subdomain the project-specific `<hash>.vercel-dns-017.com` name recorded in `docs/DNS_PENDING.md` §5 | confirmed 2026-09-18 for apex (`76.76.21.21`), www (`a9e60d5e9d41cb23.vercel-dns-017.com.`), hoops (`71da701c9c3d8bdf.vercel-dns-017.com.`), promptflip (`0e6549802006eaa1.vercel-dns-017.com.`); plato/plantit/pushups/emotes/microtubules PENDING their Vercel projects |
+| TLS valid | `curl -sI https://<sub>.kalpkan.com \| head -1` for each host | `HTTP/2 200`, no certificate error (`HTTP/2 308` + `location: https://kalpkan.com/` for `www`) | confirmed 2026-09-18: `https://kalpkan.com` → `HTTP/2 200`; `https://www.kalpkan.com` → `HTTP/2 308`, `location: https://kalpkan.com/`; `https://hoops.kalpkan.com` → `HTTP/2 200`; `https://promptflip.kalpkan.com` → `HTTP/2 200`; `npx vercel certs ls` lists certs for `kalpkan.com`, `www.kalpkan.com`, `hoops.kalpkan.com`, `promptflip.kalpkan.com`, all `renew: yes`, 90 d |
 | Records are DNS-only | `curl -sI https://<sub>.kalpkan.com \| grep -i '^server:'` | `server: Vercel`, not `cloudflare` (an orange-cloud record shows `cloudflare` and breaks TLS issuance) | confirmed 2026-09-18: `kalpkan.com` and `hoops.kalpkan.com` both `server: Vercel`; every record in the zone has `"proxied": false` |
 | Vercel sees the domain | `npx vercel domains ls --scope kks-projects-2edcb11a` and `npx vercel domains verify <host> --scope kks-projects-2edcb11a` | `kalpkan.com` listed (Registrar/Nameservers "Third Party" is expected: the zone stays on Cloudflare); `verify` prints no `invalid_configuration` | confirmed 2026-09-18: `1 Domain found` (`kalpkan.com`); hub health over the domain `curl -s https://kalpkan.com/api/health` → `{"ok":true,"service":"hub",...}` |
 
@@ -80,7 +98,7 @@ Placeholders: `<domain>` is `kalpkan.com` (bought at human checkpoint H1 on 2026
 |---|---|---|---|
 | Plan is still Hobby | Vercel dashboard, team settings, Billing | Hobby, $0 | works now |
 | Usage under limits | Vercel dashboard, Usage (30-day window) | Fast Data Transfer, invocations, Active CPU all well under Hobby limits (100 GB, 1 M, 4 CPU-hours) | PENDING (30 days after T0.1) |
-| Only live projects exist | `npx vercel project ls --scope kks-projects-2edcb11a` | no `tokengamblecoinflip`; both `promptflip` and `promptflip-35qv` present until H5 is resolved (then only the survivor); `v0-basketball-analytics-dashboard` present | confirmed 2026-09-18 (T0.2) |
+| Only live projects exist | `npx vercel project ls --scope kks-projects-2edcb11a` | exactly `portfolio`, `promptflip-35qv`, `v0-basketball-analytics-dashboard`; no `tokengamblecoinflip`, no `promptflip` (deleted 2026-09-18, H5) | confirmed 2026-09-18 (T0.2, re-confirmed after H5) |
 
 ### GitHub
 
@@ -95,7 +113,7 @@ Load the key first: `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Monitors exist and are up | `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json&monitors=804030255-804030256-804030271&alert_contacts=1" \| jq '.monitors[] \| {id, friendly_name, url, status, alert_contacts: [.alert_contacts[].id]}'` | exactly `promptflip health (DB)` (804030255), `hoops dashboard` (804030256), `hub health` (804030271), each `status: 2` and `alert_contacts: ["5612875"]` | confirmed 2026-09-18 (T0.3) |
+| Monitors exist and are up | `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json&monitors=804030255-804030256-804030271&alert_contacts=1" \| jq '.monitors[] \| {id, friendly_name, url, status, alert_contacts: [.alert_contacts[].id]}'` | exactly `promptflip health (DB)` (804030255, url `https://promptflip.kalpkan.com/api/health` since 2026-09-18), `hoops dashboard` (804030256), `hub health` (804030271), each `status: 2` and `alert_contacts: ["5612875"]` | confirmed 2026-09-18 (T0.3) |
 | Every platform monitor, whatever its id | `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json" \| jq '[.monitors[] \| select(.status != 0) \| {friendly_name, status}]'` | every non-paused monitor `status: 2`; the count matches the rows in `docs/monitors.md` | confirmed 2026-09-18 (T0.3) |
 | Alert contact exists and is active | `curl -s -H "Authorization: Bearer $UPTIMEROBOT_API_KEY" https://api.uptimerobot.com/v3/user/alert-contacts \| jq '.[] \| {id, type, status}'` | `{"id":5612875,"type":"Email","status":"Active"}` | confirmed 2026-09-18 (T0.3) |
 | Public status page | `curl -sI https://stats.uptimerobot.com/a6n3Wx3PBp \| head -1`, then open it in a browser | `HTTP/2 200`; page titled "Kalp's projects" lists the three monitors, all green | confirmed 2026-09-18 (T0.3). No `status.<domain>` (paid feature) |
