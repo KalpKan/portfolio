@@ -26,7 +26,9 @@ Conventions used below:
 | Regenerate Supabase types | Not yet written, added when T1.1 lands |
 | Purge a large file from git history | Not yet written, added when T3.1 (pushup repo) or T4.1 (RC car repo) lands |
 | Add an UptimeRobot monitor | Written and executed 2026-09-18 (T0.3): three monitors plus the public status page, see `docs/monitors.md` |
-| Add PostHog to an app | Not yet written, added when T0.5 lands |
+| Add PostHog to an app | Not yet written, added when T0.5 lands (the Flask variant is inside "Deploy a Python app to Vercel") |
+| Deploy a Python app to Vercel | Written and executed 2026-09-18 (T1.3, Plato) |
+| Create a Neon database | Written and executed 2026-09-18 (T1.3, Plato) |
 
 ## Deploy the hub to Vercel
 
@@ -256,3 +258,63 @@ To change an existing monitor (for example after H1 moves an app to `<sub>.<doma
 ## Add PostHog to an app
 
 Not yet written, added when T0.5 lands (blocked on the H0 API key). It will cover the `posthog-js` snippet, the `/ingest/*` reverse-proxy rewrite, cookieless config, the 2 to 4 custom events per app, and confirming the `$0` billing limits.
+
+## Deploy a Python app to Vercel
+
+**Status: written and executed 2026-09-18 for Plato (`KalpKan/Plato` → Vercel project `plato`, `https://plato.kalpkan.com`).**
+
+When to use: a Flask/FastAPI app must run on Vercel Hobby as one Python function, or Plato needs to be redeployed or repaired.
+
+What Vercel does (docs `vercel.com/docs/frameworks/backend/flask` and `/docs/functions/runtimes/python`, both last updated 2026-08-12): it looks for a top-level `app` in `app.py`/`index.py`/`server.py`/`main.py` (root, `src/` or `app/`), or the `module:variable` set in `pyproject.toml` under `[tool.vercel] entrypoint`. The whole repo becomes one function; every request is routed to it. Static files belong in `public/` (served by the CDN). Only `/tmp` is writable and it does not survive between requests. Request bodies are capped at **4.5 MB** by the platform (413 above that). Python version comes from `.python-version` (3.12 default, 3.13/3.14 available).
+
+Preconditions: Vercel CLI logged in (team `kks-projects-2edcb11a`), the repo cloned under `~/projects/<name>`, a database URL if the app needs one (see "Create a Neon database").
+
+Steps (what was done for Plato, in order):
+1. **Make the app stateless.** Nothing may be written outside `/tmp`; nothing may be read from disk in a later request. Plato used to save the `.ics` to `temp_calendars/` and redirect to `/download/<file>`; now the calendar is generated in memory and streamed back in the same `POST /review` response (`Content-Disposition: attachment`). Anything that must survive between requests goes in the signed session cookie (small: under 4 KB) or the database keyed by something in that cookie (Plato keys on `pdf_hash`).
+2. **Secrets from env with no defaults.** `SECRET_KEY` raises `RuntimeError` at import if missing, so a mis-configured deploy fails loudly instead of shipping a guessable key. `DATABASE_URL` is read at first use.
+3. **Do not connect to the database at import time.** Plato creates its cache manager lazily (`get_cache()`), so a cold start does not pay a Neon round trip before the first request.
+4. **Packaging files** (all in the repo root):
+   - `pyproject.toml` with `[project] requires-python = ">=3.12"`, the runtime `dependencies` list, and `[tool.vercel] entrypoint = "src.app:app"`.
+   - `.python-version` containing `3.12`.
+   - `requirements.txt` trimmed to runtime deps (dev tools in `requirements-dev.txt`). Keep both lists identical.
+   - `vercel.json`: `{"functions": {"src/app.py": {"maxDuration": 60, "excludeFiles": "{tests/**,figma landingpage/**,legacy/**,course_outlines/**,test_*.py,*.md,.venv/**}"}}}`. The `functions` key is the entrypoint file path. `excludeFiles` is one glob string.
+   - Static files moved to `public/static/`; Flask's `static_folder` points at `../public/static` so local runs still work.
+   - Old platform files (Railway `Procfile`, `Dockerfile`, `nixpacks.toml`, `railway.json`) moved into `legacy/`, not deleted, and excluded from the bundle.
+5. **Health route** `GET /api/health` → `{"ok": true, "db": "ok", "service": "<app>"}` after `SELECT 1`; 503 with `db: "error"` when the database does not answer. The hub and UptimeRobot use it.
+6. **PostHog (Flask variant of "Add PostHog to an app")**: a `/ingest/<path>` Flask route forwards to `https://us.i.posthog.com` (paths starting with `static/` go to `https://us-assets.i.posthog.com`), the `posthog-js` snippet in `base.html` uses `api_host: '/ingest'`, `persistence: 'memory'` (cookieless), `autocapture: true`; server-side events use the `posthog` package with `sync_mode=True` (serverless: send before the response returns). Snippet and events render only when `POSTHOG_API_KEY` (the public `phc_` project token) is set.
+7. **Create and link the Vercel project:** `cd ~/projects/<name> && npx vercel@latest link --yes --project <name> --scope kks-projects-2edcb11a`. This creates the project if missing and writes `.vercel/project.json` (git-ignored).
+8. **Env vars, non-interactively, for production and preview:** `printf '%s' "$VALUE" | npx vercel@latest env add NAME production --scope kks-projects-2edcb11a --force` (repeat with `preview`). Generate `SECRET_KEY` with `python3 -c 'import secrets;print(secrets.token_hex(32))'`. Never echo the values.
+9. **Deploy:** `npx vercel@latest --prod --yes --scope kks-projects-2edcb11a`; then `npx vercel@latest inspect <deployment-url> --scope kks-projects-2edcb11a` must say `● Ready` and list `λ flask (<size>)`. Plato's bundle is 72.8 MB (PyMuPDF + pdfplumber), well under the 500 MB Python limit.
+10. **Auto-deploys:** `npx vercel@latest git connect --yes --scope kks-projects-2edcb11a` (Plato's repo was already connected when the project was created from the linked folder). Every push to `main` then deploys.
+11. **Domain:** follow "Attach a domain to a Vercel project" (`domains add`, `domains verify --json` → `recommended.records[0].value`, Cloudflare CNAME DNS-only, poll HTTPS). Plato: CNAME `plato` → `89cbb06df93ddb6b.vercel-dns-017.com`, record id `64fa56eeae8f8ee920ce165ab281c53f`, HTTPS 200 about 75 s after the record.
+12. **Prove it:** run the app's real flow through the live host (Plato: upload a Western outline PDF in Chrome, download the `.ics`, parse it with `icalendar`), record timings, then the `verification.md` block.
+
+Common failures:
+- `RuntimeError: SECRET_KEY ...` in the function logs: the env var is missing for that environment (production vs preview). Add it and redeploy.
+- `413 FUNCTION_PAYLOAD_TOO_LARGE`: the upload exceeded Vercel's 4.5 MB body limit. Not fixable on Hobby without a client-side direct upload; the README tells users to keep PDFs under 4.5 MB.
+- Static file 404: it is not under `public/`, or Flask's `static_folder` was changed. Check `curl -sI https://<host>/static/style.css`.
+- Slow first request after idle (2 to 3 s): Vercel cold start plus Neon wake; expected. If every request is slow, `curl -w '%{time_total}'` on `/api/health` vs `/` tells whether it is the database or the function.
+- `vercel inspect` shows Ready but the page 500s: run `npx vercel@latest logs <deployment-url> --scope kks-projects-2edcb11a` and look for the Python traceback; the usual cause is an import that works locally (Python 3.14 on the Mac) but not on 3.12, or a missing runtime dependency in `requirements.txt`.
+
+## Create a Neon database
+
+**Status: written and executed 2026-09-18 for Plato (database `plato`, role `plato_owner`, project `nameless-waterfall-55271929`, branch `production` = `br-aged-cell-b56sp8zx`, region `aws-us-east-2`, Postgres 18).**
+
+When to use: an app needs only a Postgres URL (no Supabase auth/storage/realtime), per the two-Supabase-projects rule. One Neon project, one database per app, each with its own role.
+
+Preconditions: `NEON_API_KEY` and `NEON_PROJECT_ID` loaded from `~/.config/portfolio-ops/secrets.env`. `jq` installed.
+
+Steps:
+1. Find the production branch id: `curl -s -H "Authorization: Bearer $NEON_API_KEY" https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches | jq '.branches[] | {id,name,default}'`.
+2. Create the role: `POST .../branches/<branch>/roles` with `{"role":{"name":"<app>_owner"}}`. Neon generates the password; do not print the response body beyond `.role.name`.
+3. Create the database owned by that role: `POST .../branches/<branch>/databases` with `{"database":{"name":"<app>","owner_name":"<app>_owner"}}`. (Wait a few seconds between API writes; Neon serialises operations per branch.)
+4. Get the pooled connection string, straight into a mode-600 file, never to the terminal: `curl -s -H ... "https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/connection_uri?branch_id=<branch>&database_name=<app>&role_name=<app>_owner&pooled=true" | jq -r .uri > <scratch>/db_url.txt`. The pooled host has `-pooler` in it (`ep-...-pooler.c-7.us-east-2.aws.neon.tech`); use the pooled one for serverless functions. `?sslmode=require&channel_binding=require` is already in the URI.
+5. Create the schema with the app's own script: Plato `DATABASE_URL="$(cat <scratch>/db_url.txt)" .venv/bin/python scripts/init_db.py` prints `tables: extraction_cache, user_choices` and `ping: True`.
+6. Put the URI in Vercel as `DATABASE_URL` (see step 8 of "Deploy a Python app to Vercel") and delete the scratch file.
+7. Record the database in `settings-map.md` and the app row in `SKILL.md`.
+
+Common failures:
+- `409` on role/database create: it already exists; list with `GET .../roles` or `.../databases` and reuse it.
+- `connection_uri` returns 404: the role or database name is wrong, or the branch id is not the one they were created on.
+- Free-plan compute scales to zero after 5 minutes idle; the first query after that takes a few hundred ms extra. That is expected and is what the UptimeRobot 5-minute ping on `/api/health` is for.
+- Reset a role's password if it ever leaks: `POST .../branches/<branch>/roles/<role>/reset_password`, then fetch a new `connection_uri` and update `DATABASE_URL` in Vercel.

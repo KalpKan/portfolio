@@ -49,11 +49,21 @@ Placeholders: `<domain>` is `kalpkan.com` (bought at human checkpoint H1 on 2026
 | Project B health function | `curl -sf https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health` | `{"ok":true}` (runs `select 1`) | PENDING (T1.1; then add a monitor on it per runbook "Add an UptimeRobot monitor") |
 | Quota | Supabase dashboard, Project B, Usage | DB, storage, egress, Realtime each under 10 percent | PENDING (monthly glance once Phase 1 lands) |
 
-### Neon (Plato)
+### Plato (`KalpKan/Plato`, Vercel project `plato`, Neon database `plato`)
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Wakes on request | `curl -sf https://plato.<domain>/api/health` after 10 idle minutes; time it with `curl -o /dev/null -s -w '%{time_total}\n' ...` | 200 in under 3 s (scale-to-zero wake is a few hundred ms) | PENDING (T1.3) |
+| Page up | `curl -sI https://plato.kalpkan.com \| head -1` | `HTTP/2 200` | verified 2026-09-18 |
+| Health + DB | `curl -s https://plato.kalpkan.com/api/health` | `{"db":"ok","ok":true,"service":"plato"}` (503 with `db: error` means Neon, not Vercel) | verified 2026-09-18 |
+| Static via CDN | `curl -sI https://plato.kalpkan.com/static/style.css \| head -1` | `HTTP/2 200` | verified 2026-09-18 |
+| Deploy state | `cd ~/projects/plato && npx vercel@latest ls --scope kks-projects-2edcb11a \| head -5` | newest production deployment `● Ready` | verified 2026-09-18 |
+| DNS | `dig +short plato.kalpkan.com` | `89cbb06df93ddb6b.vercel-dns-017.com.` then Vercel IPs; `curl -sI https://plato.kalpkan.com \| grep -i ^server:` → `Vercel` | verified 2026-09-18 |
+| Real flow (no browser) | `CJ=$(mktemp); curl -s -c $CJ -b $CJ -o /dev/null -w '%{http_code}\n' -F "pdf_file=@<outline>.pdf" https://plato.kalpkan.com/upload; curl -s -c $CJ -b $CJ -o out.ics -w '%{http_code} %{content_type}\n' -d 'lecture_section=0&lab_section=none' https://plato.kalpkan.com/review; grep -c BEGIN:VEVENT out.ics` | `302`, then `200 text/calendar; charset=utf-8`, then a count ≥ 3 | verified 2026-09-18 (KIN 2000 outline → 7 VEVENTs, all inside Jan 8 to Apr 30 2026) |
+| Timing | `for i in 1 2 3 4 5; do curl -s -o /dev/null -w '%{time_total}\n' https://plato.kalpkan.com/api/health; done` | warm p50 well under 1 s (measured 0.31 s; `/` 0.17 s); first request after idle 2 to 3 s | verified 2026-09-18 |
+| Neon wakes | same health curl after 10 idle minutes | 200, under 3 s | measured 2.2 s on the first request after deploy |
+| Analytics | `curl -s -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" "https://us.posthog.com/api/projects/616829/events/?limit=50" \| jq -r '.results[] \| select(.properties.app=="plato") \| [.timestamp,.event] \| @tsv'` after one real upload | rows for `pdf_uploaded`, `pdf_parsed`, `ics_downloaded`; `$pageview`/`$autocapture` rows carry `$current_url` on `plato.kalpkan.com` | verified 2026-09-18 |
+| Tests | `cd ~/projects/plato && .venv/bin/pytest -q` | `22 passed` | verified 2026-09-18 |
+| Neon tables | `DATABASE_URL="$(cat <scratch>/db_url.txt)" .venv/bin/python scripts/init_db.py` | `tables: extraction_cache, user_choices` / `ping: True` | verified 2026-09-18 |
 
 ### DNS (Cloudflare, after H1)
 

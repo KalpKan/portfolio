@@ -39,6 +39,7 @@ Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 | T0.2 | 0 | Cleanup old Vercel projects + archive repos | ✅ verified (partial by design: `tokengamblecoinflip` deleted; `token-gamble-coinflip` + `token-coinflip` archived; `promptflip-35qv` kept, see H5) | https://github.com/KalpKan/token-gamble-coinflip, https://github.com/KalpKan/token-coinflip (archived) | verifier 2026-09-18 | 2026-09-18 |
 | T0.3 | 0 | UptimeRobot monitors | ✅ verified (3 monitors up, email alerts, public status page, $0) | https://stats.uptimerobot.com/a6n3Wx3PBp (inventory: docs/monitors.md) | verifier 2026-09-18 | 2026-09-18 |
 | T0.4 | 0 | DNS_PENDING.md | ✅ reviewed (plan); **executed for hub + hoops** 2026-09-18; promptflip waits on H5; plato/plantit/pushups/emotes/microtubules wait on their Vercel projects | https://kalpkan.com, https://hoops.kalpkan.com, docs/DNS_PENDING.md §5 | reviewer 2026-09-18 (plan) | 2026-09-18 |
+| T1.3 | 1 | Plato on Vercel Python + Neon | done (live, E2E proven in Chrome: real KIN 2000 outline → 7-event .ics; PostHog events arriving) | https://plato.kalpkan.com (health: /api/health) | | 2026-09-18 |
 | T5.x | 5 | Functional audit + defect reports for every project (docs/reports/) | queued (after all deploys) | | | |
 | T0.5 | 0 | PostHog analytics | queued (starts after T0.1) | | | |
 
@@ -50,6 +51,7 @@ Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 - 2026-09-18: `/goal` mode rejected the prompt (4000-char limit), so the orchestration runs in the interactive session instead. Same operating model (worker → reviewer → verifier).
 
 ## Session log
+- 2026-09-18: T1.3 done. Plato runs as one Vercel Python 3.12 function (`src.app:app`, 72.8 MB bundle) at https://plato.kalpkan.com with Neon database `plato` (role `plato_owner`, pooled URL), stateless flow (.ics streamed in the same request, cookie 380 B), `/api/health` with `select 1`, PostHog via `/ingest` proxy + `pdf_uploaded`/`pdf_parsed`/`ics_downloaded`. Warm p50 0.17 s (`/`), 0.31 s (health); first cold 2.2 s; a 12-page parse takes ~16 s on Vercel. Extractor date quality is weak on some outlines (logged in incidents.md for T5.x). No UptimeRobot monitor yet. Plan: docs/superpowers/plans/2026-09-18-plato.md.
 - 2026-09-18: H1 landed (`kalpkan.com`). T0.4 executed: A + www records for the hub and CNAME for hoops created DNS-only via the Cloudflare API; www → apex 308 set via Vercel API; TLS issued for all three within 2 min. The hoops project needed a `vercel redeploy` of its last Ready build first because its newest production build had errored since April (no deletion). Evidence in `docs/DNS_PENDING.md` §5.
 - 2026-09-18: T0.3 done and verified; status page https://stats.uptimerobot.com/a6n3Wx3PBp.
 - 2026-09-18: T0.1 hub deployed to Vercel Hobby (project `portfolio`); health, status proxy, 12-entry registry, CI workflow, README for Kalp. Lighthouse perf 0.92.

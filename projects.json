@@ -37,13 +37,14 @@
       "name": "Plato",
       "tagline": "Turns course-outline PDFs into a structured study plan.",
       "type": "app",
-      "status": "coming",
+      "status": "live",
+      "url": "https://plato.kalpkan.com",
       "repo": "https://github.com/KalpKan/Plato",
-      "healthUrl": null,
+      "healthUrl": "https://plato.kalpkan.com/api/health",
       "tags": [
         "Flask",
         "Python",
-        "Postgres"
+        "Neon Postgres"
       ],
       "hero": null
     },

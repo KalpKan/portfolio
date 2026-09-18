@@ -57,3 +57,33 @@ _Entries begin below, oldest first._
 - **Prevention:** Runbook "Delete a Vercel project" in `runbooks.md` now requires the health-route, `inspect` and env/Git-link comparison before any `project rm`, and names the projects that must never be deleted. Until H5 is resolved: every push to promptflip `main` burns two Hobby builds; any `npx vercel` command run from `~/projects/promptflip` (env changes, deploys, `vercel env pull`) targets the broken project; the T0.4 domain work and the `NEXT_PUBLIC_APP_URL` / Supabase redirect updates must target `promptflip-35qv`. Also: `npx vercel project rm` in CLI 59.23.2 rejects `--yes` (the plan's command); the runbook uses `printf 'y\n' |` instead.
 - **Reported by:** worker (T0.2)
 
+### 2026-09-18: Plato extractor puts every assessment on the term end date for some outlines (found during T1.3 proof)
+
+- **Date:** 2026-09-18
+- **Affected:** Plato (`https://plato.kalpkan.com`), extraction engine, not hosting
+- **Symptom:** Uploading `FHS Course Outline 2000.pdf` (KIN 2000, Winter 2026) produced 6 assessments with the right weights (100 % total) but every `DUE:` event dated 2026-04-30 23:59 (the term end), and the CS 3340B outline produced no term dates at all (course code came out as the room `MC 110`). The review page shows "Add date" on each assessment, so the user can fix it by hand, and the `.ics` still parses.
+- **What was tried:** Same PDFs locally (identical output), so it is the parser, not Vercel. Not fixed in T1.3: the task scope is hosting.
+- **Root cause:** Extractor limitation (dates inside assessment tables are not matched to rows); pre-existing before the move.
+- **Fix:** None yet. Logged for the Phase 5 functional audit (`docs/reports/`, T5.x), which owns product defects.
+- **Prevention:** `verification.md` Plato "Real flow" check asserts only what hosting guarantees (200, `text/calendar`, ≥ 3 VEVENTs); the audit will add parser assertions.
+- **Reported by:** worker (T1.3)
+
+### 2026-09-18: local `pytest` picked up ad-hoc scripts in the Plato repo root and failed
+
+- **Date:** 2026-09-18
+- **Affected:** Plato repo (`test_cli.py`, `test_comprehensive.py`, `test_extraction.py`, `test_new_extraction.py` in the root)
+- **Symptom:** `pytest` from the repo root reported `1 failed, 2 errors` (ZeroDivisionError, fixtures needing PDFs on disk) before any change was made.
+- **What was tried:** Confirmed the failures are in the root scripts, not `tests/`.
+- **Root cause:** The root `test_*.py` files are developer scripts that need local PDFs, not unit tests; pytest collected them by name.
+- **Fix:** `pyproject.toml` sets `[tool.pytest.ini_options] testpaths = ["tests"]`; `vercel.json` `excludeFiles` keeps them out of the bundle. Files kept (not deleted).
+- **Prevention:** `verification.md` Plato "Tests" row runs `pytest -q` from the repo root and expects `22 passed`.
+- **Reported by:** worker (T1.3)
+
+### 2026-09-18: zsh `for path in ...` loop broke every command in a timing script
+
+- **Date:** 2026-09-18
+- **Affected:** the agent's own verification commands (no production impact)
+- **Symptom:** `command not found: curl` / `seq` / `awk` half-way through a timing loop.
+- **Root cause:** In zsh, `path` is tied to `PATH`; `for path in / /api/health` replaced `PATH` with `/` and `/api/health`.
+- **Fix:** Renamed the loop variable. Prevention: never use `path` (or `PATH`, `status`, `argv`) as a loop variable in zsh; `verification.md` uses `p`.
+- **Reported by:** worker (T1.3)
