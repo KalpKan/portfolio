@@ -44,9 +44,10 @@ export type Video =
 export type DiagramId =
   | "unpark"
   | "rc-car"
-  | "outline"
   | "flashcards"
-  | "classmyschedule";
+  | "classmyschedule"
+  | "yash-birthday-pcb"
+  | "eeg";
 
 export type Step = { title: string; body: string };
 

@@ -52,8 +52,8 @@ describe("showcase registry <-> content", () => {
     }
   });
 
-  it("never mentions the excluded research", () => {
+  it("never mentions the excluded DBS research (the DIY EEG project is included by Kalp)", () => {
     const text = JSON.stringify(caseStudies).toLowerCase();
-    expect(text).not.toMatch(/transfer.function|\beeg\b|deep brain/);
+    expect(text).not.toMatch(/transfer.function|deep brain stimulation|dbs_transfer/);
   });
 });

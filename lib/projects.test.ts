@@ -318,6 +318,6 @@ describe("countKinds", () => {
     // Live apps grow as Phase 1+ tasks land (promptflip, plato, hoops, ...);
     // pin only the invariant, not today's count.
     expect(c.live).toBeGreaterThanOrEqual(1);
-    expect(c.caseStudies).toBe(5);
+    expect(c.caseStudies).toBe(6);
   });
 });

@@ -1,9 +1,10 @@
 import type { CaseStudy } from "@/content/case-study";
 import unpark from "./unpark";
 import rcCar from "./rc-car";
-import outline from "./outline";
 import flashcards from "./flashcards";
 import classmyschedule from "./classmyschedule";
+import yashBirthdayPcb from "./yash-birthday-pcb";
+import eeg from "./eeg";
 
 /**
  * Every case study, keyed by registry slug. content/case-study.test.ts checks
@@ -16,9 +17,10 @@ import classmyschedule from "./classmyschedule";
 export const caseStudies: Record<string, CaseStudy> = {
   [unpark.slug]: unpark,
   [rcCar.slug]: rcCar,
-  [outline.slug]: outline,
   [flashcards.slug]: flashcards,
   [classmyschedule.slug]: classmyschedule,
+  [yashBirthdayPcb.slug]: yashBirthdayPcb,
+  [eeg.slug]: eeg,
 };
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {

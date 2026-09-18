@@ -9,10 +9,10 @@ import icon from "@/public/images/projects/flashcards/icon.webp";
 
 const flashcards: CaseStudy = {
   slug: "flashcards",
-  kicker: "iOS · Swift · February 2025",
+  kicker: "iOS · Swift · Under construction",
   title: "FlashCards",
   lede:
-    "A native iPhone flashcard app with sign-in, sets of cards, a flip-to-reveal study view and a home-screen widget, built as a first SwiftUI project.",
+    "Under construction. Planned: a native iPhone flashcard app with sign-in, sets of cards, a flip-to-reveal study view and a home-screen widget, built as a first SwiftUI project.",
   hero: {
     src: icon,
     alt: "The FlashCards app icon",
@@ -63,7 +63,7 @@ const flashcards: CaseStudy = {
   tech: ["Swift", "SwiftUI", "WidgetKit", "Firebase Auth"],
   repo: null,
   status:
-    "Personal build from February 2025 · Repository private until a committed Firebase config file is removed · App Store: no",
+    "Under construction: not much built yet · Repository private until a committed Firebase config file is removed · App Store: no",
   wanted: [
     "5 iPhone screenshots (sign-in, sets list, one set, study card, widget on the home screen)",
     "decide H4: make the repo public after removing GoogleService-Info.plist from its history",

@@ -25,15 +25,6 @@ const DIAGRAMS: Record<DiagramId, FlowData> = {
     ],
     edges: ["events / frames", "PWM"],
   },
-  outline: {
-    title: "Outline pipeline: PencilKit strokes to a shape-only MSE to JSON export for Python analysis",
-    nodes: [
-      { id: "canvas", title: "PencilKit canvas", sub: ["raw x, y, t", "no smoothing", "5 practice trials"] },
-      { id: "mse", title: "MSECalculator.swift", sub: ["centre, scale to r=250", "360 angles", "mean (r−250)²"] },
-      { id: "export", title: "Export", sub: ["circle-*.json per trial", "session-metadata.json", "→ NumPy notebook"] },
-    ],
-    edges: ["stroke", "score"],
-  },
   flashcards: {
     title: "FlashCards structure: sign-in, sets and cards, study view, widget",
     nodes: [
@@ -42,6 +33,24 @@ const DIAGRAMS: Record<DiagramId, FlowData> = {
       { id: "study", title: "Study", sub: ["FlashCardView", "FlashcardsWidget", "WidgetKit"] },
     ],
     edges: ["AppState", "cards"],
+  },
+  "yash-birthday-pcb": {
+    title: "Yash Birthday PCB: schematic in KiCad, board layout, Gerber files sent to the fab",
+    nodes: [
+      { id: "sch", title: "Schematic", sub: ["KiCad Eeschema", "parts + nets"] },
+      { id: "pcb", title: "Board layout", sub: ["KiCad Pcbnew", "copper, silkscreen art"] },
+      { id: "fab", title: "Fabrication", sub: ["Gerber export", "boards ordered", "assembled by hand"] },
+    ],
+    edges: ["netlist", "Gerbers"],
+  },
+  eeg: {
+    title: "DIY EEG (under construction): electrodes into an instrumentation amplifier and filters, simulated in LTspice, laid out in KiCad",
+    nodes: [
+      { id: "in", title: "Electrodes", sub: ["scalp signal, µV", "reference + bias"] },
+      { id: "amp", title: "Analog front end", sub: ["instrumentation amp", "high-pass, notch, low-pass", "LTspice simulation"] },
+      { id: "out", title: "Digitize + view", sub: ["ADC to microcontroller", "waveform on a laptop", "KiCad board (planned)"] },
+    ],
+    edges: ["µV", "V"],
   },
   classmyschedule: {
     title: "classmyschedule flow: popup dates, content script scrape, .ics download",
