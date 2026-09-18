@@ -1,6 +1,15 @@
 # Resume the app-hardening pipeline (Phase 5 closed loop)
 
-_Last updated 2026-09-18 16:20 EDT (pipeline running). Updated again when paused._
+_Paused 2026-09-18 17:51 EDT by Kalp's instruction (usage reset). State below is exact._
+
+## State at pause (run 1, wf_b18077e2-674)
+| Project | Spec | Test r1 | Fix r1 | Open work |
+|---|---|---|---|---|
+| plato | done (`docs/reports/plato-spec.md`, corpus + ground truth) | done, verdict **not-yet** (report was being written; if `docs/reports/plato.md` is missing, re-run the test stage: the spec + corpus are committed) | not started | extraction recall/precision below bar |
+| hoops | done (`docs/reports/hoops-spec.md`) | done: **PARTIALLY WORKING**, 10 defects in `docs/reports/hoops.md` | **interrupted mid-way** (check `~/projects/basketball` git log for partial commits and the plan checkboxes) | remaining defects D1–D10 |
+| microtubules | done (`docs/reports/microtubules-spec.md`) | done (report may not have been committed; re-run if `docs/reports/microtubules.md` is missing) | not started | per report |
+
+Resume with `buildModel: "opus", checkModel: "opus"` (Kalp: normal setup from now on, be economical). Because the fix stages were in flight, the resumed run re-executes them; the FIX prompt already tells the agent to read the repo state first.
 
 ## What this pipeline is
 Per project: SPEC agent → (TEST+CRITIQUE → FIX) × up to N rounds → CODE REVIEW → independent VERIFY. Script: `portfolio-harden` (Workflow tool). Every stage commits its artifacts to this repo, so state survives a stop:
