@@ -633,4 +633,6 @@ Suggested fix (1–3 sentences; not implemented)
 
 `docs/reports/INDEX.md` summarises all projects in one table (slug | verdict | blockers | majors | minors | report link) and is linked from STATUS.md.
 
+**Closed loop (added 2026-09-18 at Kalp's request):** Phase 5 is not report-only. Per project a SPEC agent writes `docs/reports/<slug>-spec.md` (user stories + a measurable consumer-grade bar + test assets such as a labelled corpus or ground-truth video clips), then TEST → FIX rounds repeat (up to 4 for the projects Kalp flagged) until every story meets its bar, followed by a code review and an independent verifier. Webcam features are tested end-to-end with Playwright's fake camera fed by ground-truth clips; pipelines are measured on the whole corpus. Kalp's flagged projects: Plato (extraction consistency), pushups (real-time webcam counting, consistent), emotes (detection quality), Plant It (works as intended without hardware).
+
 **Definition of done for Phase 5:** every app project has a report; a REVIEWER confirms each defect is reproducible from the steps alone; INDEX.md is complete; `skills/portfolio-ops/verification.md` gains a "functional smoke test" per project derived from the user stories, so future regressions are caught the same way.
