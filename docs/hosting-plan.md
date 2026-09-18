@@ -47,7 +47,10 @@ These do not get their own subdomain or deployment. Each becomes a page on the h
 |---|---|---|---|
 | **UnPark / "Antifreeze" — the Parkinson's device** (GitHub `UnPark`, local `Sidequest/Antifreeze/`) | iOS app (SwiftUI) + Raspberry Pi with MPU6050 accelerometer + Flask-SocketIO server + Firebase: real-time freezing-of-gait detection, charts, predictive alerts, notifications | Problem statement, hardware photos, app screenshots, demo video, architecture diagram (Pi → Firebase → app), repo link. Fix the repo-name/content mismatch (rename repo or explain "UnPark, codename Antifreeze") | App Store (needs Apple Developer Program, $99 USD/yr, outside the hosting budget) |
 | **Automatic-RC-Car** (943 MB repo) | C++ / CMake, PS4-controller-driven autonomous RC car | Build photos, driving video, repo link **after purging the large committed data** | — |
-| Outline, FlashCardsApp (private, **has committed `GoogleService-Info.plist`**, remove before any public link) | Native iOS | Screenshots + short description; repo link once cleaned | App Store, same later project |
+| FlashCardsApp (private, **has committed `GoogleService-Info.plist`**, remove before any public link) | Native iOS, **under construction** | "Under construction" placeholder page only | App Store, later |
+| **Yash Birthday PCB** (`~/Documents/Yash Birthday PCB/`, KiCad) | Custom PCB designed as a gift | Board render, schematic, photos Kalp supplies | — |
+| **DIY EEG** (`~/Desktop/EEG Circuit /`, KiCad + LTspice) | Hardware, **under construction** | Case-study page marked under construction: schematic, simulation, plan | — |
+| ~~Outline~~ | Removed 2026-09-18: not a real project | — | — |
 | classmyschedule (`~/Desktop/Apps/`) | Chrome extension | Screenshot + Chrome Web Store link | — |
 | DDoS Detector, TouchDesigner MediaPipe | Needs Kafka / TouchDesigner | Static plots / video, optional | — |
 | token-gamble-coinflip, token-coinflip | Superseded by promptflip; plaintext OpenAI keys in DB; unresolved RLS bug | **Take down tokengamblecoinflip.vercel.app, archive both repos** | — |
@@ -392,7 +395,7 @@ Each phase is an independent brainstorm → spec → implementation cycle (the e
 5. **Analytics:** he wants to see visitor counts per site, where visitors are from, and what they interact with; PostHog Cloud free tier is the single tool for this.
 6. **Minimal involvement:** agents use MCP servers and CLIs (Vercel, Supabase, PostHog, Cloudflare, GitHub) wherever possible, and the Chrome tools for dashboards without an API, so Kalp's input is limited to one batch of one-time logins plus the human checkpoints.
 7. **Non-web projects:** UnPark ("Antifreeze") *is* the Parkinson's device. It and the Automatic RC Car are featured as showcase pages on the personal site with media Kalp provides; they need no separate hosting. The iOS apps go to the App Store later as their own project.
-8. **Excluded:** the DBS transfer-function research pipeline and EEG circuit are not part of this project.
+8. **Excluded:** the DBS transfer-function research pipeline is not part of this project. (The DIY EEG hardware project IS included as an under-construction showcase, per Kalp 2026-09-18.) Outline is removed. FlashCards is shown as under construction.
 9. **Living ops skill:** a `portfolio-ops` skill is created at the start and updated after every task (architecture, runbooks, incident log, verification), so any future agent can keep the system running.
 
 ---

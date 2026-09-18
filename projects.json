@@ -112,7 +112,7 @@
     },
     {
       "slug": "unpark",
-      "name": "UnPark — Parkinson's freeze detection",
+      "name": "UnPark \u2014 Parkinson's freeze detection",
       "tagline": "Codename Antifreeze: a wearable that catches freezing of gait before the fall.",
       "type": "showcase",
       "status": "live",
@@ -140,25 +140,11 @@
       "hero": null
     },
     {
-      "slug": "outline",
-      "name": "Outline — circle variability analyzer",
-      "tagline": "An iPad Pencil app that scores how far a drawn circle strays from perfect, for motor-control research.",
-      "type": "showcase",
-      "status": "live",
-      "repo": "https://github.com/KalpKan/Outline",
-      "tags": [
-        "iPadOS",
-        "Swift",
-        "PencilKit"
-      ],
-      "hero": null
-    },
-    {
       "slug": "flashcards",
       "name": "FlashCards",
-      "tagline": "A native iOS flashcard app with sign-in, sets, a study view and a home-screen widget.",
+      "tagline": "Under construction: spaced-repetition flashcards for iOS.",
       "type": "showcase",
-      "status": "live",
+      "status": "coming",
       "repo": null,
       "tags": [
         "iOS",
@@ -177,6 +163,35 @@
       "tags": [
         "Chrome extension",
         "JavaScript"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "yash-birthday-pcb",
+      "name": "Yash Birthday PCB",
+      "tagline": "A custom printed circuit board designed in KiCad as a birthday gift.",
+      "type": "showcase",
+      "status": "coming",
+      "repo": null,
+      "tags": [
+        "KiCad",
+        "PCB",
+        "Hardware"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "eeg",
+      "name": "DIY EEG",
+      "tagline": "Under construction: a home-built EEG front end, schematic in KiCad, simulated in LTspice.",
+      "type": "showcase",
+      "status": "coming",
+      "repo": null,
+      "tags": [
+        "KiCad",
+        "LTspice",
+        "Neurotech",
+        "Hardware"
       ],
       "hero": null
     }
