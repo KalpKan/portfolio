@@ -158,3 +158,49 @@
 ### Tasks T0.3 (UptimeRobot) and T0.5 (PostHog)
 
 Blocked on H0 keys. Plans written when keys arrive.
+
+---
+
+### Task T0.3: UptimeRobot keep-alive monitors and status page
+
+**Files:**
+- Create: `docs/monitors.md` (table of every monitor: name, URL, interval, what it protects, UptimeRobot monitor id)
+- Modify: `skills/portfolio-ops/runbooks.md` (replace the "Keep-alive / restore paused Supabase project" stub with a real runbook), `settings-map.md` (UPTIMEROBOT_API_KEY row), `verification.md` (uptime section), `SKILL.md` (First-5-checks item 1 gets the real status-page URL)
+- Modify: `STATUS.md` (T0.3 row; spend stays $0)
+
+**Credentials:** `UPTIMEROBOT_API_KEY` in `~/.config/portfolio-ops/secrets.env` (load with `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`). Never print it, never write it to the repo.
+
+**Interfaces:**
+- Produces: a public status page URL (`https://stats.uptimerobot.com/<id>`) recorded in `docs/monitors.md`; consumed by the hub footer later.
+
+- [ ] **Step 1:** Read UptimeRobot API v2 docs for `newMonitor`, `getMonitors`, `newPSP`, `getAlertContacts` (https://uptimerobot.com/api/). Free plan: 50 monitors, 5-minute minimum interval (verified 2026-09-18).
+- [ ] **Step 2:** Create HTTP(s) monitors (type 1, interval 300) for: `https://promptflip-35qv.vercel.app/api/health` (name "promptflip health (DB)"), `https://v0-basketball-analytics-dashboard-kks-projects-2edcb11a.vercel.app/` (name "hoops dashboard"), and the hub production URL from STATUS.md T0.1 row + `/api/health` (name "hub health"). If T0.1's URL is not in STATUS.md yet, `git pull` and poll for up to 10 minutes; if still absent, create the other two and leave a clearly marked TODO row for the hub in `docs/monitors.md` with the exact curl to add it.
+- [ ] **Step 3:** Verify with `getMonitors` that each is status 2 (up) after one cycle; capture ids.
+- [ ] **Step 4:** Create a public status page (`newPSP`) named "Kalp's projects" containing all monitors; record its URL.
+- [ ] **Step 5:** Attach the account's default alert contact (from `getAlertContacts`) to each monitor so Kalp gets downtime emails.
+- [ ] **Step 6:** Write `docs/monitors.md`; append/replace runbooks: "Add an uptime monitor" (exact curl with `$UPTIMEROBOT_API_KEY`) and "Restore a paused Supabase project" (Supabase dashboard → project → Restore; confirm health route; check the monitor was actually hitting a DB-touching route). Update settings-map, verification, SKILL.md check #1.
+- [ ] **Step 7:** Verify: `curl -s <status page url> | head -c 300` shows the page; `docs/monitors.md` lists ≥ 2 monitors with ids. Update STATUS.md. Commit and push only your files (`git pull --rebase --autostash` first).
+
+---
+
+### Task T0.5: PostHog analytics (project, guardrails, hub snippet, dashboards)
+
+**Files:**
+- Modify (hub): `app/layout.tsx` (PostHog provider), `next.config.ts` (reverse-proxy rewrites `/ingest/*`), `lib/posthog.ts` (client init, cookieless), `.env.example` (`NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST`), `README.md` (Where the settings live: PostHog)
+- Create: `docs/analytics.md` (project id, dashboard URLs, custom-event naming convention, how each future app adds the snippet)
+- Modify: `skills/portfolio-ops/runbooks.md` ("Add PostHog to an app", "Rotate the PostHog key"), `settings-map.md`, `verification.md`, `SKILL.md`
+- Modify: `STATUS.md`
+
+**Credentials:** `POSTHOG_PERSONAL_API_KEY` and `POSTHOG_HOST` in `~/.config/portfolio-ops/secrets.env`. This is an ALL-ACCESS personal key: use it only for the API calls below, never print it, never commit it. The **project API key** (`phc_...`) is public by design and goes in `NEXT_PUBLIC_POSTHOG_KEY` on Vercel, but still not in git.
+
+**Interfaces:**
+- Produces: `posthog` client exported from `lib/posthog.ts`, `capture(event: string, props?: Record<string, unknown>)` helper; event names are snake_case verbs (`project_card_clicked`); `docs/analytics.md` is the contract every later app follows.
+
+- [ ] **Step 1:** Via the PostHog API (https://posthog.com/docs/api) list organizations/projects; create (or reuse if one exists) a project named "Kalp portfolio" in the US cloud. Record project id and the `phc_` project token in `docs/analytics.md`.
+- [ ] **Step 2:** Set billing limits to $0 for every product that supports a limit (product analytics, session replay, feature flags, data warehouse, surveys) via the billing API or, if the API cannot, via the claude-in-chrome skill in the PostHog dashboard (Organization → Billing). Screenshot to `docs/images/posthog-billing-limits.png`. Confirm no credit card is attached.
+- [ ] **Step 3:** Read https://posthog.com/docs/libraries/next-js and https://posthog.com/docs/advanced/proxy/nextjs. In the hub: `npm i posthog-js`; add `rewrites()` in `next.config.ts` for `/ingest/static/:path*` → `https://us-assets.i.posthog.com/static/:path*`, `/ingest/:path*` → `https://us.i.posthog.com/:path*` (plus `skipTrailingSlashRedirect: true`); `lib/posthog.ts` initialising with `api_host: '/ingest'`, `ui_host: 'https://us.posthog.com'`, `persistence: 'memory'` (cookieless), `capture_pageview: true`, `autocapture: true`, session recording on with default input masking. Wrap the app in a client provider in `app/layout.tsx`. Fire `project_card_clicked` with `{ slug, type }` from the project card component.
+- [ ] **Step 4:** Set `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_POSTHOG_HOST=/ingest` on the Vercel `portfolio` project (production + preview) non-interactively: `printf '%s' "$VALUE" | npx vercel env add NAME production`. Redeploy `npx vercel --prod --yes`.
+- [ ] **Step 5:** Enable heatmaps and session replay in project settings via API. Create three saved insights on one dashboard via API: "Visitors by site" (unique users by `$host`), "Visitors by country" (world map by `$geoip_country_name`), "Top demos by usage" (events `project_card_clicked` and the reserved names rep_counted, emote_fired, pdf_parsed, plant_identified, coinflip_played, broken down by event). Record URLs in `docs/analytics.md`.
+- [ ] **Step 6:** Verify end-to-end: open the deployed hub with the claude-in-chrome skill, click a project card, then query the events API for `$pageview` and `project_card_clicked` in the last 10 minutes with `$host` = the hub host; paste a JSON excerpt (no keys) into `docs/analytics.md` "Verified" section. Confirm in the Network tab that requests go to `/ingest/` on the hub's own origin.
+- [ ] **Step 7:** Write `docs/analytics.md` including "How to add PostHog to a new app" and the naming convention. Update runbooks, settings-map (both PostHog var names, the operator key's location, and the rotation note: "the phx_ key is all-access; rotate to a project-scoped key after Phase 1"), verification, SKILL.md.
+- [ ] **Step 8:** `npm test && npm run build`, update STATUS.md (T0.5 row, spend still $0), commit, push (only your files; `git pull --rebase --autostash` first).
