@@ -43,6 +43,7 @@ export function Figure({
           sizes={sizes}
           priority={priority}
           className="object-cover"
+          style={item.position ? { objectPosition: item.position } : undefined}
         />
       </div>
       {item.caption && (

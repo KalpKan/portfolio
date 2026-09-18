@@ -32,7 +32,7 @@ const classmyschedule: CaseStudy = {
   },
   gallery: { kind: "placeholder", label: "Screenshot coming", aspect: "16/9", count: 1 },
   screens: { kind: "placeholder", label: "Popup screenshot coming", aspect: "4/3", count: 1 },
-  video: { kind: "placeholder", label: "No video", aspect: "16/9" },
+  video: null,
   tech: ["Chrome Manifest V3", "JavaScript", "iCalendar"],
   repo: null,
   status: "Authorship unconfirmed (see STATUS.md H9); not published",

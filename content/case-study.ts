@@ -19,6 +19,8 @@ export type MediaItem = {
   src: StaticImageData | string;
   alt: string;
   caption?: string;
+  /** CSS object-position for a crop, e.g. "50% 60%" to keep a subject low in a portrait frame. */
+  position?: string;
 };
 
 export type Aspect = "16/9" | "4/3" | "9/19.5" | "1/1" | "9/16";
@@ -59,11 +61,12 @@ export type CaseStudy = {
   /** One paragraph: who has the problem and why it matters. */
   problem: string;
   howItWorks: { intro: string; diagram: DiagramId; steps: Step[] };
-  /** Photos of the thing (device, car, bench). */
-  gallery: Gallery;
-  /** App screens, drawn as a phone-shaped carousel. */
-  screens: Gallery;
-  video: Video;
+  /** Photos of the thing (device, car, bench). null = the section is left out (nothing to photograph). */
+  gallery: Gallery | null;
+  /** App screens, drawn as a phone-shaped carousel. null = the project has no app screens. */
+  screens: Gallery | null;
+  /** null = no video is planned. */
+  video: Video | null;
   tech: string[];
   /** Must equal the registry entry's repo (null hides the link). */
   repo: string | null;

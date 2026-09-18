@@ -14,7 +14,7 @@ export function VideoEmbed({ video }: { video: Video }) {
     return (
       <PlaceholderBlock
         placeholder={video}
-        className={portrait ? "max-w-[20rem]" : ""}
+        className={portrait ? "max-w-[16rem]" : ""}
       />
     );
   }

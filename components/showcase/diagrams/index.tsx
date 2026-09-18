@@ -20,7 +20,7 @@ const DIAGRAMS: Record<DiagramId, FlowData> = {
     title: "RC car architecture: PS4 controller or Pi camera into the Raspberry Pi, out to the motor and steering",
     nodes: [
       { id: "in", title: "Inputs", sub: ["DualShock 4 (Bluetooth)", "Pi Camera (autonomous)"] },
-      { id: "pi", title: "Raspberry Pi", sub: ["evdev + SDL2 threads, C++", "HSV mask → largest blob", "throttle, steering"] },
+      { id: "pi", title: "Raspberry Pi", sub: ["C++: evdev + SDL2 threads", "HSV mask → largest blob", "throttle, steering"] },
       { id: "car", title: "Drivetrain", sub: ["N20 motor + spur gears", "steering servo", "3D-printed chassis"] },
     ],
     edges: ["events / frames", "PWM"],

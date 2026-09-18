@@ -44,6 +44,7 @@ PostHog's free plan has **no payment method and no subscription**. On the billin
 - 2 to 4 events per app, only for the app's **core action** (the thing a visitor came to do). Autocapture already records every click, so do not add events for navigation.
 - Properties are `snake_case` too and small: ids, enums, counts. Never free text a visitor typed, never an email.
 - Reserved names (already on the "Top demos by usage" insight): `project_card_clicked` (hub), `rep_counted` (pushups), `emote_fired` (emotes), `pdf_parsed` (plato), `plant_identified` (plantit), `coinflip_played` (coinflip). Use those exact names so the insight picks them up without editing.
+- Hub case-study pages (T4.1, 2026-09-18): `case_study_repo_clicked { slug }`, fired by `components/showcase/RepoLink.tsx` when a visitor leaves `/projects/<slug>` for the source repository, which is the page's one core action. Page views of `/projects/<slug>` are ordinary `$pageview`s (filter by `$pathname`); scrolling, gallery and carousel interaction are left to autocapture, per the rule above.
 
 ## How every app is wired (the contract)
 

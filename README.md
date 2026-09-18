@@ -20,7 +20,11 @@ iOS work gets a case-study page here.
 | `app/api/status/[slug]/route.ts` | Checks one project's own health URL (3 s timeout, `lib/health.ts`) so the page can show a live mark. |
 | `app/opengraph-image.tsx` | The picture shown when the link is shared (iMessage, LinkedIn, Slack): the array plus the name, generated from `projects.json` at build time. |
 | `lib/site.ts` | Your name, the site URL and the contact links (email / GitHub / LinkedIn). Empty contact values show nothing. |
-| `app/projects/[slug]/page.tsx` | Placeholder case-study page for showcase projects (real pages come in Phase 4). |
+| `app/projects/[slug]/page.tsx` | The case-study page for a showcase project (`/projects/unpark` and so on). Shows the full page once the registry says `live`; a short "coming" page before that. |
+| `content/projects/<slug>.ts` | The words and pictures of one case study (see "How to add a case study"). `content/case-study.ts` is the shape every file follows. |
+| `components/showcase/` | The case-study template: hero, problem, how-it-works diagram, photos, app screens, video, tech, status. |
+| `public/images/projects/<slug>/` | Case-study images, WebP only, 300 KB or less each (a test enforces it). Videos are never put here. |
+| `scripts/media-to-webp.mjs`, `scripts/video-poster.py` | Turn a photo (or one frame of a video) into a WebP that fits the rule above. |
 | `docs/` | Hosting plan and phase plans. |
 | `skills/portfolio-ops/` | The living ops skill: runbooks, settings map, incidents, verification commands. |
 | `.github/workflows/ci.yml` | On every push: install, lint, test, build. |
@@ -108,3 +112,46 @@ it fails, is in `skills/portfolio-ops/runbooks.md` under "Deploy the hub to Verc
 
 The step-by-step version is in `skills/portfolio-ops/runbooks.md` under
 "Add a project to projects.json".
+
+## How to add a case study
+
+A case study is a page on this site for something that cannot be linked to
+(hardware, an iOS app, a Chrome extension). It needs two things: a registry
+entry and a content file. A test refuses to build if one exists without the
+other.
+
+1. **Registry.** In `projects.json` add (or find) the entry with
+   `"type": "showcase"`. Leave `"status": "coming"` until the page is written;
+   the row then links to the repo and says "case study soon".
+2. **Content.** Copy `content/projects/unpark.ts` to
+   `content/projects/<slug>.ts` (the file name must equal the `slug`) and fill
+   in each field in plain English:
+   - `title`, `lede` (one sentence), `kicker` (a few facts separated by
+     ` · `, e.g. `Hardware · iOS · 2025`).
+   - `problem`: one paragraph on who has the problem and why it matters.
+   - `howItWorks`: an intro sentence, a `diagram` id (add the boxes and arrows
+     for a new project in `components/showcase/diagrams/index.tsx`, three
+     nodes and two arrow labels is plenty) and 3–5 `steps`.
+   - `hero`, `gallery`, `screens`, `video`: real media, or a placeholder
+     `{ kind: "placeholder", label: "Photos coming: Kalp will add", aspect: "4/3", count: 2 }`
+     that is drawn at the size the real thing will take. Use `null` for a
+     section that does not apply (a car has no app screens).
+   - `tech` (a short list), `repo` (must match the registry, `null` hides
+     the link), `status` (one honest line: prototype / App Store: no / …).
+   - `wanted`: the media you still owe this page; copy it into `STATUS.md`
+     under H3.
+3. **Register it.** Import the file in `content/projects/index.ts` and add it
+   to the `caseStudies` map.
+4. **Pictures.** Put photos through the converter so they are WebP and under
+   300 KB, then import them at the top of the content file:
+   ```bash
+   node scripts/media-to-webp.mjs ~/Desktop/photo.png public/images/projects/<slug>/photo.webp
+   ```
+   For a frame from a video: `~/projects/microtubules/.venv/bin/python scripts/video-poster.py video.mp4 12 frame.png`
+   (12 = seconds into the video), then the converter. iPhone HEIC files: open
+   in Preview, File → Export as PNG first.
+5. **Video.** Never commit the file. Upload it to YouTube as *Unlisted* and
+   set `video: { kind: "youtube", id: "<the id after v=>", title: "…" }`.
+6. **Publish.** `npm test`, then set the registry `status` to `"live"`, commit
+   and push. The row on the home page switches to "case study" / "read" and
+   `/projects/<slug>` shows the full page.

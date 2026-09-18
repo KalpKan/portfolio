@@ -20,6 +20,7 @@ const rcCar: CaseStudy = {
     src: tennisBall,
     alt: "The RC car on a hardwood floor, turning toward a yellow-green tennis ball a few centimetres ahead of its camera",
     caption: "Autonomous mode: the car steers toward the largest green blob in the camera frame. Frame from the build video.",
+    position: "50% 62%",
   },
   problem:
     "Most hobby RC cars are a radio and a motor. The goal here was a car whose every layer Kalp built or wrote: the chassis and gear train in CAD and on a 3D printer, the motor and steering wiring on a Raspberry Pi, a controller stack in C++ that reads a DualShock 4 the way the Linux kernel exposes it, and a vision loop simple enough to run on a Pi Zero 2W without a neural network. The finishing test was not a lap time; it was whether the car could find and follow a tennis ball on a hardwood floor with the controller set down.",
@@ -80,12 +81,8 @@ const rcCar: CaseStudy = {
       },
     ],
   },
-  screens: {
-    kind: "placeholder",
-    label: "No app screens: this project has no phone app. Terminal output from the controller program is in the README.",
-    aspect: "9/19.5",
-    count: 1,
-  },
+  // No phone app, so no screens section; the controller's terminal output is in the repo README.
+  screens: null,
   video: {
     kind: "placeholder",
     label: "Build and driving video coming: Kalp has two clips on disk (100 s build log, 10 s autonomous run); they go on YouTube (unlisted), not in the repo",

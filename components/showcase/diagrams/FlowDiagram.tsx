@@ -55,9 +55,10 @@ export function FlowDiagram({ data }: { data: FlowData }) {
   const subMax = Math.max(...data.nodes.map((n) => n.sub.length));
   const H = 30 + subMax * 14; // node height
 
-  // Horizontal layout (md and up)
-  const W = 150;
-  const GAP = 56;
+  // Horizontal layout (md and up). 11 px mono is ~6.6 px per glyph, so a
+  // 196 px node holds 27 characters; diagrams/index.tsx keeps lines under that.
+  const W = 196;
+  const GAP = 72;
   const PAD = 8;
   const TOP = data.extra?.length ? 44 : PAD;
   const hw = PAD * 2 + N * W + (N - 1) * GAP;
@@ -78,7 +79,7 @@ export function FlowDiagram({ data }: { data: FlowData }) {
         viewBox={`0 0 ${hw} ${hh}`}
         role="img"
         aria-label={data.title}
-        className="hidden w-full max-w-[40rem] md:block"
+        className="hidden w-full max-w-[44rem] md:block"
       >
         <ArrowHead id="fd-h" />
         {data.nodes.map((n, i) => (

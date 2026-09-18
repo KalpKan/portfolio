@@ -47,12 +47,8 @@ const flashcards: CaseStudy = {
       },
     ],
   },
-  gallery: {
-    kind: "placeholder",
-    label: "No hardware to photograph; screenshots are the gallery for this one",
-    aspect: "1/1",
-    count: 1,
-  },
+  // Nothing physical to photograph; the screens carousel is the gallery.
+  gallery: null,
   screens: {
     kind: "placeholder",
     label: "Screenshots coming: sign-in, sets list, a set, the study card, the widget",

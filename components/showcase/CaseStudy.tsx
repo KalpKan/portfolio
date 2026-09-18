@@ -58,16 +58,16 @@ export default function CaseStudy({ study }: { study: CaseStudyT }) {
       </p>
 
       <header className="border-b border-rule pb-8 md:pb-10">
-        <p className="mt-6 font-mono text-[12px] text-ink-2 tabular">{study.kicker}</p>
-        <h1 className="display mt-3 text-[2.25rem] leading-[0.98] md:text-[3.5rem]">
+        <h1 className="display mt-6 text-[2.25rem] leading-[0.98] md:text-[3.5rem]">
           {study.title}
         </h1>
         <p className="mt-4 max-w-[52ch] text-[1.125rem] leading-snug text-ink-2 md:text-[1.375rem]">
           {study.lede}
         </p>
+        {/* The same meta line a channel row carries on the hub: status word, then the kicker facts. */}
         <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px] text-ink-3 tabular">
           <span className="text-ink-2">case study</span>
-          {study.tech.slice(0, 4).map((t) => (
+          {study.kicker.split(" · ").map((t) => (
             <span key={t} className="before:mr-2 before:content-['·']">
               {t}
             </span>
@@ -122,17 +122,23 @@ export default function CaseStudy({ study }: { study: CaseStudyT }) {
           </ol>
         </Section>
 
-        <Section id="photos" label="Photos">
-          <Gallery gallery={study.gallery} />
-        </Section>
+        {study.gallery && (
+          <Section id="photos" label="Photos">
+            <Gallery gallery={study.gallery} />
+          </Section>
+        )}
 
-        <Section id="screens" label="App screens">
-          <ScreenCarousel screens={study.screens} />
-        </Section>
+        {study.screens && (
+          <Section id="screens" label="App screens">
+            <ScreenCarousel screens={study.screens} />
+          </Section>
+        )}
 
-        <Section id="video" label="Video">
-          <VideoEmbed video={study.video} />
-        </Section>
+        {study.video && (
+          <Section id="video" label="Video">
+            <VideoEmbed video={study.video} />
+          </Section>
+        )}
 
         <Section id="tech" label="Built with">
           <ul className="flex flex-wrap gap-x-2 gap-y-1 font-mono text-[12px] text-ink-2 tabular">
