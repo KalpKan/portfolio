@@ -245,3 +245,36 @@ _Entries begin below, oldest first._
 - **Prevention:** `verification.md` Plato "Phone layout" row documents the iframe method (same trick T1.4 used for microtubules); do not trust a desktop-headless screenshot narrower than 500 px.
 - **Reported by:** reviewer (T1.3) / diagnosed by fixer
 
+
+### 2026-09-18: hoops dashboard throws React #418 on every load and shows the same session as "Jan 1" and "Dec 31" (found by the Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18, ~16:20 EDT
+- **Affected:** `https://hoops.kalpkan.com` (product code in `KalpKan/Basketball-Stat-Tracker` `apps/web/components/dashboard-page.tsx` and `apps/web/lib/dashboard-data.ts`); hosting is fine.
+- **Symptom:** Browser console: `Minified React error #418` (hydration text mismatch) on each page load in a real Chrome tab. On the same page the Progress chart labels the oldest session "Jan 1" while the session pill and the Session History row say "Dec 31" / "Wed, Dec 31". Screenshot `docs/reports/evidence/hoops-spec-desktop-2026-09-18.jpg`.
+- **What was tried:** Fetched `/api/dashboard` and the SSR HTML with curl (both say "Jan 1"), then opened the page in Chrome (Toronto time) and read the console.
+- **Root cause:** `formatPillLabel`/`formatTableDate` call `Intl.DateTimeFormat` without a `timeZone` inside a client component that Next renders on the server in UTC; the visitor's browser re-renders in local time, so any `started_at` near a UTC day boundary differs between server and client. The chart labels come from the server (`buildProgress` in `dashboard-data.ts`), so they never change. The trigger is a session whose `started_at` is `1970-01-01T01:54:59Z` (23 shots sent by an old iOS test with epoch-zero timestamps), which is 1969-12-31 in Toronto.
+- **Fix:** Not applied (spec task). The spec `docs/reports/hoops-spec.md` sets the bar: format every date once, server-side, with an explicit `timeZone: "UTC"` (or the session's zone) and pass strings down; hide or label sessions before 2000-01-01 and exclude them from the Overview/Consistency math; have `hoops-ingest-shot` reject `capturedAt` before 2000 or more than a day in the future.
+- **Prevention:** `verification.md` hoops table gains a "Numbers match ground truth" row (`tests/compute-expected-metrics.py --check`) and a "No console errors" row; the fixtures in `~/projects/basketball/tests/fixtures/` keep the 1970 rows on purpose so the guard is tested.
+- **Reported by:** SPEC agent (Phase 5, hoops)
+
+### 2026-09-18: hoops Overview "Consistency" is computed on a different basis than the rows it sits above, and the v1 eFG% proxy can exceed 100 % (found by the Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18, ~16:10 EDT
+- **Affected:** `https://hoops.kalpkan.com` Overview card and `hoops.session_summaries` / `hoops.overall_analytics` views (`supabase/migrations/0002_analytics_views.sql`); hosting is fine.
+- **Symptom:** The card shows Consistency 67.6 % next to a table of 4 daily sessions; the documented formula (`100 - 2 * stddev(session FG%)`) over those 4 visible rows gives 85.9 %. In the same views, session `90000000-0000-4000-8000-000000000100` (one made swish) has `efg_percent` 150.0.
+- **What was tried:** Dumped every `hoops` row through the Management API SQL endpoint into `~/projects/basketball/tests/fixtures/hoops-rows-2026-09-18.json` and recomputed every metric independently in pure Python (`tests/compute-expected-metrics.py`). All counts, FG%, eFG%, swish rates and streaks per UTC day match the live payload exactly; only the basis of Consistency (and, harmlessly, Avg Streak) differs.
+- **Root cause:** `overall_analytics` computes `consistency` over raw `hoops.sessions` rows (5, including a 1-shot 100 % smoke-test session) while `getDashboardPayload` merges sessions by UTC day (4 rows) before rendering, and recomputes Avg Streak on the merged basis but not Consistency. eFG%: the README's proxy `(made + 0.5 * swishes) / attempts` is unbounded when every make is a swish.
+- **Fix:** Not applied (spec task). Bar in `docs/reports/hoops-spec.md` story 2 and 3: one basis for every Overview number (the visible rows) with the basis named in the card's meta text; eFG% redefined so it is ≤ 100 (e.g. `min(100, …)` or `(made + 0.5·swish)/(attempts + 0.5·swish)`) in the SQL view, `buildDailySessions`, the README and the Key Metrics copy together.
+- **Prevention:** `tests/fixtures/hoops-expected-metrics.json` records both bases and the offending session so a fixer's test can assert the chosen one; `verification.md` row added.
+- **Reported by:** SPEC agent (Phase 5, hoops)
+
+### 2026-09-18: hoops dashboard never says the iPhone capture app does not exist, and a DB outage would render sample numbers with a misleading banner (found by the Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18, ~16:15 EDT
+- **Affected:** `https://hoops.kalpkan.com` copy and fallback path (`apps/web/lib/dashboard-data.ts` `getDashboardPayload`, `components/demo-data-banner.tsx`).
+- **Symptom:** Nothing on the live page mentions the iPhone app or how shots get in (curl of the HTML: 0 matches for `iPhone`/`iOS`); the README says the app is a stub. Reading the code: any Supabase query error returns `buildMockPayload()` with `source: "mock"`, and the banner then tells the reader to set `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY`, which would already be set; there is no `/api/health` on the dashboard host, so the UptimeRobot monitor (804030256) only proves the HTML serves.
+- **What was tried:** Code read plus HTML grep; not reproduced live (Project B is up).
+- **Root cause:** T1.1 scoped the banner to "env missing" only; the copy was never updated for the stub status Kalp asked to make clear.
+- **Fix:** Not applied (spec task). Bar in `docs/reports/hoops-spec.md` stories 7 and 10.
+- **Prevention:** `verification.md` hoops table gains an "iOS stub notice present" row once the fix lands; the audit report will carry the defect numbers.
+- **Reported by:** SPEC agent (Phase 5, hoops)
