@@ -60,3 +60,18 @@ describe("CaseStudy with real images", () => {
     expect(noRepo).not.toContain("source repository");
   });
 });
+
+describe("CaseStudy under construction (registry status coming, content not a draft)", () => {
+  it("says under construction in the meta line and keeps the content", () => {
+    const html = renderToStaticMarkup(<CaseStudy study={rcCar} underConstruction />);
+    expect(html).toContain("under construction");
+    expect(html).not.toContain(">case study<");
+    expect(html).toContain(rcCar.problem.slice(0, 60));
+  });
+
+  it("says case study when not under construction", () => {
+    const html = renderToStaticMarkup(<CaseStudy study={rcCar} />);
+    expect(html).toContain(">case study<");
+    expect(html).not.toContain("under construction");
+  });
+});

@@ -47,7 +47,14 @@ function siteId(i: number): string {
   return String(i + 1).padStart(2, "0");
 }
 
-export default function CaseStudy({ study }: { study: CaseStudyT }) {
+export default function CaseStudy({
+  study,
+  underConstruction = false,
+}: {
+  study: CaseStudyT;
+  /** True when the registry still says "coming": the page is published as a work in progress. */
+  underConstruction?: boolean;
+}) {
   const hero = study.hero;
   return (
     <main className="mx-auto w-full max-w-[72rem] flex-1 px-4 pb-16 pt-10 md:px-8 md:pt-16">
@@ -66,7 +73,7 @@ export default function CaseStudy({ study }: { study: CaseStudyT }) {
         </p>
         {/* The same meta line a channel row carries on the hub: status word, then the kicker facts. */}
         <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px] text-ink-3 tabular">
-          <span className="text-ink-2">case study</span>
+          <span className="text-ink-2">{underConstruction ? "under construction" : "case study"}</span>
           {study.kicker.split(" · ").map((t) => (
             <span key={t} className="before:mr-2 before:content-['·']">
               {t}

@@ -7,9 +7,11 @@ import { isPlaceholder } from "@/content/case-study";
 import { loadProjects } from "@/lib/projects";
 
 // /projects/<slug>: the case-study page for a showcase entry. A showcase whose
-// registry status is still "coming" (or has no content file) renders the
-// short placeholder, so nothing unfinished is ever published; the hub row
-// only links here once the status is "live" (lib/projects.ts rowFor()).
+// content file is a draft (or has no content file) renders the short
+// placeholder, so nothing unfinished is ever published. A showcase whose
+// registry status is still "coming" but whose content is not a draft is
+// published as "under construction" (DIY EEG, 2026-09-18); the hub row only
+// links here once the status is "live" (lib/projects.ts rowFor()).
 
 export function generateStaticParams() {
   return loadProjects().map((p) => ({ slug: p.slug }));
@@ -21,8 +23,8 @@ function publishable(slug: string) {
   const p = loadProjects().find((x) => x.slug === slug);
   if (!p) return null;
   const study = getCaseStudy(slug);
-  const live = p.type === "showcase" && p.status !== "coming" && study && !study.draft;
-  return { p, study: live ? study : undefined };
+  const publishable = p.type === "showcase" && study && !study.draft;
+  return { p, study: publishable ? study : undefined, underConstruction: p.status === "coming" };
 }
 
 export async function generateMetadata({
@@ -57,9 +59,9 @@ export default async function ProjectPage({
   const { slug } = await params;
   const found = publishable(slug);
   if (!found) notFound();
-  const { p, study } = found;
+  const { p, study, underConstruction } = found;
 
-  if (study) return <CaseStudy study={study} />;
+  if (study) return <CaseStudy study={study} underConstruction={underConstruction} />;
 
   return (
     <main className="mx-auto w-full max-w-[72rem] flex-1 px-4 pb-16 pt-10 md:px-8 md:pt-16">

@@ -62,6 +62,9 @@ const flashcards: CaseStudy = {
   },
   tech: ["Swift", "SwiftUI", "WidgetKit", "Firebase Auth"],
   repo: null,
+  // Kalp, 2026-09-18: the public page is the short "under construction"
+  // placeholder only, so this content stays a draft until he says otherwise.
+  draft: true,
   status:
     "Under construction: not much built yet · Repository private until a committed Firebase config file is removed · App Store: no",
   wanted: [

@@ -35,22 +35,22 @@ const DIAGRAMS: Record<DiagramId, FlowData> = {
     edges: ["AppState", "cards"],
   },
   "yash-birthday-pcb": {
-    title: "Yash Birthday PCB: schematic in KiCad, board layout, Gerber files sent to the fab",
+    title: "Yash Birthday PCB: a USB-C plug supplies 5 V, three LEDs light the player cut through the board",
     nodes: [
-      { id: "sch", title: "Schematic", sub: ["KiCad Eeschema", "parts + nets"] },
-      { id: "pcb", title: "Board layout", sub: ["KiCad Pcbnew", "copper, silkscreen art"] },
-      { id: "fab", title: "Fabrication", sub: ["Gerber export", "boards ordered", "assembled by hand"] },
+      { id: "usb", title: "USB-C plug", sub: ["Molex 105444, 2.0", "CC1/CC2: 5.1 kΩ to GND", "D+/D−: no connect"] },
+      { id: "led", title: "Three LEDs (back)", sub: ["0603, 220 Ω each", "along the cut-out edge"] },
+      { id: "art", title: "Cut-out (Edge.Cuts)", sub: ["player: ~1,700-pt polygon", "ball: 3.5 mm circle", "12 × 37 mm board"] },
     ],
-    edges: ["netlist", "Gerbers"],
+    edges: ["VBUS 5 V", "lights"],
   },
   eeg: {
-    title: "DIY EEG (under construction): electrodes into an instrumentation amplifier and filters, simulated in LTspice, laid out in KiCad",
+    title: "DIY EEG signal chain (under construction): electrodes into an AD620, two RC filters, a TL084 gain stage, then an ADS1115 ADC on a Raspberry Pi",
     nodes: [
-      { id: "in", title: "Electrodes", sub: ["scalp signal, µV", "reference + bias"] },
-      { id: "amp", title: "Analog front end", sub: ["instrumentation amp", "high-pass, notch, low-pass", "LTspice simulation"] },
-      { id: "out", title: "Digitize + view", sub: ["ADC to microcontroller", "waveform on a laptop", "KiCad board (planned)"] },
+      { id: "in", title: "Electrodes", sub: ["DIN-3: active, ref, body", "10 kΩ safety each", "±9 V from 2 × 9 V"] },
+      { id: "amp", title: "Amplify + filter", sub: ["AD620, Rg 1 kΩ → ×50", "HPF 0.48 Hz, LPF 48 Hz", "TL084 ×11, bias 1.65 V"] },
+      { id: "out", title: "Digitize", sub: ["ADS1115, 16-bit, I2C", "Raspberry Pi 4", "software: not started"] },
     ],
-    edges: ["µV", "V"],
+    edges: ["µV", "mV"],
   },
 };
 
