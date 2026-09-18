@@ -388,6 +388,8 @@ Each phase is an independent brainstorm → spec → implementation cycle (the e
 
 ## Decisions confirmed by Kalp (2026-09-18)
 
+10. **No paid API keys in public demos.** Kalp's own OpenAI (or similar metered) keys are never set on a hosted project. Demos use a free/canned path by default and may offer an optional bring-your-own-key input that stays in the visitor's browser and is sent per request only. Pl@ntNet (free tier) is fine to set server-side.
+
 1. **Domain:** `.com`, bought at cost via Cloudflare Registrar (exact name chosen at purchase time).
 2. **Emote detector assets:** keep Supercell art/sounds, ship with attribution and a "not affiliated" notice under Supercell's fan-content policy.
 3. **Supabase:** he expects more backend projects, so the shared "platform" project with schema-per-app is set up now (basketball moves in), and promptflip stays isolated.
