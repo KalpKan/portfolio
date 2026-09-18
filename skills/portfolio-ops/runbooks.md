@@ -24,7 +24,8 @@ Conventions used below:
 | Restore a paused Supabase project | Written 2026-09-18 (T0.3); **executed 2026-09-18 (T1.1, Project B via the dashboard; API call blocked by the agent sandbox)** |
 | Re-point OAuth redirects (promptflip on the new domain) | Written and executed 2026-09-18 (H5 / promptflip domain task) |
 | Regenerate Supabase types | Written and executed 2026-09-18 (T1.1) |
-| Purge a large file from git history | Not yet written, added when T3.1 (pushup repo) or T4.1 (RC car repo) lands |
+| Add a case study | Written and executed 2026-09-18 (T4.1: unpark, rc-car, outline, flashcards live; classmyschedule held at `coming`, H9) |
+| Purge a large file from git history | Written 2026-09-18 (T4.1); **PR opened, rewrite not executed** (`KalpKan/Automatic-RC-Car` PR #1 waits for Kalp) |
 | Add an UptimeRobot monitor | Written and executed 2026-09-18 (T0.3): three monitors plus the public status page, see `docs/monitors.md` |
 | Add PostHog to an app | Written and executed 2026-09-18 (T0.5, hub); the full copy-paste contract is `docs/analytics.md` (the Flask variant is inside "Deploy a Python app to Vercel") |
 | Check PostHog billing | Written and executed 2026-09-18 (T0.5) |
@@ -292,9 +293,39 @@ Executed 2026-09-18 when `promptflip.kalpkan.com` went live. Use it again whenev
 
 Not yet written, added when T1.1 lands. (`supabase gen types typescript --project-id <ref> --schema <app> > src/types/database.ts`.)
 
+## Add a case study
+
+A case study is a `type: "showcase"` registry entry plus a content file; `content/case-study.test.ts` fails the build when one exists without the other. The plain-English version is the hub README section "How to add a case study"; this is the operator's checklist.
+
+1. **Read the source first.** Write the prose from the repo's code and docs, not from the registry tagline (T4.1 found Outline described as an idea-outliner when it is a PencilKit circle-drawing instrument, and classmyschedule turned out to be a byte-identical copy of `jshklz/classmyschedule`; both went to `incidents.md`). Numbers on the page (thresholds, ports, counts) are the constants in the code.
+2. **Content file.** `content/projects/<slug>.ts` exporting a `CaseStudy` (`content/case-study.ts`): `title`, `lede`, `kicker` (facts joined by ` · `), `problem` (one paragraph, > 200 chars), `howItWorks` (`intro`, `diagram` id, 3–5 `steps`), `hero`, `gallery`, `screens`, `video` (real media, a labelled `Placeholder`, or `null` when the section does not apply), `tech`, `repo` (must equal the registry `repo`), `status` (one honest line), `wanted` (media Kalp still owes; mirror it in `STATUS.md` H3). Register it in `content/projects/index.ts`.
+3. **Diagram.** Add the project to `components/showcase/diagrams/index.tsx` as `FlowData` (3 nodes, node lines under 27 characters, 2 arrow labels, optional `extra` arc). `FlowDiagram` renders it horizontally from `md` and vertically below, all `currentColor`, so both themes come for free.
+4. **Images.** WebP, 300 KB or less, under `public/images/projects/<slug>/` (`content/media.test.ts` enforces it): `node scripts/media-to-webp.mjs <in> <out.webp>`; a frame from a video: `~/projects/microtubules/.venv/bin/python scripts/video-poster.py <video> <seconds> <out.png>` first. HEIC: export as PNG from Preview first (sharp cannot read it). Import the file at the top of the content file; `next/image` gets width/height from the import. Use `position: "50% 60%"` on a `MediaItem` when a portrait frame is shown in the 16/9 hero.
+5. **Video.** Never in the repo (`.gitignore` has `media-inbox/`; the media test rejects anything that is not `.webp`). Unlisted YouTube: `{ kind: "youtube", id, title }`. Cloudflare R2 would need a card on the Cloudflare account, so it is not used.
+6. **Publish.** `npx vitest run --pool=forks --maxWorkers=1 --testTimeout=10000 && npm run lint && npm run build`, flip the registry entry to `status: "live"` (a `coming` showcase renders the short placeholder page and the hub row links to the repo instead), commit, push. Vercel deploys `main`.
+7. **Verify** (`verification.md`, Hub rows "Case-study page" and "Case-study media"): `curl -sI https://kalpkan.com/projects/<slug> | head -1` → `HTTP/2 200`; Chrome at 1440 and 390 in both themes, no horizontal scroll, no console errors; Lighthouse performance ≥ 0.90 on one case-study page.
+8. **Record**: `STATUS.md` (task row, H3 media list), `SKILL.md` system map row for showcase pages, and this index.
+
+**As executed 2026-09-18 (T4.1):** four pages live (`/projects/unpark`, `/projects/rc-car`, `/projects/outline`, `/projects/flashcards`). RC-car photos are frames from `~/Desktop/Out and About/Sidequest/Automatic-RC-Car/Videos/*.mp4` (never committed). The Chrome window would not resize below 1440 px (`innerWidth` stayed 1440 after `resize_window`), so the 390 px check was done with a same-origin `<iframe>` of the page at 390×640 injected into the desktop tab, which honours media queries and reports its own `scrollWidth`.
+
 ## Purge a large file from git history
 
-Not yet written, added when the pushup repo (230 MB of data) or the RC car repo (943 MB) is cleaned. It will use `git filter-repo`, require a human checkpoint before any force-push, and verify with `git count-objects -vH`.
+Written 2026-09-18 for `KalpKan/Automatic-RC-Car` (943 MB on GitHub because commit `eeecf169` carries `data/`: 900,661,890 bytes in 64,273 JPEGs, although `main`'s tree has been clean since `08819992`). **Rewriting history changes every commit id and needs a force-push, so it is a human checkpoint: never run steps 3–6 without Kalp's explicit "go".** The pushup repo (230 MB of data) follows the same procedure when T3.1 lands.
+
+1. **Measure first**, so the before/after is evidence, not a claim. Without cloning 943 MB: `gh api "repos/<owner>/<repo>/git/trees/<big-commit>?recursive=1" --jq '.tree[] | select(.type=="blob") | "\(.size)\t\(.path)"' | sort -rn | head` (the response says `truncated: true` past ~100k entries; sum by top-level directory with awk). A full local clone reports `git count-objects -vH` → `size-pack`. A `git clone --depth 1` shows what the clone *would* weigh after the purge (19.50 KiB for the RC car).
+2. **Open a PR that needs no rewrite** (safe to merge): a README that explains the project, links the case study and says why the clone is heavy; remove stray `.DS_Store`; confirm the offending path is in `.gitignore`. Put the exact rewrite block (step 3) in the PR body for Kalp to approve. Executed: https://github.com/KalpKan/Automatic-RC-Car/pull/1 (branch `purge-training-data`, pushed from a `--depth 1` clone, which works because the remote already has the parent commit).
+3. **The rewrite (only after approval)**, in a fresh clone, never a working copy:
+   ```bash
+   brew install git-filter-repo
+   cd "$(mktemp -d)" && git clone https://github.com/<owner>/<repo>.git && cd <repo>
+   git count-objects -vH                       # before
+   git filter-repo --path data/ --invert-paths --force
+   git count-objects -vH                       # after: size-pack well under 1 MiB
+   git log --oneline                           # same commits, new ids
+   git remote add origin https://github.com/<owner>/<repo>.git   # filter-repo removes it on purpose
+   git push --force --mirror origin
+   ```
+4. **Afterwards**: every clone (including the one under `~/Desktop/Out and About/Sidequest/.../Car Testing`) must be re-cloned, not pushed from again; GitHub's displayed size drops after its next GC (up to a day); verify with a fresh `git clone` + `git count-objects -vH`. Any open PR based on the old ids must be re-created.
 
 ## Add an UptimeRobot monitor
 
@@ -439,3 +470,31 @@ Common failures:
 - `connection_uri` returns 404: the role or database name is wrong, or the branch id is not the one they were created on.
 - Free-plan compute scales to zero after 5 minutes idle; the first query after that takes a few hundred ms extra. That is expected and is what the UptimeRobot 5-minute ping on `/api/health` is for.
 - Reset a role's password if it ever leaks: `POST .../branches/<branch>/roles/<role>/reset_password`, then fetch a new `connection_uri` and update `DATABASE_URL` in Vercel.
+
+## Deploy an Express+CRA app to Vercel
+
+**Status: written and executed 2026-09-18 for Plant It (`KalpKan/PlantWater` → Vercel project `plantit`, `https://plantit.kalpkan.com`).**
+
+When to use: an app has a Create-React-App (or any static-build) frontend plus a Node/Express API in the same repo and must run on Vercel Hobby as static files + one serverless function; or Plant It needs to be redeployed or repaired.
+
+What Vercel does: with `framework: null`, `buildCommand` and `outputDirectory` in `vercel.json`, it runs the build once and serves the output directory from the CDN; every file under `api/` becomes a Node function (uses the **root** `package.json` for dependencies, so the API's deps live there, not in a sub-package). Request bodies are capped at 4.5 MB (413 above). `rewrites` are evaluated in order after the filesystem, so the API catch-all and the SPA fallback must be ordered: `/ingest/*` → PostHog, `/api/:path(.*)` → `/api/index`, then `/((?!api/|ingest/|static/).*)` → `/index.html`. Express receives the original `req.url` (`/api/health`), so routes keep their full `/api/...` paths.
+
+Steps (what was done for Plant It, in order; run from the repo root `~/projects/plantit`):
+1. **Repo shape.** Root `package.json`: API deps + `"build": "npm --prefix frontend ci && npm --prefix frontend run build"` + `"test": "jest --runInBand"`; `api/index.js` = `module.exports = createApp()` from `backend/src/app.js` (the app exports, it never calls `listen`; `backend/src/index.js` is the local dev server). Delete platform leftovers (Dockerfile, Cloud Run start scripts, App Hosting yaml) and any hosting section of `firebase.json` (rules only). `.gitignore` must not ignore `.env.example` (the old `.env.*` pattern did).
+2. **Config from env, lazily.** Firebase Admin initialises on first use from `FIREBASE_PROJECT_ID` / `FIREBASE_CLIENT_EMAIL` / `FIREBASE_PRIVATE_KEY` (the key is pasted with real newlines; the code also accepts literal `\n`). A missing value makes `/api/health` answer 503 `firestore: error` instead of crashing the function at import.
+3. **Health route** `GET /api/health` → `{ok, service, firestore: "ok"|"error", ...}` after a real Firestore read with a 6 s timeout; `Cache-Control: no-store`.
+4. **CRA build must be warning-free**: Vercel sets `CI=true`, which turns ESLint warnings into build failures. Run `cd frontend && CI=true npm run build` locally first and fix the warnings (do not set `CI=false`).
+5. **PostHog**: `posthog-js` imported dynamically after `load` from `frontend/src/analytics.js` with `api_host: '/ingest'`, `persistence: 'memory'`; key from `REACT_APP_POSTHOG_KEY` (CRA only exposes `REACT_APP_*`, baked in at build time). The `/ingest` rewrites in `vercel.json` use `:path(.*)` (see the static-Vite runbook for why).
+6. **Create and link the project:** `npx vercel@latest link --yes --project plantit --scope kks-projects-2edcb11a`. It rewrites `.gitignore` (adds `.vercel`, `.env*`) and writes `.env.local`: restore your `.gitignore` and delete `.env.local` before committing.
+7. **Env vars, non-interactively, production + preview:** `printf '%s' "$VALUE" | npx vercel@latest env add NAME production --scope kks-projects-2edcb11a --yes --force` (repeat with `preview`). Multi-line values (the Firebase private key) pipe fine. `REACT_APP_*` names were accepted as plain secrets (no `--type config` needed, unlike `NEXT_PUBLIC_`); the CLI shows them as `Config`. Never echo a value; check with `npx vercel env ls` (names only).
+8. **Deploy:** `npx vercel@latest --prod --yes --scope kks-projects-2edcb11a`. Hobby builds run one at a time per team: with several agents deploying, a deployment sits in `● Queued` for 10+ minutes before building (observed 2026-09-18); poll `npx vercel ls plantit`, do not re-run the deploy.
+9. **Firebase Auth authorized domains** (Google sign-in fails with `auth/unauthorized-domain` from a new host): `PATCH https://identitytoolkit.googleapis.com/admin/v2/projects/<project>/config?updateMask=authorizedDomains` with a service-account access token (`google-auth-library`, scope `cloud-platform`; script pattern in `incidents.md`/T2.1 plan). Add `<sub>.kalpkan.com` and `<project>.vercel.app`. The service account file is `~/.config/portfolio-ops/plantit-firebase-sa.json` (mode 600, never in a repo).
+10. **Domain:** "Attach a domain to a Vercel project" (needs a Ready production build first).
+11. **Prove it:** `curl -s https://<host>/api/health` → `firestore: ok`; then the real flow in Chrome (sign in, upload, identify, Water now), then the `verification.md` block.
+
+Common failures:
+- Build fails with ESLint "Treating warnings as errors": step 4.
+- `/api/health` serves the SPA's `index.html`: the SPA fallback rewrite is above the `/api` rewrite, or lacks the `(?!api/)` exclusion.
+- `firestore: error` with `firestoreError: "Firebase Admin not configured"`: an env name is missing for that environment (production vs preview).
+- `413`: the photo exceeded 4.5 MB; the frontend caps at 4 MB.
+- Google sign-in `auth/unauthorized-domain`: step 9.

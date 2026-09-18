@@ -279,6 +279,27 @@ _Entries begin below, oldest first._
 - **Prevention:** `verification.md` hoops table gains an "iOS stub notice present" row once the fix lands; the audit report will carry the defect numbers.
 - **Reported by:** SPEC agent (Phase 5, hoops)
 
+### 2026-09-18: registry tagline for Outline described a different app (T4.1)
+- **What happened:** `projects.json` called Outline "a native iOS app for structuring ideas before you write them". The repo (`Methods.md`, `MSECalculator.swift`) is a PencilKit *circle variability analyzer*: participants draw circles on an iPad, each trial gets a shape-only MSE against a 250 px circle, a session gets an MSE-consistency score, and the data exports to JSON for a NumPy pipeline. The tagline was guessed from the repo name when the registry was seeded (T0.1).
+- **Root cause:** registry entries for showcase projects were written without opening the repos.
+- **Fix:** tagline, name and tags corrected in `projects.json`; the case study is written from the code. **Prevention:** runbook "Add a case study" step 1 (read the source first); the case-study test requires > 200 characters of `problem` prose, which cannot be produced from a name alone.
+
+### 2026-09-18: classmyschedule is not Kalp's work as far as the files show (T4.1)
+- **What happened:** `~/Desktop/Apps/classmyschedule-main` (the only copy; the registry has `repo: null`) is byte-identical to `github.com/jshklz/classmyschedule` at its 2025-06-24 commit (checked file by file against `contents/<file>?ref=e13ee442`); that repo is GPL-3 with one contributor, and Kalp's GitHub has no fork. Writing a case study that presents it as Kalp's would have been false.
+- **Fix:** the content file exists as `draft: true` with honest text, the registry entry stays `status: "coming"` (the hub shows no link because `repo` is null and the page is the placeholder), and STATUS.md H9 asks Kalp whether he contributed, forked, or wants the entry removed. **Prevention:** the case-study test forbids a live showcase whose content is a draft; the runbook says to verify authorship before writing.
+
+### 2026-09-18: FlashCardsApp has a committed `GoogleService-Info.plist` and no README (T4.1)
+- **What happened:** the private repo's tree contains the real Firebase config; the "README" is a Swift header comment. The hosting plan already required the file to be removed before any public link (H4).
+- **Fix:** the case study is written from file names and commit dates only, `repo` is `null` in the registry and the content file (so no dead link to a private repo), and H4 stays open. When Kalp makes it public, the plist must be purged from history first (runbook "Purge a large file from git history", same `git filter-repo --path ... --invert-paths` shape) and its Firebase keys rotated.
+
+### 2026-09-18: the RC-car repo's 943 MB is history-only, so a "purge commit" cannot shrink it (T4.1)
+- **What happened:** the task expected a commit that removes large committed data. `main`'s tree has been clean since `08819992` ("Remove training data from git tracking"); the weight is `data/` (900,661,890 bytes, 64,273 files) inside commit `eeecf169`. A `--depth 1` clone is 19.50 KiB; a full clone's pack is 923.74 MiB.
+- **Fix:** PR #1 adds a README pointing at the case study and documents the exact `git filter-repo` procedure for Kalp to approve; nothing was force-pushed. **Prevention:** runbook "Purge a large file from git history" starts with measuring where the bytes live before deciding whether a commit or a rewrite is needed.
+
+### 2026-09-18: claude-in-chrome `resize_window` to 390 left `innerWidth` at 1440 (T4.1)
+- **What happened:** `resize_window` reported success, `outerWidth` became 471, but `innerWidth`/`screen.width` stayed 1440 (the window appears to be in a macOS full-screen space). The 390 px check could not be done on the window itself.
+- **Workaround:** inject a same-origin `<iframe src="/projects/<slug>" style="width:390px;height:640px">` into the desktop tab; media queries inside it respond to the iframe width and `contentDocument.documentElement.scrollWidth` reports overflow. Recorded in runbook "Add a case study" and `verification.md`. Related to the earlier "headless Chrome `--window-size=390` renders at 500 px" entry: neither tool gives a true 390 px window without emulation.
+
 ### 2026-09-18: microtubules page shows a generic error and keeps the previous result on screen when a non-image or TIFF is chosen (found by the Phase 5 SPEC agent)
 
 - **Date:** 2026-09-18, ~16:25 EDT
@@ -364,3 +385,47 @@ _Entries begin below, oldest first._
 - **Fix:** Not applied (spec task). Story 8 bar: a specific message ("this PDF has no text layer on page 1, so course code, term and class times could not be read; enter them below or upload the text version from OWL").
 - **Prevention:** Story-8 edge files are part of the audit; `verification.md` gains a row once the fix lands.
 - **Reported by:** SPEC agent (Phase 5, plato)
+
+### 2026-09-18: hoops Progress chart renders every bar at 0 px, so the chart is an empty box (found by the Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, ~16:30 EDT
+- **Affected:** `https://hoops.kalpkan.com` (`apps/web/components/dashboard-page.tsx:368-376`, `ProgressChart`).
+- **Symptom:** The dashed Progress box shows only four date labels; `style.height` on each bar is `65.2%` … `100%` but `getBoundingClientRect().height` is 0 in Chrome and in all six Playwright configs (`docs/reports/evidence/hoops-r1-desktop-toronto-2026-09-18.jpg`).
+- **What was tried:** Toggled FG% / eFG% / Streak; measured the bar, column and box heights; checked the computed background (the bar is styled, just 0 px tall).
+- **Root cause:** The row is `flex h-full items-end`, so each column (`flex flex-1 flex-col`) is not stretched and has no definite height; a percentage `height` inside an auto-height flex column resolves to 0.
+- **Fix:** Not applied (test round). `docs/reports/hoops.md` D1: stretch the columns (`h-full justify-end`) or compute pixel heights; add values and a 0–100 axis.
+- **Prevention:** `verification.md` hoops row "Functional smoke: chart bars render" (Playwright script in `docs/reports/evidence/hoops-r1-playwright-audit.mjs`); a DOM test asserting bar height > 0.
+- **Reported by:** TEST agent (Phase 5, hoops, round 1)
+
+### 2026-09-18: hoops ingest function accepts 1970 and future timestamps, and the dashboard merges different devices' sessions on one UTC day (found by the Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, ~16:31 EDT
+- **Affected:** Edge Function `hoops-ingest-shot` (`supabase/functions/hoops-ingest-shot/index.ts:66`), `apps/web/lib/dashboard-data.ts` (`buildDailySessions`, `.limit(12)`).
+- **Symptom:** POSTs with `capturedAt` `1970-01-01T00:00:00Z` and `2026-10-18` (+30 d) both returned `200 {"accepted": true}`; the 1970 shot joined the existing "Dec 31" row (24 attempts) and an "Oct 18" pill appeared. The handoff doc's 3-shot session (2026-04-15T23:00Z, new device) never showed as its own row: the page merged it into `day-2026-04-15` (60/45/15) because the merge keys on the UTC date only, not device + date as the backend does. All audit rows were deleted afterwards; `hoops` is back to 5 sessions / 95 shots.
+- **What was tried:** The full story-9 sequence with device `audit-r1-1789763459`: 3 × 200, wrong key 401, `x: 1.5` 400, re-POST idempotent, summaries exact (3/2/1, 66.7/83.3/50.0/1), dashboard updated in 9 s.
+- **Root cause:** Only `Date.parse` validation in the function; date-only merge key and a 12-row session limit in the dashboard.
+- **Fix:** Not applied (test round). `docs/reports/hoops.md` D3 and D9.
+- **Prevention:** `verification.md` rows "Ingest rejects epoch/future timestamps" and "Ingest synthetic session end to end" (with the delete statement); the synthetic fixture should use a date that cannot collide with existing sessions.
+- **Reported by:** TEST agent (Phase 5, hoops, round 1)
+
+### 2026-09-18: hoops Session History table is clipped on a 390 px phone and the dashboard has no `/api/health` (found by the Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, ~16:28 EDT
+- **Affected:** `https://hoops.kalpkan.com` (`apps/web/components/dashboard-page.tsx:194` table wrapper, `:349` chart toggles; no `app/api/health/route.ts`).
+- **Symptom:** At 390 × 844 the `<table>` is 500 px wide inside a 290 px `overflow: hidden` wrapper: FG% is half cut, EFG% and Best Streak cannot be reached (`docs/reports/evidence/hoops-r1-phone-toronto-2026-09-18.jpg`); the FG%/eFG%/Streak toggles are 36 px tall; Lighthouse flags `text-white/35` and `/40` at 3.1–3.8 : 1. `GET /api/health` → 404 on the live host and locally, so UptimeRobot monitor 804030256 cannot tell a DB outage from a healthy page; with a bogus `SUPABASE_URL` the page rendered 67 sample shots under "Demo data … Set SUPABASE_URL".
+- **What was tried:** Playwright at 390 px (`isMobile`, Toronto and Tokyo, dark and light scheme); Lighthouse ×3; local `next dev -p 3123` with an invalid Supabase URL (killed afterwards).
+- **Root cause:** `overflow-hidden` on the table wrapper; `py-2` toggles; low-alpha text tokens; the mock fallback path is shared between "env missing" and "query failed"; no health route was ever added to this app (the keep-alive is Project B's `health` function).
+- **Fix:** Not applied (test round). `docs/reports/hoops.md` D7 and D8.
+- **Prevention:** `verification.md` rows "Functional smoke: phone table reachable", "Dashboard health route", "Honest DB-failure state".
+- **Reported by:** TEST agent (Phase 5, hoops, round 1)
+
+### 2026-09-18: the Management API `secrets` value for `INGEST_API_KEY` is not the key the function accepts (found by the Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, ~16:30 EDT
+- **Affected:** Operator procedure for test ingests into `hoops-ingest-shot` (`settings-map.md` `INGEST_API_KEY` row).
+- **Symptom:** The value returned by `GET /v1/projects/yzppfufqaekgaxcrsqxp/secrets` for `INGEST_API_KEY` (64 chars) gave `401 Unauthorized` on every POST; the 64-char value in `~/.config/portfolio-ops/hoops-ingest.key` was accepted (`200`). The two differ. Neither value was printed.
+- **What was tried:** Both keys against the live function, same payload.
+- **Root cause:** Not determined (possibly the secret was re-set after the first `secrets set`, or the endpoint returns a different representation). The local file is the working copy, as `settings-map.md` says.
+- **Fix:** None needed for the product. Use the file for test ingests; if the Vercel `INGEST_API_KEY` (unused by the dashboard) or the function secret is rotated, rotate all three together (runbook "Rotate a secret").
+- **Prevention:** The `verification.md` ingest rows name the file, not the API, as the key source.
+- **Reported by:** TEST agent (Phase 5, hoops, round 1)
