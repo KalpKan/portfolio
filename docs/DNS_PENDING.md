@@ -115,7 +115,7 @@ If a `curl` to Cloudflare returns `"success": false`, read `errors[0].message`: 
    - Google Cloud console OAuth client: authorised JavaScript origin `https://promptflip.<domain>` (the redirect URI stays on Supabase's `/auth/v1/callback`; only add the origin). This is **H2** if the CLI cannot do it.
    - Runbook: `skills/portfolio-ops/runbooks.md` → "Re-point OAuth redirects" (written when that task lands) and "Attach a domain to a Vercel project".
 2. **projects.json**: change each entry's `url` and `healthUrl` from `*.vercel.app` to the new host; redeploy the hub.
-3. **UptimeRobot** (T0.3): monitors point at the new hosts; keep the `*.vercel.app` monitors for 24 h then delete them.
+3. **UptimeRobot** (T0.3): monitors point at the new hosts. **Done 2026-09-18**: promptflip during T0.4, hoops + hub re-pointed by the Phase 1 audit (`PATCH /v3/monitors/<id>`, ids kept, no separate `*.vercel.app` monitors were ever created so nothing to delete).
 4. **PostHog** (T0.5): nothing to change; the snippet keys on host, so new hosts appear as new sites automatically.
 5. **`skills/portfolio-ops/SKILL.md`** system-map table: replace "PENDING" hosts with the live ones; `architecture.md` DNS section: mark executed.
 6. Move each row of §1 to "done" in §5 with the date, the exact target used, and the Cloudflare record id.

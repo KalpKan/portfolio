@@ -622,3 +622,36 @@ _Entries begin below, oldest first._
 - **Prevention:** runbook "Deploy an Express+CRA app to Vercel", common failures (and it applies to every runbook): one deployment per task step, batch documentation-only commits, never redeploy to "refresh". Consider a Vercel "Ignored Build Step" (`git diff --quiet HEAD^ HEAD -- . ':!docs' ':!*.md'`) on the hub project so docs commits stop consuming deployments.
 - **Reported by:** T2.1 fixer
 
+
+### 2026-09-18: two UptimeRobot monitors still measured `*.vercel.app` aliases six hours after the hosts moved to `kalpkan.com`
+
+- **Date:** 2026-09-18, found 22:35Z by the Phase 1 audit
+- **Affected:** monitors `804030256` (`hoops dashboard`) and `804030271` (`hub health`); Plato had no monitor at all
+- **Symptom:** `GET /v3/monitors` showed `hoops dashboard` on `https://v0-basketball-analytics-dashboard-seven.vercel.app/` and `hub health` on `https://portfolio-alpha-eight-rjbs2nj1q0.vercel.app/api/health` while `hoops.kalpkan.com` and `kalpkan.com` had been live since the morning. Both were `UP`, so nothing alerted; but a broken CNAME or an expired certificate on the real hosts would have gone unnoticed. `plato.kalpkan.com` (Neon-backed) had no monitor although SKILL.md's Plato row said "add via runbook".
+- **What was tried:** Nothing else needed; the decisions log said "monitors stay on the `*.vercel.app` hosts for 24 h before being moved" and nobody owned the move.
+- **Root cause:** A time-boxed follow-up ("after 24 h") with no task row and no owner. Promptflip's monitor was moved during its domain task because that worker was in the file; hoops and hub were moved by nobody.
+- **Fix:** `PATCH /v3/monitors/804030256 {"url":"https://hoops.kalpkan.com/"}`, `PATCH /v3/monitors/804030271 {"url":"https://kalpkan.com/api/health"}` (ids kept, history kept), `POST /v3/monitors` for `plato health (DB, Neon)` → id `804031239`, status page `1263036` `monitorIds` set to all six. All six `status: 2` on the next v2 `getMonitors`.
+- **Prevention:** `docs/monitors.md` and `verification.md` now list six monitors with their `kalpkan.com` URLs; the runbook "Attach a domain to a Vercel project" already tells the worker to move the monitor in the same run, and the new runbook "Audit a phase" step 5 checks that no monitor points at `*.vercel.app`. Decisions log updated: the 24 h wait is over, do not wait next time, move the monitor in the same task.
+- **Reported by:** Phase 1 quality audit (verifier)
+
+### 2026-09-18: the ops skill said four hosts were still waiting on their Vercel projects and that H0 items were pending, after all of them were done
+
+- **Date:** 2026-09-18, found 22:40Z by the Phase 1 audit
+- **Affected:** `skills/portfolio-ops/SKILL.md` (intro sentence, hub env-var cell, Plato monitor cell, DNS-zone row "other subdomains wait on their Vercel projects", status row "three HTTP monitors", analytics row "hub, hoops, plato sending"); `verification.md` (triage rows 1, 2 and 4, "Only live projects exist" listing three of eight projects, status page "three monitors"); `settings-map.md` (`CLOUDFLARE_API_TOKEN` "PENDING (H0)" and "local MCP config", Vercel/Supabase MCP rows "PENDING (H0)"); `docs/monitors.md` (claimed the hub footer links the status page; it does not); `STATUS.md` T0.4 row.
+- **Symptom:** An agent reading the installed skill would have believed plato/plantit/pushups/emotes/microtubules had no DNS record, the hub had no env vars, the Cloudflare token was not available, and only three Vercel projects should exist, and might have "fixed" any of those.
+- **What was tried:** n/a (documentation drift, not an outage)
+- **Root cause:** Each task updated its own row in the system map but not the shared summary cells (intro sentence, DNS-zone row, status row, analytics row, triage table, project list). Nine agents working the same day, none re-reading the cells they did not own.
+- **Fix:** Every cell above rewritten with the audit's evidence and time (see the commit "Phase 1 audit"). `docs/monitors.md` footer claim corrected to "the hub does not link the status page".
+- **Prevention:** Runbook "Audit a phase" step 9 greps the skill for `PENDING|not yet|currently none|wait on|after H0` and treats every hit as a candidate. Shared cells in SKILL.md now carry a "confirmed <time> by the audit" marker so the next reader knows how fresh they are.
+- **Reported by:** Phase 1 quality audit (verifier)
+
+### 2026-09-18: `hoops-ingest-shot` validates the body before checking the device key (400 before 401)
+
+- **Date:** 2026-09-18 22:45Z
+- **Affected:** Supabase Project B Edge Function `hoops-ingest-shot`
+- **Symptom:** `POST .../functions/v1/hoops-ingest-shot` with `x-device-api-key: wrong` and a minimal body `{"id":"x"}` answers `400`, while the same wrong key with a well-formed body answers `401` (the documented check). So an unauthenticated caller can learn the payload schema by probing.
+- **What was tried:** Both requests, twice.
+- **Root cause:** Order of checks in the function: schema validation runs before the key comparison.
+- **Fix:** Not fixed (application code, out of the audit's remit). Filed for the hoops hardening round (T5.a FIX): check the key first, then validate.
+- **Prevention:** `verification.md` row "Ingest function rejects a bad key" keeps the full body so the check stays meaningful; T5.a picks up the ordering.
+- **Reported by:** Phase 1 quality audit (verifier)

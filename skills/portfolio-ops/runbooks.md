@@ -17,7 +17,7 @@ Conventions used below:
 | Add a project to `projects.json` | written |
 | Delete a Vercel project | Written and executed 2026-09-18 (T0.2) |
 | Archive a GitHub repo | Written and executed 2026-09-18 (T0.2) |
-| Attach a domain to a Vercel project | Written 2026-09-18 (T0.4); **executed 2026-09-18 for `kalpkan.com` (apex + www → `portfolio`) and `hoops.kalpkan.com`**. Record table and executed log in `docs/DNS_PENDING.md` |
+| Attach a domain to a Vercel project | Written 2026-09-18 (T0.4); **executed 2026-09-18 for all nine hosts** (apex + www → `portfolio`, then hoops, promptflip, plato, microtubules, plantit, emotes, pushups). Record table and executed log in `docs/DNS_PENDING.md` |
 | Add a schema to Supabase Project B | Written and executed 2026-09-18 (T1.1, `hoops`) |
 | Rotate a secret | Not yet written, added when the first rotation lands |
 | Redeploy an app | Written 2026-09-18 (T1.1: hoops dashboard by CLI) |
@@ -26,7 +26,8 @@ Conventions used below:
 | Regenerate Supabase types | Written and executed 2026-09-18 (T1.1) |
 | Add a case study | Written and executed 2026-09-18 (T4.1: unpark, rc-car, yash-birthday-pcb live; eeg published as "under construction" with status `coming` (H14); flashcards reduced to the placeholder page and Outline removed per Kalp 17:57; classmyschedule held at `coming`, H9) |
 | Purge a large file from git history | Written 2026-09-18 (T4.1); **PR opened, rewrite not executed** (`KalpKan/Automatic-RC-Car` PR #1 waits for Kalp) |
-| Add an UptimeRobot monitor | Written and executed 2026-09-18 (T0.3): three monitors plus the public status page, see `docs/monitors.md` |
+| Add an UptimeRobot monitor | Written and executed 2026-09-18 (T0.3): three monitors plus the public status page; six monitors by the end of Phase 1 (T1.1, T2.1, audit), see `docs/monitors.md` |
+| Audit a phase (re-verify every definition of done) | Written and executed 2026-09-18 (Phase 1 audit) |
 | Add PostHog to an app | Written and executed 2026-09-18 (T0.5, hub); the full copy-paste contract is `docs/analytics.md` (the Flask variant is inside "Deploy a Python app to Vercel") |
 | Check PostHog billing | Written and executed 2026-09-18 (T0.5) |
 | Deploy a browser-ML app (MediaPipe) to Vercel | Written and executed 2026-09-18 (T3.1, pushups: `KalpKan/pushup-tracker-web` → project `pushups`, `https://pushups.kalpkan.com`) |
@@ -572,3 +573,28 @@ To change the template itself: edit `~/projects/portfolio-template`, `npm test &
 Learned on first execution (2026-09-18, `template-smoke`):
 - `vercel deploy` reported `Error: fetch failed` after the upload while the deployment was already building and reached `● Ready` in 40 s; the retry then queued behind four other agents' builds for ~6 min (see `incidents.md`).
 - The `gh` token on this Mac has `repo` but not `delete_repo`, so `gh repo delete` fails; the throwaway was archived instead (`gh repo archive KalpKan/template-smoke -y`) and STATUS.md asks Kalp to run `gh auth refresh -h github.com -s delete_repo` once so agents can delete throwaways. `vercel project rm` needed no extra permission.
+
+## Audit a phase (re-verify every definition of done)
+
+Run this at the end of every phase, and whenever several agents have worked concurrently (regressions and stale docs are the usual damage). It touches nothing but UptimeRobot monitor URLs, skill files, STATUS.md and docs; application bugs it finds are filed as discrepancies, never fixed in passing. First run: 2026-09-18 (Phase 1). Budget: about 30 minutes.
+
+1. **Load the keys and pull the hub repo:** `set -a; source ~/.config/portfolio-ops/secrets.env; set +a; cd ~/projects/portfolio && git pull --rebase --autostash`.
+2. **Every host, one loop** (status, TLS, who serves it):
+   ```bash
+   for h in kalpkan.com www.kalpkan.com promptflip.kalpkan.com hoops.kalpkan.com plato.kalpkan.com plantit.kalpkan.com pushups.kalpkan.com emotes.kalpkan.com microtubules.kalpkan.com; do
+     printf "%-28s " $h; curl -s -o /dev/null -w '%{http_code} tls=%{ssl_verify_result} ' -m 25 "https://$h/"; curl -sI -m 25 "https://$h/" | grep -i '^server:' | tr -d '\r'; done
+   ```
+   Expect `200 tls=0 server: Vercel` for every host (`308` for www). `tls=` anything but `0` is a certificate problem; `server: cloudflare` is an orange-cloud record.
+3. **Every health route:** the `healthUrl` of each `projects.json` entry plus `https://kalpkan.com/api/health` and Project B's `/functions/v1/health`; each must answer 2xx JSON with `ok: true` (and `db: ok` where there is a database).
+4. **DNS against a public resolver** so a stale local cache cannot fool you: `dig +short <host> @1.1.1.1` for every host, compared with `docs/DNS_PENDING.md` §5.
+5. **Plans and spend, all read-only:**
+   - Supabase: `curl -s https://api.supabase.com/v1/projects -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" | jq -c '.[] | {name,status}'` → exactly two `ACTIVE_HEALTHY`.
+   - Vercel: `npx vercel@latest teams ls --scope kks-projects-2edcb11a` → plan `hobby`; `project ls` → the eight expected projects.
+   - Neon: `curl -s https://console.neon.tech/api/v2/organizations/org-mute-unit-58600178 -H "Authorization: Bearer $NEON_API_KEY" | jq .plan` → `"free"` (the org id is required on `/projects` too: `?org_id=org-mute-unit-58600178`).
+   - PostHog: `curl -s "$POSTHOG_HOST/api/billing/" -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" | jq '{has_active_subscription, customer_id}'` → `false`, `null`.
+   - UptimeRobot: `curl -s https://api.uptimerobot.com/v3/monitors -H "Authorization: Bearer $UPTIMEROBOT_API_KEY" | jq -c '.data[] | {id, friendlyName, url, status}'`; every platform monitor `UP`, none on a `*.vercel.app` host. Re-point a stale one with `PATCH /v3/monitors/<id>` `{"url": ...}` (same id keeps the history) and fix `docs/monitors.md`.
+6. **Hub renders the registry:** `curl -s https://kalpkan.com > /tmp/hub.html`, then `grep -c "<name>"` for every `projects.json` name and `grep -o 'href="https://[a-z]*\.kalpkan\.com[^"]*"' /tmp/hub.html | sort -u`; every `live` app URL and every `live` showcase `/projects/<slug>` must appear. `npm test` in the hub keeps registry and content files in lock-step.
+7. **Analytics per host:** for `$pageview` and each app's custom events, `curl -s "$POSTHOG_HOST/api/projects/616829/events/?event=<name>&limit=50" -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" | jq -c '[.results[].properties["$host"]] | group_by(.) | map({(.[0]): length}) | add'`. Server-side events (Plato's `pdf_parsed`, `ics_downloaded` from `posthog-python`) carry no `$host`, so group them by `.properties.app` instead.
+8. **Every delivered repo:** `git status -sb` clean and on `main...origin/main`; README has the "How to run this / How to deploy this / Where the settings live" section; `.env.example` has names only (`grep -vE '^\s*(#|$)' .env.example | grep -E '=.{20,}'` prints nothing); `gh run list --repo KalpKan/<repo> --limit 1` green where CI exists.
+9. **Read the skill against what you just saw.** Every "PENDING", "not yet", "currently none", "wait on", "after H0" and every count ("three monitors") in `SKILL.md`, `verification.md`, `settings-map.md`, `docs/monitors.md`, `docs/DNS_PENDING.md` §3 and `STATUS.md` is a candidate for staleness: `grep -n "PENDING\|not yet\|currently none\|wait on\|after H0" skills/portfolio-ops/*.md docs/*.md`. Fix each with the evidence from steps 2 to 8 and the time you checked.
+10. **Record:** one `incidents.md` entry per class of drift found (root cause is almost always "the agent that changed reality did not update the row"), a STATUS.md task row + session-log line, then `bash scripts/install-ops-skill.sh`, `git pull --rebase --autostash`, commit only your files, push.
