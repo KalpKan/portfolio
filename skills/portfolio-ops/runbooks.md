@@ -151,7 +151,7 @@ Use this for a repo whose code lives on in a successor (rename, rewrite, merge).
 When to use: a new project needs `<sub>.<domain>`, or a subdomain stopped resolving and you need to rebuild the record.
 
 Preconditions:
-- The Vercel project exists and has a production deployment (`npx vercel project ls --scope kks-projects-2edcb11a`).
+- The Vercel project exists and has a production deployment (`npx vercel project ls --scope kks-projects-2edcb11a`). For promptflip, H5 (STATUS.md) must be resolved first: attach to `promptflip-35qv` if Kalp said "keep 35qv", or to `promptflip` only once its build is fixed.
 - `CLOUDFLARE_API_TOKEN` is in the shell (H0 item 4, "Edit zone DNS" template). Never commit it; never paste it into STATUS.md.
 - The domain's zone is on Cloudflare (Registrar purchases are, automatically).
 
@@ -160,6 +160,7 @@ Steps:
 2. Ask Vercel which record it wants: `npx vercel domains inspect <sub>.<domain> --scope kks-projects-2edcb11a`. Use the value it prints. General-purpose values if it prints them: apex `A 76.76.21.21`, subdomain `CNAME cname.vercel-dns-0.com` (Vercel docs, 2026-08/09; the older `cname.vercel-dns.com` in the Phase 0 plan is superseded).
 3. Create the Cloudflare record with `proxied: false` (DNS-only / grey cloud) and `ttl: 1`:
    `POST https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records` with `Authorization: Bearer $CLOUDFLARE_API_TOKEN` and body `{"type":"CNAME","name":"<sub>","content":"<value from step 2>","ttl":1,"proxied":false,"comment":"Vercel project <project>"}`. Zone id: `GET /zones?name=<domain>` → `.result[0].id`. Exact curl lines are in `docs/DNS_PENDING.md` §2.
+   Dashboard equivalent (no token needed): Cloudflare → `<domain>` → DNS → Records → Add record → Type `CNAME` (`A` for the apex), Name `<sub>` (`@` for the apex), Target `<value from step 2>`, Proxy status **OFF** (grey cloud), TTL Auto → Save.
    Why DNS-only: Vercel issues and renews the TLS certificate by checking that record. Behind Cloudflare's proxy the check fails, and Cloudflare "Flexible" SSL loops redirects. This is a deliberate decision (`docs/hosting-plan.md` §6); do not "fix" it by turning the proxy on.
 4. Re-run `npx vercel domains inspect <host>` until it reports the domain as configured, then `npx vercel certs ls` shows a cert for it.
 5. For the apex only: make `www` redirect to the apex with 308 (dashboard: portfolio → Settings → Domains → `www.<domain>` → Redirect; or `PATCH https://api.vercel.com/v9/projects/portfolio/domains/www.<domain>?slug=kks-projects-2edcb11a` with `{"redirect":"<domain>","redirectStatusCode":308}` using a `VERCEL_TOKEN`).

@@ -8,13 +8,13 @@ Written 2026-09-18 for Task T0.4 (`docs/superpowers/plans/2026-09-18-phase-0-fou
 
 ## 1. Record table
 
-All Vercel-target records are **DNS-only (grey cloud, `proxied: false`)**. Reason: Vercel terminates TLS itself and issues Let's Encrypt certificates by checking the record. With Cloudflare's orange-cloud proxy in front, Vercel cannot verify the domain or issue/renew the cert, and Cloudflare's "Flexible" SSL mode causes a redirect loop (Vercel KB, July 2026). Double-proxying also adds a hop for zero benefit, since Vercel already has its own CDN. `docs/hosting-plan.md` §6 states the same rule.
+All Vercel-target records are **DNS-only (grey cloud, `proxied: false`)**. Reason: Vercel terminates TLS itself and issues Let's Encrypt certificates by checking the record. With Cloudflare's orange-cloud proxy in front, Vercel cannot verify the domain or issue/renew the cert, and Cloudflare's "Flexible" SSL mode causes a redirect loop (Vercel KB "Can I use my domain on Vercel with A records?", https://vercel.com/kb/guide/a-record-and-caa-with-vercel, last updated 2026-07-28). Double-proxying also adds a hop for zero benefit, since Vercel already has its own CDN. `docs/hosting-plan.md` §6 states the same rule.
 
 | Host (Cloudflare `name`) | Type | Target (`content`) | Proxy | Vercel project | Status |
 |---|---|---|---|---|---|
 | `@` (apex `<domain>`) | A | `76.76.21.21` | DNS-only | `portfolio` (hub) | pending H1 |
 | `www` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `portfolio` (hub); Vercel redirects `www` → apex (308) | pending H1 |
-| `promptflip` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `promptflip` | pending H1; then update `NEXT_PUBLIC_APP_URL` + Supabase Auth redirect URLs (§3) |
+| `promptflip` | CNAME | `cname.vercel-dns-0.com` | DNS-only | whichever H5 resolves to: `promptflip-35qv` if Kalp says "keep 35qv" (the live one today); `promptflip` only after its failed build is fixed (see STATUS.md H5) | pending H1 + **H5 resolved**; then update `NEXT_PUBLIC_APP_URL` + Supabase Auth redirect URLs (§3) |
 | `hoops` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `v0-basketball-analytics-dashboard` (to be re-linked / renamed in T1.1) | pending H1 + T1.1 |
 | `plato` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `plato` (project not yet created, T1.3) | pending H1 + T1.3 |
 | `plantit` | CNAME | `cname.vercel-dns-0.com` | DNS-only | `plantit` (project not yet created) | pending H1 + project |
@@ -40,7 +40,7 @@ Rules:
 
 ## 2. Execution sequence (run after H1, from `~/projects/portfolio`)
 
-Prerequisites: `CLOUDFLARE_API_TOKEN` exported in the shell (from H0 item 4; never committed), `npx vercel whoami` returns Kalp's account, the domain shows "Active" in Cloudflare → Domain Registration, and the zone uses Cloudflare nameservers (automatic for Registrar purchases).
+Prerequisites: `CLOUDFLARE_API_TOKEN` exported in the shell (from H0 item 4; never committed), `npx vercel whoami` returns Kalp's account, the domain shows "Active" in Cloudflare → Domain Registration, the zone uses Cloudflare nameservers (automatic for Registrar purchases), and **H5 is resolved** (STATUS.md) so the promptflip row targets the surviving Vercel project (`promptflip-35qv` if "keep 35qv"; `promptflip` only once its build is fixed).
 
 ```bash
 export DOMAIN="<domain>"                       # e.g. kalpkansara.com
@@ -57,15 +57,19 @@ npx vercel domains add "$DOMAIN" portfolio --scope "$VERCEL_TEAM"
 npx vercel domains add "www.$DOMAIN" portfolio --scope "$VERCEL_TEAM"
 npx vercel domains inspect "$DOMAIN" --scope "$VERCEL_TEAM"        # read the A value it wants
 npx vercel domains inspect "www.$DOMAIN" --scope "$VERCEL_TEAM"    # read the CNAME value it wants
+export A_TARGET="<A value printed by inspect>"            # 76.76.21.21 for most projects
+export CNAME_TARGET="<CNAME value printed by inspect>"    # cname.vercel-dns-0.com if inspect prints the general-purpose value
 
-# 2. Cloudflare records for the hub (DNS-only). Replace content if `inspect` printed different values.
+# 2. Cloudflare records for the hub (DNS-only), using the values inspect printed.
+#    Dashboard equivalent: Cloudflare -> <domain> -> DNS -> Records -> Add record -> Type A, Name @, IPv4 $A_TARGET,
+#    Proxy status OFF (grey cloud), TTL Auto, Save; then Type CNAME, Name www, Target $CNAME_TARGET, Proxy OFF, Save.
 curl -s -X POST "$CF_API/zones/$ZONE_ID/dns_records" \
   -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
-  -d '{"type":"A","name":"@","content":"76.76.21.21","ttl":1,"proxied":false,"comment":"Vercel hub (portfolio) - DNS-only so Vercel can issue TLS"}'
+  -d "{\"type\":\"A\",\"name\":\"@\",\"content\":\"$A_TARGET\",\"ttl\":1,\"proxied\":false,\"comment\":\"Vercel hub (portfolio) - DNS-only so Vercel can issue TLS\"}"
 
 curl -s -X POST "$CF_API/zones/$ZONE_ID/dns_records" \
   -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
-  -d '{"type":"CNAME","name":"www","content":"cname.vercel-dns-0.com","ttl":1,"proxied":false,"comment":"Vercel hub (portfolio) www -> apex redirect handled by Vercel"}'
+  -d "{\"type\":\"CNAME\",\"name\":\"www\",\"content\":\"$CNAME_TARGET\",\"ttl\":1,\"proxied\":false,\"comment\":\"Vercel hub (portfolio) www -> apex redirect handled by Vercel\"}"
 
 # 3. Wait for Vercel to verify (repeat until both say configured / no missing records)
 npx vercel domains inspect "$DOMAIN" --scope "$VERCEL_TEAM"
@@ -79,14 +83,17 @@ curl -s -X PATCH "https://api.vercel.com/v9/projects/portfolio/domains/www.$DOMA
   -d "{\"redirect\":\"$DOMAIN\",\"redirectStatusCode\":308}"
 
 # 5. One subdomain per row of §1 -- run this block once per (SUB, PROJECT) pair whose Vercel project exists.
-#    Pairs today: promptflip/promptflip. Later: hoops/<hoops project>, plato/plato, plantit/plantit,
+#    Pairs today: promptflip/<H5 survivor>. Later: hoops/<hoops project>, plato/plato, plantit/plantit,
 #    pushups/pushups, emotes/emotes, microtubules/microtubules.
-export SUB="promptflip"; export PROJECT="promptflip"
+export SUB="promptflip"; export PROJECT="promptflip-35qv"   # H5: "keep 35qv" -> promptflip-35qv; "keep promptflip" -> promptflip (only after its build is fixed)
 npx vercel domains add "$SUB.$DOMAIN" "$PROJECT" --scope "$VERCEL_TEAM"
 npx vercel domains inspect "$SUB.$DOMAIN" --scope "$VERCEL_TEAM"   # read the CNAME value it wants
+export CNAME_TARGET="<CNAME value printed by inspect for this host>"
+#    Dashboard equivalent: Cloudflare -> <domain> -> DNS -> Records -> Add record -> Type CNAME, Name $SUB,
+#    Target $CNAME_TARGET, Proxy status OFF (grey cloud), TTL Auto, Save.
 curl -s -X POST "$CF_API/zones/$ZONE_ID/dns_records" \
   -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
-  -d "{\"type\":\"CNAME\",\"name\":\"$SUB\",\"content\":\"cname.vercel-dns-0.com\",\"ttl\":1,\"proxied\":false,\"comment\":\"Vercel project $PROJECT - DNS-only so Vercel can issue TLS\"}"
+  -d "{\"type\":\"CNAME\",\"name\":\"$SUB\",\"content\":\"$CNAME_TARGET\",\"ttl\":1,\"proxied\":false,\"comment\":\"Vercel project $PROJECT - DNS-only so Vercel can issue TLS\"}"
 npx vercel domains inspect "$SUB.$DOMAIN" --scope "$VERCEL_TEAM"   # repeat until verified
 
 # 6. Verify every host (docs/hosting-plan.md §10 item 1)
@@ -103,7 +110,7 @@ If a `curl` to Cloudflare returns `"success": false`, read `errors[0].message`: 
 ## 3. Follow-ups after the records resolve
 
 1. **promptflip** (Vercel project `promptflip`):
-   - Set `NEXT_PUBLIC_APP_URL=https://promptflip.<domain>` for the Production environment: `npx vercel env rm NEXT_PUBLIC_APP_URL production --yes && npx vercel env add NEXT_PUBLIC_APP_URL production` (run in `~/projects/promptflip`), then redeploy: `npx vercel --prod --yes`.
+   - Set `NEXT_PUBLIC_APP_URL=https://promptflip.<domain>` for the Production environment: `npx vercel env rm NEXT_PUBLIC_APP_URL production --yes && printf 'https://promptflip.%s' "$DOMAIN" | npx vercel env add NEXT_PUBLIC_APP_URL production` (run in `~/projects/promptflip`, which must be linked to the H5 survivor; piping the value keeps `env add` non-interactive), then redeploy: `npx vercel --prod --yes`.
    - Supabase (Project A, promptflip) → Authentication → URL Configuration: Site URL `https://promptflip.<domain>`; add `https://promptflip.<domain>/**` to Redirect URLs. Keep the `*.vercel.app` entries until the new host is confirmed working, then remove them.
    - Google Cloud console OAuth client: authorised JavaScript origin `https://promptflip.<domain>` (the redirect URI stays on Supabase's `/auth/v1/callback`; only add the origin). This is **H2** if the CLI cannot do it.
    - Runbook: `skills/portfolio-ops/runbooks.md` → "Re-point OAuth redirects" (written when that task lands) and "Attach a domain to a Vercel project".
