@@ -33,15 +33,17 @@ Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 | T0.0 | 0 | Living ops skill scaffold | ✅ verified | skills/portfolio-ops/ (installed to ~/.claude/skills/portfolio-ops/) | verifier 2026-09-18 | 2026-09-18 |
 | T0.1 | 0 | Hub repo + Next.js skeleton | done (deployed) | https://portfolio-alpha-eight-rjbs2nj1q0.vercel.app | | 2026-09-18 |
 | T0.2 | 0 | Cleanup old Vercel projects + archive repos | ✅ verified (partial by design: `tokengamblecoinflip` deleted; `token-gamble-coinflip` + `token-coinflip` archived; `promptflip-35qv` kept, see H5) | https://github.com/KalpKan/token-gamble-coinflip, https://github.com/KalpKan/token-coinflip (archived) | verifier 2026-09-18 | 2026-09-18 |
-| T0.3 | 0 | UptimeRobot monitors | done — awaiting review (3 monitors up, alerts to email, public status page; spend $0) | https://stats.uptimerobot.com/a6n3Wx3PBp (inventory: docs/monitors.md) | | 2026-09-18 |
+| T0.3 | 0 | UptimeRobot monitors | ✅ verified (3 monitors up, email alerts, public status page, $0) | https://stats.uptimerobot.com/a6n3Wx3PBp (inventory: docs/monitors.md) | verifier 2026-09-18 | 2026-09-18 |
 | T0.4 | 0 | DNS_PENDING.md | ✅ reviewed (plan written; execution waits on H1) | docs/DNS_PENDING.md | reviewer 2026-09-18 | 2026-09-18 |
 | T0.5 | 0 | PostHog analytics | queued (starts after T0.1) | | | |
 
 ## Decisions log
+- 2026-09-18: T0.3 monitors the basketball dashboard at its public alias `v0-basketball-analytics-dashboard-seven.vercel.app`, because the team-scoped alias redirects every visitor to a Vercel SSO page. UptimeRobot v2 write API is blocked on the Free plan; v3 is used for writes (runbook updated).
 - 2026-09-18: Supabase Management API shows 4 projects: PromptFlip (active), ShootIt = basketball (paused), plato-course-converter (paused), "KalpKan's Project" (paused). Paused projects do not count toward the 2-active cap. Plan: restore ShootIt as Project B "platform" in T1.1; leave the other two paused (Plato goes to Neon). Never have more than 2 active.
 - 2026-09-18: T0.2 kept `promptflip-35qv` instead of deleting it: it is the live promptflip (READY, health+DB ok); the locally-linked `promptflip` project is the broken one. Escalated as H5 rather than guessing.
 - 2026-09-18: `/goal` mode rejected the prompt (4000-char limit), so the orchestration runs in the interactive session instead. Same operating model (worker → reviewer → verifier).
 
 ## Session log
+- 2026-09-18: T0.3 done and verified; status page https://stats.uptimerobot.com/a6n3Wx3PBp.
 - 2026-09-18: T0.1 hub deployed to Vercel Hobby (project `portfolio`); health, status proxy, 12-entry registry, CI workflow, README for Kalp. Lighthouse perf 0.92.
 - 2026-09-18: repo created, plan copied to docs/hosting-plan.md, Phase 0 dispatched.
