@@ -41,3 +41,8 @@ These are the one-time keys Kalp supplies at human checkpoint H0. They live in t
 | `NEXT_PUBLIC_APP_SCHEMA` (plus the Supabase URL and anon key for Project B) | every Project B app, starting with basketball (`hoops`) and the new-project template | T1.1, T1.2 |
 | `SECRET_KEY`, `DATABASE_URL` (Neon) | Plato | T1.3 |
 | Firebase web config, Pl@ntNet API key, OpenAI API key (with a spend cap) | PlantWater | T2.1 |
+
+
+## Operator credentials location (added 2026-09-18, H0 complete)
+
+All operator keys live in `~/.config/portfolio-ops/secrets.env` (mode 600, never in any repo). Load them in a shell with `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`. Names: `POSTHOG_PERSONAL_API_KEY` (all-access; rotate to project-scoped after Phase 1), `POSTHOG_HOST`, `CLOUDFLARE_API_TOKEN` (Edit zone DNS), `UPTIMEROBOT_API_KEY`, `NEON_API_KEY`, `NEON_PROJECT_ID`, `SUPABASE_ACCESS_TOKEN` (personal access token; the Supabase CLI and Management API honour it as an env var). Vercel: CLI login only. GitHub: `gh` login only.

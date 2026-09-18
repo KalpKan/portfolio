@@ -109,3 +109,15 @@ UnPark (codename Antifreeze, the Parkinson's freezing-of-gait device: iOS app + 
 - Fly.io auto-stop machine (about $2.8 CAD per month, near $0 idle) for the first project that needs websockets or a long-running process.
 - Hugging Face ZeroGPU (2 free Gradio Spaces) for a future "try my model" demo. Note: plain CPU Gradio Spaces now require PRO; only Static and ZeroGPU Spaces are free.
 - Modal ($30 per month free credit, scale-to-zero) for a future GPU API behind a Vercel route.
+
+
+## Supabase account inventory (verified via Management API 2026-09-18)
+
+| Project ref | Name | Status | Role in this platform |
+|---|---|---|---|
+| nhddxonizdxwbvwcxklu | PromptFlip | ACTIVE_HEALTHY | Project A: promptflip only, isolated |
+| yzppfufqaekgaxcrsqxp | ShootIt | INACTIVE (paused) | Project B: restore and rename `platform` in T1.1; schema per app starting with `hoops` |
+| ftcqzuzpyebtwihizqfl | plato-course-converter | INACTIVE (paused) | Not used; Plato moves to Neon. Leave paused. |
+| zxjtflnnjxdxiycrdlrv | KalpKan's Project | INACTIVE (paused) | Unknown contents; leave paused, do not delete without a human checkpoint |
+
+Paused projects do not count toward the Free plan's 2-active-project cap. The rule is: at most two ACTIVE projects (A and B), never a third. Restoring a paused project is `POST https://api.supabase.com/v1/projects/{ref}/restore` with the access token, or the dashboard's Restore button.
