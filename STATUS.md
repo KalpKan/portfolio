@@ -37,7 +37,7 @@ Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 ## Tasks
 | ID | Phase | Task | Status | URL | Verified by | Date |
 |---|---|---|---|---|---|---|
-| T0.0 | 0 | Living ops skill scaffold | done — awaiting review | skills/portfolio-ops/ (installed to ~/.claude/skills/portfolio-ops/) | | 2026-09-18 |
+| T0.0 | 0 | Living ops skill scaffold | ✅ verified | skills/portfolio-ops/ (installed to ~/.claude/skills/portfolio-ops/) | verifier 2026-09-18 | 2026-09-18 |
 | T0.1 | 0 | Hub repo + Next.js skeleton | in progress | | | 2026-09-18 |
 | T0.2 | 0 | Cleanup old Vercel projects + archive repos | ✅ verified (partial by design: `tokengamblecoinflip` deleted; `token-gamble-coinflip` + `token-coinflip` archived; `promptflip-35qv` kept, see H5) | https://github.com/KalpKan/token-gamble-coinflip, https://github.com/KalpKan/token-coinflip (archived) | verifier 2026-09-18 | 2026-09-18 |
 | T0.3 | 0 | UptimeRobot monitors | blocked on H0 | | | |
