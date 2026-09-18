@@ -14,7 +14,7 @@ Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bo
 | 2 | Failing app's health route | `curl -sf https://<prod-url>/api/health` | promptflip: JSON containing `"db":"ok"`; hub: `{"ok":true,"service":"hub","time":"..."}` | promptflip live; hub PENDING (T0.1) |
 | 3 | Vercel deployment logs | `npx vercel ls <project> --scope kks-projects-2edcb11a` then `npx vercel inspect <deployment-url> --logs` | newest deployment state `Ready`, no build errors | works now |
 | 4 | Supabase project status | Supabase dashboard project list, or Supabase MCP `list_projects` | both projects `ACTIVE_HEALTHY`, none `INACTIVE` (paused) | works now (dashboard); MCP after H0 |
-| 5 | Cloudflare DNS record | `dig +short <sub>.<domain>` and `dig +short <domain>` | subdomain: `cname.vercel-dns.com.` (plus resolved IPs); apex: `76.76.21.21` | PENDING (H1) |
+| 5 | Cloudflare DNS record | `dig +short <sub>.<domain>` and `dig +short <domain>` | subdomain: a `*.vercel-dns*.com` name, specifically whatever `npx vercel domains inspect <host>` printed when the record was created (recorded in `docs/DNS_PENDING.md` §5; general-purpose fallback `cname.vercel-dns-0.com`); apex: `76.76.21.21` | PENDING (H1) |
 
 ## Per-component checks
 
@@ -30,7 +30,7 @@ Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bo
 | Lighthouse performance | `npx lighthouse https://<prod-url> --only-categories=performance --quiet --chrome-flags="--headless" --output=json \| jq .categories.performance.score` | `>= 0.9` | PENDING (T0.1) |
 | Health badges | open the hub in a browser; each `app` card shows a green dot within 3 s | green for every live app, grey (not an error) for `coming` | PENDING (T0.1) |
 
-### promptflip (`KalpKan/promptflip`, Vercel project `promptflip`, Supabase Project A)
+### promptflip (`KalpKan/promptflip`, Vercel project `promptflip-35qv` (the live one; see H5), Supabase Project A)
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
@@ -59,7 +59,7 @@ Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bo
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Every host resolves | `for h in "" promptflip. hoops. plato. plantit. pushups. emotes. microtubules.; do echo -n "$h<domain>: "; dig +short "$h<domain>" \| head -1; done` | apex `76.76.21.21`, each subdomain `cname.vercel-dns.com.` | PENDING (H1) |
+| Every host resolves | `for h in "" promptflip. hoops. plato. plantit. pushups. emotes. microtubules.; do echo -n "$h<domain>: "; dig +short "$h<domain>" \| head -1; done` | apex `76.76.21.21`, each subdomain a `*.vercel-dns*.com` name, specifically whatever `npx vercel domains inspect <host>` printed when the record was created (recorded in `docs/DNS_PENDING.md` §5; general-purpose fallback `cname.vercel-dns-0.com`) | PENDING (H1) |
 | TLS valid | `curl -sI https://<sub>.<domain> \| head -1` for each host | `HTTP/2 200`, no certificate error | PENDING (H1) |
 | Records are DNS-only | `curl -sI https://<sub>.<domain> \| grep -i '^server:'` | `server: Vercel`, not `cloudflare` (an orange-cloud record shows `cloudflare` and breaks TLS issuance) | PENDING (H1) |
 | Vercel sees the domain | `npx vercel domains ls --scope kks-projects-2edcb11a` | each domain listed with a valid configuration | PENDING (H1) |
@@ -70,13 +70,13 @@ Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bo
 |---|---|---|---|
 | Plan is still Hobby | Vercel dashboard, team settings, Billing | Hobby, $0 | works now |
 | Usage under limits | Vercel dashboard, Usage (30-day window) | Fast Data Transfer, invocations, Active CPU all well under Hobby limits (100 GB, 1 M, 4 CPU-hours) | PENDING (30 days after T0.1) |
-| Only live projects exist | `npx vercel project ls --scope kks-projects-2edcb11a` | no `tokengamblecoinflip`, no `promptflip-35qv` | PENDING (T0.2) |
+| Only live projects exist | `npx vercel project ls --scope kks-projects-2edcb11a` | no `tokengamblecoinflip`; both `promptflip` and `promptflip-35qv` present until H5 is resolved (then only the survivor); `v0-basketball-analytics-dashboard` present | confirmed 2026-09-18 (T0.2) |
 
 ### GitHub
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Old coinflip repos archived | `gh repo view KalpKan/token-gamble-coinflip --json isArchived` and same for `token-coinflip` | `{"isArchived":true}` | PENDING (T0.2) |
+| Old coinflip repos archived | `gh repo view KalpKan/token-gamble-coinflip --json isArchived` and same for `token-coinflip` | `{"isArchived":true}` | confirmed 2026-09-18 (T0.2) |
 | No secrets committed | run a secret scan (for example `gitleaks detect --source .`) in any repo before it goes public | no findings | run per task |
 
 ### UptimeRobot (after H0 key)

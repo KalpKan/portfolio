@@ -78,7 +78,7 @@ Registrar and DNS are Cloudflare (at-cost renewals, free DNS with 200 records, f
 | `status.` | UptimeRobot public status page | optional |
 | future GPU demo | `hf.space` custom domain or Modal URL behind a Vercel route | reserved |
 
-Subdomains are `CNAME cname.vercel-dns.com`. **Every Vercel-targeted record must be DNS-only (grey cloud).** Proxying through Cloudflare (orange cloud) puts two TLS terminators in series and Vercel's certificate issuance fails or loops. This is the single most likely thing a well-meaning agent will "fix" wrongly.
+Subdomains are a CNAME to a `*.vercel-dns*.com` name, specifically whatever `npx vercel domains inspect <host>` printed when the record was created (recorded in `docs/DNS_PENDING.md` §5; general-purpose fallback `cname.vercel-dns-0.com`). **Every Vercel-targeted record must be DNS-only (grey cloud).** Proxying through Cloudflare (orange cloud) puts two TLS terminators in series and Vercel's certificate issuance fails or loops. This is the single most likely thing a well-meaning agent will "fix" wrongly.
 
 ## The connections layer (hub to projects)
 
