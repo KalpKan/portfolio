@@ -278,3 +278,47 @@ _Entries begin below, oldest first._
 - **Fix:** Not applied (spec task). Bar in `docs/reports/hoops-spec.md` stories 7 and 10.
 - **Prevention:** `verification.md` hoops table gains an "iOS stub notice present" row once the fix lands; the audit report will carry the defect numbers.
 - **Reported by:** SPEC agent (Phase 5, hoops)
+
+### 2026-09-18: microtubules page shows a generic error and keeps the previous result on screen when a non-image or TIFF is chosen (found by the Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18, ~16:25 EDT
+- **Affected:** `https://microtubules.kalpkan.com` (`web/src/main.ts` `run()` catch block and `decode()` in `KalpKan/Microtubule-Quantification`); hosting is fine.
+- **Symptom:** Feeding `tests/fixtures/edge/not-an-image.txt`, `renamed-text.png`, `truncated.png`, `document.pdf`, `empty.png` or `cell.tiff` through the real file input (local build of `main` `eb07aa0`, Chrome) prints "Could not analyse that image: The source image could not be decoded." for every one, while the percentage, threshold and size of the previously analysed image stay on screen unchanged. Nothing lists the supported formats; the README advertises TIFF as an input format, which Chrome/Firefox cannot decode.
+- **What was tried:** `web/scripts/browser-corpus.js` over the six non-image fixtures; console read.
+- **Root cause:** `createImageBitmap` rejects with one DOMException message for every failure and `run()` surfaces it verbatim; the results section is never hidden or marked stale on error.
+- **Fix:** Not applied (spec task). Bar in `docs/reports/microtubules-spec.md` story S6.
+- **Prevention:** the fixtures stay in `tests/fixtures/edge/` with expected refusals in `ground_truth.json`; `verification.md` microtubules table gains a "Wrong file types" row.
+- **Reported by:** SPEC agent (Phase 5, microtubules)
+
+### 2026-09-18: microtubules page freezes for 15 s and uses 475 MB on a 24-megapixel photo; no size guard, no progress (found by the Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18, ~16:25 EDT
+- **Affected:** `https://microtubules.kalpkan.com` (`web/src/main.ts` `run()` and `paint()`: synchronous decode, analysis and two full-resolution canvases on the main thread).
+- **Symptom:** `tests/fixtures/edge/generated-large/huge-24mp-6000x4000.jpg` (6000 × 4000) gave the right number (23.93 % vs Python 23.9292 %) but took 15.4 s wall time with the tab unresponsive (analysis itself 3.3 s; the rest is decode and painting 6000 × 4000 input and overlay canvases), `performance.memory.usedJSHeapSize` 475 MB afterwards. 12 MP files complete in ~1 s. iOS Safari caps a canvas near 16.7 MP, so a phone would show blank panels or reload the tab (not yet tested on a device).
+- **What was tried:** browser-corpus.js on the 12 MP PNG/JPEG and the 24 MP JPEG; heap read.
+- **Root cause:** No megapixel limit and no downscaling for display; work is not in a Worker; status text cannot repaint while the main thread is busy.
+- **Fix:** Not applied (spec task). Bar in `docs/reports/microtubules-spec.md` story S5 (progress state, display canvases ≤ 2 MP, heap < 300 MB, or a stated refusal limit).
+- **Prevention:** `make_fixtures.py` regenerates the 24 MP file (git-ignored, 4.3 MB); the S5 row in `verification.md` names it.
+- **Reported by:** SPEC agent (Phase 5, microtubules)
+
+### 2026-09-18: microtubules result is below the fold on a phone, and degenerate inputs read as valid measurements (found by the Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18, ~16:27 EDT
+- **Affected:** `https://microtubules.kalpkan.com` (`web/index.html`, `web/src/main.ts`).
+- **Symptom:** In a 390 × 844 iframe (`docs/reports/images/microtubules-phone-390-after-sample.jpg`), tapping "Nocodazole 25 µM" changes only the status line; the results section starts ~800 px down, so the number is invisible until the user scrolls. Layout otherwise fits (scrollWidth 390). Separately, `edge/cell-grayscale.png` and `fullfield/Plate1_W1_green_channel_camera.jpeg` (no blue channel) show "0.00 % of the image is microtubule" and solid-colour images show threshold 0 with 0 % or 100 %, with no warning; the page never defines the denominator (whole image, background included), gives no reference values and no caveats.
+- **What was tried:** iframe harness at 390 px over the local build; corpus run.
+- **Root cause:** No scroll-into-view/focus after a result; the copy was written for the accuracy DoD, not for a first-time visitor; no degenerate-input checks after `analyze()`.
+- **Fix:** Not applied (spec task). Bars in `docs/reports/microtubules-spec.md` stories S2, S7, S8.
+- **Prevention:** `verification.md` microtubules "Phone width" row now requires the percentage to be visible without scrolling after a tap.
+- **Reported by:** SPEC agent (Phase 5, microtubules)
+
+### 2026-09-18: institutional memory said the original microtubule crops were lost; they are on the Desktop under a different path (found by the Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18, ~16:15 EDT
+- **Affected:** `docs/superpowers/plans/2026-09-18-microtubules.md` and the T1.4 session-log line ("the Desktop folder is gone"), which sent T1.4 down the recover-pixels-from-figures path.
+- **Symptom:** `~/Desktop/Organized Cropped Cells` does not exist, but `~/Desktop/Out and About/Sidequest/Microtubule Quantification/Organized Cropped Cells/` holds all 36 original RGBA `.PNG` crops, plus the whole-well images and raw camera JPEGs.
+- **What was tried:** `find ~/Downloads ~/Desktop ~/Documents -iname "*microtub*"`.
+- **Root cause:** `run_analysis.py`'s default path pointed at the Desktop root; nobody searched deeper.
+- **Fix:** The 36 crops and 4 whole-well images are now committed under `~/projects/microtubules/tests/fixtures/` with Python ground truth; the recovered samples in `web/public/samples/` were confirmed pixel-identical to the originals (33/36 CSV rows reproduce exactly; `P3_W1_C2`, `P3_W1_C3`, `P3_W3_C3` were re-cropped after the CSV was written, so their truth is the pipeline on the current file).
+- **Prevention:** `tests/fixtures/make_fixtures.py` documents the source path and copies from it when present; the spec's asset table lists what is personal and stays uncommitted (the group poster PDF, raw camera folders).
+- **Reported by:** SPEC agent (Phase 5, microtubules)
