@@ -24,7 +24,7 @@ Conventions used below:
 | Restore a paused Supabase project | Written 2026-09-18 (T0.3); **executed 2026-09-18 (T1.1, Project B via the dashboard; API call blocked by the agent sandbox)** |
 | Re-point OAuth redirects (promptflip on the new domain) | Written and executed 2026-09-18 (H5 / promptflip domain task) |
 | Regenerate Supabase types | Written and executed 2026-09-18 (T1.1) |
-| Add a case study | Written and executed 2026-09-18 (T4.1: unpark, rc-car, outline, flashcards live; classmyschedule held at `coming`, H9) |
+| Add a case study | Written and executed 2026-09-18 (T4.1: unpark, rc-car,  flashcards live; classmyschedule (REMOVED 2026-09-18: not Kalp's work) held at `coming`, H9) |
 | Purge a large file from git history | Written 2026-09-18 (T4.1); **PR opened, rewrite not executed** (`KalpKan/Automatic-RC-Car` PR #1 waits for Kalp) |
 | Add an UptimeRobot monitor | Written and executed 2026-09-18 (T0.3): three monitors plus the public status page, see `docs/monitors.md` |
 | Add PostHog to an app | Written and executed 2026-09-18 (T0.5, hub); the full copy-paste contract is `docs/analytics.md` (the Flask variant is inside "Deploy a Python app to Vercel") |
@@ -32,6 +32,7 @@ Conventions used below:
 | Deploy a static Vite app to Vercel | Written and executed 2026-09-18 (T1.4, microtubules: `KalpKan/Microtubule-Quantification` `web/` → project `microtubules`, `https://microtubules.kalpkan.com`) |
 | Rotate the PostHog key | Written 2026-09-18 (T0.5); not yet executed |
 | Deploy a Python app to Vercel | Written and executed 2026-09-18 (T1.3, Plato) |
+| Deploy an Express+CRA app to Vercel | Written and executed 2026-09-18 (T2.1, Plant It: `KalpKan/PlantWater` → project `plantit`, `https://plantit.kalpkan.com`) |
 | Create a Neon database | Written and executed 2026-09-18 (T1.3, Plato) |
 
 ## Deploy the hub to Vercel
@@ -114,7 +115,7 @@ The count line above the array ("N live · N coming · N case studies", plus "N 
 **Schema details as shipped in T0.1 (`lib/projects.ts`):**
 - `slug` must be lowercase kebab-case and unique; the loader throws on duplicates, so `npm test` and `npm run build` both fail loudly on a bad entry.
 - An `app` may omit `url` only while `status` is `"coming"` (so we never publish a made-up address); once it is `live`, `demo` or `archived` the `url` is required.
-- `repo` may be `null` for work that is not on GitHub (today: emotes, classmyschedule). The card then shows no repo link.
+- `repo` may be `null` for work that is not on GitHub (today: emotes, yash-birthday-pcb, eeg). The card then shows no repo link.
 - A `showcase` entry must not carry `url` or `healthUrl`; it links to `/projects/<slug>`, which is a placeholder page until Phase 4.
 - The live mark is not fetched from the app directly. Project health routes do not send CORS headers, so the browser calls the hub's own `GET /api/status/<slug>`, which fetches the registry `healthUrl` server-side (`lib/health.ts`: 3 s timeout, `redirect: "manual"`, healthy only when the 2xx body is JSON with `ok === true`) and returns `{ ok }` (cached 60 s at the edge). Only registry URLs are ever fetched. The browser side waits up to 8 s for that answer.
 - The Basketball dashboard's current Vercel URL is behind Vercel SSO deployment protection (answers 302), so its entry has `healthUrl: null` until Phase 1 makes it public.
@@ -440,6 +441,13 @@ Steps (what was done for microtubules, in order; run from the **repo root**, not
    ```
    **Use `:path(.*)`, not `:path*`.** With `:path*` Vercel answered `404` for PostHog's trailing-slash endpoints (`/ingest/e/`, `/ingest/s/`, `/ingest/i/v0/e/`) so every event and replay chunk was dropped (`incidents.md`, 2026-09-18). Check with `curl -s -o /dev/null -w '%{http_code}' -X POST -H 'Content-Type: application/json' -d '{}' https://<host>/ingest/e/` → `400` (PostHog rejecting the empty body, i.e. the request reached PostHog); `404` means the rewrite did not match. Also cache the big static asset: a `headers` entry for `/opencv.js` with `Cache-Control: public, max-age=31536000, immutable`.
 8. **Prove it:** open the live host in Chrome, run the core action, and read the Network tab: after load the only requests may be same-origin files and `/ingest/*`. For the phone check the shared Chrome window would not resize, so a local harness page with a 390 px `<iframe>` of the built site (same origin, served by `npx vite preview`) was screenshotted instead. Then fill the `verification.md` block.
+
+Executed again 2026-09-18 for **emotes** (`KalpKan/emote-detector-web`, repo root, Vercel project `emotes` `prj_mgoUdU4NQ9X8sfP7Jhcy4xBBM6pr`, `https://emotes.kalpkan.com`). Differences from microtubules:
+- Root Directory stays empty (the Vite app is the repo root); only `{"framework":"vite"}` was PATCHed. `vercel link --yes --project emotes` created the project.
+- 39 MB of static ML files are committed under `public/mediapipe/` (WASM runtime SIMD + nosimd from `node_modules/@mediapipe/tasks-vision/wasm/`, and the three `.task` models from `storage.googleapis.com/mediapipe-models/...`). `vercel.json` gives `/mediapipe/(.*)` an immutable one-year cache header. They are imported lazily (dynamic `import("@mediapipe/tasks-vision")` after a button press) so the first paint carries ~25 KB of JS; that is what keeps Lighthouse above 0.85 despite the payload.
+- Sounds: the original WAVs were converted with `ffmpeg-static` from npm (`npx`-installable, no Homebrew needed; macOS has no ffmpeg): `ffmpeg -i in.wav -ac 1 -ar 32000 -b:a 48k out.mp3` (544–688 KB → 19–24 KB). `Audio` objects are created inside the click handler so iOS Safari allows playback.
+- Deploys with `vercel --prod` upload the whole `public/` folder (40 MB) each time; a `git push` to `main` builds from GitHub instead and is the normal path.
+- Vercel Hobby runs **one build at a time per team**. With several agents deploying in parallel on 2026-09-18 the emotes build sat in `INITIALIZING`/`QUEUED` behind portfolio, pushups, plantit and template-smoke builds (see `incidents.md`); `domains add` cannot run until the project has a Ready production build, so attach the domain after the queue drains, not before.
 
 Common failures:
 - `404` on `/ingest/...` with a trailing slash: step 7.

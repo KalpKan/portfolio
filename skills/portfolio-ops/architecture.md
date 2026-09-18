@@ -82,7 +82,7 @@ Subdomains are a CNAME to a `*.vercel-dns*.com` name, specifically whatever `npx
 
 ## The connections layer (hub to projects)
 
-- **Project registry:** `projects.json` in the hub repo. Each entry has `slug`, `name`, `tagline`, `type` (`app` or `showcase`), `status` (`live`, `demo`, `coming`, `archived`), `url`, `repo`, `healthUrl`, `tags`, `hero`. The hub renders cards from it; adding a project is one JSON entry plus a push. Showcase entries (UnPark/Antifreeze, RC car, Outline, FlashCards, classmyschedule) have no `url` or `healthUrl` and link to `/projects/<slug>` on the hub.
+- **Project registry:** `projects.json` in the hub repo. Each entry has `slug`, `name`, `tagline`, `type` (`app` or `showcase`), `status` (`live`, `demo`, `coming`, `archived`), `url`, `repo`, `healthUrl`, `tags`, `hero`. The hub renders cards from it; adding a project is one JSON entry plus a push. Showcase entries (UnPark/Antifreeze, RC car, Outline, FlashCards, classmyschedule (REMOVED 2026-09-18: not Kalp's work)) have no `url` or `healthUrl` and link to `/projects/<slug>` on the hub.
 - **Live status badges:** every app exposes `/api/health`; static demos ship a `health.json`. The hub fetches them client-side with a 3-second timeout and shows a green or grey dot; failures are silent. The same URLs feed UptimeRobot, so one route serves both purposes.
 - **Shared footer / back-link:** a small `<ProjectBar>` ("part of <domain>") published later so all apps feel like one family.
 - **Embeds:** browser-ML demos are static, so the hub can iframe them on case-study pages for free.

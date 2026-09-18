@@ -429,3 +429,24 @@ _Entries begin below, oldest first._
 - **Fix:** None needed for the product. Use the file for test ingests; if the Vercel `INGEST_API_KEY` (unused by the dashboard) or the function secret is rotated, rotate all three together (runbook "Rotate a secret").
 - **Prevention:** The `verification.md` ingest rows name the file, not the API, as the key source.
 - **Reported by:** TEST agent (Phase 5, hoops, round 1)
+
+### 2026-09-18: emotes production build sat in QUEUED for over an hour (Hobby runs one build per team)
+
+- **Date:** 2026-09-18, 16:26 to about 17:54 EDT
+- **Affected:** Vercel project `emotes`, deployment `dpl_HU7wdV1zNPjoayzX5mbQNZK7C1fu` (first `vercel --prod` from the worker's Mac, 40 MB upload).
+- **Symptom:** `vercel ls emotes` showed `● Queued` for ~90 min; `domains add emotes.kalpkan.com` could not run (a project needs a Ready production build), so the T3.2 worker was stopped with the domain unattached. The build itself took 29 s once it started.
+- **What was tried:** Nothing destructive; the resumed worker polled `vercel ls` and the `/v13/deployments/<id>` API (`readyState` went `QUEUED` → `BUILDING` → `READY` on its own).
+- **Root cause:** Vercel Hobby allows one concurrent build per team. Four agents (portfolio, pushups, plantit, template smoke tests) were pushing builds at the same time, so `emotes` waited its turn behind every build ahead of it in the queue.
+- **Fix:** Wait; do not redeploy (a redeploy joins the back of the same queue) and do not cancel other agents' builds.
+- **Prevention:** Runbook "Deploy a static Vite app to Vercel" now says to attach the domain only after the build is Ready; when several agents deploy on the same day, stagger the `--prod` deploys or let `git push` trigger the build and move on to ops-record work while it queues. `verification.md` triage: a long `Queued` with no error is the queue, not a failure.
+- **Reported by:** T3.2 worker (resumed)
+
+### 2026-09-18: emotes.kalpkan.com "could not resolve" on the worker's Mac for 30 min after the record was created (negative DNS cache)
+
+- **Date:** 2026-09-18, 17:52 to about 18:25 EDT
+- **Affected:** Local verification of `https://emotes.kalpkan.com` only; the public record and site were fine throughout (`dig @1.1.1.1` and `@8.8.8.8` returned the CNAME within seconds; `curl --resolve emotes.kalpkan.com:443:64.29.17.65` returned `HTTP/2 200`).
+- **Symptom:** `curl https://emotes.kalpkan.com/health.json` → `000 Could not resolve host`; `dig emotes.kalpkan.com` via the campus resolver (`172.30.64.1` / `129.100.74.79`) → `NXDOMAIN`; `dscacheutil -flushcache` did not help because the cache is on the upstream resolver, not the Mac; Lighthouse's first run failed with "Chrome prevented page load with an interstitial".
+- **Root cause:** The worker ran `dig +short emotes.kalpkan.com` during triage *before* creating the Cloudflare record, so the campus resolver cached the NXDOMAIN for Cloudflare's SOA negative TTL (30 min).
+- **Fix:** Verified through public resolvers and `curl --resolve`; Lighthouse run with `--chrome-flags='--headless --host-resolver-rules="MAP emotes.kalpkan.com 64.29.17.65"'` (score 0.91). Re-checked plainly after the TTL expired.
+- **Prevention:** Never query a hostname with the system resolver before its record exists; the "Attach a domain" checks should use `dig @1.1.1.1 +short <host>` first. Noted in `docs/DNS_PENDING.md` §5 emotes row.
+- **Reported by:** T3.2 worker (resumed)
