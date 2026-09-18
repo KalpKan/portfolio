@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Project } from "@/lib/projects";
 import { countKinds, rowFor } from "@/lib/projects";
-import { capture } from "@/lib/posthog";
+import { track } from "@/lib/track";
 import { Arrow, SiteMark, healthWord, type Signal } from "./marks";
 
 // The browser waits longer than the server (lib/health.ts, 3 s) so a slow
@@ -175,7 +175,7 @@ export default function Board({ projects }: { projects: Project[] }) {
               onFocus: () => setActive(p.slug),
               onBlur: () => setActive(null),
               onClick: () =>
-                capture("project_card_clicked", {
+                track("project_card_clicked", {
                   slug: p.slug,
                   type: p.type,
                   kind: row.kind,

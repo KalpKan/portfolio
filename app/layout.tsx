@@ -1,20 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import PostHogProvider from "@/components/PostHogProvider";
 import { SITE } from "@/lib/site";
 
-const grotesk = Bricolage_Grotesque({
+// Weight 400 only (DESIGN.md: no weights above 400). The files are Google
+// Fonts' own latin subsets (OFL), fetched once with `wght@400` and kept in
+// app/fonts, because next/font/google cannot pin a weight while keeping the
+// opsz/wdth axes and would ship the whole 200-800 range (131 KB vs 77 KB).
+// The bio paragraph's LCP waits on this file, so its size matters.
+const grotesk = localFont({
+  src: "./fonts/BricolageGrotesque-400-opsz-wdth-latin.woff2",
   variable: "--font-grotesk",
-  subsets: ["latin"],
-  axes: ["opsz", "wdth"],
+  weight: "400",
+  style: "normal",
   display: "swap",
+  adjustFontFallback: "Arial",
 });
 
-const mono = Geist_Mono({
+const mono = localFont({
+  src: "./fonts/GeistMono-400-latin.woff2",
   variable: "--font-mono",
-  subsets: ["latin"],
+  weight: "400",
+  style: "normal",
   display: "swap",
+  adjustFontFallback: false,
 });
 
 const TITLE = "Kalp Kansara — projects";
