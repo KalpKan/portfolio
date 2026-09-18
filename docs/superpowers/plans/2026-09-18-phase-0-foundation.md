@@ -45,7 +45,7 @@
 - [x] **Step 7:** Write `settings-map.md` as a table: variable name | which app | where it lives (dashboard) | what breaks without it. Seed with promptflip's six vars (names only, from `docs/hosting-plan.md` §1).
 - [x] **Step 8:** Write `scripts/install-ops-skill.sh` (`rsync -a --delete skills/portfolio-ops/ ~/.claude/skills/portfolio-ops/`) and run it.
 - [x] **Step 9:** Verify: `ls ~/.claude/skills/portfolio-ops/` shows six files; `head -5 ~/.claude/skills/portfolio-ops/SKILL.md` shows the frontmatter.
-- [ ] **Step 10:** Commit and push: `git add skills scripts && git commit -m "feat(ops): scaffold portfolio-ops living skill" && git push`.
+- [x] **Step 10:** Commit and push: `git add skills scripts && git commit -m "feat(ops): scaffold portfolio-ops living skill" && git push`.
 
 ---
 
