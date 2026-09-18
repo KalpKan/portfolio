@@ -63,10 +63,17 @@ it fails, is in `skills/portfolio-ops/runbooks.md` under "Deploy the hub to Verc
 
 - **The list of projects** is `projects.json` in this folder. That is the only
   content file. See "How to add a project" below.
-- **Environment variables (secrets):** the hub has none right now. When it gets
-  some (analytics keys, for example) their *names* are listed in `.env.example`
-  and their *values* live on Vercel: project `portfolio` -> Settings ->
+- **Environment variables:** their *names* are listed in `.env.example` and
+  their *values* live on Vercel: project `portfolio` -> Settings ->
   Environment Variables. Never paste a real value into any file in this repo.
+  Right now there are two, both for analytics: `NEXT_PUBLIC_POSTHOG_KEY` and
+  `NEXT_PUBLIC_POSTHOG_HOST`.
+- **Analytics (PostHog):** every visit, click and project-card click on this
+  site is counted in PostHog (free plan, no card, hard-capped so it can never
+  charge). Your bookmark is the "Kalp portfolio" dashboard linked in
+  `docs/analytics.md`, which also explains how a new app joins the same
+  project. The site works fine with analytics switched off (no key set); it
+  uses no cookies, so no cookie banner is needed.
 - **The domain:** not bought yet. When it is, the plan for every DNS record is
   in `docs/DNS_PENDING.md`.
 - **Hosting plan (Vercel Hobby, free):** `docs/hosting-plan.md`. The plan is to

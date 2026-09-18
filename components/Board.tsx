@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { Project } from "@/lib/projects";
 import { projectHref } from "@/lib/projects";
+import { capture } from "@/lib/posthog";
 import {
   Arrow,
   SiteMark,
@@ -174,6 +175,12 @@ export default function Board({ projects }: { projects: Project[] }) {
                       rel={external ? "noreferrer" : undefined}
                       onFocus={() => setActive(p.slug)}
                       onBlur={() => setActive(null)}
+                      onClick={() =>
+                        capture("project_card_clicked", {
+                          slug: p.slug,
+                          type: p.type,
+                        })
+                      }
                       className="after:absolute after:inset-0 after:content-[''] hover:underline focus-visible:outline-none"
                     >
                       {p.name}
