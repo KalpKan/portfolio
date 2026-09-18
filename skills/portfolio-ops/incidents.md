@@ -322,3 +322,45 @@ _Entries begin below, oldest first._
 - **Fix:** The 36 crops and 4 whole-well images are now committed under `~/projects/microtubules/tests/fixtures/` with Python ground truth; the recovered samples in `web/public/samples/` were confirmed pixel-identical to the originals (33/36 CSV rows reproduce exactly; `P3_W1_C2`, `P3_W1_C3`, `P3_W3_C3` were re-cropped after the CSV was written, so their truth is the pipeline on the current file).
 - **Prevention:** `tests/fixtures/make_fixtures.py` documents the source path and copies from it when present; the spec's asset table lists what is personal and stays uncommitted (the group poster PDF, raw camera folders).
 - **Reported by:** SPEC agent (Phase 5, microtubules)
+
+### 2026-09-18: Plato writes the term end date into the `.ics` for every assessment that has no due date (root cause for the 'every assessment on the term end date' entry above)
+
+- **Date:** 2026-09-18, Phase 5 spec for Plato
+- **Affected:** Plato (`https://plato.kalpkan.com`), `.ics` generation; product defect, not hosting
+- **Symptom:** Live upload of `FHS Course Outline 2000.pdf`: the extractor returns no due date for all six assessments and the review page shows six "Add date" warnings, but the downloaded calendar carries six `DUE:` events at `20260430T235900`. A student importing it gets six fake deadlines on the last day of the exam period. Evidence: `~/projects/plato-corpus/evidence/kin2000-live-2026-09-18.ics`.
+- **What was tried:** Reproduced with curl (`verification.md` Plato "Silent-failure guard" row). Read the generator.
+- **Root cause:** `src/icalendar_gen.py:80` and `:92` set `fallback_date = term.end_date` when `assessment.due_datetime` is `None`, so the review page's warning is the only place the missing date is visible.
+- **Fix:** Not applied (spec task). The bar (`docs/reports/plato-spec.md` story 4) is: no invented dates in the `.ics`, a per-row reason on the review page ("Outline says: scheduled by the Registrar" / "no date in the outline").
+- **Prevention:** `verification.md` Plato "Silent-failure guard (live)" row; `tests/corpus/score.py` `no_fabricated` metric must be extended to the generated `.ics` by the fixer.
+- **Reported by:** SPEC agent (Phase 5, plato)
+
+### 2026-09-18: Plato parser baseline on a labelled corpus: 14 % of dated assessments get their date, 0 of 10 term windows are right, 27 % of timetable slots are found
+
+- **Date:** 2026-09-18
+- **Affected:** Plato extractor (`src/pdf_extractor.py`, `src/assessment_extractor.py`, `src/course_extractor.py`); product defect, not hosting
+- **Symptom:** Scored at commit `de32e96` on 10 hand-labelled Western outlines (`KalpKan/Plato` `tests/corpus/ground_truth/`, PDFs at `~/projects/plato-corpus/pdfs`): assessments 92 % recall / 82 % precision and weights 98 %, but `dates_exact` 4/29, `term` 0/10, `sections` 3/11 recall, `course_code` 3/10, `clean_titles` 36/47, `weight_total` 7/10. Full table: `tests/corpus/baseline-2026-09-18.md`.
+- **What was tried:** Built the corpus and scorer; read the three code paths.
+- **Root cause:** (1) `assessment_extractor.py:492` `_extract_date` feeds the raw table cell to `dateparser.parse` with no year/term context and gives up on cells with weekdays, ordinals or times ("Author: Mon, Oct. 27th by 11:59 PM"); inline "Name: 20% (12 November 2025)" lists are never date-parsed; the legacy `pdf_extractor.py:2382` path hard-codes 2025/2026 ("Nov.29th" → 2026-11-29). (2) `pdf_extractor.py:258` `extract_term` discards its own date-range match (`pass`), hard-codes Fall = Sept 1-Dec 15 and Winter = Jan 8-Apr 30, and returns `date.today()` for both dates when no "Fall/Winter YYYY" string is found, ignoring the "Classes Begin / Classes End" tables most outlines print. (3) Slot extraction duplicates a lecture as a lab (KIN 2000), types tutorials as labs (ECE 2240A), and misses "MWF 12:30 - 1:20 pm" / "Tuesday 2:30-3:30pm, Thursday 2:30-4:30pm"; there is no tutorial type. (4) Table candidate generation accepts reading columns (HS 2800), instructor rows (Math 1228) and fragments ("6 x"); title cleaning leaves roman numerals, bullets, footnote digits ("Tracker 11") and "(" tails. (5) Course-code ranking picks rooms and capitalised words ("MC 113", "ROME 2025").
+- **Fix:** Not applied (spec task). Bar and per-story targets in `docs/reports/plato-spec.md` section (c); gate `PLATO_CORPUS_GATE=1 pytest tests/test_corpus.py`.
+- **Prevention:** `verification.md` Plato "Corpus score" and "Corpus gate test" rows; any parser change must re-run the scorer and paste the pooled table into its commit or STATUS line.
+- **Reported by:** SPEC agent (Phase 5, plato)
+
+### 2026-09-18: Plato landing page promises DOCX/TXT and "AI-powered" parsing that the app does not have
+
+- **Date:** 2026-09-18
+- **Affected:** Plato landing page (`templates/index.html`, "How It Works" cards copied from `figma landingpage/components/HowItWorks.tsx`)
+- **Symptom:** The card says "Support for PDF, DOCX, and TXT formats" and "AI-powered parsing"; `src/app.py` `allowed_file` accepts `.pdf` only and the parser is rule-based (README: "PDF format only"). A visitor who drops a `.docx` gets a rejection the page told them would work.
+- **Root cause:** Marketing copy from the Figma mock-up shipped verbatim.
+- **Fix:** Not applied (spec task); story 8 in `docs/reports/plato-spec.md` requires the copy to match the accepted formats (or the formats to be added).
+- **Prevention:** The audit's story-8 check compares the landing-page format list with `allowed_file`.
+- **Reported by:** SPEC agent (Phase 5, plato)
+
+### 2026-09-18: Plato gives no message when a course outline's first page is an image (no text layer)
+
+- **Date:** 2026-09-18
+- **Affected:** Plato upload/review flow
+- **Symptom:** `CS_3342A_FW25.pdf` (page 1 is a scan of the course web page; text starts on page 2) yields a review page with no course code, no term and no timetable slots, and nothing tells the student that the page holding those facts had no text. Synthetic `~/projects/plato-corpus/edge/scanned-no-text-layer.pdf` reproduces the fully-image case.
+- **Root cause:** `PDFExtractor` never checks how much text each page yielded; the review page treats "nothing found" and "nothing there to find" the same way.
+- **Fix:** Not applied (spec task). Story 8 bar: a specific message ("this PDF has no text layer on page 1, so course code, term and class times could not be read; enter them below or upload the text version from OWL").
+- **Prevention:** Story-8 edge files are part of the audit; `verification.md` gains a row once the fix lands.
+- **Reported by:** SPEC agent (Phase 5, plato)
