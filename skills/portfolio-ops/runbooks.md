@@ -55,6 +55,8 @@ Why manual first: the hub repo is created locally and pushed before the Vercel p
    ```
    Expect `{"ok":true,"service":"hub",...}` and `HTTP/2 200`.
 
+**As executed on 2026-09-18 (T0.1):** the Vercel project `portfolio` was created by `npx vercel link --yes --project portfolio --scope kks-projects-2edcb11a`, then `npx vercel --prod --yes`. Production URL: `https://portfolio-alpha-eight-rjbs2nj1q0.vercel.app` (the name `portfolio.vercel.app` was already taken, so Vercel generated the suffix; the team-scoped alias `portfolio-kks-projects-2edcb11a.vercel.app` answers 302 to Vercel SSO because deployment protection covers it, which is normal and not an outage). Two things the CLI does on `link` that you must undo before committing: it writes `.env.local` (git-ignored, harmless) and appends `.env*` and `.env.local` to `.gitignore`, which re-ignores `.env.example`; delete those two lines. Lighthouse performance at launch: 0.92 (`npx lighthouse <url> --only-categories=performance --quiet --chrome-flags="--headless" --output=json | jq .categories.performance.score`). The GitHub Actions workflow `.github/workflows/ci.yml` runs lint, test and build on every push; Vercel's own Git integration deploys `main`.
+
 ## Add a project to `projects.json`
 
 Use this whenever a new app or showcase should appear on the hub. This is deliberately the whole procedure: the hub renders cards from the registry, so adding a project is one JSON entry and a push, never a code change.
@@ -89,6 +91,14 @@ Use this whenever a new app or showcase should appear on the hub. This is delibe
    ```
 5. Verify: open the hub URL, confirm the new card appears and, for an `app`, its dot turns green within a few seconds. Then, if the app is Supabase-backed, add an UptimeRobot monitor on the same `healthUrl` (runbook "Add an UptimeRobot monitor").
 6. Add the new host to the system map table in `SKILL.md` and, if it has env vars, their names to `settings-map.md`.
+
+**Schema details as shipped in T0.1 (`lib/projects.ts`):**
+- `slug` must be lowercase kebab-case and unique; the loader throws on duplicates, so `npm test` and `npm run build` both fail loudly on a bad entry.
+- An `app` may omit `url` only while `status` is `"coming"` (so we never publish a made-up address); once it is `live`, `demo` or `archived` the `url` is required.
+- `repo` may be `null` for work that is not on GitHub (today: emotes, classmyschedule). The card then shows no repo link.
+- A `showcase` entry must not carry `url` or `healthUrl`; it links to `/projects/<slug>`, which is a placeholder page until Phase 4.
+- The live mark is not fetched from the app directly. Project health routes do not send CORS headers, so the browser calls the hub's own `GET /api/status/<slug>`, which fetches the registry `healthUrl` server-side with a 3 s timeout and returns `{ ok }` (cached 60 s at the edge). Only registry URLs are ever fetched. The map header's "N live" count is derived from those measured results, not from the `status` field.
+- The Basketball dashboard's current Vercel URL is behind Vercel SSO deployment protection (answers 302), so its entry has `healthUrl: null` until Phase 1 makes it public.
 
 ## Delete a Vercel project
 

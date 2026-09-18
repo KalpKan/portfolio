@@ -1,8 +1,29 @@
+# dependencies
 node_modules
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+
+# next.js
 .next
+/out
+*.tsbuildinfo
+next-env.d.ts
+
+# env files: never commit real values; .env.example (names only) is tracked
 .env
 .env.*
 !.env.example
+
+# vercel
 .vercel
+
+# misc
 .DS_Store
+*.pem
+npm-debug.log*
+
+# showcase media Kalp drops in before it is optimized
 media-inbox/

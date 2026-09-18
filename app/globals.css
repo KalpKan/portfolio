@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+/*
+  Sheet tokens. Light = the printed channel-map sheet under room light.
+  Dark = the same sheet on the bench monitor. One accent (signal) is spent only
+  on sites that are returning a live signal.
+*/
+:root {
+  --sheet: #f1f3f6;
+  --sheet-raised: #ffffff;
+  --ink: #15171d;
+  --ink-2: #4d5261;
+  --ink-3: #62677a;
+  --rule: #c3c7cf;
+  --rule-soft: #d9dde4;
+  --pad: #e1e4ea;
+  --signal: #1d3fd6;
+  --signal-ink: #ffffff;
+  --signal-soft: #d9defb;
+  --quiet: #8b909c;
+  --ring: #1d3fd6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sheet: #0e1014;
+    --sheet-raised: #14171d;
+    --ink: #e9eae4;
+    --ink-2: #aab0bd;
+    --ink-3: #7c8291;
+    --rule: #2c303a;
+    --rule-soft: #1f232b;
+    --pad: #1b1f27;
+    --signal: #7e97ff;
+    --signal-ink: #0b1030;
+    --signal-soft: #1f2a5a;
+    --quiet: #5d626e;
+    --ring: #7e97ff;
+  }
+}
+:root[data-theme="dark"] {
+  --sheet: #0e1014;
+  --sheet-raised: #14171d;
+  --ink: #e9eae4;
+  --ink-2: #aab0bd;
+  --ink-3: #7c8291;
+  --rule: #2c303a;
+  --rule-soft: #1f232b;
+  --pad: #1b1f27;
+  --signal: #7e97ff;
+  --signal-ink: #0b1030;
+  --signal-soft: #1f2a5a;
+  --quiet: #5d626e;
+  --ring: #7e97ff;
+}
+
+@theme inline {
+  --color-sheet: var(--sheet);
+  --color-sheet-raised: var(--sheet-raised);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-pad: var(--pad);
+  --color-signal: var(--signal);
+  --color-signal-ink: var(--signal-ink);
+  --color-signal-soft: var(--signal-soft);
+  --color-quiet: var(--quiet);
+  --font-sans: var(--font-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+html {
+  background: var(--sheet);
+  color-scheme: light dark;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--sheet);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+}
+
+/* Browser surfaces carry the sheet too. */
+::selection {
+  background: var(--signal);
+  color: var(--signal-ink);
+}
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+a {
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+* {
+  scrollbar-color: var(--rule) transparent;
+  scrollbar-width: thin;
+}
+
+.display {
+  font-variation-settings: "opsz" 96, "wdth" 92;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The one authored motion: a live pad draws its spike trace once. */
+.trace {
+  stroke-dasharray: 160;
+  stroke-dashoffset: 160;
+  animation: draw 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trace {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "projects": [
+    {
+      "slug": "promptflip",
+      "name": "promptflip",
+      "tagline": "Two prompts walk in, one gets answered.",
+      "type": "app",
+      "status": "live",
+      "url": "https://promptflip-35qv.vercel.app",
+      "repo": "https://github.com/KalpKan/promptflip",
+      "healthUrl": "https://promptflip-35qv.vercel.app/api/health",
+      "tags": [
+        "Next.js",
+        "Supabase",
+        "Realtime"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "basketball",
+      "name": "Basketball Stat Tracker",
+      "tagline": "Shot-by-shot analytics dashboard with an iOS capture app on the way.",
+      "type": "app",
+      "status": "coming",
+      "url": "https://v0-basketball-analytics-dashboard-kks-projects-2edcb11a.vercel.app",
+      "repo": "https://github.com/KalpKan/Basketball-Stat-Tracker",
+      "healthUrl": null,
+      "tags": [
+        "Next.js",
+        "Supabase",
+        "Turborepo"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "plato",
+      "name": "Plato",
+      "tagline": "Turns course-outline PDFs into a structured study plan.",
+      "type": "app",
+      "status": "coming",
+      "repo": "https://github.com/KalpKan/Plato",
+      "healthUrl": null,
+      "tags": [
+        "Flask",
+        "Python",
+        "Postgres"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "plantit",
+      "name": "Plant It",
+      "tagline": "Identifies your plant from a photo and waters it from an ESP8266.",
+      "type": "app",
+      "status": "coming",
+      "repo": "https://github.com/KalpKan/PlantWater",
+      "healthUrl": null,
+      "tags": [
+        "React",
+        "Express",
+        "Firebase",
+        "ESP8266"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "pushups",
+      "name": "Pushup Form Tracker",
+      "tagline": "Counts reps and grades your form from the webcam, all in the browser.",
+      "type": "app",
+      "status": "coming",
+      "repo": "https://github.com/KalpKan/AI-Pushup-Form-Tracker",
+      "healthUrl": null,
+      "tags": [
+        "MediaPipe",
+        "TensorFlow.js",
+        "Browser ML"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "emotes",
+      "name": "Emote Detector",
+      "tagline": "Face, hand and pose landmarks mapped to Clash Royale emotes in real time.",
+      "type": "app",
+      "status": "coming",
+      "repo": null,
+      "healthUrl": null,
+      "tags": [
+        "MediaPipe",
+        "Browser ML",
+        "Canvas"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "microtubules",
+      "name": "Microtubule Quantification",
+      "tagline": "Classical image analysis that measures microtubule growth from microscopy stacks.",
+      "type": "app",
+      "status": "coming",
+      "repo": "https://github.com/KalpKan/Microtubule-Quantification",
+      "healthUrl": null,
+      "tags": [
+        "OpenCV",
+        "SciPy",
+        "Microscopy"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "unpark",
+      "name": "UnPark — Parkinson's freeze detection",
+      "tagline": "Codename Antifreeze: a wearable that catches freezing of gait before the fall.",
+      "type": "showcase",
+      "status": "coming",
+      "repo": "https://github.com/KalpKan/UnPark",
+      "tags": [
+        "SwiftUI",
+        "Raspberry Pi",
+        "MPU6050",
+        "Firebase"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "rc-car",
+      "name": "Automatic RC Car",
+      "tagline": "A PS4-controller-driven RC car with autonomous modes, written in C++.",
+      "type": "showcase",
+      "status": "coming",
+      "repo": "https://github.com/KalpKan/Automatic-RC-Car",
+      "tags": [
+        "C++",
+        "CMake",
+        "Robotics"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "outline",
+      "name": "Outline",
+      "tagline": "A native iOS app for structuring ideas before you write them.",
+      "type": "showcase",
+      "status": "coming",
+      "repo": "https://github.com/KalpKan/Outline",
+      "tags": [
+        "iOS",
+        "Swift"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "flashcards",
+      "name": "FlashCards",
+      "tagline": "A native iOS flashcard app with cloud sync.",
+      "type": "showcase",
+      "status": "coming",
+      "repo": "https://github.com/KalpKan/FlashCardsApp",
+      "tags": [
+        "iOS",
+        "Swift",
+        "Firebase"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "classmyschedule",
+      "name": "classmyschedule",
+      "tagline": "A Chrome extension that turns a course timetable into a calendar.",
+      "type": "showcase",
+      "status": "coming",
+      "repo": null,
+      "tags": [
+        "Chrome extension",
+        "JavaScript"
+      ],
+      "hero": null
+    }
+  ]
+}

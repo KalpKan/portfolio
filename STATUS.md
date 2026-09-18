@@ -31,7 +31,7 @@ Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 | ID | Phase | Task | Status | URL | Verified by | Date |
 |---|---|---|---|---|---|---|
 | T0.0 | 0 | Living ops skill scaffold | ✅ verified | skills/portfolio-ops/ (installed to ~/.claude/skills/portfolio-ops/) | verifier 2026-09-18 | 2026-09-18 |
-| T0.1 | 0 | Hub repo + Next.js skeleton | in progress | | | 2026-09-18 |
+| T0.1 | 0 | Hub repo + Next.js skeleton | done (deployed) | https://portfolio-alpha-eight-rjbs2nj1q0.vercel.app | | 2026-09-18 |
 | T0.2 | 0 | Cleanup old Vercel projects + archive repos | ✅ verified (partial by design: `tokengamblecoinflip` deleted; `token-gamble-coinflip` + `token-coinflip` archived; `promptflip-35qv` kept, see H5) | https://github.com/KalpKan/token-gamble-coinflip, https://github.com/KalpKan/token-coinflip (archived) | verifier 2026-09-18 | 2026-09-18 |
 | T0.3 | 0 | UptimeRobot monitors | in progress | | | |
 | T0.4 | 0 | DNS_PENDING.md | ✅ reviewed (plan written; execution waits on H1) | docs/DNS_PENDING.md | reviewer 2026-09-18 | 2026-09-18 |
@@ -43,4 +43,5 @@ Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 - 2026-09-18: `/goal` mode rejected the prompt (4000-char limit), so the orchestration runs in the interactive session instead. Same operating model (worker → reviewer → verifier).
 
 ## Session log
+- 2026-09-18: T0.1 hub deployed to Vercel Hobby (project `portfolio`); health, status proxy, 12-entry registry, CI workflow, README for Kalp. Lighthouse perf 0.92.
 - 2026-09-18: repo created, plan copied to docs/hosting-plan.md, Phase 0 dispatched.

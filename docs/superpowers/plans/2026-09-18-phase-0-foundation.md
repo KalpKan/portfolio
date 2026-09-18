@@ -88,9 +88,9 @@
 - Produces: `GET /api/health` → `{ "ok": true, "service": "hub", "time": "<ISO>" }` with `Cache-Control: no-store`.
 - Produces: `loadProjects(): Project[]` in `lib/projects.ts`, validated with zod; throws on invalid registry.
 
-- [ ] **Step 1:** In `~/projects/portfolio`, run `npx create-next-app@latest . --ts --tailwind --eslint --app --src-dir=false --import-alias "@/*" --use-npm --yes` (it will complain the dir is non-empty; if so, scaffold in a temp dir and move files in, keeping existing `STATUS.md`, `docs/`, `skills/`, `.gitignore` entries merged).
-- [ ] **Step 2:** Add `zod` and `vitest`: `npm i zod && npm i -D vitest @vitejs/plugin-react jsdom`. Add `"test": "vitest run"` script and `vitest.config.ts`.
-- [ ] **Step 3:** Write failing test `lib/projects.test.ts`:
+- [x] **Step 1:** In `~/projects/portfolio`, run `npx create-next-app@latest . --ts --tailwind --eslint --app --src-dir=false --import-alias "@/*" --use-npm --yes` (it will complain the dir is non-empty; if so, scaffold in a temp dir and move files in, keeping existing `STATUS.md`, `docs/`, `skills/`, `.gitignore` entries merged).
+- [x] **Step 2:** Add `zod` and `vitest`: `npm i zod && npm i -D vitest @vitejs/plugin-react jsdom`. Add `"test": "vitest run"` script and `vitest.config.ts`.
+- [x] **Step 3:** Write failing test `lib/projects.test.ts`:
   ```ts
   import { describe, it, expect } from "vitest";
   import { parseProjects } from "./projects";
@@ -108,19 +108,19 @@
     });
   });
   ```
-- [ ] **Step 4:** Run `npm test` → expect FAIL (module not found).
-- [ ] **Step 5:** Implement `lib/projects.ts` with a zod discriminated union on `type`, export `parseProjects(raw: unknown): Project[]` and `loadProjects()` that imports `../projects.json`.
-- [ ] **Step 6:** Run `npm test` → PASS.
-- [ ] **Step 7:** Write `projects.json` seeded with all entries from `docs/hosting-plan.md` §1: promptflip (live), basketball (`coming`, url = existing vercel URL), plato (coming), plantit (coming), pushups (coming), emotes (coming), microtubules (coming), and showcases: unpark (name "UnPark — Parkinson's freeze detection", codename Antifreeze), rc-car, outline, flashcards, classmyschedule. Hero images may be `null` for now.
-- [ ] **Step 8:** Implement `app/api/health/route.ts` returning the JSON above with `no-store`.
-- [ ] **Step 9:** Implement `app/page.tsx`: hero with Kalp's name and one line ("Projects I've built — click any card"), a grid of cards from `loadProjects()`; cards show name, tagline, tags, status badge; `app` cards link to `url`, `showcase` cards link to `/projects/<slug>` (create a minimal `app/projects/[slug]/page.tsx` that renders name + "Case study coming soon" for now). Invoke `impeccable:impeccable` for the design pass: distinctive but restrained, dark-mode correct, phone-first, 16px gutters, no horizontal scroll. Client-side health badge: fetch `healthUrl` with a 3 s timeout and show green/grey dot; failures silent.
-- [ ] **Step 10:** `npm run build` → success; `npm run lint` → clean.
-- [ ] **Step 11:** Write `README.md` with: what this repo is, the plain-English section "How to run this / How to deploy this / Where the settings live", how to add a project (edit `projects.json`, push), and links to `STATUS.md` and `docs/hosting-plan.md`.
-- [ ] **Step 12:** Write `.github/workflows/ci.yml`: on push/PR, Node 22, `npm ci`, `npm run lint`, `npm test`, `npm run build`.
-- [ ] **Step 13:** Deploy: `npx vercel link --yes --project portfolio` (team `kks-projects-2edcb11a`), then `npx vercel --prod --yes`. Capture the production URL. Do NOT add any custom domain yet. Use the `vercel:deploy` and `vercel:verification` skills.
-- [ ] **Step 14:** Verify: `curl -sf <prod-url>/api/health` returns `ok: true`; `curl -sI <prod-url>` is 200. Run Lighthouse via `npx lighthouse <prod-url> --only-categories=performance --quiet --chrome-flags="--headless" --output=json | jq .categories.performance.score` ≥ 0.9.
-- [ ] **Step 15:** Append to `skills/portfolio-ops/runbooks.md` ("Deploy the hub", "Add a project") with the exact commands; append hub row to `settings-map.md` (no vars yet) and the system-map row in `SKILL.md`; update `STATUS.md` T0.1 row → done with URL.
-- [ ] **Step 16:** Commit and push.
+- [x] **Step 4:** Run `npm test` → expect FAIL (module not found).
+- [x] **Step 5:** Implement `lib/projects.ts` with a zod discriminated union on `type`, export `parseProjects(raw: unknown): Project[]` and `loadProjects()` that imports `../projects.json`.
+- [x] **Step 6:** Run `npm test` → PASS.
+- [x] **Step 7:** Write `projects.json` seeded with all entries from `docs/hosting-plan.md` §1: promptflip (live), basketball (`coming`, url = existing vercel URL), plato (coming), plantit (coming), pushups (coming), emotes (coming), microtubules (coming), and showcases: unpark (name "UnPark — Parkinson's freeze detection", codename Antifreeze), rc-car, outline, flashcards, classmyschedule. Hero images may be `null` for now.
+- [x] **Step 8:** Implement `app/api/health/route.ts` returning the JSON above with `no-store`.
+- [x] **Step 9:** Implement `app/page.tsx`: hero with Kalp's name and one line ("Projects I've built — click any card"), a grid of cards from `loadProjects()`; cards show name, tagline, tags, status badge; `app` cards link to `url`, `showcase` cards link to `/projects/<slug>` (create a minimal `app/projects/[slug]/page.tsx` that renders name + "Case study coming soon" for now). Invoke `impeccable:impeccable` for the design pass: distinctive but restrained, dark-mode correct, phone-first, 16px gutters, no horizontal scroll. Client-side health badge: fetch `healthUrl` with a 3 s timeout and show green/grey dot; failures silent.
+- [x] **Step 10:** `npm run build` → success; `npm run lint` → clean.
+- [x] **Step 11:** Write `README.md` with: what this repo is, the plain-English section "How to run this / How to deploy this / Where the settings live", how to add a project (edit `projects.json`, push), and links to `STATUS.md` and `docs/hosting-plan.md`.
+- [x] **Step 12:** Write `.github/workflows/ci.yml`: on push/PR, Node 22, `npm ci`, `npm run lint`, `npm test`, `npm run build`.
+- [x] **Step 13:** Deploy: `npx vercel link --yes --project portfolio` (team `kks-projects-2edcb11a`), then `npx vercel --prod --yes`. Capture the production URL. Do NOT add any custom domain yet. Use the `vercel:deploy` and `vercel:verification` skills.
+- [x] **Step 14:** Verify: `curl -sf <prod-url>/api/health` returns `ok: true`; `curl -sI <prod-url>` is 200. Run Lighthouse via `npx lighthouse <prod-url> --only-categories=performance --quiet --chrome-flags="--headless" --output=json | jq .categories.performance.score` ≥ 0.9.
+- [x] **Step 15:** Append to `skills/portfolio-ops/runbooks.md` ("Deploy the hub", "Add a project") with the exact commands; append hub row to `settings-map.md` (no vars yet) and the system-map row in `SKILL.md`; update `STATUS.md` T0.1 row → done with URL.
+- [x] **Step 16:** Commit and push.
 
 ---
 
