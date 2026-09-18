@@ -707,3 +707,13 @@ _Entries begin below, oldest first._
 - **Fix:** deployed on the retry (above). Live checks at 23:17 UTC: `GET /api/plants/nope/moisture/nobody` → `403` (was `404`), `POST .../moisture` without the device secret → `403`, `/api/health` `firestore: ok`, the live bundle `main.ae4a21fb.js` contains the collapsed-nav `open menu` label and `pendingDeviceReport`. H16 closed; STATUS T2.1 row, `verification.md` rows and the SKILL.md row flipped to live.
 - **Prevention:** (1) on `api-deployments-free-per-day`, retry every few minutes before concluding anything; only after ~30 min of refusals write it up as blocked, and even then say "retry" rather than a date. (2) Never report a deploy as done from `/api/health` alone: prove the served commit (`vercel inspect` Ready + host in Aliases, or the v13 deployments API `meta.githubCommitSha` = HEAD); `scripts/vercel-redeploy-when-quota-frees.sh` was rewritten to do exactly that (captures the CLI exit code, pinned `vercel@59.23.2` with `npx -y` so it can never stop at an "Ok to proceed?" prompt) and `scripts/vercel-deploy-budget.sh` now labels its count a warning, not a schedule. Both are agent-only tooling; Kalp is only ever told "tell Claude redeploy <app>" or "click Redeploy in the Vercel dashboard" (hosting-plan: managed dashboards over custom scripts). (3) The hub-caused claim and "batch docs commits" were dropped from H16 and the runbook; whether the hub should auto-deploy on every push stays a hub-owner policy question, not a proven fix.
 - **Reported by:** T2.1 reviewer (pass 3); fixed by the T2.1 fixer (pass 3)
+
+### 2026-09-18: Vercel Hobby daily deployment cap reached
+- **Date:** 2026-09-18 19:10 EDT
+- **Affected:** every Vercel project on team kks-projects-2edcb11a (redeploys refused)
+- **Symptom:** `Error: Resource is limited - try again in 24 hours (more than 100, code: "api-deployments-free-per-day"). (402)`
+- **What was tried:** `vercel redeploy` for plantit after setting PLANTNET_API_KEY.
+- **Root cause:** Hobby allows 100 deployments per day per team. Eight Git-connected projects plus many agent pushes (each push to the hub's main deploys the hub, including docs-only commits) used the quota.
+- **Fix:** wait for the reset; redeploy plantit then.
+- **Prevention:** add a Vercel Ignored Build Step to the hub (`git diff --quiet HEAD^ HEAD -- . ':(exclude)docs' ':(exclude)skills' ':(exclude)STATUS.md'`) so docs/skill/status commits do not deploy; batch commits during agent bursts.
+- **Reported by:** orchestrator
