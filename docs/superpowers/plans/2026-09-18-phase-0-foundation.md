@@ -87,6 +87,7 @@
   `type: "showcase"` entries omit `url`/`healthUrl` and are linked to `/projects/<slug>` (pages built in Phase 4).
 - Produces: `GET /api/health` → `{ "ok": true, "service": "hub", "time": "<ISO>" }` with `Cache-Control: no-store`.
 - Produces: `loadProjects(): Project[]` in `lib/projects.ts`, validated with zod; throws on invalid registry.
+- **As shipped (2026-09-18, after the hub polish batch):** the schema above is the interface; the exact zod rules (kebab-case unique slugs, `url` required unless `status` is `coming`, showcases must omit `url`/`healthUrl`, `repo` nullable) live in `lib/projects.ts`, and how each row renders is derived there too by `rowFor()` -> `kind` (`live` | `archived` | `coming` | `showcase` | `showcase-soon`). The runbook "Add a project to `projects.json`" in `skills/portfolio-ops/runbooks.md` has the schema section and the 200-unauthenticated rule for an `app` `url`. `hero` is still `null` for every entry.
 
 - [x] **Step 1:** In `~/projects/portfolio`, run `npx create-next-app@latest . --ts --tailwind --eslint --app --src-dir=false --import-alias "@/*" --use-npm --yes` (it will complain the dir is non-empty; if so, scaffold in a temp dir and move files in, keeping existing `STATUS.md`, `docs/`, `skills/`, `.gitignore` entries merged).
 - [x] **Step 2:** Add `zod` and `vitest`: `npm i zod && npm i -D vitest @vitejs/plugin-react jsdom`. Add `"test": "vitest run"` script and `vitest.config.ts`.
