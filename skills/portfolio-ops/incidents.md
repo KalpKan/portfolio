@@ -580,3 +580,14 @@ _Entries begin below, oldest first._
 - **Fix:** Followed the plan-file header (it names Kalp and overrides the brief), rewrote both content files from the KiCad, LTspice and PDF sources, kept the main agent's registry entries as they were except flipping the PCB to `live`.
 - **Prevention:** A resumed worker reads `git log -- projects.json content/` before anything else; the plan file's top is where mid-task changes from Kalp are recorded (keep doing that). Stub content that has not been checked against the source gets `draft: true` so the page cannot publish it.
 - **Reported by:** T4.1 worker (resumed)
+
+### 2026-09-18: PostHog showed pageviews but none of the pushups custom events, because posthog-js drops events from automated browsers (T3.1)
+
+- **Date:** 2026-09-18, ~22:25 UTC
+- **Affected:** verification only; real visitors were never affected.
+- **Symptom:** After several headless-Chrome demo runs on `https://pushups.kalpkan.com`, PostHog had `$pageview` rows for the host (from the Lighthouse runs) but zero `session_started` / `demo_video_played` / `rep_counted`. A CDP network trace showed the page fetching `/ingest/array/<token>/config.js` and then never POSTing to `/ingest/e/` or `/ingest/i/v0/e/` at all, on emotes as well as pushups.
+- **What was tried:** Compared init options with emotes (identical); traced with a normal user agent (still nothing); traced with `ignoreDefaultArgs: ["--enable-automation"]` + `--disable-blink-features=AutomationControlled` (so `navigator.webdriver` is `false`) + a desktop UA: every POST appeared (`/ingest/i/v0/e/` and `/ingest/s/` all `200`) and the three events arrived within 30 s with `mode: "demo"`, `good: false`, no landmark keys.
+- **Root cause:** posthog-js's bot filter (`navigator.webdriver === true`, or `HeadlessChrome` in the UA) silently discards every capture. Lighthouse's Chrome does not set `webdriver`, which is why its pageviews got through.
+- **Fix:** `scripts/e2e-demo.mjs` in the pushups repo now launches with those flags and UA (`18ab3e6`), so a verification run also proves analytics.
+- **Prevention:** runbook "Deploy a browser-ML app (MediaPipe) to Vercel", proving-it section; `verification.md` analytics rows for pushups/emotes say to use the e2e script (or a human) rather than a plain puppeteer/Playwright run.
+- **Reported by:** T3.1 worker (resumed)

@@ -72,3 +72,7 @@ No retraining, no accounts, no server, no saving of video, no landmark upload. T
 ## Definition of done (from the task)
 
 Live at https://pushups.kalpkan.com; counts good reps from the webcam on desktop and phone; demo clip works without a camera; no network calls after load except `/ingest`; PostHog 3 events; `health.json`; Lighthouse ≥ 0.85; unit tests on 2 recorded landmark fixtures; PR on the old repo; README with the non-developer section; ops skill runbook "Deploy a browser-ML app (MediaPipe) to Vercel"; STATUS.md and projects.json updated.
+
+## Addendum 2026-09-18 (after execution)
+
+Question 1 assumed the lite PoseLandmarker's landmarks transfer 1:1 to the classifier. Measured on the demo clip against the Python fixture: x/y do (|Δ| ≈ 0.015), z does not (|Δ| 0.05-0.10 with lite vs 0.01-0.03 with full), and the classifier is sensitive to z (scaler SCALE for z is 0.03-0.14). Result: lite agreed with the Keras probability on 2/21 frames, full on 19/21. The app ships `pose_landmarker_full.task` (9.4 MB instead of 5.5 MB; still lazy, Lighthouse 1.00). The reason is that the training landmarks came from `mp.solutions.pose` at `model_complexity=1`, which is the full network.

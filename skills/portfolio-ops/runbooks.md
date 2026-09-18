@@ -29,6 +29,7 @@ Conventions used below:
 | Add an UptimeRobot monitor | Written and executed 2026-09-18 (T0.3): three monitors plus the public status page, see `docs/monitors.md` |
 | Add PostHog to an app | Written and executed 2026-09-18 (T0.5, hub); the full copy-paste contract is `docs/analytics.md` (the Flask variant is inside "Deploy a Python app to Vercel") |
 | Check PostHog billing | Written and executed 2026-09-18 (T0.5) |
+| Deploy a browser-ML app (MediaPipe) to Vercel | Written and executed 2026-09-18 (T3.1, pushups: `KalpKan/pushup-tracker-web` → project `pushups`, `https://pushups.kalpkan.com`) |
 | Deploy a static Vite app to Vercel | Written and executed 2026-09-18 (T1.4, microtubules: `KalpKan/Microtubule-Quantification` `web/` → project `microtubules`, `https://microtubules.kalpkan.com`) |
 | Rotate the PostHog key | Written 2026-09-18 (T0.5); not yet executed |
 | Deploy a Python app to Vercel | Written and executed 2026-09-18 (T1.3, Plato) |
@@ -457,6 +458,35 @@ Common failures:
 - `npm install` fails with `Cannot read properties of null (reading 'edgesOut')` on npm 10.9: an arborist bug resolving `vitest@4`'s optional peers; use `vitest@^5` (`incidents.md`, 2026-09-18).
 - `await` on the OpenCV module hangs forever: the Emscripten module is a thenable that resolves to itself; wait for `onRuntimeInitialized` and `delete cv.then` before resolving a Promise with it (`web/src/opencv-loader.ts`, `web/tests/pipeline.test.ts` in the repo).
 - Vercel builds but the page has no analytics: the env var is missing for that environment, or was added after the build (Vite inlines it); redeploy.
+
+## Deploy a browser-ML app (MediaPipe) to Vercel
+
+**Status: written and executed 2026-09-18 for the pushup tracker (`KalpKan/pushup-tracker-web`, repo root → Vercel project `pushups` `prj_YE2wfMUkft3oHIaqkRyILcaE8a2R`, `https://pushups.kalpkan.com`); emotes (T3.2) followed the same shape one task earlier.** Builds on "Deploy a static Vite app to Vercel" (same link/env/domain steps); this runbook is the part that is specific to a MediaPipe + TensorFlow.js app.
+
+When to use: a demo that runs a MediaPipe Tasks model (pose, face, hand) and optionally a TF.js classifier in the visitor's browser must be hosted, repaired, or re-verified.
+
+What is special about these apps:
+- **Self-host the runtime and the models.** `@mediapipe/tasks-vision` normally loads its WASM from a Google CDN; the plan forbids network calls after load, so the WASM (`node_modules/@mediapipe/tasks-vision/wasm/*`, ~21 MB with the nosimd copy) is copied into `public/wasm/` by a build script (`scripts/copy-wasm.mjs`, run from `npm run build`; `public/wasm` is git-ignored) and the `.task` model (`public/models/*.task`) is committed. `FilesetResolver.forVisionTasks("/wasm")` + `modelAssetPath: "/models/<model>.task"`. Vercel serves `public/` as-is; `vercel.json` gives `/models/*` and `/wasm/*` a one-year immutable cache.
+- **Lazy-load everything heavy.** The page's first paint must not include MediaPipe, TF.js or posthog-js: `main.ts` is ~4 KB and does `await import("./session")` on the first button press (`session` chunk ~1 MB, plus the 20 MB of WASM/model fetched then). That is what keeps Lighthouse performance ≥ 0.85 despite the payload; write the trade-off into the README.
+- **Match the model the classifier was trained on.** A classifier trained on landmarks from the legacy Python solution (`mp.solutions.pose`, `model_complexity=1`) expects **`pose_landmarker_full.task`** (9.4 MB), not `lite` (5.5 MB): lite's z coordinates sit 0.05-0.1 off (1-2 scaler standard deviations) and the pushups classifier then scored every good frame as bad (incident 2026-09-18). Prove the match before shipping: run the browser pipeline on the same clip the Python fixture was made from and compare per-frame probabilities (pushups: 19/21 frames agree with `full`, 2/21 with `lite`).
+- **Bake the preprocessing.** If the training `StandardScaler` was never saved, refit it in Python on the same split (`train_test_split(random_state=42)`) and write the mean/scale arrays into a generated `src/scaler.ts`; check the held-out accuracy with and without scaling in the same script so the README can quote real numbers (pushups: 0.9478 scaled vs 0.6338 raw).
+- **Convert Keras → TF.js** with `tensorflowjs_converter --input_format keras model.h5 public/models/form` in a Python 3.10 venv (`tensorflow==2.15`, `tensorflowjs`); a Keras 3 `.h5` needs a re-save in Keras 2 format first (`scripts/keras_model.py` in the repo). Load with `@tensorflow/tfjs` on the CPU backend (a 36-float MLP is microseconds; it avoids fighting MediaPipe's GPU delegate for the WebGL context).
+- **Fixtures from Python, tests in vitest.** `scripts/make_fixtures.py` runs the Python pipeline over a window of the original test video and writes landmarks, features, Keras probabilities and rep events per frame; vitest replays them through the TS port (classifier |Δp| < 1e-4, identical rep events). No MediaPipe in unit tests.
+- **Demo mode.** Bundle a short H.264 clip (`ffmpeg -ss <start> -t 8 -i test.mp4 -vf scale=640:-2 -an -c:v libx264 -crf 28 -movflags +faststart public/demo/<name>.mp4`, ≤ 2 MB; `ffmpeg-static` from npm if the Mac has no ffmpeg) and run the exact same `detectForVideo` loop on a `<video>` of it; `detectForVideo` needs strictly increasing timestamps, so skip frames whose `currentTime` did not change.
+- **PostHog:** never send landmark or image data. Type the `capture()` signature so only `session_started {mode}`, `rep_counted {good}` / `emote_fired {...}`, `demo_video_played` compile.
+
+Proving it works (what was actually run for pushups):
+1. `npm test` (vitest, `--pool=forks --maxWorkers=1`): fixtures replay green.
+2. `npx vite preview --port 4177` then `node scripts/e2e-demo.mjs http://localhost:4177/` (puppeteer-core driving the installed Chrome, headless): presses "Play demo clip", waits for "Clip finished", prints counts, fps, every host contacted and console errors. Expect `hosts` = the site only. Headless Chrome renders WebGL with SwiftShader at 4-6 fps, so counts there are lower than on a laptop GPU; `PLAYBACK_RATE=0.25` slows the clip so the loop sees most frames.
+3. For an exact check, step the clip frame by frame in the browser (seek + `detectForVideo`) and replay the trace through the TS rep counter (done with a throwaway vitest test): pushups gave 1 good + 1 bad attempt vs Python's 2 good + 1 bad on the same 8.5 s (the gap is the rep counter's 10-frame warm-up at 30 fps sampling vs 60 fps, the original's behaviour).
+4. posthog-js drops every event when `navigator.webdriver` is true or the UA says `HeadlessChrome`, so a plain puppeteer run never reaches PostHog (incident 2026-09-18). `scripts/e2e-demo.mjs` launches Chrome with `ignoreDefaultArgs: ["--enable-automation"]`, `--disable-blink-features=AutomationControlled` and a desktop UA; with that, the three events arrived in PostHog within 30 s (`GET /api/projects/616829/events/?event=rep_counted`).
+5. The shared claude-in-chrome tab is a **hidden** window: `<video>` never starts and WebGL model loading stalls at "Loading the pose model" forever. Do not use it for these apps; use the puppeteer script or ask Kalp to open it (H checkpoint).
+6. Live: `curl https://<host>/health.json`, the four asset URLs with `cache-control: immutable`, `/ingest/e/` → 400, Lighthouse ≥ 0.85 (`verification.md`).
+
+Common failures:
+- `UNKNOWN: Unable to open zip archive` from `PoseLandmarker.createFromOptions`: the `.task` URL returned HTML (404), typically a file that is in `public/` but not in `dist/` when testing `vite preview`; rebuild.
+- `vercel deploy --prod` prints `Error: fetch failed` after uploading 30 MB of `public/`: the deployment usually exists anyway (`vercel ls`); prefer `git push` (the project is GitHub-connected) and let the queue build it.
+- Hobby builds one deployment per team at a time; on a multi-agent day a deployment sits `Queued` for an hour with no error (pushups: 3 queued, all built in 13-33 s once their turn came). `domains add` works as soon as one production build is Ready.
 
 ## Create a Neon database
 
