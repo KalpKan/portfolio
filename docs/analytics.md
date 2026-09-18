@@ -1,0 +1,158 @@
+# Analytics (PostHog) — the contract every app on kalpkan.com follows
+
+_Written 2026-09-18 (T0.5). One PostHog project receives every visit, click and custom event from the hub and every subdomain, so Kalp can answer four questions from one dashboard: how many people visit, which sites, where they are from, and what they interact with._
+
+## The project
+
+| Item | Value |
+|---|---|
+| PostHog Cloud region | US (`https://us.posthog.com`, ingest `https://us.i.posthog.com`) |
+| Organization | KalpKan (`01a0b5d7-1978-0000-284e-f302da034a29`) |
+| Project | **Kalp portfolio**, id **`616829`** (renamed from the auto-created "Default project"; the free plan allows one project, so every app shares it) |
+| Project API token (public by design; it ships in every page's JavaScript) | `phc_xCXynPYRpsuUVEsyWQ7NhQuCXbL6Lt4S7gPBDogPzNkT` |
+| Plan | Free, no card, no subscription (`GET /api/billing/`: `has_active_subscription: false`, `stripe_customer_id: null`) |
+| Dashboard (Kalp's bookmark) | https://us.posthog.com/project/616829/dashboard/2112106 |
+| Web analytics (built-in, per host) | https://us.posthog.com/project/616829/web |
+| Session replays | https://us.posthog.com/project/616829/replay/home |
+| Project settings (replay, heatmaps, autocapture) | https://us.posthog.com/project/616829/settings/project |
+| Billing evidence | `docs/images/posthog-billing-limits.png` |
+
+### Insights on the "Kalp portfolio" dashboard
+
+| Insight | What it shows | URL |
+|---|---|---|
+| Visitors by site | unique visitors per day, split by `$host` (`kalpkan.com`, `hoops.kalpkan.com`, `plato.kalpkan.com`, ...) | https://us.posthog.com/project/616829/insights/cQytKBLD |
+| Visitors by country | world map of unique visitors by `$geoip_country_name` (PostHog derives it from the IP; the IP itself is not stored in event properties) | https://us.posthog.com/project/616829/insights/yLzNtpbM |
+| Top demos by usage | bar chart of the core-action events across every app: `project_card_clicked`, `rep_counted`, `emote_fired`, `pdf_parsed`, `plant_identified`, `coinflip_played` | https://us.posthog.com/project/616829/insights/jKe2OFYN |
+
+### Spend guardrail ($0, verified)
+
+PostHog's free plan has **no payment method and no subscription**. On the billing page every product shows "Billing limit" equal to its "Free tier limit" (product analytics 1 M events, session replay 5 K recordings, feature flags 1 M, surveys 1.5 K, error tracking 100 K, ...): usage above the free allocation is dropped, nothing is charged. A custom `$0` limit is only offered *after* adding a credit card ("Add your credit card to remove usage limits ... Set billing limits as low as $0"), and the billing API rejects personal API keys (`403 This action does not support personal API key access`). Attaching a card is forbidden by the platform rules, so the free plan's hard cap is the guardrail, and it is stricter than a $0 limit on a paid plan (which would still require a card on file). Check it any time with the "Check PostHog billing" runbook.
+
+## Settings and where they live
+
+| Name | Value | Where |
+|---|---|---|
+| `NEXT_PUBLIC_POSTHOG_KEY` | the `phc_` token above | Vercel, each Next.js project, Production + Preview, type **config** (the CLI refuses a `NEXT_PUBLIC_` token without `--type config`) |
+| `NEXT_PUBLIC_POSTHOG_HOST` | `/ingest` (always; never the posthog.com host) | same |
+| `POSTHOG_API_KEY` / `POSTHOG_HOST` | same token / `https://us.i.posthog.com` | non-Next apps (Plato's Flask variant) |
+| `POSTHOG_PERSONAL_API_KEY` (`phx_`, all-access operator key) | never written down | `~/.config/portfolio-ops/secrets.env` only. Rotate to a project-scoped key after Phase 1 (runbook "Rotate the PostHog key") |
+
+## Naming convention for custom events
+
+- `snake_case`, past tense, `<object>_<verb>`: `project_card_clicked`, `rep_counted`, `emote_fired`, `pdf_parsed`, `plant_identified`, `coinflip_played`, `shot_ingested`.
+- 2 to 4 events per app, only for the app's **core action** (the thing a visitor came to do). Autocapture already records every click, so do not add events for navigation.
+- Properties are `snake_case` too and small: ids, enums, counts. Never free text a visitor typed, never an email.
+- Reserved names (already on the "Top demos by usage" insight): `project_card_clicked` (hub), `rep_counted` (pushups), `emote_fired` (emotes), `pdf_parsed` (plato), `plant_identified` (plantit), `coinflip_played` (coinflip). Use those exact names so the insight picks them up without editing.
+
+## How every app is wired (the contract)
+
+1. **First-party proxy.** The browser talks to `/ingest/*` on the app's own origin; the app forwards to PostHog. Ad blockers do not see `posthog.com`, so the numbers are not 30-50 % low.
+2. **Cookieless.** `persistence: "memory"`: nothing stored in the browser, no cookie banner needed. Each page load is a new anonymous person; that is fine for a portfolio.
+3. **Autocapture on, pageviews on, session replay on with every input masked** (`maskAllInputs: true`, also enforced project-wide in PostHog settings).
+4. **2 to 4 custom events** for the core action, sent with `send_instantly: true, transport: "sendBeacon"` so an event fired by a click that navigates away is not lost with the page.
+5. **Works with the key unset.** Local dev or a fork without `NEXT_PUBLIC_POSTHOG_KEY` runs with analytics silently off.
+
+## How to add PostHog to a new app (Next.js, copy-paste)
+
+```bash
+npm i posthog-js
+```
+
+`next.config.ts`:
+
+```ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      { source: "/ingest/static/:path*", destination: "https://us-assets.i.posthog.com/static/:path*" },
+      { source: "/ingest/:path*", destination: "https://us.i.posthog.com/:path*" },
+    ];
+  },
+  skipTrailingSlashRedirect: true,
+};
+export default nextConfig;
+```
+
+`lib/posthog.ts` (copy the hub's file verbatim: `~/projects/portfolio/lib/posthog.ts`), then `components/PostHogProvider.tsx`:
+
+```tsx
+"use client";
+import { useEffect } from "react";
+import { initPostHog } from "@/lib/posthog";
+export default function PostHogProvider({ children }: { children: React.ReactNode }) {
+  useEffect(() => { initPostHog(); }, []);
+  return <>{children}</>;
+}
+```
+
+Wrap `{children}` in `app/layout.tsx` with `<PostHogProvider>`. Fire the core action from the component that performs it:
+
+```ts
+import { capture } from "@/lib/posthog";
+capture("rep_counted", { count: 12 });
+```
+
+Set the two env vars on Vercel (production and preview), then redeploy; `NEXT_PUBLIC_*` is baked in at build time:
+
+```bash
+printf '%s' "<phc_ token from this doc>" | npx vercel env add NEXT_PUBLIC_POSTHOG_KEY production --type config --scope kks-projects-2edcb11a --yes
+printf '%s' "/ingest" | npx vercel env add NEXT_PUBLIC_POSTHOG_HOST production --scope kks-projects-2edcb11a --yes
+# repeat both with "preview", then: npx vercel deploy --prod --yes --scope kks-projects-2edcb11a
+```
+
+Add the names to the app's `.env.example` and to `skills/portfolio-ops/settings-map.md`. **Static apps (no Next.js):** use the PostHog HTML snippet with `api_host: '/ingest'` and add the two rewrites to `vercel.json` (`"rewrites": [{"source":"/ingest/static/:path*","destination":"https://us-assets.i.posthog.com/static/:path*"},{"source":"/ingest/:path*","destination":"https://us.i.posthog.com/:path*"}]`). **Flask:** see runbook "Deploy a Python app to Vercel", step 6.
+
+## Verified (2026-09-18, T0.5)
+
+Method: opened `https://kalpkan.com` in Chrome (claude-in-chrome) and clicked a project row. In the page, `performance.getEntriesByType('resource')` showed every PostHog request on the hub's own origin (`https://kalpkan.com/ingest/array/<token>/config.js`, `/ingest/static/1.434.2/posthog-recorder.js`, `/ingest/s/` for replay, `/ingest/i/v0/e/` for events: one `sendBeacon` at the click, then the `fetch` batch), **zero requests to any third-party host**, `document.cookie` empty and no `ph_*` localStorage key. Ingestion lag was 3 to 5 minutes. Then `GET /api/projects/616829/events/?event=<name>` (personal key in the header, never in the URL) returned, trimmed to the interesting properties:
+
+```json
+[
+  {
+    "event": "$pageview",
+    "timestamp": "2026-09-18T19:53:03.744000+00:00",
+    "distinct_id": "01a0b611...",
+    "properties": {
+      "$host": "kalpkan.com",
+      "$current_url": "https://kalpkan.com/?v=focused",
+      "$pathname": "/",
+      "$lib": "web",
+      "$lib_version": "1.434.2",
+      "$geoip_country_name": "Canada",
+      "$geoip_city_name": "London",
+      "$browser": "Chrome",
+      "$os": "Mac OS X",
+      "$device_type": "Desktop"
+    }
+  },
+  {
+    "event": "project_card_clicked",
+    "timestamp": "2026-09-18T19:47:45.238000+00:00",
+    "distinct_id": "01a0b60f...",
+    "properties": {
+      "$host": "kalpkan.com",
+      "$current_url": "https://kalpkan.com/?v=beacon2",
+      "$pathname": "/",
+      "$lib": "web",
+      "$lib_version": "1.434.2",
+      "$geoip_country_name": "Canada",
+      "$geoip_city_name": "London",
+      "$browser": "Chrome",
+      "$os": "Mac OS X",
+      "$device_type": "Desktop",
+      "slug": "basketball",
+      "type": "app"
+    }
+  }
+]
+```
+
+`$host` is the hub host, the country comes from PostHog's GeoIP, and the click carries `slug` and `type`.
+
+Two things learned while verifying, both recorded in `skills/portfolio-ops/incidents.md`:
+
+1. The first deployment lost the click event: the row click navigated away before posthog-js flushed its 3 s batch. `capture()` now sends with `send_instantly` + `sendBeacon`, and the excerpt above is from the fixed build. Re-checked after the hub started booting posthog-js lazily after `load` (commit `e905bb0`, `lib/track.ts`): a click on the live build still produced an immediate beacon to `/ingest/i/v0/e/`.
+2. posthog-js only captures `$pageview` once the document is **visible**. The automation tab was hidden behind other agents' tabs (`document.visibilityState === "hidden"`), so `$pageleave` and `$autocapture` arrived but no `$pageview` did. For the `$pageview` row above, visibility was simulated in that tab (`visibilityState` overridden to `visible` and a `visibilitychange` event dispatched), which runs the same code path a visitor triggers by switching to the tab; real visitors on a visible tab (phone visits by other agents the same day) produced pageviews with no help.

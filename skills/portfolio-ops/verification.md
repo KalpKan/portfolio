@@ -122,7 +122,7 @@ Load the key first: `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`
 
 ### PostHog (T0.5, hub; every later app repeats rows 2 to 4 with its own host)
 
-Load the operator key first: `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`. Ingestion lag is 3 to 5 minutes; poll before concluding an event is missing.
+Load the operator key first: `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`. Ingestion lag is 3 to 5 minutes; poll before concluding an event is missing. posthog-js only captures `$pageview` once the tab is visible, so an automation tab hidden behind others sends no pageview (incident 2026-09-18).
 
 | Check | Command | Expect | Status |
 |---|---|---|---|

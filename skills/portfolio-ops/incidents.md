@@ -155,3 +155,14 @@ _Entries begin below, oldest first._
 - **Prevention:** Registry tests should not hard-code counts that Phase 1 to 3 are expected to change.
 - **Reported by:** worker (T0.5)
 
+### 2026-09-18: no `$pageview` from automation visits because posthog-js waits for the tab to be visible
+
+- **Date:** 2026-09-18
+- **Affected:** T0.5 verification only (real visitors unaffected)
+- **Symptom:** Six hub visits from claude-in-chrome produced `$pageleave`, `$autocapture` and `project_card_clicked` rows but never a `$pageview`, although the same build's pageviews from phone visits arrived.
+- **What was tried:** Checked `document.visibilityState` in the automation tab: `hidden` (other agents' tabs were in front). posthog-js source (`dist/module.js`): the pageview is captured on init only if the document is visible, otherwise on the next `visibilitychange` to visible.
+- **Root cause:** Chrome extension tabs shared with other agents are usually hidden; posthog-js by design defers `$pageview` for hidden documents (prerender safety).
+- **Fix:** For the verification, simulated visibility in the tab (override `visibilityState`, dispatch `visibilitychange`); the pageview was sent at once and arrived. Documented in `docs/analytics.md` "Verified".
+- **Prevention:** Verification row "Pageview and custom event arrive" notes the lag and the visibility requirement; when verifying by automation, either use a fresh visible window or the visibility shim, and never conclude the snippet is broken from a hidden tab.
+- **Reported by:** worker (T0.5)
+
