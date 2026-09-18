@@ -61,4 +61,13 @@ describe("capture / initPostHog without a key", () => {
     initPostHog("phc_test");
     expect(posthog.init).toHaveBeenCalledTimes(1);
   });
+
+  it("capture sends instantly over sendBeacon so a click that navigates away is not lost", () => {
+    capture("project_card_clicked", { slug: "plato", type: "app" });
+    expect(posthog.capture).toHaveBeenCalledWith(
+      "project_card_clicked",
+      { slug: "plato", type: "app" },
+      { send_instantly: true, transport: "sendBeacon" },
+    );
+  });
 });

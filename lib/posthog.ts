@@ -41,8 +41,12 @@ export function initPostHog(key: string | undefined = process.env.NEXT_PUBLIC_PO
 /**
  * Fire a custom event. Names are snake_case past-tense verbs, e.g.
  * `project_card_clicked`. Safe to call before init or without a key.
+ *
+ * Sent immediately over `sendBeacon` rather than the 3 s batch, because the
+ * core actions on this platform are clicks that navigate away (a project row
+ * opens another site) and a queued event dies with the page.
  */
 export function capture(event: string, props?: Record<string, unknown>): void {
   if (!initialised) return;
-  posthog.capture(event, props);
+  posthog.capture(event, props, { send_instantly: true, transport: "sendBeacon" });
 }
