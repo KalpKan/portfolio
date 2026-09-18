@@ -211,3 +211,14 @@ _Entries begin below, oldest first._
 - **Fix:** (1) Self-host Google Fonts' own latin `wght@400` subsets in `app/fonts/` via `next/font/local` (Bricolage 131 KB -> 77 KB, Geist Mono 23 KB -> 10 KB; commit `e905bb0`). (2) `components/PostHogProvider.tsx` imports `lib/posthog` dynamically after the window `load` event, and `lib/track.ts` is the lazy path for `project_card_clicked`, so posthog-js leaves the initial bundle. Verified on production: PostHog boots at ~660 ms (after `load` at ~600 ms), `/ingest` requests arrive, and a row click still sends `project_card_clicked {slug, type, kind}` over `sendBeacon`.
 - **Prevention:** `verification.md` hub table keeps the Lighthouse row; the font rule is in `app/layout.tsx`'s comment and `DESIGN.md` (weight 400 only). Measurement caveat recorded there too: Lighthouse on this Mac is only meaningful when the load average is low; with four agent builds running (load 10-15 on 8 cores) the same deploy scored 0.84 and 0.97 minutes apart (observed unthrottled FCP 0.16 s vs 1.3 s), so take the median of 5 runs or wait for a quiet machine before believing a number.
 - **Reported by:** worker (hub polish batch)
+
+### 2026-09-18: hung vitest/OpenCV workers from T1.4 skewed CPU-bound measurements on the Mac
+
+- **Date:** 2026-09-18, ~16:00 EDT
+- **Affected:** every CPU-bound measurement on Kalp's Mac (Lighthouse on kalpkan.com in particular); no site was affected.
+- **Symptom:** Load average 10-15 on 8 cores; Lighthouse on the same hub deploy scored 0.84 and 0.97 minutes apart (observed unthrottled FCP 0.16 s vs 1.3 s). `ps` showed four orphaned node processes (PPID 1) from the microtubules task: three vitest workers in `~/projects/microtubules/web` (22-29 min) and a `node -e` OpenCV probe (38 min), each at ~85-100% CPU, long after T1.4 had been committed (`917eb81`).
+- **What was tried:** Waited for the load to drop (it did not); reported the PIDs to the coordinator instead of killing another agent's processes.
+- **Root cause:** vitest workers that loaded OpenCV.js never exited (see the earlier "vitest hung forever after loading OpenCV.js" entry) and were left behind when that task finished.
+- **Fix:** Coordinator confirmed they were leftovers and killed them (`kill 2028 6497 8132 93689`); Lighthouse re-run on a quiet machine (see the hub Lighthouse entry above and STATUS.md).
+- **Prevention:** T1.4-style tests that load a WASM/Emscripten module must run with a per-test timeout and `--pool=forks --maxWorkers=1`, and a worker must `pkill -f` its own vitest processes before reporting done. Before trusting a Lighthouse number, check `sysctl -n vm.loadavg` and `ps -Ao %cpu,etime,args | sort -rn | head` (`verification.md`, hub table, Lighthouse row).
+- **Reported by:** worker (hub polish batch) / coordinator
