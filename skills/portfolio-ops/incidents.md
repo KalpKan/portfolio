@@ -152,6 +152,7 @@ _Entries begin below, oldest first._
 - **What was tried:** Nothing changed by T0.5; the failure is independent of the PostHog files (`npx vitest run lib/posthog.test.ts` passes).
 - **Root cause:** The test asserts a literal count that changes every time a project goes live.
 - **Fix:** Left for the owner of that test (hub polish / T1.3); recommended asserting the sum equals `all.length` and counting from the registry rather than a literal.
+- **Resolution:** fixed the same day in commit `c75a1e7`; `npm test` is 35/35 green again (re-run by T0.5 at 2026-09-18 20:05 UTC).
 - **Prevention:** Registry tests should not hard-code counts that Phase 1 to 3 are expected to change.
 - **Reported by:** worker (T0.5)
 
