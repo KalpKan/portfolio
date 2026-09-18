@@ -598,3 +598,39 @@ CI (GitHub Actions, free) and a README a non-developer can follow. Spend stays a
 Kalp's total involvement: H0 keys once, H1 domain purchase once, media when he has it, and
 reading STATUS.md.
 ```
+
+---
+
+## 11. Phase 5 — Functional audit and defect reports (added 2026-09-18 at Kalp's request)
+
+After every project is deployed and the platform work is done, each project is tested as a real user would use it, and anything that does not work gets a written report. Kalp will then spin up fixing agents that read those reports in parallel.
+
+**Scope:** every entry in `projects.json` with `type: "app"` (promptflip, hoops, plato, plantit, pushups, emotes, microtubules) plus the hub itself. Showcase pages are checked for rendering only.
+
+**Method (one fresh AUDITOR agent per project, no shared context):**
+1. Read the project's README and its section in this plan; write down what "working as intended" means in 3–6 user stories (e.g. "upload a course-outline PDF and download a calendar with the right dates").
+2. Exercise each story in a real browser via the claude-in-chrome skill at desktop and phone widths, with real inputs (a real PDF, the webcam, a plant photo, a Google login where applicable). Also run the repo's own test suite.
+3. Record every failure with: exact steps, expected vs actual, screenshot path, console/network errors, and the file or component most likely responsible (from a quick read of the code).
+
+**Output, one file per project:** `docs/reports/<slug>.md` with this fixed structure so fixing agents can consume it cold:
+
+```
+# <Project> functional audit — <date>
+Live URL · Repo · Vercel project · Database · Health route
+## Verdict: WORKING | PARTIALLY WORKING | BROKEN
+## User stories tested (table: story | result | evidence)
+## Defects (one per section, numbered)
+### D1 — <one-line title>
+Severity: blocker | major | minor
+Steps to reproduce
+Expected / Actual
+Evidence (screenshot path, console/network excerpt)
+Likely cause (file:line or component, with reasoning)
+Suggested fix (1–3 sentences; not implemented)
+## Known limitations that are NOT defects (e.g. needs hardware, by-design demo mode)
+## How a fixing agent should verify the fix (exact commands/URLs)
+```
+
+`docs/reports/INDEX.md` summarises all projects in one table (slug | verdict | blockers | majors | minors | report link) and is linked from STATUS.md.
+
+**Definition of done for Phase 5:** every app project has a report; a REVIEWER confirms each defect is reproducible from the steps alone; INDEX.md is complete; `skills/portfolio-ops/verification.md` gains a "functional smoke test" per project derived from the user stories, so future regressions are caught the same way.

@@ -35,6 +35,7 @@ Full evidence: `skills/portfolio-ops/incidents.md`, entry 2026-09-18.
 | T0.2 | 0 | Cleanup old Vercel projects + archive repos | ✅ verified (partial by design: `tokengamblecoinflip` deleted; `token-gamble-coinflip` + `token-coinflip` archived; `promptflip-35qv` kept, see H5) | https://github.com/KalpKan/token-gamble-coinflip, https://github.com/KalpKan/token-coinflip (archived) | verifier 2026-09-18 | 2026-09-18 |
 | T0.3 | 0 | UptimeRobot monitors | ✅ verified (3 monitors up, email alerts, public status page, $0) | https://stats.uptimerobot.com/a6n3Wx3PBp (inventory: docs/monitors.md) | verifier 2026-09-18 | 2026-09-18 |
 | T0.4 | 0 | DNS_PENDING.md | ✅ reviewed (plan written; execution waits on H1) | docs/DNS_PENDING.md | reviewer 2026-09-18 | 2026-09-18 |
+| T5.x | 5 | Functional audit + defect reports for every project (docs/reports/) | queued (after all deploys) | | | |
 | T0.5 | 0 | PostHog analytics | queued (starts after T0.1) | | | |
 
 ## Decisions log
