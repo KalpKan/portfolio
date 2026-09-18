@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import CaseStudy from "@/components/showcase/CaseStudy";
+import { getCaseStudy } from "@/content/projects";
+import { isPlaceholder } from "@/content/case-study";
 import { loadProjects } from "@/lib/projects";
 
-// Case-study pages are built in Phase 4. Until then every showcase slug gets
-// this placeholder so the hub never links to a 404.
+// /projects/<slug>: the case-study page for a showcase entry. A showcase whose
+// registry status is still "coming" (or has no content file) renders the
+// short placeholder, so nothing unfinished is ever published; the hub row
+// only links here once the status is "live" (lib/projects.ts rowFor()).
 
 export function generateStaticParams() {
   return loadProjects().map((p) => ({ slug: p.slug }));
@@ -12,20 +17,49 @@ export function generateStaticParams() {
 
 export const dynamicParams = false;
 
+function publishable(slug: string) {
+  const p = loadProjects().find((x) => x.slug === slug);
+  if (!p) return null;
+  const study = getCaseStudy(slug);
+  const live = p.type === "showcase" && p.status !== "coming" && study && !study.draft;
+  return { p, study: live ? study : undefined };
+}
+
 export async function generateMetadata({
   params,
 }: PageProps<"/projects/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const p = loadProjects().find((x) => x.slug === slug);
-  return { title: p ? `${p.name} — Kalp Kansara` : "Project" };
+  const found = publishable(slug);
+  if (!found) return { title: "Project" };
+  const { p, study } = found;
+  const title = `${study?.title ?? p.name} — Kalp Kansara`;
+  const description = study?.lede ?? p.tagline;
+  const heroSrc = study && !isPlaceholder(study.hero) ? study.hero.src : null;
+  const image = typeof heroSrc === "string" ? heroSrc : heroSrc?.src;
+  return {
+    title,
+    description,
+    alternates: { canonical: `/projects/${slug}` },
+    openGraph: {
+      type: "article",
+      url: `/projects/${slug}`,
+      title,
+      description,
+      ...(image ? { images: [{ url: image }] } : {}),
+    },
+    twitter: { card: image ? "summary_large_image" : "summary", title, description },
+  };
 }
 
 export default async function ProjectPage({
   params,
 }: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
-  const p = loadProjects().find((x) => x.slug === slug);
-  if (!p) notFound();
+  const found = publishable(slug);
+  if (!found) notFound();
+  const { p, study } = found;
+
+  if (study) return <CaseStudy study={study} />;
 
   return (
     <main className="mx-auto w-full max-w-[72rem] flex-1 px-4 pb-16 pt-10 md:px-8 md:pt-16">

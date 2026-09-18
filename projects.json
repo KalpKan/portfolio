@@ -115,7 +115,7 @@
       "name": "UnPark — Parkinson's freeze detection",
       "tagline": "Codename Antifreeze: a wearable that catches freezing of gait before the fall.",
       "type": "showcase",
-      "status": "coming",
+      "status": "live",
       "repo": "https://github.com/KalpKan/UnPark",
       "tags": [
         "SwiftUI",
@@ -128,9 +128,9 @@
     {
       "slug": "rc-car",
       "name": "Automatic RC Car",
-      "tagline": "A PS4-controller-driven RC car with autonomous modes, written in C++.",
+      "tagline": "A 3D-printed, Pi-driven RC car: PS4 controller in C++, and a camera that chases a tennis ball.",
       "type": "showcase",
-      "status": "coming",
+      "status": "live",
       "repo": "https://github.com/KalpKan/Automatic-RC-Car",
       "tags": [
         "C++",
@@ -141,24 +141,25 @@
     },
     {
       "slug": "outline",
-      "name": "Outline",
-      "tagline": "A native iOS app for structuring ideas before you write them.",
+      "name": "Outline — circle variability analyzer",
+      "tagline": "An iPad Pencil app that scores how far a drawn circle strays from perfect, for motor-control research.",
       "type": "showcase",
-      "status": "coming",
+      "status": "live",
       "repo": "https://github.com/KalpKan/Outline",
       "tags": [
-        "iOS",
-        "Swift"
+        "iPadOS",
+        "Swift",
+        "PencilKit"
       ],
       "hero": null
     },
     {
       "slug": "flashcards",
       "name": "FlashCards",
-      "tagline": "A native iOS flashcard app with cloud sync.",
+      "tagline": "A native iOS flashcard app with sign-in, sets, a study view and a home-screen widget.",
       "type": "showcase",
-      "status": "coming",
-      "repo": "https://github.com/KalpKan/FlashCardsApp",
+      "status": "live",
+      "repo": null,
       "tags": [
         "iOS",
         "Swift",
