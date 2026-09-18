@@ -21,11 +21,11 @@ Conventions used below:
 | Add a schema to Supabase Project B | Not yet written, added when T1.1 lands |
 | Rotate a secret | Not yet written, added when the first rotation lands |
 | Redeploy an app | Not yet written, added when T0.1 lands |
-| Restore a paused Supabase project | Not yet written, added when T0.3 lands |
+| Restore a paused Supabase project | Written 2026-09-18 (T0.3); not yet needed in anger |
 | Re-point OAuth redirects (promptflip on the new domain) | Not yet written, added when the post-H1 domain task lands |
 | Regenerate Supabase types | Not yet written, added when T1.1 lands |
 | Purge a large file from git history | Not yet written, added when T3.1 (pushup repo) or T4.1 (RC car repo) lands |
-| Add an UptimeRobot monitor | Not yet written, added when T0.3 lands |
+| Add an UptimeRobot monitor | Written and executed 2026-09-18 (T0.3): three monitors plus the public status page, see `docs/monitors.md` |
 | Add PostHog to an app | Not yet written, added when T0.5 lands |
 
 ## Deploy the hub to Vercel
@@ -197,7 +197,17 @@ Not yet written, added when T0.1 lands. (`npx vercel --prod --yes` from the app'
 
 ## Restore a paused Supabase project
 
-Not yet written, added when T0.3 lands. It will cover the dashboard restore click, confirming the health route returns `db: ok` again, checking why the UptimeRobot ping did not keep it alive, and appending an `incidents.md` entry.
+Symptom: an app's `/api/health` returns `db` not ok (or a 5xx), the UptimeRobot monitor on it is red, and the Supabase dashboard (or MCP `list_projects`) shows the project as `INACTIVE` / "Paused". Supabase Free pauses a project after 7 days without activity; the keep-alive monitors in `docs/monitors.md` exist to prevent exactly this, so a pause means the ping was missing, paused, or hitting a route that does not touch the database.
+
+1. **Restore.** Supabase dashboard, project list, click the paused project, click **Restore project** (the project page shows a "This project is paused" banner with the button). Restore takes 1 to 3 minutes. Via API instead: `curl -s -X POST https://api.supabase.com/v1/projects/<ref>/restore -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN"` (token from `~/.config/portfolio-ops/secrets.env`; refs are in `SKILL.md`'s system map). Free projects can be restored without charge; if the dashboard offers a paid tier instead, stop and raise a human checkpoint in `STATUS.md`.
+2. **Confirm the database is back.** `curl -sf https://promptflip-35qv.vercel.app/api/health` must return JSON containing `"db":"ok"` (Project A); for Project B, `curl -sf https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health` returns `{"ok":true}` once the T1.1 Edge Function exists. Then `set -a; source ~/.config/portfolio-ops/secrets.env; set +a` and `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json" | jq '.monitors[] | select(.friendly_name | test("DB|health")) | {friendly_name, status}'` should show `status: 2` again within one 5-minute cycle.
+3. **Find out why the keep-alive failed** (one of these is always true):
+   - No monitor on this project: `docs/monitors.md` has no row whose "Keep-alive?" column names the project. Add one with the runbook "Add an UptimeRobot monitor" on a route that runs a query.
+   - Monitor exists but is paused or deleted: `getMonitors` shows `status: 0` or the id is missing. Resume with `curl -s -X POST https://api.uptimerobot.com/v3/monitors/<id>/start -H "Authorization: Bearer $UPTIMEROBOT_API_KEY"`, or recreate.
+   - Monitor is up but hits a route that does not query the DB: open the route's source and check it executes a query (promptflip's `src/app/api/health/route.ts` queries Supabase; a static page or a `HEAD`-only check does not). If it does not, point the monitor at a route that does (`PATCH /v3/monitors/<id>` with `{"url": ...}`) or add the query to the route.
+   - Monitor was red for days and nobody noticed: the alert contact is missing (`getMonitors` with `alert_contacts=1` shows an empty `alert_contacts` array). Re-attach it with the `PATCH` shape in "Add an UptimeRobot monitor".
+4. **Record it.** Append an `incidents.md` entry (date, which project, how long it was paused, which of the four causes above, the fix, and the prevention added). Update the row in `docs/monitors.md` if a monitor changed.
+5. **Verify** (from `verification.md`): health route JSON, Supabase project `ACTIVE_HEALTHY`, monitor `status: 2`, and the status page `https://stats.uptimerobot.com/a6n3Wx3PBp` all green.
 
 ## Re-point OAuth redirects (promptflip on the new domain)
 
@@ -213,7 +223,29 @@ Not yet written, added when the pushup repo (230 MB of data) or the RC car repo 
 
 ## Add an UptimeRobot monitor
 
-Not yet written, added when T0.3 lands (blocked on the H0 API key).
+Use this for every new app (liveness) and for every Supabase-backed app's DB-touching route (keep-alive). Free plan limits: 50 monitors, 5-minute minimum interval, 10 API requests per minute. Nothing here costs money; never set a custom status-page domain (paid).
+
+Use the **v3 REST API** (`https://api.uptimerobot.com/v3`, bearer auth with the same main API key). The legacy v2 `newMonitor` rejects this account with `access_denied` ("not allowed to use some settings with your current plan") and v2 `getAlertContacts` returns an internal server error; v2 `getMonitors` and `getPSPs` still work and are fine for reads. Full v3 spec: `https://cdn.uptimerobot.com/api/openapi.yaml`.
+
+1. **Load the key** (never echo it, never write it into the repo): `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`.
+2. **Confirm the URL is public and returns 2xx without a redirect:** `curl -sI <url> | head -1`. A `302` to `vercel.com/sso-api` means you have a team-scoped or preview alias behind Vercel deployment protection; use the project's public production alias instead (`npx vercel alias ls --scope kks-projects-2edcb11a`). For a keep-alive monitor the route must run a database query (promptflip: `/api/health` returns `"db":"ok"`; Project B: the `health` Edge Function).
+3. **Find the alert contact id** (currently `5612875`, email): `curl -s -H "Authorization: Bearer $UPTIMEROBOT_API_KEY" https://api.uptimerobot.com/v3/user/alert-contacts | jq '.[] | {id, type, status}'`.
+4. **Create the monitor:**
+   ```bash
+   curl -s -X POST https://api.uptimerobot.com/v3/monitors \
+     -H "Authorization: Bearer $UPTIMEROBOT_API_KEY" -H "Content-Type: application/json" \
+     -d '{"type":"HTTP","friendlyName":"<app> health (DB)","url":"https://<host>/api/health",
+          "interval":300,"timeout":30,"httpMethodType":"GET","followRedirections":false,
+          "successHttpResponseCodes":["2xx"],
+          "assignedAlertContacts":[{"alertContactId":5612875,"threshold":0,"recurrence":0}]}' | jq '{id, friendlyName, status}'
+   ```
+   Naming: `<app> health (DB)` when the route queries a database, `<app> health` for a DB-less health route, `<app> dashboard` / `<app>` for a plain page. `httpMethodType` must be `GET` (the v3 default is `HEAD`, which some routes answer without running the query). `threshold` and `recurrence` are always 0 on the Free plan.
+5. **Add it to the status page** (PSP id `1263036`; `monitorIds` replaces the whole list, so include the existing ids from `docs/monitors.md`):
+   `curl -s -X PATCH https://api.uptimerobot.com/v3/psps/1263036 -H "Authorization: Bearer $UPTIMEROBOT_API_KEY" -H "Content-Type: application/json" -d '{"monitorIds":[804030255,804030256,804030271,<new id>]}' | jq '{id, monitorIds}'`
+6. **Verify after one cycle (up to 5 minutes):** `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json&monitors=<new id>&alert_contacts=1" | jq '.monitors[] | {id, friendly_name, status, alert_contacts: [.alert_contacts[].id]}'` shows `status: 2` and the contact id; `curl -sI https://stats.uptimerobot.com/a6n3Wx3PBp | head -1` is `HTTP/2 200` and the page lists the new monitor.
+7. **Record it:** add the row to `docs/monitors.md` (name, URL, interval, what it protects, keep-alive yes/no, id) and, if the app is new, the `healthUrl` in `projects.json` should be the same route.
+
+To change an existing monitor (for example after H1 moves an app to `<sub>.<domain>`), `PATCH /v3/monitors/<id>` with only the changed fields, for example `-d '{"url":"https://promptflip.<domain>/api/health"}'`; do not delete and recreate, or the uptime history resets. To pause or resume: `POST /v3/monitors/<id>/pause` or `/start`. To attach a contact to an existing monitor: `PATCH` with the `assignedAlertContacts` array from step 4.
 
 ## Add PostHog to an app
 

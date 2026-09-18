@@ -157,7 +157,7 @@
 
 ### Tasks T0.3 (UptimeRobot) and T0.5 (PostHog)
 
-Blocked on H0 keys. Plans written when keys arrive.
+H0 keys arrived 2026-09-18; T0.3 executed the same day (see below). T0.5 follows T0.1.
 
 ---
 
@@ -173,13 +173,13 @@ Blocked on H0 keys. Plans written when keys arrive.
 **Interfaces:**
 - Produces: a public status page URL (`https://stats.uptimerobot.com/<id>`) recorded in `docs/monitors.md`; consumed by the hub footer later.
 
-- [ ] **Step 1:** Read UptimeRobot API v2 docs for `newMonitor`, `getMonitors`, `newPSP`, `getAlertContacts` (https://uptimerobot.com/api/). Free plan: 50 monitors, 5-minute minimum interval (verified 2026-09-18).
-- [ ] **Step 2:** Create HTTP(s) monitors (type 1, interval 300) for: `https://promptflip-35qv.vercel.app/api/health` (name "promptflip health (DB)"), `https://v0-basketball-analytics-dashboard-kks-projects-2edcb11a.vercel.app/` (name "hoops dashboard"), and the hub production URL from STATUS.md T0.1 row + `/api/health` (name "hub health"). If T0.1's URL is not in STATUS.md yet, `git pull` and poll for up to 10 minutes; if still absent, create the other two and leave a clearly marked TODO row for the hub in `docs/monitors.md` with the exact curl to add it.
-- [ ] **Step 3:** Verify with `getMonitors` that each is status 2 (up) after one cycle; capture ids.
-- [ ] **Step 4:** Create a public status page (`newPSP`) named "Kalp's projects" containing all monitors; record its URL.
-- [ ] **Step 5:** Attach the account's default alert contact (from `getAlertContacts`) to each monitor so Kalp gets downtime emails.
-- [ ] **Step 6:** Write `docs/monitors.md`; append/replace runbooks: "Add an uptime monitor" (exact curl with `$UPTIMEROBOT_API_KEY`) and "Restore a paused Supabase project" (Supabase dashboard → project → Restore; confirm health route; check the monitor was actually hitting a DB-touching route). Update settings-map, verification, SKILL.md check #1.
-- [ ] **Step 7:** Verify: `curl -s <status page url> | head -c 300` shows the page; `docs/monitors.md` lists ≥ 2 monitors with ids. Update STATUS.md. Commit and push only your files (`git pull --rebase --autostash` first).
+- [x] **Step 1:** Read UptimeRobot API v2 docs for `newMonitor`, `getMonitors`, `newPSP`, `getAlertContacts` (https://uptimerobot.com/api/). Free plan: 50 monitors, 5-minute minimum interval (verified 2026-09-18).
+- [x] **Step 2:** Create HTTP(s) monitors (type 1, interval 300) for: `https://promptflip-35qv.vercel.app/api/health` (name "promptflip health (DB)"), `https://v0-basketball-analytics-dashboard-kks-projects-2edcb11a.vercel.app/` (name "hoops dashboard"), and the hub production URL from STATUS.md T0.1 row + `/api/health` (name "hub health"). If T0.1's URL is not in STATUS.md yet, `git pull` and poll for up to 10 minutes; if still absent, create the other two and leave a clearly marked TODO row for the hub in `docs/monitors.md` with the exact curl to add it.
+- [x] **Step 3:** Verify with `getMonitors` that each is status 2 (up) after one cycle; capture ids.
+- [x] **Step 4:** Create a public status page (`newPSP`) named "Kalp's projects" containing all monitors; record its URL.
+- [x] **Step 5:** Attach the account's default alert contact (from `getAlertContacts`) to each monitor so Kalp gets downtime emails.
+- [x] **Step 6:** Write `docs/monitors.md`; append/replace runbooks: "Add an uptime monitor" (exact curl with `$UPTIMEROBOT_API_KEY`) and "Restore a paused Supabase project" (Supabase dashboard → project → Restore; confirm health route; check the monitor was actually hitting a DB-touching route). Update settings-map, verification, SKILL.md check #1.
+- [x] **Step 7:** Verify: `curl -s <status page url> | head -c 300` shows the page; `docs/monitors.md` lists ≥ 2 monitors with ids. Update STATUS.md. Commit and push only your files (`git pull --rebase --autostash` first).
 
 ---
 

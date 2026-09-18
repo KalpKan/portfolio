@@ -10,7 +10,7 @@ Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bo
 
 | # | Check | Command | Healthy output | Status |
 |---|---|---|---|---|
-| 1 | UptimeRobot status page | open `https://status.<domain>` or the UptimeRobot dashboard; via API: `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json" \| jq '.monitors[] \| {friendly_name, status}'` | every monitor `status: 2` (up) | PENDING (T0.3) |
+| 1 | UptimeRobot status page | open `https://stats.uptimerobot.com/a6n3Wx3PBp`; via API (after `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`): `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json&monitors=804030255-804030256-804030271" \| jq '.monitors[] \| {friendly_name, status}'` | the three platform monitors `status: 2` (up); the six paused `shop.travisscott.com` monitors (`status: 0`) are Kalp's old ones and are not a failure | confirmed 2026-09-18 (T0.3). A custom `status.<domain>` is a paid feature and is not planned |
 | 2 | Failing app's health route | `curl -sf https://<prod-url>/api/health` | promptflip: JSON containing `"db":"ok"`; hub: `{"ok":true,"service":"hub","time":"..."}` | promptflip live; hub PENDING (T0.1) |
 | 3 | Vercel deployment logs | `npx vercel ls <project> --scope kks-projects-2edcb11a` then `npx vercel inspect <deployment-url> --logs` | newest deployment state `Ready`, no build errors | works now |
 | 4 | Supabase project status | Supabase dashboard project list, or Supabase MCP `list_projects` | both projects `ACTIVE_HEALTHY`, none `INACTIVE` (paused) | works now (dashboard); MCP after H0 |
@@ -45,8 +45,8 @@ Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bo
 |---|---|---|---|
 | Project count | Supabase dashboard, or MCP `list_projects` | exactly 2 projects: `promptflip` (A) and `platform` (B, currently still named for basketball, ref `yzppfufqaekgaxcrsqxp`) | works now |
 | Both active | same | both `ACTIVE_HEALTHY`; a paused project shows `INACTIVE` | works now |
-| Keep-alive proven | UptimeRobot monitor history for `promptflip/api/health` and the Project B `health` Edge Function | 100 percent uptime for at least 8 consecutive days (past the 7-day pause threshold) with no manual restore | PENDING (T0.3, then 8 days) |
-| Project B health function | `curl -sf https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health` | `{"ok":true}` (runs `select 1`) | PENDING (T1.1 / T0.3) |
+| Keep-alive proven | `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json&monitors=804030255&custom_uptime_ratios=8" \| jq '.monitors[0].custom_uptime_ratio'` (monitor `promptflip health (DB)`, Project A); Project B gets its own monitor on the `health` Edge Function in T1.1 | `"100.000"` (8-day uptime ratio, past the 7-day pause threshold) with no manual restore in `incidents.md` | monitor live since 2026-09-18 (T0.3); earliest confirmation 2026-09-26. Project B PENDING (T1.1) |
+| Project B health function | `curl -sf https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health` | `{"ok":true}` (runs `select 1`) | PENDING (T1.1; then add a monitor on it per runbook "Add an UptimeRobot monitor") |
 | Quota | Supabase dashboard, Project B, Usage | DB, storage, egress, Realtime each under 10 percent | PENDING (monthly glance once Phase 1 lands) |
 
 ### Neon (Plato)
@@ -79,12 +79,18 @@ Placeholders: `<domain>` is the `.com` bought at human checkpoint H1 (not yet bo
 | Old coinflip repos archived | `gh repo view KalpKan/token-gamble-coinflip --json isArchived` and same for `token-coinflip` | `{"isArchived":true}` | confirmed 2026-09-18 (T0.2) |
 | No secrets committed | run a secret scan (for example `gitleaks detect --source .`) in any repo before it goes public | no findings | run per task |
 
-### UptimeRobot (after H0 key)
+### UptimeRobot (monitors created 2026-09-18, T0.3; inventory in `docs/monitors.md`)
+
+Load the key first: `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`. Free plan rate limit is 10 requests per minute, so do not loop these.
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Monitors exist and are up | `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json" \| jq '.monitors[] \| {friendly_name, url, status}'` | one monitor per app plus the DB-touching routes, all `status: 2` | PENDING (T0.3) |
-| Public status page | open `https://status.<domain>` | all green | PENDING (T0.3 + H1) |
+| Monitors exist and are up | `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json&monitors=804030255-804030256-804030271&alert_contacts=1" \| jq '.monitors[] \| {id, friendly_name, url, status, alert_contacts: [.alert_contacts[].id]}'` | exactly `promptflip health (DB)` (804030255), `hoops dashboard` (804030256), `hub health` (804030271), each `status: 2` and `alert_contacts: ["5612875"]` | confirmed 2026-09-18 (T0.3) |
+| Every platform monitor, whatever its id | `curl -s -X POST https://api.uptimerobot.com/v2/getMonitors -d "api_key=$UPTIMEROBOT_API_KEY&format=json" \| jq '[.monitors[] \| select(.status != 0) \| {friendly_name, status}]'` | every non-paused monitor `status: 2`; the count matches the rows in `docs/monitors.md` | confirmed 2026-09-18 (T0.3) |
+| Alert contact exists and is active | `curl -s -H "Authorization: Bearer $UPTIMEROBOT_API_KEY" https://api.uptimerobot.com/v3/user/alert-contacts \| jq '.[] \| {id, type, status}'` | `{"id":5612875,"type":"Email","status":"Active"}` | confirmed 2026-09-18 (T0.3) |
+| Public status page | `curl -sI https://stats.uptimerobot.com/a6n3Wx3PBp \| head -1`, then open it in a browser | `HTTP/2 200`; page titled "Kalp's projects" lists the three monitors, all green | confirmed 2026-09-18 (T0.3). No `status.<domain>` (paid feature) |
+| Status page still contains every monitor | `curl -s -X POST https://api.uptimerobot.com/v2/getPSPs -d "api_key=$UPTIMEROBOT_API_KEY&format=json" \| jq '.psps[0] \| {friendly_name, monitors, standard_url}'` | `monitors` lists every id in `docs/monitors.md`; `standard_url` is `https://stats.uptimerobot.com/a6n3Wx3PBp` | confirmed 2026-09-18 (T0.3) |
+| Monitor URL is not a protected alias | `curl -sI <monitor url> \| head -1` for each URL in `docs/monitors.md` | `HTTP/2 200`, never a `302` to `vercel.com/sso-api` (that alias is behind Vercel deployment protection and the monitor would be measuring a login page) | confirmed 2026-09-18 (T0.3) |
 
 ### PostHog (after H0 key)
 

@@ -34,7 +34,7 @@ One row per host. "PENDING" means the plan calls for it but it is not live yet; 
 | `pushups.` | PENDING | Vercel Hobby, static (MediaPipe JS in browser) | new repo (Phase 3) | none | none | PENDING (Phase 3) |
 | `emotes.` | PENDING | Vercel Hobby, static (MediaPipe JS in browser) | new repo (Phase 3) | none | none | PENDING (Phase 3) |
 | `microtubules.` | PENDING | Vercel Hobby, static (OpenCV.js) | `KalpKan/Microtubule-Quantification` (public) | none | none | PENDING (Phase 1) |
-| `status.` | PENDING | UptimeRobot public status page | n/a | n/a | UptimeRobot dashboard | PENDING (T0.3, blocked on H0 key) |
+| `status.` | `https://stats.uptimerobot.com/a6n3Wx3PBp` (PSP id `1263036`; a custom `status.<domain>` is a paid UptimeRobot feature, so this URL is the permanent one) | UptimeRobot public status page, three HTTP monitors at 5 min (`docs/monitors.md`) | n/a | n/a | UptimeRobot dashboard; `UPTIMEROBOT_API_KEY` in `~/.config/portfolio-ops/secrets.env`, never in a repo | live since 2026-09-18 (T0.3) |
 | DNS zone | PENDING | Cloudflare Registrar + DNS, records DNS-only (grey cloud) | `docs/DNS_PENDING.md` lists every record | n/a | Cloudflare dashboard; API token is `CLOUDFLARE_API_TOKEN` in the local MCP config, never in a repo | PENDING (H1) |
 | Analytics | PENDING | PostHog Cloud free tier, one project "Kalp portfolio", `$0` billing limit on every product | snippet in every app, proxied via `/ingest/*` | n/a | PostHog dashboard; `POSTHOG_PERSONAL_API_KEY` in local MCP config | PENDING (T0.5, blocked on H0 key) |
 | Showcase pages (`/projects/<slug>` on the hub) | PENDING | hub, rendered from `projects.json` entries with `type: "showcase"` | `KalpKan/portfolio` | none | none | PENDING (Phase 4) |
@@ -45,7 +45,7 @@ Fuller reasoning behind every row is in `architecture.md`.
 
 Run these before changing anything. Each takes under a minute and tells you which layer is broken. Exact commands are in `verification.md`.
 
-1. **UptimeRobot status page.** Open `status.<domain>` (PENDING until T0.3; until then open the UptimeRobot dashboard). If every monitor is red at once, suspect DNS or Vercel; if one is red, go to that app.
+1. **UptimeRobot status page.** Open `https://stats.uptimerobot.com/a6n3Wx3PBp` (public, no login; the monitor inventory with ids is `docs/monitors.md`). If every monitor is red at once, suspect DNS or Vercel; if one is red, go to that app; if `promptflip health (DB)` is red but the promptflip page loads, suspect Supabase Project A (runbook "Restore a paused Supabase project").
 2. **The failing app's `/api/health`.** `curl -sf https://<app-url>/api/health`. promptflip returns `db: ok` when its Supabase project is up; the hub returns `{"ok": true, "service": "hub"}`. A 200 here with `db` not ok means the database, not the app. A connection failure means DNS or Vercel.
 3. **Vercel deployment logs.** `npx vercel ls <project> --scope kks-projects-2edcb11a` then `npx vercel inspect <deployment-url> --logs`. A failed build shows here; a "Ready" deployment with a failing health route points at env vars or the DB.
 4. **Supabase project status.** Open the Supabase dashboard (or the Supabase MCP `list_projects`). Free projects pause after 7 days without activity; a paused project is a one-click restore and then `incidents.md` gets an entry because the keep-alive ping should have prevented it.
@@ -58,7 +58,7 @@ If all five are green and the symptom persists, it is application code, not host
 | File | Read it when |
 |---|---|
 | `architecture.md` | You need to know why something is the way it is before changing it (layers, the two-Supabase-project rule, DNS map, analytics wiring, keep-alive). |
-| `runbooks.md` | You need to do a procedure: deploy, add a project, add a schema, rotate a secret, attach a domain, restore a paused project, re-point OAuth, regenerate types, purge git history. |
+| `runbooks.md` | You need to do a procedure: deploy, add a project, add a schema, rotate a secret, attach a domain, restore a paused project, add an UptimeRobot monitor, re-point OAuth, regenerate types, purge git history. |
 | `incidents.md` | Something went wrong (append an entry) or you want to know whether this has happened before (read). Append-only. |
 | `verification.md` | You need the exact command that proves a part is healthy. |
 | `settings-map.md` | You need to know which env var lives in which dashboard and what breaks without it. Names only, never values. |
