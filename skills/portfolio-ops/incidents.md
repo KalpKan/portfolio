@@ -591,3 +591,34 @@ _Entries begin below, oldest first._
 - **Fix:** `scripts/e2e-demo.mjs` in the pushups repo now launches with those flags and UA (`18ab3e6`), so a verification run also proves analytics.
 - **Prevention:** runbook "Deploy a browser-ML app (MediaPipe) to Vercel", proving-it section; `verification.md` analytics rows for pushups/emotes say to use the e2e script (or a human) rather than a plain puppeteer/Playwright run.
 - **Reported by:** T3.1 worker (resumed)
+
+### 2026-09-18: plantit `npm run dev:api` crashed with MODULE_NOT_FOUND (dotenv) while production was green
+
+- **Date:** 2026-09-18, found by the T2.1 reviewer, fixed 22:35 UTC
+- **Affected:** the README's "How to run this" path (`npm install && npm run dev:api`) in `~/projects/plantit`; production untouched (`api/index.js` never loads `backend/src/index.js`).
+- **Symptom:** `node -e "require('dotenv')"` from the repo root threw `MODULE_NOT_FOUND`; `npm run dev:api` died on line 2.
+- **Root cause:** the repair moved the API's dependencies into the root `package.json` and deleted `backend/package.json`, which was the only place `dotenv` was listed. No test exercised the local entry file.
+- **Fix:** `npm i dotenv` at the root (`72b7c3c`, lockfile committed) with `quiet: true`; `npm run dev:api` then answers `/api/health` 200 with a filled `.env` (proven with a local `.env` built from the service-account file and the Management API `api-keys`, never committed).
+- **Prevention:** `verification.md` row "Local run works for a non-developer" runs the README sequence, not just the Vercel entry. When a repo's package.json files are merged, `grep -rho "require('[^'.][^']*')" <src>` against the root dependencies catches the orphans.
+- **Reported by:** T2.1 fixer
+
+### 2026-09-18: plantit ESP8266 routes accepted any uid + plantId (pre-existing firmware design), and Water now in hardware mode invented a sensor value
+
+- **Date:** 2026-09-18, reviewer findings on the first T2.1 delivery; fixed 22:35 UTC (`72b7c3c`)
+- **Affected:** `POST /api/plants/:id/moisture`, `GET .../moisture/:userId` (unauthenticated by design, the firmware has no Google account), `POST .../water` in hardware mode, `POST .../connect-device`.
+- **Symptom:** anyone holding a uid + plant id (both in every public Supabase photo URL) could POST a reading, flip the plant to "Live sensor" and inject `source: device` watering events; the GET leaked any plant's targets. Water now in hardware mode overwrote the real `currentVWC` with `maxVWC` and labelled it "Live sensor (ESP8266)". connect-device accepted public IPs and unvalidated ports (`80/x`) and string-built the URL from the Vercel function.
+- **Root cause:** the original app's routes were carried over unchanged; the repair added `deviceReportedAt` as the hardware switch without adding a credential for the thing that sets it.
+- **Fix:** per-plant `deviceSecret` issued by connect-device (in the `/configure` payload, stored on the plant, `timingSafeEqual` check of `X-Device-Secret`, 403 otherwise, never serialised to the browser, cleared on disconnect); hardware-mode Water now logs a `manual` event + `lastWatered` only and returns `reading.pendingDeviceReport: true`; connect-device validates RFC1918 IP + port 1-65535 and short-circuits with `502 hardwareRequired` on Vercel before any network call. 5 new route tests. Firmware stores the secret; `arduino/README.md` documents the header.
+- **Prevention:** any unauthenticated "device" route needs a per-device credential from day one (runbook "Deploy an Express+CRA app to Vercel", common failures). Reviewers: grep for routes without the `authenticate` middleware.
+- **Reported by:** T2.1 reviewer; fixed by the T2.1 fixer
+
+### 2026-09-18: Vercel refused every new deployment for the team ("api-deployments-free-per-day"), so the plantit reviewer fixes are pushed but not live
+
+- **Date:** 2026-09-18, 22:34 UTC
+- **Affected:** every project in team `kks-projects-2edcb11a` (Hobby). Concretely `KalpKan/PlantWater` `72b7c3c`: GitHub status `Vercel: Deployment rate limited — retry in 24 hours`; `npx vercel --prod` → `Resource is limited - try again in 24 hours (more than 100, code: "api-deployments-free-per-day")`. `https://plantit.kalpkan.com` keeps serving `2a3fe89` (works; the firmware routes are still the open pre-fix ones, the phone nav still overflows).
+- **What was tried:** waiting for the Git-triggered deploy (never created), then the CLI (refused). `GET /v6/deployments?teamId=...&since=<24h ago>` showed 98 deployments since 18:55 UTC, 64 of them the hub `portfolio` project.
+- **Root cause:** Vercel Hobby caps a team at 100 deployments per rolling day, every project counted together. Many agents deploying per commit (and per doc tweak) burned the whole budget in under four hours.
+- **Fix:** none possible at $0 today. All fixes are verified on a local production-like harness (static build + the real Express app with the real Firestore/Supabase, Playwright at 390 px and 1440 px). After ~2026-09-19 19:00 UTC (when the oldest counted deployment leaves the window; earlier attempts are cheap: the CLI just says no), an agent runs `cd ~/projects/plantit && npx vercel@latest --prod --yes --scope kks-projects-2edcb11a` (or pushes any commit) and re-runs the `verification.md` plantit rows marked "live once 72b7c3c deploys". STATUS.md carries this as the T2.1 follow-up.
+- **Prevention:** runbook "Deploy an Express+CRA app to Vercel", common failures (and it applies to every runbook): one deployment per task step, batch documentation-only commits, never redeploy to "refresh". Consider a Vercel "Ignored Build Step" (`git diff --quiet HEAD^ HEAD -- . ':!docs' ':!*.md'`) on the hub project so docs commits stop consuming deployments.
+- **Reported by:** T2.1 fixer
+
