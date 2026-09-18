@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-18T00:00:00Z",
+  "title": "Design System: Kalp Kansara — projects",
+  "extensions": {
+    "colorMeta": {
+      "signal": { "role": "primary", "displayName": "Signal Cobalt", "canonical": "#1d3fd6", "dark": "#7e97ff", "tonalRamp": ["#0a1552", "#101f80", "#152fae", "#1d3fd6", "#4a68e6", "#7e97ff", "#aebdff", "#d9defb"] },
+      "signal-ink": { "role": "primary", "displayName": "Signal Ink", "canonical": "#ffffff", "dark": "#0b1030" },
+      "signal-soft": { "role": "primary", "displayName": "Signal Soft", "canonical": "#d9defb", "dark": "#1f2a5a" },
+      "sheet": { "role": "neutral", "displayName": "Sheet", "canonical": "#f1f3f6", "dark": "#0e1014", "tonalRamp": ["#0e1014", "#14171d", "#1b1f27", "#2c303a", "#62677a", "#c3c7cf", "#e1e4ea", "#f1f3f6"] },
+      "sheet-raised": { "role": "neutral", "displayName": "Sheet Raised", "canonical": "#ffffff", "dark": "#14171d" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#15171d", "dark": "#e9eae4", "tonalRamp": ["#15171d", "#2c303a", "#4d5261", "#62677a", "#7c8291", "#8b909c", "#aab0bd", "#e9eae4"] },
+      "ink-2": { "role": "neutral", "displayName": "Ink 2", "canonical": "#4d5261", "dark": "#aab0bd" },
+      "ink-3": { "role": "neutral", "displayName": "Ink 3", "canonical": "#62677a", "dark": "#7c8291" },
+      "rule": { "role": "neutral", "displayName": "Rule", "canonical": "#c3c7cf", "dark": "#2c303a" },
+      "rule-soft": { "role": "neutral", "displayName": "Rule Soft", "canonical": "#d9dde4", "dark": "#1f232b" },
+      "pad": { "role": "neutral", "displayName": "Pad", "canonical": "#e1e4ea", "dark": "#1b1f27" },
+      "quiet": { "role": "neutral", "displayName": "Quiet", "canonical": "#8b909c", "dark": "#5d626e" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The name on the hub and the project name on a case-study page. Bricolage Grotesque at opsz 96 / wdth 92, -0.03em, balanced wrap." },
+      "headline": { "displayName": "Headline", "purpose": "A project name inside its channel row; same .display axes at 1.25-1.5rem." },
+      "lede": { "displayName": "Lede", "purpose": "The one-line instruction under the name, max 34ch." },
+      "body": { "displayName": "Body", "purpose": "Taglines, bio, case-study prose; 52-60ch measure." },
+      "label": { "displayName": "Label (mono)", "purpose": "Column heads, counts, sheet metadata, back link: Geist Mono 11px uppercase 0.12em tabular. Lower-case at 11px for IDs, status, tags." },
+      "caption": { "displayName": "Caption", "purpose": "Pad-map legend and footer at 12px." }
+    },
+    "shadows": [
+      { "name": "row-edge", "value": "inset 2px 0 0 0 var(--signal)", "purpose": "Left signal edge on the active channel row. A drawn rule, not a drop shadow; the system has no other shadow." }
+    ],
+    "motion": [
+      { "name": "brighten", "value": "color, background-color 300ms", "purpose": "Every hover/focus/live state change. Colour only; nothing moves." },
+      { "name": "trace-draw", "value": "stroke-dashoffset 160 -> 0, 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards", "purpose": "A live pad draws its spike trace once on mount. Disabled under prefers-reduced-motion." }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Pad",
+      "kind": "custom",
+      "refersTo": "pad",
+      "description": "One recording site in the array map. Rest, active (its row is hovered) and lit (health ok) variants.",
+      "html": "<ol class=\"ds-pads\"><li><a class=\"ds-pad\" href=\"#\"><span>01</span><svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\" stroke-dasharray=\"2 2\"/></svg></a></li><li><a class=\"ds-pad ds-pad--active\" href=\"#\"><span>02</span><svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\"/><path d=\"M8 4.5 11.5 11.5H4.5Z\" fill=\"currentColor\" stroke=\"none\"/></svg></a></li><li><a class=\"ds-pad ds-pad--lit\" href=\"#\"><span>03</span><svg viewBox=\"0 0 64 24\" class=\"ds-pad-trace\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path class=\"ds-trace\" d=\"M2 14h9l3-8 5 14 4-10 3 4h8l3-6 4 10 3-4h18\"/></svg></a></li></ol>",
+      "css": ".ds-pads { list-style: none; margin: 0; padding: 1px; display: grid; grid-template-columns: repeat(3, 4.25rem); gap: 1px; background: var(--rule-soft, #d9dde4); width: max-content; } .ds-pads li { background: var(--sheet, #f1f3f6); } .ds-pad { display: flex; flex-direction: column; justify-content: space-between; aspect-ratio: 1; padding: 8px; background: var(--pad, #e1e4ea); color: var(--ink, #15171d); text-decoration: none; font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 11px; line-height: 1; font-variant-numeric: tabular-nums; transition: background-color 300ms, color 300ms; } .ds-pad svg { align-self: flex-end; } .ds-pad--active, .ds-pad:hover { background: var(--signal-soft, #d9defb); } .ds-pad--lit, .ds-pad--lit:hover { background: var(--signal, #1d3fd6); color: var(--signal-ink, #fff); } .ds-pad-trace { width: 100%; height: 24px; align-self: stretch; } .ds-trace { stroke-dasharray: 160; stroke-dashoffset: 160; animation: ds-draw 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; } @keyframes ds-draw { to { stroke-dashoffset: 0; } } .ds-pad:focus-visible { outline: 2px solid var(--ring, #1d3fd6); outline-offset: 3px; border-radius: 2px; }"
+    },
+    {
+      "name": "Channel Row",
+      "kind": "card",
+      "refersTo": "channel-row",
+      "description": "One ruled row per site: ID and mark, name/tagline/meta, destination. Active state raises the sheet and draws a signal edge.",
+      "html": "<ol class=\"ds-rows\"><li class=\"ds-row\"><div class=\"ds-row-id\"><span>04</span><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\"/><path d=\"M2 14 14 2\"/></svg></div><div class=\"ds-row-main\"><h2 class=\"ds-row-name\"><a href=\"#\">Project name</a></h2><p class=\"ds-row-tag\">One-line tagline for the project.</p><p class=\"ds-row-meta\"><span class=\"ds-row-status\">archived</span><span>· nextjs</span><span>· ml</span></p></div><div class=\"ds-row-go\"><span>open <svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M2.5 8h11M9.5 4l4 4-4 4\"/></svg></span></div></li><li class=\"ds-row ds-row--active\"><div class=\"ds-row-id\"><span>05</span><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\" style=\"color: var(--signal, #1d3fd6)\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\" fill=\"currentColor\"/><path d=\"M3 9h2l1-4 2 7 1.5-5 1 2H13\" stroke=\"var(--signal-ink, #fff)\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/></svg></div><div class=\"ds-row-main\"><h2 class=\"ds-row-name\"><a href=\"#\">Live project</a></h2><p class=\"ds-row-tag\">A site returning a signal right now.</p><p class=\"ds-row-meta\"><span class=\"ds-row-status\">live</span><span>·</span><span class=\"ds-row-signal\">signal</span><span>· react</span></p></div><div class=\"ds-row-go\"><span>open <svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M2.5 8h11M9.5 4l4 4-4 4\"/></svg></span><a href=\"#\" class=\"ds-row-repo\">repo</a></div></li></ol>",
+      "css": ".ds-rows { list-style: none; margin: 0; padding: 0; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; color: var(--ink, #15171d); } .ds-row { position: relative; display: grid; grid-template-columns: 3.25rem minmax(0, 1fr) auto; column-gap: 12px; padding: 16px 12px; border-top: 1px solid var(--rule-soft, #d9dde4); transition: background-color 300ms; } .ds-row:first-child { border-top: 0; } .ds-row:hover, .ds-row--active { background: var(--sheet-raised, #fff); box-shadow: inset 2px 0 0 0 var(--signal, #1d3fd6); } .ds-row-id, .ds-row-go, .ds-row-meta { font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 11px; font-variant-numeric: tabular-nums; } .ds-row-id { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; line-height: 1; color: var(--ink-2, #4d5261); } .ds-row-name { margin: 0; font-size: 1.25rem; line-height: 1.25; font-weight: 400; letter-spacing: -0.03em; font-variation-settings: 'opsz' 96, 'wdth' 92; } .ds-row-name a { color: inherit; text-decoration: none; } .ds-row-name a:hover { text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; } .ds-row-tag { margin: 4px 0 0; max-width: 60ch; font-size: 0.95rem; line-height: 1.375; color: var(--ink-2, #4d5261); } .ds-row-meta { margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 4px 8px; color: var(--ink-3, #62677a); } .ds-row-status { color: var(--ink-2, #4d5261); } .ds-row-signal { color: var(--signal, #1d3fd6); } .ds-row-go { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; padding-top: 4px; color: var(--ink-2, #4d5261); } .ds-row-go span { display: inline-flex; align-items: center; gap: 4px; } .ds-row-repo { color: var(--ink-3, #62677a); text-decoration: none; } .ds-row-repo:hover { color: var(--ink, #15171d); text-decoration: underline; } .ds-row:has(a:focus-visible) { outline: 2px solid var(--signal, #1d3fd6); outline-offset: -2px; }"
+    },
+    {
+      "name": "Column Head",
+      "kind": "nav",
+      "refersTo": "column-head",
+      "description": "Mono uppercase head that closes with a hairline; used above the pad map and the channel list.",
+      "html": "<div class=\"ds-colhead\"><span>Array</span><span>12 sites · 1 live</span></div>",
+      "css": ".ds-colhead { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; border-bottom: 1px solid var(--rule, #c3c7cf); font-family: 'Geist Mono', ui-monospace, Menlo, monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; color: var(--ink-2, #4d5261); }"
+    },
+    {
+      "name": "Site Marks",
+      "kind": "custom",
+      "refersTo": "pad",
+      "description": "The six drawn states at one 1.25 stroke: live, down, coming, archived, case study, quiet.",
+      "html": "<div class=\"ds-marks\"><svg class=\"ds-mark ds-mark--live\" viewBox=\"0 0 16 16\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\" fill=\"currentColor\"/><path d=\"M3 9h2l1-4 2 7 1.5-5 1 2H13\" stroke=\"var(--signal-ink, #fff)\"/></svg><svg class=\"ds-mark\" viewBox=\"0 0 16 16\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\"/><path d=\"M3.5 8.5h9\"/></svg><svg class=\"ds-mark\" viewBox=\"0 0 16 16\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\" stroke-dasharray=\"2 2\"/></svg><svg class=\"ds-mark\" viewBox=\"0 0 16 16\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\"/><path d=\"M2 14 14 2\"/></svg><svg class=\"ds-mark\" viewBox=\"0 0 16 16\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\"/><path d=\"M8 4.5 11.5 11.5H4.5Z\" fill=\"currentColor\" stroke=\"none\"/></svg><svg class=\"ds-mark ds-mark--quiet\" viewBox=\"0 0 16 16\"><rect x=\"1.5\" y=\"1.5\" width=\"13\" height=\"13\" fill=\"currentColor\"/></svg></div>",
+      "css": ".ds-marks { display: flex; gap: 12px; color: var(--ink-2, #4d5261); } .ds-mark { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.25; stroke-linejoin: round; stroke-linecap: round; } .ds-mark--live { color: var(--signal, #1d3fd6); } .ds-mark--quiet { color: var(--quiet, #8b909c); }"
+    },
+    {
+      "name": "Quiet Link",
+      "kind": "nav",
+      "refersTo": "quiet-link",
+      "description": "Footer and back links: ink-3 at rest, ink plus underline on hover.",
+      "html": "<p class=\"ds-quiet\"><a class=\"ds-quiet-link\" href=\"#\">source on GitHub</a> · <a class=\"ds-quiet-link\" href=\"#\">/api/health</a></p>",
+      "css": ".ds-quiet { font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; font-size: 12px; line-height: 1.625; color: var(--ink-3, #62677a); } .ds-quiet-link { color: inherit; text-decoration: none; transition: color 300ms; } .ds-quiet-link:hover { color: var(--ink, #15171d); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; } .ds-quiet-link:focus-visible { outline: 2px solid var(--ring, #1d3fd6); outline-offset: 3px; border-radius: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Channel-Map Sheet",
+    "overview": "The site is the bench sheet a neuro lab prints after an impedance test: every project is one recording site on a microelectrode array, and \"live\" is a signal the page measured a moment ago, not a word someone typed. Light mode is that sheet under room light (cool paper, blue-cast ink); dark mode is the same sheet on the bench monitor with the ink logic inverted. Nothing is decorated. Hairline rules, a pad grid, mono site IDs and a single grotesque carry the whole page.\n\nDensity is editorial-instrument: one array map, one ruled channel list, both sharing the same site IDs so the map reads as a map, not a pattern. The one accent (signal cobalt) is spent only on sites returning a live health check. Every other state (coming, archived, case study, no signal, quiet) is a drawn mark at one stroke weight, never a colour. Motion is a single authored gesture: a live pad draws its spike trace once; everything else brightens in place.",
+    "keyCharacteristics": [
+      "Printout ground: flat sheet, hairline rules, no cards, no shadows, no radius.",
+      "One accent, measured: signal cobalt appears only where a health check returned ok.",
+      "State is a mark, never a hue (filled+trace, dashed, struck, reference triangle, flat quiet).",
+      "Two faces: Bricolage Grotesque (opsz 96, wdth 92) for names; Geist Mono for IDs, labels, counts.",
+      "Phone-first: 16px gutters, no horizontal scroll, dark mode from prefers-color-scheme."
+    ],
+    "rules": [
+      { "name": "The Measured Accent Rule", "body": "Signal cobalt is spent only on a site whose health check returned ok, on the \"signal\" word next to it, and on the row backlight and focus ring. Static status (live, demo, coming, archived) never gets the accent.", "section": "colors" },
+      { "name": "The Mark-Not-Hue Rule", "body": "Every non-live state is drawn: hollow square (down), dashed hollow (coming), struck (archived), square with reference triangle (case study), flat quiet fill (checking). No green, red, amber or grey dots.", "section": "colors" },
+      { "name": "The Two Faces Rule", "body": "Anything measured or indexed (site ID, count, date, status, tag, destination word) is Geist Mono with tabular-nums. Anything named or described is Bricolage Grotesque. No third face, no weights above 400.", "section": "typography" },
+      { "name": "The Brighten, Don't Move Rule", "body": "Hover, focus and live state change colour over 300ms and nothing else. No translate, no scale, no shadow growth. The only animated geometry is the spike trace drawing once (1.6s, cubic-bezier(0.16, 1, 0.3, 1)), disabled under prefers-reduced-motion.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep 16px gutters on phones (px-4) and 32px from md; every fluid grid column is minmax(0, 1fr).",
+      "Do ship both themes: every colour is a paired --token in globals.css, switched by prefers-color-scheme and overridable with data-theme.",
+      "Do set anything measured (IDs, counts, dates, status, tags) in Geist Mono with tabular-nums; names and prose in Bricolage Grotesque.",
+      "Do apply .display (opsz 96, wdth 92, -0.03em) to any name-sized heading, and only there.",
+      "Do express a new state as a new drawn mark at stroke 1.25 inside the 16-unit square."
+    ],
+    "donts": [
+      "Don't use signal cobalt for anything that is not a measured live signal, a focus ring, or the active-row edge.",
+      "Don't add status colours (green/red/amber dots) or a second accent.",
+      "Don't add shadows, radii, gradients, or cards; the sheet is flat and square.",
+      "Don't animate position or size; only colour transitions (300ms) and the one-shot trace draw.",
+      "Don't use weights above 400 or a third typeface."
+    ]
+  }
+}
