@@ -498,7 +498,8 @@ Steps (what was done for Plant It, in order; run from the repo root `~/projects/
 8. **Deploy:** `npx vercel@latest --prod --yes --scope kks-projects-2edcb11a`. Hobby builds run one at a time per team: with several agents deploying, a deployment sits in `● Queued` for 10+ minutes before building (observed 2026-09-18); poll `npx vercel ls plantit`, do not re-run the deploy.
 9. **Firebase Auth authorized domains** (Google sign-in fails with `auth/unauthorized-domain` from a new host): `PATCH https://identitytoolkit.googleapis.com/admin/v2/projects/<project>/config?updateMask=authorizedDomains` with a service-account access token (`google-auth-library`, scope `cloud-platform`; script pattern in `incidents.md`/T2.1 plan). Add `<sub>.kalpkan.com` and `<project>.vercel.app`. The service account file is `~/.config/portfolio-ops/plantit-firebase-sa.json` (mode 600, never in a repo).
 10. **Domain:** "Attach a domain to a Vercel project" (needs a Ready production build first).
-11. **Prove it:** `curl -s https://<host>/api/health` → `firestore: ok`; then the real flow in Chrome (sign in, upload, identify, Water now), then the `verification.md` block.
+11. **Prove it:** `curl -s https://<host>/api/health` → `firestore: ok`; then the **API smoke test with a minted token** (`verification.md`, row "Whole flow without hardware (API)"): identify → device → water → delete. `/api/health` only proves a read; on 2026-09-18 every write route was 500 (`Timestamp` missing from the Admin wrapper) while health was green (`incidents.md`). Then the real flow in Chrome (sign in, upload, identify, Water now); the agent stops at the Google account chooser (OAuth as Kalp is his click, STATUS.md H12), then the `verification.md` block.
+12. **Public alias:** the project's public production alias is `plantit-kappa.vercel.app` (from `GET /v9/projects/plantit` → `targets.production.alias`, or `vercel alias ls`). `plantit.vercel.app` is **not** ours (someone else's Vercel project); `plantit-kks-projects-2edcb11a.vercel.app` sits behind deployment protection (302 to `vercel.com/sso-api`). Use the custom domain everywhere.
 
 Common failures:
 - Build fails with ESLint "Treating warnings as errors": step 4.
@@ -506,3 +507,5 @@ Common failures:
 - `firestore: error` with `firestoreError: "Firebase Admin not configured"`: an env name is missing for that environment (production vs preview).
 - `413`: the photo exceeded 4.5 MB; the frontend caps at 4 MB.
 - Google sign-in `auth/unauthorized-domain`: step 9.
+- The login page stops responding after a click (automation: CDP clicks/screenshots time out): a native `alert()` is open. Never use `alert()`/`confirm()` in the frontend; render the message inline and disable the button while the popup is pending (fixed 2026-09-18, `incidents.md`).
+- `/api/identify` or `Water now` → 500 `reading 'fromMillis'`: `backend/src/firebase.js` must export `Timestamp` (and everything else `app.js` destructures from `fb()`); `backend/src/firebase.test.js` guards the shape.

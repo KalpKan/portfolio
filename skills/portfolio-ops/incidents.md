@@ -450,3 +450,35 @@ _Entries begin below, oldest first._
 - **Fix:** Verified through public resolvers and `curl --resolve`; Lighthouse run with `--chrome-flags='--headless --host-resolver-rules="MAP emotes.kalpkan.com 64.29.17.65"'` (score 0.91). Re-checked plainly after the TTL expired.
 - **Prevention:** Never query a hostname with the system resolver before its record exists; the "Attach a domain" checks should use `dig @1.1.1.1 +short <host>` first. Noted in `docs/DNS_PENDING.md` §5 emotes row.
 - **Reported by:** T3.2 worker (resumed)
+
+### 2026-09-18: plantit `/api/identify` and `Water now` answered 500 in production while all 24 jest tests passed
+
+- **Date:** 2026-09-18, found 18:05 EDT by the resumed T2.1 worker's API smoke test; live from the first deploy (~16:50) until the fix deployed.
+- **Affected:** `https://plantit.kalpkan.com` `POST /api/identify`, `POST /api/plants/:id/water`, `POST /api/plants/:id/moisture` (every route that writes a Firestore timestamp). `/api/health` was green the whole time.
+- **Symptom:** `{"error":"Something went wrong","details":"Cannot read properties of undefined (reading 'fromMillis')"}`.
+- **What was tried:** Read the response, grepped `fb().` in `backend/src/app.js` against the keys `backend/src/firebase.js` returns.
+- **Root cause:** `app.js` destructures `{ Timestamp } = fb()` but the real Admin wrapper only exported `admin, app, db, rtdb, auth, FieldValue`. The jest fake (`app.test.js`) *did* provide `Timestamp`, so the tests could not catch a wrapper that disagreed with the fake.
+- **Fix:** `backend/src/firebase.js` exports `Timestamp: admin.firestore.Timestamp`; `backend/src/firebase.test.js` mocks `firebase-admin` and asserts the wrapper's shape (commit `0f068db` in `KalpKan/PlantWater`).
+- **Prevention:** When a module is replaced by a fake in tests, add one test of the *real* module's shape against what callers destructure. Runbook "Deploy an Express+CRA app to Vercel" step 11 now says to run the API smoke test (identify → device → water) with a minted token before calling the deploy done; `/api/health` alone proves nothing about writes.
+- **Reported by:** T2.1 worker (resumed)
+
+### 2026-09-18: plantit login page froze the tab (native `alert()` after a cancelled Google popup)
+
+- **Date:** 2026-09-18, ~18:00 EDT, during the browser proof.
+- **Affected:** `https://plantit.kalpkan.com/login`, one tab.
+- **Symptom:** After a second click on "Sign in with Google" while the first popup was open, the page stopped answering: CDP clicks and screenshots timed out for 30 s ("renderer may be frozen").
+- **Root cause:** Firebase raised `auth/cancelled-popup-request`; the component's catch called `alert(...)`. A native dialog blocks the renderer, and the automation tools cannot dismiss it. The button was also still enabled while the popup was pending.
+- **Fix:** Inline `<Typography role="alert">` message, button disabled and relabelled while the popup is open, `cancelled-popup-request` handled (commit `0f068db`). Closing the wedged tab with `tabs_close_mcp` worked even with the dialog open.
+- **Prevention:** No `alert()`/`confirm()` in any portfolio frontend; errors render inline. Added to "Deploy an Express+CRA app to Vercel" common failures.
+- **Reported by:** T2.1 worker (resumed)
+
+### 2026-09-18: plantit browser proof stops at the Google account chooser (needs Kalp); guest sign-in could not be enabled
+
+- **Date:** 2026-09-18, ~18:00 EDT.
+- **Affected:** The end-to-end proof for T2.1 only; the product works.
+- **Symptom:** "Sign in with Google" opens `accounts.google.com/v3/signin/accountchooser` (client `332296587444-…`, popup tab, Firebase handler `plant-it-5e2fc.firebaseapp.com/__/auth/handler`). Choosing an account there grants OAuth as Kalp, which an agent must not do.
+- **What was tried:** Enabling Firebase anonymous sign-in (`PATCH admin/v2/projects/plant-it-5e2fc/config?updateMask=signIn.anonymous.enabled`) for a "Try it as a guest" button; the permission system refused the call as a security-posture change, so it was not done and no guest button shipped.
+- **Root cause:** The app has exactly one sign-in method and it requires a human's Google account.
+- **Fix:** Signed-in routes were proven with a 1 h ID token minted from the service account for the throwaway uid `e2e-smoke-plantit` (`verification.md` row "Whole flow without hardware (API)"); the plant it created was deleted afterwards. STATUS.md H12 asks Kalp to click through the chooser once (1 minute).
+- **Prevention:** For future apps with OAuth-only sign-in, decide up front whether a guest/demo mode is wanted; if it is, enabling the provider is a Kalp checkpoint, not an agent action.
+- **Reported by:** T2.1 worker (resumed)

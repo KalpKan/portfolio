@@ -51,18 +51,19 @@
     {
       "slug": "plantit",
       "name": "Plant It",
-      "tagline": "Identifies your plant from a photo and waters it from an ESP8266.",
+      "tagline": "Identifies your plant from a photo, writes its care guide, and tracks soil moisture (simulated sensor, or a real ESP8266).",
       "type": "app",
-      "status": "coming",
+      "status": "live",
       "repo": "https://github.com/KalpKan/PlantWater",
-      "healthUrl": null,
+      "healthUrl": "https://plantit.kalpkan.com/api/health",
       "tags": [
         "React",
         "Express",
         "Firebase",
         "ESP8266"
       ],
-      "hero": null
+      "hero": null,
+      "url": "https://plantit.kalpkan.com"
     },
     {
       "slug": "pushups",
