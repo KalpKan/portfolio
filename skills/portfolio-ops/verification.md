@@ -41,7 +41,7 @@ Placeholders: `<domain>` is `kalpkan.com` (bought at human checkpoint H1 on 2026
 | Health (DB-touching) | `curl -sf https://promptflip.kalpkan.com/api/health` | JSON with `"db":"ok"` | confirmed 2026-09-18: `{"ok":true,"db":"ok",...,"commit":"aff55a5...","region":"pdx1"}` (the `promptflip-35qv.vercel.app` alias returns the same) |
 | Page serves | `curl -sI https://promptflip.kalpkan.com \| head -1` | `HTTP/2 200` | confirmed 2026-09-18 (Let's Encrypt cert `cert_QAufduOZKLgVC3Bvb9bon3qi`) |
 | Env vars present (names only) | `cd ~/projects/promptflip && npx vercel env ls --scope kks-projects-2edcb11a` (linked to `promptflip-35qv` since 2026-09-18) | the six names in `settings-map.md` all listed for `production`; `NEXT_PUBLIC_APP_URL` pulled with `npx vercel env pull --environment production <scratch file>` reads `https://promptflip.kalpkan.com` | confirmed 2026-09-18 |
-| Google sign-in works on the new domain | open `https://promptflip.kalpkan.com`, click Sign in with Google | Google consent screen appears with no `redirect_uri_mismatch` / `origin_mismatch` error; after login the redirect returns to `promptflip.kalpkan.com` | GOOGLE_SIGNIN_STATUS |
+| Google sign-in works on the new domain | open `https://promptflip.kalpkan.com`, click Sign in with Google | Google consent screen appears with no `redirect_uri_mismatch` / `origin_mismatch` error; after login the redirect returns to `promptflip.kalpkan.com` | confirmed 2026-09-18: from `https://promptflip.kalpkan.com/login` the Google "Choose an account" screen opened (continue to `nhddxonizdxwbvwcxklu.supabase.co`, `redirect_to=https://promptflip.kalpkan.com/auth/callback`), no error; login not completed by the agent, so the round trip back to the host is still unconfirmed by a human |
 
 ### basketball / hoops (`KalpKan/Basketball-Stat-Tracker`, Vercel project `v0-basketball-analytics-dashboard`, Supabase Project B schema `hoops`)
 
@@ -120,14 +120,19 @@ Load the key first: `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`
 | Status page still contains every monitor | `curl -s -X POST https://api.uptimerobot.com/v2/getPSPs -d "api_key=$UPTIMEROBOT_API_KEY&format=json" \| jq '.psps[0] \| {friendly_name, monitors, standard_url}'` | `monitors` lists every id in `docs/monitors.md`; `standard_url` is `https://stats.uptimerobot.com/a6n3Wx3PBp` | confirmed 2026-09-18 (T0.3) |
 | Monitor URL is not a protected alias | `curl -sI <monitor url> \| head -1` for each URL in `docs/monitors.md` | `HTTP/2 200`, never a `302` to `vercel.com/sso-api` (that alias is behind Vercel deployment protection and the monitor would be measuring a login page) | confirmed 2026-09-18 (T0.3) |
 
-### PostHog (after H0 key)
+### PostHog (T0.5, hub; every later app repeats rows 2 to 4 with its own host)
+
+Load the operator key first: `set -a; source ~/.config/portfolio-ops/secrets.env; set +a`. Ingestion lag is 3 to 5 minutes; poll before concluding an event is missing.
 
 | Check | Command | Expect | Status |
 |---|---|---|---|
-| Events arrive with the right host | visit a site from a phone and a laptop, then in PostHog Web Analytics filter by host | both visits within 5 minutes, correct host and country | PENDING (T0.5) |
-| Custom event fires | trigger the app's core action (for example one `project_card_clicked` on the hub) and search the event in PostHog | event present with the right host | PENDING (T0.5) |
-| Reverse proxy works | `curl -sI https://<prod-url>/ingest/static/array.js \| head -1` | `HTTP/2 200` (proxied to PostHog; an ad blocker cannot see the third-party host) | PENDING (T0.5) |
-| Billing limits are $0 | PostHog, Organization settings, Billing | every product's limit reads `$0`; screenshot goes in `STATUS.md` | PENDING (T0.5) |
+| Project is the shared one, replay + heatmaps on, inputs masked | `curl -s -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" https://us.posthog.com/api/projects/616829/ \| jq '{name, session_recording_opt_in, heatmaps_opt_in, autocapture_opt_out, session_recording_masking_config}'` | `"Kalp portfolio"`, `true`, `true`, `false`, `{"maskAllInputs": true}` | confirmed 2026-09-18 (T0.5) |
+| Reverse proxy works on the hub | `curl -sI https://kalpkan.com/ingest/static/array.js \| head -1` | `HTTP/2 200` (proxied to PostHog; an ad blocker cannot see the third-party host) | confirmed 2026-09-18 (T0.5) |
+| Requests are first-party and cookieless | in the browser on `https://kalpkan.com`, run `performance.getEntriesByType('resource').filter(e=>e.name.includes('/ingest/')).map(e=>new URL(e.name).origin)` and `document.cookie` | every origin is `https://kalpkan.com`; cookie string is empty, no `ph_*` localStorage key | confirmed 2026-09-18 (T0.5) |
+| Pageview and custom event arrive with the right host | visit the hub in a browser, click one project row, then `curl -s -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" "https://us.posthog.com/api/projects/616829/events/?event=project_card_clicked&limit=3" \| jq -c '.results[] \| {event, host: .properties["$host"], slug: .properties.slug}'` and the same with `event=%24pageview` | one row each with `host: "kalpkan.com"` (the click row also carries `slug`) | confirmed 2026-09-18 (T0.5), excerpt in `docs/analytics.md` |
+| Dashboard exists with the three insights | `curl -s -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" https://us.posthog.com/api/projects/616829/dashboards/2112106/ \| jq '[.tiles[].insight.name]'` | `["Visitors by site","Visitors by country","Top demos by usage"]` | confirmed 2026-09-18 (T0.5) |
+| Still free, no card | `curl -s -H "Authorization: Bearer $POSTHOG_PERSONAL_API_KEY" https://us.posthog.com/api/billing/ \| jq '{has_active_subscription, stripe_customer_id, limits: [.products[] \| {type, custom_limit_usd, free_allocation}]}'` | `false`, `null`, every `custom_limit_usd` null with a non-zero `free_allocation` (the free plan hard-caps there; see runbook "Check PostHog billing") | confirmed 2026-09-18 (T0.5); evidence `docs/images/posthog-billing-limits.png` |
+| Hub unit tests cover the contract | `cd ~/projects/portfolio && npx vitest run lib/posthog.test.ts` | 7 passed (cookieless, `/ingest`, autocapture, masking, rewrites, no-op without key, sendBeacon capture) | confirmed 2026-09-18 (T0.5) |
 
 ### Browser-ML demos (pushups, emotes, microtubules)
 

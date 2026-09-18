@@ -6,9 +6,9 @@
       "tagline": "Two prompts walk in, one gets answered.",
       "type": "app",
       "status": "live",
-      "url": "https://promptflip-35qv.vercel.app",
+      "url": "https://promptflip.kalpkan.com",
       "repo": "https://github.com/KalpKan/promptflip",
-      "healthUrl": "https://promptflip-35qv.vercel.app/api/health",
+      "healthUrl": "https://promptflip.kalpkan.com/api/health",
       "tags": [
         "Next.js",
         "Supabase",

@@ -26,7 +26,9 @@ Conventions used below:
 | Regenerate Supabase types | Written and executed 2026-09-18 (T1.1) |
 | Purge a large file from git history | Not yet written, added when T3.1 (pushup repo) or T4.1 (RC car repo) lands |
 | Add an UptimeRobot monitor | Written and executed 2026-09-18 (T0.3): three monitors plus the public status page, see `docs/monitors.md` |
-| Add PostHog to an app | Not yet written, added when T0.5 lands (the Flask variant is inside "Deploy a Python app to Vercel") |
+| Add PostHog to an app | Written and executed 2026-09-18 (T0.5, hub); the full copy-paste contract is `docs/analytics.md` (the Flask variant is inside "Deploy a Python app to Vercel") |
+| Check PostHog billing | Written and executed 2026-09-18 (T0.5) |
+| Rotate the PostHog key | Written 2026-09-18 (T0.5); not yet executed |
 | Deploy a Python app to Vercel | Written and executed 2026-09-18 (T1.3, Plato) |
 | Create a Neon database | Written and executed 2026-09-18 (T1.3, Plato) |
 
@@ -321,7 +323,25 @@ To change an existing monitor (for example after H1 moves an app to `<sub>.<doma
 
 ## Add PostHog to an app
 
-Not yet written, added when T0.5 lands (blocked on the H0 API key). It will cover the `posthog-js` snippet, the `/ingest/*` reverse-proxy rewrite, cookieless config, the 2 to 4 custom events per app, and confirming the `$0` billing limits.
+Executed 2026-09-18 for the hub (T0.5). The contract and the copy-paste snippet live in `docs/analytics.md` in the hub repo; this is the checklist.
+
+1. Read `docs/analytics.md` ("How to add PostHog to a new app"). Project id `616829`, the public `phc_` token is printed there.
+2. In the app: `npm i posthog-js`; add the two `/ingest` rewrites to `next.config.ts` (or `vercel.json` for a static app) with `skipTrailingSlashRedirect: true`; copy `lib/posthog.ts` and `components/PostHogProvider.tsx` from the hub; wrap the layout; fire 2 to 4 `snake_case` custom events with `capture()` from the core action. Never send free text a visitor typed.
+3. Add `NEXT_PUBLIC_POSTHOG_KEY=` and `NEXT_PUBLIC_POSTHOG_HOST=/ingest` to `.env.example` (names only) and a row to `settings-map.md`.
+4. Set both on Vercel for production **and** preview, non-interactively. The key needs `--type config` (the CLI stops with `public_prefix_requires_type` otherwise): `printf '%s' "$TOKEN" | npx vercel env add NEXT_PUBLIC_POSTHOG_KEY production --type config --scope kks-projects-2edcb11a --yes`. Redeploy with `npx vercel deploy --prod --yes --scope kks-projects-2edcb11a` (plain `npx vercel --prod` on CLI 59 prints a JSON prompt and exits).
+5. Verify with the "PostHog" table in `verification.md`: `curl -sI https://<host>/ingest/static/array.js | head -1` is 200, then a real browser visit plus one core action, then the events API shows `$pageview` and the custom event with `$host` = that host. Ingestion lag is 3 to 5 minutes; poll, do not conclude after one query.
+6. If the app adds a new custom event name, add it to the "Top demos by usage" insight (`PATCH /api/projects/616829/insights/12018258/` with the extra `EventsNode` in `query.source.series`).
+
+## Check PostHog billing
+
+The account must stay on the free plan with no card. `GET https://us.posthog.com/api/billing/` with `Authorization: Bearer $POSTHOG_PERSONAL_API_KEY` must show `has_active_subscription: false` and no `stripe_customer_id`; every product's `custom_limit_usd` is `null` because the free plan hard-caps at `free_allocation` instead (product analytics 1 M events, replay 5 K, and so on). The billing API refuses writes from a personal key (`403 does not support personal API key access`) and the dashboard only offers a custom `$0` limit after a card is added, so **do not try to set limits**; the free cap is the guardrail. Evidence: `docs/images/posthog-billing-limits.png`. Usage this cycle: `https://us.posthog.com/organization/billing/usage` (note it in `STATUS.md` monthly).
+
+## Rotate the PostHog key
+
+Two different keys; rotate the right one.
+
+- **Operator key `POSTHOG_PERSONAL_API_KEY` (`phx_`, all-access today):** PostHog, Settings, User, Personal API keys. Create a new key scoped to organization "KalpKan", project "Kalp portfolio", with only the scopes the runbooks use (`project:read/write`, `insight:write`, `dashboard:write`, `query:read`, `billing:read`), paste it into `~/.config/portfolio-ops/secrets.env`, then delete the old key in the same page. Nothing deployed uses it, so no redeploy. **Do this after Phase 1** (planned, see `settings-map.md`).
+- **Project token (`phc_`, public):** rotating it is only needed if events from an unknown site start polluting the project. PostHog, Project settings, "Project API key", reset. Then update `NEXT_PUBLIC_POSTHOG_KEY` (`vercel env rm` + `env add --type config`, production and preview) on **every** Vercel project that sends events (hub `portfolio`, `v0-basketball-analytics-dashboard`, `plato` as `POSTHOG_API_KEY`, and any later app), the Supabase Edge Function secret `POSTHOG_KEY` in Project B, the token line in `docs/analytics.md`, and redeploy each app. Until an app is redeployed it keeps sending with the old token, which PostHog now drops.
 
 ## Deploy a Python app to Vercel
 

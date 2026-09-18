@@ -122,3 +122,36 @@ _Entries begin below, oldest first._
 - **Prevention:** Follow those patterns; never materialise a key in an interactive shell variable to print or inspect it.
 - **Reported by:** worker (T1.1)
 
+### 2026-09-18: PostHog billing limits cannot be set to $0 on the free plan (API 403, dashboard needs a card)
+
+- **Date:** 2026-09-18
+- **Affected:** T0.5 definition of done ("billing limits $0 on every product"); no production impact
+- **Symptom:** `PATCH /api/billing/ {"custom_limits_usd": {...0}}` with the personal key returned `403 {"code":"permission_denied","detail":"This action does not support personal API key access"}`. In the dashboard (Organization, Billing) no product has a limit control; the banner says "Add your credit card to remove usage limits ... Set billing limits as low as $0".
+- **What was tried:** API, then the browser. Confirmed on the same page that every product shows "Billing limit" = "Free tier limit" and `GET /api/billing/` shows `has_active_subscription: false`, no Stripe customer.
+- **Root cause:** PostHog only exposes custom billing limits to subscribed (card-on-file) organizations; the free plan is hard-capped at the free allocation instead, which is a stricter guardrail than a `$0` limit.
+- **Fix:** Documented the free cap as the guardrail (`docs/analytics.md`, runbook "Check PostHog billing"), screenshot at `docs/images/posthog-billing-limits.png`. Did not attach a card (forbidden).
+- **Prevention:** Verification row "Still free, no card" checks `has_active_subscription` and `stripe_customer_id` by API; monthly usage glance noted in `STATUS.md`.
+- **Reported by:** worker (T0.5)
+
+### 2026-09-18: `project_card_clicked` never arrived because the click navigates away before posthog-js flushes its batch
+
+- **Date:** 2026-09-18
+- **Affected:** hub custom event (first deployment of T0.5, about 20 minutes)
+- **Symptom:** After a real click on a project row, `$pageview` and `$pageleave` reached PostHog but `project_card_clicked` and the click's `$autocapture` did not. Calling the row's React `onClick` directly (no navigation) produced a `/ingest/i/v0/e/` request and the event arrived, so `capture()` itself worked.
+- **What was tried:** Instrumented `performance.getEntriesByType('resource')` in the deployed page; event requests only appeared when the page stayed open.
+- **Root cause:** posthog-js batches events for a few seconds; a row click navigates the tab, and the queued batch dies with the page (the `pagehide` flush is best-effort).
+- **Fix:** `capture()` in `lib/posthog.ts` now passes `{ send_instantly: true, transport: "sendBeacon" }`; unit test added; redeployed; a real click then arrived (`docs/analytics.md`, Verified).
+- **Prevention:** Part of the contract in `docs/analytics.md` item 4; every app copies `lib/posthog.ts` from the hub instead of calling `posthog.capture` directly.
+- **Reported by:** worker (T0.5)
+
+### 2026-09-18: `npm test` in the hub fails on `lib/projects.test.ts` after T1.3 marked Plato live (not a T0.5 file)
+
+- **Date:** 2026-09-18
+- **Affected:** hub repo test gate (`countKinds` test expects `live` to be 1; `projects.json` now has 2 live sites after commit `e425980`)
+- **Symptom:** `npm test`: `1 failed | 33 passed`, `expected 2 to be 1` at `lib/projects.test.ts:318`.
+- **What was tried:** Nothing changed by T0.5; the failure is independent of the PostHog files (`npx vitest run lib/posthog.test.ts` passes).
+- **Root cause:** The test asserts a literal count that changes every time a project goes live.
+- **Fix:** Left for the owner of that test (hub polish / T1.3); recommended asserting the sum equals `all.length` and counting from the registry rather than a literal.
+- **Prevention:** Registry tests should not hard-code counts that Phase 1 to 3 are expected to change.
+- **Reported by:** worker (T0.5)
+
