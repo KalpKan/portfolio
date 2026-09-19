@@ -1,6 +1,6 @@
 # hoops (Basketball Stat Tracker) — product spec for the Phase 5 audit
 
-_Written 2026-09-18 by the SPEC agent. Read this before auditing or fixing https://hoops.kalpkan.com. The audit report that follows it is `docs/reports/hoops.md` (format: `docs/hosting-plan.md` section 11)._
+_Written 2026-09-18 by the SPEC agent; re-verified 2026-09-18 (second SPEC run after the interrupted fix round): repo still at the audited state (`b34f00e` + fixtures commit `1f743b9`, no fix commits), live `/api/dashboard` still `source: live` with 95 shots and `compute-expected-metrics.py --check` exit 0, `/api/health` still 404, so every story, bar and baseline below still holds and `docs/reports/hoops.md` (round 1, 10 defects D1–D10) is the report the next TEST round re-tests. Read this before auditing or fixing https://hoops.kalpkan.com. The audit report format is `docs/hosting-plan.md` section 11._
 
 Live URL https://hoops.kalpkan.com · Repo `KalpKan/Basketball-Stat-Tracker` (local `~/projects/basketball`) · Vercel project `v0-basketball-analytics-dashboard` (Root Directory `apps/web`) · Database Supabase Project B `platform` (`yzppfufqaekgaxcrsqxp`), schema `hoops` · Data route `/api/dashboard` · Project B health `https://yzppfufqaekgaxcrsqxp.supabase.co/functions/v1/health`
 
@@ -82,7 +82,8 @@ All under `/Users/kalp/projects/basketball/tests/` (committed 2026-09-18; all < 
 | `/Users/kalp/projects/basketball/tests/fixtures/README.md` | What each fixture is, how to regenerate, and the known anomalies so nobody "fixes" the ground truth | created |
 | `/Users/kalp/projects/portfolio/docs/reports/evidence/hoops-spec-desktop-2026-09-18.jpg` | Screenshot of the live page on 2026-09-18 showing the "Dec 31" pill next to "95 shots recorded" (baseline for stories 5–7) | created |
 | Baseline numbers (from the live payload 2026-09-18 20:16Z) | overview attempts 95 / made 67 / missed 28 / FG 70.5 / consistency 67.6 / avgStreak 10.3 / swish 13.4; day rows `day-2026-09-18` 3/2/1 66.7/83.3/streak 1, `day-2026-04-16` 12/7/5 58.3/70.8/7, `day-2026-04-15` 57/43/14 75.4/78.1/30 (two devices merged), `day-1970-01-01` 23/15/8 65.2/69.6/3 | recorded |
-| Still to create by the fixer (not needed to audit) | a 30-session synthetic generator for the "many bars" case in story 3, and a Vitest/node test file `apps/web/lib/dashboard-data.test.ts` that imports the two fixtures (needs the pure functions exported) | to do |
+| `/Users/kalp/projects/basketball/tests/generate-synthetic-sessions.py` + `tests/fixtures/synthetic-30-sessions.json` (30 sessions on 30 UTC days in June 2026, 801 shots, 232 KB, deterministic seed, every eFG% ≤ 100, no 1970 rows) + `tests/fixtures/synthetic-30-expected-metrics.json` | The "many bars" corpus for story 3 (30 bars must not overflow) and input for a `dashboard-data` unit test; `compute-expected-metrics.py --rows … --out …` now produces ground truth for any rows file (commit `1f743b9`) | created 2026-09-18 (SPEC re-run) |
+| Still to create by the fixer | a Vitest/node test file `apps/web/lib/dashboard-data.test.ts` that imports the fixtures above (needs the pure functions exported) | to do |
 
 ## Baseline observations (2026-09-18, for the auditor; not a full audit)
 
