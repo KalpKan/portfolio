@@ -1637,3 +1637,47 @@ _Entries begin below, oldest first._
 - **Also noted (minor, not the FAIL reason):** table Date cell `Wed, Apr 15` is not byte-identical to the pill/bar label `Apr 15 · …` (the device name sits in the Session column), the same as TEST r2's D2.
 - **Prevention:** keep the `[TRUNC]` assertion in the verifier script as the acceptance check for the phone chart; a unit test cannot see CSS truncation, so this stays a Playwright check.
 - **Reported by:** Phase 5 VERIFY agent (hoops)
+
+### 2026-09-19: plantit, Lighthouse on `/plants` is 0.77–0.80 with real plants and analytics loaded, not the 0.92 the fix round measured on an empty list (Phase 5 TEST agent, plantit round 2; report D6 carried)
+
+- **Date:** 2026-09-19, 03:05–03:20 UTC
+- **Affected:** `KalpKan/PlantWater` `fad7516` (FIX round 1), spec story S10 bar "Lighthouse mobile performance ≥ 0.80"
+- **Symptom:** three consecutive Lighthouse 12 mobile runs on a production-shaped local stack of `fad7516` with the production PostHog key compiled in and three real plants (Supabase photos) under the signed-in uid: `/plants` **0.80 / 0.79 / 0.77** (LCP 4.9–5.4 s on the first card `<img>` from `yzppfufqaekgaxcrsqxp.supabase.co/…/plantit-photos/…`, 168 KiB unused JS); `/login` 0.92 / 0.89 / 0.95. The fix round's `/plants` 0.92 came from a build without `REACT_APP_POSTHOG_KEY` (no `frontend/.env.local`, so PostHog was a no-op) and a uid with **no plants** (empty state, no image, LCP = text).
+- **What was tried:** `vercel env pull` for the public PostHog key, rebuild, seed 3 plants through `/api/identify`, run 3×; confirmed the LCP element via `largest-contentful-paint-element`.
+- **Root cause:** the card photo is the LCP and can only start after the JS bundle → Firebase auth check → `/api/plants` → framer grid animation; it is the full 800 px rendition with no `width`/`height`/`fetchpriority`; the fix round's harness did not model the signed-in list with photos or the analytics script.
+- **Fix:** not yet (a test round). Suggested in `docs/reports/plantit.md` D6: a 400 px card rendition written at identify time, explicit dimensions + `fetchpriority="high"` on the first row, no per-card spring before the image request, `reading` inside `/api/plants`.
+- **Prevention:** `verification.md` Lighthouse row now says "with ≥ 3 real plants and the production PostHog key compiled in" and points at `docs/reports/evidence/plantit-r2-lighthouse.mjs` (seeds and deletes its plants). Any Lighthouse number for a signed-in list page measured on an empty list is not evidence.
+- **Reported by:** Phase 5 TEST agent (plantit, round 2)
+
+### 2026-09-19: plantit, the plant dialog opens on a full-height photo with the moisture reading and Water now below the fold at 1440×900 as well as 390 px (Phase 5 TEST agent, plantit round 2; report D8 raised to major)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/PlantWater` `fad7516`, spec stories S5/S6 (UX)
+- **Symptom:** Playwright `dialog.layout`: desktop viewport 900 px, photo 552 px tall from y=124, Soil moisture panel at y=740, Water now at y=990 (`waterNowVisibleWithoutScroll: false`); phone viewport 844, photo 618 px, panel at 806, Water now at 1147. Real Chrome at 1440×900 shows title + photo + Close / Delete Plant / Connect ESP8266 (hardware required) as the first screen. Round 1 filed it as a phone-only minor (D8); the fix round did not touch it.
+- **What was tried:** measured with `getBoundingClientRect` inside the open dialog at both widths; confirmed in real Chrome.
+- **Root cause:** `frontend/src/components/PlantList.js` renders `<PlantPhoto dialog />` before `<SensorPanel>` in the left column and `PlantPhoto.js` has no max height in dialog mode.
+- **Fix:** not yet (a test round). Suggested in `docs/reports/plantit.md` D8: panel first, photo capped at ~180 px, Delete/hardware demoted to text actions.
+- **Prevention:** the round-2 harness row in `verification.md` asserts `dialog.layout.waterNowVisibleWithoutScroll === true` at both widths.
+- **Reported by:** Phase 5 TEST agent (plantit, round 2)
+
+### 2026-09-19: plantit TEST round 2 ran against a production that still serves `a50344c`; one more deploy attempt refused, window frees ~19:19 UTC (Phase 5 TEST agent, plantit round 2; report D14, blocker)
+
+- **Date:** 2026-09-19, 02:58 UTC
+- **Affected:** `https://plantit.kalpkan.com` (deployment `plantit-qdue6k07i` = `a50344c`, bundle `main.3677cf3f.js`); `KalpKan/PlantWater` `fad7516` in `main` and not live
+- **Symptom:** `scripts/vercel-redeploy-when-quota-frees.sh ~/projects/plantit plantit.kalpkan.com 1 1` → `attempt 1: refused (api-deployments-free-per-day)`; the deployments API (`/v6/deployments?teamId=…&since=<now-24h>&limit=100`) lists 100 rows, the oldest eight from `portfolio` at 19:19–19:24 UTC 2026-09-18. The live site therefore still saves the coffee mug as "Monstera deliciosa, 91 %, Demo result" (re-proven at 03:10 UTC through `/api/identify`, plant deleted after) and still returns `generic` / threshold 20 for `Dracaena trifasciata` and `Zamioculcas zamiifolia`.
+- **What was tried:** one CLI attempt (not a loop: hygiene); then every story was measured on a production-shaped local stack of `fad7516` that uses the **real** Firebase Admin SDK, Supabase bucket and Pl@ntNet key with only the `spend` counter in memory (`docs/reports/evidence/plantit-r2-local-stack.js`, which also proxies `/ingest` so PostHog loads as in production), and the live site was probed for the round-1 defects.
+- **Root cause:** the team's 100/24 h Hobby deployment window (same as the round-1 entry above); nothing in the app.
+- **Fix:** none at $0 before ~19:20 UTC 2026-09-19. Then: `bash ~/projects/portfolio/scripts/vercel-redeploy-when-quota-frees.sh ~/projects/plantit plantit.kalpkan.com 20 10`, and the live rows in `verification.md` (bundle hash ≠ `main.3677cf3f.js`, `/api/nope`, corpus `--only mug,dracaena,zamioculcas,monstera`, `vercel logs | grep -c sk-`, Lighthouse with real plants).
+- **Prevention:** a TEST round on an app whose fix is queued should say so in its first line and measure the queued build on the real-dependency local stack (this entry's script) rather than the empty in-memory one, so the numbers carry over; `verification.md` rows for plantit now name which build each result came from.
+- **Reported by:** Phase 5 TEST agent (plantit, round 2)
+
+### 2026-09-19: plantit, a local stack without the `/ingest` rewrite makes the browser report "Unexpected token '<'" on every page (harness artefact, not the app) (Phase 5 TEST agent, plantit round 2; tooling)
+
+- **Date:** 2026-09-19, 03:05 UTC
+- **Affected:** any local production-shaped stack for plantit built with `REACT_APP_POSTHOG_KEY` set
+- **Symptom:** the round-2 Playwright pass logged a `pageerror Unexpected token '<'` and a `404` on every route at both widths. `posthog-js` requests `/ingest/static/array.js` (the recorder) and `/ingest/e/`; a stack that only serves the build + `/api` answers those with `index.html` (SPA fallback), which the browser tries to run as a script.
+- **What was tried:** added an `/ingest` reverse proxy to the stack (`https://us-assets.i.posthog.com/static/*`, `https://us.i.posthog.com/*`, mirroring `vercel.json`), re-ran a console-only pass on 7 routes × 2 widths: 0 errors, 0 warnings, 0 pageerrors, 0 responses ≥ 400 (`docs/reports/evidence/plantit-r2-console-check-localstack-2026-09-19.json`).
+- **Root cause:** the fix round's `plantit-fix1-local-stack.js` never hit this because its build had no PostHog key; adding the key exposed the missing rewrite.
+- **Fix:** `docs/reports/evidence/plantit-r2-local-stack.js` carries the proxy; use it for future local runs.
+- **Prevention:** runbook "Deploy an Express+CRA app to Vercel" step 15 now says a local stack must mirror **all** `vercel.json` rewrites (`/api`, `/ingest`, SPA) before its console output counts as evidence.
+- **Reported by:** Phase 5 TEST agent (plantit, round 2)

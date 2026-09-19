@@ -1,0 +1,77 @@
+{
+  "ranAt": "2026-09-19T03:09:55.166Z",
+  "bundle": "main.3677cf3f.js",
+  "etag": "\"d33106a82ed00d0e5b04446b8b12eb91\"",
+  "xVercelId": "yul1::4wd5s-1789787395434-05de5a4b25cb",
+  "health": {
+    "ok": true,
+    "service": "plantit",
+    "firestore": "ok",
+    "photos": "supabase",
+    "identification": "plantnet",
+    "care": "bundled",
+    "careWithVisitorKey": "openai",
+    "image": "sharp",
+    "time": "2026-09-19T03:09:55.516Z",
+    "spend": {
+      "plantnet": {
+        "service": "plantnet",
+        "day": "2026-09-19",
+        "count": 39,
+        "limit": 50
+      }
+    }
+  },
+  "apiNope": {
+    "error": "No route GET /api/nope?path=nope"
+  },
+  "care": {
+    "Dracaena trifasciata": {
+      "source": "generic",
+      "threshold": 20,
+      "watering": "Water when the top 2-3 cm of soil feels dry. Let the pot dra"
+    },
+    "Zamioculcas zamiifolia": {
+      "source": "generic",
+      "threshold": 20,
+      "watering": "Water when the top 2-3 cm of soil feels dry. Let the pot dra"
+    },
+    "Spathiphyllum wallisii": {
+      "source": "bundled",
+      "threshold": 28,
+      "watering": "Keep the soil lightly moist; water about once a week when th"
+    },
+    "Aloe vera": {
+      "source": "generic",
+      "threshold": 8,
+      "watering": "Water only when the soil is completely dry, every 2-4 weeks."
+    }
+  },
+  "mug": {
+    "status": 200,
+    "ms": 1663,
+    "demo": true,
+    "reason": "plantnet_error",
+    "top1": "Monstera deliciosa",
+    "score": 0.91,
+    "savedPlantId": "6Z602X8PH90TM9ZovKiX",
+    "plantsBefore": 0,
+    "plantsAfter": 1
+  },
+  "cleanup": 1,
+  "healthAfter": {
+    "plantnet": {
+      "service": "plantnet",
+      "day": "2026-09-19",
+      "count": 40,
+      "limit": 50
+    }
+  },
+  "route /": "200 text/html; charset=utf-8",
+  "route /login": "200 text/html; charset=utf-8",
+  "route /plants": "200 text/html; charset=utf-8",
+  "route /plants/whatever": "200 text/html; charset=utf-8",
+  "route /x/y": "200 text/html; charset=utf-8",
+  "route /plant-details": "200 text/html; charset=utf-8",
+  "route /api/nope": "404 application/json; charset=utf-8"
+}

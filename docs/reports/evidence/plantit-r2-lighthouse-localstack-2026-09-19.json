@@ -1,0 +1,95 @@
+{
+ "note": "Lighthouse 12 mobile, local production-shaped stack of fad7516 with the production PostHog key compiled in and 3 real plants (Supabase photos) on /plants; three consecutive runs",
+ "runs": [
+  {
+   "login": {
+    "url": "http://localhost:3999/login",
+    "finalUrl": "http://localhost:3999/login",
+    "performance": 0.92,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "fcp": "0.7\u00a0s",
+    "lcp": "2.6\u00a0s",
+    "tbt": "260\u00a0ms",
+    "cls": "0",
+    "a11yFails": []
+   },
+   "plants": {
+    "url": "http://localhost:3999/plants",
+    "finalUrl": "http://localhost:3999/plants",
+    "performance": 0.8,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "fcp": "0.6\u00a0s",
+    "lcp": "4.9\u00a0s",
+    "tbt": "180\u00a0ms",
+    "cls": "0",
+    "a11yFails": []
+   }
+  },
+  {
+   "login": {
+    "url": "http://localhost:3999/login",
+    "finalUrl": "http://localhost:3999/login",
+    "performance": 0.89,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "fcp": "0.7\u00a0s",
+    "lcp": "2.8\u00a0s",
+    "tbt": "320\u00a0ms",
+    "cls": "0",
+    "lcpElement": "<p class=\"MuiTypography-root MuiTypography-body1 css-1irq11r\">",
+    "unusedJs": "Est savings of 187\u00a0KiB",
+    "mainThread": "1.0\u00a0s",
+    "a11yFails": []
+   },
+   "plants": {
+    "url": "http://localhost:3999/plants",
+    "finalUrl": "http://localhost:3999/plants",
+    "performance": 0.79,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "fcp": "0.6\u00a0s",
+    "lcp": "4.9\u00a0s",
+    "tbt": "190\u00a0ms",
+    "cls": "0",
+    "lcpElement": "<img class=\"MuiBox-root css-ksap3i\" src=\"https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-\u2026\" alt=\"Aloe vera\">",
+    "unusedJs": "Est savings of 169\u00a0KiB",
+    "mainThread": "1.5\u00a0s",
+    "a11yFails": []
+   }
+  },
+  {
+   "login": {
+    "url": "http://localhost:3999/login",
+    "finalUrl": "http://localhost:3999/login",
+    "performance": 0.95,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "fcp": "0.7\u00a0s",
+    "lcp": "2.6\u00a0s",
+    "tbt": "180\u00a0ms",
+    "cls": "0",
+    "lcpElement": "<p class=\"MuiTypography-root MuiTypography-body1 css-1irq11r\">",
+    "unusedJs": "Est savings of 187\u00a0KiB",
+    "mainThread": "0.7\u00a0s",
+    "a11yFails": []
+   },
+   "plants": {
+    "url": "http://localhost:3999/plants",
+    "finalUrl": "http://localhost:3999/plants",
+    "performance": 0.77,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "fcp": "0.6\u00a0s",
+    "lcp": "5.4\u00a0s",
+    "tbt": "200\u00a0ms",
+    "cls": "0",
+    "lcpElement": "<img class=\"MuiBox-root css-ksap3i\" src=\"https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-\u2026\" alt=\"Aloe vera\">",
+    "unusedJs": "Est savings of 168\u00a0KiB",
+    "mainThread": "1.4\u00a0s",
+    "a11yFails": []
+   }
+  }
+ ]
+}

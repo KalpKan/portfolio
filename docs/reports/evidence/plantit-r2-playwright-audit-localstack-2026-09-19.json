@@ -1,0 +1,1471 @@
+{
+  "base": "http://localhost:3999",
+  "uid": "round2-test",
+  "ranAt": "2026-09-19T03:04:20.836Z",
+  "stories": {
+    "desktop": {
+      "signedOutPlants": {
+        "url": "http://localhost:3999/login",
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        }
+      },
+      "signedOutUnknown": {
+        "url": "http://localhost:3999/login",
+        "bodyText": "Plant It\n\nYour personal plant identification and care assistant\n\nSign in with Google\n\nSign in to start identifying and managing your plants"
+      },
+      "login": {
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        },
+        "button": 1,
+        "logoImg": [
+          {
+            "tag": "svg",
+            "src": "",
+            "w": 20
+          },
+          {
+            "tag": "svg",
+            "src": "",
+            "w": 20
+          }
+        ]
+      },
+      "home": {
+        "url": "http://localhost:3999/",
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        },
+        "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nWelcome to Plant It\n\nYour personal plant identification and care assistant. Upload a photo to identify a plant, get care instructions, and keep an eye on its soil moisture. No hardware needed: every plant gets a simulated sensor you can water; a real ESP8266 takes over when you connect one.\n\nIdentify a New Plant\n\nUpload a photo of a plant to identify its species and get care recommendations.\n\nAdd New Plant\nView Your Plants\n\nSee all the plants you've identified and their care instructions.\n\nView Plants\nHow It Works\n1. Upload\n\nTake a clear photo of your p",
+        "addNewPlant": 1,
+        "viewPlants": 1,
+        "navLinks": [
+          "Home",
+          "My Plants",
+          "Add Plant",
+          "Logout"
+        ]
+      },
+      "identifyGood": {
+        "file": "monstera-deliciosa.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 2507,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 200,
+          "demo": false,
+          "reason": null,
+          "top1": "Monstera deliciosa",
+          "score": 0.86249,
+          "nCandidates": 5,
+          "careSource": "bundled",
+          "careReason": null,
+          "openaiError": null,
+          "savedPlantId": "4Ozuyk0vI98soad9hCod",
+          "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round2-test/4Ozuyk0vI98soad9hCod.jpg",
+          "threshold": 20,
+          "care": {
+            "watering": "Water when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.",
+            "light": "Bright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.",
+            "temperature": "18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.",
+            "humidity": "Moderate to high (50-60 %). Mist occasionally or group with other plants.",
+            "soil": "Chunky, well-draining aroid mix: potting soil with orchid bark and perlite.",
+            "fertilizer": "Balanced liquid feed at half strength once a month from spring to early autumn; none in winter.",
+            "soilMoisture": {
+              "minVWC": 15,
+              "maxVWC": 45,
+              "optimalVWC": 30,
+              "wateringThreshold": 20
+            }
+          }
+        },
+        "after": {
+          "url": "http://localhost:3999/plant-details",
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it."
+          ],
+          "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nIdentified Plant\n\nMonstera deliciosa\n\nCommon name: Monstera\n\nFamily: Araceae\n\nConfidence: 86 %\n\nCare Instructions\nCare guide from the built-in plant library.\nWatering\n\nWater when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.\n\nLight\n\nBright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.\n\nTemperature\n\n18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.\n\nHumidity\n\nModerate to high (50-60 %). Mist occasionally or group with other plants.\n\nSoil\n\nChunky, well-draining aroid mix: potting soil with orchid bark and perlite.\n\nFertilizer\n\nBalanced liquid feed at half strength once a month from spring to early autumn; none in winter.\n\nSoil moisture targets\n\nKeep between 15% and 45% water content; water below 20%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+        },
+        "imageFetch": {
+          "status": 200,
+          "type": "image/jpeg",
+          "bytes": 62892
+        },
+        "careSections": [
+          "Watering",
+          "Light",
+          "Temperature",
+          "Humidity",
+          "Soil",
+          "Fertilizer",
+          "Soil moisture targets"
+        ],
+        "careTexts": [
+          "Water when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.",
+          "Bright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.",
+          "18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.",
+          "Moderate to high (50-60 %). Mist occasionally or group with other plants.",
+          "Chunky, well-draining aroid mix: potting soil with orchid bark and perlite.",
+          "Balanced liquid feed at half strength once a month from spring to early autumn; none in winter.",
+          "Keep between 15% and 45% water content; water below 20%."
+        ],
+        "sourceLine": [
+          "Care guide from the built-in plant library."
+        ],
+        "resultImgNatural": {
+          "complete": true,
+          "w": 450,
+          "src": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos"
+        }
+      },
+      "identifyLow": {
+        "file": "monstera-deliciosa-2.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 1558,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 200,
+          "demo": false,
+          "reason": null,
+          "top1": "Monstera deliciosa",
+          "score": 0.10437,
+          "nCandidates": 5,
+          "careSource": "bundled",
+          "careReason": null,
+          "openaiError": null,
+          "savedPlantId": "0dJxblSf8pb5aksVf1U1",
+          "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round2-test/0dJxblSf8pb5aksVf1U1.jpg",
+          "threshold": 20,
+          "care": {
+            "watering": "Water when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.",
+            "light": "Bright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.",
+            "temperature": "18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.",
+            "humidity": "Moderate to high (50-60 %). Mist occasionally or group with other plants.",
+            "soil": "Chunky, well-draining aroid mix: potting soil with orchid bark and perlite.",
+            "fertilizer": "Balanced liquid feed at half strength once a month from spring to early autumn; none in winter.",
+            "soilMoisture": {
+              "minVWC": 15,
+              "maxVWC": 45,
+              "optimalVWC": 30,
+              "wateringThreshold": 20
+            }
+          }
+        },
+        "after": {
+          "url": "http://localhost:3999/plant-details",
+          "alerts": [
+            "Low confidence. Pl@ntNet is only 10 % sure this is Monstera deliciosa. Check the other matches below or try a clearer photo of a single leaf or flower. It was saved with a \"Low confidence\" mark; delete it from My Plants if it is wrong."
+          ],
+          "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nPlant Identification Results\nLow confidence. Pl@ntNet is only 10 % sure this is Monstera deliciosa. Check the other matches below or try a clearer photo of a single leaf or flower. It was saved with a \"Low confidence\" mark; delete it from My Plants if it is wrong.\nIdentified Plant\n\nMonstera deliciosa\n\nCommon name: Monstera\n\nFamily: Araceae\n\nConfidence: 10 % (low)\n\nOther matches Pl@ntNet suggested\nLivistona chinensis\n\nChinese Fan Palm · 10 %\n\nPhilodendron pastazanum\n\n4 %\n\nEpipremnum pinnatum\n\nPothos · 3 %\n\nCare Instructions\nCare guide from the built-in plant library.\nWatering\n\nWater when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.\n\nLight\n\nBright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.\n\nTemperature\n\n18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.\n\nHumidity\n\nModerate to high (50-60 %). Mist occasionally or group with other plants.\n\nSoil\n\nChunky, well-draining aroid mix: potting soil with orchid bark and perlite.\n\nFertilizer\n\nBalanced liquid feed at half strength once a month from spring to early autumn; none in winter.\n\nSoil moisture targets\n\nKeep between 15% and 45% water content; water below 20%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+        },
+        "warningAlerts": [
+          "Low confidence. Pl@ntNet is only 10 % sure this is Monstera deliciosa. Check the other matches below or try a clearer photo of a single leaf or flower. It was saved with a \"Low confidence\" mark; delete it from My Plants if it is wrong."
+        ],
+        "candidatesShown": [
+          "10 %",
+          "10 %",
+          "10 %",
+          "4 %",
+          "3 %",
+          "60 %",
+          "15%",
+          "45%",
+          "20%"
+        ],
+        "lowNotice": [
+          "Low confidence. Pl@ntNet is only 10 % sure this is Monstera deliciosa. Check the other matches below or try a clearer photo of a single leaf or flower. It was saved with a \"Low confidence\" mark; delete it from My Plants if it is wrong."
+        ],
+        "otherCandidates": [
+          "Livistona chinensisChinese Fan Palm · 10 %",
+          "Philodendron pastazanum4 %",
+          "Epipremnum pinnatumPothos · 3 %"
+        ],
+        "demoNotice": 0,
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        }
+      },
+      "identifyZZ": {
+        "file": "zamioculcas-zamiifolia.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 1344,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 200,
+          "demo": false,
+          "reason": null,
+          "top1": "Zamioculcas zamiifolia",
+          "score": 0.41896,
+          "nCandidates": 5,
+          "careSource": "bundled",
+          "careReason": null,
+          "openaiError": null,
+          "savedPlantId": "TihcCTqRUg5NrjnNTzSn",
+          "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round2-test/TihcCTqRUg5NrjnNTzSn.jpg",
+          "threshold": 8,
+          "care": {
+            "watering": "Water only when the soil is completely dry, every 2-3 weeks (monthly in winter). Its rhizomes store water, so when in doubt, wait; yellowing stems mean too much water.",
+            "light": "Low to bright, indirect light; it tolerates dim corners. Keep out of hot direct sun.",
+            "temperature": "18-26 C (65-79 F). Keep above 10 C (50 F).",
+            "humidity": "Average room humidity is fine; no misting needed.",
+            "soil": "Fast-draining mix: potting soil with plenty of perlite or a cactus mix.",
+            "fertilizer": "Balanced liquid feed at half strength once or twice in spring and summer.",
+            "soilMoisture": {
+              "minVWC": 5,
+              "maxVWC": 28,
+              "optimalVWC": 14,
+              "wateringThreshold": 8
+            }
+          }
+        },
+        "after": {
+          "url": "http://localhost:3999/plant-details",
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it."
+          ],
+          "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nIdentified Plant\n\nZamioculcas zamiifolia\n\nCommon name: ZZ Plant\n\nFamily: Araceae\n\nConfidence: 42 %\n\nCare Instructions\nCare guide from the built-in plant library.\nWatering\n\nWater only when the soil is completely dry, every 2-3 weeks (monthly in winter). Its rhizomes store water, so when in doubt, wait; yellowing stems mean too much water.\n\nLight\n\nLow to bright, indirect light; it tolerates dim corners. Keep out of hot direct sun.\n\nTemperature\n\n18-26 C (65-79 F). Keep above 10 C (50 F).\n\nHumidity\n\nAverage room humidity is fine; no misting needed.\n\nSoil\n\nFast-draining mix: potting soil with plenty of perlite or a cactus mix.\n\nFertilizer\n\nBalanced liquid feed at half strength once or twice in spring and summer.\n\nSoil moisture targets\n\nKeep between 5% and 28% water content; water below 8%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+        },
+        "careTexts": [
+          "Water only when the soil is completely dry, every 2-3 weeks (monthly in winter). Its rhizomes store water, so when in doubt, wait; yellowing stems mean too much water.",
+          "Low to bright, indirect light; it tolerates dim corners. Keep out of hot direct sun.",
+          "18-26 C (65-79 F). Keep above 10 C (50 F).",
+          "Average room humidity is fine; no misting needed.",
+          "Fast-draining mix: potting soil with plenty of perlite or a cactus mix.",
+          "Balanced liquid feed at half strength once or twice in spring and summer.",
+          "Keep between 5% and 28% water content; water below 8%."
+        ],
+        "sourceLine": [
+          "Care guide from the built-in plant library."
+        ]
+      },
+      "careApi": {
+        "Dracaena trifasciata": {
+          "source": "bundled",
+          "threshold": 8,
+          "watering": "Water only when the soil is completely dry, every 2-4 weeks (every 6-8",
+          "sections": 6
+        },
+        "Sansevieria trifasciata": {
+          "source": "bundled",
+          "threshold": 8,
+          "watering": "Water only when the soil is completely dry, every 2-4 weeks (every 6-8",
+          "sections": 6
+        },
+        "Zamioculcas zamiifolia": {
+          "source": "bundled",
+          "threshold": 8,
+          "watering": "Water only when the soil is completely dry, every 2-3 weeks (monthly i",
+          "sections": 6
+        },
+        "Spathiphyllum wallisii": {
+          "source": "bundled",
+          "threshold": 28,
+          "watering": "Keep the soil lightly moist; water about once a week when the top 2-3 ",
+          "sections": 6
+        },
+        "Crassula ovata": {
+          "source": "generic",
+          "threshold": 8,
+          "watering": "Water only when the soil is completely dry, every 2-4 weeks. Overwater",
+          "sections": 6
+        },
+        "Aloe vera": {
+          "source": "generic",
+          "threshold": 8,
+          "watering": "Water only when the soil is completely dry, every 2-4 weeks. Overwater",
+          "sections": 6
+        },
+        "Monstera deliciosa": {
+          "source": "bundled",
+          "threshold": 20,
+          "watering": "Water when the top 5 cm of soil is dry, roughly every 7-10 days; less ",
+          "sections": 6
+        },
+        "Pilea peperomioides": {
+          "source": "generic",
+          "threshold": 20,
+          "watering": "Water when the top 2-3 cm of soil feels dry. Let the pot drain fully a",
+          "sections": 6
+        }
+      },
+      "mug": {
+        "file": "not-a-plant-mug.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 993,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 422,
+          "reason": "plantnet_species_not_found"
+        },
+        "after": {
+          "url": "http://localhost:3999/add-plant",
+          "alerts": [
+            "This does not look like a plant. Try a closer photo of the leaves or flowers, in good light."
+          ],
+          "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nAdd New Plant\n\nUpload a clear photo of your plant to identify its species and get care recommendations.\n\nJPEG, PNG or WebP, between 10 KB and 4 MB. One plant per photo works best.\n\nnot-a-plant-mug.jpg (79.7 KB)\n\nUse your own OpenAI key (optional)\nOpenAI API key\nThis does not look like a plant. Try a closer photo of the leaves or flowers, in good light.\nIdentify Plant"
+        },
+        "plantsBefore": 3,
+        "plantsAfter": 3,
+        "errorAlert": [
+          "This does not look like a plant. Try a closer photo of the leaves or flowers, in good light."
+        ],
+        "url": "http://localhost:3999/add-plant"
+      },
+      "tooSmall": {
+        "file": "too-small.jpg",
+        "enabled": false,
+        "errBefore": [
+          "That image is too small (under 10 KB). Please use a clearer photo."
+        ],
+        "ms": null,
+        "requests": [],
+        "resp": null,
+        "after": null
+      },
+      "textFile": {
+        "file": "not-an-image.txt",
+        "enabled": false,
+        "errBefore": [
+          "Only JPEG, PNG or WebP images are accepted."
+        ],
+        "ms": null,
+        "requests": [],
+        "resp": null,
+        "after": null,
+        "fileInputAccept": "image/*,.jpeg,.jpg,.png,.webp",
+        "dropError": [
+          "Only JPEG, PNG or WebP images are accepted."
+        ]
+      },
+      "contrast": {
+        "identifyDisabled": {
+          "color": "rgba(255, 255, 255, 0.45)",
+          "backgrounds": [
+            "rgba(255, 255, 255, 0.12)"
+          ],
+          "minRatio": 1,
+          "disabled": true,
+          "opacity": "1"
+        },
+        "identifyEnabled": {
+          "color": "rgb(6, 43, 28)",
+          "backgrounds": [
+            "rgb(0, 220, 130)",
+            "rgb(0, 184, 107)"
+          ],
+          "minRatio": 5.89,
+          "disabled": false,
+          "opacity": "1"
+        },
+        "addNewPlant": {
+          "color": "rgb(6, 43, 28)",
+          "backgrounds": [
+            "rgb(0, 220, 130)",
+            "rgb(0, 184, 107)"
+          ],
+          "minRatio": 5.89,
+          "disabled": false,
+          "opacity": "1"
+        },
+        "signIn": {
+          "color": "rgb(6, 43, 28)",
+          "backgrounds": [
+            "rgb(0, 220, 130)",
+            "rgb(0, 184, 107)"
+          ],
+          "minRatio": 5.89,
+          "disabled": false,
+          "opacity": "1"
+        }
+      },
+      "dryout": {
+        "id": "K0xZDW8LFCxHElUkBRs1",
+        "mode": "simulated",
+        "currentVWC": 5.2,
+        "needsWater": true,
+        "min": 5,
+        "max": 28,
+        "lastWatered": "2026-09-16T05:04:40.949Z"
+      },
+      "apiNope": {
+        "error": "No route GET /api/nope"
+      },
+      "health": {
+        "ok": true,
+        "service": "plantit",
+        "firestore": "ok",
+        "photos": "supabase",
+        "identification": "plantnet",
+        "care": "bundled",
+        "careWithVisitorKey": "openai",
+        "image": "sharp",
+        "time": "2026-09-19T03:04:41.719Z",
+        "spend": {
+          "plantnet": {
+            "service": "plantnet",
+            "day": "2026-09-19",
+            "count": 20,
+            "limit": 100
+          }
+        }
+      },
+      "plants": {
+        "count": 4,
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        },
+        "cardTexts": [
+          "Zamioculcas zamiifolia\n\nZZ Plant\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "Monstera deliciosa\n\nMonstera\n\nFamily: Araceae\n\nSimulated sensor\nLow confidence\nAdded: September 18, 2026",
+          "Monstera deliciosa\n\nMonstera\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "No photo\nSpathiphyllum wallisii\n\nPeace lily (dry-out seed)\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 16, 2026"
+        ],
+        "images": [
+          {
+            "complete": true,
+            "w": 600,
+            "alt": "Zamioculcas zamiifolia"
+          },
+          {
+            "complete": true,
+            "w": 800,
+            "alt": "Monstera deliciosa"
+          },
+          {
+            "complete": true,
+            "w": 450,
+            "alt": "Monstera deliciosa"
+          }
+        ],
+        "placeholders": 1,
+        "lowConfidenceChips": 1,
+        "demoChips": 0,
+        "moistureOnCards": 0
+      },
+      "dialog": {
+        "openMs": 827,
+        "text": "Zamioculcas zamiifolia\nZZ Plant\n\nFamily: Araceae\n\nAdded: September 18, 2026\n\nSoil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n28%\n\nwater content · waters below 8% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nCare Instructions\nWatering\n\nWater only when the soil is completely dry, every 2-3 weeks (monthly in winter). Its rhizomes store water, so when in doubt, wait; yellowing stems mean too much water.\n\nLight\n\nLow to bright, indirect light; it tolerates dim corners. Keep out of hot direct sun.\n\nTemperature\n\n18-26 C (65-79 F). Keep above 10 C (50 F).\n\nHumidity\n\nAverage room humidity is fine; no misting needed.\n\nSoil\n\nFast-draining mix: potting soil with plenty of perlite or a cactus mix.\n\nFertilizer\n\nBalanced liquid feed at half strength once or twice in spring and summer.\n\nClose\nDelete Plant\nConnect ESP8266 (hardware required)",
+        "sensor": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n28%\n\nwater content · waters below 8% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now",
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        },
+        "layout": {
+          "viewportH": 900,
+          "dialogScrollH": 836,
+          "img": {
+            "top": 124,
+            "height": 552
+          },
+          "sensorPanel": {
+            "top": 740,
+            "height": 311
+          },
+          "waterNow": {
+            "top": 990,
+            "height": 45
+          },
+          "waterNowVisibleWithoutScroll": false
+        },
+        "chips": [
+          "Simulated sensor"
+        ],
+        "waterNowContrast": {
+          "color": "rgb(6, 43, 28)",
+          "backgrounds": [
+            "rgb(0, 220, 130)",
+            "rgb(0, 184, 107)"
+          ],
+          "minRatio": 5.89,
+          "disabled": false,
+          "opacity": "1"
+        },
+        "dialogScroll": {
+          "sw": 900,
+          "cw": 900
+        },
+        "apiReading": {
+          "mode": "simulated",
+          "currentVWC": 28,
+          "min": 5,
+          "max": 28,
+          "threshold": 8,
+          "inRange": true
+        }
+      },
+      "water": {
+        "status": 200,
+        "ok": true,
+        "mode": "simulated",
+        "current": 28,
+        "max": 28,
+        "eventSource": "simulated",
+        "vwcBefore": 28,
+        "vwcAfter": 28,
+        "stillMounted": true,
+        "dialogOpen": 1,
+        "reloaded": 0,
+        "sensorText": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n28%\n\nwater content · waters below 8% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 11:04:45 PM · 28% → 28%",
+        "afterReload": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n28%\n\nwater content · waters below 8% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 11:04:45 PM · 28% → 28%"
+      },
+      "hardware": {
+        "buttonText": "Connect ESP8266 (hardware required)",
+        "dialogText": "Connect an ESP8266 (hardware required)\n\nThis step needs the physical watering device from the arduino/ folder, powered on and on the same network as the API. The hosted API runs in the cloud, so it cannot see devices on your home Wi-Fi; run the API locally (npm run dev:api) to connect real hardware. Without a device, the simulated sensor keeps working.\n\nESP8266 IP address\nESP8266 IP address\nCancel\nSend plant settings to device",
+        "privateIp": {
+          "status": 502,
+          "body": {
+            "error": "Could not reach the ESP8266",
+            "hardwareRequired": true,
+            "details": "This needs a real device on the same network as the API. On the hosted app the API runs in Vercel's cloud, so run the API locally (npm run dev:api) to connect hardware."
+          },
+          "inline": [
+            "This needs a real device on the same network as the API. On the hosted app the API runs in Vercel's cloud, so run the API locally (npm run dev:api) to connect hardware."
+          ],
+          "snackbar": []
+        },
+        "publicIp": {
+          "status": 400,
+          "body": {
+            "error": "deviceIP must be a private IPv4 address on your home network (10.x.x.x, 172.16-31.x.x or 192.168.x.x)"
+          },
+          "inline": [
+            "deviceIP must be a private IPv4 address on your home network (10.x.x.x, 172.16-31.x.x or 192.168.x.x)"
+          ]
+        },
+        "afterCancelSensor": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n28%\n\nwater content · waters below 8% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 11:04:45 PM · 28% → 28%",
+        "badPortApi": {
+          "error": "devicePort must be a whole number from 1 to 65535"
+        },
+        "moistureNoSecret": 403
+      },
+      "delete": {
+        "status": 200,
+        "body": {
+          "success": true
+        },
+        "cardsAfter": 3,
+        "cardsBefore": 4,
+        "snackbar": [
+          "Zamioculcas zamiifolia has been deleted."
+        ],
+        "victimId": "TihcCTqRUg5NrjnNTzSn",
+        "victimImage": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round2-test/TihcCTqRUg5NrjnNTzSn.jpg",
+        "imageAfter": 200,
+        "firestoreDocExists": false,
+        "eventsLeft": 0,
+        "rtdbExists": false,
+        "cardsAfterReload": 3
+      },
+      "byok": {
+        "status": "saved, ends in …mnop",
+        "message": "Key saved in this browser (ends in …mnop). It is sent with each identification and used for that request only.",
+        "stored": "sk-invalidkeyabcdefghijklmnop",
+        "identify": {
+          "file": "aloe-vera.jpg",
+          "enabled": true,
+          "errBefore": [],
+          "ms": 2646,
+          "requests": [
+            {
+              "hasOpenAiHeader": true,
+              "openAiHeaderTail": "mnop"
+            }
+          ],
+          "resp": {
+            "status": 200,
+            "demo": false,
+            "reason": null,
+            "top1": "Aloe vera",
+            "score": 0.88193,
+            "nCandidates": 5,
+            "careSource": "generic",
+            "careReason": "openai_error",
+            "openaiError": "invalid_key",
+            "savedPlantId": "lRlu8yBsUDRxgSLNa5CB",
+            "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round2-test/lRlu8yBsUDRxgSLNa5CB.jpg",
+            "threshold": 8,
+            "care": {
+              "watering": "Water only when the soil is completely dry, every 2-4 weeks. Overwatering is the main risk.",
+              "light": "Bright light with some direct sun.",
+              "temperature": "18-24 C (65-75 F). Avoid cold draughts and sudden swings.",
+              "humidity": "Moderate humidity (40-60 %). A pebble tray or grouping plants helps in dry rooms.",
+              "soil": "Gritty cactus or succulent mix.",
+              "fertilizer": "Balanced liquid feed at half strength every 2-4 weeks in spring and summer.",
+              "soilMoisture": {
+                "minVWC": 5,
+                "maxVWC": 25,
+                "optimalVWC": 15,
+                "wateringThreshold": 8
+              }
+            }
+          },
+          "after": {
+            "url": "http://localhost:3999/plant-details",
+            "alerts": [
+              "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it.",
+              "OpenAI rejected the key saved in your browser (401). Check it under \"Add Plant\". The built-in care guide is shown instead."
+            ],
+            "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nOpenAI rejected the key saved in your browser (401). Check it under \"Add Plant\". The built-in care guide is shown instead.\nIdentified Plant\n\nAloe vera\n\nCommon name: Aloe vera\n\nFamily: Asphodelaceae\n\nConfidence: 88 %\n\nCare Instructions\nGeneral houseplant care (your OpenAI key was rejected, see above, and no species-specific guide is bundled).\nWatering\n\nWater only when the soil is completely dry, every 2-4 weeks. Overwatering is the main risk.\n\nLight\n\nBright light with some direct sun.\n\nTemperature\n\n18-24 C (65-75 F). Avoid cold draughts and sudden swings.\n\nHumidity\n\nModerate humidity (40-60 %). A pebble tray or grouping plants helps in dry rooms.\n\nSoil\n\nGritty cactus or succulent mix.\n\nFertilizer\n\nBalanced liquid feed at half strength every 2-4 weeks in spring and summer.\n\nSoil moisture targets\n\nKeep between 5% and 25% water content; water below 8%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+          },
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it.",
+            "OpenAI rejected the key saved in your browser (401). Check it under \"Add Plant\". The built-in care guide is shown instead."
+          ],
+          "sourceLine": [
+            "General houseplant care (your OpenAI key was rejected, see above, and no species-specific guide is bundled)."
+          ],
+          "keyNotice": [
+            "OpenAI rejected the key saved in your browser (401). Check it under \"Add Plant\". The built-in care guide is shown instead."
+          ]
+        },
+        "serverLog": {
+          "lines": 1,
+          "skCount": 0,
+          "keyFragment": false,
+          "tail": [
+            "ERROR OpenAI (visitor key) failed, using the built-in guide: invalid_key HTTP 401"
+          ]
+        },
+        "afterRemove": null,
+        "reSaved": "sk-invalidkeyabcdefghijklmnop"
+      },
+      "routes": {
+        "/plants/whatever": {
+          "finalUrl": "http://localhost:3999/plants/whatever",
+          "text": "Plant It Home My Plants Add Plant Logout That page does not exist There is nothing at /plants/whatever. Plant It has a home page, My Plants and Add Plant. Home My Plants",
+          "sw": {
+            "sw": 1440,
+            "bw": 1440,
+            "iw": 1440
+          },
+          "missingPath": [
+            "/plants/whatever"
+          ],
+          "homeButtons": 1
+        },
+        "/x/y": {
+          "finalUrl": "http://localhost:3999/x/y",
+          "text": "Plant It Home My Plants Add Plant Logout That page does not exist There is nothing at /x/y. Plant It has a home page, My Plants and Add Plant. Home My Plants",
+          "sw": {
+            "sw": 1440,
+            "bw": 1440,
+            "iw": 1440
+          },
+          "missingPath": [
+            "/x/y"
+          ],
+          "homeButtons": 1
+        },
+        "/plant-details": {
+          "finalUrl": "http://localhost:3999/add-plant",
+          "text": "Plant It Home My Plants Add Plant Logout Add New Plant Upload a clear photo of your plant to identify its species and get care recommendations. JPEG, PNG or WebP, between 10 KB and 4 MB. One plant per",
+          "sw": {
+            "sw": 1440,
+            "bw": 1440,
+            "iw": 1440
+          },
+          "missingPath": [],
+          "homeButtons": 0
+        }
+      },
+      "logout": {
+        "url": "http://localhost:3999/login",
+        "localStorageKey": null,
+        "localStorageKeys": [],
+        "afterBack": {
+          "url": "http://localhost:3999/login",
+          "text": "Plant It Your personal plant identification and care assistant Sign in with Google Sign in to start identifying and mana"
+        }
+      }
+    },
+    "phone": {
+      "signedOutPlants": {
+        "url": "http://localhost:3999/login",
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        }
+      },
+      "signedOutUnknown": {
+        "url": "http://localhost:3999/login",
+        "bodyText": "Plant It\n\nYour personal plant identification and care assistant\n\nSign in with Google\n\nSign in to start identifying and managing your plants"
+      },
+      "login": {
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "button": 1
+      },
+      "home": {
+        "url": "http://localhost:3999/",
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "text": "Plant It\nWelcome to Plant It\n\nYour personal plant identification and care assistant. Upload a photo to identify a plant, get care instructions, and keep an eye on its soil moisture. No hardware needed: every plant gets a simulated sensor you can water; a real ESP8266 takes over when you connect one.\n\nIdentify a New Plant\n\nUpload a photo of a plant to identify its species and get care recommendations.\n\nAdd New Plant\nView Your Plants\n\nSee all the plants you've identified and their care instructions.\n\nView Plants\nHow It Works\n1. Upload\n\nTake a clear photo of your plant and upload it to our system",
+        "addNewPlant": 1,
+        "viewPlants": 1,
+        "navLinks": [
+          ""
+        ],
+        "menuButton": 1,
+        "drawerItems": "Home\nMy Plants\nAdd Plant\nLogout"
+      },
+      "identifyGood": {
+        "file": "ficus-lyrata.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 2390,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 200,
+          "demo": false,
+          "reason": null,
+          "top1": "Ficus lyrata",
+          "score": 0.88652,
+          "nCandidates": 5,
+          "careSource": "bundled",
+          "careReason": null,
+          "openaiError": null,
+          "savedPlantId": "FDUUEdosCnlaOuBqszfN",
+          "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round2-test/FDUUEdosCnlaOuBqszfN.jpg",
+          "threshold": 20,
+          "care": {
+            "watering": "Water thoroughly when the top 5 cm of soil is dry, about every 7-10 days, then let it drain fully. Consistency matters more than quantity.",
+            "light": "Lots of bright, indirect light with a little gentle morning sun. Rotate a quarter turn each week so it grows straight.",
+            "temperature": "18-24 C (65-75 F); dislikes swings and cold draughts.",
+            "humidity": "Moderate (40-60 %). Wipe the large leaves monthly so they can breathe.",
+            "soil": "Well-draining indoor potting mix with added bark or perlite.",
+            "fertilizer": "High-nitrogen liquid feed (3-1-2) monthly in spring and summer.",
+            "soilMoisture": {
+              "minVWC": 15,
+              "maxVWC": 45,
+              "optimalVWC": 30,
+              "wateringThreshold": 20
+            }
+          }
+        },
+        "after": {
+          "url": "http://localhost:3999/plant-details",
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it."
+          ],
+          "text": "Plant It\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nIdentified Plant\n\nFicus lyrata\n\nCommon name: Fiddle leaf fig\n\nFamily: Moraceae\n\nConfidence: 89 %\n\nCare Instructions\nCare guide from the built-in plant library.\nWatering\n\nWater thoroughly when the top 5 cm of soil is dry, about every 7-10 days, then let it drain fully. Consistency matters more than quantity.\n\nLight\n\nLots of bright, indirect light with a little gentle morning sun. Rotate a quarter turn each week so it grows straight.\n\nTemperature\n\n18-24 C (65-75 F); dislikes swings and cold draughts.\n\nHumidity\n\nModerate (40-60 %). Wipe the large leaves monthly so they can breathe.\n\nSoil\n\nWell-draining indoor potting mix with added bark or perlite.\n\nFertilizer\n\nHigh-nitrogen liquid feed (3-1-2) monthly in spring and summer.\n\nSoil moisture targets\n\nKeep between 15% and 45% water content; water below 20%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+        },
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "careSections": [
+          "Watering",
+          "Light",
+          "Temperature",
+          "Humidity",
+          "Soil",
+          "Fertilizer",
+          "Soil moisture targets"
+        ]
+      },
+      "addPlantSw": {
+        "sw": 390,
+        "bw": 390,
+        "iw": 390
+      },
+      "plants": {
+        "count": 5,
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "cardTexts": [
+          "Ficus lyrata\n\nFiddle leaf fig\n\nFamily: Moraceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "Aloe vera\n\nAloe vera\n\nFamily: Asphodelaceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "Monstera deliciosa\n\nMonstera\n\nFamily: Araceae\n\nSimulated sensor\nLow confidence\nAdded: September 18, 2026",
+          "Monstera deliciosa\n\nMonstera\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "No photo\nSpathiphyllum wallisii\n\nPeace lily (dry-out seed)\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 16, 2026"
+        ],
+        "images": [
+          {
+            "complete": true,
+            "w": 360,
+            "alt": "Ficus lyrata"
+          },
+          {
+            "complete": true,
+            "w": 800,
+            "alt": "Aloe vera"
+          },
+          {
+            "complete": true,
+            "w": 800,
+            "alt": "Monstera deliciosa"
+          },
+          {
+            "complete": true,
+            "w": 450,
+            "alt": "Monstera deliciosa"
+          }
+        ],
+        "placeholders": 1,
+        "lowConfidenceChips": 1,
+        "demoChips": 0,
+        "moistureOnCards": 0
+      },
+      "dialog": {
+        "openMs": 832,
+        "text": "Ficus lyrata\nFiddle leaf fig\n\nFamily: Moraceae\n\nAdded: September 18, 2026\n\nSoil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nCare Instructions\nWatering\n\nWater thoroughly when the top 5 cm of soil is dry, about every 7-10 days, then let it drain fully. Consistency matters more than quantity.\n\nLight\n\nLots of bright, indirect light with a little gentle morning sun. Rotate a quarter turn each week so it grows straight.\n\nTemperature\n\n18-24 C (65-75 F); dislikes swings and cold draughts.\n\nHumidity\n\nModerate (40-60 %). Wipe the large leaves monthly so they can breathe.\n\nSoil\n\nWell-draining indoor potting mix with added bark or perlite.\n\nFertilizer\n\nHigh-nitrogen liquid feed (3-1-2) monthly in spring and summer.\n\nClose\nDelete Plant\nConnect ESP8266 (hardware required)",
+        "sensor": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now",
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "layout": {
+          "viewportH": 844,
+          "dialogScrollH": 780,
+          "img": {
+            "top": 124,
+            "height": 618
+          },
+          "sensorPanel": {
+            "top": 806,
+            "height": 403
+          },
+          "waterNow": {
+            "top": 1147,
+            "height": 45
+          },
+          "waterNowVisibleWithoutScroll": false
+        },
+        "chips": [
+          "Simulated sensor"
+        ],
+        "waterNowContrast": {
+          "color": "rgb(6, 43, 28)",
+          "backgrounds": [
+            "rgb(0, 220, 130)",
+            "rgb(0, 184, 107)"
+          ],
+          "minRatio": 5.89,
+          "disabled": false,
+          "opacity": "1"
+        },
+        "dialogScroll": {
+          "sw": 326,
+          "cw": 326
+        },
+        "apiReading": {
+          "mode": "simulated",
+          "currentVWC": 45,
+          "min": 15,
+          "max": 45,
+          "threshold": 20,
+          "inRange": true
+        }
+      },
+      "water": {
+        "status": 200,
+        "ok": true,
+        "mode": "simulated",
+        "current": 45,
+        "max": 45,
+        "eventSource": "simulated",
+        "vwcBefore": 45,
+        "vwcAfter": 45,
+        "stillMounted": true,
+        "dialogOpen": 1,
+        "reloaded": 0,
+        "sensorText": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 11:05:27 PM · 45% → 45%",
+        "afterReload": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 11:05:27 PM · 45% → 45%"
+      },
+      "hardware": {
+        "buttonText": "Connect ESP8266 (hardware required)",
+        "dialogText": "Connect an ESP8266 (hardware required)\n\nThis step needs the physical watering device from the arduino/ folder, powered on and on the same network as the API. The hosted API runs in the cloud, so it cannot see devices on your home Wi-Fi; run the API locally (npm run dev:api) to connect real hardware. Without a device, the simulated sensor keeps working.\n\nESP8266 IP address\nESP8266 IP address\nCancel\nSend plant settings to device",
+        "privateIp": {
+          "status": 502,
+          "body": {
+            "error": "Could not reach the ESP8266",
+            "hardwareRequired": true,
+            "details": "This needs a real device on the same network as the API. On the hosted app the API runs in Vercel's cloud, so run the API locally (npm run dev:api) to connect hardware."
+          },
+          "inline": [
+            "This needs a real device on the same network as the API. On the hosted app the API runs in Vercel's cloud, so run the API locally (npm run dev:api) to connect hardware."
+          ],
+          "snackbar": []
+        },
+        "publicIp": {
+          "status": 400,
+          "body": {
+            "error": "deviceIP must be a private IPv4 address on your home network (10.x.x.x, 172.16-31.x.x or 192.168.x.x)"
+          },
+          "inline": [
+            "deviceIP must be a private IPv4 address on your home network (10.x.x.x, 172.16-31.x.x or 192.168.x.x)"
+          ]
+        },
+        "afterCancelSensor": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 11:05:27 PM · 45% → 45%",
+        "badPortApi": {
+          "error": "devicePort must be a whole number from 1 to 65535"
+        },
+        "moistureNoSecret": 403
+      },
+      "delete": {
+        "status": 200,
+        "body": {
+          "success": true
+        },
+        "cardsAfter": 4,
+        "cardsBefore": 5,
+        "snackbar": [
+          "Ficus lyrata has been deleted."
+        ],
+        "victimId": "FDUUEdosCnlaOuBqszfN",
+        "victimImage": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round2-test/FDUUEdosCnlaOuBqszfN.jpg",
+        "imageAfter": 200,
+        "firestoreDocExists": false,
+        "eventsLeft": 0,
+        "rtdbExists": false,
+        "cardsAfterReload": 4
+      },
+      "routes": {
+        "/plants/whatever": {
+          "finalUrl": "http://localhost:3999/plants/whatever",
+          "text": "Plant It That page does not exist There is nothing at /plants/whatever. Plant It has a home page, My Plants and Add Plant. Home My Plants",
+          "sw": {
+            "sw": 390,
+            "bw": 390,
+            "iw": 390
+          },
+          "missingPath": [
+            "/plants/whatever"
+          ],
+          "homeButtons": 1
+        },
+        "/x/y": {
+          "finalUrl": "http://localhost:3999/x/y",
+          "text": "Plant It That page does not exist There is nothing at /x/y. Plant It has a home page, My Plants and Add Plant. Home My Plants",
+          "sw": {
+            "sw": 390,
+            "bw": 390,
+            "iw": 390
+          },
+          "missingPath": [
+            "/x/y"
+          ],
+          "homeButtons": 1
+        },
+        "/plant-details": {
+          "finalUrl": "http://localhost:3999/add-plant",
+          "text": "Plant It Add New Plant Upload a clear photo of your plant to identify its species and get care recommendations. JPEG, PNG or WebP, between 10 KB and 4 MB. One plant per photo works best. Drag and drop",
+          "sw": {
+            "sw": 390,
+            "bw": 390,
+            "iw": 390
+          },
+          "missingPath": [],
+          "homeButtons": 0
+        }
+      },
+      "logout": {
+        "url": "http://localhost:3999/login",
+        "localStorageKey": null,
+        "localStorageKeys": [],
+        "afterBack": {
+          "url": "http://localhost:3999/login",
+          "text": "Plant It Your personal plant identification and care assistant Sign in with Google Sign in to start identifying and mana"
+        }
+      }
+    }
+  },
+  "console": {
+    "desktop": [
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants/whatever"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants/whatever"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plants/whatever"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/x/y"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/x/y"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plant-details"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plant-details"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      }
+    ],
+    "phone": [
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants/whatever"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/add-plant"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plants"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plants/whatever"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plants/whatever"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/x/y"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/x/y"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/plant-details"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/plant-details"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "pageerror",
+        "text": "Unexpected token '<'",
+        "url": "http://localhost:3999/login"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "url": "http://localhost:3999/login"
+      }
+    ]
+  },
+  "notes": [],
+  "cleanup": {
+    "deleted": 4
+  }
+}
