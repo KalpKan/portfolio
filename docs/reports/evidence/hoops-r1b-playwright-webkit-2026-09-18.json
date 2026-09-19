@@ -1,0 +1,1150 @@
+{
+ "webkit:desktop-utc": {
+  "loadMs": 1449,
+  "errors": [],
+  "title": "Hoops Analytics",
+  "metaDesc": "Basketball shooting analytics dashboard",
+  "scrollWidth": 1440,
+  "clientWidth": 1440,
+  "btns": [
+   {
+    "t": "Shot Map",
+    "h": 46,
+    "w": 104
+   },
+   {
+    "t": "Analytics",
+    "h": 46,
+    "w": 101
+   },
+   {
+    "t": "All Sessions",
+    "h": 46,
+    "w": 119
+   },
+   {
+    "t": "Sep 18",
+    "h": 46,
+    "w": 86
+   },
+   {
+    "t": "Apr 16",
+    "h": 46,
+    "w": 84
+   },
+   {
+    "t": "Apr 15",
+    "h": 46,
+    "w": 84
+   },
+   {
+    "t": "Jan 1",
+    "h": 46,
+    "w": 75
+   },
+   {
+    "t": "FG%",
+    "h": 36,
+    "w": 63
+   },
+   {
+    "t": "eFG%",
+    "h": 36,
+    "w": 71
+   },
+   {
+    "t": "Streak",
+    "h": 36,
+    "w": 74
+   }
+  ],
+  "rows": [
+   [
+    "Fri, Sep 18",
+    "3",
+    "2",
+    "66.7%",
+    "83.3%",
+    "1"
+   ],
+   [
+    "Thu, Apr 16",
+    "12",
+    "7",
+    "58.3%",
+    "70.8%",
+    "7"
+   ],
+   [
+    "Wed, Apr 15",
+    "57",
+    "43",
+    "75.4%",
+    "78.1%",
+    "30"
+   ],
+   [
+    "Thu, Jan 1",
+    "23",
+    "15",
+    "65.2%",
+    "69.6%",
+    "3"
+   ]
+  ],
+  "chartLabels": [
+   "Jan 1",
+   "Apr 15",
+   "Apr 16",
+   "Sep 18"
+  ],
+  "bars": [
+   {
+    "styleH": "65.2%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "75.4%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "58.3%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "66.7%",
+    "renderedH": 0,
+    "title": ""
+   }
+  ],
+  "chartText": "Jan 1 | Apr 15 | Apr 16 | Sep 18",
+  "cards": [
+   {
+    "text": "Shots Made |  | 67 | of 95",
+    "left": 80,
+    "top": 395,
+    "w": 308
+   },
+   {
+    "text": "Field Goal % |  | 70.5% | 28 misses",
+    "left": 404,
+    "top": 395,
+    "w": 308
+   },
+   {
+    "text": "Consistency |  | 67.6% | 13.4% swish rate",
+    "left": 728,
+    "top": 395,
+    "w": 308
+   },
+   {
+    "text": "Avg Streak |  | 10.3 | makes in a row",
+    "left": 1052,
+    "top": 395,
+    "w": 308
+   }
+  ],
+  "pillScroll": {
+   "scrollWidth": 1280,
+   "clientWidth": 1280,
+   "overflowX": "auto"
+  },
+  "tableWrap": {
+   "scrollWidth": 1228,
+   "clientWidth": 1228,
+   "overflowX": "hidden",
+   "tableWidth": 1228
+  },
+  "overflowing": [],
+  "faintTextNodes": 12,
+  "hasNotice": false,
+  "hasDownload": false,
+  "repoLink": false,
+  "liveBadge": true,
+  "demoBanner": false,
+  "bodyBg": "rgb(5, 5, 5)",
+  "pillLabels": [
+   "All Sessions",
+   "Sep 18",
+   "Apr 16",
+   "Apr 15",
+   "Jan 1"
+  ],
+  "modes": {
+   "eFG%": [
+    {
+     "styleH": "69.6%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "78.1%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "70.8%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "83.3%",
+     "renderedH": 0
+    }
+   ],
+   "Streak": [
+    {
+     "styleH": "12%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "100%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "23.333333%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "12%",
+     "renderedH": 0
+    }
+   ],
+   "FG%": [
+    {
+     "styleH": "65.2%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "75.4%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "58.3%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "66.7%",
+     "renderedH": 0
+    }
+   ]
+  },
+  "pillCheck": {
+   "pill": "Sep 18",
+   "chartLabels": [
+    "Sep 18"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "3",
+     "2",
+     "66.7%",
+     "83.3%",
+     "1"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 2 | of 3",
+    "Field Goal % |  | 66.7% | 1 misses",
+    "Consistency |  | 67.6% | 50.0% swish rate",
+    "Avg Streak |  | 1.0 | makes in a row"
+   ]
+  },
+  "map": {
+   "circles": 98,
+   "outside": 0,
+   "viewBox": "0 0 200 200",
+   "svg": {
+    "l": 334,
+    "r": 794,
+    "w": 460
+   },
+   "legend": {
+    "l": 1055,
+    "r": 1335,
+    "top": 468
+   },
+   "clientWidth": 1440,
+   "scrollWidth": 1440,
+   "tracked": "95 tracked attempts",
+   "rates": [
+    70.5,
+    29.5
+   ],
+   "fills": {
+    "rgba(255,138,102,0.04)": 1,
+    "transparent": 2,
+    "rgba(34,197,94,0.9)": 67,
+    "rgba(239,68,68,0.9)": 28
+   }
+  }
+ },
+ "webkit:desktop-toronto": {
+  "loadMs": 987,
+  "errors": [
+   "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+  ],
+  "title": "Hoops Analytics",
+  "metaDesc": "Basketball shooting analytics dashboard",
+  "scrollWidth": 1440,
+  "clientWidth": 1440,
+  "btns": [
+   {
+    "t": "Shot Map",
+    "h": 46,
+    "w": 104
+   },
+   {
+    "t": "Analytics",
+    "h": 46,
+    "w": 101
+   },
+   {
+    "t": "All Sessions",
+    "h": 46,
+    "w": 119
+   },
+   {
+    "t": "Sep 18",
+    "h": 46,
+    "w": 86
+   },
+   {
+    "t": "Apr 16",
+    "h": 46,
+    "w": 84
+   },
+   {
+    "t": "Apr 15",
+    "h": 46,
+    "w": 84
+   },
+   {
+    "t": "Dec 31",
+    "h": 46,
+    "w": 86
+   },
+   {
+    "t": "FG%",
+    "h": 36,
+    "w": 63
+   },
+   {
+    "t": "eFG%",
+    "h": 36,
+    "w": 71
+   },
+   {
+    "t": "Streak",
+    "h": 36,
+    "w": 74
+   }
+  ],
+  "rows": [
+   [
+    "Fri, Sep 18",
+    "3",
+    "2",
+    "66.7%",
+    "83.3%",
+    "1"
+   ],
+   [
+    "Thu, Apr 16",
+    "12",
+    "7",
+    "58.3%",
+    "70.8%",
+    "7"
+   ],
+   [
+    "Wed, Apr 15",
+    "57",
+    "43",
+    "75.4%",
+    "78.1%",
+    "30"
+   ],
+   [
+    "Wed, Dec 31",
+    "23",
+    "15",
+    "65.2%",
+    "69.6%",
+    "3"
+   ]
+  ],
+  "chartLabels": [
+   "Jan 1",
+   "Apr 15",
+   "Apr 16",
+   "Sep 18"
+  ],
+  "bars": [
+   {
+    "styleH": "65.2%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "75.4%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "58.3%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "66.7%",
+    "renderedH": 0,
+    "title": ""
+   }
+  ],
+  "chartText": "Jan 1 | Apr 15 | Apr 16 | Sep 18",
+  "cards": [
+   {
+    "text": "Shots Made |  | 67 | of 95",
+    "left": 80,
+    "top": 395,
+    "w": 308
+   },
+   {
+    "text": "Field Goal % |  | 70.5% | 28 misses",
+    "left": 404,
+    "top": 395,
+    "w": 308
+   },
+   {
+    "text": "Consistency |  | 67.6% | 13.4% swish rate",
+    "left": 728,
+    "top": 395,
+    "w": 308
+   },
+   {
+    "text": "Avg Streak |  | 10.3 | makes in a row",
+    "left": 1052,
+    "top": 395,
+    "w": 308
+   }
+  ],
+  "pillScroll": {
+   "scrollWidth": 1280,
+   "clientWidth": 1280,
+   "overflowX": "auto"
+  },
+  "tableWrap": {
+   "scrollWidth": 1228,
+   "clientWidth": 1228,
+   "overflowX": "hidden",
+   "tableWidth": 1228
+  },
+  "overflowing": [],
+  "faintTextNodes": 12,
+  "hasNotice": false,
+  "hasDownload": false,
+  "repoLink": false,
+  "liveBadge": true,
+  "demoBanner": false,
+  "bodyBg": "rgb(5, 5, 5)",
+  "pillLabels": [
+   "All Sessions",
+   "Sep 18",
+   "Apr 16",
+   "Apr 15",
+   "Dec 31"
+  ],
+  "modes": {
+   "eFG%": [
+    {
+     "styleH": "69.6%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "78.1%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "70.8%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "83.3%",
+     "renderedH": 0
+    }
+   ],
+   "Streak": [
+    {
+     "styleH": "12%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "100%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "23.333333%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "12%",
+     "renderedH": 0
+    }
+   ],
+   "FG%": [
+    {
+     "styleH": "65.2%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "75.4%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "58.3%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "66.7%",
+     "renderedH": 0
+    }
+   ]
+  },
+  "pillCheck": {
+   "pill": "Sep 18",
+   "chartLabels": [
+    "Sep 18"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "3",
+     "2",
+     "66.7%",
+     "83.3%",
+     "1"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 2 | of 3",
+    "Field Goal % |  | 66.7% | 1 misses",
+    "Consistency |  | 67.6% | 50.0% swish rate",
+    "Avg Streak |  | 1.0 | makes in a row"
+   ]
+  },
+  "map": {
+   "circles": 98,
+   "outside": 0,
+   "viewBox": "0 0 200 200",
+   "svg": {
+    "l": 334,
+    "r": 794,
+    "w": 460
+   },
+   "legend": {
+    "l": 1055,
+    "r": 1335,
+    "top": 468
+   },
+   "clientWidth": 1440,
+   "scrollWidth": 1440,
+   "tracked": "95 tracked attempts",
+   "rates": [
+    70.5,
+    29.5
+   ],
+   "fills": {
+    "rgba(255,138,102,0.04)": 1,
+    "transparent": 2,
+    "rgba(34,197,94,0.9)": 67,
+    "rgba(239,68,68,0.9)": 28
+   }
+  }
+ },
+ "webkit:phone-toronto-light": {
+  "loadMs": 1182,
+  "errors": [
+   "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+  ],
+  "title": "Hoops Analytics",
+  "metaDesc": "Basketball shooting analytics dashboard",
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "btns": [
+   {
+    "t": "Shot Map",
+    "h": 46,
+    "w": 104
+   },
+   {
+    "t": "Analytics",
+    "h": 46,
+    "w": 101
+   },
+   {
+    "t": "All Sessions",
+    "h": 46,
+    "w": 119
+   },
+   {
+    "t": "Sep 18",
+    "h": 46,
+    "w": 86
+   },
+   {
+    "t": "Apr 16",
+    "h": 46,
+    "w": 84
+   },
+   {
+    "t": "Apr 15",
+    "h": 46,
+    "w": 84
+   },
+   {
+    "t": "Dec 31",
+    "h": 46,
+    "w": 86
+   },
+   {
+    "t": "FG%",
+    "h": 36,
+    "w": 63
+   },
+   {
+    "t": "eFG%",
+    "h": 36,
+    "w": 71
+   },
+   {
+    "t": "Streak",
+    "h": 36,
+    "w": 74
+   }
+  ],
+  "rows": [
+   [
+    "Fri, Sep 18",
+    "3",
+    "2",
+    "66.7%",
+    "83.3%",
+    "1"
+   ],
+   [
+    "Thu, Apr 16",
+    "12",
+    "7",
+    "58.3%",
+    "70.8%",
+    "7"
+   ],
+   [
+    "Wed, Apr 15",
+    "57",
+    "43",
+    "75.4%",
+    "78.1%",
+    "30"
+   ],
+   [
+    "Wed, Dec 31",
+    "23",
+    "15",
+    "65.2%",
+    "69.6%",
+    "3"
+   ]
+  ],
+  "chartLabels": [
+   "Jan 1",
+   "Apr 15",
+   "Apr 16",
+   "Sep 18"
+  ],
+  "bars": [
+   {
+    "styleH": "65.2%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "75.4%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "58.3%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "66.7%",
+    "renderedH": 0,
+    "title": ""
+   }
+  ],
+  "chartText": "Jan 1 | Apr 15 | Apr 16 | Sep 18",
+  "cards": [
+   {
+    "text": "Shots Made |  | 67 | of 95",
+    "left": 24,
+    "top": 505,
+    "w": 342
+   },
+   {
+    "text": "Field Goal % |  | 70.5% | 28 misses",
+    "left": 24,
+    "top": 663,
+    "w": 342
+   },
+   {
+    "text": "Consistency |  | 67.6% | 13.4% swish rate",
+    "left": 24,
+    "top": 821,
+    "w": 342
+   },
+   {
+    "text": "Avg Streak |  | 10.3 | makes in a row",
+    "left": 24,
+    "top": 979,
+    "w": 342
+   }
+  ],
+  "pillScroll": {
+   "scrollWidth": 507,
+   "clientWidth": 342,
+   "overflowX": "auto"
+  },
+  "tableWrap": {
+   "scrollWidth": 500,
+   "clientWidth": 290,
+   "overflowX": "hidden",
+   "tableWidth": 500
+  },
+  "overflowing": [
+   "BUTTON.whitespace-nowrap.rounded-full.border right=433",
+   "BUTTON.whitespace-nowrap.rounded-full.border right=531",
+   "TABLE.w-full.text-left.text-sm right=550",
+   "THEAD.bg-white/[0.03].text-white/45 right=550",
+   "TR. right=550",
+   "TH.px-5.py-4.font-medium right=467",
+   "TH.px-5.py-4.font-medium right=550",
+   "TBODY. right=550"
+  ],
+  "faintTextNodes": 12,
+  "hasNotice": false,
+  "hasDownload": false,
+  "repoLink": false,
+  "liveBadge": true,
+  "demoBanner": false,
+  "bodyBg": "rgb(5, 5, 5)",
+  "pillLabels": [
+   "All Sessions",
+   "Sep 18",
+   "Apr 16",
+   "Apr 15",
+   "Dec 31"
+  ],
+  "modes": {
+   "eFG%": [
+    {
+     "styleH": "69.6%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "78.1%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "70.8%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "83.3%",
+     "renderedH": 0
+    }
+   ],
+   "Streak": [
+    {
+     "styleH": "12%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "100%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "23.333333%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "12%",
+     "renderedH": 0
+    }
+   ],
+   "FG%": [
+    {
+     "styleH": "65.2%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "75.4%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "58.3%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "66.7%",
+     "renderedH": 0
+    }
+   ]
+  },
+  "pillCheck": {
+   "pill": "Sep 18",
+   "chartLabels": [
+    "Sep 18"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "3",
+     "2",
+     "66.7%",
+     "83.3%",
+     "1"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 2 | of 3",
+    "Field Goal % |  | 66.7% | 1 misses",
+    "Consistency |  | 67.6% | 50.0% swish rate",
+    "Avg Streak |  | 1.0 | makes in a row"
+   ]
+  },
+  "map": {
+   "circles": 98,
+   "outside": 0,
+   "viewBox": "0 0 200 200",
+   "svg": {
+    "l": 35,
+    "r": 355,
+    "w": 320
+   },
+   "legend": {
+    "l": 49,
+    "r": 341,
+    "top": 1150
+   },
+   "clientWidth": 390,
+   "scrollWidth": 390,
+   "tracked": "95 tracked attempts",
+   "rates": [
+    70.5,
+    29.5
+   ],
+   "fills": {
+    "rgba(255,138,102,0.04)": 1,
+    "transparent": 2,
+    "rgba(34,197,94,0.9)": 67,
+    "rgba(239,68,68,0.9)": 28
+   }
+  }
+ },
+ "webkit:phone-tokyo": {
+  "loadMs": 1076,
+  "errors": [
+   "pageerror: Error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+  ],
+  "title": "Hoops Analytics",
+  "metaDesc": "Basketball shooting analytics dashboard",
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "btns": [
+   {
+    "t": "Shot Map",
+    "h": 46,
+    "w": 104
+   },
+   {
+    "t": "Analytics",
+    "h": 46,
+    "w": 101
+   },
+   {
+    "t": "All Sessions",
+    "h": 46,
+    "w": 119
+   },
+   {
+    "t": "Sep 19",
+    "h": 46,
+    "w": 86
+   },
+   {
+    "t": "Apr 16",
+    "h": 46,
+    "w": 84
+   },
+   {
+    "t": "Apr 15",
+    "h": 46,
+    "w": 84
+   },
+   {
+    "t": "Jan 1",
+    "h": 46,
+    "w": 75
+   },
+   {
+    "t": "FG%",
+    "h": 36,
+    "w": 63
+   },
+   {
+    "t": "eFG%",
+    "h": 36,
+    "w": 71
+   },
+   {
+    "t": "Streak",
+    "h": 36,
+    "w": 74
+   }
+  ],
+  "rows": [
+   [
+    "Sat, Sep 19",
+    "3",
+    "2",
+    "66.7%",
+    "83.3%",
+    "1"
+   ],
+   [
+    "Thu, Apr 16",
+    "12",
+    "7",
+    "58.3%",
+    "70.8%",
+    "7"
+   ],
+   [
+    "Wed, Apr 15",
+    "57",
+    "43",
+    "75.4%",
+    "78.1%",
+    "30"
+   ],
+   [
+    "Thu, Jan 1",
+    "23",
+    "15",
+    "65.2%",
+    "69.6%",
+    "3"
+   ]
+  ],
+  "chartLabels": [
+   "Jan 1",
+   "Apr 15",
+   "Apr 16",
+   "Sep 18"
+  ],
+  "bars": [
+   {
+    "styleH": "65.2%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "75.4%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "58.3%",
+    "renderedH": 0,
+    "title": ""
+   },
+   {
+    "styleH": "66.7%",
+    "renderedH": 0,
+    "title": ""
+   }
+  ],
+  "chartText": "Jan 1 | Apr 15 | Apr 16 | Sep 18",
+  "cards": [
+   {
+    "text": "Shots Made |  | 67 | of 95",
+    "left": 24,
+    "top": 505,
+    "w": 342
+   },
+   {
+    "text": "Field Goal % |  | 70.5% | 28 misses",
+    "left": 24,
+    "top": 663,
+    "w": 342
+   },
+   {
+    "text": "Consistency |  | 67.6% | 13.4% swish rate",
+    "left": 24,
+    "top": 821,
+    "w": 342
+   },
+   {
+    "text": "Avg Streak |  | 10.3 | makes in a row",
+    "left": 24,
+    "top": 979,
+    "w": 342
+   }
+  ],
+  "pillScroll": {
+   "scrollWidth": 496,
+   "clientWidth": 342,
+   "overflowX": "auto"
+  },
+  "tableWrap": {
+   "scrollWidth": 500,
+   "clientWidth": 290,
+   "overflowX": "hidden",
+   "tableWidth": 500
+  },
+  "overflowing": [
+   "BUTTON.whitespace-nowrap.rounded-full.border right=433",
+   "BUTTON.whitespace-nowrap.rounded-full.border right=520",
+   "TABLE.w-full.text-left.text-sm right=550",
+   "THEAD.bg-white/[0.03].text-white/45 right=550",
+   "TR. right=550",
+   "TH.px-5.py-4.font-medium right=467",
+   "TH.px-5.py-4.font-medium right=550",
+   "TBODY. right=550"
+  ],
+  "faintTextNodes": 12,
+  "hasNotice": false,
+  "hasDownload": false,
+  "repoLink": false,
+  "liveBadge": true,
+  "demoBanner": false,
+  "bodyBg": "rgb(5, 5, 5)",
+  "pillLabels": [
+   "All Sessions",
+   "Sep 19",
+   "Apr 16",
+   "Apr 15",
+   "Jan 1"
+  ],
+  "modes": {
+   "eFG%": [
+    {
+     "styleH": "69.6%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "78.1%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "70.8%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "83.3%",
+     "renderedH": 0
+    }
+   ],
+   "Streak": [
+    {
+     "styleH": "12%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "100%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "23.333333%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "12%",
+     "renderedH": 0
+    }
+   ],
+   "FG%": [
+    {
+     "styleH": "65.2%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "75.4%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "58.3%",
+     "renderedH": 0
+    },
+    {
+     "styleH": "66.7%",
+     "renderedH": 0
+    }
+   ]
+  },
+  "pillCheck": {
+   "pill": "Sep 19",
+   "chartLabels": [
+    "Sep 19"
+   ],
+   "rows": [
+    [
+     "Sat, Sep 19",
+     "3",
+     "2",
+     "66.7%",
+     "83.3%",
+     "1"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 2 | of 3",
+    "Field Goal % |  | 66.7% | 1 misses",
+    "Consistency |  | 67.6% | 50.0% swish rate",
+    "Avg Streak |  | 1.0 | makes in a row"
+   ]
+  },
+  "map": {
+   "circles": 98,
+   "outside": 0,
+   "viewBox": "0 0 200 200",
+   "svg": {
+    "l": 35,
+    "r": 355,
+    "w": 320
+   },
+   "legend": {
+    "l": 49,
+    "r": 341,
+    "top": 1150
+   },
+   "clientWidth": 390,
+   "scrollWidth": 390,
+   "tracked": "95 tracked attempts",
+   "rates": [
+    70.5,
+    29.5
+   ],
+   "fills": {
+    "rgba(255,138,102,0.04)": 1,
+    "transparent": 2,
+    "rgba(34,197,94,0.9)": 67,
+    "rgba(239,68,68,0.9)": 28
+   }
+  }
+ }
+}

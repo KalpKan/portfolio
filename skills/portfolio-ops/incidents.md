@@ -775,3 +775,23 @@ _Entries begin below, oldest first._
 - **Fix:** not applied by the audit (application repos are out of its remit and a push would spend a Vercel deployment). Filed for the T5.b hardening pass on each repo: copy the hub's `.github/workflows/ci.yml` shape (install, lint if present, test, build) into each repo in the same commit as the first hardening fix.
 - **Prevention:** the "Create a new project from the template" runbook already ships CI; static-app and Express+CRA runbooks gain a CI step when T5.b lands (owner: T5.b).
 - **Reported by:** Phase 2–4 auditor
+
+### 2026-09-18: hoops shows at most 12 sessions, so an 18-day-old session drops off the page while its shots stay on the map (found by the Phase 5 TEST agent, round 1 re-run)
+
+- **Date:** 2026-09-18 (TEST r1b, workflow resumed; repo `1f743b9`)
+- **Affected:** https://hoops.kalpkan.com, `apps/web/lib/dashboard-data.ts:188-189`
+- **Symptom:** `getDashboardPayload()` run offline on the 30-session synthetic corpus (`tests/fixtures/synthetic-30-sessions.json`, 801 shots) returns `sessions 12, progress 12, shotMap 801`: only Jun 19–30 get a pill, bar and row, but all 801 dots render under All Sessions, and the 18 orphaned days' dots carry a raw session id that matches no pill. On a 390 px render of the 30-day payload the chart's column row is 1102 px wide and the page scrolls sideways (1152 px). The 12 kept days match the ground truth exactly.
+- **Root cause:** `session_summaries` is read with `.limit(12)` (and `shot_map_points` with `.limit(1000)`) with no relation between the two queries; the chart lays out one `flex-1` column per session with no minimum width or scroll container.
+- **Fix:** not applied (test round). Filed as `docs/reports/hoops.md` D9 (limit) and D1 (chart), with the harness `docs/reports/evidence/hoops-r1b-corpus-harness.test.ts` and measurement scripts for the fixer.
+- **Prevention:** verification.md row "Functional smoke: 30-session corpus fits"; the fixer's `lib/dashboard-data.test.ts` must feed both fixtures through exported pure functions (D11: they are module-private today).
+- **Reported by:** Phase 5 TEST agent (hoops, round 1 re-run)
+
+### 2026-09-18: `sessions.started_at` is the first ingested event, not the earliest shot (found by the Phase 5 TEST agent, round 1 re-run)
+
+- **Date:** 2026-09-18 (TEST r1b)
+- **Affected:** `hoops-ingest-shot` / `hoops.sessions`
+- **Symptom:** posting the handoff doc's 3-shot session out of order (E2 at 23:00:03 first, then E1 at 23:00:00) left `started_at = 23:00:03` while a shot at 23:00:00 exists in the session; `session_summaries` counts were still 3 / 2 / 1 and the page labels were unaffected (same UTC day). The out-of-order post itself was an auditor mistake (zsh arrays are 1-indexed, so `${IDS[0]}` was empty and E1's first POST was a `400 Invalid JSON payload` from a malformed body, not a product fault).
+- **Root cause:** the function upserts the session with `started_at = capturedAt` only on insert and never lowers it for an earlier shot.
+- **Fix:** not applied; listed under `docs/reports/hoops.md` D10 for the fixer (`started_at = least(started_at, excluded.started_at)` on conflict).
+- **Prevention:** ingest test scripts run under `bash`, not zsh, or index arrays from 1; the verification row "Ingest synthetic session end to end" posts events in captured order.
+- **Reported by:** Phase 5 TEST agent (hoops, round 1 re-run)

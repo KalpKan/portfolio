@@ -1,0 +1,248 @@
+[
+ {
+  "run": 1,
+  "performance": 0.96,
+  "accessibility": 0.91,
+  "best_practices": 0.96,
+  "lcp": "2.4\u00a0s",
+  "tbt": "140\u00a0ms",
+  "cls": "0",
+  "color_contrast_items": [
+   {
+    "sel": "div > div.inline-flex > div > p.text-base",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.82 (foreground color: #727272, background color"
+   },
+   {
+    "sel": "div.mx-auto > header.flex > div.space-y-2 > div.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #696969, background color"
+   },
+   {
+    "sel": "header.flex > div.space-y-2 > div.inline-flex > span",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.19 (foreground color: #636363, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #606060, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.16 (foreground color: #5d635f, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #606060, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #606060, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mb-8 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.77 (foreground color: #6c6c6c, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   }
+  ],
+  "aria_prohibited": [
+   "header.flex > div.space-y-2 > div.inline-flex > span.relative"
+  ],
+  "errors_in_console": [
+   "Error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full e",
+   "Failed to load resource: the server responded with a status of 404 ()"
+  ]
+ },
+ {
+  "run": 2,
+  "performance": 0.97,
+  "accessibility": 0.91,
+  "best_practices": 0.96,
+  "lcp": "2.4\u00a0s",
+  "tbt": "80\u00a0ms",
+  "cls": "0",
+  "color_contrast_items": [
+   {
+    "sel": "div > div.inline-flex > div > p.text-base",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.82 (foreground color: #727272, background color"
+   },
+   {
+    "sel": "div.mx-auto > header.flex > div.space-y-2 > div.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #696969, background color"
+   },
+   {
+    "sel": "header.flex > div.space-y-2 > div.inline-flex > span",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.19 (foreground color: #636363, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #606060, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.16 (foreground color: #5d635f, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #606060, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #606060, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mb-8 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.77 (foreground color: #6c6c6c, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   }
+  ],
+  "aria_prohibited": [
+   "header.flex > div.space-y-2 > div.inline-flex > span.relative"
+  ],
+  "errors_in_console": [
+   "Error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full e",
+   "Failed to load resource: the server responded with a status of 404 ()"
+  ]
+ },
+ {
+  "run": 3,
+  "performance": 0.99,
+  "accessibility": 0.91,
+  "best_practices": 0.96,
+  "lcp": "2.0\u00a0s",
+  "tbt": "80\u00a0ms",
+  "cls": "0",
+  "color_contrast_items": [
+   {
+    "sel": "div > div.inline-flex > div > p.text-base",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.82 (foreground color: #727272, background color"
+   },
+   {
+    "sel": "div.mx-auto > header.flex > div.space-y-2 > div.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.71 (foreground color: #696969, background color"
+   },
+   {
+    "sel": "header.flex > div.space-y-2 > div.inline-flex > span",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.19 (foreground color: #636363, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #606060, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.16 (foreground color: #5d635f, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #606060, background color"
+   },
+   {
+    "sel": "section > div.grid > div.rounded-[1.75rem] > p.text-sm",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.14 (foreground color: #606060, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mb-8 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.77 (foreground color: #6c6c6c, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "div.h-72 > div.flex > div.flex > span.text-xs",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 3.21 (foreground color: #646464, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   },
+   {
+    "sel": "section.rounded-[2rem] > div.mt-6 > div > p.mt-2",
+    "expl": "Fix any of the following:\n  Element has insufficient color contrast of 4.48 (foreground color: #787878, background color"
+   }
+  ],
+  "aria_prohibited": [
+   "header.flex > div.space-y-2 > div.inline-flex > span.relative"
+  ],
+  "errors_in_console": [
+   "Error: Minified React error #418; visit https://react.dev/errors/418?args[]=text&args[]= for the full message or use the non-minified dev environment for full e",
+   "Failed to load resource: the server responded with a status of 404 ()"
+  ]
+ }
+]
