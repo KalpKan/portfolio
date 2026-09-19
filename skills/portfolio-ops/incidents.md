@@ -1005,3 +1005,43 @@ _Entries begin below, oldest first._
 - **Fix:** the phone-width measurements were moved to Playwright Chromium headless (`docs/reports/evidence/plato-r1-playwright-widths.js`), which is private to the agent and deterministic; the impeccable critique was run degraded (detector only) and the live server stopped (`.impeccable/` removed from the Plato repo; nothing committed).
 - **Prevention:** for measurements and screenshots prefer Playwright (`/Users/kalp/projects/promptflip/node_modules/playwright`, browsers in `~/Library/Caches/ms-playwright`); use the real-Chrome extension only for the flow steps that need Kalp's browser, and re-run `tabs_context_mcp` before every batch.
 - **Reported by:** Phase 5 TEST agent (plato, round 1)
+
+### 2026-09-19: Plant It saves a coffee mug as "Monstera deliciosa, 91 %, Demo result" because Pl@ntNet's 404 is treated as an outage (Phase 5 TEST agent, round 1; confirmed from round 0)
+
+- **Date:** 2026-09-19, 02:00 UTC
+- **Affected:** `KalpKan/PlantWater` `backend/src/providers.js:43-58` (`identify`), `backend/src/app.js:216-258` (`/api/identify` saves whatever comes back); live `https://plantit.kalpkan.com`.
+- **Symptom:** `tests/fixtures/plants/not-a-plant-mug.jpg` → `200 {demo: true, reason: "plantnet_error"}`, plant saved with Monstera care and a 45 % simulated reading; corpus bar "negatives refused, nothing saved" 2/3; the results page says "Pl@ntNet did not answer".
+- **Root cause:** Pl@ntNet answers `HTTP 404 {"message":"Species not found"}` for a non-plant (verified with the operator key directly); the single `try/catch` in `identify` maps every error to the demo list. The demo fallback was designed for "no key / quota / outage", not for "the answer is no".
+- **Fix:** not applied (audit round). `docs/reports/plantit.md` D1: map 404 / empty results to a 422 `notAPlant` answer before any upload or Firestore write.
+- **Prevention:** verification.md row "Functional smoke: identification corpus" must read 3/3; unit test with a mocked 404.
+- **Reported by:** Phase 5 TEST agent (plantit, round 1)
+
+### 2026-09-19: Plant It logs the first 8 and last 4 characters of a visitor's OpenAI key (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-19, 02:00 UTC
+- **Affected:** `KalpKan/PlantWater` `backend/src/providers.js:129-133` (`redactSecret`) and `:164` (the log line); Vercel runtime logs of project `plantit`.
+- **Symptom:** after identifying with the invalid visitor key `sk-invalidkeyabcdefghijklmnop`, `npx vercel logs https://plantit.kalpkan.com` shows `OpenAI (visitor key) failed … 401 Incorrect API key provided: sk-inval*****************mnop`. The app (README, field copy, T2.2 row) promises the key is never logged.
+- **Root cause:** OpenAI stars the middle of the key in its own error message, so `split(secret)` never matches, and the fallback regex `/sk-[A-Za-z0-9_-]{6,}/` needs six unstarred characters after `sk-` (`inval` is five). The unit test only covered an unmasked key.
+- **Fix:** not applied. `docs/reports/plantit.md` D5: log only the classification + status, never `error.message`; regex `/sk-\S+/g`; test with OpenAI's real message format.
+- **Prevention:** verification.md row "Visitor key never in the logs (spec S9, log half)" (`grep -c 'sk-'` = 0).
+- **Reported by:** Phase 5 TEST agent (plantit, round 1)
+
+### 2026-09-19: Plant It renders a blank page for any unknown address (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-19, 02:00 UTC
+- **Affected:** `KalpKan/PlantWater` `frontend/src/App.js:165-199` (no `path="*"` route); live site.
+- **Symptom:** `/plants/whatever`, `/x/y` → HTTP 200 (SPA fallback works) but the React tree renders nothing: signed out the screen is black, signed in it is the nav bar over nothing. No console error, so nothing flags it.
+- **Root cause:** React Router 6 renders `null` for an unmatched location; the app has only four routes and `Navbar` returns `null` when signed out.
+- **Fix:** not applied. `docs/reports/plantit.md` D4: a `*` route with a small not-found card inside `PrivateRoute`.
+- **Prevention:** the round-1 Playwright harness asserts `routes["/x/y"].text` contains a not-found message.
+- **Reported by:** Phase 5 TEST agent (plantit, round 1)
+
+### 2026-09-19: the shared claude-in-chrome window ignored `resize_window` and reported a 606 CSS-px viewport; the Google popup is unreachable from the extension (Phase 5 TEST agent, plantit round 1)
+
+- **Date:** 2026-09-19, 01:55 UTC
+- **Affected:** the browser half of the Plant It audit (tooling, not the product).
+- **Symptom:** the MCP tab group already held another agent's Plato tab (later pushups and emotes tabs too); `resize_window` to 1440×900 / 1200×800 returned success but `innerWidth` stayed 606, `outerWidth` 271; AppleScript saw 5 windows but could address only window 1 and System Events saw none, so the zoom could not be reset; the "Sign in with Google" popup opened as a window outside the tab group, so the account chooser could not be driven (page left at "Opening Google sign-in…").
+- **Root cause:** one Chrome window shared by four concurrent agents (each resizing it), plus a per-origin zoom level none of the tools can change; Firebase's popup flow lives outside the extension's tab group by design.
+- **Fix:** width-specific stories (1440/390) and everything after sign-in were driven with Playwright Chromium on the live URL, signed in by writing the Firebase Auth record into IndexedDB from a custom token (`docs/reports/evidence/plantit-r1-playwright-audit.mjs`); the real Chrome pass was limited to Logout and the sign-in click.
+- **Prevention:** when several agents share the extension, use it only for what needs the human's Google session and measure widths in Playwright; the harness is reusable (verification.md row "whole spec in a real browser").
+- **Reported by:** Phase 5 TEST agent (plantit, round 1)

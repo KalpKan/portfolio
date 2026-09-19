@@ -1,0 +1,21 @@
+{
+  "apiReading": {
+    "source": "simulated",
+    "label": "Simulated sensor",
+    "currentVWC": 5.2,
+    "needsWater": true,
+    "hoursSinceWatered": 70,
+    "lastWatered": "2026-09-16T04:07:18.048Z",
+    "minVWC": 5,
+    "maxVWC": 28,
+    "optimalVWC": 14,
+    "wateringThreshold": 8,
+    "dryOutHours": 72
+  },
+  "mode": "simulated",
+  "cards": 1,
+  "placeholder": 1,
+  "sensorText": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n5.2%\n\nwater content · waters below 8% · last watered 3 days ago\n\nThe soil is below the watering threshold. Time to water.\nWater now",
+  "amberWarning": 1,
+  "deleted": true
+}

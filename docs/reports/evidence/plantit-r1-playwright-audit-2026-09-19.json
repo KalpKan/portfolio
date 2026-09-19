@@ -1,0 +1,827 @@
+{
+  "base": "https://plantit.kalpkan.com",
+  "uid": "round1-test",
+  "ranAt": "2026-09-19T01:58:29.032Z",
+  "stories": {
+    "desktop": {
+      "signedOutPlants": {
+        "url": "https://plantit.kalpkan.com/login",
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        }
+      },
+      "signedOutUnknown": {
+        "url": "https://plantit.kalpkan.com/plants/whatever",
+        "bodyText": ""
+      },
+      "login": {
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        },
+        "button": 1
+      },
+      "home": {
+        "url": "https://plantit.kalpkan.com/",
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        },
+        "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nWelcome to Plant It\n\nYour personal plant identification and care assistant. Upload a photo to identify a plant, get care instructions, and keep an eye on its soil moisture. No hardware needed: every plant gets a simulated sensor you can water; a real ESP8266 takes over when you connect one.\n\nIdentify a New Plant\n\nUpload a photo of a plant to identify its species and get care recommendations.\n\nAdd New Plant\nView Your Plants\n\nSee all the plants you've identified and their care instructions.\n\nView Plants\nHow It Works\n1. Upload\n\nTake a clear photo of your p",
+        "addNewPlant": 1,
+        "viewPlants": 1,
+        "navLinks": [
+          "Home",
+          "My Plants",
+          "Add Plant",
+          "Logout"
+        ]
+      },
+      "identifyGood": {
+        "file": "monstera-deliciosa.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 2298,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 200,
+          "demo": false,
+          "reason": null,
+          "top1": "Monstera deliciosa",
+          "score": 0.86249,
+          "nCandidates": 5,
+          "careSource": "bundled",
+          "careReason": null,
+          "openaiError": null,
+          "savedPlantId": "OdzJ8f6TkIFzAA1Qu2O2",
+          "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round1-test/OdzJ8f6TkIFzAA1Qu2O2.jpg",
+          "threshold": 20,
+          "care": {
+            "watering": "Water when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.",
+            "light": "Bright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.",
+            "temperature": "18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.",
+            "humidity": "Moderate to high (50-60 %). Mist occasionally or group with other plants.",
+            "soil": "Chunky, well-draining aroid mix: potting soil with orchid bark and perlite.",
+            "fertilizer": "Balanced liquid feed at half strength once a month from spring to early autumn; none in winter.",
+            "soilMoisture": {
+              "minVWC": 15,
+              "maxVWC": 45,
+              "optimalVWC": 30,
+              "wateringThreshold": 20
+            }
+          }
+        },
+        "after": {
+          "url": "https://plantit.kalpkan.com/plant-details",
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it."
+          ],
+          "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nIdentified Plant\nMonstera deliciosa\n\nCommon name: Monstera\n\nFamily: Araceae\n\nConfidence: 86%\n\nCare Instructions\nCare guide from the built-in plant library.\nWatering\n\nWater when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.\n\nLight\n\nBright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.\n\nTemperature\n\n18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.\n\nHumidity\n\nModerate to high (50-60 %). Mist occasionally or group with other plants.\n\nSoil\n\nChunky, well-draining aroid mix: potting soil with orchid bark and perlite.\n\nFertilizer\n\nBalanced liquid feed at half strength once a month from spring to early autumn; none in winter.\n\nSoil moisture targets\n\nKeep between 15% and 45% water content; water below 20%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+        },
+        "imageFetch": {
+          "status": 200,
+          "type": "image/jpeg",
+          "bytes": 62892
+        },
+        "careSections": [
+          "Watering",
+          "Light",
+          "Temperature",
+          "Humidity",
+          "Soil",
+          "Fertilizer",
+          "Soil moisture targets"
+        ],
+        "careTexts": [
+          "Water when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.",
+          "Bright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.",
+          "18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.",
+          "Moderate to high (50-60 %). Mist occasionally or group with other plants.",
+          "Chunky, well-draining aroid mix: potting soil with orchid bark and perlite.",
+          "Balanced liquid feed at half strength once a month from spring to early autumn; none in winter.",
+          "Keep between 15% and 45% water content; water below 20%."
+        ],
+        "sourceLine": [
+          "Care guide from the built-in plant library."
+        ],
+        "resultImgNatural": {
+          "complete": true,
+          "w": 450,
+          "src": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos"
+        }
+      },
+      "identifyLow": {
+        "file": "monstera-deliciosa-2.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 2216,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 200,
+          "demo": false,
+          "reason": null,
+          "top1": "Monstera deliciosa",
+          "score": 0.10437,
+          "nCandidates": 5,
+          "careSource": "bundled",
+          "careReason": null,
+          "openaiError": null,
+          "savedPlantId": "gUa0M7SknbJHZtImXPw9",
+          "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round1-test/gUa0M7SknbJHZtImXPw9.jpg",
+          "threshold": 20,
+          "care": {
+            "watering": "Water when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.",
+            "light": "Bright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.",
+            "temperature": "18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.",
+            "humidity": "Moderate to high (50-60 %). Mist occasionally or group with other plants.",
+            "soil": "Chunky, well-draining aroid mix: potting soil with orchid bark and perlite.",
+            "fertilizer": "Balanced liquid feed at half strength once a month from spring to early autumn; none in winter.",
+            "soilMoisture": {
+              "minVWC": 15,
+              "maxVWC": 45,
+              "optimalVWC": 30,
+              "wateringThreshold": 20
+            }
+          }
+        },
+        "after": {
+          "url": "https://plantit.kalpkan.com/plant-details",
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it."
+          ],
+          "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nIdentified Plant\nMonstera deliciosa\n\nCommon name: Monstera\n\nFamily: Araceae\n\nConfidence: 10%\n\nCare Instructions\nCare guide from the built-in plant library.\nWatering\n\nWater when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.\n\nLight\n\nBright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.\n\nTemperature\n\n18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.\n\nHumidity\n\nModerate to high (50-60 %). Mist occasionally or group with other plants.\n\nSoil\n\nChunky, well-draining aroid mix: potting soil with orchid bark and perlite.\n\nFertilizer\n\nBalanced liquid feed at half strength once a month from spring to early autumn; none in winter.\n\nSoil moisture targets\n\nKeep between 15% and 45% water content; water below 20%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+        },
+        "warningAlerts": [
+          "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it."
+        ],
+        "candidatesShown": [
+          "10%",
+          "15%",
+          "45%",
+          "20%"
+        ]
+      },
+      "identifyZZ": {
+        "file": "zamioculcas-zamiifolia.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 1844,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 200,
+          "demo": false,
+          "reason": null,
+          "top1": "Zamioculcas zamiifolia",
+          "score": 0.41896,
+          "nCandidates": 5,
+          "careSource": "generic",
+          "careReason": "no_openai_key",
+          "openaiError": null,
+          "savedPlantId": "H3Tl2sGsqvi8PGUz0kJR",
+          "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round1-test/H3Tl2sGsqvi8PGUz0kJR.jpg",
+          "threshold": 20,
+          "care": {
+            "watering": "Water when the top 2-3 cm of soil feels dry. Let the pot drain fully and never leave it standing in water.",
+            "light": "Bright, indirect light suits most houseplants; keep out of harsh midday sun.",
+            "temperature": "18-24 C (65-75 F). Avoid cold draughts and sudden swings.",
+            "humidity": "Moderate humidity (40-60 %). A pebble tray or grouping plants helps in dry rooms.",
+            "soil": "Well-draining potting mix with some perlite or bark for air.",
+            "fertilizer": "Balanced liquid feed at half strength every 2-4 weeks in spring and summer.",
+            "soilMoisture": {
+              "minVWC": 15,
+              "maxVWC": 45,
+              "optimalVWC": 30,
+              "wateringThreshold": 20
+            }
+          }
+        },
+        "after": {
+          "url": "https://plantit.kalpkan.com/plant-details",
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it."
+          ],
+          "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nIdentified Plant\nZamioculcas zamiifolia\n\nCommon name: ZZ Plant\n\nFamily: Araceae\n\nConfidence: 42%\n\nCare Instructions\nGeneral houseplant care (no species-specific guide is bundled; add your own OpenAI key under \"Add Plant\" for one).\nWatering\n\nWater when the top 2-3 cm of soil feels dry. Let the pot drain fully and never leave it standing in water.\n\nLight\n\nBright, indirect light suits most houseplants; keep out of harsh midday sun.\n\nTemperature\n\n18-24 C (65-75 F). Avoid cold draughts and sudden swings.\n\nHumidity\n\nModerate humidity (40-60 %). A pebble tray or grouping plants helps in dry rooms.\n\nSoil\n\nWell-draining potting mix with some perlite or bark for air.\n\nFertilizer\n\nBalanced liquid feed at half strength every 2-4 weeks in spring and summer.\n\nSoil moisture targets\n\nKeep between 15% and 45% water content; water below 20%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+        },
+        "careTexts": [
+          "Water when the top 2-3 cm of soil feels dry. Let the pot drain fully and never leave it standing in water.",
+          "Bright, indirect light suits most houseplants; keep out of harsh midday sun.",
+          "18-24 C (65-75 F). Avoid cold draughts and sudden swings.",
+          "Moderate humidity (40-60 %). A pebble tray or grouping plants helps in dry rooms.",
+          "Well-draining potting mix with some perlite or bark for air.",
+          "Balanced liquid feed at half strength every 2-4 weeks in spring and summer.",
+          "Keep between 15% and 45% water content; water below 20%."
+        ]
+      },
+      "mug": {
+        "file": "not-a-plant-mug.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 1645,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 200,
+          "demo": true,
+          "reason": "plantnet_error",
+          "top1": "Monstera deliciosa",
+          "score": 0.91,
+          "nCandidates": 1,
+          "careSource": "bundled",
+          "careReason": null,
+          "openaiError": null,
+          "savedPlantId": "PSajqovhUCTOuc0C8iOn",
+          "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round1-test/PSajqovhUCTOuc0C8iOn.jpg",
+          "threshold": 20,
+          "care": {
+            "watering": "Water when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.",
+            "light": "Bright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.",
+            "temperature": "18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.",
+            "humidity": "Moderate to high (50-60 %). Mist occasionally or group with other plants.",
+            "soil": "Chunky, well-draining aroid mix: potting soil with orchid bark and perlite.",
+            "fertilizer": "Balanced liquid feed at half strength once a month from spring to early autumn; none in winter.",
+            "soilMoisture": {
+              "minVWC": 15,
+              "maxVWC": 45,
+              "optimalVWC": 30,
+              "wateringThreshold": 20
+            }
+          }
+        },
+        "after": {
+          "url": "https://plantit.kalpkan.com/plant-details",
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it.",
+            "Demo result. Pl@ntNet did not answer, so the species comes from a bundled list of common houseplants."
+          ],
+          "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nDemo result. Pl@ntNet did not answer, so the species comes from a bundled list of common houseplants.\nIdentified Plant\nDemo result\nMonstera deliciosa\n\nCommon name: Swiss cheese plant\n\nFamily: Araceae\n\nConfidence: 91%\n\nCare Instructions\nCare guide from the built-in plant library.\nWatering\n\nWater when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.\n\nLight\n\nBright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.\n\nTemperature\n\n18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.\n\nHumidity\n\nModerate to high (50-60 %). Mist occasionally or group with other plants.\n\nSoil\n\nChunky, well-draining aroid mix: potting soil with orchid bark and perlite.\n\nFertilizer\n\nBalanced liquid feed at half strength once a month from spring to early autumn; none in winter.\n\nSoil moisture targets\n\nKeep between 15% and 45% water content; water below 20%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+        }
+      },
+      "tooSmall": {
+        "file": "too-small.jpg",
+        "enabled": false,
+        "errBefore": [
+          "That image is too small (under 10 KB). Please use a clearer photo."
+        ],
+        "ms": null,
+        "requests": [],
+        "resp": null,
+        "after": null
+      },
+      "textFile": {
+        "file": "not-an-image.txt",
+        "enabled": false,
+        "errBefore": [],
+        "ms": null,
+        "requests": [],
+        "resp": null,
+        "after": null,
+        "fileInputAccept": "image/*,.jpeg,.jpg,.png,.webp"
+      },
+      "plants": {
+        "count": 4,
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        },
+        "cardTexts": [
+          "Monstera deliciosa\n\nSwiss cheese plant\n\nFamily: Araceae\n\nSimulated sensor\nDemo result\nAdded: September 18, 2026",
+          "Zamioculcas zamiifolia\n\nZZ Plant\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "Monstera deliciosa\n\nMonstera\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "Monstera deliciosa\n\nMonstera\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 18, 2026"
+        ],
+        "images": [
+          {
+            "complete": true,
+            "w": 800,
+            "alt": "Monstera deliciosa"
+          },
+          {
+            "complete": true,
+            "w": 600,
+            "alt": "Zamioculcas zamiifolia"
+          },
+          {
+            "complete": true,
+            "w": 800,
+            "alt": "Monstera deliciosa"
+          },
+          {
+            "complete": true,
+            "w": 450,
+            "alt": "Monstera deliciosa"
+          }
+        ],
+        "placeholders": 0
+      },
+      "dialog": {
+        "openMs": 333,
+        "text": "Monstera deliciosa\nSwiss cheese plant\n\nFamily: Araceae\n\nAdded: September 18, 2026\n\nSoil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nCare Instructions\nWatering\n\nWater when the top 5 cm of soil is dry, roughly every 7-10 days; less in winter. Let excess water drain and never leave the pot standing in water.\n\nLight\n\nBright, indirect light. A metre or two from an east or west window is ideal; harsh midday sun scorches the leaves.\n\nTemperature\n\n18-27 C (65-80 F). Keep above 13 C (55 F) and away from cold draughts.\n\nHumidity\n\nModerate to high (50-60 %). Mist occasionally or group with other plants.\n\nSoil\n\nChunky, well-draining aroid mix: potting soil with orchid bark and perlite.\n\nFertilizer\n\nBalanced liquid feed at half strength once a month from spring to early autumn; none in winter.\n\nClose\nDelete Plant\nConnect ESP8266 (hardware required)",
+        "sensor": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now",
+        "sw": {
+          "sw": 1440,
+          "bw": 1440,
+          "iw": 1440
+        },
+        "dialogScroll": {
+          "sw": 900,
+          "cw": 900
+        },
+        "apiReading": {
+          "mode": "simulated",
+          "currentVWC": 45,
+          "min": 15,
+          "max": 45,
+          "threshold": 20,
+          "inRange": true
+        }
+      },
+      "water": {
+        "status": 200,
+        "ok": true,
+        "mode": "simulated",
+        "current": 45,
+        "max": 45,
+        "eventSource": "simulated",
+        "vwcBefore": 45,
+        "vwcAfter": 45,
+        "stillMounted": true,
+        "dialogOpen": 1,
+        "reloaded": 0,
+        "sensorText": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 9:58:53 PM · 45% → 45%",
+        "afterReload": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 9:58:53 PM · 45% → 45%"
+      },
+      "hardware": {
+        "buttonText": "Connect ESP8266 (hardware required)",
+        "dialogText": "Connect an ESP8266 (hardware required)\n\nThis step needs the physical watering device from the arduino/ folder, powered on and on the same network as the API. The hosted API runs in the cloud, so it cannot see devices on your home Wi-Fi; run the API locally (npm run dev:api) to connect real hardware. Without a device, the simulated sensor keeps working.\n\nESP8266 IP address\nESP8266 IP address\nCancel\nSend plant settings to device",
+        "privateIp": {
+          "status": 502,
+          "body": {
+            "error": "Could not reach the ESP8266",
+            "hardwareRequired": true,
+            "details": "This needs a real device on the same network as the API. On the hosted app the API runs in Vercel's cloud, so run the API locally (npm run dev:api) to connect hardware."
+          },
+          "inline": [
+            "This needs a real device on the same network as the API. On the hosted app the API runs in Vercel's cloud, so run the API locally (npm run dev:api) to connect hardware."
+          ],
+          "snackbar": []
+        },
+        "publicIp": {
+          "status": 400,
+          "body": {
+            "error": "deviceIP must be a private IPv4 address on your home network (10.x.x.x, 172.16-31.x.x or 192.168.x.x)"
+          },
+          "inline": [
+            "deviceIP must be a private IPv4 address on your home network (10.x.x.x, 172.16-31.x.x or 192.168.x.x)"
+          ]
+        },
+        "afterCancelSensor": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 9:58:53 PM · 45% → 45%",
+        "badPortApi": {
+          "error": "devicePort must be a whole number from 1 to 65535"
+        },
+        "moistureNoSecret": 403
+      },
+      "delete": {
+        "status": 200,
+        "body": {
+          "success": true
+        },
+        "cardsAfter": 3,
+        "cardsBefore": 4,
+        "snackbar": [
+          "Monstera deliciosa has been deleted."
+        ],
+        "victimId": "PSajqovhUCTOuc0C8iOn",
+        "victimImage": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round1-test/PSajqovhUCTOuc0C8iOn.jpg",
+        "imageAfter": 200,
+        "firestoreDocExists": false,
+        "eventsLeft": 0,
+        "rtdbExists": false,
+        "cardsAfterReload": 3
+      },
+      "byok": {
+        "status": "saved, ends in …mnop",
+        "message": "Key saved in this browser (ends in …mnop). It is sent with each identification and used for that request only.",
+        "stored": "sk-invalidkeyabcdefghijklmnop",
+        "identify": {
+          "file": "aloe-vera.jpg",
+          "enabled": true,
+          "errBefore": [],
+          "ms": 2919,
+          "requests": [
+            {
+              "hasOpenAiHeader": true,
+              "openAiHeaderTail": "mnop"
+            }
+          ],
+          "resp": {
+            "status": 200,
+            "demo": false,
+            "reason": null,
+            "top1": "Aloe vera",
+            "score": 0.88193,
+            "nCandidates": 5,
+            "careSource": "generic",
+            "careReason": "openai_error",
+            "openaiError": "invalid_key",
+            "savedPlantId": "EdzfcKfpOm0G74cSmsl8",
+            "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round1-test/EdzfcKfpOm0G74cSmsl8.jpg",
+            "threshold": 8,
+            "care": {
+              "watering": "Water only when the soil is completely dry, every 2-4 weeks. Overwatering is the main risk.",
+              "light": "Bright light with some direct sun.",
+              "temperature": "18-24 C (65-75 F). Avoid cold draughts and sudden swings.",
+              "humidity": "Moderate humidity (40-60 %). A pebble tray or grouping plants helps in dry rooms.",
+              "soil": "Gritty cactus or succulent mix.",
+              "fertilizer": "Balanced liquid feed at half strength every 2-4 weeks in spring and summer.",
+              "soilMoisture": {
+                "minVWC": 5,
+                "maxVWC": 25,
+                "optimalVWC": 15,
+                "wateringThreshold": 8
+              }
+            }
+          },
+          "after": {
+            "url": "https://plantit.kalpkan.com/plant-details",
+            "alerts": [
+              "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it.",
+              "OpenAI rejected the key saved in your browser (401). Check it under \"Add Plant\". The built-in care guide is shown instead."
+            ],
+            "text": "Plant It\nHome\nMy Plants\nAdd Plant\nLogout\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nOpenAI rejected the key saved in your browser (401). Check it under \"Add Plant\". The built-in care guide is shown instead.\nIdentified Plant\nAloe vera\n\nCommon name: Aloe vera\n\nFamily: Asphodelaceae\n\nConfidence: 88%\n\nCare Instructions\nGeneral houseplant care (no species-specific guide is bundled; add your own OpenAI key under \"Add Plant\" for one).\nWatering\n\nWater only when the soil is completely dry, every 2-4 weeks. Overwatering is the main risk.\n\nLight\n\nBright light with some direct sun.\n\nTemperature\n\n18-24 C (65-75 F). Avoid cold draughts and sudden swings.\n\nHumidity\n\nModerate humidity (40-60 %). A pebble tray or grouping plants helps in dry rooms.\n\nSoil\n\nGritty cactus or succulent mix.\n\nFertilizer\n\nBalanced liquid feed at half strength every 2-4 weeks in spring and summer.\n\nSoil moisture targets\n\nKeep between 5% and 25% water content; water below 8%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+          },
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it.",
+            "OpenAI rejected the key saved in your browser (401). Check it under \"Add Plant\". The built-in care guide is shown instead."
+          ],
+          "sourceLine": [
+            "General houseplant care (no species-specific guide is bundled; add your own OpenAI key under \"Add Plant\" for one)."
+          ]
+        },
+        "afterRemove": null,
+        "reSaved": "sk-invalidkeyabcdefghijklmnop"
+      },
+      "routes": {
+        "/plants/whatever": {
+          "finalUrl": "https://plantit.kalpkan.com/plants/whatever",
+          "text": "Plant It Home My Plants Add Plant Logout",
+          "sw": {
+            "sw": 1440,
+            "bw": 1440,
+            "iw": 1440
+          }
+        },
+        "/x/y": {
+          "finalUrl": "https://plantit.kalpkan.com/x/y",
+          "text": "Plant It Home My Plants Add Plant Logout",
+          "sw": {
+            "sw": 1440,
+            "bw": 1440,
+            "iw": 1440
+          }
+        },
+        "/plant-details": {
+          "finalUrl": "https://plantit.kalpkan.com/add-plant",
+          "text": "Plant It Home My Plants Add Plant Logout Add New Plant Upload a clear photo of your plant to identify its species and get care recommendations. JPEG, PNG or Web",
+          "sw": {
+            "sw": 1440,
+            "bw": 1440,
+            "iw": 1440
+          }
+        }
+      },
+      "logout": {
+        "url": "https://plantit.kalpkan.com/login",
+        "localStorageKey": null,
+        "localStorageKeys": [],
+        "afterBack": {
+          "url": "https://plantit.kalpkan.com/login",
+          "text": "Plant It Your personal plant identification and care assistant Sign in with Google Sign in to start identifying and mana"
+        }
+      }
+    },
+    "phone": {
+      "signedOutPlants": {
+        "url": "https://plantit.kalpkan.com/login",
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        }
+      },
+      "signedOutUnknown": {
+        "url": "https://plantit.kalpkan.com/plants/whatever",
+        "bodyText": ""
+      },
+      "login": {
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "button": 1
+      },
+      "home": {
+        "url": "https://plantit.kalpkan.com/",
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "text": "Plant It\nWelcome to Plant It\n\nYour personal plant identification and care assistant. Upload a photo to identify a plant, get care instructions, and keep an eye on its soil moisture. No hardware needed: every plant gets a simulated sensor you can water; a real ESP8266 takes over when you connect one.\n\nIdentify a New Plant\n\nUpload a photo of a plant to identify its species and get care recommendations.\n\nAdd New Plant\nView Your Plants\n\nSee all the plants you've identified and their care instructions.\n\nView Plants\nHow It Works\n1. Upload\n\nTake a clear photo of your plant and upload it to our system",
+        "addNewPlant": 1,
+        "viewPlants": 1,
+        "navLinks": [
+          ""
+        ],
+        "menuButton": 1,
+        "drawerItems": "Home\nMy Plants\nAdd Plant\nLogout"
+      },
+      "identifyGood": {
+        "file": "ficus-lyrata.jpg",
+        "enabled": true,
+        "errBefore": [],
+        "ms": 2239,
+        "requests": [
+          {
+            "hasOpenAiHeader": false,
+            "openAiHeaderTail": null
+          }
+        ],
+        "resp": {
+          "status": 200,
+          "demo": false,
+          "reason": null,
+          "top1": "Ficus lyrata",
+          "score": 0.88652,
+          "nCandidates": 5,
+          "careSource": "bundled",
+          "careReason": null,
+          "openaiError": null,
+          "savedPlantId": "0Ite0YzU6BbpxvWXJaUr",
+          "imageUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round1-test/0Ite0YzU6BbpxvWXJaUr.jpg",
+          "threshold": 20,
+          "care": {
+            "watering": "Water thoroughly when the top 5 cm of soil is dry, about every 7-10 days, then let it drain fully. Consistency matters more than quantity.",
+            "light": "Lots of bright, indirect light with a little gentle morning sun. Rotate a quarter turn each week so it grows straight.",
+            "temperature": "18-24 C (65-75 F); dislikes swings and cold draughts.",
+            "humidity": "Moderate (40-60 %). Wipe the large leaves monthly so they can breathe.",
+            "soil": "Well-draining indoor potting mix with added bark or perlite.",
+            "fertilizer": "High-nitrogen liquid feed (3-1-2) monthly in spring and summer.",
+            "soilMoisture": {
+              "minVWC": 15,
+              "maxVWC": 45,
+              "optimalVWC": 30,
+              "wateringThreshold": 20
+            }
+          }
+        },
+        "after": {
+          "url": "https://plantit.kalpkan.com/plant-details",
+          "alerts": [
+            "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it."
+          ],
+          "text": "Plant It\nPlant Identification Results\nSaved to your collection. Open \"My Plants\" to see its soil moisture and water it.\nIdentified Plant\nFicus lyrata\n\nCommon name: Fiddle leaf fig\n\nFamily: Moraceae\n\nConfidence: 89%\n\nCare Instructions\nCare guide from the built-in plant library.\nWatering\n\nWater thoroughly when the top 5 cm of soil is dry, about every 7-10 days, then let it drain fully. Consistency matters more than quantity.\n\nLight\n\nLots of bright, indirect light with a little gentle morning sun. Rotate a quarter turn each week so it grows straight.\n\nTemperature\n\n18-24 C (65-75 F); dislikes swings and cold draughts.\n\nHumidity\n\nModerate (40-60 %). Wipe the large leaves monthly so they can breathe.\n\nSoil\n\nWell-draining indoor potting mix with added bark or perlite.\n\nFertilizer\n\nHigh-nitrogen liquid feed (3-1-2) monthly in spring and summer.\n\nSoil moisture targets\n\nKeep between 15% and 45% water content; water below 20%.\n\nView My Plants\nIdentify Another Plant\nBack to Home"
+        },
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "careSections": [
+          "Watering",
+          "Light",
+          "Temperature",
+          "Humidity",
+          "Soil",
+          "Fertilizer",
+          "Soil moisture targets"
+        ]
+      },
+      "addPlantSw": {
+        "sw": 390,
+        "bw": 390,
+        "iw": 390
+      },
+      "plants": {
+        "count": 5,
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "cardTexts": [
+          "Ficus lyrata\n\nFiddle leaf fig\n\nFamily: Moraceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "Aloe vera\n\nAloe vera\n\nFamily: Asphodelaceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "Zamioculcas zamiifolia\n\nZZ Plant\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "Monstera deliciosa\n\nMonstera\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 18, 2026",
+          "Monstera deliciosa\n\nMonstera\n\nFamily: Araceae\n\nSimulated sensor\nAdded: September 18, 2026"
+        ],
+        "images": [
+          {
+            "complete": true,
+            "w": 360,
+            "alt": "Ficus lyrata"
+          },
+          {
+            "complete": true,
+            "w": 800,
+            "alt": "Aloe vera"
+          },
+          {
+            "complete": true,
+            "w": 600,
+            "alt": "Zamioculcas zamiifolia"
+          },
+          {
+            "complete": true,
+            "w": 800,
+            "alt": "Monstera deliciosa"
+          },
+          {
+            "complete": true,
+            "w": 450,
+            "alt": "Monstera deliciosa"
+          }
+        ],
+        "placeholders": 0
+      },
+      "dialog": {
+        "openMs": 827,
+        "text": "Ficus lyrata\nFiddle leaf fig\n\nFamily: Moraceae\n\nAdded: September 18, 2026\n\nSoil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nCare Instructions\nWatering\n\nWater thoroughly when the top 5 cm of soil is dry, about every 7-10 days, then let it drain fully. Consistency matters more than quantity.\n\nLight\n\nLots of bright, indirect light with a little gentle morning sun. Rotate a quarter turn each week so it grows straight.\n\nTemperature\n\n18-24 C (65-75 F); dislikes swings and cold draughts.\n\nHumidity\n\nModerate (40-60 %). Wipe the large leaves monthly so they can breathe.\n\nSoil\n\nWell-draining indoor potting mix with added bark or perlite.\n\nFertilizer\n\nHigh-nitrogen liquid feed (3-1-2) monthly in spring and summer.\n\nClose\nDelete Plant\nConnect ESP8266 (hardware required)",
+        "sensor": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now",
+        "sw": {
+          "sw": 390,
+          "bw": 390,
+          "iw": 390
+        },
+        "dialogScroll": {
+          "sw": 326,
+          "cw": 326
+        },
+        "apiReading": {
+          "mode": "simulated",
+          "currentVWC": 45,
+          "min": 15,
+          "max": 45,
+          "threshold": 20,
+          "inRange": true
+        }
+      },
+      "water": {
+        "status": 200,
+        "ok": true,
+        "mode": "simulated",
+        "current": 45,
+        "max": 45,
+        "eventSource": "simulated",
+        "vwcBefore": 45,
+        "vwcAfter": 45,
+        "stillMounted": true,
+        "dialogOpen": 1,
+        "reloaded": 0,
+        "sensorText": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 9:59:39 PM · 45% → 45%",
+        "afterReload": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 9:59:39 PM · 45% → 45%"
+      },
+      "hardware": {
+        "buttonText": "Connect ESP8266 (hardware required)",
+        "dialogText": "Connect an ESP8266 (hardware required)\n\nThis step needs the physical watering device from the arduino/ folder, powered on and on the same network as the API. The hosted API runs in the cloud, so it cannot see devices on your home Wi-Fi; run the API locally (npm run dev:api) to connect real hardware. Without a device, the simulated sensor keeps working.\n\nESP8266 IP address\nESP8266 IP address\nCancel\nSend plant settings to device",
+        "privateIp": {
+          "status": 502,
+          "body": {
+            "error": "Could not reach the ESP8266",
+            "hardwareRequired": true,
+            "details": "This needs a real device on the same network as the API. On the hosted app the API runs in Vercel's cloud, so run the API locally (npm run dev:api) to connect hardware."
+          },
+          "inline": [
+            "This needs a real device on the same network as the API. On the hosted app the API runs in Vercel's cloud, so run the API locally (npm run dev:api) to connect hardware."
+          ],
+          "snackbar": []
+        },
+        "publicIp": {
+          "status": 400,
+          "body": {
+            "error": "deviceIP must be a private IPv4 address on your home network (10.x.x.x, 172.16-31.x.x or 192.168.x.x)"
+          },
+          "inline": [
+            "deviceIP must be a private IPv4 address on your home network (10.x.x.x, 172.16-31.x.x or 192.168.x.x)"
+          ]
+        },
+        "afterCancelSensor": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 days. Thresholds and the watering log below are real and saved to your account.\n45%\n\nwater content · waters below 20% · last watered 1 min ago\n\nThe soil is moist enough for now.\n\nWater now\nWatered (simulated)\n\n9/18/2026, 9:59:39 PM · 45% → 45%",
+        "badPortApi": {
+          "error": "devicePort must be a whole number from 1 to 65535"
+        },
+        "moistureNoSecret": 403
+      },
+      "delete": {
+        "status": 200,
+        "body": {
+          "success": true
+        },
+        "cardsAfter": 4,
+        "cardsBefore": 5,
+        "snackbar": [
+          "Ficus lyrata has been deleted."
+        ],
+        "victimId": "0Ite0YzU6BbpxvWXJaUr",
+        "victimImage": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/round1-test/0Ite0YzU6BbpxvWXJaUr.jpg",
+        "imageAfter": 200,
+        "firestoreDocExists": false,
+        "eventsLeft": 0,
+        "rtdbExists": false,
+        "cardsAfterReload": 4
+      },
+      "routes": {
+        "/plants/whatever": {
+          "finalUrl": "https://plantit.kalpkan.com/plants/whatever",
+          "text": "Plant It",
+          "sw": {
+            "sw": 390,
+            "bw": 390,
+            "iw": 390
+          }
+        },
+        "/x/y": {
+          "finalUrl": "https://plantit.kalpkan.com/x/y",
+          "text": "Plant It",
+          "sw": {
+            "sw": 390,
+            "bw": 390,
+            "iw": 390
+          }
+        },
+        "/plant-details": {
+          "finalUrl": "https://plantit.kalpkan.com/add-plant",
+          "text": "Plant It Add New Plant Upload a clear photo of your plant to identify its species and get care recommendations. JPEG, PNG or WebP, between 10 KB and 4 MB. One p",
+          "sw": {
+            "sw": 390,
+            "bw": 390,
+            "iw": 390
+          }
+        }
+      },
+      "logout": {
+        "url": "https://plantit.kalpkan.com/login",
+        "localStorageKey": null,
+        "localStorageKeys": [],
+        "afterBack": {
+          "url": "https://plantit.kalpkan.com/login",
+          "text": "Plant It Your personal plant identification and care assistant Sign in with Google Sign in to start identifying and mana"
+        }
+      }
+    }
+  },
+  "console": {
+    "desktop": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 502 ()",
+        "url": "https://plantit.kalpkan.com/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 400 ()",
+        "url": "https://plantit.kalpkan.com/plants"
+      }
+    ],
+    "phone": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 502 ()",
+        "url": "https://plantit.kalpkan.com/plants"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 400 ()",
+        "url": "https://plantit.kalpkan.com/plants"
+      }
+    ]
+  },
+  "notes": [],
+  "cleanup": {
+    "deleted": 4
+  }
+}

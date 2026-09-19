@@ -1,0 +1,26 @@
+{
+  "login": {
+    "url": "https://plantit.kalpkan.com/login",
+    "finalUrl": "https://plantit.kalpkan.com/login",
+    "performance": 0.75,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "lcp": "4.2 s",
+    "tbt": "120 ms",
+    "cls": "0",
+    "a11yFails": []
+  },
+  "plants": {
+    "url": "https://plantit.kalpkan.com/plants",
+    "finalUrl": "https://plantit.kalpkan.com/plants",
+    "performance": 0.68,
+    "accessibility": 0.98,
+    "bestPractices": 1,
+    "lcp": "5.7 s",
+    "tbt": "20 ms",
+    "cls": "0",
+    "a11yFails": [
+      "heading-order"
+    ]
+  }
+}
