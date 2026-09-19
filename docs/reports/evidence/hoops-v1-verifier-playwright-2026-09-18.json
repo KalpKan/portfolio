@@ -1,0 +1,3179 @@
+{
+ "chromium:desktop-utc": {
+  "loadMs": 1165,
+  "errors": [],
+  "initial": {
+   "scrollWidth": 1440,
+   "clientWidth": 1440,
+   "pills": [
+    {
+     "t": 309,
+     "l": 80,
+     "r": 199,
+     "w": 119,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 211,
+     "r": 297,
+     "w": 86,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 309,
+     "r": 393,
+     "w": 84,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 405,
+     "r": 654,
+     "w": 249,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 666,
+     "r": 957,
+     "w": 291,
+     "h": 46,
+     "active": false
+    }
+   ],
+   "bars": [
+    {
+     "id": "90000000-0000-4000-8000-000000000100",
+     "h": 208,
+     "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+     "value": "100.0%"
+    },
+    {
+     "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+     "h": 156,
+     "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+     "value": "75.0%"
+    },
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    },
+    {
+     "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+     "h": 139,
+     "title": "Sep 18: 66.7% FG%",
+     "value": "66.7%"
+    }
+   ],
+   "labels": [
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 16",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Sep 18",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    }
+   ],
+   "ticks": [
+    "100",
+    "75",
+    "50",
+    "25",
+    "0"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "T1.1 sample",
+     "3",
+     "2",
+     "66.7%",
+     "71.4%",
+     "1"
+    ],
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ],
+    [
+     "Wed, Apr 15",
+     "shootit-ios-manual-test",
+     "56",
+     "42",
+     "75.0%",
+     "75.4%",
+     "30"
+    ],
+    [
+     "Wed, Apr 15",
+     "Frontend Backend Smoke Test",
+     "1",
+     "1",
+     "100.0%",
+     "100.0%",
+     "1"
+    ]
+   ],
+   "cards": [
+    {
+     "text": "Shots Made |  | 52 | of 72 attempts, over 4 sessions",
+     "l": 80,
+     "r": 388,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Field Goal % |  | 72.2% | 20 misses · 13.5% swish rate",
+     "l": 404,
+     "r": 712,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Consistency |  | 64.0% | 100 − 2·σ of FG% over 4 sessions",
+     "l": 728,
+     "r": 1036,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Avg Streak |  | 9.8 | avg of 4 best streaks",
+     "l": 1052,
+     "r": 1360,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    }
+   ],
+   "buttons": [
+    {
+     "t": "Shot Map",
+     "h": 46
+    },
+    {
+     "t": "Analytics",
+     "h": 46
+    },
+    {
+     "t": "All Sessions",
+     "h": 46
+    },
+    {
+     "t": "Sep 18",
+     "h": 46
+    },
+    {
+     "t": "Apr 16",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "h": 46
+    },
+    {
+     "t": "FG%",
+     "h": 40
+    },
+    {
+     "t": "eFG%",
+     "h": 40
+    },
+    {
+     "t": "Streak",
+     "h": 40
+    }
+   ],
+   "tableWrap": {
+    "overflowX": "auto",
+    "sw": 1228,
+    "cw": 1228
+   },
+   "overflowing": [],
+   "demoMatches": 0,
+   "downloadMatches": 0,
+   "noticeTop": 253,
+   "noticeText": "The iPhone capture app is not available yet. These sessions were recorded through the ingest API for testing. Source and API on GitHub · 23 shots with an invalid timestamp hidden",
+   "repoLink": [
+    "https://github.com/KalpKan/Basketball-Stat-Tracker"
+   ],
+   "minOpacityClass": 60,
+   "liveBadge": true,
+   "shotsRecorded": "72",
+   "hiddenNote": "23 shots with an invalid timestamp hidden",
+   "has1970": false,
+   "title": "Hoops Analytics"
+  },
+  "modes": {
+   "eFG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% eFG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 157,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.4% eFG%",
+      "value": "75.4%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 131,
+      "title": "Apr 16: 63.0% eFG%",
+      "value": "63.0%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 149,
+      "title": "Sep 18: 71.4% eFG%",
+      "value": "71.4%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "Streak": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 7,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 1 best streak",
+      "value": "1"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 208,
+      "title": "Apr 15 · shootit-ios-manual-test: 30 best streak",
+      "value": "30"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 49,
+      "title": "Apr 16: 7 best streak",
+      "value": "7"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 7,
+      "title": "Sep 18: 1 best streak",
+      "value": "1"
+     }
+    ],
+    "ticks": [
+     "30",
+     "15",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "FG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 156,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+      "value": "75.0%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 121,
+      "title": "Apr 16: 58.3% FG%",
+      "value": "58.3%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 139,
+      "title": "Sep 18: 66.7% FG%",
+      "value": "66.7%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   }
+  },
+  "aprSelected": {
+   "pills": [],
+   "bars": [
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    }
+   ],
+   "rows": [
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 7 | of 12 attempts, over 1 session",
+    "Field Goal % |  | 58.3% | 5 misses · 42.9% swish rate",
+    "Consistency |  | n/a | needs 2 sessions (over 1 session)",
+    "Avg Streak |  | 7.0 | best run of makes in a row"
+   ],
+   "labels": [
+    "Apr 16"
+   ]
+  },
+  "mapApr16": {
+   "dots": 12,
+   "allCircles": 15,
+   "out": 0,
+   "tracked": "12",
+   "rates": [
+    "58.3%",
+    "41.7%"
+   ],
+   "titles": [
+    "missed 100%",
+    "missed 100%"
+   ]
+  },
+  "mapAll": {
+   "dots": 72,
+   "allCircles": 75,
+   "out": 0,
+   "viewBox": [
+    0,
+    0,
+    200,
+    200
+   ],
+   "svgRect": {
+    "l": 334,
+    "r": 794
+   },
+   "legend": {
+    "l": 1055,
+    "r": 1335
+   },
+   "tracked": "72",
+   "made": "27.8",
+   "clientWidth": 1440,
+   "scrollWidth": 1440,
+   "sampleTitle": "made 100%",
+   "fills": [
+    "rgba(34,197,94,0.9)",
+    "rgba(239,68,68,0.9)"
+   ]
+  }
+ },
+ "chromium:desktop-toronto": {
+  "loadMs": 1078,
+  "errors": [],
+  "initial": {
+   "scrollWidth": 1440,
+   "clientWidth": 1440,
+   "pills": [
+    {
+     "t": 309,
+     "l": 80,
+     "r": 199,
+     "w": 119,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 211,
+     "r": 297,
+     "w": 86,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 309,
+     "r": 393,
+     "w": 84,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 405,
+     "r": 654,
+     "w": 249,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 666,
+     "r": 957,
+     "w": 291,
+     "h": 46,
+     "active": false
+    }
+   ],
+   "bars": [
+    {
+     "id": "90000000-0000-4000-8000-000000000100",
+     "h": 208,
+     "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+     "value": "100.0%"
+    },
+    {
+     "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+     "h": 156,
+     "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+     "value": "75.0%"
+    },
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    },
+    {
+     "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+     "h": 139,
+     "title": "Sep 18: 66.7% FG%",
+     "value": "66.7%"
+    }
+   ],
+   "labels": [
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 16",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Sep 18",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    }
+   ],
+   "ticks": [
+    "100",
+    "75",
+    "50",
+    "25",
+    "0"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "T1.1 sample",
+     "3",
+     "2",
+     "66.7%",
+     "71.4%",
+     "1"
+    ],
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ],
+    [
+     "Wed, Apr 15",
+     "shootit-ios-manual-test",
+     "56",
+     "42",
+     "75.0%",
+     "75.4%",
+     "30"
+    ],
+    [
+     "Wed, Apr 15",
+     "Frontend Backend Smoke Test",
+     "1",
+     "1",
+     "100.0%",
+     "100.0%",
+     "1"
+    ]
+   ],
+   "cards": [
+    {
+     "text": "Shots Made |  | 52 | of 72 attempts, over 4 sessions",
+     "l": 80,
+     "r": 388,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Field Goal % |  | 72.2% | 20 misses · 13.5% swish rate",
+     "l": 404,
+     "r": 712,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Consistency |  | 64.0% | 100 − 2·σ of FG% over 4 sessions",
+     "l": 728,
+     "r": 1036,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Avg Streak |  | 9.8 | avg of 4 best streaks",
+     "l": 1052,
+     "r": 1360,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    }
+   ],
+   "buttons": [
+    {
+     "t": "Shot Map",
+     "h": 46
+    },
+    {
+     "t": "Analytics",
+     "h": 46
+    },
+    {
+     "t": "All Sessions",
+     "h": 46
+    },
+    {
+     "t": "Sep 18",
+     "h": 46
+    },
+    {
+     "t": "Apr 16",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "h": 46
+    },
+    {
+     "t": "FG%",
+     "h": 40
+    },
+    {
+     "t": "eFG%",
+     "h": 40
+    },
+    {
+     "t": "Streak",
+     "h": 40
+    }
+   ],
+   "tableWrap": {
+    "overflowX": "auto",
+    "sw": 1228,
+    "cw": 1228
+   },
+   "overflowing": [],
+   "demoMatches": 0,
+   "downloadMatches": 0,
+   "noticeTop": 253,
+   "noticeText": "The iPhone capture app is not available yet. These sessions were recorded through the ingest API for testing. Source and API on GitHub · 23 shots with an invalid timestamp hidden",
+   "repoLink": [
+    "https://github.com/KalpKan/Basketball-Stat-Tracker"
+   ],
+   "minOpacityClass": 60,
+   "liveBadge": true,
+   "shotsRecorded": "72",
+   "hiddenNote": "23 shots with an invalid timestamp hidden",
+   "has1970": false,
+   "title": "Hoops Analytics"
+  },
+  "modes": {
+   "eFG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% eFG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 157,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.4% eFG%",
+      "value": "75.4%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 131,
+      "title": "Apr 16: 63.0% eFG%",
+      "value": "63.0%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 149,
+      "title": "Sep 18: 71.4% eFG%",
+      "value": "71.4%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "Streak": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 7,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 1 best streak",
+      "value": "1"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 208,
+      "title": "Apr 15 · shootit-ios-manual-test: 30 best streak",
+      "value": "30"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 49,
+      "title": "Apr 16: 7 best streak",
+      "value": "7"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 7,
+      "title": "Sep 18: 1 best streak",
+      "value": "1"
+     }
+    ],
+    "ticks": [
+     "30",
+     "15",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "FG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 156,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+      "value": "75.0%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 121,
+      "title": "Apr 16: 58.3% FG%",
+      "value": "58.3%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 139,
+      "title": "Sep 18: 66.7% FG%",
+      "value": "66.7%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   }
+  },
+  "aprSelected": {
+   "pills": [],
+   "bars": [
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    }
+   ],
+   "rows": [
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 7 | of 12 attempts, over 1 session",
+    "Field Goal % |  | 58.3% | 5 misses · 42.9% swish rate",
+    "Consistency |  | n/a | needs 2 sessions (over 1 session)",
+    "Avg Streak |  | 7.0 | best run of makes in a row"
+   ],
+   "labels": [
+    "Apr 16"
+   ]
+  },
+  "mapApr16": {
+   "dots": 12,
+   "allCircles": 15,
+   "out": 0,
+   "tracked": "12",
+   "rates": [
+    "58.3%",
+    "41.7%"
+   ],
+   "titles": [
+    "missed 100%",
+    "missed 100%"
+   ]
+  },
+  "mapAll": {
+   "dots": 72,
+   "allCircles": 75,
+   "out": 0,
+   "viewBox": [
+    0,
+    0,
+    200,
+    200
+   ],
+   "svgRect": {
+    "l": 334,
+    "r": 794
+   },
+   "legend": {
+    "l": 1055,
+    "r": 1335
+   },
+   "tracked": "72",
+   "made": "27.8",
+   "clientWidth": 1440,
+   "scrollWidth": 1440,
+   "sampleTitle": "made 100%",
+   "fills": [
+    "rgba(34,197,94,0.9)",
+    "rgba(239,68,68,0.9)"
+   ]
+  }
+ },
+ "chromium:desktop-toronto-light": {
+  "loadMs": 944,
+  "errors": [],
+  "initial": {
+   "scrollWidth": 1440,
+   "clientWidth": 1440,
+   "pills": [
+    {
+     "t": 309,
+     "l": 80,
+     "r": 199,
+     "w": 119,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 211,
+     "r": 297,
+     "w": 86,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 309,
+     "r": 393,
+     "w": 84,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 405,
+     "r": 654,
+     "w": 249,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 666,
+     "r": 957,
+     "w": 291,
+     "h": 46,
+     "active": false
+    }
+   ],
+   "bars": [
+    {
+     "id": "90000000-0000-4000-8000-000000000100",
+     "h": 208,
+     "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+     "value": "100.0%"
+    },
+    {
+     "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+     "h": 156,
+     "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+     "value": "75.0%"
+    },
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    },
+    {
+     "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+     "h": 139,
+     "title": "Sep 18: 66.7% FG%",
+     "value": "66.7%"
+    }
+   ],
+   "labels": [
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 16",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Sep 18",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    }
+   ],
+   "ticks": [
+    "100",
+    "75",
+    "50",
+    "25",
+    "0"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "T1.1 sample",
+     "3",
+     "2",
+     "66.7%",
+     "71.4%",
+     "1"
+    ],
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ],
+    [
+     "Wed, Apr 15",
+     "shootit-ios-manual-test",
+     "56",
+     "42",
+     "75.0%",
+     "75.4%",
+     "30"
+    ],
+    [
+     "Wed, Apr 15",
+     "Frontend Backend Smoke Test",
+     "1",
+     "1",
+     "100.0%",
+     "100.0%",
+     "1"
+    ]
+   ],
+   "cards": [
+    {
+     "text": "Shots Made |  | 52 | of 72 attempts, over 4 sessions",
+     "l": 80,
+     "r": 388,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Field Goal % |  | 72.2% | 20 misses · 13.5% swish rate",
+     "l": 404,
+     "r": 712,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Consistency |  | 64.0% | 100 − 2·σ of FG% over 4 sessions",
+     "l": 728,
+     "r": 1036,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Avg Streak |  | 9.8 | avg of 4 best streaks",
+     "l": 1052,
+     "r": 1360,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    }
+   ],
+   "buttons": [
+    {
+     "t": "Shot Map",
+     "h": 46
+    },
+    {
+     "t": "Analytics",
+     "h": 46
+    },
+    {
+     "t": "All Sessions",
+     "h": 46
+    },
+    {
+     "t": "Sep 18",
+     "h": 46
+    },
+    {
+     "t": "Apr 16",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "h": 46
+    },
+    {
+     "t": "FG%",
+     "h": 40
+    },
+    {
+     "t": "eFG%",
+     "h": 40
+    },
+    {
+     "t": "Streak",
+     "h": 40
+    }
+   ],
+   "tableWrap": {
+    "overflowX": "auto",
+    "sw": 1228,
+    "cw": 1228
+   },
+   "overflowing": [],
+   "demoMatches": 0,
+   "downloadMatches": 0,
+   "noticeTop": 253,
+   "noticeText": "The iPhone capture app is not available yet. These sessions were recorded through the ingest API for testing. Source and API on GitHub · 23 shots with an invalid timestamp hidden",
+   "repoLink": [
+    "https://github.com/KalpKan/Basketball-Stat-Tracker"
+   ],
+   "minOpacityClass": 60,
+   "liveBadge": true,
+   "shotsRecorded": "72",
+   "hiddenNote": "23 shots with an invalid timestamp hidden",
+   "has1970": false,
+   "title": "Hoops Analytics"
+  },
+  "modes": {
+   "eFG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% eFG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 157,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.4% eFG%",
+      "value": "75.4%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 131,
+      "title": "Apr 16: 63.0% eFG%",
+      "value": "63.0%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 149,
+      "title": "Sep 18: 71.4% eFG%",
+      "value": "71.4%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "Streak": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 7,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 1 best streak",
+      "value": "1"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 208,
+      "title": "Apr 15 · shootit-ios-manual-test: 30 best streak",
+      "value": "30"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 49,
+      "title": "Apr 16: 7 best streak",
+      "value": "7"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 7,
+      "title": "Sep 18: 1 best streak",
+      "value": "1"
+     }
+    ],
+    "ticks": [
+     "30",
+     "15",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "FG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 156,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+      "value": "75.0%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 121,
+      "title": "Apr 16: 58.3% FG%",
+      "value": "58.3%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 139,
+      "title": "Sep 18: 66.7% FG%",
+      "value": "66.7%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   }
+  },
+  "aprSelected": {
+   "pills": [],
+   "bars": [
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    }
+   ],
+   "rows": [
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 7 | of 12 attempts, over 1 session",
+    "Field Goal % |  | 58.3% | 5 misses · 42.9% swish rate",
+    "Consistency |  | n/a | needs 2 sessions (over 1 session)",
+    "Avg Streak |  | 7.0 | best run of makes in a row"
+   ],
+   "labels": [
+    "Apr 16"
+   ]
+  },
+  "mapApr16": {
+   "dots": 12,
+   "allCircles": 15,
+   "out": 0,
+   "tracked": "12",
+   "rates": [
+    "58.3%",
+    "41.7%"
+   ],
+   "titles": [
+    "missed 100%",
+    "missed 100%"
+   ]
+  },
+  "mapAll": {
+   "dots": 72,
+   "allCircles": 75,
+   "out": 0,
+   "viewBox": [
+    0,
+    0,
+    200,
+    200
+   ],
+   "svgRect": {
+    "l": 334,
+    "r": 794
+   },
+   "legend": {
+    "l": 1055,
+    "r": 1335
+   },
+   "tracked": "72",
+   "made": "27.8",
+   "clientWidth": 1440,
+   "scrollWidth": 1440,
+   "sampleTitle": "made 100%",
+   "fills": [
+    "rgba(34,197,94,0.9)",
+    "rgba(239,68,68,0.9)"
+   ]
+  }
+ },
+ "chromium:phone-toronto": {
+  "loadMs": 1145,
+  "errors": [],
+  "initial": {
+   "scrollWidth": 390,
+   "clientWidth": 390,
+   "pills": [
+    {
+     "t": 491,
+     "l": 24,
+     "r": 143,
+     "w": 119,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 155,
+     "r": 241,
+     "w": 86,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 253,
+     "r": 337,
+     "w": 84,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 349,
+     "r": 598,
+     "w": 249,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 610,
+     "r": 901,
+     "w": 291,
+     "h": 46,
+     "active": false
+    }
+   ],
+   "bars": [
+    {
+     "id": "90000000-0000-4000-8000-000000000100",
+     "h": 208,
+     "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+     "value": "100.0%"
+    },
+    {
+     "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+     "h": 156,
+     "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+     "value": "75.0%"
+    },
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    },
+    {
+     "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+     "h": 139,
+     "title": "Sep 18: 66.7% FG%",
+     "value": "66.7%"
+    }
+   ],
+   "labels": [
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "w": 46,
+     "scrollW": 218,
+     "clientW": 46,
+     "truncated": true,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "w": 46,
+     "scrollW": 181,
+     "clientW": 46,
+     "truncated": true,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 16",
+     "w": 46,
+     "scrollW": 46,
+     "clientW": 46,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Sep 18",
+     "w": 46,
+     "scrollW": 46,
+     "clientW": 46,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    }
+   ],
+   "ticks": [
+    "100",
+    "75",
+    "50",
+    "25",
+    "0"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "T1.1 sample",
+     "3",
+     "2",
+     "66.7%",
+     "71.4%",
+     "1"
+    ],
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ],
+    [
+     "Wed, Apr 15",
+     "shootit-ios-manual-test",
+     "56",
+     "42",
+     "75.0%",
+     "75.4%",
+     "30"
+    ],
+    [
+     "Wed, Apr 15",
+     "Frontend Backend Smoke Test",
+     "1",
+     "1",
+     "100.0%",
+     "100.0%",
+     "1"
+    ]
+   ],
+   "cards": [
+    {
+     "text": "Shots Made |  | 52 | of 72 attempts, over 4 sessions",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 625
+    },
+    {
+     "text": "Field Goal % |  | 72.2% | 20 misses · 13.5% swish rate",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 783
+    },
+    {
+     "text": "Consistency |  | 64.0% | 100 − 2·σ of FG% over 4 sessions",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 941
+    },
+    {
+     "text": "Avg Streak |  | 9.8 | avg of 4 best streaks",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 1099
+    }
+   ],
+   "buttons": [
+    {
+     "t": "Shot Map",
+     "h": 46
+    },
+    {
+     "t": "Analytics",
+     "h": 46
+    },
+    {
+     "t": "All Sessions",
+     "h": 46
+    },
+    {
+     "t": "Sep 18",
+     "h": 46
+    },
+    {
+     "t": "Apr 16",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "h": 46
+    },
+    {
+     "t": "FG%",
+     "h": 40
+    },
+    {
+     "t": "eFG%",
+     "h": 40
+    },
+    {
+     "t": "Streak",
+     "h": 40
+    }
+   ],
+   "tableWrap": {
+    "overflowX": "auto",
+    "sw": 794,
+    "cw": 290
+   },
+   "overflowing": [
+    "BUTTON.whitespace-nowrap.rounded-full.border r=598",
+    "BUTTON.whitespace-nowrap.rounded-full.border r=901",
+    "TABLE.w-full.min-w-[720px].text-left r=844",
+    "THEAD.bg-white/[0.03].text-white/60 r=844",
+    "TR. r=844",
+    "TH.px-5.py-4.font-medium r=405",
+    "TH.px-5.py-4.font-medium r=505",
+    "TH.px-5.py-4.font-medium r=582"
+   ],
+   "demoMatches": 0,
+   "downloadMatches": 0,
+   "noticeTop": 363,
+   "noticeText": "The iPhone capture app is not available yet. These sessions were recorded through the ingest API for testing. Source and API on GitHub · 23 shots with an invalid timestamp hidden",
+   "repoLink": [
+    "https://github.com/KalpKan/Basketball-Stat-Tracker"
+   ],
+   "minOpacityClass": 60,
+   "liveBadge": true,
+   "shotsRecorded": "72",
+   "hiddenNote": "23 shots with an invalid timestamp hidden",
+   "has1970": false,
+   "title": "Hoops Analytics"
+  },
+  "modes": {
+   "eFG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% eFG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 157,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.4% eFG%",
+      "value": "75.4%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 131,
+      "title": "Apr 16: 63.0% eFG%",
+      "value": "63.0%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 149,
+      "title": "Sep 18: 71.4% eFG%",
+      "value": "71.4%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test [TRUNC]",
+     "Apr 15 · shootit-ios-manual-test [TRUNC]",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "Streak": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 7,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 1 best streak",
+      "value": "1"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 208,
+      "title": "Apr 15 · shootit-ios-manual-test: 30 best streak",
+      "value": "30"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 49,
+      "title": "Apr 16: 7 best streak",
+      "value": "7"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 7,
+      "title": "Sep 18: 1 best streak",
+      "value": "1"
+     }
+    ],
+    "ticks": [
+     "30",
+     "15",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test [TRUNC]",
+     "Apr 15 · shootit-ios-manual-test [TRUNC]",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "FG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 156,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+      "value": "75.0%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 121,
+      "title": "Apr 16: 58.3% FG%",
+      "value": "58.3%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 139,
+      "title": "Sep 18: 66.7% FG%",
+      "value": "66.7%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test [TRUNC]",
+     "Apr 15 · shootit-ios-manual-test [TRUNC]",
+     "Apr 16",
+     "Sep 18"
+    ]
+   }
+  },
+  "aprSelected": {
+   "pills": [],
+   "bars": [
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    }
+   ],
+   "rows": [
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 7 | of 12 attempts, over 1 session",
+    "Field Goal % |  | 58.3% | 5 misses · 42.9% swish rate",
+    "Consistency |  | n/a | needs 2 sessions (over 1 session)",
+    "Avg Streak |  | 7.0 | best run of makes in a row"
+   ],
+   "labels": [
+    "Apr 16"
+   ]
+  },
+  "mapApr16": {
+   "dots": 12,
+   "allCircles": 15,
+   "out": 0,
+   "tracked": "12",
+   "rates": [
+    "58.3%",
+    "41.7%"
+   ],
+   "titles": [
+    "missed 100%",
+    "missed 100%"
+   ]
+  },
+  "mapAll": {
+   "dots": 72,
+   "allCircles": 75,
+   "out": 0,
+   "viewBox": [
+    0,
+    0,
+    200,
+    200
+   ],
+   "svgRect": {
+    "l": 35,
+    "r": 355
+   },
+   "legend": {
+    "l": 49,
+    "r": 341
+   },
+   "tracked": "72",
+   "made": "27.8",
+   "clientWidth": 390,
+   "scrollWidth": 390,
+   "sampleTitle": "made 100%",
+   "fills": [
+    "rgba(34,197,94,0.9)",
+    "rgba(239,68,68,0.9)"
+   ]
+  }
+ },
+ "chromium:phone-tokyo": {
+  "loadMs": 984,
+  "errors": [],
+  "initial": {
+   "scrollWidth": 390,
+   "clientWidth": 390,
+   "pills": [
+    {
+     "t": 491,
+     "l": 24,
+     "r": 143,
+     "w": 119,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 155,
+     "r": 241,
+     "w": 86,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 253,
+     "r": 337,
+     "w": 84,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 349,
+     "r": 598,
+     "w": 249,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 610,
+     "r": 901,
+     "w": 291,
+     "h": 46,
+     "active": false
+    }
+   ],
+   "bars": [
+    {
+     "id": "90000000-0000-4000-8000-000000000100",
+     "h": 208,
+     "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+     "value": "100.0%"
+    },
+    {
+     "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+     "h": 156,
+     "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+     "value": "75.0%"
+    },
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    },
+    {
+     "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+     "h": 139,
+     "title": "Sep 18: 66.7% FG%",
+     "value": "66.7%"
+    }
+   ],
+   "labels": [
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "w": 46,
+     "scrollW": 218,
+     "clientW": 46,
+     "truncated": true,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "w": 46,
+     "scrollW": 181,
+     "clientW": 46,
+     "truncated": true,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 16",
+     "w": 46,
+     "scrollW": 46,
+     "clientW": 46,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Sep 18",
+     "w": 46,
+     "scrollW": 46,
+     "clientW": 46,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    }
+   ],
+   "ticks": [
+    "100",
+    "75",
+    "50",
+    "25",
+    "0"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "T1.1 sample",
+     "3",
+     "2",
+     "66.7%",
+     "71.4%",
+     "1"
+    ],
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ],
+    [
+     "Wed, Apr 15",
+     "shootit-ios-manual-test",
+     "56",
+     "42",
+     "75.0%",
+     "75.4%",
+     "30"
+    ],
+    [
+     "Wed, Apr 15",
+     "Frontend Backend Smoke Test",
+     "1",
+     "1",
+     "100.0%",
+     "100.0%",
+     "1"
+    ]
+   ],
+   "cards": [
+    {
+     "text": "Shots Made |  | 52 | of 72 attempts, over 4 sessions",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 625
+    },
+    {
+     "text": "Field Goal % |  | 72.2% | 20 misses · 13.5% swish rate",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 783
+    },
+    {
+     "text": "Consistency |  | 64.0% | 100 − 2·σ of FG% over 4 sessions",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 941
+    },
+    {
+     "text": "Avg Streak |  | 9.8 | avg of 4 best streaks",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 1099
+    }
+   ],
+   "buttons": [
+    {
+     "t": "Shot Map",
+     "h": 46
+    },
+    {
+     "t": "Analytics",
+     "h": 46
+    },
+    {
+     "t": "All Sessions",
+     "h": 46
+    },
+    {
+     "t": "Sep 18",
+     "h": 46
+    },
+    {
+     "t": "Apr 16",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "h": 46
+    },
+    {
+     "t": "FG%",
+     "h": 40
+    },
+    {
+     "t": "eFG%",
+     "h": 40
+    },
+    {
+     "t": "Streak",
+     "h": 40
+    }
+   ],
+   "tableWrap": {
+    "overflowX": "auto",
+    "sw": 794,
+    "cw": 290
+   },
+   "overflowing": [
+    "BUTTON.whitespace-nowrap.rounded-full.border r=598",
+    "BUTTON.whitespace-nowrap.rounded-full.border r=901",
+    "TABLE.w-full.min-w-[720px].text-left r=844",
+    "THEAD.bg-white/[0.03].text-white/60 r=844",
+    "TR. r=844",
+    "TH.px-5.py-4.font-medium r=405",
+    "TH.px-5.py-4.font-medium r=505",
+    "TH.px-5.py-4.font-medium r=582"
+   ],
+   "demoMatches": 0,
+   "downloadMatches": 0,
+   "noticeTop": 363,
+   "noticeText": "The iPhone capture app is not available yet. These sessions were recorded through the ingest API for testing. Source and API on GitHub · 23 shots with an invalid timestamp hidden",
+   "repoLink": [
+    "https://github.com/KalpKan/Basketball-Stat-Tracker"
+   ],
+   "minOpacityClass": 60,
+   "liveBadge": true,
+   "shotsRecorded": "72",
+   "hiddenNote": "23 shots with an invalid timestamp hidden",
+   "has1970": false,
+   "title": "Hoops Analytics"
+  },
+  "modes": {
+   "eFG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% eFG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 157,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.4% eFG%",
+      "value": "75.4%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 131,
+      "title": "Apr 16: 63.0% eFG%",
+      "value": "63.0%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 149,
+      "title": "Sep 18: 71.4% eFG%",
+      "value": "71.4%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test [TRUNC]",
+     "Apr 15 · shootit-ios-manual-test [TRUNC]",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "Streak": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 7,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 1 best streak",
+      "value": "1"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 208,
+      "title": "Apr 15 · shootit-ios-manual-test: 30 best streak",
+      "value": "30"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 49,
+      "title": "Apr 16: 7 best streak",
+      "value": "7"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 7,
+      "title": "Sep 18: 1 best streak",
+      "value": "1"
+     }
+    ],
+    "ticks": [
+     "30",
+     "15",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test [TRUNC]",
+     "Apr 15 · shootit-ios-manual-test [TRUNC]",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "FG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 156,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+      "value": "75.0%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 121,
+      "title": "Apr 16: 58.3% FG%",
+      "value": "58.3%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 139,
+      "title": "Sep 18: 66.7% FG%",
+      "value": "66.7%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test [TRUNC]",
+     "Apr 15 · shootit-ios-manual-test [TRUNC]",
+     "Apr 16",
+     "Sep 18"
+    ]
+   }
+  },
+  "aprSelected": {
+   "pills": [],
+   "bars": [
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    }
+   ],
+   "rows": [
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 7 | of 12 attempts, over 1 session",
+    "Field Goal % |  | 58.3% | 5 misses · 42.9% swish rate",
+    "Consistency |  | n/a | needs 2 sessions (over 1 session)",
+    "Avg Streak |  | 7.0 | best run of makes in a row"
+   ],
+   "labels": [
+    "Apr 16"
+   ]
+  },
+  "mapApr16": {
+   "dots": 12,
+   "allCircles": 15,
+   "out": 0,
+   "tracked": "12",
+   "rates": [
+    "58.3%",
+    "41.7%"
+   ],
+   "titles": [
+    "missed 100%",
+    "missed 100%"
+   ]
+  },
+  "mapAll": {
+   "dots": 72,
+   "allCircles": 75,
+   "out": 0,
+   "viewBox": [
+    0,
+    0,
+    200,
+    200
+   ],
+   "svgRect": {
+    "l": 35,
+    "r": 355
+   },
+   "legend": {
+    "l": 49,
+    "r": 341
+   },
+   "tracked": "72",
+   "made": "27.8",
+   "clientWidth": 390,
+   "scrollWidth": 390,
+   "sampleTitle": "made 100%",
+   "fills": [
+    "rgba(34,197,94,0.9)",
+    "rgba(239,68,68,0.9)"
+   ]
+  }
+ },
+ "webkit:desktop-toronto": {
+  "loadMs": 1135,
+  "errors": [],
+  "initial": {
+   "scrollWidth": 1440,
+   "clientWidth": 1440,
+   "pills": [
+    {
+     "t": 309,
+     "l": 80,
+     "r": 199,
+     "w": 119,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 211,
+     "r": 297,
+     "w": 86,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 309,
+     "r": 393,
+     "w": 84,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 405,
+     "r": 654,
+     "w": 249,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 309,
+     "l": 666,
+     "r": 957,
+     "w": 291,
+     "h": 46,
+     "active": false
+    }
+   ],
+   "bars": [
+    {
+     "id": "90000000-0000-4000-8000-000000000100",
+     "h": 208,
+     "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+     "value": "100.0%"
+    },
+    {
+     "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+     "h": 156,
+     "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+     "value": "75.0%"
+    },
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    },
+    {
+     "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+     "h": 139,
+     "title": "Sep 18: 66.7% FG%",
+     "value": "66.7%"
+    }
+   ],
+   "labels": [
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 16",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Sep 18",
+     "w": 276,
+     "scrollW": 276,
+     "clientW": 276,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    }
+   ],
+   "ticks": [
+    "100",
+    "75",
+    "50",
+    "25",
+    "0"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "T1.1 sample",
+     "3",
+     "2",
+     "66.7%",
+     "71.4%",
+     "1"
+    ],
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ],
+    [
+     "Wed, Apr 15",
+     "shootit-ios-manual-test",
+     "56",
+     "42",
+     "75.0%",
+     "75.4%",
+     "30"
+    ],
+    [
+     "Wed, Apr 15",
+     "Frontend Backend Smoke Test",
+     "1",
+     "1",
+     "100.0%",
+     "100.0%",
+     "1"
+    ]
+   ],
+   "cards": [
+    {
+     "text": "Shots Made |  | 52 | of 72 attempts, over 4 sessions",
+     "l": 80,
+     "r": 388,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Field Goal % |  | 72.2% | 20 misses · 13.5% swish rate",
+     "l": 404,
+     "r": 712,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Consistency |  | 64.0% | 100 − 2·σ of FG% over 4 sessions",
+     "l": 728,
+     "r": 1036,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    },
+    {
+     "text": "Avg Streak |  | 9.8 | avg of 4 best streaks",
+     "l": 1052,
+     "r": 1360,
+     "w": 308,
+     "h": 142,
+     "t": 443
+    }
+   ],
+   "buttons": [
+    {
+     "t": "Shot Map",
+     "h": 46
+    },
+    {
+     "t": "Analytics",
+     "h": 46
+    },
+    {
+     "t": "All Sessions",
+     "h": 46
+    },
+    {
+     "t": "Sep 18",
+     "h": 46
+    },
+    {
+     "t": "Apr 16",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "h": 46
+    },
+    {
+     "t": "FG%",
+     "h": 40
+    },
+    {
+     "t": "eFG%",
+     "h": 40
+    },
+    {
+     "t": "Streak",
+     "h": 40
+    }
+   ],
+   "tableWrap": {
+    "overflowX": "auto",
+    "sw": 1228,
+    "cw": 1228
+   },
+   "overflowing": [],
+   "demoMatches": 0,
+   "downloadMatches": 0,
+   "noticeTop": 253,
+   "noticeText": "The iPhone capture app is not available yet. These sessions were recorded through the ingest API for testing. Source and API on GitHub · 23 shots with an invalid timestamp hidden",
+   "repoLink": [
+    "https://github.com/KalpKan/Basketball-Stat-Tracker"
+   ],
+   "minOpacityClass": 60,
+   "liveBadge": true,
+   "shotsRecorded": "72",
+   "hiddenNote": "23 shots with an invalid timestamp hidden",
+   "has1970": false,
+   "title": "Hoops Analytics"
+  },
+  "modes": {
+   "eFG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% eFG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 157,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.4% eFG%",
+      "value": "75.4%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 131,
+      "title": "Apr 16: 63.0% eFG%",
+      "value": "63.0%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 149,
+      "title": "Sep 18: 71.4% eFG%",
+      "value": "71.4%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "Streak": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 7,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 1 best streak",
+      "value": "1"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 208,
+      "title": "Apr 15 · shootit-ios-manual-test: 30 best streak",
+      "value": "30"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 49,
+      "title": "Apr 16: 7 best streak",
+      "value": "7"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 7,
+      "title": "Sep 18: 1 best streak",
+      "value": "1"
+     }
+    ],
+    "ticks": [
+     "30",
+     "15",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "FG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 156,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+      "value": "75.0%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 121,
+      "title": "Apr 16: 58.3% FG%",
+      "value": "58.3%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 139,
+      "title": "Sep 18: 66.7% FG%",
+      "value": "66.7%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test",
+     "Apr 15 · shootit-ios-manual-test",
+     "Apr 16",
+     "Sep 18"
+    ]
+   }
+  },
+  "aprSelected": {
+   "pills": [],
+   "bars": [
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    }
+   ],
+   "rows": [
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 7 | of 12 attempts, over 1 session",
+    "Field Goal % |  | 58.3% | 5 misses · 42.9% swish rate",
+    "Consistency |  | n/a | needs 2 sessions (over 1 session)",
+    "Avg Streak |  | 7.0 | best run of makes in a row"
+   ],
+   "labels": [
+    "Apr 16"
+   ]
+  },
+  "mapApr16": {
+   "dots": 12,
+   "allCircles": 15,
+   "out": 0,
+   "tracked": "12",
+   "rates": [
+    "58.3%",
+    "41.7%"
+   ],
+   "titles": [
+    "missed 100%",
+    "missed 100%"
+   ]
+  },
+  "mapAll": {
+   "dots": 72,
+   "allCircles": 75,
+   "out": 0,
+   "viewBox": [
+    0,
+    0,
+    200,
+    200
+   ],
+   "svgRect": {
+    "l": 334,
+    "r": 794
+   },
+   "legend": {
+    "l": 1055,
+    "r": 1335
+   },
+   "tracked": "72",
+   "made": "27.8",
+   "clientWidth": 1440,
+   "scrollWidth": 1440,
+   "sampleTitle": "made 100%",
+   "fills": [
+    "rgba(34,197,94,0.9)",
+    "rgba(239,68,68,0.9)"
+   ]
+  }
+ },
+ "webkit:phone-tokyo": {
+  "loadMs": 1176,
+  "errors": [],
+  "initial": {
+   "scrollWidth": 390,
+   "clientWidth": 390,
+   "pills": [
+    {
+     "t": 491,
+     "l": 24,
+     "r": 143,
+     "w": 119,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 155,
+     "r": 241,
+     "w": 86,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 253,
+     "r": 337,
+     "w": 84,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 349,
+     "r": 598,
+     "w": 249,
+     "h": 46,
+     "active": false
+    },
+    {
+     "t": 491,
+     "l": 610,
+     "r": 901,
+     "w": 291,
+     "h": 46,
+     "active": false
+    }
+   ],
+   "bars": [
+    {
+     "id": "90000000-0000-4000-8000-000000000100",
+     "h": 208,
+     "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+     "value": "100.0%"
+    },
+    {
+     "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+     "h": 156,
+     "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+     "value": "75.0%"
+    },
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    },
+    {
+     "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+     "h": 139,
+     "title": "Sep 18: 66.7% FG%",
+     "value": "66.7%"
+    }
+   ],
+   "labels": [
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "w": 46,
+     "scrollW": 218,
+     "clientW": 46,
+     "truncated": true,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "w": 46,
+     "scrollW": 181,
+     "clientW": 46,
+     "truncated": true,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Apr 16",
+     "w": 46,
+     "scrollW": 46,
+     "clientW": 46,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    },
+    {
+     "t": "Sep 18",
+     "w": 46,
+     "scrollW": 46,
+     "clientW": 46,
+     "truncated": false,
+     "overflow": "ellipsis",
+     "fontPx": "12px"
+    }
+   ],
+   "ticks": [
+    "100",
+    "75",
+    "50",
+    "25",
+    "0"
+   ],
+   "rows": [
+    [
+     "Fri, Sep 18",
+     "T1.1 sample",
+     "3",
+     "2",
+     "66.7%",
+     "71.4%",
+     "1"
+    ],
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ],
+    [
+     "Wed, Apr 15",
+     "shootit-ios-manual-test",
+     "56",
+     "42",
+     "75.0%",
+     "75.4%",
+     "30"
+    ],
+    [
+     "Wed, Apr 15",
+     "Frontend Backend Smoke Test",
+     "1",
+     "1",
+     "100.0%",
+     "100.0%",
+     "1"
+    ]
+   ],
+   "cards": [
+    {
+     "text": "Shots Made |  | 52 | of 72 attempts, over 4 sessions",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 625
+    },
+    {
+     "text": "Field Goal % |  | 72.2% | 20 misses · 13.5% swish rate",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 783
+    },
+    {
+     "text": "Consistency |  | 64.0% | 100 − 2·σ of FG% over 4 sessions",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 941
+    },
+    {
+     "text": "Avg Streak |  | 9.8 | avg of 4 best streaks",
+     "l": 24,
+     "r": 366,
+     "w": 342,
+     "h": 142,
+     "t": 1099
+    }
+   ],
+   "buttons": [
+    {
+     "t": "Shot Map",
+     "h": 46
+    },
+    {
+     "t": "Analytics",
+     "h": 46
+    },
+    {
+     "t": "All Sessions",
+     "h": 46
+    },
+    {
+     "t": "Sep 18",
+     "h": 46
+    },
+    {
+     "t": "Apr 16",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · shootit-ios-manual-test",
+     "h": 46
+    },
+    {
+     "t": "Apr 15 · Frontend Backend Smoke Test",
+     "h": 46
+    },
+    {
+     "t": "FG%",
+     "h": 40
+    },
+    {
+     "t": "eFG%",
+     "h": 40
+    },
+    {
+     "t": "Streak",
+     "h": 40
+    }
+   ],
+   "tableWrap": {
+    "overflowX": "auto",
+    "sw": 794,
+    "cw": 290
+   },
+   "overflowing": [
+    "BUTTON.whitespace-nowrap.rounded-full.border r=598",
+    "BUTTON.whitespace-nowrap.rounded-full.border r=901",
+    "TABLE.w-full.min-w-[720px].text-left r=844",
+    "THEAD.bg-white/[0.03].text-white/60 r=844",
+    "TR. r=844",
+    "TH.px-5.py-4.font-medium r=405",
+    "TH.px-5.py-4.font-medium r=505",
+    "TH.px-5.py-4.font-medium r=582"
+   ],
+   "demoMatches": 0,
+   "downloadMatches": 0,
+   "noticeTop": 363,
+   "noticeText": "The iPhone capture app is not available yet. These sessions were recorded through the ingest API for testing. Source and API on GitHub · 23 shots with an invalid timestamp hidden",
+   "repoLink": [
+    "https://github.com/KalpKan/Basketball-Stat-Tracker"
+   ],
+   "minOpacityClass": 60,
+   "liveBadge": true,
+   "shotsRecorded": "72",
+   "hiddenNote": "23 shots with an invalid timestamp hidden",
+   "has1970": false,
+   "title": "Hoops Analytics"
+  },
+  "modes": {
+   "eFG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% eFG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 157,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.4% eFG%",
+      "value": "75.4%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 131,
+      "title": "Apr 16: 63.0% eFG%",
+      "value": "63.0%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 149,
+      "title": "Sep 18: 71.4% eFG%",
+      "value": "71.4%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test [TRUNC]",
+     "Apr 15 · shootit-ios-manual-test [TRUNC]",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "Streak": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 7,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 1 best streak",
+      "value": "1"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 208,
+      "title": "Apr 15 · shootit-ios-manual-test: 30 best streak",
+      "value": "30"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 49,
+      "title": "Apr 16: 7 best streak",
+      "value": "7"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 7,
+      "title": "Sep 18: 1 best streak",
+      "value": "1"
+     }
+    ],
+    "ticks": [
+     "30",
+     "15",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test [TRUNC]",
+     "Apr 15 · shootit-ios-manual-test [TRUNC]",
+     "Apr 16",
+     "Sep 18"
+    ]
+   },
+   "FG%": {
+    "bars": [
+     {
+      "id": "90000000-0000-4000-8000-000000000100",
+      "h": 208,
+      "title": "Apr 15 · Frontend Backend Smoke Test: 100.0% FG%",
+      "value": "100.0%"
+     },
+     {
+      "id": "7ea7203b-18ff-4253-998f-1d7f6f0b933e",
+      "h": 156,
+      "title": "Apr 15 · shootit-ios-manual-test: 75.0% FG%",
+      "value": "75.0%"
+     },
+     {
+      "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+      "h": 121,
+      "title": "Apr 16: 58.3% FG%",
+      "value": "58.3%"
+     },
+     {
+      "id": "eb38fbab-cde8-494a-8f54-dfe04509788a",
+      "h": 139,
+      "title": "Sep 18: 66.7% FG%",
+      "value": "66.7%"
+     }
+    ],
+    "ticks": [
+     "100",
+     "75",
+     "50",
+     "25",
+     "0"
+    ],
+    "labels": [
+     "Apr 15 · Frontend Backend Smoke Test [TRUNC]",
+     "Apr 15 · shootit-ios-manual-test [TRUNC]",
+     "Apr 16",
+     "Sep 18"
+    ]
+   }
+  },
+  "aprSelected": {
+   "pills": [],
+   "bars": [
+    {
+     "id": "4b42a996-54d0-4284-8e04-0731578b521b",
+     "h": 121,
+     "title": "Apr 16: 58.3% FG%",
+     "value": "58.3%"
+    }
+   ],
+   "rows": [
+    [
+     "Thu, Apr 16",
+     "shootit-ios-manual-test",
+     "12",
+     "7",
+     "58.3%",
+     "63.0%",
+     "7"
+    ]
+   ],
+   "cards": [
+    "Shots Made |  | 7 | of 12 attempts, over 1 session",
+    "Field Goal % |  | 58.3% | 5 misses · 42.9% swish rate",
+    "Consistency |  | n/a | needs 2 sessions (over 1 session)",
+    "Avg Streak |  | 7.0 | best run of makes in a row"
+   ],
+   "labels": [
+    "Apr 16"
+   ]
+  },
+  "mapApr16": {
+   "dots": 12,
+   "allCircles": 15,
+   "out": 0,
+   "tracked": "12",
+   "rates": [
+    "58.3%",
+    "41.7%"
+   ],
+   "titles": [
+    "missed 100%",
+    "missed 100%"
+   ]
+  },
+  "mapAll": {
+   "dots": 72,
+   "allCircles": 75,
+   "out": 0,
+   "viewBox": [
+    0,
+    0,
+    200,
+    200
+   ],
+   "svgRect": {
+    "l": 35,
+    "r": 355
+   },
+   "legend": {
+    "l": 49,
+    "r": 341
+   },
+   "tracked": "72",
+   "made": "27.8",
+   "clientWidth": 390,
+   "scrollWidth": 390,
+   "sampleTitle": "made 100%",
+   "fills": [
+    "rgba(34,197,94,0.9)",
+    "rgba(239,68,68,0.9)"
+   ]
+  }
+ }
+}
