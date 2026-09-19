@@ -1831,3 +1831,93 @@ _Entries begin below, oldest first._
 - **Fix:** for a fire in pass 0 of an event that was already in progress when the models became ready, latency counts from that moment (`seenFrom = phase`); later passes count from onset. Events may also carry `accept: [gesture]` (other emotes that satisfy them; used by the `flex09x3` reel where a hard cut lets the hand model beat the pose model by a frame).
 - **Prevention:** `verification.md` rows no longer carry the "a late on the first event is the harness" caveat.
 - **Reported by:** Phase 5 FIX agent (emotes, round 2)
+
+### 2026-09-19: plantit saves a made-up species with a confidence number once the day's Pl@ntNet budget is spent (Phase 5 TEST agent, plantit round 3; report D17, major)
+
+- **Date:** 2026-09-19 21:41 UTC (production `5b77609`)
+- **Affected:** `backend/src/providers.js` (`identify`, the `!slot.allowed` branch), `backend/src/demoPlants.js` (`pickDemoPlant`), `frontend/src/components/PlantDetails.js` (demo notice)
+- **Symptom:** with `spend.plantnet.count` at 50/50 an aloe photo answered `200 {demo: true, reason: "plantnet_daily_limit", candidates[0]: Epipremnum aureum, score: 0.89, savedPlant}`; the results page showed the green "Saved to your collection", a blue info "Demo result…" note, "Confidence: 89 %" and the pothos care guide; the card carries pothos thresholds.
+- **Root cause:** the day-limit branch reuses the no-key demo path: a byte hash picks one of six bundled species with a canned score, and the API saves it like a real answer. The copy is honest, the number is not.
+- **Fix:** not applied this round (TEST). Proposed: `503 {unavailable: true, reason: "plantnet_daily_limit", retryAt}` and save nothing; keep the demo list only for deployments without a key; never print a confidence for a demo answer.
+- **Prevention:** `docs/reports/plantit.md` D17 with the exact probe (`docs/reports/evidence/plantit-r3-daylimit-probe.mjs`: the 50th and 51st calls of a UTC day); `verification.md` row "Day-limit answer".
+- **Reported by:** Phase 5 TEST agent (plantit, round 3)
+
+### 2026-09-19: plantit refuses ordinary phone photos over 4 MB instead of downscaling them (Phase 5 TEST agent, plantit round 3; report D18, major)
+
+- **Date:** 2026-09-19 21:47 UTC (production `5b77609`, 390 px)
+- **Affected:** `frontend/src/components/PlantUpload.js` (`MAX_IMAGE_SIZE = 4 MB`)
+- **Symptom:** a 9 MB 6000×5000 JPEG dropped on Add Plant → "That image is too large. Please use one under 4 MB.", Identify disabled, no request. Modern phones write 3–10 MB JPEGs and a phone has no resize tool.
+- **Root cause:** the client enforces Vercel's 4.5 MB request-body limit by refusal, although the server shrinks every photo to 800 px anyway.
+- **Fix:** not applied this round. Proposed: downscale in the browser (canvas, longest side 1600 px, JPEG 0.85, `imageOrientation: 'from-image'`) before upload; refuse only decode failures.
+- **Prevention:** report D18; the round-3 harness drops the 9 MB file (`tooLarge`) so the fix is measured.
+- **Reported by:** Phase 5 TEST agent (plantit, round 3)
+
+### 2026-09-19: plantit saves a plant without its photo when the Supabase upload fails, and tells the visitor it was saved (Phase 5 TEST agent, plantit round 3; report D21, minor)
+
+- **Date:** 2026-09-19 21:32 UTC (real-dependency local stack of `5b77609`; 1 of 6 uploads)
+- **Affected:** `backend/src/app.js` (identify route, `Photo upload failed, saving the plant without a photo`), `frontend/src/components/PlantUpload.js`
+- **Symptom:** API log `Photo upload failed, saving the plant without a photo: Supabase upload failed: fetch failed`; response `savedPlant.imageUrl: null`; the results page showed the local preview and the green "Saved to your collection"; My Plants shows "No photo" with no explanation.
+- **Root cause:** a transient network failure from this Mac to Supabase; the route swallows the error by design (better a plant than a 500) but nothing tells the visitor the photo was lost, and the page masks it with the in-memory preview.
+- **Fix:** not applied this round. Proposed: one retry, then `savedPlant.photoStatus: "failed"` surfaced on the results page and the card.
+- **Prevention:** report D21; `app.test.js` should cover an upload rejection.
+- **Reported by:** Phase 5 TEST agent (plantit, round 3)
+
+### 2026-09-19: harness artefact: a Firestore seed copied `thumbUrl` from another plant, so the dry-out card wore the wrong photo (Phase 5 TEST agent, plantit round 3)
+
+- **Date:** 2026-09-19 21:32 UTC (local stack run only)
+- **Affected:** `docs/reports/evidence/plantit-r2-playwright-audit.mjs` (the 70 h dry-out seed `{ ...src, imageUrl: null, photoPath: null }`)
+- **Symptom:** the seeded "Peace lily (dry-out seed)" card showed the ZZ plant's photo.
+- **Root cause:** FIX round 2 added `thumbUrl`/`thumbPath` (400 px card rendition) to plant docs and the card prefers `thumbUrl`; the round-2 seed nulled only `imageUrl`/`photoPath`. Not an app defect.
+- **Fix:** `plantit-r3-playwright-audit.mjs` nulls `thumbUrl` and `thumbPath` too.
+- **Prevention:** any seed that clones a plant doc must null every photo field (`imageUrl`, `photoPath`, `thumbUrl`, `thumbPath`); noted in runbook step 15(c).
+- **Reported by:** Phase 5 TEST agent (plantit, round 3)
+
+### 2026-09-19: plato read only table-shaped outlines: bulleted "Hours:"/"Time:"/"Section 001:" slots and "- Assignment 1: … deadline: October 8" lists were dropped, and "Wednesday" never matched anywhere (Phase 5 FIX agent, plato round 2; report D14, blocker)
+
+- **Date:** 2026-09-19 (found by TEST round 2 on three newly labelled outlines CS 2209A, CS 4411, MOS 2181A; fixed in `KalpKan/Plato` `d162e7b`)
+- **Affected:** `src/outline/schedule.py`, `src/outline/assessments.py`, `src/outline/dates.py` (`WEEKDAY_RE`)
+- **Symptom:** pooled gate on 18 files: sections 68 % R, assessments 91 % R, weights 96 %, dates_exact 88 %, clean_titles 94 % (bar 90/95/98/95/95); CS 2209A live `.ics` had 1 due event instead of 8 and no lecture series; MOS 2181A 3 lecture sections → 0 slots.
+- **Root cause:** three shapes had no reader: (1) a bullet before the label (`• Lectures:` then `• Hours: Tuesdays 9:30-11:30 am, and Thursdays …`) so the `^\s*lectures?` regex never matched and the next-line join refused a `Hours:` line as a "heading"; (2) a bare `Time:` line and `Section 001: Tuesdays, 1:30pm-4:30pm, SSC 2036` lines carry no component word at all; (3) per-item deadlines written as bullets under a summary weight line ("Assignments 17% (three assignments: the first one 5% …)") were never split, and the `deadline:` segment was not isolated from `available:` / `peer review:` ranges (three dates → wrongly "recurring"). Underneath, `WEEKDAY_RE = (?:mon|tue|tues|wed|thu|…)(?:day)?` could not match "Wednesday"/"Wednesdays" ("wed"+"nesday"), so every Wednesday slot or weekday hint in the whole parser silently failed.
+- **Fix:** bullets stripped before label matching; `Hours:`/`Time:`/`Class time:` lines and `Section NNN:` lines become slots (kind from the nearest short heading, default lecture, a table's kind wins over the guess; a line with a month-day date is never a weekly slot); dated bullet items (`_from_dated_bullets`) date their rows or split a group row into members with weights from "(N items, X% each)" / "first one A%, remaining B% each" / an equal split, only when the stated count matches; ordinal words count as numbering ("First test" ≠ "Second test"); section-dependent exam lines give a window + note; chapter lists become one recurring row; `WEEKDAY_RE` spells every day out. 9 unit tests on the outlines' own wording.
+- **Prevention:** the three outlines are in the gated corpus (`tests/test_corpus.py`, 18 files, every metric ≥ bar); `tests/test_prose_outlines.py` pins each shape; the unlabelled 24 were diffed before/after and each change checked against the PDF text (7 files gained correct slots or a date, none lost anything).
+- **Reported by:** Phase 5 TEST agent (plato, round 2); fixed by the FIX agent
+
+### 2026-09-19: plato invented two quiz dates: "Each Friday … starting Sept 12 and ending November 14" was expanded to 9 Fridays although the outline lists 7 (Phase 5 FIX agent, plato round 2; report D15, blocker)
+
+- **Date:** 2026-09-19 (Biochem 3381A live `.ics`: `Quizzes (1 of 9)` … `(9 of 9)` at 23:59 incl. Oct 3 and Oct 24; fixed in `d162e7b`)
+- **Affected:** `src/outline/assessments.py` (`_reconcile_recurring`, `_explicit_dates_for`, `_date_list`), `src/outline/dates.py` (`_recurring`)
+- **Symptom:** S4 "never an invented date" and S5 "one DUE per listed date" both failed on one outline; 9 events at 23:59 where the outline says 7 Fridays "between 1-10 pm".
+- **Root cause:** the "every <weekday> from A to B" rule wins the row's date and fills every weekday between the anchors; the explicit list on page 9 ("Quizzes: To be held between 1-10 pm on Bright Space: • September 12, 19, 26; October 10, 17, 31; and November 14") is a "Month d, d, d" list that `_find_dates` cannot read (bare day numbers), and "a total of 7 quizzes" was never compared with the expansion.
+- **Fix:** a rule-expanded row now looks for a heading `<noun>s:` followed within four lines by a date list of ≥ 3 dates (month + comma-separated days across `;`/`and`) and takes those dates plus the time span printed beside them (13:00); when no list exists but the outline states a count the expansion does not match, the row becomes a `range` (first–last) with an honest note and **no** dates. Live: 7 quiz events on the listed Fridays at 13:00, none on Oct 3 / Oct 24.
+- **Prevention:** `test_biochem_explicit_quiz_dates_beat_the_every_friday_rule` and `test_weekly_rule_with_a_stated_count_that_disagrees_never_invents_dates`; the corpus `no_fabricated` metric stays at 100 %.
+- **Reported by:** Phase 5 TEST agent (plato, round 2); fixed by the FIX agent
+
+### 2026-09-19: plato "Lab report due 24 h after each lab" never became events even with a lab slot chosen, and the review page never said the slot was needed (Phase 5 FIX agent, plato round 2; report D16, major)
+
+- **Date:** 2026-09-19 (ECE 2240A 50 % row, ANATCELL 3309 two 10 % rows; fixed in `d162e7b`)
+- **Affected:** `src/outline/pipeline.py` (`_rule_anchor`), `src/app.py` (`expand_rule_assessments`, `rule_hint`, `build_calendar`), `src/rule_resolver.py` (`_parse_rule_offset`, `_generate_occurrences`)
+- **Symptom:** with a Monday lab added, the `.ics` held the lab series but no lab-report event; without one, only "Relative rule: …" and a "Review" badge.
+- **Root cause:** the pipeline set `due_rule` but never `rule_anchor`, so `RuleResolver.resolve_rule` bailed out before looking at the chosen section; `_parse_rule_offset` required `\d+\s+hours` and could not read "24hrs"; `generate_per_occurrence_assessments` existed but nothing called it, and `build_calendar` mutated (and then persisted) the rule row instead of expanding it per calendar.
+- **Fix:** the anchor is inferred from the rule's words (lab / tutorial / lecture); the review page prints "Add your lab slot with "Add Section" and you get one due event per lab" (or "One due event per lab is generated from your lab slot" once it exists); `build_calendar` expands a rule row whose anchor slot was chosen into "Lab report N due" copies (occurrence + offset, reading week skipped, capped at a stated "Total = 8", no study-start events), for that calendar only: the stored row keeps its rule so another slot choice regenerates. Live: 8 `Lab report N due` events on Tuesdays 14:30 from a Monday 14:30 lab.
+- **Prevention:** `tests/test_flow.py::test_lab_rule_with_a_manual_lab_slot_gives_one_due_event_per_lab` and `…tells_the_visitor_to_add_one`; `verification.md` row "Per-lab rule (live)".
+- **Reported by:** Phase 5 TEST agent (plato, round 2); fixed by the FIX agent
+
+### 2026-09-19: plato course name wrong or missing on half the outlines ("Course Information", "Health", a sentence, None) (Phase 5 FIX agent, plato round 2; report D17, major)
+
+- **Date:** 2026-09-19 (9/18 labelled right; whole corpus 12 `None` + 4 "Course Information"; fixed in `d162e7b`)
+- **Affected:** `src/outline/course.py`, `tests/corpus/score.py` (new `course_name` metric), `tests/test_corpus.py::BAR`
+- **Symptom:** CS 2209A "Not found" although page 1 says "Course Name: Applied Logic for Computer Science"; Math 1228 "Course Information"; HS 2800 "Health"; CS 2301B "An online, asynchronous course with in-person examinations".
+- **Root cause:** `_name_near_code` took the first title-like line after the code, which is often a section heading or a subtitle; the explicit label was never preferred; a footnote digit ("Science1") or a "Syllabus – 2025" tail disqualified the real title; names wrapped over two lines ("Health Sciences 2800: Health / Sciences Research Methods") were cut; and the metric was not scored, so nobody saw it.
+- **Fix:** label first ("Course Name:" / "Course name:", with a code-valued label deferring to its next line), then the title beside the code (before or after it, minus subject tokens, "Course Outline"/term/"(In-Person)" tails and footnote digits, joined with a short continuation line), then "Code (Name)" in the first three pages; headings and sentences are rejected. `course_name` is scored (equals/contains; an outline whose only name is its code accepts nothing or the code) and gated at ≥ 90 %: 17/18 (the miss is CS 3342A, whose page 1 is an image), whole corpus 38/42 named, 0 headings.
+- **Prevention:** 7 unit tests in `tests/test_prose_outlines.py`, the gate, and `tests/test_course.py` (legacy cases still pass).
+- **Reported by:** Phase 5 TEST agent (plato, round 2); fixed by the FIX agent
+
+### 2026-09-19: plato served every previously uploaded outline with the old parser's result after a deploy: the extraction cache had no parser version (Phase 5 FIX agent, plato round 2; report D13, major)
+
+- **Date:** 2026-09-19 (KIN 2000 one minute after the round-1 deploy showed the round-1 result under "showing the saved result"; fixed in `d162e7b`)
+- **Affected:** `src/cache.py` (`PARSER_VERSION`, `parser_version()`, `versioned_key()`), `src/supabase_cache.py`, `src/app.py` (`/api/health` now returns `parser`)
+- **Symptom:** any PDF parsed before a deploy kept its stale parse until the visitor ticked "Re-read the PDF"; the scanned/blank edge files still landed on the round-1 blank review page.
+- **Root cause:** `extraction_cache` was keyed on `pdf_hash` alone; nothing recorded which parser wrote the row.
+- **Fix:** both cache managers key extraction rows on `<pdf_hash>@<PARSER_VERSION>`, where `PARSER_VERSION` is 12 hex chars of a SHA-256 over the parser's own source files (`pdf_extractor.py`, `rule_resolver.py`, `models.py`, `outline/*.py`), computed once per process; no schema change (the key column is `TEXT`); old rows go unread. `/api/health` reports `parser` so the live version can be checked against the repo. Live proof: KIN 2000 uploaded **without** force-refresh right after the deploy re-parsed (3.4 s, "Outline read", midterm now 10:30); the second upload showed "showing the saved result".
+- **Prevention:** `tests/test_cache.py::test_extraction_cache_is_keyed_on_the_parser_version` (a row stored under one version is a miss under another) and `test_parser_version_changes_with_the_parser_source`; `verification.md` row "Parser version".
+- **Reported by:** Phase 5 TEST agent (plato, round 2); fixed by the FIX agent
