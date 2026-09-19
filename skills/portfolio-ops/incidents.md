@@ -856,3 +856,13 @@ _Entries begin below, oldest first._
 - **Fix:** Not applied. `docs/reports/microtubules.md` D8 (prefetch after Ready or inline as assets).
 - **Prevention:** `verification.md` microtubules "Works offline after load" row taps all three samples offline.
 - **Reported by:** TEST agent (Phase 5, microtubules, round 1)
+
+### 2026-09-18: two agents sharing one checkout: the microtubules TEST agent's staged files were committed under the Plant It agent's commit `9893a31`
+
+- **Date:** 2026-09-18, 21:50 EDT
+- **Affected:** `KalpKan/portfolio` history only (content is correct). `docs/reports/microtubules.md`, its evidence files, the STATUS row and three incidents landed in `9893a31` ("Plant It T2.2: CI green…"), and the verification.md rows in `c994a6b` ("Plant It spec…"), because both agents work in `~/projects/portfolio` and the Plant It agent's `git commit` picked up whatever was in the shared index at that moment.
+- **Symptom:** `git commit` in the TEST agent's shell reported "no changes added to commit" seconds after staging 16 files; `git log` showed them in another agent's commit.
+- **Root cause:** one working tree and one index for concurrent agents; "stage only your own hunks" does not protect against another process committing the index in between.
+- **Fix:** none needed for content; this entry records where to find the microtubules round-1 work (`git show 9893a31 --stat`).
+- **Prevention:** an agent that must commit to the hub while others are active should stage and commit in a single command (`git add … && git commit …`) and re-check `git show --stat HEAD` afterwards, or use a `git worktree` of `main` for its docs and push from there (hosting-plan operating model already says parallel agents use worktrees).
+- **Reported by:** TEST agent (Phase 5, microtubules, round 1)
