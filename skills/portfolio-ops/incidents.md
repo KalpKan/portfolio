@@ -1791,3 +1791,43 @@ _Entries begin below, oldest first._
 - **Fix:** `5b77609`: `GET /api/plants` carries each plant's `reading` (pure arithmetic for the simulated sensor), `SensorPanel` takes `initialReading`/`mode` and renders at once (the device call only adds the watering log), the panel comes first, the photo is a 180 px strip that links to the full size, the title wears the card's chips, Delete / Connect are text buttons and Close the filled one. Production: Water now bottom edge 483 / 900 and 526 / 844, dialog open → Water now in 108–132 ms.
 - **Prevention:** `PlantList.test.js` asserts the panel precedes the image, the reading is on screen before the device request answers, the photo cap and the button variants; `verification.md` row "The plant dialog leads with the reading".
 - **Reported by:** Phase 5 FIX agent (plantit, round 2)
+
+### 2026-09-19: emotes, a thumbs-up beside the head fired Goblin Muscle 8 times in 13: per-frame veto on jittery VIDEO-mode pose landmarks (Phase 5 FIX agent, emotes round 2; report D1, blocker)
+
+- **Date:** found by TEST r2 2026-09-19, fixed in `KalpKan/emote-detector-web` `ea1e718`, live 21:50 UTC
+- **Affected:** https://emotes.kalpkan.com (the `4e25a95` rules; production was still `9807a11`)
+- **Symptom:** `thumbs_up-04` (thumb beside the cheek, elbow bent; spec S2's own pose) repeated four times through the real pipeline: Goblin Muscle 8, Thumbs Up 5 over 13 passes. The corpus reported 100 % on the same photo.
+- **Root cause:** the corpus holds IMAGE-mode landmarks, which are steady; the page runs the models in VIDEO mode, where the lite pose model's wrist landmark on a static frame jitters a whole 0.2-shoulder-width band, so the flex `height` cue read 0.2 one frame and 1.0 the next (`docs/reports/evidence/emotes-r2-video-mode-cues-thumbs_up-04-2026-09-19.txt`). `fuseScores` resolved the flex-vs-thumbs-up conflict per frame, before any smoothing, so the fused scores flipped between `{flex 0.85, tu 0}` and `{flex 0, tu 1.0}` at 10 Hz and whichever charge clock filled first won.
+- **Fix:** `src/gestures/engine.ts`: raw scores and cues go through a 0.2 s exponential average (time-constant based, so 8 fps and 25 fps agree) before `resolveConflicts`; the flex keeps its fist only when it scores ≥ 0.9 of the thumbs-up (a ratio, so the climbing first frames are judged like a settled hold: `thumbs_up-04` smoothed flex ≈ 0.75 vs 1.0 → Thumbs Up; `flex-09`, a flex whose fist reads as a thumbs-up, 1.0 vs 1.0 → flex); a thumbs-up over a raised bent arm dwells 450 ms so the slower pose model can settle into a flex; and "the fist is one fist": a flex that becomes active while a thumbs-up is still held (or the reverse) takes the hold over silently, so one hold never plays two emotes. Real pipeline after: Thumbs Up 12/12 over three runs, Goblin Muscle 0 (local build and live).
+- **Prevention:** nine VIDEO-mode landmark reels are committed (`tests/fixtures/video/*.json`: the site's own `.task` models in VIDEO mode over the fake-camera clips, 10 fps, 1.7 MB, face reduced to `faceMetrics`; built by `scripts/build_e2e_clips.py` → `scripts/extract_video_landmarks.py` → `scripts/compact-video-fixture.ts`) and `tests/video.test.ts` is part of `npm run test:corpus` and the CI `corpus` job; on the round-1 engine they reproduce D1 (`tu04x4`, `misses`) and D2 (`fast`). Rule for every browser-ML app: any conflict rule between two detectors is tested on VIDEO-mode landmarks, and per-frame vetoes go after temporal smoothing, never before.
+- **Reported by:** Phase 5 FIX agent (emotes, round 2)
+
+### 2026-09-19: emotes, a gesture within ~1.5 s of the previous one never played: the 2 s cooldown swallowed the engine's one-frame edge (Phase 5 FIX agent, emotes round 2; report D2, major)
+
+- **Date:** found by TEST r2 2026-09-19, fixed in `ea1e718`, live 21:50 UTC
+- **Affected:** https://emotes.kalpkan.com
+- **Symptom:** thumbs-up 1.2 s → flex 1.2 s → yawn 1.5 s with no rest (`fast` clip): the flex never played at 1000 or 390 px; offline every gap under 1000 ms dropped the middle gesture.
+- **Root cause:** `GestureEngine` reports `fired` on exactly one frame; `EmoteGate.tryFire` returned null inside `COOLDOWN_MS` (2000, the Python `audio_spam_prevention_ms`) and the edge was gone. The engine's release rule already guarantees one fire per hold, so the cooldown was doing a job the engine does, at the cost of any quick second gesture.
+- **Fix:** `src/emotes.ts` `EmoteGate.update(frame, now)` runs every frame (the page and `tests/corpus.ts` `runInputs` call it the same way): a refused edge stays pending and plays when it may, provided its gesture is still in `result.actives`; only a repeat of the same emote waits `COOLDOWN_MS`, a different emote waits `GAP_MS` (700 ms) and `showEmote` pauses the previous sound. Real pipeline after: `fast` fires all three at both widths, local and live; `repeat` and the 10 s holds still fire once.
+- **Prevention:** the `fast` reel in `tests/video.test.ts` (gap 0 ms between gestures) and the gate unit tests in `tests/engine.test.ts` (different gesture after GAP_MS, same gesture after COOLDOWN_MS, a released pending edge never plays, a held gesture never re-fires when the cooldown ends). Rule: a one-shot edge must never be consumed by a timing guard; keep it pending or fire it later.
+- **Reported by:** Phase 5 FIX agent (emotes, round 2)
+
+### 2026-09-19: emotes, the "Almost a …" status line flickered between two gestures every 80 ms (Phase 5 FIX agent, emotes round 2; report D3, major)
+
+- **Date:** found by TEST r2 2026-09-19, fixed in `ea1e718`, live 21:50 UTC
+- **Affected:** https://emotes.kalpkan.com
+- **Symptom:** on the thumbs_up-04 segment the status alternated "Almost a Goblin Muscle: Raise the fist higher…" / "Almost a Thumbs Up: Fold the other four fingers…" eight times in 640 ms.
+- **Root cause:** `updateHint` in `src/main.ts` held a hint only against a new hint for the same gesture; a different gesture's hint replaced it at once, and the D1 jitter changed which gesture was "closest" every frame.
+- **Fix:** `src/hints.ts` `HintHold`: whatever is shown stays `HINT_HOLD_MS` (900) whichever gesture the next candidate belongs to; only a gesture becoming active clears it at once. Hints are also picked from the smoothed cues now. Recorder run after the fix (`emotes-r2-hint-recorder.mjs` on the `misses` clip): every change ≥ 900 ms apart except the clears at a fire.
+- **Prevention:** `tests/hints.test.ts` feeds alternating hints at 12.5 Hz and asserts no two changes closer than `HINT_HOLD_MS`. Rule: UI state derived from per-frame ML output is held by time, not by "same as last frame".
+- **Reported by:** Phase 5 FIX agent (emotes, round 2)
+
+### 2026-09-19: emotes fake-camera judge called the first fire "late" when the models became ready inside an event (Phase 5 FIX agent, emotes round 2; report D7, minor)
+
+- **Date:** 2026-09-19 21:55 UTC, fixed in `10c2bae`
+- **Affected:** `scripts/e2e-camera.mjs` (tooling only; three spurious FAILs in TEST r2, one against the live URL in FIX r2)
+- **Symptom:** `thumbs_up late: 1193 ms after onset` with `models ready … clip position 3117 ms` (the event ran 2000-4500 ms); the next pass fired 283 ms after onset.
+- **Root cause:** latency was always measured from the event's `startMs`, though detection could not begin before the clip position at which the models became ready.
+- **Fix:** for a fire in pass 0 of an event that was already in progress when the models became ready, latency counts from that moment (`seenFrom = phase`); later passes count from onset. Events may also carry `accept: [gesture]` (other emotes that satisfy them; used by the `flex09x3` reel where a hard cut lets the hand model beat the pose model by a frame).
+- **Prevention:** `verification.md` rows no longer carry the "a late on the first event is the harness" caveat.
+- **Reported by:** Phase 5 FIX agent (emotes, round 2)

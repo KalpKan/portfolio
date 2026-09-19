@@ -1,0 +1,100 @@
+## official clip, width 1000
+clip e2e-three-gestures.mjpeg (15500 ms), url http://localhost:4173/; models ready 2286 ms after the stream started (clip position 2286 ms)
+fires (clip position): Thumbs Up@2530 Goblin Muscle@6856 Princess Yawn@11624 Thumbs Up@2265
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## official clip, width 390
+clip e2e-three-gestures.mjpeg (15500 ms), url http://localhost:4173/; models ready 1819 ms after the stream started (clip position 1819 ms)
+fires (clip position): Thumbs Up@2287 Goblin Muscle@6827 Princess Yawn@11573
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## tu04x4 run 1
+clip e2e-tu04x4.mjpeg (19000 ms), url http://localhost:4173/; models ready 1864 ms after the stream started (clip position 1864 ms)
+fires (clip position): Thumbs Up@2607 Thumbs Up@7025 Thumbs Up@11537 Thumbs Up@16092
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## tu04x4 run 2
+clip e2e-tu04x4.mjpeg (19000 ms), url http://localhost:4173/; models ready 1780 ms after the stream started (clip position 1780 ms)
+fires (clip position): Thumbs Up@2627 Thumbs Up@7049 Thumbs Up@11696 Thumbs Up@16065
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## tu04x4 run 3
+clip e2e-tu04x4.mjpeg (19000 ms), url http://localhost:4173/; models ready 2025 ms after the stream started (clip position 2025 ms)
+fires (clip position): Thumbs Up@2265 Thumbs Up@7018 Thumbs Up@11561 Thumbs Up@16058
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## fast, width 1000
+clip e2e-fast.mjpeg (7900 ms), url http://localhost:4173/; models ready 1960 ms after the stream started (clip position 1960 ms)
+fires (clip position): Thumbs Up@2162 Goblin Muscle@3425 Princess Yawn@5040
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## fast, width 390
+clip e2e-fast.mjpeg (7900 ms), url http://localhost:4173/; models ready 1806 ms after the stream started (clip position 1806 ms)
+fires (clip position): Thumbs Up@2222 Goblin Muscle@3473 Princess Yawn@5014
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## hard
+clip e2e-hard.mjpeg (24500 ms), url http://localhost:4173/; models ready 1951 ms after the stream started (clip position 1951 ms)
+fires (clip position): none
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## hard2
+clip e2e-hard2.mjpeg (29000 ms), url http://localhost:4173/; models ready 1982 ms after the stream started (clip position 1982 ms)
+fires (clip position): none
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## misses
+clip e2e-misses.mjpeg (24500 ms), url http://localhost:4173/; models ready 1797 ms after the stream started (clip position 1797 ms)
+fires (clip position): Thumbs Up@2543 Thumbs Up@6717 Princess Yawn@11431 Princess Yawn@16072 Thumbs Up@20280
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## repeat
+clip e2e-repeat.mjpeg (11600 ms), url http://localhost:4173/; models ready 1566 ms after the stream started (clip position 1566 ms)
+fires (clip position): Thumbs Up@1764 Thumbs Up@5013 Thumbs Up@8363
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## mirror
+clip e2e-mirror.mjpeg (24500 ms), url http://localhost:4173/; models ready 1663 ms after the stream started (clip position 1663 ms)
+fires (clip position): Thumbs Up@2302 Goblin Muscle@6819 Princess Yawn@11720
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## sweep
+clip e2e-sweep.mjpeg (29000 ms), url http://localhost:4173/; models ready 1608 ms after the stream started (clip position 1608 ms)
+fires (clip position): Goblin Muscle@2211 Thumbs Up@6749 Princess Yawn@11548 Goblin Muscle@15724 Thumbs Up@20243 Princess Yawn@25056
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## far
+clip e2e-far.mjpeg (29000 ms), url http://localhost:4173/; models ready 1952 ms after the stream started (clip position 1952 ms)
+fires (clip position): Thumbs Up@2231 Goblin Muscle@6754 Princess Yawn@11583 Princess Yawn@16023 Goblin Muscle@20713 Thumbs Up@24739
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## hold-yawn
+clip e2e-hold-yawn.mjpeg (14000 ms), url http://localhost:4173/; models ready 1523 ms after the stream started (clip position 1523 ms)
+fires (clip position): Princess Yawn@2441
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## hold-thumb
+clip e2e-hold-thumb.mjpeg (14000 ms), url http://localhost:4173/; models ready 1662 ms after the stream started (clip position 1662 ms)
+fires (clip position): Thumbs Up@2220
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## hold-flex
+clip e2e-hold-flex.mjpeg (14000 ms), url http://localhost:4173/; models ready 1661 ms after the stream started (clip position 1661 ms)
+fires (clip position): Goblin Muscle@2230
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## tu17x4
+clip e2e-tu17x4.mjpeg (19000 ms), url http://localhost:4173/; models ready 1584 ms after the stream started (clip position 1584 ms)
+fires (clip position): Thumbs Up@2522 Thumbs Up@7053 Thumbs Up@11588 Thumbs Up@16065
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## flex09x3
+clip e2e-flex09x3.mjpeg (14500 ms), url http://localhost:4173/; models ready 1950 ms after the stream started (clip position 1950 ms)
+fires (clip position): Goblin Muscle@2422 Thumbs Up@7017 Thumbs Up@11221
+FAIL: missed flex (6500-9000 ms); missed flex (11000-13500 ms); false trigger: Thumbs Up at 7017 ms; false trigger: Thumbs Up at 11221 ms
+exit=1
+## flex09x3 (judge honours accept)
+clip e2e-flex09x3.mjpeg (14500 ms), url http://localhost:4173/; models ready 2274 ms after the stream started (clip position 2274 ms)
+fires (clip position): Goblin Muscle@2846 Goblin Muscle@7132 Thumbs Up@11516
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0

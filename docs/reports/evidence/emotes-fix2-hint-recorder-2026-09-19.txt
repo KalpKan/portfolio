@@ -1,0 +1,17 @@
+    932 	Asking for the camera…
+   1129 +197	Loading the vision runtime…
+   1146 +17	Loading the face model…
+   1483 +337	Loading the hand model…
+   1819 +336	Loading the pose model…
+   2012 +193	Models ready.
+   2012 +0	Watching. Try a thumbs-up, a flex beside your head, or a big yawn.
+   3279 +1267	Almost a Goblin Muscle: Raise the fist higher, well above the shoulder.
+   3724 +445	Watching. Try a thumbs-up, a flex beside your head, or a big yawn.
+   3724 +0	FIRE Thumbs Up
+   7816 +4092	FIRE Thumbs Up
+  12587 +4771	FIRE Princess Yawn
+  16797 +4210	Almost a Princess Yawn: Open wider, a real jaw-dropping yawn.
+  17184 +387	Watching. Try a thumbs-up, a flex beside your head, or a big yawn.
+  17184 +0	FIRE Princess Yawn
+  21332 +4148	FIRE Thumbs Up
+  27820 +6488	Almost a Goblin Muscle: Raise the fist higher, well above the shoulder.

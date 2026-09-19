@@ -1,0 +1,30 @@
+## LIVE official 1000
+clip e2e-three-gestures.mjpeg (15500 ms), url https://emotes.kalpkan.com/; models ready 3117 ms after the stream started (clip position 3117 ms)
+fires (clip position): Thumbs Up@3193 Goblin Muscle@6834 Princess Yawn@11594 Thumbs Up@2283
+FAIL: thumbs_up late: 1193 ms after onset
+exit=1
+## LIVE official 390
+clip e2e-three-gestures.mjpeg (15500 ms), url https://emotes.kalpkan.com/; models ready 1713 ms after the stream started (clip position 1713 ms)
+fires (clip position): Thumbs Up@2232 Goblin Muscle@6861 Princess Yawn@11672
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## LIVE tu04x4
+clip e2e-tu04x4.mjpeg (19000 ms), url https://emotes.kalpkan.com/; models ready 1793 ms after the stream started (clip position 1793 ms)
+fires (clip position): Thumbs Up@2535 Thumbs Up@7017 Thumbs Up@11577 Thumbs Up@16078
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## LIVE fast 390
+clip e2e-fast.mjpeg (7900 ms), url https://emotes.kalpkan.com/; models ready 1707 ms after the stream started (clip position 1707 ms)
+fires (clip position): Thumbs Up@2269 Goblin Muscle@3467 Princess Yawn@5002
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## LIVE hard
+clip e2e-hard.mjpeg (24500 ms), url https://emotes.kalpkan.com/; models ready 2103 ms after the stream started (clip position 2103 ms)
+fires (clip position): none
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## LIVE official 1000 (rerun, D7 judge)
+clip e2e-three-gestures.mjpeg (15500 ms), url https://emotes.kalpkan.com/; models ready 2061 ms after the stream started (clip position 2061 ms)
+fires (clip position): Thumbs Up@2256 Goblin Muscle@6827 Princess Yawn@11597
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0

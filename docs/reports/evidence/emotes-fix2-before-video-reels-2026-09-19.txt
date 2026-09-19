@@ -1,0 +1,12 @@
+fast      FAIL  fires: thumbs_up@2200 yawn@4900
+           missed flex at 3200 ms
+flex09x3  PASS  fires: thumbs_up@2200 thumbs_up@6700 thumbs_up@11200
+hard      PASS  fires: none
+hard2     PASS  fires: none
+misses    FAIL  fires: flex@2400 thumbs_up@6700 yawn@11400 yawn@16000 thumbs_up@20200
+           missed thumbs_up at 2000 ms; false trigger: flex at 2400 ms
+repeat    PASS  fires: thumbs_up@1700 thumbs_up@5000 thumbs_up@8300
+sweep     PASS  fires: flex@2200 thumbs_up@6700 yawn@11500 flex@15700 thumbs_up@20200 yawn@25100
+tu04x4    FAIL  fires: flex@2400 thumbs_up@7000 thumbs_up@11500 thumbs_up@16000
+           missed thumbs_up at 2000 ms; false trigger: flex at 2400 ms
+tu17x4    PASS  fires: thumbs_up@2200 thumbs_up@6700 thumbs_up@11200 thumbs_up@15700
