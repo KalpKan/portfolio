@@ -1,0 +1,15 @@
+clip e2e-tu04x4.mjpeg (19000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1760 ms after the stream started (clip position 1760 ms)
+pipeline: 19.7 fps (frame gap median 50 p95 63 max 80 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2614 Thumbs Up@7106 Thumbs Up@11536 Thumbs Up@16014
+latencies: 614 606 536 514
+PASS: every gesture fired once within 1 s, nothing else fired
+clip e2e-tu04x4.mjpeg (19000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1859 ms after the stream started (clip position 1859 ms)
+pipeline: 19.7 fps (frame gap median 50 p95 63 max 76 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2538 Thumbs Up@7003 Thumbs Up@11553 Thumbs Up@16035
+latencies: 538 503 553 535
+PASS: every gesture fired once within 1 s, nothing else fired
+clip e2e-tu04x4.mjpeg (19000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2156 ms after the stream started (clip position 2156 ms)
+pipeline: 18.8 fps (frame gap median 51 p95 70 max 100 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2427 Thumbs Up@7031 Thumbs Up@11535 Thumbs Up@16030
+latencies: 271 531 535 530
+PASS: every gesture fired once within 1 s, nothing else fired

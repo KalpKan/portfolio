@@ -1,0 +1,2 @@
+{'performance': 0.99, 'accessibility': 1, 'best-practices': 1} LCP 1.4 s TBT 90 ms CLS 0
+{'performance': 1, 'accessibility': 1, 'best-practices': 1} LCP 1.4 s TBT 30 ms CLS 0

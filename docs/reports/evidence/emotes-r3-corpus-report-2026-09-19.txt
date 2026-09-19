@@ -1,0 +1,37 @@
+
+> emote-detector-web@1.0.0 report
+> vite-node scripts/eval-corpus.ts
+
+STILLS (frame level, 94 photos; gated set = ok + neutral + hard)
+  flex       precision 100%  recall 100%  (tp 13 fp 0 fn 0)
+  thumbs_up  precision 100%  recall 100%  (tp 16 fp 0 fn 0)
+  yawn       precision 100%  recall 100%  (tp 8 fp 0 fn 0)
+  neutral stills that fired: 0/9   hard negatives that fired: 0/33
+  occluded yawns: 1/8 detected, 0 fired a wrong emote   partial stills (gesture not visible): 0/5 detected, 0 fired a wrong emote
+
+CLIPS (emote level, 25 fps synthesized from the stills; fire window 1000 ms)
+  neutral-60s            0 firings in 59 s (0.0 per minute): none
+  hard-negatives-60s     0 firings in 60 s (0.0 per minute): none
+
+  flex       precision 100%  recall 100%  (tp 20 fp 0 fn 0)
+  thumbs_up  precision 100%  recall 100%  (tp 23 fp 0 fn 0)
+  yawn       precision 100%  recall 100%  (tp 18 fp 0 fn 0)
+  latency from onset: median 240 ms, p95 500 ms, max 700 ms (61 matched fires)
+  gated clips passing: 70/70
+
+VIDEO-MODE REELS (emote level, real .task models in VIDEO mode over the fake-camera clips, 10 fps; fire window 1000 ms)
+  fast       PASS 3 events, fires=[thumbs_up@2200 flex@3400 yawn@4900] 
+  flex09x3   PASS 3 events, fires=[thumbs_up@2200 thumbs_up@6700 thumbs_up@11500] 
+  hard       0 firings in 24 s: none
+  hard2      0 firings in 29 s: none
+  misses     PASS 5 events, fires=[thumbs_up@2500 thumbs_up@6700 yawn@11400 yawn@16100 thumbs_up@20200] 
+  repeat     PASS 3 events, fires=[thumbs_up@1700 thumbs_up@5000 thumbs_up@8300] 
+  sweep      PASS 6 events, fires=[flex@2200 thumbs_up@6700 yawn@11600 flex@15700 thumbs_up@20200 yawn@25100] 
+  tu04x4     PASS 4 events, fires=[thumbs_up@2500 thumbs_up@7000 thumbs_up@11500 thumbs_up@16000] 
+  tu17x4     PASS 4 events, fires=[thumbs_up@2500 thumbs_up@7000 thumbs_up@11500 thumbs_up@16000] 
+
+  flex       precision 100%  recall 100%  (tp 3 fp 0 fn 0)
+  thumbs_up  precision 100%  recall 100%  (tp 20 fp 0 fn 0)
+  yawn       precision 100%  recall 100%  (tp 5 fp 0 fn 0)
+  latency from the cut: median 500 ms, p95 600 ms, max 600 ms (28 matched fires)
+  gated reels passing: 9/9

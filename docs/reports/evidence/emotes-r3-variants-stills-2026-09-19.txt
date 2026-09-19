@@ -1,0 +1,34 @@
+
+stills-mirror (94 stills; landmarks found: pose 88, face 64, hands>0 78)
+  flex       precision 100%  recall 100%  (tp 13 fp 0 fn 0)
+  thumbs_up  precision 100%  recall 100%  (tp 16 fp 0 fn 0)
+  yawn       precision 100%  recall 63%  (tp 5 fp 0 fn 3)
+  neutral fired: 0/9  hard fired: 0/33  occluded wrong: 0/8  partial wrong: 1/5
+   X yawn-07        ok       exp=yawn      flex=0.00 thumbs_up=0.00 yawn=0.50 fired=- pose=Y hands=1 face=Y
+   X yawn-10        partial  exp=yawn      flex=0.54 thumbs_up=0.00 yawn=0.00 fired=flex pose=Y hands=1 face=Y
+   X yawn-17        ok       exp=yawn      flex=0.00 thumbs_up=0.00 yawn=0.48 fired=- pose=Y hands=1 face=Y
+   X yawn-18        ok       exp=yawn      flex=0.00 thumbs_up=0.00 yawn=0.42 fired=- pose=Y hands=0 face=Y
+
+stills-portrait (94 stills; landmarks found: pose 82, face 43, hands>0 73)
+  flex       precision 100%  recall 77%  (tp 10 fp 0 fn 3)
+  thumbs_up  precision 100%  recall 100%  (tp 16 fp 0 fn 0)
+  yawn       precision 100%  recall 75%  (tp 6 fp 0 fn 2)
+  neutral fired: 0/9  hard fired: 0/33  occluded wrong: 0/8  partial wrong: 0/5
+   X flex-01        ok       exp=flex      flex=0.00 thumbs_up=0.00 yawn=0.00 fired=- pose=- hands=1 face=-
+   X flex-04        ok       exp=flex      flex=0.11 thumbs_up=0.00 yawn=0.00 fired=- pose=Y hands=1 face=-
+   X flex-06        ok       exp=flex      flex=0.00 thumbs_up=0.00 yawn=0.00 fired=- pose=Y hands=1 face=-
+   X yawn-07        ok       exp=yawn      flex=0.00 thumbs_up=0.00 yawn=0.00 fired=- pose=Y hands=1 face=Y
+   X yawn-19        ok       exp=yawn      flex=0.00 thumbs_up=0.00 yawn=0.00 fired=- pose=Y hands=0 face=Y
+
+stills-far (94 stills; landmarks found: pose 83, face 46, hands>0 72)
+  flex       precision 100%  recall 77%  (tp 10 fp 0 fn 3)
+  thumbs_up  precision 100%  recall 100%  (tp 16 fp 0 fn 0)
+  yawn       precision 100%  recall 63%  (tp 5 fp 0 fn 3)
+  neutral fired: 0/9  hard fired: 0/33  occluded wrong: 0/8  partial wrong: 0/5
+   X flex-01        ok       exp=flex      flex=0.00 thumbs_up=0.00 yawn=0.00 fired=- pose=Y hands=1 face=-
+   X flex-04        ok       exp=flex      flex=0.32 thumbs_up=0.00 yawn=0.00 fired=- pose=Y hands=0 face=-
+   X flex-06        ok       exp=flex      flex=0.00 thumbs_up=0.00 yawn=0.00 fired=- pose=Y hands=2 face=-
+   X yawn-07        ok       exp=yawn      flex=0.00 thumbs_up=0.00 yawn=0.00 fired=- pose=Y hands=1 face=Y
+   X yawn-17        ok       exp=yawn      flex=0.00 thumbs_up=0.00 yawn=0.45 fired=- pose=Y hands=1 face=Y
+   X yawn-19        ok       exp=yawn      flex=0.00 thumbs_up=0.00 yawn=0.00 fired=- pose=Y hands=0 face=Y
+DONE

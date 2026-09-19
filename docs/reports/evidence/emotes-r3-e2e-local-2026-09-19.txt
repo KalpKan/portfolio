@@ -1,0 +1,169 @@
+=== portrait WIDTH=390 THROTTLE=0 BROWSER=chrome ===
+clip e2e-portrait.mjpeg (15500 ms), url http://localhost:4173/, width 390, throttle none, browser chrome; models ready 1755 ms after the stream started (clip position 1755 ms)
+pipeline: 19.6 fps (frame gap median 50 p95 61 max 189 ms); stream 480x480, stage aspect "480 / 480" 358x358, scrollWidth 390/390
+fires (clip position): Thumbs Up@2239 Goblin Muscle@6852 Princess Yawn@11640
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 239 352 640
+PASS: every gesture fired once within 1 s, nothing else fired
+=== portrait WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-portrait.mjpeg (15500 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 3449 ms after the stream started (clip position 3449 ms)
+pipeline: 18.1 fps (frame gap median 52 p95 81 max 189 ms); stream 480x480, stage aspect "480 / 480" 688x688, scrollWidth 1000/1000
+fires (clip position): Thumbs Up@3520 Goblin Muscle@6817 Princess Yawn@11666 Thumbs Up@2311
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 71 317 666
+PASS: every gesture fired once within 1 s, nothing else fired
+=== portrait2 WIDTH=390 THROTTLE=0 BROWSER=chrome ===
+clip e2e-portrait2.mjpeg (24000 ms), url http://localhost:4173/, width 390, throttle none, browser chrome; models ready 2193 ms after the stream started (clip position 2193 ms)
+pipeline: 19.2 fps (frame gap median 51 p95 64 max 107 ms); stream 480x480, stage aspect "480 / 480" 358x358, scrollWidth 390/390
+fires (clip position): Thumbs Up@2423 Goblin Muscle@6830 Princess Yawn@11587
+status changes after ready: 2, "Almost" swaps under 900 ms: 0
+latencies: 230 330 587
+PASS: every gesture fired once within 1 s, nothing else fired
+=== motion WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-motion.mjpeg (29000 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 1853 ms after the stream started (clip position 1853 ms)
+pipeline: 18.2 fps (frame gap median 52 p95 80 max 294 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Thumbs Up@2284 Goblin Muscle@7028 Princess Yawn@11576 Goblin Muscle@15787 Thumbs Up@20282 Princess Yawn@25195
+status changes after ready: 6, "Almost" swaps under 900 ms: 0
+latencies: 284 528 576 287 282 695
+PASS: every gesture fired once within 1 s, nothing else fired
+=== motion WIDTH=390 THROTTLE=0 BROWSER=chrome ===
+clip e2e-motion.mjpeg (29000 ms), url http://localhost:4173/, width 390, throttle none, browser chrome; models ready 2105 ms after the stream started (clip position 2105 ms)
+pipeline: 18.0 fps (frame gap median 53 p95 77 max 109 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2374 Goblin Muscle@6893 Princess Yawn@11651 Goblin Muscle@15763 Thumbs Up@20234 Princess Yawn@25066
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 269 393 651 263 234 566
+PASS: every gesture fired once within 1 s, nothing else fired
+=== motion-hard WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-motion-hard.mjpeg (29000 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 1743 ms after the stream started (clip position 1743 ms)
+pipeline: 19.3 fps (frame gap median 51 p95 63 max 129 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): none
+status changes after ready: 11, "Almost" swaps under 900 ms: 0
+latencies: 
+PASS: every gesture fired once within 1 s, nothing else fired
+=== dim WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-dim.mjpeg (29000 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 1838 ms after the stream started (clip position 1838 ms)
+pipeline: 19.6 fps (frame gap median 50 p95 62 max 110 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Thumbs Up@2240 Goblin Muscle@6761 Princess Yawn@11577 Goblin Muscle@15786 Thumbs Up@20292 Princess Yawn@25032
+status changes after ready: 2, "Almost" swaps under 900 ms: 0
+latencies: 240 261 577 286 292 532
+PASS: every gesture fired once within 1 s, nothing else fired
+=== dim WIDTH=390 THROTTLE=0 BROWSER=chrome ===
+clip e2e-dim.mjpeg (29000 ms), url http://localhost:4173/, width 390, throttle none, browser chrome; models ready 1656 ms after the stream started (clip position 1656 ms)
+pipeline: 19.5 fps (frame gap median 50 p95 67 max 100 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2216 Goblin Muscle@6799 Princess Yawn@11623 Goblin Muscle@15747 Thumbs Up@20238 Princess Yawn@25023
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 216 299 623 247 238 523
+PASS: every gesture fired once within 1 s, nothing else fired
+=== quick-thumb WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-quick-thumb.mjpeg (8799 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 1820 ms after the stream started (clip position 1820 ms)
+pipeline: 19.2 fps (frame gap median 51 p95 61 max 110 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Thumbs Up@2048 Thumbs Up@1736
+status changes after ready: 0, "Almost" swaps under 900 ms: 0
+latencies: 228
+FAIL: missed thumbs_up (3600-5100 ms); missed thumbs_up (5699-7199 ms)
+=== quick-flex WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-quick-flex.mjpeg (8799 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 1659 ms after the stream started (clip position 1659 ms)
+pipeline: 20.0 fps (frame gap median 50 p95 58 max 68 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Goblin Muscle@1899 Goblin Muscle@3942
+status changes after ready: 2, "Almost" swaps under 900 ms: 0
+latencies: 240 342
+FAIL: missed flex (5699-7199 ms)
+=== quick-yawn WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-quick-yawn.mjpeg (8799 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 1518 ms after the stream started (clip position 1518 ms)
+pipeline: 19.8 fps (frame gap median 50 p95 60 max 75 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Princess Yawn@2149 Princess Yawn@4246 Princess Yawn@6347
+status changes after ready: 7, "Almost" swaps under 900 ms: 0
+latencies: 631 646 648
+PASS: every gesture fired once within 1 s, nothing else fired
+=== neutral-mix WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-neutral-mix.mjpeg (30000 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 1741 ms after the stream started (clip position 1741 ms)
+pipeline: 19.5 fps (frame gap median 51 p95 59 max 82 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): none
+status changes after ready: 2, "Almost" swaps under 900 ms: 0
+latencies: 
+PASS: every gesture fired once within 1 s, nothing else fired
+=== flex-both WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-flex-both.mjpeg (24500 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 1608 ms after the stream started (clip position 1608 ms)
+pipeline: 19.5 fps (frame gap median 51 p95 59 max 82 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Goblin Muscle@2305 Goblin Muscle@8025 Goblin Muscle@11269 Goblin Muscle@16000 Goblin Muscle@20438
+status changes after ready: 10, "Almost" swaps under 900 ms: 0
+latencies: 305 1525 269 500 438
+FAIL: flex late: 1525 ms after onset
+=== thumbs-more WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-thumbs-more.mjpeg (29000 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 2001 ms after the stream started (clip position 2001 ms)
+pipeline: 20.0 fps (frame gap median 50 p95 56 max 75 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Thumbs Up@2190 Thumbs Up@6747 Thumbs Up@11242 Thumbs Up@15791 Thumbs Up@20259 Thumbs Up@24707
+status changes after ready: 0, "Almost" swaps under 900 ms: 0
+latencies: 189 247 242 291 259 207
+PASS: every gesture fired once within 1 s, nothing else fired
+=== yawn-more WIDTH=1000 THROTTLE=0 BROWSER=chrome ===
+clip e2e-yawn-more.mjpeg (29000 ms), url http://localhost:4173/, width 1000, throttle none, browser chrome; models ready 2127 ms after the stream started (clip position 2127 ms)
+pipeline: 19.4 fps (frame gap median 51 p95 59 max 95 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Princess Yawn@2607 Princess Yawn@7214 Princess Yawn@11487 Princess Yawn@20673 Princess Yawn@24999
+status changes after ready: 8, "Almost" swaps under 900 ms: 0
+latencies: 480 714 487 673 499
+FAIL: missed yawn (15500-18000 ms)
+=== official WIDTH=390 THROTTLE=4 ===
+clip e2e-three-gestures.mjpeg (15500 ms), url http://localhost:4173/, width 390, throttle 4, browser chrome; models ready 4021 ms after the stream started (clip position 4021 ms)
+pipeline: 14.1 fps (frame gap median 70 p95 87 max 198 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@4117 Goblin Muscle@6875 Princess Yawn@11629 Thumbs Up@2230
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 96 375 629
+PASS: every gesture fired once within 1 s, nothing else fired
+=== official WIDTH=390 THROTTLE=6 ===
+clip e2e-three-gestures.mjpeg (15500 ms), url http://localhost:4173/, width 390, throttle 6, browser chrome; models ready 4672 ms after the stream started (clip position 4672 ms)
+pipeline: 12.8 fps (frame gap median 77 p95 98 max 130 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@7020 Princess Yawn@11700 Thumbs Up@2290
+status changes after ready: 2, "Almost" swaps under 900 ms: 0
+latencies: 290 520 700
+PASS: every gesture fired once within 1 s, nothing else fired
+=== fast WIDTH=390 THROTTLE=6 BROWSER=chrome ===
+clip e2e-fast.mjpeg (7900 ms), url http://localhost:4173/, width 390, throttle 6, browser chrome; models ready 3934 ms after the stream started (clip position 3934 ms)
+pipeline: 12.3 fps (frame gap median 79 p95 103 max 116 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@4227 Princess Yawn@4982 Thumbs Up@2309 Goblin Muscle@3569
+status changes after ready: 0, "Almost" swaps under 900 ms: 0
+latencies: 309 293 582
+PASS: every gesture fired once within 1 s, nothing else fired
+=== tu04x4 WIDTH=390 THROTTLE=6 BROWSER=chrome ===
+clip e2e-tu04x4.mjpeg (19000 ms), url http://localhost:4173/, width 390, throttle 6, browser chrome; models ready 5110 ms after the stream started (clip position 5110 ms)
+pipeline: 10.3 fps (frame gap median 97 p95 118 max 334 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@7029 Thumbs Up@11650 Thumbs Up@16108 Thumbs Up@2676
+status changes after ready: 9, "Almost" swaps under 900 ms: 0
+latencies: 676 529 650 608
+PASS: every gesture fired once within 1 s, nothing else fired
+=== hard WIDTH=390 THROTTLE=6 BROWSER=chrome ===
+clip e2e-hard.mjpeg (24500 ms), url http://localhost:4173/, width 390, throttle 6, browser chrome; models ready 4850 ms after the stream started (clip position 4850 ms)
+pipeline: 11.7 fps (frame gap median 83 p95 107 max 203 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): none
+status changes after ready: 10, "Almost" swaps under 900 ms: 0
+latencies: 
+PASS: every gesture fired once within 1 s, nothing else fired
+=== official WIDTH=1000 BROWSER=playwright ===
+clip e2e-three-gestures.mjpeg (15500 ms), url http://localhost:4173/, width 1000, throttle none, browser playwright; models ready 14880 ms after the stream started (clip position 14880 ms)
+pipeline: 18.5 fps (frame gap median 51 p95 62 max 521 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Thumbs Up@2283 Goblin Muscle@6813 Princess Yawn@11608
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 283 313 608
+PASS: every gesture fired once within 1 s, nothing else fired
+=== official WIDTH=390 BROWSER=playwright ===
+clip e2e-three-gestures.mjpeg (15500 ms), url http://localhost:4173/, width 390, throttle none, browser playwright; models ready 1712 ms after the stream started (clip position 1712 ms)
+pipeline: 18.9 fps (frame gap median 50 p95 62 max 599 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2209 Goblin Muscle@6807 Princess Yawn@11669
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 209 307 669
+PASS: every gesture fired once within 1 s, nothing else fired
+=== fast WIDTH=390 THROTTLE=0 BROWSER=playwright ===
+clip e2e-fast.mjpeg (7900 ms), url http://localhost:4173/, width 390, throttle none, browser playwright; models ready 1800 ms after the stream started (clip position 1800 ms)
+pipeline: 19.4 fps (frame gap median 50 p95 62 max 73 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2241 Goblin Muscle@3441 Princess Yawn@5013
+status changes after ready: 0, "Almost" swaps under 900 ms: 0
+latencies: 241 241 613
+PASS: every gesture fired once within 1 s, nothing else fired
+=== tu04x4 WIDTH=1000 THROTTLE=0 BROWSER=playwright ===
+clip e2e-tu04x4.mjpeg (19000 ms), url http://localhost:4173/, width 1000, throttle none, browser playwright; models ready 1806 ms after the stream started (clip position 1806 ms)
+pipeline: 18.2 fps (frame gap median 53 p95 67 max 110 ms); stream 640x480, stage aspect "" 688x516, scrollWidth 1000/1000
+fires (clip position): Thumbs Up@2617 Thumbs Up@7089 Thumbs Up@11592 Thumbs Up@16068
+status changes after ready: 9, "Almost" swaps under 900 ms: 0
+latencies: 617 589 592 568
+PASS: every gesture fired once within 1 s, nothing else fired
+=== DONE ===

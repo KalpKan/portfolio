@@ -1,0 +1,20 @@
+300 ms transition  thumb beside head -> flex    ok   thumbs_up@1920 flex@3880
+300 ms transition  chest thumb -> flex          ok   thumbs_up@1920 flex@4000
+300 ms transition  thumb -> flex (profile)      ok   thumbs_up@1960 flex@3960
+300 ms transition  flex -> thumb beside head    ok   flex@2040 thumbs_up@4000
+300 ms transition  flex -> thumb                ok   flex@2000 thumbs_up@3920
+300 ms transition  flex-09 -> thumb             ok   flex@2160 thumbs_up@3840
+300 ms transition  thumb -> yawn                ok   thumbs_up@1920 yawn@4240
+300 ms transition  yawn -> thumb                ok   yawn@2240 thumbs_up@3920
+300 ms transition  flex -> yawn                 ok   flex@2040 yawn@4240
+300 ms transition  yawn -> flex                 ok   yawn@2240 flex@4040
+800 ms transition  thumb beside head -> flex    ok   thumbs_up@1920 flex@4120
+800 ms transition  chest thumb -> flex          ok   thumbs_up@1920 flex@4320
+800 ms transition  thumb -> flex (profile)      ok   thumbs_up@1960 flex@4320
+800 ms transition  flex -> thumb beside head    ok   flex@2040 thumbs_up@4320
+800 ms transition  flex -> thumb                ok   flex@2000 thumbs_up@4160
+800 ms transition  flex-09 -> thumb             ok   flex@2160 thumbs_up@4000
+800 ms transition  thumb -> yawn                ok   thumbs_up@1920 yawn@4560
+800 ms transition  yawn -> thumb                ok   yawn@2240 thumbs_up@4160
+800 ms transition  flex -> yawn                 ok   flex@2040 yawn@4480
+800 ms transition  yawn -> flex                 ok   yawn@2240 flex@4520
