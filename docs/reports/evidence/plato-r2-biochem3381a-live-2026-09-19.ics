@@ -1,0 +1,278 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Plato course outline converter//kalpkan.com//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Biochem 3381A Fall 2025
+X-WR-TIMEZONE:America/Toronto
+BEGIN:VTIMEZONE
+TZID:America/Toronto
+COMMENT:This timezone only works from 2024-01-01 00:00:00 to 2026-12-31 00
+ :00:00.
+BEGIN:STANDARD
+DTSTART:20240101T000000
+TZNAME:EST
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0500
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20240310T030000
+RDATE:20250309T030000,20260308T030000
+TZNAME:EDT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+END:DAYLIGHT
+BEGIN:STANDARD
+DTSTART:20241103T020000
+RDATE:20251102T020000,20261101T020000
+TZNAME:EST
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A Lecture
+DTSTART;TZID=America/Toronto:20250908T123000
+DTEND;TZID=America/Toronto:20250908T132000
+DTSTAMP:20260919T205231Z
+UID:49b20513-3df6-40d3-bc16-5b2bd5f5baed@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20251210T045959Z;BYDAY=MO
+DESCRIPTION:Lecture\, weekly from Sep 4 to Dec 9\, 2025
+LOCATION:AHB-1R40
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A Lecture
+DTSTART;TZID=America/Toronto:20250910T123000
+DTEND;TZID=America/Toronto:20250910T132000
+DTSTAMP:20260919T205231Z
+UID:518ae2a1-8b5f-454c-be7b-83b78464afd7@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20251210T045959Z;BYDAY=WE
+DESCRIPTION:Lecture\, weekly from Sep 4 to Dec 9\, 2025
+LOCATION:AHB-1R40
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A Lecture
+DTSTART;TZID=America/Toronto:20250905T123000
+DTEND;TZID=America/Toronto:20250905T132000
+DTSTAMP:20260919T205231Z
+UID:e42d2ee2-37bb-43ea-9617-52cb6a07382c@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20251210T045959Z;BYDAY=FR
+DESCRIPTION:Lecture\, weekly from Sep 4 to Dec 9\, 2025
+LOCATION:AHB-1R40
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A Tutorial
+DTSTART;TZID=America/Toronto:20250910T173000
+DTEND;TZID=America/Toronto:20250910T182000
+DTSTAMP:20260919T205231Z
+UID:dc1c99d2-1ddd-4b40-941a-3136d6d33ca6@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20251210T045959Z;BYDAY=WE
+DESCRIPTION:Tutorial\, weekly from Sep 4 to Dec 9\, 2025
+LOCATION:Zoom
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Quizzes (1 of 9) due
+DTSTART;TZID=America/Toronto:20250912T235900
+DTEND;TZID=America/Toronto:20250913T002900
+DTSTAMP:20260919T205231Z
+UID:9fb2bc93-9caf-4be0-9501-fcf2cb063086@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 15%\nEvery Friday from Sep 12 to Nov 1
+ 4\, 2025 (9 dates)\nOutline says: I. Quizzes (15%) Each Friday of a lectur
+ e week (starting Sept 12 and ending
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Quizzes (2 of 9) due
+DTSTART;TZID=America/Toronto:20250919T235900
+DTEND;TZID=America/Toronto:20250920T002900
+DTSTAMP:20260919T205231Z
+UID:0717a67b-6d4a-4f27-8b5c-6db49e737e49@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 15%\nEvery Friday from Sep 12 to Nov 1
+ 4\, 2025 (9 dates)\nOutline says: I. Quizzes (15%) Each Friday of a lectur
+ e week (starting Sept 12 and ending
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Quizzes (3 of 9) due
+DTSTART;TZID=America/Toronto:20250926T235900
+DTEND;TZID=America/Toronto:20250927T002900
+DTSTAMP:20260919T205231Z
+UID:d3fa110b-9aeb-4bb4-9bf2-0335002c8278@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 15%\nEvery Friday from Sep 12 to Nov 1
+ 4\, 2025 (9 dates)\nOutline says: I. Quizzes (15%) Each Friday of a lectur
+ e week (starting Sept 12 and ending
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Quizzes (4 of 9) due
+DTSTART;TZID=America/Toronto:20251003T235900
+DTEND;TZID=America/Toronto:20251004T002900
+DTSTAMP:20260919T205231Z
+UID:39266a6d-6357-49b1-98d9-afd866b26f95@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 15%\nEvery Friday from Sep 12 to Nov 1
+ 4\, 2025 (9 dates)\nOutline says: I. Quizzes (15%) Each Friday of a lectur
+ e week (starting Sept 12 and ending
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Quizzes (5 of 9) due
+DTSTART;TZID=America/Toronto:20251010T235900
+DTEND;TZID=America/Toronto:20251011T002900
+DTSTAMP:20260919T205231Z
+UID:d743a231-0af6-48ce-a0d8-539e0291b00a@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 15%\nEvery Friday from Sep 12 to Nov 1
+ 4\, 2025 (9 dates)\nOutline says: I. Quizzes (15%) Each Friday of a lectur
+ e week (starting Sept 12 and ending
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Quizzes (6 of 9) due
+DTSTART;TZID=America/Toronto:20251017T235900
+DTEND;TZID=America/Toronto:20251018T002900
+DTSTAMP:20260919T205231Z
+UID:059d7ceb-ee0d-48a5-918b-9e27c9355c16@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 15%\nEvery Friday from Sep 12 to Nov 1
+ 4\, 2025 (9 dates)\nOutline says: I. Quizzes (15%) Each Friday of a lectur
+ e week (starting Sept 12 and ending
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Quizzes (7 of 9) due
+DTSTART;TZID=America/Toronto:20251024T235900
+DTEND;TZID=America/Toronto:20251025T002900
+DTSTAMP:20260919T205231Z
+UID:a2e99ed0-fad6-4771-9055-3e6bbbc215db@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 15%\nEvery Friday from Sep 12 to Nov 1
+ 4\, 2025 (9 dates)\nOutline says: I. Quizzes (15%) Each Friday of a lectur
+ e week (starting Sept 12 and ending
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Quizzes (8 of 9) due
+DTSTART;TZID=America/Toronto:20251031T235900
+DTEND;TZID=America/Toronto:20251101T002900
+DTSTAMP:20260919T205231Z
+UID:ba7807f5-8e97-40d9-aa2c-a3dd4e8a2c64@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 15%\nEvery Friday from Sep 12 to Nov 1
+ 4\, 2025 (9 dates)\nOutline says: I. Quizzes (15%) Each Friday of a lectur
+ e week (starting Sept 12 and ending
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Quizzes (9 of 9) due
+DTSTART;TZID=America/Toronto:20251114T235900
+DTEND;TZID=America/Toronto:20251115T002900
+DTSTAMP:20260919T205231Z
+UID:8d844482-b4be-486e-813b-732f91b94ad4@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 15%\nEvery Friday from Sep 12 to Nov 1
+ 4\, 2025 (9 dates)\nOutline says: I. Quizzes (15%) Each Friday of a lectur
+ e week (starting Sept 12 and ending
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Assignment 1 due
+DTSTART;TZID=America/Toronto:20250929T235500
+DTEND;TZID=America/Toronto:20250929T235600
+DTSTAMP:20260919T205231Z
+UID:422a5e74-4479-4c53-8ec5-5241136c1944@plato.kalpkan.com
+DESCRIPTION:Assignment 1 (assignment)\nWeight: 5%\nOutline says: II. Assig
+ nment 1 (5%) Due Monday September 29
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Assignment 2 due
+DTSTART;TZID=America/Toronto:20251013T235500
+DTEND;TZID=America/Toronto:20251013T235600
+DTSTAMP:20260919T205231Z
+UID:00faee69-a7e2-4d6f-8f57-39d5e576c9bd@plato.kalpkan.com
+DESCRIPTION:Assignment 2 (assignment)\nWeight: 20%\nOutline says: III. Ass
+ ignment 2 (20%) Due Wednesday October 13
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Assignment 3 due
+DTSTART;TZID=America/Toronto:20251110T235500
+DTEND;TZID=America/Toronto:20251110T235600
+DTSTAMP:20260919T205231Z
+UID:e5b037be-766e-47aa-b306-a186c2350307@plato.kalpkan.com
+DESCRIPTION:Assignment 3 (assignment)\nWeight: 20%\nOutline says: IV. Assi
+ gnment 3 (20%) Due Monday November 10
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Final Written Report due
+DTSTART;TZID=America/Toronto:20251208T235500
+DTEND;TZID=America/Toronto:20251208T235600
+DTSTAMP:20260919T205231Z
+UID:191ad423-2ffc-4551-9449-a16507d6bd40@plato.kalpkan.com
+DESCRIPTION:Final Written Report (assignment)\nWeight: 25%\nOutline says: 
+ * Final Written Report: Wed. December 8th. (25% final).
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A: Peer Evaluations due
+DTSTART;TZID=America/Toronto:20251208T235500
+DTEND;TZID=America/Toronto:20251208T235600
+DTSTAMP:20260919T205231Z
+UID:1d3f3012-2107-4a8d-a129-4e9c3f457717@plato.kalpkan.com
+DESCRIPTION:Peer Evaluations (assignment)\nWeight: 7%\nDate taken from the
+  paragraph describing this item\nOutline says: * Peer Evaluations: individ
+ ual contribution to your group (7% of final mark).
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A start: Quizzes
+DTSTART;TZID=America/Toronto:20250829T235900
+DTEND;TZID=America/Toronto:20250830T005900
+DTSTAMP:20260919T205231Z
+UID:e61a3499-bc42-4ceb-82aa-418f2708fa8b@plato.kalpkan.com
+DESCRIPTION:Start studying for: Quizzes\nDue: 2025-09-12 23:59
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A start: Assignment 1
+DTSTART;TZID=America/Toronto:20250926T235500
+DTEND;TZID=America/Toronto:20250927T005500
+DTSTAMP:20260919T205231Z
+UID:cda4a4ef-f59c-4c86-a305-a2235de9e1a3@plato.kalpkan.com
+DESCRIPTION:Start studying for: Assignment 1\nDue: 2025-09-29 23:55
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A start: Assignment 2
+DTSTART;TZID=America/Toronto:20250929T235500
+DTEND;TZID=America/Toronto:20250930T005500
+DTSTAMP:20260919T205231Z
+UID:c8feb62f-f028-4778-a64d-cb86e5b91310@plato.kalpkan.com
+DESCRIPTION:Start studying for: Assignment 2\nDue: 2025-10-13 23:55
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A start: Assignment 3
+DTSTART;TZID=America/Toronto:20251027T235500
+DTEND;TZID=America/Toronto:20251028T005500
+DTSTAMP:20260919T205231Z
+UID:cbec41d4-ef1d-4bad-a0d9-43651a348713@plato.kalpkan.com
+DESCRIPTION:Start studying for: Assignment 3\nDue: 2025-11-10 23:55
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A start: Final Written Report
+DTSTART;TZID=America/Toronto:20251117T235500
+DTEND;TZID=America/Toronto:20251118T005500
+DTSTAMP:20260919T205231Z
+UID:368c70f9-4a1c-4606-b458-0d5b554e3061@plato.kalpkan.com
+DESCRIPTION:Start studying for: Final Written Report\nDue: 2025-12-08 23:5
+ 5
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biochem 3381A start: Peer Evaluations
+DTSTART;TZID=America/Toronto:20251201T235500
+DTEND;TZID=America/Toronto:20251202T005500
+DTSTAMP:20260919T205231Z
+UID:37eb690a-588b-485d-a746-489025664f69@plato.kalpkan.com
+DESCRIPTION:Start studying for: Peer Evaluations\nDue: 2025-12-08 23:55
+PRIORITY:3
+END:VEVENT
+END:VCALENDAR

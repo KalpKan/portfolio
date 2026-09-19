@@ -1682,6 +1682,65 @@ _Entries begin below, oldest first._
 - **Prevention:** runbook "Deploy an Express+CRA app to Vercel" step 15 now says a local stack must mirror **all** `vercel.json` rewrites (`/api`, `/ingest`, SPA) before its console output counts as evidence.
 - **Reported by:** Phase 5 TEST agent (plantit, round 2)
 
+### 2026-09-19: pushups, the first rep of almost every set was lost and sets were under-counted (Phase 5 FIX agent, round 1; report D1, D8, blockers)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/pushup-tracker-web` `src/repCounter.ts` (production `4f0708e` until the deploy below)
+- **Symptom:** live fake-camera corpus 4/15, 4/15, 5/15 in three runs, every miss an under-count: the first rep lost on 12/15 clips, bad-form clips showed 2 of 4 attempts, a 9-rep set read 6 (`docs/reports/pushups.md` D1/D8).
+- **Root cause:** the ported Python state machine registered a "top" only when the shoulders were within 10 % of the all-time min/max range; at the start the range is ~0, so the plank the visitor is already in never counted as a top and the first descent counted for nothing; later a single overshoot (standing up, a deeper bottom, one glitched frame) widened the all-time range so the 10 % bands became unreachable for normal reps. A 10-frame warm-up discarded the first third of a second regardless of what happened in it.
+- **Fix:** `src/repCounter.ts` rewritten as a time-based zig-zag scaled by the body: the first plank-like frame is the top reference, a descent opens once the shoulders drop ≥ 0.25 torso lengths (later ≥ half the median depth of the last reps), the rep counts when the shoulders are back up 65 % of that rep's own depth, no warm-up, no all-time range. Corpus (`tests/corpus.test.ts`, now a hard gate on both the Python and the browser landmark traces): 15/15 clips within tolerance, attempts exactly right on 13/15 (the other two within ±1).
+- **Prevention:** `npm test` fails on any clip outside the tolerance on either trace set; `scripts/e2e-corpus.mjs` ×3 is the release check (verification.md row). Never tune a counter on frame counts or all-time extremes again: the corpus README says why.
+- **Reported by:** Phase 5 FIX agent (pushups, round 1)
+
+### 2026-09-19: pushups, the same clip counted differently on consecutive runs and at different frame rates (Phase 5 FIX agent, round 1; report D2, D6, blocker + major)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/pushup-tracker-web` `src/repCounter.ts`, `src/session.ts`
+- **Symptom:** 6/15 clips changed between three live runs (`good_IMG_4378` 7/7 → 0/0 → 7/7); the trace replay changed 3/15 counts with every third frame dropped and 6/15 at 10 fps (D2, D6).
+- **Root cause:** every decision was a single frame (warm-up of 10 detections, a band crossing on the first frame inside a 10 % band), and the first second of a fresh session ran at 2–16 fps while MediaPipe compiled its GPU shaders, so which frames existed varied run to run; one spurious landmark frame during warm-up poisoned the all-time range for the whole session (the 0/0 run).
+- **Fix:** all counter decisions are on seconds and body-scaled distances; a sample that jumps by more than a rep's minimum depth is held until the next sample confirms it (two-in-a-row outlier gate, no lag, unlike a 3-sample median which clipped fast reps at 10–15 fps on `IMG_1305`); landmarks with mean shoulder+hip visibility < 0.5 are not fed to the counter; the shaders are compiled on a blank 64×64 frame before `video.play()`; each end's verdict is the majority of the frames spent there. `tests/corpus.test.ts` asserts the same count at 30/20/15/10 fps for all 15 clips on both trace sets; `tests/repCounter.test.ts` pins spike rejection and 0.7 s reps at 10 fps.
+- **Prevention:** the frame-drop invariance is a permanent test; the warm-up detect is in `session.ts` with a comment naming this incident.
+- **Reported by:** Phase 5 FIX agent (pushups, round 1)
+
+### 2026-09-19: pushups, the form classifier called every clean top "bad", a pike and kneeling "Good form 100 %", and in the browser every bottom of a bad-form clip "good" (Phase 5 FIX agent, round 1; report D3, D4, major)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/pushup-tracker-web` `src/classifier.ts`, `public/models/form/`, `src/scaler.ts`
+- **Symptom:** `test_video_4` 4 clean reps → 0 good in every run (P(good) 0.07–0.16 at the tops); `IMG_1512`'s pike and kneeling read "Good form 100 %"; no reason for a bad verdict. Found during the fix: in the browser the old network scored every bottom of `bad_IMG_4456` 0.98–1.00 (the Python reference said 0.05–0.09).
+- **Root cause:** three things. (1) The Keras network was trained with every frame of a clip carrying the clip's label, so tops of bad clips taught it that planks are bad. (2) It is orientation-locked: mirroring its input flips every output to 0.00/1.00, and for the three corpus clips filmed facing the other way it answers 1.00 constantly, pike included. (3) It keys on `z`, and the MediaPipe Tasks model the site runs puts the wrist/elbow `z` up to 0.43 off the legacy Python model's (mean |Δz| 0.04 vs |Δx| 0.019, |Δy| 0.014), so the browser never ran the classifier that was validated.
+- **Fix:** geometric rules first (`src/form.ts`: hip deviation from the shoulder–ankle line, knee angle, body angle, all in aspect-corrected torso units; thresholds from the labelled corpus) with a reason string (hips sagging / hips too high / knees down / keep your body straight / go lower); the classifier retrained (`scripts/make_training_landmarks.py` extracts landmarks from the 90-odd training clips with the site's own `.task` model; `scripts/train_form_model.py` trains a 24→32→16→1 MLP on x, y only, hip-centred, torso-scaled, mirrored to one facing, lower-half frames only, held out by clip) and consulted at the bottom of a rep only. The old export scripts and Python-probability fixtures were removed; `tests/classifier.test.ts` pins TF.js to the new Keras probabilities within 1e-4. **Residual:** v2 is 96 % on held-out clips of the same person but does not transfer to another body (IMG_1359's nine clean reps score 0.00 whichever way the features are mirrored; augmentation and an angles-only variant did not change that), so it is trusted only in the training orientation (feet on the left of the raw frame) and `test_video`'s two good reps at 13.5/15 s (hip deviation +0.13, the same as its rep labelled bad at 9.5 s) stay a known miss, marked `it.fails` in the corpus test. Corpus after the fix: 14/15 clips within tolerance on both trace sets, bottom verdicts 62/69 (Python) and 57/69 (browser).
+- **Prevention:** the corpus test replays the site's own browser-recorded landmarks (`tests/fixtures/traces-browser/`) so a classifier that only works on Python landmarks cannot pass again; the README's "Retraining the form classifier" says the classifier must be retrained whenever the pose model file changes.
+- **Reported by:** Phase 5 FIX agent (pushups, round 1)
+
+### 2026-09-19: pushups, no placement guidance beyond "no pose" and the demo clip analysed every frame twice (Phase 5 FIX agent, round 1; report D5, D7, D9, majors + minor)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/pushup-tracker-web` `src/session.ts`, `src/hints.ts`, `src/pose.ts`
+- **Symptom:** head cut off, feet at the edge with a bystander, a second person and a frontal view were silently scored; the only hint was "Step back" even in the dark; the demo clip reported "60 fps" for a 30 fps file and 2/1 against a truth of 4/2–3.
+- **Root cause:** `session.ts` read `result.landmarks[0]` with `numPoses: 1` and checked only `landmarks == null`; the loop ran on `requestAnimationFrame` and re-analysed the same decoded frame whenever `currentTime` changed, which at 60 Hz is twice per 30 fps frame.
+- **Fix:** `src/hints.ts` (pure, tested): too dark (mean luminance of a 16×9 downsample < 0.12 when no pose), no pose, head or feet outside [0.02, 0.98] or visibility < 0.5, two poses (`numPoses: 2`; the biggest body is tracked), frontal (shoulder width > 0.6 torso); shown after 0.7 s of persistence, counting is never paused by a hint (IMG_1359's head leaves the frame at every top and must still count). `requestVideoFrameCallback` drives the loop (rAF fallback), so the demo is analysed once per frame. Demo now counts 4/2 on the truth of 4/2–3.
+- **Prevention:** `tests/hints.test.ts`; the e2e demo row expects ~30 fps.
+- **Reported by:** Phase 5 FIX agent (pushups, round 1)
+
+### 2026-09-19: pushups, a kneeling drop counted as an attempt in the browser though not on the Python trace (Phase 5 FIX agent, round 1; found by the browser traces)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/pushup-tracker-web` `src/repCounter.ts`
+- **Symptom:** `IMG_1513` (starts at the bottom, one bad rep, then drops to the knees) counted 2 attempts in the browser; the Python-trace replay gave 1. The kneel is a listed not-rep.
+- **Root cause:** the kneel dropped the shoulders 0.29 torso lengths (minimum depth 0.25) and the browser's landmarks put the reversal just past the 65 % return; the Python landmarks fell just short. The descent was opened by frames whose knee angle said "kneeling".
+- **Fix:** a descent can only be opened by a plank-like frame (body angle ≤ 30°, knee angle ≥ 130°). Cost: `test_video_2`'s "flat on the floor from the knees" rep is no longer an attempt (3 of 4, inside the tolerance; a coach would not call it a pushup either).
+- **Prevention:** `tests/repCounter.test.ts` "does not turn a drop onto the knees into a rep"; the browser-trace corpus set.
+- **Reported by:** Phase 5 FIX agent (pushups, round 1)
+
+### 2026-09-19: pushups FIX round 1 could not deploy: 113 deployments in the team's rolling 24 h window (74 from the hub) until 19:19 UTC (Phase 5 FIX agent, pushups round 1)
+
+- **Date:** 2026-09-19 03:00 UTC
+- **Affected:** `KalpKan/pushup-tracker-web` (production stays `4f0708e` until redeployed)
+- **Symptom:** the paginated `GET /v6/deployments?teamId=…&since=<now-24h>` count was **113** at 03:01 UTC (portfolio 74, microtubules 9, plantit 9, hoops 7, pushups 6, plato 5, promptflip 2, emotes 1); the window drops below 100 at **2026-09-19 19:19:31 UTC**. Same cause as the plantit entry above; no deploy attempt was made (each refused attempt is noise in the log).
+- **Fix:** none possible at $0 without waiting. Verified on the production build served locally (`npm run build && npx vite preview --port 4177`, the same `dist/` Vercel serves): fake-camera corpus ×3, demo ×3, Lighthouse, phone widths (numbers in `verification.md` and the STATUS row).
+- **Prevention:** **any agent after 19:20 UTC 2026-09-19** runs `bash ~/projects/portfolio/scripts/vercel-redeploy-when-quota-frees.sh ~/projects/pushups pushups.kalpkan.com 20 10`, then the live rows in `verification.md` (corpus ×3, demo ×3 on `https://pushups.kalpkan.com/`). Batch hub docs pushes.
+- **Reported by:** Phase 5 FIX agent (pushups, round 1)
+
 ### 2026-09-19: emotes, a thumbs-up beside the head fires Goblin Muscle 8 times in 13 through the real pipeline while the corpus says 100 % (Phase 5 TEST agent, emotes round 2; report D1, blocker)
 
 - **Date:** 2026-09-19 17:00 UTC
@@ -1740,3 +1799,43 @@ _Entries begin below, oldest first._
 - **Fix:** the fixed code was tested on the production build served locally (`vite preview`), which is the same `dist/` Vercel serves; the live checks (S1, S9, S10, Lighthouse 0.89, console, network) were run on the live site as it is. Deploy after 19:20 UTC with `scripts/vercel-redeploy-when-quota-frees.sh ~/projects/emotes emotes.kalpkan.com 20 10`, ideally with the D1–D3 fixes in the same deploy.
 - **Prevention:** the report separates "in `4e25a95`" from "on production" per defect, so nobody reads a local PASS as a live one; the hub's docs pushes are what fill the window (63–74 of the 100), so batch them.
 - **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: Plato's extraction cache is keyed on the PDF hash alone, so a deploy that fixes the parser changes nothing for any outline parsed before it (Phase 5 TEST agent, plato round 2; report D13, major)
+
+- **Date:** 2026-09-19 20:48 UTC (one minute after `0b69edd` went live)
+- **Affected:** https://plato.kalpkan.com `/upload` → `/review`; Neon table `extraction_cache` (`src/cache.py:106`, `src/supabase_cache.py`)
+- **Symptom:** uploading `FHS Course Outline 2000.pdf` without "Re-read the PDF" showed the banner "This outline was parsed before; showing the saved result" above the round-1 extraction (term Jan 08 – Apr 30, "6 Need a date", "Physical Activity Tracker 11", the lecture offered again as a lab); the scanned and blank edge PDFs still landed on the old blank review page instead of the new "no text layer" message. Every PDF ever uploaded (all 42 corpus files, the edge files) behaved this way.
+- **Root cause:** the cache row carries no parser version; `lookup_extraction(pdf_hash)` returns whatever the parser of the day wrote, forever.
+- **Fix:** none in code yet. The audit force-refreshed the 42 corpus entries (20:50–20:56 UTC) so the corpus rows are current; any other previously uploaded outline is still stale until re-read.
+- **Prevention:** `verification.md` row "cache is versioned (D13)"; the fixer adds a `PARSER_VERSION` to the cache key (or a hash of `src/outline/*.py`) and a test that an old-version row is a miss. Until then every parser deploy must be followed by a force-refresh of the corpus, and the report must say which cache state was tested.
+- **Reported by:** Phase 5 TEST agent (plato, round 2)
+
+### 2026-09-19: Plato expands "quiz every Friday from X to Y" into every Friday and invents two quiz dates the outline does not list (Phase 5 TEST agent, plato round 2; report D15, blocker for S4/S5)
+
+- **Date:** 2026-09-19 20:53 UTC
+- **Affected:** Biochem 3381A live download (`docs/reports/evidence/plato-r2-biochem3381a-live-2026-09-19.ics`); any outline with a recurring rule plus an explicit date list
+- **Symptom:** 9 `Biochem 3381A: Quizzes (n of 9) due` events at 23:59, including Oct 3 and Oct 24, 2025; the outline lists "September 12, 19, 26; October 10, 17, 31; and November 14" (7 quizzes, "between 1-10 pm").
+- **Root cause:** the recurring-rule sentence ("Each Friday of a lecture week, starting Sept 12 and ending November 14") wins over the explicit list on page 9 and is expanded over every weekday between the anchors; the time window is not parsed.
+- **Fix:** none yet (suggested in the report: prefer an explicit date list for the same assessment; cap the expansion by the stated count; read "1-10 pm" as the due time).
+- **Prevention:** `verification.md` row "listed quiz dates, not every Friday (D15)"; the corpus scorer only checks that recurring dates fall inside the window, so it did not catch this: the fixer should make `score.py` compare the extracted `dates` list against the ground truth's when one is given.
+- **Reported by:** Phase 5 TEST agent (plato, round 2)
+
+### 2026-09-19: Plato's "lab report due 24 h after each lab" rule never becomes calendar events, even with the lab slot chosen (Phase 5 TEST agent, plato round 2; report D16, major)
+
+- **Date:** 2026-09-19 21:05 UTC
+- **Affected:** ECE 2240A (50 % "Labs" row), ANATCELL 3309 (two 10 % "Lab Assignments" rows), any outline with a relative rule
+- **Symptom:** with a Monday lab added on the review page the download has the `ECE 2240A Lab` series but no lab-report event; without a lab the row shows only "Relative rule: …" and a "Review" badge, never "add your lab slot first".
+- **Root cause:** `src/outline/pipeline.py:132` sets `due_rule` but never `rule_anchor`, so `RuleResolver.resolve_rule` (`src/rule_resolver.py:56`) gives up at once; and `build_calendar` (`src/app.py:191`) never calls `generate_per_occurrence_assessments`, so even a resolved rule would yield one event, not one per lab.
+- **Fix:** none yet (suggested in the report).
+- **Prevention:** `verification.md` row "per-lab rule expands once a lab slot exists (D16)"; the unit tests cover `RuleResolver` in isolation but not the pipeline → resolver → `.ics` path, so a flow test with a rule row and a chosen lab is the guard.
+- **Reported by:** Phase 5 TEST agent (plato, round 2)
+
+### 2026-09-19: Plato's 100 % corpus score did not generalise: three unlabelled outlines with bullet-prose dates and "Tuesdays 9:30-11:30 am" slots score 0 (Phase 5 TEST agent, plato round 2; report D14, blocker for the bar)
+
+- **Date:** 2026-09-19 21:20 UTC
+- **Affected:** `KalpKan/Plato` parser (`src/outline/assessments.py`, `src/outline/schedule.py`); the corpus gate
+- **Symptom:** the gate passed on the 15 labelled files (dates 36/36, slots 15/15), but screening the 27 unlabelled outlines by hand found CS 2209A (seven dated assignments/quizzes folded into two undated group rows, 0/2 lecture slots), CS 4411 (five dated items marked "No due date in the outline", 0/2 slots) and MOS 2181A (per-section exam dates, eight chapter deadlines and three sections with rooms, all missed). With those three labelled (committed to `tests/corpus/ground_truth/`) the pooled score is slots 68 %, assessments 91 % R, weights 96 %, dates 88 %, titles 94 %, and the gate fails on five metrics.
+- **Root cause:** the parser reads tables and "Title … weight … date" lines, not the "- Name: … (deadline: <date> …)" bullet form, weekday plurals with two slots in one sentence, or "Section 001: <day>, <time>, <room>" lines. Both labelled sets were chosen non-randomly (the fixer's five "worst after the fix", this round's three "visibly failing"), so neither bounds a random outline.
+- **Fix:** none yet (patterns listed in the report). The three ground-truth files make the gate fail until they are handled, which is the point.
+- **Prevention:** `verification.md` row "Corpus gate on 18 labelled files"; before the bar is declared met, label 5–10 outlines chosen at random from the manifest (`labelled: false`), not by looking at the parser output.
+- **Reported by:** Phase 5 TEST agent (plato, round 2)

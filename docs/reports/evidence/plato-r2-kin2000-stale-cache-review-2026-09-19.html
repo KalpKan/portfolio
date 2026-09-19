@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plato - Review</title>
+    <link rel="stylesheet" href="/static/style.css?v=4">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- PostHog analytics: cookieless, proxied through /ingest (see README "Where the settings live") -->
+    <script>
+        !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+        posthog.init('phc_xCXynPYRpsuUVEsyWQ7NhQuCXbL6Lt4S7gPBDogPzNkT', {
+            api_host: '/ingest',
+            ui_host: 'https://us.posthog.com',
+            persistence: 'memory',
+            autocapture: true,
+            capture_pageview: true,
+            capture_pageleave: true,
+            disable_session_recording: false
+        });
+    </script>
+    
+</head>
+<body class="">
+    <div class="container ">
+        <header>
+            <a href="/" class="header-link">
+                <div class="header-content">
+                    <i data-lucide="calendar-check" class="header-icon"></i>
+                    <div class="header-text">
+                        <h1>Plato</h1>
+                        <p class="subtitle">Course outline to calendar</p>
+                    </div>
+                </div>
+            </a>
+        </header>
+
+        
+            
+                <div class="messages">
+                    
+                        <div class="alert alert-info">
+                            This outline was parsed before; showing the saved result. Use &#34;re-read the PDF&#34; to parse it again.
+                        </div>
+                    
+                </div>
+            
+        
+
+        <main class="">
+            
+<div class="review-section">
+    <h2>Review & Confirm</h2>
+    <p>Check every date against your outline; click any highlighted field to correct it. Your edits are saved for you only.
+    Wrong from the start? <a href="/#upload-section">Re-upload the PDF</a> with "re-read the PDF" ticked.</p>
+
+    <!-- Summary Section -->
+    
+    <section class="review-section-item summary-section">
+        <div class="summary-stats">
+            <div class="stat-item">
+                <span class="stat-value">6</span>
+                <span class="stat-label">Assessments</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value completeness-high" title="Sum of the weights below">100%</span>
+                <span class="stat-label">of 100% found</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">1 / 1 / 0</span>
+                <span class="stat-label">Lecture / lab / tutorial slots</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value completeness-medium">6</span>
+                <span class="stat-label">Need a date</span>
+            </div>
+        </div>
+    </section>
+    
+
+    
+
+    <form action="/review" method="POST" class="review-form" id="review-form">
+        <!-- Course Information -->
+        <section class="review-section-item">
+            <h3>
+                <i data-lucide="book-open"></i>
+                Course Information
+            </h3>
+            <div class="info-grid">
+                <div>
+                    <label>Course Code</label>
+                    <span class="value editable-field "
+                          data-field-type="course_code"
+                          data-current-value="KIN 2000"
+                          title="Click to edit">
+                        KIN 2000
+                    </span>
+                </div>
+                <div>
+                    <label>Course Name</label>
+                    <span class="value editable-field " 
+                          data-field-type="course_name" 
+                          data-current-value="KIN 2000 Physical Activity and Health"
+                          title="Click to edit">
+                        KIN 2000 Physical Activity and Health
+                    </span>
+                </div>
+                <div>
+                    <label>Term</label>
+                    <span class="value editable-field "
+                          data-field-type="term_name"
+                          data-current-value="Winter 2026"
+                          title="Click to edit">
+                        Winter 2026
+                    </span>
+                    
+                </div>
+                <div>
+                    <label>Start Date</label>
+                    <span class="value editable-field " 
+                          data-field-type="term_start" 
+                          data-current-value="2026-01-08"
+                          title="Click to edit">
+                        Jan 08, 2026
+                    </span>
+                </div>
+                <div>
+                    <label>End Date</label>
+                    <span class="value editable-field " 
+                          data-field-type="term_end" 
+                          data-current-value="2026-04-30"
+                          title="Click to edit">
+                        Apr 30, 2026
+                    </span>
+                </div>
+                
+            </div>
+            
+        </section>
+
+        <!-- Lecture Section Selection -->
+        <section class="review-section-item">
+            <h3>
+                <i data-lucide="users"></i>
+                Lecture Section
+            </h3>
+            
+                <div class="form-group">
+                    <label for="lecture_section">Select your section</label>
+                    <select name="lecture_section" id="lecture_section" class="form-control" required>
+                        <option value="none">Select a section</option>
+                        
+                            <option value="0" 
+                                selected>
+                                
+                                
+                                    
+                                    
+                                        Thu
+                                    
+                                
+                                10:30 AM - 12:20 PM
+                                
+                            </option>
+                        
+                    </select>
+                    
+                </div>
+            
+        </section>
+
+        <!-- Lab Section Selection -->
+        <section class="review-section-item">
+            <h3>
+                <i data-lucide="flask-conical"></i>
+                Lab Section
+            </h3>
+            
+                <div class="form-group">
+                    <label for="lab_section">Select your section</label>
+                    <select name="lab_section" id="lab_section" class="form-control">
+                        <option value="none">No lab section</option>
+                        
+                            <option value="0"
+                                selected>
+                                Section N/A: 
+                                
+                                    
+                                    
+                                        Thu
+                                    
+                                
+                                10:30 AM
+                                -
+                                12:20 PM
+                                
+                            </option>
+                        
+                    </select>
+                </div>
+            
+        </section>
+
+        <!-- Tutorial Section Selection -->
+        <section class="review-section-item">
+            <h3>
+                <i data-lucide="message-circle"></i>
+                Tutorial Section
+            </h3>
+            
+                <p class="no-data">No tutorial time was found in the outline.</p>
+                <input type="hidden" name="tutorial_section" value="none">
+            
+        </section>
+
+        <!-- Assessments -->
+        <section class="review-section-item">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+                <h3 style="margin: 0;">
+                    <i data-lucide="clipboard-list"></i>
+                    Assessments
+                </h3>
+                <button type="button" class="btn btn-tertiary btn-sm" id="add-assessment-btn">
+                    <i data-lucide="plus"></i>
+                    Add
+                </button>
+            </div>
+            
+                <div class="assessments-list">
+                    
+                        
+                        
+                        <div class="assessment-item needs-review" data-assessment-index="0" data-assessment-id="0">
+                            <div class="assessment-header">
+                                <span class="editable-field assessment-title" 
+                                      data-field-type="assessment_title" 
+                                      data-assessment-index="0"
+                                      data-current-value="Physical Activity Tracker 11"
+                                      title="Click to edit">
+                                    <strong>Physical Activity Tracker 11</strong>
+                                </span>
+                                
+                                    <span class="badge badge-warning">Needs a date</span>
+                                
+                                <button type="button" class="btn-remove-assessment" data-assessment-index="0" title="Remove">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                            <div class="assessment-details">
+                                <span class="editable-field " 
+                                      data-field-type="assessment_weight" 
+                                      data-assessment-index="0"
+                                      data-current-value="5.0"
+                                      title="Click to edit weight">
+                                    <i data-lucide="percent"></i>
+                                    5.0%
+                                </span>
+                                
+                                    <span class="editable-field missing-field" 
+                                          data-field-type="assessment_due_date" 
+                                          data-assessment-index="0"
+                                          data-current-value=""
+                                          title="Click to add date">
+                                        <i data-lucide="calendar"></i>
+                                        Add date
+                                    </span>
+                                
+                            </div>
+                            
+                        </div>
+                    
+                        
+                        
+                        <div class="assessment-item needs-review" data-assessment-index="1" data-assessment-id="1">
+                            <div class="assessment-header">
+                                <span class="editable-field assessment-title" 
+                                      data-field-type="assessment_title" 
+                                      data-assessment-index="1"
+                                      data-current-value="Physical Activity Goal &amp; Plan3"
+                                      title="Click to edit">
+                                    <strong>Physical Activity Goal &amp; Plan3</strong>
+                                </span>
+                                
+                                    <span class="badge badge-warning">Needs a date</span>
+                                
+                                <button type="button" class="btn-remove-assessment" data-assessment-index="1" title="Remove">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                            <div class="assessment-details">
+                                <span class="editable-field " 
+                                      data-field-type="assessment_weight" 
+                                      data-assessment-index="1"
+                                      data-current-value="10.0"
+                                      title="Click to edit weight">
+                                    <i data-lucide="percent"></i>
+                                    10.0%
+                                </span>
+                                
+                                    <span class="editable-field missing-field" 
+                                          data-field-type="assessment_due_date" 
+                                          data-assessment-index="1"
+                                          data-current-value=""
+                                          title="Click to add date">
+                                        <i data-lucide="calendar"></i>
+                                        Add date
+                                    </span>
+                                
+                            </div>
+                            
+                        </div>
+                    
+                        
+                        
+                        <div class="assessment-item needs-review" data-assessment-index="2" data-assessment-id="2">
+                            <div class="assessment-header">
+                                <span class="editable-field assessment-title" 
+                                      data-field-type="assessment_title" 
+                                      data-assessment-index="2"
+                                      data-current-value="Mid-term Exam4"
+                                      title="Click to edit">
+                                    <strong>Mid-term Exam4</strong>
+                                </span>
+                                
+                                    <span class="badge badge-warning">Needs a date</span>
+                                
+                                <button type="button" class="btn-remove-assessment" data-assessment-index="2" title="Remove">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                            <div class="assessment-details">
+                                <span class="editable-field " 
+                                      data-field-type="assessment_weight" 
+                                      data-assessment-index="2"
+                                      data-current-value="30.0"
+                                      title="Click to edit weight">
+                                    <i data-lucide="percent"></i>
+                                    30.0%
+                                </span>
+                                
+                                    <span class="editable-field missing-field" 
+                                          data-field-type="assessment_due_date" 
+                                          data-assessment-index="2"
+                                          data-current-value=""
+                                          title="Click to add date">
+                                        <i data-lucide="calendar"></i>
+                                        Add date
+                                    </span>
+                                
+                            </div>
+                            
+                        </div>
+                    
+                        
+                        
+                        <div class="assessment-item needs-review" data-assessment-index="3" data-assessment-id="3">
+                            <div class="assessment-header">
+                                <span class="editable-field assessment-title" 
+                                      data-field-type="assessment_title" 
+                                      data-assessment-index="3"
+                                      data-current-value="Physical Activity Goal Report5"
+                                      title="Click to edit">
+                                    <strong>Physical Activity Goal Report5</strong>
+                                </span>
+                                
+                                    <span class="badge badge-warning">Needs a date</span>
+                                
+                                <button type="button" class="btn-remove-assessment" data-assessment-index="3" title="Remove">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                            <div class="assessment-details">
+                                <span class="editable-field " 
+                                      data-field-type="assessment_weight" 
+                                      data-assessment-index="3"
+                                      data-current-value="10.0"
+                                      title="Click to edit weight">
+                                    <i data-lucide="percent"></i>
+                                    10.0%
+                                </span>
+                                
+                                    <span class="editable-field missing-field" 
+                                          data-field-type="assessment_due_date" 
+                                          data-assessment-index="3"
+                                          data-current-value=""
+                                          title="Click to add date">
+                                        <i data-lucide="calendar"></i>
+                                        Add date
+                                    </span>
+                                
+                            </div>
+                            
+                        </div>
+                    
+                        
+                        
+                        <div class="assessment-item needs-review" data-assessment-index="4" data-assessment-id="4">
+                            <div class="assessment-header">
+                                <span class="editable-field assessment-title" 
+                                      data-field-type="assessment_title" 
+                                      data-assessment-index="4"
+                                      data-current-value="Physical Activity Tracker 26"
+                                      title="Click to edit">
+                                    <strong>Physical Activity Tracker 26</strong>
+                                </span>
+                                
+                                    <span class="badge badge-warning">Needs a date</span>
+                                
+                                <button type="button" class="btn-remove-assessment" data-assessment-index="4" title="Remove">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                            <div class="assessment-details">
+                                <span class="editable-field " 
+                                      data-field-type="assessment_weight" 
+                                      data-assessment-index="4"
+                                      data-current-value="5.0"
+                                      title="Click to edit weight">
+                                    <i data-lucide="percent"></i>
+                                    5.0%
+                                </span>
+                                
+                                    <span class="editable-field missing-field" 
+                                          data-field-type="assessment_due_date" 
+                                          data-assessment-index="4"
+                                          data-current-value=""
+                                          title="Click to add date">
+                                        <i data-lucide="calendar"></i>
+                                        Add date
+                                    </span>
+                                
+                            </div>
+                            
+                        </div>
+                    
+                        
+                        
+                        <div class="assessment-item needs-review" data-assessment-index="5" data-assessment-id="5">
+                            <div class="assessment-header">
+                                <span class="editable-field assessment-title" 
+                                      data-field-type="assessment_title" 
+                                      data-assessment-index="5"
+                                      data-current-value="Final Exam7"
+                                      title="Click to edit">
+                                    <strong>Final Exam7</strong>
+                                </span>
+                                
+                                    <span class="badge badge-warning">Needs a date</span>
+                                
+                                <button type="button" class="btn-remove-assessment" data-assessment-index="5" title="Remove">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                            <div class="assessment-details">
+                                <span class="editable-field " 
+                                      data-field-type="assessment_weight" 
+                                      data-assessment-index="5"
+                                      data-current-value="40.0"
+                                      title="Click to edit weight">
+                                    <i data-lucide="percent"></i>
+                                    40.0%
+                                </span>
+                                
+                                    <span class="editable-field missing-field" 
+                                          data-field-type="assessment_due_date" 
+                                          data-assessment-index="5"
+                                          data-current-value=""
+                                          title="Click to add date">
+                                        <i data-lucide="calendar"></i>
+                                        Add date
+                                    </span>
+                                
+                            </div>
+                            
+                        </div>
+                    
+                </div>
+            
+        </section>
+
+        <!-- Lead Time Mapping - Collapsible -->
+        <details class="review-section-item">
+            <summary class="lead-time-summary">
+                <i data-lucide="bell"></i>
+                <span>Study Reminders</span>
+                <i data-lucide="chevron-down" class="chevron"></i>
+            </summary>
+            <div class="lead-time-content">
+                <p>Reminders will be created based on assessment weight. Click to customize.</p>
+                <div class="lead-time-mapping">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Weight Range</th>
+                                <th>Reminder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr>
+                                    <td>0-5%</td>
+                                    <td>
+                                        <span class="editable-field lead-time-value" 
+                                              data-field-type="lead_time_mapping" 
+                                              data-weight-range="0-5%"
+                                              data-current-value="3"
+                                              title="Click to edit">
+                                            3 days before
+                                        </span>
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>6-10%</td>
+                                    <td>
+                                        <span class="editable-field lead-time-value" 
+                                              data-field-type="lead_time_mapping" 
+                                              data-weight-range="6-10%"
+                                              data-current-value="7"
+                                              title="Click to edit">
+                                            7 days before
+                                        </span>
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>11-20%</td>
+                                    <td>
+                                        <span class="editable-field lead-time-value" 
+                                              data-field-type="lead_time_mapping" 
+                                              data-weight-range="11-20%"
+                                              data-current-value="14"
+                                              title="Click to edit">
+                                            14 days before
+                                        </span>
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>21-30%</td>
+                                    <td>
+                                        <span class="editable-field lead-time-value" 
+                                              data-field-type="lead_time_mapping" 
+                                              data-weight-range="21-30%"
+                                              data-current-value="21"
+                                              title="Click to edit">
+                                            21 days before
+                                        </span>
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>31%+</td>
+                                    <td>
+                                        <span class="editable-field lead-time-value" 
+                                              data-field-type="lead_time_mapping" 
+                                              data-weight-range="31%+"
+                                              data-current-value="28"
+                                              title="Click to edit">
+                                            28 days before
+                                        </span>
+                                    </td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>Finals</td>
+                                    <td>
+                                        <span class="editable-field lead-time-value" 
+                                              data-field-type="lead_time_mapping" 
+                                              data-weight-range="Finals"
+                                              data-current-value="28"
+                                              title="Click to edit">
+                                            28 days before
+                                        </span>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </details>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="generate-calendar-btn">
+                <i data-lucide="download"></i>
+                Download Calendar
+            </button>
+            <a href="/" class="btn btn-secondary">
+                <i data-lucide="arrow-left"></i>
+                Back
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Modal for Adding Assessment -->
+<div id="add-assessment-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>
+            <i data-lucide="plus-circle"></i>
+            Add Assessment
+        </h3>
+        <form id="add-assessment-form" onsubmit="return false;">
+            <div class="form-group">
+                <label for="assessment-title">Title</label>
+                <input type="text" id="assessment-title" name="title" required placeholder="e.g., Midterm Exam, Assignment 1">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="assessment-type">Type</label>
+                    <select id="assessment-type" name="type" required>
+                        <option value="assignment">Assignment</option>
+                        <option value="lab_report">Lab Report</option>
+                        <option value="quiz">Quiz</option>
+                        <option value="midterm">Midterm</option>
+                        <option value="final">Final Exam</option>
+                        <option value="project">Project</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="assessment-weight">Weight (%)</label>
+                    <input type="number" id="assessment-weight" name="weight_percent" step="0.1" min="0" max="100" placeholder="15">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="assessment-due-date">Due Date & Time</label>
+                <input type="datetime-local" id="assessment-due-date" name="due_datetime">
+            </div>
+            <div class="form-group">
+                <label for="assessment-due-rule">Relative Date (optional)</label>
+                <input type="text" id="assessment-due-rule" name="due_rule" placeholder="e.g., During final exam period">
+                <small>Use this if you don't know the exact date yet</small>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i data-lucide="check"></i>
+                    Add
+                </button>
+                <button type="button" class="btn btn-secondary cancel-add-assessment">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p class="footer-disclaimer">This tool is not affiliated with Western University. It is an independent project designed to work with Western University course outlines.</p>
+                <p class="footer-credit">Developed by Kalp Kansara</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/app.js?v=3"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+    
+</body>
+</html>
