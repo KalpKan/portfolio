@@ -19,8 +19,8 @@ This file explains how the platform is put together and, more importantly, **why
       +- [Persistent processes]    none today; reserved slot = Fly.io auto-stop machine (~$2.8 CAD) if ever needed
       +- [ML inference]            in-browser now; HF ZeroGPU (2 free Spaces) or Modal ($30/mo credit) later
       +- [Databases / auth]        Supabase Free x2 (Project A promptflip, Project B platform), Neon Free, Firebase Spark
-      +- [Analytics]               one PostHog Cloud project, every site reports to it, $0 billing limit
-      +- [Keep-alive + monitoring] UptimeRobot 5-minute pings on every app and on DB-touching health routes
+      +- [Analytics]               one PostHog Cloud project, every site reports to it, free plan with no card (hard-capped)
+      +- [Keep-alive + monitoring] UptimeRobot 5-minute pings on every app's health route (nine monitors) and on DB-touching routes
 ```
 
 Why layers rather than one platform: each layer can be swapped without touching the others. Vercel could become Cloudflare Pages or a VPS in an afternoon because every app is a git repo with a standard framework and the hub only knows a URL per project.
@@ -65,7 +65,7 @@ Success criterion from the plan: UptimeRobot shows 100 percent uptime for at lea
 
 ## DNS and subdomain map
 
-Registrar and DNS are Cloudflare (at-cost renewals, free DNS with 200 records, free web analytics, one panel for every subdomain). The domain is a `.com`, name chosen at purchase (human checkpoint H1). Until H1 lands, everything serves from `*.vercel.app` and `docs/DNS_PENDING.md` (T0.4) lists every record to create.
+Registrar and DNS are Cloudflare (at-cost renewals, free DNS with 200 records, free web analytics, one panel for every subdomain). The domain is a `.com`, name chosen at purchase (human checkpoint H1). H1 landed 2026-09-18 (`kalpkan.com`); `docs/DNS_PENDING.md` §5 lists every record with its Cloudflare id, and the `*.vercel.app` names are fallback aliases only.
 
 | Host | Target | Notes |
 |---|---|---|
@@ -83,7 +83,7 @@ Subdomains are a CNAME to a `*.vercel-dns*.com` name, specifically whatever `npx
 ## The connections layer (hub to projects)
 
 - **Project registry:** `projects.json` in the hub repo. Each entry has `slug`, `name`, `tagline`, `type` (`app` or `showcase`), `status` (`live`, `demo`, `coming`, `archived`), `url`, `repo`, `healthUrl`, `tags`, `hero`. The hub renders cards from it; adding a project is one JSON entry plus a push. Showcase entries (UnPark/Antifreeze, RC car, Yash Birthday PCB, DIY EEG, FlashCards; Outline and classmyschedule were removed 2026-09-18) have no `url` or `healthUrl` and link to `/projects/<slug>` on the hub.
-- **Live status badges:** every app exposes `/api/health`; static demos ship a `health.json`. The hub fetches them client-side with a 3-second timeout and shows a green or grey dot; failures are silent. The same URLs feed UptimeRobot, so one route serves both purposes.
+- **Live status badges:** every app exposes `/api/health`; static demos ship a `health.json`. The hub fetches them server-side (`/api/status/<slug>`, 3-second timeout) and shows a filled or hollow mark; failures are silent. The same URLs feed UptimeRobot (one monitor per live app, plus the DB-touching keep-alives), so one route serves both purposes.
 - **Shared footer / back-link:** a small `<ProjectBar>` ("part of <domain>") published later so all apps feel like one family.
 - **Embeds:** browser-ML demos are static, so the hub can iframe them on case-study pages for free.
 
@@ -96,7 +96,7 @@ Kalp wants to know how many people visit, which sites, where they are from, and 
 - Autocapture records clicks, form submits, and page changes with no code. Each project also sends 2 to 4 named custom events for its core action (`rep_counted`, `emote_fired`, `pdf_parsed`, `plant_identified`, `coinflip_played`, `project_card_clicked`).
 - **Ad-blocker resilience:** requests are proxied through a Next.js rewrite at `/ingest/*` on each app, per PostHog's documented reverse-proxy setup. Without it, numbers are silently 30 to 50 percent low. If analytics "stopped", check the rewrite before the key.
 - **Privacy:** cookieless (`persistence: 'memory'`), geolocation kept at country/city, session replay masks inputs by default, so no cookie banner is needed. The hub's privacy note states this.
-- **Budget guard:** a `$0` billing limit is set on every PostHog product so it can never charge. Verify the limits still read `$0` whenever you touch PostHog.
+- **Budget guard:** the free plan has no card and no subscription, and PostHog hard-caps every product at its free allocation (usage above it is dropped, never billed). A custom `$0` limit is only offered after adding a card, which the platform rules forbid, so the free cap is the guardrail (`docs/analytics.md`, runbook "Check PostHog billing"). Verify `has_active_subscription: false` and no customer id whenever you touch PostHog.
 
 Why not Vercel Web Analytics (no custom events on Hobby, 1-month window), Cloudflare Web Analytics (no events), GA4 (complex, cookie-consent burden), Plausible ($9 USD per month).
 

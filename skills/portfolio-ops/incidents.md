@@ -717,3 +717,61 @@ _Entries begin below, oldest first._
 - **Fix:** wait for the reset; redeploy plantit then.
 - **Prevention:** add a Vercel Ignored Build Step to the hub (`git diff --quiet HEAD^ HEAD -- . ':(exclude)docs' ':(exclude)skills' ':(exclude)STATUS.md'`) so docs/skill/status commits do not deploy; batch commits during agent bursts.
 - **Reported by:** orchestrator
+
+### 2026-09-19: the newest deployment-cap entry re-proposed the "Ignored Build Step" that the entry before it had ruled out
+
+- **Date:** 2026-09-19 00:10 UTC (Phase 2–4 audit), about the entry "Vercel Hobby daily deployment cap reached" dated 2026-09-18 19:10 EDT
+- **Affected:** this file's guidance on the Vercel per-day limit; anyone who reads only the last entry
+- **Symptom:** the last entry says "Prevention: add a Vercel Ignored Build Step to the hub" and "Fix: wait for the reset", while the two entries above it (23:10 and 23:20 UTC) had already shown that canceled builds still count toward the quota (Vercel docs) and that a retry two minutes after a refusal succeeded (`ca980a7` live 23:17 UTC; `e67d21f` followed at 23:47 UTC with the PlantNet key active).
+- **Root cause:** the entry was written from a single refusal at 19:10 EDT (= 23:10 UTC) without reading the entries logged minutes earlier by the T2.1 fixer; the file is append-only, so both now stand.
+- **Fix:** none needed for production (plantit is live on `e67d21f`, `identification: plantnet`). This entry is the pointer: **the current guidance is the 23:20 UTC entry and the runbook bullet in "Deploy an Express+CRA app to Vercel"**: retry a refused deploy every few minutes, prove the served commit, never add an Ignored Build Step to save quota.
+- **Prevention:** before appending a deployment-cap entry, `grep -n 'api-deployments-free-per-day' skills/portfolio-ops/incidents.md` and read the newest hit; a correction goes in as a new entry that names the one it supersedes (as here).
+- **Reported by:** Phase 2–4 auditor
+
+### 2026-09-19: the three static demos had no UptimeRobot monitor although the plan and the runbook call for one per app
+
+- **Date:** 2026-09-19 00:20 UTC (Phase 2–4 audit)
+- **Affected:** pushups, emotes, microtubules (`/health.json` on each); the status page showed six monitors for nine hosts
+- **Symptom:** `docs/hosting-plan.md` §6 ("5-min pings on every app") and §7 item 11 ("monitors for every subdomain"), and the runbook "Add an UptimeRobot monitor" ("Use this for every new app (liveness)"), all say every app gets a monitor; T1.4, T3.1 and T3.2 created none, and the Phase 1 audit then wrote a decision that static apps get none "by design", which contradicted the plan it was auditing against.
+- **Root cause:** the audit runbook checked "none on a `*.vercel.app` host" but not "one per live app", so a missing monitor was invisible; the three deploy runbooks for static apps never listed the monitor step.
+- **Fix:** created `pushups health` `804031518`, `emotes health` `804031519`, `microtubules health` `804031520` (v3 API, GET, 5 min, alert contact 5612875), all `status: 2` after the first cycle, added to PSP `1263036` (nine monitors); rows in `docs/monitors.md`, SKILL.md, verification.md; the 2026-09-18 22:40Z decision superseded in STATUS.md.
+- **Prevention:** the audit runbook now requires one monitor per live `projects.json` app and the PSP list to contain each id; the "Add a project" runbook step 5 says every app gets a monitor.
+- **Reported by:** Phase 2–4 auditor
+
+### 2026-09-19: "Top demos by usage" insight was missing three apps' core events and still charted a deleted app's
+
+- **Date:** 2026-09-19 00:18 UTC (Phase 2–4 audit)
+- **Affected:** PostHog insight `12018258` on the "Kalp portfolio" dashboard (Kalp's bookmark)
+- **Symptom:** the series were `project_card_clicked, rep_counted, emote_fired, pdf_parsed, plant_identified, coinflip_played`; microtubules (`image_analyzed`, 17 events), hoops (`session_viewed`) and the case-study pages (`case_study_repo_clicked`) were not on it, and `coinflip_played` belongs to `tokengamblecoinflip`, deleted in T0.2, so it could never fire.
+- **Root cause:** runbook "Add PostHog to an app" step 6 ("add the new event name to the insight") was skipped by T1.1, T1.4 and T4.1; nothing verified the insight's series against the apps' events.
+- **Fix:** `PATCH /api/projects/616829/insights/12018258/` with the three events added and `coinflip_played` removed; `docs/analytics.md` updated (reserved names, insight row).
+- **Prevention:** the audit runbook step 5 now reads the insight's `series[].event` and compares it with the reserved-names list in `docs/analytics.md`.
+- **Reported by:** Phase 2–4 auditor
+
+### 2026-09-19: the PlantNet key was set on Vercel and went live, but the settings map, SKILL.md, verification.md and H12 still said "not supplied"
+
+- **Date:** 2026-09-19 00:15 UTC (Phase 2–4 audit); the key was set 2026-09-18 ~23:15 UTC and live from the `e67d21f` deploy at 23:47 UTC (`/api/health` → `identification: "plantnet"`)
+- **Affected:** `settings-map.md` (`PLANTNET_API_KEY` "Not set as of 2026-09-18"), `SKILL.md` plantit row ("not yet supplied (demo mode)"), `verification.md` env-names row, STATUS.md H12 (still asking Kalp for the key and for an OpenAI key that his decision the same day forbids)
+- **Root cause:** the agent that set the key (commit `7bdd018`, session-log line 19:15) updated STATUS.md's session log and one incident but not the rows that describe the variable; the H12 text was never reconciled with decision 10 (no paid keys) either.
+- **Fix:** all four places rewritten; H12 closed with the evidence (PlantNet live; OpenAI never; `water_now_clicked` from a real signed-in Chrome session at 23:26 UTC proves sign-in + Water now on the live host).
+- **Prevention:** a variable's row in `settings-map.md` is part of the definition of done for setting it (the file's own rule); the audit greps `not set\|not yet supplied` in the skill.
+- **Reported by:** Phase 2–4 auditor
+
+### 2026-09-19: the case-study fingerprint command in verification.md always printed `1`
+
+- **Date:** 2026-09-19 00:14 UTC (Phase 2–4 audit)
+- **Affected:** verification.md, Hub row "Case-study pages serve"
+- **Symptom:** `curl ... | grep -c 'id="[a-z-]*-head"'` printed `1` for every case-study page (expected 5–7) because Next.js emits the whole page on one line and `grep -c` counts matching lines, not matches; a placeholder page prints `0`, so the check could only tell "case study or not", never "all sections present".
+- **Root cause:** the row was written from a local dev build (multi-line HTML) and not re-run against production.
+- **Fix:** command changed to `grep -o ... | wc -l`; production values recorded (unpark 7, rc-car 6, flashcards 0, yash-birthday-pcb 5, eeg 5).
+- **Prevention:** every verification row that counts things is run against the live host before its Status cell says ✅.
+- **Reported by:** Phase 2–4 auditor
+
+### 2026-09-19: the three Phase 2–3 app repos have no GitHub Actions CI (definition of "very good" says every repo runs its tests in CI)
+
+- **Date:** 2026-09-19 00:16 UTC (Phase 2–4 audit)
+- **Affected:** `KalpKan/PlantWater` (39 jest tests), `KalpKan/pushup-tracker-web` (9 vitest), `KalpKan/emote-detector-web` (33 vitest); none has a `.github/workflows/` folder, `gh run list` prints nothing. The hub and the template have CI; Plato, basketball and microtubules were not checked here (Phase 1 scope).
+- **Root cause:** the Phase 2/3 task briefs listed tests and a README but not the CI workflow; reviewers checked test counts locally.
+- **Fix:** not applied by the audit (application repos are out of its remit and a push would spend a Vercel deployment). Filed for the T5.b hardening pass on each repo: copy the hub's `.github/workflows/ci.yml` shape (install, lint if present, test, build) into each repo in the same commit as the first hardening fix.
+- **Prevention:** the "Create a new project from the template" runbook already ships CI; static-app and Express+CRA runbooks gain a CI step when T5.b lands (owner: T5.b).
+- **Reported by:** Phase 2–4 auditor

@@ -213,7 +213,7 @@ USD unless noted. CAD ≈ USD × 1.37.
  ├─ emotes.  (static, MediaPipe JS)
  └─ microtubules. (static OpenCV.js, or Python fn)
                                 │
- UptimeRobot + cron-job.org ($0): 5-min pings on every app + DB-touching health route
+ UptimeRobot ($0): 5-min pings on every app's health route + the DB-touching routes (9 monitors, 2026-09-19)
  Reserved slots: Fly.io auto-stop (~$2.8 CAD) · HF ZeroGPU (free ×2) · Modal ($30 credit)
 ```
 
@@ -266,7 +266,7 @@ How it is wired:
 - Interactions: autocapture records clicks, form submits and page changes with zero code. Each project additionally sends 2–4 named custom events for its core action (`rep_counted`, `emote_fired`, `pdf_parsed`, `plant_identified`, `coinflip_played`, `project_card_clicked`), so Kalp can see which demos people actually use, not just visit. Heatmaps and session replay are enabled on the hub and demos for "what did they do on the page".
 - Ad-blocker resilience: PostHog requests are proxied through a Next.js rewrite (`/ingest/*`) on each app, per PostHog's documented reverse-proxy setup, so the numbers are not silently 30–50 % low.
 - Privacy: no cookies banner needed for a personal portfolio if PostHog is configured cookieless (`persistence: 'memory'`) and IP-based geolocation is kept at country/city level; session replay masks all text inputs by default. State this in the hub's privacy note.
-- Budget guard: a hobby portfolio generates thousands of events a month, not a million. The orchestrator sets a PostHog billing limit of $0 on every product so it can never charge, and notes the usage in STATUS.md monthly.
+- Budget guard: a hobby portfolio generates thousands of events a month, not a million. The orchestrator sets a PostHog billing limit of $0 on every product so it can never charge, and notes the usage in STATUS.md monthly. *(Reality, 2026-09-18 T0.5: a custom `$0` limit is only offered after a credit card is added, which these rules forbid; the free plan has no card, no subscription and hard-caps every product at its free allocation, so that cap is the guardrail. Evidence and the check: `docs/analytics.md`, runbook "Check PostHog billing".)*
 - Kalp's view: one bookmark, the PostHog Web Analytics dashboard, plus a saved "Top demos by usage" insight and a "Visitors by country" map. Optionally the hub shows a public "visitors this month" number via PostHog's API.
 
 ### Living operations skill (`portfolio-ops`): the project's own repair manual for agents

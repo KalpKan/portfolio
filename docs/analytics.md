@@ -23,7 +23,7 @@ _Written 2026-09-18 (T0.5). One PostHog project receives every visit, click and 
 |---|---|---|
 | Visitors by site | unique visitors per day, split by `$host` (`kalpkan.com`, `hoops.kalpkan.com`, `plato.kalpkan.com`, ...) | https://us.posthog.com/project/616829/insights/cQytKBLD |
 | Visitors by country | world map of unique visitors by `$geoip_country_name` (PostHog derives it from the IP; the IP itself is not stored in event properties) | https://us.posthog.com/project/616829/insights/yLzNtpbM |
-| Top demos by usage | bar chart of the core-action events across every app: `project_card_clicked`, `rep_counted`, `emote_fired`, `pdf_parsed`, `plant_identified`, `coinflip_played` | https://us.posthog.com/project/616829/insights/jKe2OFYN |
+| Top demos by usage | bar chart of the core-action events across every app: `project_card_clicked` (hub rows), `case_study_repo_clicked` (hub case studies), `rep_counted` (pushups), `emote_fired` (emotes), `pdf_parsed` (plato), `plant_identified` (plantit), `image_analyzed` (microtubules), `session_viewed` (hoops). Updated 2026-09-19 (Phase 2–4 audit): the three missing apps were added and `coinflip_played` dropped (that app was deleted in T0.2 and never sent an event) | https://us.posthog.com/project/616829/insights/jKe2OFYN |
 
 ### Spend guardrail ($0, verified)
 
@@ -43,7 +43,7 @@ PostHog's free plan has **no payment method and no subscription**. On the billin
 - `snake_case`, past tense, `<object>_<verb>`: `project_card_clicked`, `rep_counted`, `emote_fired`, `pdf_parsed`, `plant_identified`, `coinflip_played`, `shot_ingested`.
 - 2 to 4 events per app, only for the app's **core action** (the thing a visitor came to do). Autocapture already records every click, so do not add events for navigation.
 - Properties are `snake_case` too and small: ids, enums, counts. Never free text a visitor typed, never an email.
-- Reserved names (already on the "Top demos by usage" insight): `project_card_clicked` (hub), `rep_counted` (pushups), `emote_fired` (emotes), `pdf_parsed` (plato), `plant_identified` (plantit), `coinflip_played` (coinflip). Use those exact names so the insight picks them up without editing.
+- Reserved names (already on the "Top demos by usage" insight): `project_card_clicked` and `case_study_repo_clicked` (hub), `rep_counted` (pushups), `emote_fired` (emotes), `pdf_parsed` (plato), `plant_identified` (plantit), `image_analyzed` (microtubules), `session_viewed` (hoops). Use those exact names so the insight picks them up without editing; a new app's core event must be added to the insight in the same task (runbook "Add PostHog to an app", step 6).
 - Hub case-study pages (T4.1, 2026-09-18): `case_study_repo_clicked { slug }`, fired by `components/showcase/RepoLink.tsx` when a visitor leaves `/projects/<slug>` for the source repository, which is the page's one core action. Page views of `/projects/<slug>` are ordinary `$pageview`s (filter by `$pathname`); scrolling, gallery and carousel interaction are left to autocapture, per the rule above.
 
 ## How every app is wired (the contract)

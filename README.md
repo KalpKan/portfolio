@@ -20,7 +20,7 @@ iOS work gets a case-study page here.
 | `app/api/status/[slug]/route.ts` | Checks one project's own health URL (3 s timeout, `lib/health.ts`) so the page can show a live mark. |
 | `app/opengraph-image.tsx` | The picture shown when the link is shared (iMessage, LinkedIn, Slack): the array plus the name, generated from `projects.json` at build time. |
 | `lib/site.ts` | Your name, the site URL and the contact links (email / GitHub / LinkedIn). Empty contact values show nothing. |
-| `app/projects/[slug]/page.tsx` | The case-study page for a showcase project (`/projects/unpark` and so on). Shows the full page once the registry says `live`; a short "coming" page before that. |
+| `app/projects/[slug]/page.tsx` | The case-study page for a showcase project (`/projects/unpark` and so on). Shows the full page as soon as its content file has no `draft: true` (the registry status only changes the meta line and whether the home-page row links to it); a short placeholder page while the content is a draft. See "How to add a case study". |
 | `content/projects/<slug>.ts` | The words and pictures of one case study (see "How to add a case study"). `content/case-study.ts` is the shape every file follows. |
 | `components/showcase/` | The case-study template: hero, problem, how-it-works diagram, photos, app screens, video, tech, status. |
 | `public/images/projects/<slug>/` | Case-study images, WebP only, 300 KB or less each (a test enforces it). Videos are never put here. |
