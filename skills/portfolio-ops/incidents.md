@@ -795,3 +795,33 @@ _Entries begin below, oldest first._
 - **Fix:** not applied; listed under `docs/reports/hoops.md` D10 for the fixer (`started_at = least(started_at, excluded.started_at)` on conflict).
 - **Prevention:** ingest test scripts run under `bash`, not zsh, or index arrays from 1; the verification row "Ingest synthetic session end to end" posts events in captured order.
 - **Reported by:** Phase 5 TEST agent (hoops, round 1 re-run)
+
+### 2026-09-19: Plant It saves a coffee mug as "Monstera deliciosa 91 %, Demo result" (found by the Phase 5 SPEC agent's corpus baseline)
+
+- **Date:** 2026-09-19 01:47 UTC (spec round 0, production `e67d21f`)
+- **Affected:** https://plantit.kalpkan.com `POST /api/identify`; `backend/src/providers.js` `identify()`
+- **Symptom:** `tests/fixtures/plants/not-a-plant-mug.jpg` (a ceramic mug) → HTTP 200, `demo: true`, `reason: "plantnet_error"`, candidate `Monstera deliciosa` score 0.91, a plant saved to My Plants with a bundled care guide. The 14 real plant photos were fine (genus 15/15, species 14/15).
+- **Root cause:** Pl@ntNet answers HTTP **404** when it finds no species in the image. `identify()` catches every error from `identifyWithPlantNet` as an outage and falls back to `pickDemoPlant(buffer)`, so a non-plant becomes a confident-looking demo plant.
+- **Fix:** not applied by the spec agent (fixing is the FIX agent's round). Filed in `docs/reports/plantit-spec.md` §6 as the S4 blocker: a Pl@ntNet 404 must become a 422 "This does not look like a plant" with nothing saved; only network/5xx/quota errors may use the demo fallback.
+- **Prevention:** `verification.md` row "Functional smoke: identification corpus" (the `negatives refused, nothing saved` bar must be 3/3); the corpus keeps a non-plant image forever.
+- **Reported by:** Phase 5 SPEC agent (plantit)
+
+### 2026-09-19: live snake plants and ZZ plants get the wrong (generic, moist-soil) care guide (found by the SPEC agent's corpus baseline)
+
+- **Date:** 2026-09-19 (spec round 0)
+- **Affected:** `backend/src/demoPlants.js` (`findCannedCare`), `backend/src/providers.js` (`genericCare`)
+- **Symptom:** both snake-plant photos identify correctly as *Dracaena trifasciata* (Pl@ntNet's accepted name), but the care guide is the base generic one ("water when the top 2-3 cm feels dry", threshold 20 %) instead of the bundled snake-plant guide (water only when bone dry, threshold 8 %). *Zamioculcas zamiifolia* (ZZ, drought-tolerant) gets the same moist-soil guide. Overwatering is the main way these two plants die.
+- **Root cause:** the bundled library lists the old name *Sansevieria trifasciata* only; `findCannedCare` matches the exact name or the genus, and `Dracaena` is not in it; `genericCare`'s succulent regex lists `sansevieria` but not `dracaena` or `zamioculcas`.
+- **Fix:** not applied (FIX agent): add `Dracaena trifasciata` as a synonym of the bundled snake plant and extend the drought-tolerant rule; bar in `docs/reports/plantit-spec.md` S3 (threshold ≤ 12 for snake/jade/aloe/ZZ, ≥ 25 for peace lily).
+- **Prevention:** `verification.md` row "Functional smoke: care guidance is species-appropriate".
+- **Reported by:** Phase 5 SPEC agent (plantit)
+
+### 2026-09-19: Wikimedia Commons API rate-limits a burst of metadata lookups (HTTP 429) while building the plant corpus
+
+- **Date:** 2026-09-19 01:20 UTC
+- **Affected:** the spec agent's corpus build only (no hosted service)
+- **Symptom:** after ~25 quick `api.php` calls from one script the API answered `429 You are making too many requests` for the remaining licence lookups; the earlier `Special:FilePath` downloads had succeeded.
+- **Root cause:** no pause between calls; Commons' unauthenticated rate limit.
+- **Fix:** waited 20 s and re-ran with 6 s between calls (all succeeded). A descriptive `User-Agent` was already set.
+- **Prevention:** when scripting Wikimedia lookups, sleep ≥ 5 s between calls and batch titles into one `titles=A|B|C` request (up to 50) instead of one call per file.
+- **Reported by:** Phase 5 SPEC agent (plantit)
