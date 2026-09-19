@@ -1921,3 +1921,12 @@ _Entries begin below, oldest first._
 - **Fix:** both cache managers key extraction rows on `<pdf_hash>@<PARSER_VERSION>`, where `PARSER_VERSION` is 12 hex chars of a SHA-256 over the parser's own source files (`pdf_extractor.py`, `rule_resolver.py`, `models.py`, `outline/*.py`), computed once per process; no schema change (the key column is `TEXT`); old rows go unread. `/api/health` reports `parser` so the live version can be checked against the repo. Live proof: KIN 2000 uploaded **without** force-refresh right after the deploy re-parsed (3.4 s, "Outline read", midterm now 10:30); the second upload showed "showing the saved result".
 - **Prevention:** `tests/test_cache.py::test_extraction_cache_is_keyed_on_the_parser_version` (a row stored under one version is a miss under another) and `test_parser_version_changes_with_the_parser_source`; `verification.md` row "Parser version".
 - **Reported by:** Phase 5 TEST agent (plato, round 2); fixed by the FIX agent
+
+### 2026-09-19: old Supabase database password committed in public KalpKan/Plato
+- **Date:** 2026-09-19 00:55 EDT (found by the first full secret scan; committed by Kalp 2025-12-29 and 2026-01-06, before this platform existed)
+- **Affected:** the paused, unused Supabase project `plato-course-converter` (ftcqzuzpyebtwihizqfl). Plato itself now uses Neon; nothing live depends on this credential.
+- **Symptom:** `scripts/secret-scan.sh` flagged `postgres_url` in Plato history; at HEAD four files under `legacy/` still held direct and pooler connection strings with the password.
+- **What was tried / Fix:** commits eabd9f0 and the follow-up redacted every occurrence at HEAD (now `${DATABASE_URL}` / `<REDACTED-rotate-me>`). History still contains it (public repo).
+- **Root cause:** helper scripts written with a hardcoded connection string before any secret hygiene existed.
+- **Prevention:** run `scripts/secret-scan.sh` before making any repo public and after every agent burst; reviewers grep diffs (already in the reviewer prompt). Kalp checkpoint H17: rotate the database password of `plato-course-converter` (Supabase dashboard → project → Settings → Database → Reset password) or simply delete that project; optionally rewrite Plato history with git filter-repo (same procedure as the RC-car PR).
+- **Reported by:** orchestrator

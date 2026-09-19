@@ -388,6 +388,8 @@ Each phase is an independent brainstorm → spec → implementation cycle (the e
 
 ## Decisions confirmed by Kalp (2026-09-18)
 
+11. **Full redesign at the end.** Kalp has a design theme in mind and will redesign the whole portfolio (hub + case-study pages) once the projects work. Until then, design effort on the hub is limited to correctness and accessibility; all visual decisions stay in DESIGN.md tokens and shared components so the redesign replaces them in one pass.
+
 10. **No paid API keys in public demos.** Kalp's own OpenAI (or similar metered) keys are never set on a hosted project. Demos use a free/canned path by default and may offer an optional bring-your-own-key input that stays in the visitor's browser and is sent per request only. Pl@ntNet (free tier) is fine to set server-side.
 
 1. **Domain:** `.com`, bought at cost via Cloudflare Registrar (exact name chosen at purchase time).
