@@ -1,0 +1,434 @@
+{
+ "live-1280-dark": {
+  "layout": {
+   "scrollW": 1280,
+   "vw": 1280,
+   "docH": 1795,
+   "stage": {
+    "top": 196,
+    "h": 516,
+    "w": 688,
+    "left": 296
+   },
+   "startCam": {
+    "top": 726,
+    "h": 51,
+    "w": 136,
+    "left": 296
+   },
+   "demo": {
+    "top": 726,
+    "h": 51,
+    "w": 117,
+    "left": 442
+   },
+   "stop": {
+    "top": 726,
+    "h": 51,
+    "w": 74,
+    "left": 569
+   },
+   "status": "Press “Start camera” (about 40 MB of models load once) or “Play demo”.",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "hasThemeToggle": false,
+   "mute": false,
+   "muteRect": null,
+   "hints": [
+    "Fingers folded, thumb straight up.",
+    "Flex: bend one arm, fist up beside your head.",
+    "A big yawn: mouth wide, eyes narrowed."
+   ],
+   "note": "Hold a pose for about three frames (a tenth of a second). Emotes wait two seconds between plays.",
+   "stageAspect": "4 / 3",
+   "tapTargets": [
+    "start-camera:136x51",
+    "start-demo:117x51",
+    "stop:74x51"
+   ],
+   "fontFamily": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Noto Sans\", Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+   "links": [
+    "https://github.com/KalpKan/emote-detector-web",
+    "https://supercell.com/en/fan-content-policy/",
+    "https://kalpkan.com/",
+    "https://github.com/KalpKan/emote-detector-web"
+   ],
+   "footer": "Clash Royale emote art and sounds are © Supercell, used under Supercell's Fan Content Policy. This site is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. Non-commercial; no ads.\n\nBuilt by Kalp Kansara · Code on GitHub · Anonym"
+  },
+  "errors": [],
+  "fires": [
+   {
+    "n": "Thumbs Up",
+    "at": 2295,
+    "cap": "Thumbs up"
+   },
+   {
+    "n": "Goblin Muscle",
+    "at": 5007,
+    "cap": "Flex"
+   },
+   {
+    "n": "Princess Yawn",
+    "at": 7595,
+    "cap": "Yawn"
+   },
+   {
+    "n": "Thumbs Up",
+    "at": 10731,
+    "cap": "Thumbs up"
+   },
+   {
+    "n": "Goblin Muscle",
+    "at": 13443,
+    "cap": "Flex"
+   },
+   {
+    "n": "Princess Yawn",
+    "at": 15977,
+    "cap": "Yawn"
+   }
+  ],
+  "demoStatus": {
+   "status": "Demo: replaying recorded landmarks through the same detector (no camera used).",
+   "caption": "Waiting…",
+   "meters": [
+    "0%",
+    "0%",
+    "0%"
+   ]
+  },
+  "requestsDuringDemo": [
+   "https://emotes.kalpkan.com/emotes/goblin_muscle.mp3",
+   "https://emotes.kalpkan.com/emotes/princess_yawn.mp3",
+   "https://emotes.kalpkan.com/emotes/thumbs_up.mp3",
+   "https://emotes.kalpkan.com/favicon.svg"
+  ],
+  "allHosts": [
+   "emotes.kalpkan.com"
+  ]
+ },
+ "live-1280-light": {
+  "layout": {
+   "scrollW": 1280,
+   "vw": 1280,
+   "docH": 1795,
+   "stage": {
+    "top": 196,
+    "h": 516,
+    "w": 688,
+    "left": 296
+   },
+   "startCam": {
+    "top": 726,
+    "h": 51,
+    "w": 136,
+    "left": 296
+   },
+   "demo": {
+    "top": 726,
+    "h": 51,
+    "w": 117,
+    "left": 442
+   },
+   "stop": {
+    "top": 726,
+    "h": 51,
+    "w": 74,
+    "left": 569
+   },
+   "status": "Press “Start camera” (about 40 MB of models load once) or “Play demo”.",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "hasThemeToggle": false,
+   "mute": false,
+   "muteRect": null,
+   "hints": [
+    "Fingers folded, thumb straight up.",
+    "Flex: bend one arm, fist up beside your head.",
+    "A big yawn: mouth wide, eyes narrowed."
+   ],
+   "note": "Hold a pose for about three frames (a tenth of a second). Emotes wait two seconds between plays.",
+   "stageAspect": "4 / 3",
+   "tapTargets": [
+    "start-camera:136x51",
+    "start-demo:117x51",
+    "stop:74x51"
+   ],
+   "fontFamily": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Noto Sans\", Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+   "links": [
+    "https://github.com/KalpKan/emote-detector-web",
+    "https://supercell.com/en/fan-content-policy/",
+    "https://kalpkan.com/",
+    "https://github.com/KalpKan/emote-detector-web"
+   ],
+   "footer": "Clash Royale emote art and sounds are © Supercell, used under Supercell's Fan Content Policy. This site is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. Non-commercial; no ads.\n\nBuilt by Kalp Kansara · Code on GitHub · Anonym"
+  },
+  "errors": [],
+  "fires": [
+   {
+    "n": "Thumbs Up",
+    "at": 2454,
+    "cap": "Thumbs up"
+   },
+   {
+    "n": "Goblin Muscle",
+    "at": 5162,
+    "cap": "Flex"
+   },
+   {
+    "n": "Princess Yawn",
+    "at": 7705,
+    "cap": "Yawn"
+   },
+   {
+    "n": "Thumbs Up",
+    "at": 10914,
+    "cap": "Thumbs up"
+   },
+   {
+    "n": "Goblin Muscle",
+    "at": 13596,
+    "cap": "Flex"
+   },
+   {
+    "n": "Princess Yawn",
+    "at": 16131,
+    "cap": "Yawn"
+   }
+  ],
+  "demoStatus": {
+   "status": "Demo: replaying recorded landmarks through the same detector (no camera used).",
+   "caption": "Waiting…",
+   "meters": [
+    "0%",
+    "0%",
+    "0%"
+   ]
+  },
+  "requestsDuringDemo": [
+   "https://emotes.kalpkan.com/emotes/goblin_muscle.mp3",
+   "https://emotes.kalpkan.com/emotes/princess_yawn.mp3",
+   "https://emotes.kalpkan.com/emotes/thumbs_up.mp3",
+   "https://emotes.kalpkan.com/favicon.svg"
+  ],
+  "allHosts": [
+   "emotes.kalpkan.com"
+  ]
+ },
+ "live-390-dark": {
+  "layout": {
+   "scrollW": 390,
+   "vw": 390,
+   "docH": 1946,
+   "stage": {
+    "top": 233,
+    "h": 269,
+    "w": 358,
+    "left": 16
+   },
+   "startCam": {
+    "top": 516,
+    "h": 51,
+    "w": 136,
+    "left": 16
+   },
+   "demo": {
+    "top": 516,
+    "h": 51,
+    "w": 117,
+    "left": 162
+   },
+   "stop": {
+    "top": 516,
+    "h": 51,
+    "w": 74,
+    "left": 289
+   },
+   "status": "Press “Start camera” (about 40 MB of models load once) or “Play demo”.",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "hasThemeToggle": false,
+   "mute": false,
+   "muteRect": null,
+   "hints": [
+    "Fingers folded, thumb straight up.",
+    "Flex: bend one arm, fist up beside your head.",
+    "A big yawn: mouth wide, eyes narrowed."
+   ],
+   "note": "Hold a pose for about three frames (a tenth of a second). Emotes wait two seconds between plays.",
+   "stageAspect": "4 / 3",
+   "tapTargets": [
+    "start-camera:136x51",
+    "start-demo:117x51",
+    "stop:74x51"
+   ],
+   "fontFamily": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Noto Sans\", Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+   "links": [
+    "https://github.com/KalpKan/emote-detector-web",
+    "https://supercell.com/en/fan-content-policy/",
+    "https://kalpkan.com/",
+    "https://github.com/KalpKan/emote-detector-web"
+   ],
+   "footer": "Clash Royale emote art and sounds are © Supercell, used under Supercell's Fan Content Policy. This site is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. Non-commercial; no ads.\n\nBuilt by Kalp Kansara · Code on GitHub · Anonym"
+  },
+  "errors": [],
+  "fires": [
+   {
+    "n": "Thumbs Up",
+    "at": 1987,
+    "cap": "Thumbs up"
+   },
+   {
+    "n": "Goblin Muscle",
+    "at": 4696,
+    "cap": "Flex"
+   },
+   {
+    "n": "Princess Yawn",
+    "at": 7231,
+    "cap": "Yawn"
+   },
+   {
+    "n": "Thumbs Up",
+    "at": 10358,
+    "cap": "Thumbs up"
+   },
+   {
+    "n": "Goblin Muscle",
+    "at": 13063,
+    "cap": "Flex"
+   },
+   {
+    "n": "Princess Yawn",
+    "at": 15602,
+    "cap": "Yawn"
+   }
+  ],
+  "demoStatus": {
+   "status": "Demo: replaying recorded landmarks through the same detector (no camera used).",
+   "caption": "Waiting…",
+   "meters": [
+    "0%",
+    "0%",
+    "0%"
+   ]
+  },
+  "requestsDuringDemo": [
+   "https://emotes.kalpkan.com/emotes/goblin_muscle.mp3",
+   "https://emotes.kalpkan.com/emotes/princess_yawn.mp3",
+   "https://emotes.kalpkan.com/emotes/thumbs_up.mp3",
+   "https://emotes.kalpkan.com/favicon.svg"
+  ],
+  "allHosts": [
+   "emotes.kalpkan.com"
+  ]
+ },
+ "live-390-light": {
+  "layout": {
+   "scrollW": 390,
+   "vw": 390,
+   "docH": 1946,
+   "stage": {
+    "top": 233,
+    "h": 269,
+    "w": 358,
+    "left": 16
+   },
+   "startCam": {
+    "top": 516,
+    "h": 51,
+    "w": 136,
+    "left": 16
+   },
+   "demo": {
+    "top": 516,
+    "h": 51,
+    "w": 117,
+    "left": 162
+   },
+   "stop": {
+    "top": 516,
+    "h": 51,
+    "w": 74,
+    "left": 289
+   },
+   "status": "Press “Start camera” (about 40 MB of models load once) or “Play demo”.",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "hasThemeToggle": false,
+   "mute": false,
+   "muteRect": null,
+   "hints": [
+    "Fingers folded, thumb straight up.",
+    "Flex: bend one arm, fist up beside your head.",
+    "A big yawn: mouth wide, eyes narrowed."
+   ],
+   "note": "Hold a pose for about three frames (a tenth of a second). Emotes wait two seconds between plays.",
+   "stageAspect": "4 / 3",
+   "tapTargets": [
+    "start-camera:136x51",
+    "start-demo:117x51",
+    "stop:74x51"
+   ],
+   "fontFamily": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, \"Noto Sans\", Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+   "links": [
+    "https://github.com/KalpKan/emote-detector-web",
+    "https://supercell.com/en/fan-content-policy/",
+    "https://kalpkan.com/",
+    "https://github.com/KalpKan/emote-detector-web"
+   ],
+   "footer": "Clash Royale emote art and sounds are © Supercell, used under Supercell's Fan Content Policy. This site is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. Non-commercial; no ads.\n\nBuilt by Kalp Kansara · Code on GitHub · Anonym"
+  },
+  "errors": [],
+  "fires": [
+   {
+    "n": "Thumbs Up",
+    "at": 2087,
+    "cap": "Thumbs up"
+   },
+   {
+    "n": "Goblin Muscle",
+    "at": 4790,
+    "cap": "Flex"
+   },
+   {
+    "n": "Princess Yawn",
+    "at": 7326,
+    "cap": "Yawn"
+   },
+   {
+    "n": "Thumbs Up",
+    "at": 10447,
+    "cap": "Thumbs up"
+   },
+   {
+    "n": "Goblin Muscle",
+    "at": 13315,
+    "cap": "Flex"
+   },
+   {
+    "n": "Princess Yawn",
+    "at": 15837,
+    "cap": "Yawn"
+   }
+  ],
+  "demoStatus": {
+   "status": "Demo: replaying recorded landmarks through the same detector (no camera used).",
+   "caption": "Waiting…",
+   "meters": [
+    "0%",
+    "0%",
+    "0%"
+   ]
+  },
+  "requestsDuringDemo": [
+   "https://emotes.kalpkan.com/emotes/goblin_muscle.mp3",
+   "https://emotes.kalpkan.com/emotes/princess_yawn.mp3",
+   "https://emotes.kalpkan.com/emotes/thumbs_up.mp3",
+   "https://emotes.kalpkan.com/favicon.svg"
+  ],
+  "allHosts": [
+   "emotes.kalpkan.com"
+  ]
+ }
+}

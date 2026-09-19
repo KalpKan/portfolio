@@ -1,0 +1,20 @@
+## run 1 clip=tu04x4
+clip e2e-tu04x4.mjpeg (19000 ms), url http://localhost:4173/; models ready 2791 ms after the stream started (clip position 2791 ms)
+fires (clip position): Thumbs Up@2851 Goblin Muscle@6924 Goblin Muscle@11621 Thumbs Up@15827 Goblin Muscle@18010 Goblin Muscle@2338
+FAIL: missed thumbs_up (6500-9000 ms); missed thumbs_up (11000-13500 ms); false trigger: Goblin Muscle at 6924 ms; false trigger: Goblin Muscle at 11621 ms; false trigger: Goblin Muscle at 18010 ms; false trigger: Goblin Muscle at 2338 ms
+exit=1
+## run 2 clip=tu04x4
+clip e2e-tu04x4.mjpeg (19000 ms), url http://localhost:4173/; models ready 4834 ms after the stream started (clip position 4834 ms)
+fires (clip position): Thumbs Up@6889 Goblin Muscle@11242 Thumbs Up@15856 Goblin Muscle@2614
+FAIL: missed thumbs_up (2000-4500 ms); missed thumbs_up (11000-13500 ms); false trigger: Goblin Muscle at 11242 ms; false trigger: Goblin Muscle at 2614 ms
+exit=1
+## run 3 clip=tu04x4
+clip e2e-tu04x4.mjpeg (19000 ms), url http://localhost:4173/; models ready 3146 ms after the stream started (clip position 3146 ms)
+fires (clip position): Thumbs Up@3217 Goblin Muscle@6743 Goblin Muscle@11290 Goblin Muscle@15878 Goblin Muscle@2320
+FAIL: thumbs_up late: 1217 ms after onset; missed thumbs_up (6500-9000 ms); missed thumbs_up (11000-13500 ms); missed thumbs_up (15500-18000 ms); false trigger: Goblin Muscle at 6743 ms; false trigger: Goblin Muscle at 11290 ms; false trigger: Goblin Muscle at 15878 ms; false trigger: Goblin Muscle at 2320 ms
+exit=1
+## clip=tu17x4
+clip e2e-tu17x4.mjpeg (19000 ms), url http://localhost:4173/; models ready 4004 ms after the stream started (clip position 4004 ms)
+fires (clip position): Thumbs Up@4072 Thumbs Up@6744 Thumbs Up@11200 Thumbs Up@15745 Thumbs Up@2241
+FAIL: thumbs_up late: 2072 ms after onset
+exit=1

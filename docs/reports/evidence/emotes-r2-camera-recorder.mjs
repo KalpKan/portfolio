@@ -1,0 +1,18 @@
+// Real pipeline at 390 px: record every status / hint change over one loop of a clip and grab a screenshot mid-gesture.
+import puppeteer from "/Users/kalp/projects/emotes/node_modules/puppeteer-core/lib/puppeteer/puppeteer-core.js";
+const url = process.argv[2] ?? "http://localhost:4173/"; const clip = process.argv[3]; const tag = process.argv[4] ?? "local"; const width = Number(process.env.WIDTH ?? 390);
+const browser = await puppeteer.launch({ executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", headless: true, args: ["--use-fake-ui-for-media-stream","--use-fake-device-for-media-stream",`--use-file-for-fake-video-capture=${clip}`,"--use-gl=angle","--use-angle=metal","--autoplay-policy=no-user-gesture-required"] });
+const page = await browser.newPage();
+await page.setViewport({ width, height: 844, deviceScaleFactor: 1, isMobile: width < 500, hasTouch: width < 500 });
+const errors = []; page.on("pageerror", e => errors.push(String(e))); page.on("console", m => { if (m.type() === "error" && !/^(INFO:|[WI]\d{4} )/.test(m.text())) errors.push(m.text()); });
+await page.goto(url, { waitUntil: "networkidle0" });
+await page.evaluate(() => { window.__log = []; const s = document.getElementById("status"); const push = (k, t) => { const l = window.__log[window.__log.length - 1]; if (!l || l.k !== k || l.t !== t) window.__log.push({ at: Math.round(performance.now()), k, t }); }; new MutationObserver(() => push("status", s.textContent)).observe(s, { childList: true, characterData: true, subtree: true }); for (const g of ["flex","thumbs_up","yawn"]) { const h = document.getElementById("hint-" + g); new MutationObserver(() => push("hint-" + g, h.textContent)).observe(h, { childList: true, characterData: true, subtree: true }); } });
+await page.click("#start-camera");
+await page.waitForFunction(() => document.getElementById("status").textContent.startsWith("Watching"), { timeout: 120000 });
+const t0 = await page.evaluate(() => performance.now());
+const shots = [];
+for (let i = 0; i < 8; i++) { await new Promise(r => setTimeout(r, 2000)); const st = await page.evaluate(() => ({ status: document.getElementById("status").textContent, vals: ["thumbs_up","flex","yawn"].map(g => document.getElementById("val-" + g).textContent), aspect: getComputedStyle(document.getElementById("stage")).aspectRatio, vw: document.getElementById("video").videoWidth, vh: document.getElementById("video").videoHeight, emote: document.getElementById("emote").classList.contains("hidden") ? null : document.getElementById("emote-name").textContent, videoTime: document.getElementById("video").currentTime.toFixed(2), paused: document.getElementById("video").paused, hidden: document.hidden })); shots.push(st); if (i === 2 || i === 5) await page.screenshot({ path: `/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/shots/${tag}-${width}-camera-${i}.png` }); }
+const log = await page.evaluate(() => window.__log);
+const layout = await page.evaluate(() => { const r = id => { const b = document.getElementById(id).getBoundingClientRect(); return [Math.round(b.left), Math.round(b.top), Math.round(b.width), Math.round(b.height)]; }; return { scrollW: document.documentElement.scrollWidth, stage: r("stage"), video: r("video"), emote: r("emote"), status: r("status"), buttons: [...document.querySelectorAll("button")].map(b => b.id + ":" + r(b.id).slice(2).join("x")) }; });
+console.log(JSON.stringify({ url, width, errors, samples: shots, log: log.map(l => `${l.at - Math.round(t0)}ms ${l.k}: ${l.t}`), layout }, null, 1));
+await browser.close();

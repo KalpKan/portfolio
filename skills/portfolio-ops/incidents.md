@@ -1681,3 +1681,62 @@ _Entries begin below, oldest first._
 - **Fix:** `docs/reports/evidence/plantit-r2-local-stack.js` carries the proxy; use it for future local runs.
 - **Prevention:** runbook "Deploy an Express+CRA app to Vercel" step 15 now says a local stack must mirror **all** `vercel.json` rewrites (`/api`, `/ingest`, SPA) before its console output counts as evidence.
 - **Reported by:** Phase 5 TEST agent (plantit, round 2)
+
+### 2026-09-19: emotes, a thumbs-up beside the head fires Goblin Muscle 8 times in 13 through the real pipeline while the corpus says 100 % (Phase 5 TEST agent, emotes round 2; report D1, blocker)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `KalpKan/emote-detector-web` `4e25a95` (the FIX r1 rules; not yet on production)
+- **Symptom:** `thumbs_up-04` (thumb up next to the cheek, elbow bent, the spec's S2 "beside my face") repeated four times in a fake-camera clip, three runs on the production build served locally: Goblin Muscle ×8, Thumbs Up ×5. `npm run report` scores the same photo `thumbs_up 1.00 flex 0.43`, so the corpus gate is green.
+- **Root cause:** the corpus holds IMAGE-mode landmarks (steady); the page runs the models in VIDEO mode, where the lite pose model's wrist/shoulder estimate on a static frame jitters enough that the flex `height` cue (`flex.ts:62`, wrist 0.2–0.4 shoulder-widths above the shoulder) reads 0.2, 0.9, 0.5, 1.0 … on consecutive 100 ms samples (`docs/reports/evidence/emotes-r2-video-mode-cues-thumbs_up-04-2026-09-19.txt`). `fuseScores` (`engine.ts:88-93`) resolves flex-vs-thumbs-up per frame with a hard veto (flex ≥ 0.5 zeroes the thumbs-up unless it leads by 0.25; 1.0 − 0.85 = 0.15), *before* the time-based engine, so the fused pair flips {flex 0.85, thumbs 0} ↔ {flex 0, thumbs 1.0} every frame and the two charge clocks race; whichever fills first fires and the 2 s gate swallows the other.
+- **Fix:** none yet (TEST round). Suggested: resolve the conflict on ~300 ms-smoothed scores, prefer a hand-model thumbs-up with every cue ≥ 0.9 over a flex whose weakest cue is < 0.9, and steady the flex height cue (elbow→wrist angle instead of a 0.2-wide band).
+- **Prevention:** the corpus needs VIDEO-mode fixtures: `emotes-r2-video-landmarks.py` dumps per-frame landmarks from an MJPEG clip with the site's own `.task` models in VIDEO mode; add such a dump for thumbs_up-04 (and one negative) to `tests/clips.test.ts` so the gate sees the jitter the page sees. The rule: a 100 % corpus number measured on IMAGE-mode landmarks says nothing about a per-frame veto; test any conflict rule on video.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes, a gesture done within ~1.5 s of the previous one never plays: the 2 s EmoteGate swallows the engine's one-shot edge (Phase 5 TEST agent, emotes round 2; report D2, major)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `KalpKan/emote-detector-web` `4e25a95` (and every earlier version)
+- **Symptom:** thumbs-up 1.2 s → flex 1.2 s → yawn 1.5 s with no rest through the real pipeline fires Thumbs Up and Princess Yawn and misses the flex, at 1000 and 390 px; offline, gaps of 0/300/600 ms between gestures drop the middle one, 1000 ms and up keep it.
+- **Root cause:** `main.ts:163-166` calls `gate.tryFire(result.fired, now)` on the one frame where the engine reports the edge; `EmoteGate.tryFire` (`emotes.ts:61-65`, `COOLDOWN_MS = 2000`) returns null inside the cooldown and the edge is consumed. The engine then holds the gesture `active` and cannot re-fire until it is released for 500 ms and re-held, which a natural sequence never does.
+- **Fix:** none yet. Suggested: keep a refused edge pending and fire it when the cooldown ends if the gesture is still active, or let a *different* gesture bypass the cooldown (it exists to stop one gesture spamming), or drop the cooldown to ≈ 700 ms now that the engine guarantees one fire per hold.
+- **Prevention:** a 0.6 s-gap sequence clip in `tests/clips.test.ts` (`runClip` uses the same gate); the `fast` clip from `emotes-r2-build-e2e-clips.py` in `verification.md`.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes, the new hint line flickers between two gestures every ~80 ms (Phase 5 TEST agent, emotes round 2; report D3, major)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `KalpKan/emote-detector-web` `4e25a95`
+- **Symptom:** on the thumb-beside-the-head segment `#status` alternated "Almost a Goblin Muscle: Raise the fist higher…" / "Almost a Thumbs Up: Fold the other four fingers…" eight times in 640 ms (`emotes-r2-hint-flicker-2026-09-19.txt`).
+- **Root cause:** `main.ts:123-127` (`updateHint`) holds a hint for `HINT_HOLD_MS` only when the next candidate is the same gesture or null; a candidate for another gesture replaces it at once, and `weakestCue` follows the per-frame flip of D1.
+- **Fix:** none yet. Suggested: hold the shown hint for the full 900 ms whatever the next candidate's gesture, and derive the candidate from smoothed scores.
+- **Prevention:** `emotes-r2-hint-recorder.mjs` (every `#status` change with a timestamp) is in `verification.md`; the bar is no two "Almost" lines closer than 900 ms.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes, a rule set tuned to 100 % on 95 IMAGE-mode landmark sets loses yawn recall on mirrored or smaller copies of the same photos (Phase 5 TEST agent, emotes round 2; report D6, minor, and a method note)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `KalpKan/emote-detector-web` `4e25a95`; the Phase 5 method for every corpus-tuned app
+- **Symptom:** re-extracting all 95 photos with the site's own models after mirroring, letterboxing into a 480 × 640 portrait frame at 78 %, and shrinking to 60 % keeps precision at 100 % for all three gestures (0 of 132 negative sets fire) but yawn recall falls to 5/8, 6/8, 5/8 and flex to 10/13 on the two small sets. The clearest yawn (`yawn-19`, mouth 0.97) scores 0 on the small copies because the eye cue reads the lids as open (EAR 0.19–0.21 instead of −0.02).
+- **Root cause:** the rules were tuned on the same 95 landmark sets they are gated on; margins on the eye and brow cues are one landmark-jitter wide (yawn-17's brows 0.109 on a 0.10–0.125 ramp). Nothing in the gate measures invariance.
+- **Fix:** none yet (through the real pipeline a 55 %-size reel still fired 6/6 at both widths, so this is a risk with data, not a failed bar).
+- **Prevention:** keep the three variant sets as a held-out gate (`emotes-r2-make-variants.py` + `scripts/extract_still_landmarks.py --src … --out …` + `emotes-r2-variant-eval.ts`, all in `docs/reports/evidence/`, rebuilt from the Desktop photos, never committed) and report their numbers next to `npm run report`; for any app whose rules are tuned on a corpus, the TEST agent builds a transform-based held-out set before believing a 100 %.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes e2e judge still reports "late" for an event already in progress when the models become ready (Phase 5 TEST agent, emotes round 2; report D7, minor, tooling)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `scripts/e2e-camera.mjs` in `KalpKan/emote-detector-web`
+- **Symptom:** three spurious FAILs this round (`mirror` at 390: "thumbs_up late: 1622 ms", `far` at 390: 1956 ms, `tu17x4`: 2072 ms), each with "models ready" 1.5–2.1 s into the first event and the same event firing 199–241 ms after onset on the next pass.
+- **Root cause:** FIX r1 (D9) stopped counting the next pass's fire as a false trigger but still matches the first fire to the event and measures latency from the event's `startMs`, not from the moment detection began.
+- **Fix:** none yet. Suggested: when the clip position at "Watching" falls inside an event, judge that event on its next pass only.
+- **Prevention:** rows in `verification.md` say that a `late` on the first event with the models ready mid-event is the harness; anything else is the app.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes TEST round 2 could not test the fix on production: the team's deployment window was still full, so the live site is round 1's code (Phase 5 TEST agent, emotes round 2; report D4)
+
+- **Date:** 2026-09-19 03:08 UTC (checked again at 17:00 UTC)
+- **Affected:** https://emotes.kalpkan.com (serves `index-CCXAWVGh.js` = `9807a11`)
+- **Symptom:** `GET /v6/deployments?teamId=…&since=<now-24h>` returned 100 at 03:08 UTC, oldest ageing out 19:20 UTC; the bundle hash on the live page is unchanged since round 1, so every round-1 detection defect is still what a visitor gets.
+- **Fix:** the fixed code was tested on the production build served locally (`vite preview`), which is the same `dist/` Vercel serves; the live checks (S1, S9, S10, Lighthouse 0.89, console, network) were run on the live site as it is. Deploy after 19:20 UTC with `scripts/vercel-redeploy-when-quota-frees.sh ~/projects/emotes emotes.kalpkan.com 20 10`, ideally with the D1–D3 fixes in the same deploy.
+- **Prevention:** the report separates "in `4e25a95`" from "on production" per defect, so nobody reads a local PASS as a live one; the hub's docs pushes are what fill the window (63–74 of the 100), so batch them.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)

@@ -1,0 +1,10 @@
+## WIDTH=1000 clip=far (subject at 55 % size, a phone at arm's length)
+clip e2e-far.mjpeg (29000 ms), url http://localhost:4173/; models ready 4927 ms after the stream started (clip position 4927 ms)
+fires (clip position): Goblin Muscle@6788 Princess Yawn@11552 Princess Yawn@16067 Goblin Muscle@20496 Thumbs Up@24712 Thumbs Up@2354
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=390 clip=far (subject at 55 % size, a phone at arm's length)
+clip e2e-far.mjpeg (29000 ms), url http://localhost:4173/; models ready 3894 ms after the stream started (clip position 3894 ms)
+fires (clip position): Thumbs Up@3956 Goblin Muscle@6715 Princess Yawn@11579 Princess Yawn@16128 Goblin Muscle@20317 Thumbs Up@24729
+FAIL: thumbs_up late: 1956 ms after onset
+exit=1

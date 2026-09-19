@@ -1,0 +1,154 @@
+{
+ "loadMs": 1406,
+ "clickToWatchingMs": 1992,
+ "statuses": [
+  {
+   "t": 1432,
+   "text": "Asking for the camera…"
+  },
+  {
+   "t": 1747,
+   "text": "Loading the vision runtime…"
+  },
+  {
+   "t": 1804,
+   "text": "Loading the face model…"
+  },
+  {
+   "t": 2472,
+   "text": "Loading the hand model…"
+  },
+  {
+   "t": 2888,
+   "text": "Loading the pose model…"
+  },
+  {
+   "t": 3394,
+   "text": "Models ready."
+  },
+  {
+   "t": 3395,
+   "text": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn."
+  }
+ ],
+ "requestsAfterWatching": [
+  "GET https://emotes.kalpkan.com/favicon.svg"
+ ],
+ "hosts": [
+  "emotes.kalpkan.com"
+ ],
+ "ingest": [
+  "GET https://emotes.kalpkan.com/ingest/array/phc_xCXynPYRpsuUVEsyWQ7NhQuCXbL6Lt4S7gPBDogPzNkT/config.js",
+  "GET https://emotes.kalpkan.com/ingest/static/1.434.2/posthog-recorder.js",
+  "GET https://emotes.kalpkan.com/ingest/static/1.434.2/dead-clicks-autocapture.js"
+ ],
+ "bigFiles": [
+  {
+   "u": "/assets/index-D0fHK0_Y.css",
+   "status": 200,
+   "cc": "public, max-age=0, must-revalidate",
+   "ct": "text/css; charset=utf-8"
+  },
+  {
+   "u": "/assets/index-CCXAWVGh.js",
+   "status": 200,
+   "cc": "public, max-age=0, must-revalidate",
+   "ct": "application/javascript; charset=utf-8"
+  },
+  {
+   "u": "/assets/module-do5nsKbH.js",
+   "status": 200,
+   "cc": "public, max-age=0, must-revalidate",
+   "ct": "application/javascript; charset=utf-8"
+  },
+  {
+   "u": "/emotes/goblin_muscle.mp3",
+   "status": 206,
+   "cc": "public, max-age=86400",
+   "len": "19250",
+   "ct": "audio/mpeg"
+  },
+  {
+   "u": "/emotes/princess_yawn.mp3",
+   "status": 206,
+   "cc": "public, max-age=86400",
+   "len": "24002",
+   "ct": "audio/mpeg"
+  },
+  {
+   "u": "/emotes/thumbs_up.mp3",
+   "status": 206,
+   "cc": "public, max-age=86400",
+   "len": "20114",
+   "ct": "audio/mpeg"
+  },
+  {
+   "u": "/assets/vision_bundle-BmzHRMUN.js",
+   "status": 200,
+   "cc": "public, max-age=0, must-revalidate",
+   "ct": "application/javascript; charset=utf-8"
+  },
+  {
+   "u": "/mediapipe/wasm/vision_wasm_internal.js",
+   "status": 200,
+   "cc": "public, max-age=31536000, immutable",
+   "ct": "application/javascript; charset=utf-8"
+  },
+  {
+   "u": "/mediapipe/wasm/vision_wasm_internal.wasm",
+   "status": 200,
+   "cc": "public, max-age=31536000, immutable",
+   "ct": "application/wasm"
+  },
+  {
+   "u": "/mediapipe/models/face_landmarker.task",
+   "status": 200,
+   "cc": "public, max-age=31536000, immutable",
+   "ct": "application/octet-stream"
+  },
+  {
+   "u": "/mediapipe/models/hand_landmarker.task",
+   "status": 200,
+   "cc": "public, max-age=31536000, immutable",
+   "ct": "application/octet-stream"
+  },
+  {
+   "u": "/mediapipe/models/pose_landmarker_lite.task",
+   "status": 200,
+   "cc": "public, max-age=31536000, immutable",
+   "ct": "application/octet-stream"
+  }
+ ],
+ "console": [
+  "warn: W0919 20:46:22.192999 2196592 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.",
+  "log: I0919 20:46:22.247000 2196592 gl_context.cc:407] GL version: 3.0 (OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))), renderer: WebKit WebGL",
+  "warn: W0919 20:46:22.248999 2196592 gl_context.cc:1119] OpenGL error checking is disabled",
+  "log: Graph successfully started running.",
+  "log: I0919 20:46:22.668999 2196592 gl_context.cc:407] GL version: 3.0 (OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))), renderer: WebKit WebGL",
+  "warn: W0919 20:46:22.670000 2196592 gl_context.cc:1119] OpenGL error checking is disabled",
+  "log: Graph successfully started running.",
+  "log: I0919 20:46:23.174000 2196592 gl_context.cc:407] GL version: 3.0 (OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))), renderer: WebKit WebGL",
+  "warn: W0919 20:46:23.175000 2196592 gl_context.cc:1119] OpenGL error checking is disabled",
+  "log: Graph successfully started running.",
+  "warn: W0919 20:46:23.841999 2196592 landmark_projection_calculator.cc:81] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE",
+  "warn: W0919 20:46:24.180999 2196592 landmark_projection_calculator.cc:81] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE",
+  "error: INFO: Created TensorFlow Lite XNNPACK delegate for CPU."
+ ],
+ "overlay": {
+  "video": [
+   157,
+   197,
+   686,
+   514
+  ],
+  "canvas": [
+   157,
+   197,
+   686,
+   514
+  ],
+  "vw": 640,
+  "vh": 480,
+  "mirrored": "matrix(-1, 0, 0, 1, 0, 0)"
+ }
+}

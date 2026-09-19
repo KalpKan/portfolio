@@ -1,0 +1,75 @@
+## official WIDTH=1000
+clip e2e-three-gestures.mjpeg (15500 ms), url http://localhost:4173/; models ready 2674 ms after the stream started (clip position 2674 ms)
+fires (clip position): Thumbs Up@2730 Goblin Muscle@6798 Princess Yawn@11521 Thumbs Up@2225
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## official WIDTH=390
+clip e2e-three-gestures.mjpeg (15500 ms), url http://localhost:4173/; models ready 1656 ms after the stream started (clip position 1656 ms)
+fires (clip position): Thumbs Up@2224 Goblin Muscle@6802 Princess Yawn@11477
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=1000 clip=hard
+clip e2e-hard.mjpeg (24500 ms), url http://localhost:4173/; models ready 1674 ms after the stream started (clip position 1674 ms)
+fires (clip position): none
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=1000 clip=misses
+clip e2e-misses.mjpeg (24500 ms), url http://localhost:4173/; models ready 1680 ms after the stream started (clip position 1680 ms)
+fires (clip position): Thumbs Up@2371 Thumbs Up@6704 Princess Yawn@11432 Princess Yawn@16068 Thumbs Up@20262
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=1000 clip=repeat
+clip e2e-repeat.mjpeg (11600 ms), url http://localhost:4173/; models ready 1574 ms after the stream started (clip position 1574 ms)
+fires (clip position): Thumbs Up@1784 Thumbs Up@5054 Thumbs Up@8324
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=1000 clip=hold-yawn
+clip e2e-hold-yawn.mjpeg (14000 ms), url http://localhost:4173/; models ready 1829 ms after the stream started (clip position 1829 ms)
+fires (clip position): Princess Yawn@2448
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=1000 clip=hold-thumb
+clip e2e-hold-thumb.mjpeg (14000 ms), url http://localhost:4173/; models ready 1726 ms after the stream started (clip position 1726 ms)
+fires (clip position): Thumbs Up@2223
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=1000 clip=hold-flex
+clip e2e-hold-flex.mjpeg (14000 ms), url http://localhost:4173/; models ready 1928 ms after the stream started (clip position 1928 ms)
+fires (clip position): Goblin Muscle@2209
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=1000 clip=mirror
+clip e2e-mirror.mjpeg (24500 ms), url http://localhost:4173/; models ready 1645 ms after the stream started (clip position 1645 ms)
+fires (clip position): Thumbs Up@2199 Goblin Muscle@6799 Princess Yawn@11459
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=1000 clip=sweep
+clip e2e-sweep.mjpeg (29000 ms), url http://localhost:4173/; models ready 1839 ms after the stream started (clip position 1839 ms)
+fires (clip position): Goblin Muscle@2259 Thumbs Up@6720 Princess Yawn@11459 Goblin Muscle@15744 Thumbs Up@20221 Princess Yawn@25024
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=1000 clip=fast
+clip e2e-fast.mjpeg (7900 ms), url http://localhost:4173/; models ready 1813 ms after the stream started (clip position 1813 ms)
+fires (clip position): Thumbs Up@2257 Princess Yawn@4848
+FAIL: missed flex (3200-4400 ms)
+exit=1
+## WIDTH=1000 clip=hard2
+clip e2e-hard2.mjpeg (29000 ms), url http://localhost:4173/; models ready 1934 ms after the stream started (clip position 1934 ms)
+fires (clip position): none
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=390 clip=hold-yawn
+clip e2e-hold-yawn.mjpeg (14000 ms), url http://localhost:4173/; models ready 2030 ms after the stream started (clip position 2030 ms)
+fires (clip position): Princess Yawn@2457
+PASS: every gesture fired once within 1 s, nothing else fired
+exit=0
+## WIDTH=390 clip=mirror
+clip e2e-mirror.mjpeg (24500 ms), url http://localhost:4173/; models ready 3558 ms after the stream started (clip position 3558 ms)
+fires (clip position): Thumbs Up@3622 Goblin Muscle@6839 Princess Yawn@11498 Thumbs Up@2220
+FAIL: thumbs_up late: 1622 ms after onset
+exit=1
+## WIDTH=390 clip=fast
+clip e2e-fast.mjpeg (7900 ms), url http://localhost:4173/; models ready 2128 ms after the stream started (clip position 2128 ms)
+fires (clip position): Thumbs Up@2332 Princess Yawn@4829
+FAIL: missed flex (3200-4400 ms)
+exit=1

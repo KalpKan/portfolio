@@ -1,0 +1,84 @@
+  2000 flex=0.04 tu=1.00 yawn=0.00 | flex{b1.0 h0.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  2100 flex=0.85 tu=0.00 yawn=0.00 | flex{b1.0 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  2200 flex=0.47 tu=1.00 yawn=0.00 | flex{b1.0 h0.5 s1.0 l0.8 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  2300 flex=0.83 tu=0.00 yawn=0.00 | flex{b0.8 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  2400 flex=0.86 tu=0.00 yawn=0.00 | flex{b0.9 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE flex
+  2500 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.7 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  2600 flex=0.77 tu=0.00 yawn=0.00 | flex{b0.8 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  2700 flex=0.84 tu=0.00 yawn=0.00 | flex{b0.8 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  2800 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  2900 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  3000 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE thumbs_up (gated)
+  3100 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  3200 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  3300 flex=0.76 tu=0.00 yawn=0.00 | flex{b1.0 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  3400 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  3500 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  3600 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  3700 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.5 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  3800 flex=0.48 tu=1.00 yawn=0.00 | flex{b1.0 h0.5 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  3900 flex=0.42 tu=1.00 yawn=0.00 | flex{b1.0 h0.4 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  4000 flex=0.44 tu=1.00 yawn=0.00 | flex{b1.0 h0.4 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  4100 flex=0.31 tu=1.00 yawn=0.00 | flex{b1.0 h0.3 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  4200 flex=0.36 tu=1.00 yawn=0.00 | flex{b1.0 h0.4 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  4300 flex=0.35 tu=1.00 yawn=0.00 | flex{b1.0 h0.3 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  4400 flex=0.35 tu=1.00 yawn=0.00 | flex{b1.0 h0.3 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  6500 flex=0.16 tu=1.00 yawn=0.00 | flex{b1.0 h0.2 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  6600 flex=0.94 tu=0.00 yawn=0.00 | flex{b1.0 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  6700 flex=0.86 tu=0.00 yawn=0.00 | flex{b1.0 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  6800 flex=0.17 tu=1.00 yawn=0.00 | flex{b1.0 h0.2 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  6900 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.5 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  7000 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.6 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE thumbs_up
+  7100 flex=0.80 tu=0.00 yawn=0.00 | flex{b0.8 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  7200 flex=0.83 tu=0.00 yawn=0.00 | flex{b0.8 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  7300 flex=0.83 tu=0.00 yawn=0.00 | flex{b0.8 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE flex (gated)
+  7400 flex=0.93 tu=0.00 yawn=0.00 | flex{b0.9 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  7500 flex=0.91 tu=0.00 yawn=0.00 | flex{b0.9 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  7600 flex=0.83 tu=0.00 yawn=0.00 | flex{b1.0 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  7700 flex=0.78 tu=0.00 yawn=0.00 | flex{b1.0 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  7800 flex=0.76 tu=0.00 yawn=0.00 | flex{b1.0 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  7900 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  8000 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  8100 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE thumbs_up (gated)
+  8200 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  8300 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  8400 flex=0.44 tu=1.00 yawn=0.00 | flex{b1.0 h0.4 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  8500 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  8600 flex=0.79 tu=0.00 yawn=0.00 | flex{b0.9 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  8700 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  8800 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+  8900 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.8 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 11000 flex=0.16 tu=1.00 yawn=0.00 | flex{b1.0 h0.2 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 11100 flex=0.94 tu=0.00 yawn=0.00 | flex{b1.0 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 11200 flex=0.86 tu=0.00 yawn=0.00 | flex{b1.0 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 11300 flex=0.17 tu=1.00 yawn=0.00 | flex{b1.0 h0.2 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 11400 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.5 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 11500 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.6 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE thumbs_up
+ 11600 flex=0.80 tu=0.00 yawn=0.00 | flex{b0.8 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 11700 flex=0.83 tu=0.00 yawn=0.00 | flex{b0.8 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 11800 flex=0.83 tu=0.00 yawn=0.00 | flex{b0.8 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE flex (gated)
+ 11900 flex=0.93 tu=0.00 yawn=0.00 | flex{b0.9 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 12000 flex=0.91 tu=0.00 yawn=0.00 | flex{b0.9 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 12100 flex=0.83 tu=0.00 yawn=0.00 | flex{b1.0 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 12200 flex=0.78 tu=0.00 yawn=0.00 | flex{b1.0 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 12300 flex=0.76 tu=0.00 yawn=0.00 | flex{b1.0 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 12400 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 12500 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 12600 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE thumbs_up (gated)
+ 12700 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 12800 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 12900 flex=0.44 tu=1.00 yawn=0.00 | flex{b1.0 h0.4 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 13000 flex=0.00 tu=1.00 yawn=0.00 | flex{b1.0 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 13100 flex=0.79 tu=0.00 yawn=0.00 | flex{b0.9 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 13200 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 13300 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.6 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 13400 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.8 h0.7 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 15500 flex=0.16 tu=1.00 yawn=0.00 | flex{b1.0 h0.2 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 15600 flex=0.94 tu=0.00 yawn=0.00 | flex{b1.0 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 15700 flex=0.86 tu=0.00 yawn=0.00 | flex{b1.0 h0.9 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 15800 flex=0.17 tu=1.00 yawn=0.00 | flex{b1.0 h0.2 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 15900 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.9 h0.5 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 16000 flex=0.00 tu=1.00 yawn=0.00 | flex{b0.6 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE thumbs_up
+ 16100 flex=0.80 tu=0.00 yawn=0.00 | flex{b0.8 h0.8 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 16200 flex=0.83 tu=0.00 yawn=0.00 | flex{b0.8 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y
+ 16300 flex=0.83 tu=0.00 yawn=0.00 | flex{b0.8 h1.0 s1.0 l1.0 c1.0} tu{f1.0 u1.0 r1.0 c1.0} hands=1 pose=Y  <== FIRE flex (gated)

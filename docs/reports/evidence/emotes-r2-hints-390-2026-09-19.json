@@ -1,0 +1,153 @@
+{
+ "url": "http://localhost:4173/",
+ "width": 390,
+ "errors": [],
+ "samples": [
+  {
+   "status": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+   "vals": [
+    "0%",
+    "0%",
+    "0%"
+   ],
+   "aspect": "4 / 3",
+   "vw": 640,
+   "vh": 480,
+   "emote": null
+  },
+  {
+   "status": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+   "vals": [
+    "100%",
+    "0%",
+    "0%"
+   ],
+   "aspect": "4 / 3",
+   "vw": 640,
+   "vh": 480,
+   "emote": "Thumbs Up"
+  },
+  {
+   "status": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+   "vals": [
+    "0%",
+    "0%",
+    "0%"
+   ],
+   "aspect": "4 / 3",
+   "vw": 640,
+   "vh": 480,
+   "emote": null
+  },
+  {
+   "status": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+   "vals": [
+    "0%",
+    "0%",
+    "100%"
+   ],
+   "aspect": "4 / 3",
+   "vw": 640,
+   "vh": 480,
+   "emote": "Princess Yawn"
+  },
+  {
+   "status": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+   "vals": [
+    "0%",
+    "0%",
+    "0%"
+   ],
+   "aspect": "4 / 3",
+   "vw": 640,
+   "vh": 480,
+   "emote": null
+  },
+  {
+   "status": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+   "vals": [
+    "0%",
+    "0%",
+    "94%"
+   ],
+   "aspect": "4 / 3",
+   "vw": 640,
+   "vh": 480,
+   "emote": "Princess Yawn"
+  },
+  {
+   "status": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+   "vals": [
+    "0%",
+    "0%",
+    "0%"
+   ],
+   "aspect": "4 / 3",
+   "vw": 640,
+   "vh": 480,
+   "emote": null
+  },
+  {
+   "status": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+   "vals": [
+    "100%",
+    "0%",
+    "0%"
+   ],
+   "aspect": "4 / 3",
+   "vw": 640,
+   "vh": 480,
+   "emote": "Thumbs Up"
+  }
+ ],
+ "log": [
+  "-4196ms status: Asking for the camera…",
+  "-3925ms status: Loading the vision runtime…",
+  "-3905ms status: Loading the face model…",
+  "-3352ms status: Loading the hand model…",
+  "-2380ms status: Loading the pose model…",
+  "-1847ms status: Models ready.",
+  "-1847ms status: Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+  "-8ms status: Almost a Thumbs Up: Fold the other four fingers into a fist.",
+  "-7ms hint-flex: Flex: bend one arm, fist up beside your head.",
+  "-7ms hint-thumbs_up: Almost: Fold the other four fingers into a fist.",
+  "-7ms hint-yawn: A big yawn: mouth wide, eyes closed.",
+  "58ms status: Watching. Try a thumbs-up, a flex beside your head, or a big yawn.",
+  "58ms hint-flex: Flex: bend one arm, fist up beside your head.",
+  "58ms hint-thumbs_up: Fingers folded, thumb straight up.",
+  "58ms hint-yawn: A big yawn: mouth wide, eyes closed."
+ ],
+ "layout": {
+  "scrollW": 390,
+  "stage": [
+   16,
+   233,
+   358,
+   269
+  ],
+  "video": [
+   17,
+   234,
+   356,
+   267
+  ],
+  "emote": [
+   243,
+   361,
+   118,
+   128
+  ],
+  "status": [
+   16,
+   635,
+   358,
+   50
+  ],
+  "buttons": [
+   "start-camera:136x51",
+   "start-demo:117x51",
+   "stop:74x51",
+   "mute:77x51"
+  ]
+ }
+}

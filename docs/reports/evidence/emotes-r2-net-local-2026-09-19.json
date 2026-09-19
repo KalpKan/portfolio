@@ -1,0 +1,140 @@
+{
+ "loadMs": 928,
+ "clickToWatchingMs": 1568,
+ "statuses": [
+  {
+   "t": 942,
+   "text": "Asking for the camera…"
+  },
+  {
+   "t": 1143,
+   "text": "Loading the vision runtime…"
+  },
+  {
+   "t": 1169,
+   "text": "Loading the face model…"
+  },
+  {
+   "t": 1681,
+   "text": "Loading the hand model…"
+  },
+  {
+   "t": 2204,
+   "text": "Loading the pose model…"
+  },
+  {
+   "t": 2494,
+   "text": "Models ready."
+  },
+  {
+   "t": 2494,
+   "text": "Watching. Try a thumbs-up, a flex beside your head, or a big yawn."
+  }
+ ],
+ "requestsAfterWatching": [
+  "GET http://localhost:4173/favicon.svg"
+ ],
+ "hosts": [
+  "localhost:4173"
+ ],
+ "ingest": [],
+ "bigFiles": [
+  {
+   "u": "/assets/index-TECi72nT.css",
+   "status": 200,
+   "cc": "no-cache",
+   "ct": "text/css"
+  },
+  {
+   "u": "/assets/index-DSWF50GZ.js",
+   "status": 200,
+   "cc": "no-cache",
+   "ct": "text/javascript"
+  },
+  {
+   "u": "/emotes/goblin_muscle.mp3",
+   "status": 206,
+   "cc": "no-cache",
+   "len": "19250",
+   "ct": "audio/mpeg"
+  },
+  {
+   "u": "/emotes/thumbs_up.mp3",
+   "status": 206,
+   "cc": "no-cache",
+   "len": "20114",
+   "ct": "audio/mpeg"
+  },
+  {
+   "u": "/emotes/princess_yawn.mp3",
+   "status": 206,
+   "cc": "no-cache",
+   "len": "24002",
+   "ct": "audio/mpeg"
+  },
+  {
+   "u": "/assets/vision_bundle-nFM_jWLx.js",
+   "status": 200,
+   "cc": "no-cache",
+   "ct": "text/javascript"
+  },
+  {
+   "u": "/mediapipe/wasm/vision_wasm_internal.js",
+   "status": 304
+  },
+  {
+   "u": "/mediapipe/wasm/vision_wasm_internal.wasm",
+   "status": 304
+  },
+  {
+   "u": "/mediapipe/models/face_landmarker.task",
+   "status": 200,
+   "cc": "no-cache",
+   "ct": ""
+  },
+  {
+   "u": "/mediapipe/models/hand_landmarker.task",
+   "status": 200,
+   "cc": "no-cache",
+   "ct": ""
+  },
+  {
+   "u": "/mediapipe/models/pose_landmarker_lite.task",
+   "status": 200,
+   "cc": "no-cache",
+   "ct": ""
+  }
+ ],
+ "console": [
+  "warn: W0919 20:46:54.192000 2196592 face_landmarker_graph.cc:180] Sets FaceBlendshapesGraph acceleration to xnnpack by default.",
+  "log: I0919 20:46:54.236999 2196592 gl_context.cc:407] GL version: 3.0 (OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))), renderer: WebKit WebGL",
+  "warn: W0919 20:46:54.236999 2196592 gl_context.cc:1119] OpenGL error checking is disabled",
+  "log: Graph successfully started running.",
+  "log: I0919 20:46:54.764999 2196592 gl_context.cc:407] GL version: 3.0 (OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))), renderer: WebKit WebGL",
+  "warn: W0919 20:46:54.766000 2196592 gl_context.cc:1119] OpenGL error checking is disabled",
+  "log: Graph successfully started running.",
+  "log: I0919 20:46:55.055000 2196592 gl_context.cc:407] GL version: 3.0 (OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium))), renderer: WebKit WebGL",
+  "warn: W0919 20:46:55.055000 2196592 gl_context.cc:1119] OpenGL error checking is disabled",
+  "log: Graph successfully started running.",
+  "warn: W0919 20:46:55.611000 2196592 landmark_projection_calculator.cc:81] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE",
+  "warn: W0919 20:46:55.881999 2196592 landmark_projection_calculator.cc:81] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE",
+  "error: INFO: Created TensorFlow Lite XNNPACK delegate for CPU."
+ ],
+ "overlay": {
+  "video": [
+   157,
+   197,
+   686,
+   514
+  ],
+  "canvas": [
+   157,
+   197,
+   686,
+   514
+  ],
+  "vw": 640,
+  "vh": 480,
+  "mirrored": "matrix(-1, 0, 0, 1, 0, 0)"
+ }
+}

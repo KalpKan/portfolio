@@ -1,0 +1,97 @@
+== 10 s holds (fires must be 1)
+thumbs_up-07  25 fps jitter 0.004: fires=1 [thumbs_up@1840] first latency 40 ms
+thumbs_up-07  25 fps jitter 0.008: fires=1 [thumbs_up@1840] first latency 40 ms
+thumbs_up-07  25 fps jitter 0.012: fires=1 [thumbs_up@1840] first latency 40 ms
+thumbs_up-07  12 fps jitter 0.004: fires=1 [thumbs_up@1917] first latency 117 ms
+thumbs_up-07  12 fps jitter 0.008: fires=1 [thumbs_up@1917] first latency 117 ms
+thumbs_up-07  12 fps jitter 0.012: fires=1 [thumbs_up@1917] first latency 117 ms
+thumbs_up-07   8 fps jitter 0.004: fires=1 [thumbs_up@2000] first latency 200 ms
+thumbs_up-07   8 fps jitter 0.008: fires=1 [thumbs_up@2000] first latency 200 ms
+thumbs_up-07   8 fps jitter 0.012: fires=1 [thumbs_up@2000] first latency 200 ms
+thumbs_up-11  25 fps jitter 0.004: fires=1 [thumbs_up@1880] first latency 80 ms
+thumbs_up-11  25 fps jitter 0.008: fires=1 [thumbs_up@1880] first latency 80 ms
+thumbs_up-11  25 fps jitter 0.012: fires=1 [thumbs_up@1880] first latency 80 ms
+thumbs_up-11  12 fps jitter 0.004: fires=1 [thumbs_up@2000] first latency 200 ms
+thumbs_up-11  12 fps jitter 0.008: fires=1 [thumbs_up@2000] first latency 200 ms
+thumbs_up-11  12 fps jitter 0.012: fires=1 [thumbs_up@2000] first latency 200 ms
+thumbs_up-11   8 fps jitter 0.004: fires=1 [thumbs_up@2000] first latency 200 ms
+thumbs_up-11   8 fps jitter 0.008: fires=1 [thumbs_up@2000] first latency 200 ms
+thumbs_up-11   8 fps jitter 0.012: fires=1 [thumbs_up@2000] first latency 200 ms
+flex-14       25 fps jitter 0.004: fires=1 [flex@1960] first latency 160 ms
+flex-14       25 fps jitter 0.008: fires=1 [flex@1960] first latency 160 ms
+flex-14       25 fps jitter 0.012: fires=1 [flex@1960] first latency 160 ms
+flex-14       12 fps jitter 0.004: fires=1 [flex@2083] first latency 283 ms
+flex-14       12 fps jitter 0.008: fires=1 [flex@2083] first latency 283 ms
+flex-14       12 fps jitter 0.012: fires=1 [flex@2083] first latency 283 ms
+flex-14        8 fps jitter 0.004: fires=1 [flex@2125] first latency 325 ms
+flex-14        8 fps jitter 0.008: fires=1 [flex@2125] first latency 325 ms
+flex-14        8 fps jitter 0.012: fires=1 [flex@2125] first latency 325 ms
+flex-06       25 fps jitter 0.004: fires=1 [flex@1960] first latency 160 ms
+flex-06       25 fps jitter 0.008: fires=1 [flex@1960] first latency 160 ms
+flex-06       25 fps jitter 0.012: fires=1 [flex@1960] first latency 160 ms
+flex-06       12 fps jitter 0.004: fires=1 [flex@2083] first latency 283 ms
+flex-06       12 fps jitter 0.008: fires=1 [flex@2083] first latency 283 ms
+flex-06       12 fps jitter 0.012: fires=1 [flex@2083] first latency 283 ms
+flex-06        8 fps jitter 0.004: fires=1 [flex@2125] first latency 325 ms
+flex-06        8 fps jitter 0.008: fires=1 [flex@2125] first latency 325 ms
+flex-06        8 fps jitter 0.012: fires=1 [flex@2125] first latency 325 ms
+yawn-19       25 fps jitter 0.004: fires=1 [yawn@2160] first latency 360 ms
+yawn-19       25 fps jitter 0.008: fires=1 [yawn@2240] first latency 440 ms
+yawn-19       25 fps jitter 0.012: fires=1 [yawn@2800] first latency 1000 ms
+yawn-19       12 fps jitter 0.004: fires=1 [yawn@2250] first latency 450 ms
+yawn-19       12 fps jitter 0.008: fires=1 [yawn@2333] first latency 533 ms
+yawn-19       12 fps jitter 0.012: fires=1 [yawn@3000] first latency 1200 ms
+yawn-19        8 fps jitter 0.004: fires=1 [yawn@2250] first latency 450 ms
+yawn-19        8 fps jitter 0.008: fires=1 [yawn@2375] first latency 575 ms
+yawn-19        8 fps jitter 0.012: fires=1 [yawn@4000] first latency 2200 ms
+yawn-12       25 fps jitter 0.004: fires=1 [yawn@2160] first latency 360 ms
+yawn-12       25 fps jitter 0.008: fires=1 [yawn@2280] first latency 480 ms
+yawn-12       25 fps jitter 0.012: fires=1 [yawn@2320] first latency 520 ms
+yawn-12       12 fps jitter 0.004: fires=1 [yawn@2333] first latency 533 ms
+yawn-12       12 fps jitter 0.008: fires=1 [yawn@2333] first latency 533 ms
+yawn-12       12 fps jitter 0.012: fires=1 [yawn@2500] first latency 700 ms
+yawn-12        8 fps jitter 0.004: fires=1 [yawn@2250] first latency 450 ms
+yawn-12        8 fps jitter 0.008: fires=1 [yawn@2375] first latency 575 ms
+yawn-12        8 fps jitter 0.012: fires=1 [yawn@2375] first latency 575 ms
+yawn-17       25 fps jitter 0.004: fires=1 [yawn@2760] first latency 960 ms
+yawn-17       25 fps jitter 0.008: fires=1 [yawn@4200] first latency 2400 ms
+yawn-17       25 fps jitter 0.012: fires=0 [] first latency null ms
+yawn-17       12 fps jitter 0.004: fires=1 [yawn@2667] first latency 867 ms
+yawn-17       12 fps jitter 0.008: fires=1 [yawn@7917] first latency 6117 ms
+yawn-17       12 fps jitter 0.012: fires=1 [yawn@10750] first latency 8950 ms
+yawn-17        8 fps jitter 0.004: fires=1 [yawn@2625] first latency 825 ms
+yawn-17        8 fps jitter 0.008: fires=2 [yawn@3000 yawn@8500] first latency 1200 ms
+yawn-17        8 fps jitter 0.012: fires=0 [] first latency null ms
+yawn-18       25 fps jitter 0.004: fires=1 [yawn@2160] first latency 360 ms
+yawn-18       25 fps jitter 0.008: fires=1 [yawn@2160] first latency 360 ms
+yawn-18       25 fps jitter 0.012: fires=1 [yawn@2440] first latency 640 ms
+yawn-18       12 fps jitter 0.004: fires=1 [yawn@2250] first latency 450 ms
+yawn-18       12 fps jitter 0.008: fires=1 [yawn@2333] first latency 533 ms
+yawn-18       12 fps jitter 0.012: fires=1 [yawn@2417] first latency 617 ms
+yawn-18        8 fps jitter 0.004: fires=1 [yawn@2250] first latency 450 ms
+yawn-18        8 fps jitter 0.008: fires=1 [yawn@2250] first latency 450 ms
+yawn-18        8 fps jitter 0.012: fires=1 [yawn@3125] first latency 1325 ms
+
+== fast sequences (gap between gestures; the page's EmoteGate waits 2000 ms)
+gap    0 ms 25 fps: fires=[thumbs_up@1840 yawn@4480] events=[thumbs_up@1800 flex@3000 yawn@4200]
+gap    0 ms  8 fps: fires=[thumbs_up@2000 yawn@4750] events=[thumbs_up@1800 flex@3000 yawn@4200]
+gap  300 ms 25 fps: fires=[thumbs_up@1840 yawn@5240] events=[thumbs_up@1800 flex@3300 yawn@4800]
+gap  300 ms  8 fps: fires=[thumbs_up@2000 yawn@5500] events=[thumbs_up@1800 flex@3300 yawn@4800]
+gap  600 ms 25 fps: fires=[thumbs_up@1840 yawn@5840] events=[thumbs_up@1800 flex@3600 yawn@5400]
+gap  600 ms  8 fps: fires=[thumbs_up@2000 flex@4000 yawn@6000] events=[thumbs_up@1800 flex@3600 yawn@5400]
+gap 1000 ms 25 fps: fires=[thumbs_up@1840 flex@4160 yawn@6600] events=[thumbs_up@1800 flex@4000 yawn@6200]
+gap 1000 ms  8 fps: fires=[thumbs_up@2000 flex@4375 yawn@6750] events=[thumbs_up@1800 flex@4000 yawn@6200]
+gap 1500 ms 25 fps: fires=[thumbs_up@1840 flex@4680 yawn@7560] events=[thumbs_up@1800 flex@4500 yawn@7200]
+gap 1500 ms  8 fps: fires=[thumbs_up@2000 flex@4875 yawn@7750] events=[thumbs_up@1800 flex@4500 yawn@7200]
+gap 2000 ms 25 fps: fires=[thumbs_up@1840 flex@5160 yawn@8560] events=[thumbs_up@1800 flex@5000 yawn@8200]
+gap 2000 ms  8 fps: fires=[thumbs_up@2000 flex@5375 yawn@8875] events=[thumbs_up@1800 flex@5000 yawn@8200]
+
+== latency at 8 / 12 fps, 2.5 s gestures (max must be <= 1000 ms)
+worst latency 1533 ms; problem rows (3):
+  yawn-07 12 fps: fires=[yawn@3333] latency 1533
+  yawn-17 12 fps: fires=[] latency null
+  yawn-17 8 fps: fires=[yawn@3000] latency 1200
+== latency at 8 / 12 fps, 2.5 s gestures (max must be <= 1000 ms)
+worst latency 867 ms; problem rows (2):
+  yawn-17 12 fps: fires=[yawn@2667] latency 867
+  yawn-17 8 fps: fires=[yawn@2625] latency 825
