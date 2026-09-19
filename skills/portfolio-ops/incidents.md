@@ -886,3 +886,62 @@ _Entries begin below, oldest first._
 - **Fix:** `scripts/build_e2e_clip.py` writes 30 fps; `scripts/e2e-camera.mjs` records the `<video>` `playing` moment, reports each fire at its clip position `(at - streamAt) % duration`, and judges only fires with `sinceStart < duration`. With that, GPU run: Thumbs Up 131 ms, Goblin Muscle 183 ms, Princess Yawn 140 ms after onset, PASS.
 - **Prevention:** runbook "Deploy a browser-ML app (MediaPipe) to Vercel" step 9 lists all three gotchas; also: Playwright's bundled `ffmpeg-mac` has no PNG decoder (`Invalid data found when processing input`), so build fake-camera clips with Pillow (an `.mjpeg` is just concatenated JPEGs).
 - **Reported by:** Phase 5 SPEC agent (emotes)
+
+### 2026-09-18: pushups misses the first rep of almost every set (found by the Phase 5 SPEC agent while building the ground-truth corpus)
+
+- **Date:** 2026-09-18 (repo `18ab3e6`, production `4f0708e`)
+- **Affected:** https://pushups.kalpkan.com, `src/repCounter.ts` (`topThreshold = shoulderMin + range * 0.1`)
+- **Symptom:** on 10 of the 15 hand-labelled clips (`tests/fixtures/clips/ground_truth.json`) the counter is one short, always the first rep: the visitor is already in a plank when the session starts, `range` is ≈ 0, so the plank never satisfies `shoulderY < min + 0.1·range` and "top" is only registered after the first full descent and ascent. `good_IMG_4409` (5/5) only passes because a 0.6 s hold at the start jitters below the threshold; the bundled demo clip counts 2 attempts / 1 good against 4 / 2–3.
+- **Root cause:** verbatim port of the Python state machine, whose author documented the loss as "the first rep calibrates the range"; there is no notion of "the starting position is a top".
+- **Fix:** not applied (spec round). Bar in `docs/reports/pushups-spec.md` S2/S4: every clip within ±1 including the first rep; the corpus test and the fake-camera harness are in the repo for the fixer.
+- **Prevention:** `tests/corpus.test.ts` (report-only until `PUSHUPS_CORPUS_GATE=1`) and the verification row "Functional smoke: live-camera count on the corpus".
+- **Reported by:** Phase 5 SPEC agent (pushups)
+
+### 2026-09-18: pushups rep bands are 10 % of the all-time min/max, so one overshoot poisons the rest of the session (Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18
+- **Affected:** `src/repCounter.ts`
+- **Symptom:** `test_video3` counts 2 of 5 reps: a 0.26 top at 2.4 s (one high push-off) moves the top band to < 0.30 and the later tops at 0.31–0.32 never register; `IMG_1359` (head leaves the frame at the top, MediaPipe extrapolates the shoulders to y ≈ 0.00) counts 7 of 9 once the top drifts to 0.04; standing up at the end of `test_video3`/`IMG_1360` resets `min` for good. No decay, no per-rep re-estimation, no hysteresis.
+- **Root cause:** the Python design tracked a running min/max for the whole session; fine for one clean clip, wrong for a live session where the visitor moves, stands, or the camera shifts.
+- **Fix:** not applied. Spec S4 bar: standing up, kneeling, resting and partial dips add 0 attempts; every clip within ±1.
+- **Prevention:** corpus test + harness as above.
+- **Reported by:** Phase 5 SPEC agent (pushups)
+
+### 2026-09-18: pushups count depends on the frame rate (Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18
+- **Affected:** `src/repCounter.ts` (`WARMUP_FRAMES = 10`, single-frame band crossings)
+- **Symptom:** the Python trace of `test_video3` at 60 fps yields 3 attempts / 2 good; the same clip at 30 fps (`tests/fixtures/traces/test_video3.json`) yields 2 / 1. A phone at 8–15 fps will differ again, and the README already warns "very fast reps can skip the bottom band".
+- **Root cause:** warm-up and thresholds are counted in frames, not seconds; a rep is a single-sample crossing with no minimum dwell.
+- **Fix:** not applied. Spec S6 bar: the same trace with every third frame dropped must give the same count.
+- **Prevention:** the frame-drop replay to be added to `tests/corpus.test.ts` by the fixer.
+- **Reported by:** Phase 5 SPEC agent (pushups)
+
+### 2026-09-18: pushups judges a rep's form on two single frames, and shows no reason for a bad verdict (Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18
+- **Affected:** `src/repCounter.ts` (`goodTop`/`goodBottom` taken from the first frame in each band), `src/draw.ts`
+- **Symptom:** `test_video_4` shows four textbook reps (frames checked at 2.5, 4.0, 5.5, 7.0 s) but the classifier flags the single top frames as bad, so 4 clean reps yield 1 good; on `IMG_1512` the classifier is green through a pike pushup (30–33 s) because the training set has no pikes, and the page shows only "bad 57 %" style text, never *why*.
+- **Root cause:** a per-frame binary classifier with no temporal smoothing and no geometric rules (hip height vs the shoulder–ankle line, knee on floor, depth).
+- **Fix:** not applied. Spec S3 bar: verdict per rep from a 3-frame majority or equivalent, a one-line reason on the overlay, 0 good reps on the bad-form clips.
+- **Prevention:** `formPerSecond` in the e2e results JSON; per-rep `form` labels with `confidence` in the ground truth.
+- **Reported by:** Phase 5 SPEC agent (pushups)
+
+### 2026-09-18: pushups demo mode runs the pose model on duplicated frames, and "Speed" reports that (Phase 5 SPEC agent)
+
+- **Date:** 2026-09-18
+- **Affected:** `src/session.ts` (`if (video.currentTime !== lastTime …) { … detectForVideo … frames++ }`)
+- **Symptom:** in demo mode the page shows "61 fps" on a 60 Hz display for a 30 fps clip: `currentTime` advances on every animation frame, so `detectForVideo` is called twice per decoded frame (twice the GPU work for nothing, and the "Speed" figure is not the rate a visitor's camera is analysed at). In camera mode the fake-camera measurement reads 27–29 fps for a 30 fps source, which is right.
+- **Root cause:** new-frame detection by `currentTime` instead of `requestVideoFrameCallback` / frame count.
+- **Fix:** not applied. Spec S2 reads `stat-fps` as the pipeline rate on unique frames.
+- **Prevention:** e2e-corpus records `fpsAvg`/`fpsMin` per clip; e2e-demo prints the label.
+- **Reported by:** Phase 5 SPEC agent (pushups)
+
+### 2026-09-18: pushups SPEC agent's verification.md rows were committed under the Plant It agent's commit `9893a31` (same shared-checkout pattern)
+
+- **Date:** 2026-09-18, ~21:50 EDT
+- **Affected:** `KalpKan/portfolio` history only. The four pushups rows ("Unit + corpus", "Functional smoke: live-camera count on the corpus", "Functional smoke: demo count is stable", "CI") added to `skills/portfolio-ops/verification.md` by the pushups SPEC agent went out in `9893a31` ("Plant It T2.2 …") before the pushups agent staged anything; `git diff HEAD` then showed no verification.md change to stage.
+- **Root cause:** one working tree and one index shared by concurrent agents; a `git add <file>` by any agent stages every hunk in that file.
+- **Fix:** none needed for content; this entry records where the rows live. The pushups spec commit carries the spec, evidence, STATUS lines and incidents only.
+- **Prevention:** as the entry above says: stage and commit in one command, and prefer per-agent files over shared files where the format allows.
+- **Reported by:** Phase 5 SPEC agent (pushups)
