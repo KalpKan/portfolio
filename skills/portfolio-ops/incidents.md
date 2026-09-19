@@ -1325,3 +1325,33 @@ _Entries begin below, oldest first._
 - **Fix:** none needed; verified the live bundle (`assets/index-sVFWsrWw.js`, `assets/worker-DlK08iyk.js`, `#mp-limit`, "Download overlay") and re-ran the browser checks and Lighthouse against the live host. The follow-up push `52aa5c0` (harness-only) also auto-deployed.
 - **Prevention:** after a push, check `npx vercel ls <project>` (and the API's `githubCommitSha`) **before** running a CLI deploy; only fall back to `scripts/vercel-redeploy-when-quota-frees.sh` when the git-triggered deployment is missing or errored. Avoid pushing docs-only changes under `web/` (every push there costs a deployment).
 - **Reported by:** Phase 5 FIX agent (microtubules, round 1)
+
+### 2026-09-19: microtubules — the Safari < 16.4 fallback path re-introduces the ICC drift and skips the size and format guards (Phase 5 TEST agent, microtubules round 2)
+
+- **Date:** 2026-09-19, 02:45 UTC
+- **Affected:** `KalpKan/Microtubule-Quantification` `web/src/main.ts` (`decodeOnPage`, `run`), live at `efe7f76`; only browsers without `OffscreenCanvas` in Web Workers (Safari/iOS before 16.4)
+- **Symptom:** with the worker script prefixed by `self.OffscreenCanvas = undefined` (Playwright `context.route`, `docs/reports/evidence/microtubules-r2-extra.cjs` `fallback`), WebKit gives `Plate2_45_nocodazole45uM.png` 3.85 % / threshold 45 and `Plate1_W1_untreated.png` 13.47 % / 30 (Python and the normal path: 2.88 / 42, 13.14 / 24); a 12 MP JPEG paints two 4000 × 3000 canvases; `truncated.png` gets the browser's raw decode error instead of the format list. Untagged files, EXIF, downloads and samples are right on this path.
+- **Root cause:** `decodeOnPage()` hands the raw blob to `createImageBitmap` (no `stripColorMetadata`), and once `pageDecodes` is true `run()` no longer sends the bytes through the worker's `sniffFormat` / `readDimensions` / `MAX_MEGAPIXELS` pre-checks; `paintPixels()` has no display cap. The FIX r1 note said this path was "only code-reviewed"; the code review missed all three.
+- **Fix:** not applied this round (TEST only); recorded as D12 (minor) in `docs/reports/microtubules.md`: strip + sniff + size-check on the page before either path, paint scaled, reuse `describeFormat`. Add the routed-worker run to `browser-check.cjs`.
+- **Prevention:** a browser feature fallback is untested until a harness disables the feature and runs the corpus through it; `context.route` on the worker URL makes that a ten-line addition. Never mark a fallback "verified" on the strength of a code read.
+- **Reported by:** Phase 5 TEST agent (microtubules, round 2)
+
+### 2026-09-19: microtubules — main-thread gap and wall-time measurements in a background Chrome tab are meaningless (Phase 5 TEST agent, microtubules round 2)
+
+- **Date:** 2026-09-19, 02:35 UTC
+- **Affected:** any timing measured through claude-in-chrome when the MCP tab is not the active tab of its window (`document.visibilityState === "hidden"`)
+- **Symptom:** a `setInterval(…, 16)` "main-thread gap" probe reported exactly 997–1004 ms for every upload (looked like the S5 bar failing), sample wall times read 999–1001 ms, and the 24 MP analysis took 5–6.5 s in the worker instead of 1–2 s.
+- **Root cause:** Chrome throttles timers in hidden tabs to once per second and de-prioritises the whole renderer (worker included). The tab lives in a group inside Kalp's main window with 40+ tabs, behind his active tab; activating it would switch his browser.
+- **Fix:** timing measurements were repeated with a `MutationObserver` on `#status` (no timers; samples 9–32 ms) and in a **headed Playwright Chromium** window (`microtubules-r2-extra.cjs` `headed`: 24 MP gap 18 ms, 12 MP first-upload gap 264 ms). The hidden-tab numbers are recorded in the report as an observation, not a defect.
+- **Prevention:** before trusting any timer-based measurement from claude-in-chrome, log `document.visibilityState`; use `MutationObserver`/`PerformanceObserver` for durations and a headed Playwright window for long-task and CPU-bound measurements. Also: Chrome 151 blocks an https page from fetching `http://127.0.0.1` (local-network permission prompt hangs the request), so upload paths are tested on a local build served on `127.0.0.1` rather than on the live origin.
+- **Reported by:** Phase 5 TEST agent (microtubules, round 2)
+
+### 2026-09-19: microtubules — every `createImageBitmap` failure is reported as "looks damaged or truncated" (Phase 5 TEST agent, microtubules round 2)
+
+- **Date:** 2026-09-19, 02:50 UTC
+- **Affected:** `web/src/worker.ts` `decodeBitmap`
+- **Symptom:** in Playwright WebKit with `setOffline(true)` the three (perfectly good, prefetched) samples read "P1_W1_C1 looks damaged or truncated and could not be read as an image …" because the blob load failed with "The I/O read operation failed".
+- **Root cause:** the catch-all in `decodeBitmap` rewrites any error as `describeFormat("png", …)`; the emulation artefact (incidents 2026-09-19 FIX r1) is one trigger, a low-memory decode failure on a phone would be another.
+- **Fix:** not applied (TEST only); D13 (minor) in the report: keep the "damaged" wording only when the sniffed format is supported and the bytes are complete, otherwise surface the browser's message plus "reload and try again".
+- **Prevention:** error copy should never assert a cause the code did not establish; map browser errors to user text by evidence (magic bytes, length, dimensions), not by default.
+- **Reported by:** Phase 5 TEST agent (microtubules, round 2)

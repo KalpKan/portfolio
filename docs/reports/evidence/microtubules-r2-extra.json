@@ -1,0 +1,497 @@
+{
+  "themes": {
+    "desktop-light": {
+      "lede": {
+        "ratio": 5.65,
+        "size": "16px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(244, 247, 244)"
+      },
+      "hint": {
+        "ratio": 6.1,
+        "size": "13.6px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "status": {
+        "ratio": 6.1,
+        "size": "15.2px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "link": {
+        "ratio": 6.34,
+        "size": "16px",
+        "fg": "rgb(15, 110, 59)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "footerLink": {
+        "ratio": 5.87,
+        "size": "13.6px",
+        "fg": "rgb(15, 110, 59)",
+        "bg": "rgb(244, 247, 244)"
+      },
+      "percent": {
+        "ratio": 4.4,
+        "size": "80px",
+        "fg": "rgb(23, 138, 76)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "label": {
+        "ratio": 6.1,
+        "size": "16px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "definition": {
+        "ratio": 6.1,
+        "size": "14.72px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "dt": {
+        "ratio": 5.23,
+        "size": "12px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(233, 239, 233)"
+      },
+      "dd": {
+        "ratio": 14.38,
+        "size": "15.2px",
+        "fg": "rgb(20, 32, 26)",
+        "bg": "rgb(233, 239, 233)"
+      },
+      "summary": {
+        "ratio": 6.34,
+        "size": "14.08px",
+        "fg": "rgb(15, 110, 59)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "reference": {
+        "ratio": 6.1,
+        "size": "14.72px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "caption": {
+        "ratio": 6.1,
+        "size": "13.6px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "buttonSecondary": {
+        "ratio": 14.38,
+        "size": "16px",
+        "fg": "rgb(20, 32, 26)",
+        "bg": "rgb(233, 239, 233)"
+      },
+      "buttonPrimary": {
+        "ratio": 4.4,
+        "size": "16px",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(23, 138, 76)"
+      },
+      "sampleLabel": {
+        "ratio": 6.1,
+        "size": "15.2px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "warning": {
+        "ratio": 8.49,
+        "fg": "rgb(92, 67, 0)",
+        "bg": "rgb(255, 244, 214)"
+      },
+      "error": {
+        "ratio": 6.57,
+        "fg": "rgb(180, 35, 24)",
+        "bg": "rgb(255, 255, 255)"
+      }
+    },
+    "phone390-light": {
+      "lede": {
+        "ratio": 5.65,
+        "size": "16px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(244, 247, 244)"
+      },
+      "hint": {
+        "ratio": 6.1,
+        "size": "13.6px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "status": {
+        "ratio": 6.1,
+        "size": "15.2px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "link": {
+        "ratio": 6.34,
+        "size": "16px",
+        "fg": "rgb(15, 110, 59)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "footerLink": {
+        "ratio": 5.87,
+        "size": "13.6px",
+        "fg": "rgb(15, 110, 59)",
+        "bg": "rgb(244, 247, 244)"
+      },
+      "percent": {
+        "ratio": 4.4,
+        "size": "54.6px",
+        "fg": "rgb(23, 138, 76)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "label": {
+        "ratio": 6.1,
+        "size": "16px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "definition": {
+        "ratio": 6.1,
+        "size": "14.72px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "dt": {
+        "ratio": 5.23,
+        "size": "12px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(233, 239, 233)"
+      },
+      "dd": {
+        "ratio": 14.38,
+        "size": "15.2px",
+        "fg": "rgb(20, 32, 26)",
+        "bg": "rgb(233, 239, 233)"
+      },
+      "summary": {
+        "ratio": 6.34,
+        "size": "14.08px",
+        "fg": "rgb(15, 110, 59)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "reference": {
+        "ratio": 6.1,
+        "size": "14.72px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "caption": {
+        "ratio": 6.1,
+        "size": "13.6px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "buttonSecondary": {
+        "ratio": 14.38,
+        "size": "16px",
+        "fg": "rgb(20, 32, 26)",
+        "bg": "rgb(233, 239, 233)"
+      },
+      "buttonPrimary": {
+        "ratio": 4.4,
+        "size": "16px",
+        "fg": "rgb(255, 255, 255)",
+        "bg": "rgb(23, 138, 76)"
+      },
+      "sampleLabel": {
+        "ratio": 6.1,
+        "size": "15.2px",
+        "fg": "rgb(85, 102, 92)",
+        "bg": "rgb(255, 255, 255)"
+      },
+      "warning": {
+        "ratio": 8.49,
+        "fg": "rgb(92, 67, 0)",
+        "bg": "rgb(255, 244, 214)"
+      },
+      "error": {
+        "ratio": 6.57,
+        "fg": "rgb(180, 35, 24)",
+        "bg": "rgb(255, 255, 255)"
+      }
+    },
+    "desktop-dark": {
+      "lede": {
+        "ratio": 8.44,
+        "size": "16px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(11, 20, 16)"
+      },
+      "hint": {
+        "ratio": 7.59,
+        "size": "13.6px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "status": {
+        "ratio": 7.59,
+        "size": "15.2px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "link": {
+        "ratio": 9.43,
+        "size": "16px",
+        "fg": "rgb(61, 220, 132)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "footerLink": {
+        "ratio": 10.49,
+        "size": "13.6px",
+        "fg": "rgb(61, 220, 132)",
+        "bg": "rgb(11, 20, 16)"
+      },
+      "percent": {
+        "ratio": 9.43,
+        "size": "80px",
+        "fg": "rgb(61, 220, 132)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "label": {
+        "ratio": 7.59,
+        "size": "16px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "definition": {
+        "ratio": 7.59,
+        "size": "14.72px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "dt": {
+        "ratio": 6.69,
+        "size": "12px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(27, 43, 34)"
+      },
+      "dd": {
+        "ratio": 12.78,
+        "size": "15.2px",
+        "fg": "rgb(232, 240, 234)",
+        "bg": "rgb(27, 43, 34)"
+      },
+      "summary": {
+        "ratio": 9.43,
+        "size": "14.08px",
+        "fg": "rgb(61, 220, 132)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "reference": {
+        "ratio": 7.59,
+        "size": "14.72px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "caption": {
+        "ratio": 7.59,
+        "size": "13.6px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "buttonSecondary": {
+        "ratio": 12.78,
+        "size": "16px",
+        "fg": "rgb(232, 240, 234)",
+        "bg": "rgb(27, 43, 34)"
+      },
+      "buttonPrimary": {
+        "ratio": 10.64,
+        "size": "16px",
+        "fg": "rgb(6, 19, 11)",
+        "bg": "rgb(61, 220, 132)"
+      },
+      "sampleLabel": {
+        "ratio": 7.59,
+        "size": "15.2px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "warning": {
+        "ratio": 10.97,
+        "fg": "rgb(255, 233, 163)",
+        "bg": "rgb(58, 47, 8)"
+      },
+      "error": {
+        "ratio": 7.37,
+        "fg": "rgb(255, 138, 128)",
+        "bg": "rgb(19, 32, 25)"
+      }
+    },
+    "phone390-dark": {
+      "lede": {
+        "ratio": 8.44,
+        "size": "16px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(11, 20, 16)"
+      },
+      "hint": {
+        "ratio": 7.59,
+        "size": "13.6px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "status": {
+        "ratio": 7.59,
+        "size": "15.2px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "link": {
+        "ratio": 9.43,
+        "size": "16px",
+        "fg": "rgb(61, 220, 132)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "footerLink": {
+        "ratio": 10.49,
+        "size": "13.6px",
+        "fg": "rgb(61, 220, 132)",
+        "bg": "rgb(11, 20, 16)"
+      },
+      "percent": {
+        "ratio": 9.43,
+        "size": "54.6px",
+        "fg": "rgb(61, 220, 132)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "label": {
+        "ratio": 7.59,
+        "size": "16px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "definition": {
+        "ratio": 7.59,
+        "size": "14.72px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "dt": {
+        "ratio": 6.69,
+        "size": "12px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(27, 43, 34)"
+      },
+      "dd": {
+        "ratio": 12.78,
+        "size": "15.2px",
+        "fg": "rgb(232, 240, 234)",
+        "bg": "rgb(27, 43, 34)"
+      },
+      "summary": {
+        "ratio": 9.43,
+        "size": "14.08px",
+        "fg": "rgb(61, 220, 132)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "reference": {
+        "ratio": 7.59,
+        "size": "14.72px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "caption": {
+        "ratio": 7.59,
+        "size": "13.6px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "buttonSecondary": {
+        "ratio": 12.78,
+        "size": "16px",
+        "fg": "rgb(232, 240, 234)",
+        "bg": "rgb(27, 43, 34)"
+      },
+      "buttonPrimary": {
+        "ratio": 10.64,
+        "size": "16px",
+        "fg": "rgb(6, 19, 11)",
+        "bg": "rgb(61, 220, 132)"
+      },
+      "sampleLabel": {
+        "ratio": 7.59,
+        "size": "15.2px",
+        "fg": "rgb(159, 179, 166)",
+        "bg": "rgb(19, 32, 25)"
+      },
+      "warning": {
+        "ratio": 10.97,
+        "fg": "rgb(255, 233, 163)",
+        "bg": "rgb(58, 47, 8)"
+      },
+      "error": {
+        "ratio": 7.37,
+        "fg": "rgb(255, 138, 128)",
+        "bg": "rgb(19, 32, 25)"
+      }
+    },
+    "keyboard": {
+      "tabOrder": [
+        "INPUT#file-input. outline=solid 3px shadow=none",
+        "INPUT#camera-input. outline=solid 3px shadow=none",
+        "BUTTON#.button.sample outline=solid 3px shadow=none",
+        "BUTTON#.button.sample outline=solid 3px shadow=none",
+        "BUTTON#.button.sample outline=solid 3px shadow=none",
+        "A#. outline=solid 3px shadow=none",
+        "A#. outline=solid 3px shadow=none"
+      ],
+      "url": "https://microtubules.kalpkan.com/",
+      "statusAfterSpace": "Done: sample Untreated (P1_W1_C1). Pick another image or sam"
+    }
+  },
+  "camera": {
+    "chromium": {
+      "attrs": {
+        "accept": "image/*",
+        "capture": "environment",
+        "labelText": "Take a photo"
+      },
+      "percent": "23.98",
+      "dims": "58 × 231 px",
+      "threshold": "37",
+      "status": "Done: exif-rotated-orientation6.jpg. Pick another image or s",
+      "after": {
+        "percentY": [
+          19,
+          84
+        ],
+        "innerH": 664,
+        "canvas": [
+          58,
+          231
+        ],
+        "scrollY": 508
+      }
+    },
+    "webkit": {
+      "attrs": {
+        "accept": "image/*",
+        "capture": "environment",
+        "labelText": "Take a photo"
+      },
+      "percent": "23.79",
+      "dims": "58 × 231 px",
+      "threshold": "37",
+      "status": "Done: exif-rotated-orientation6.jpg. Pick another image or s",
+      "after": {
+        "percentY": [
+          20,
+          84
+        ],
+        "innerH": 664,
+        "canvas": [
+          58,
+          231
+        ],
+        "scrollY": 508
+      }
+    }
+  }
+}

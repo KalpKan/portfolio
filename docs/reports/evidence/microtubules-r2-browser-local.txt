@@ -1,0 +1,170 @@
+chromium corpus cells/P1_W1_C1.PNG 24.83 (py 24.83) diff -0.0021 thr 36/36 67 ms
+chromium corpus cells/P1_W1_C2.PNG 36.99 (py 36.99) diff 0.0008 thr 28/28 18 ms
+chromium corpus cells/P1_W1_C3.PNG 21.96 (py 21.96) diff 0.0024 thr 28/28 14 ms
+chromium corpus cells/P1_W2_C1.PNG 0.00 (py 0.00) diff 0 thr 54/54 14 ms WARN
+chromium corpus cells/P1_W2_C2.PNG 0.00 (py 0.00) diff 0 thr 49/49 14 ms WARN
+chromium corpus cells/P1_W2_C3.PNG 0.00 (py 0.00) diff 0 thr 55/55 14 ms WARN
+chromium corpus cells/P1_W3_C1.PNG 21.18 (py 21.18) diff -0.0027 thr 62/62 14 ms
+chromium corpus cells/P1_W3_C2.PNG 30.55 (py 30.55) diff 0.003 thr 51/51 15 ms
+chromium corpus cells/P1_W3_C3.PNG 40.24 (py 40.24) diff 0.0004 thr 46/46 15 ms
+chromium corpus cells/P1_W4_C1.PNG 40.03 (py 40.03) diff -0.0003 thr 21/21 14 ms
+chromium corpus cells/P1_W4_C2.PNG 44.23 (py 44.23) diff -0.0023 thr 14/14 14 ms
+chromium corpus cells/P1_W4_C3.PNG 32.77 (py 32.77) diff -0.0031 thr 17/17 13 ms
+chromium corpus cells/P2_W1_C1.PNG 29.04 (py 29.04) diff -0.0041 thr 16/16 14 ms
+chromium corpus cells/P2_W1_C2.PNG 18.44 (py 18.44) diff 0.0045 thr 24/24 15 ms
+chromium corpus cells/P2_W1_C3.PNG 29.56 (py 29.56) diff -0.0008 thr 24/24 14 ms
+chromium corpus cells/P2_W2_C1.PNG 12.47 (py 12.47) diff 0.0004 thr 46/46 15 ms
+chromium corpus cells/P2_W2_C2.PNG 21.38 (py 21.38) diff -0.0006 thr 25/25 14 ms
+chromium corpus cells/P2_W2_C3.PNG 17.81 (py 17.81) diff -0.0025 thr 21/21 15 ms
+chromium corpus cells/P2_W3_C1.PNG 21.21 (py 21.21) diff -0.0021 thr 49/49 14 ms
+chromium corpus cells/P2_W3_C2.PNG 21.74 (py 21.74) diff -0.0048 thr 21/21 14 ms
+chromium corpus cells/P2_W3_C3.PNG 19.24 (py 19.24) diff 0.0017 thr 69/69 15 ms
+chromium corpus cells/P2_W4_C1.PNG 29.87 (py 29.87) diff 0.0023 thr 32/32 15 ms
+chromium corpus cells/P2_W4_C2.PNG 24.90 (py 24.90) diff 0.0048 thr 25/25 14 ms
+chromium corpus cells/P2_W4_C3.PNG 10.04 (py 10.04) diff 0.0031 thr 33/33 15 ms
+chromium corpus cells/P3_W1_C1.PNG 31.69 (py 31.69) diff -0.0001 thr 31/31 14 ms
+chromium corpus cells/P3_W1_C2.PNG 18.55 (py 18.55) diff -0.0044 thr 32/32 14 ms
+chromium corpus cells/P3_W1_C3.PNG 5.35 (py 5.35) diff -0.0044 thr 72/72 15 ms
+chromium corpus cells/P3_W2_C1.PNG 29.03 (py 29.03) diff -0.0036 thr 23/23 14 ms
+chromium corpus cells/P3_W2_C2.PNG 18.03 (py 18.03) diff 0.0021 thr 41/41 14 ms
+chromium corpus cells/P3_W2_C3.PNG 34.71 (py 34.71) diff -0.002 thr 29/29 14 ms
+chromium corpus cells/P3_W3_C1.PNG 38.93 (py 38.93) diff 0.0007 thr 44/44 14 ms
+chromium corpus cells/P3_W3_C2.PNG 43.01 (py 43.01) diff -0.0038 thr 45/45 13 ms
+chromium corpus cells/P3_W3_C3.PNG 24.72 (py 24.72) diff -0.0049 thr 26/26 14 ms
+chromium corpus cells/P3_W4_C1.PNG 21.30 (py 21.30) diff 0.0049 thr 17/17 14 ms
+chromium corpus cells/P3_W4_C2.PNG 28.66 (py 28.66) diff 0.0039 thr 28/28 15 ms
+chromium corpus cells/P3_W4_C3.PNG 49.94 (py 49.94) diff -0.0033 thr 19/19 14 ms
+chromium corpus fullfield/Plate1_W1_green_channel_camera.jpeg 0.00 (py 0.00) diff 0 thr 28/28 98 ms WARN
+chromium corpus fullfield/Plate1_W1_untreated.png 13.14 (py 13.14) diff 0.0038 thr 24/24 48 ms
+chromium corpus fullfield/Plate2_45_nocodazole45uM.png 2.88 (py 2.88) diff 0.0009 thr 42/42 29 ms
+chromium corpus fullfield/Plate3_W2_New_nocodazole25uM.png 3.91 (py 3.91) diff -0.0049 thr 30/30 48 ms
+chromium corpus edge/all-black.png 0.00 (py 0.00) diff 0 thr 0/0 13 ms WARN
+chromium corpus edge/all-blue-nucleus-only.png 0.00 (py 0.00) diff 0 thr 0/0 14 ms WARN
+chromium corpus edge/all-green.png 100.00 (py 100.00) diff 0 thr 0/0 15 ms WARN
+chromium corpus edge/cell-16bit.png 24.83 (py 24.83) diff -0.0021 thr 36/36 14 ms
+chromium corpus edge/cell-grayscale.png 0.00 (py 0.00) diff 0 thr 24/24 15 ms WARN
+chromium corpus edge/cell-posterized.png 21.79 (py 21.79) diff 0.0032 thr 32/32 15 ms
+chromium corpus edge/cell-q60.jpg 23.89 (py 23.89) diff -0.0016 thr 37/37 14 ms
+chromium corpus edge/cell-q95.jpg 23.94 (py 23.94) diff 0.0036 thr 37/37 15 ms
+chromium corpus edge/cell-rgb.png 24.83 (py 24.83) diff -0.0021 thr 36/36 15 ms
+chromium corpus edge/cell-rgba-transparent-border.png 24.83 (py 24.83) diff -0.0021 thr 36/36 15 ms
+chromium corpus edge/cell.bmp 24.83 (py 24.83) diff -0.0021 thr 36/36 15 ms
+chromium corpus edge/cell.webp 24.83 (py 24.83) diff -0.0021 thr 36/36 15 ms
+chromium corpus edge/exif-rotated-orientation6.jpg 23.98 (py 23.98) diff -0.0012 thr 37/37 15 ms
+chromium corpus edge/one-pixel.png 100.00 (py 100.00) diff 0 thr 0/0 14 ms WARN
+chromium corpus edge/tall-100x2000.png 23.61 (py 23.61) diff -0.005 thr 36/36 32 ms
+chromium corpus edge/tiny-4x4.png 0.00 (py 0.00) diff 0 thr 19/19 14 ms WARN
+chromium corpus edge/wide-2000x100.png 25.32 (py 25.32) diff 0.004 thr 37/37 32 ms
+chromium corpus summary: 57 images, max |diff| 0.0050, lossless threshold mismatches 0, pixel mismatches 0
+chromium file edge/cell.tiff: hidden=true "cell.tiff is a TIFF, which browsers cannot read and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIF"
+chromium file edge/document.pdf: hidden=true "document.pdf is a PDF, not an image and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to"
+chromium file edge/empty.png: hidden=true "empty.png is empty (0 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG fi"
+chromium file edge/not-an-image.txt: hidden=true "not-an-image.txt is not an image file (text/plain, 35 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF"
+chromium file edge/renamed-text.png: hidden=true "renamed-text.png is not an image file (image/png, 38 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF;"
+chromium file edge/truncated.png: hidden=true "truncated.png looks damaged or truncated and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HE"
+chromium huge edge/huge-12mp-4000x3000.jpg: 23.67 (py 23.6721) wall 698 ms, max main-thread gap 18 ms, heap 6 MB, canvases 1632x1224 / 1632x1224
+chromium huge edge/huge-12mp-4000x3000.png: 24.78 (py 24.7754) wall 729 ms, max main-thread gap 18 ms, heap 6 MB, canvases 1632x1224 / 1632x1224
+chromium huge edge/generated-large/huge-24mp-6000x4000.jpg: 23.93 (py 23.9292) wall 1248 ms, max main-thread gap 18 ms, heap 6 MB, canvases 1732x1154 / 1732x1154
+chromium worker wasm heap after the huge files: 128 MB
+chromium download P1_W1_C1_overlay.png: 77x58, 0 px differ from Results/
+chromium download P1_W1_C1_mask.png: 77x58, 0 px differ from Results/
+chromium copy P1_W1_C1: "P1_W1_C1: 24.83% (threshold 36, 1109/4466 px)"
+chromium download P3_W2_C3_overlay.png: 92x77, 0 px differ from Results/
+chromium download P3_W2_C3_mask.png: 92x77, 0 px differ from Results/
+chromium copy P3_W2_C3: "P3_W2_C3: 34.71% (threshold 29, 2459/7084 px)"
+chromium download P1_W3_C1_overlay.png: 68x47, 0 px differ from Results/
+chromium download P1_W3_C1_mask.png: 68x47, 0 px differ from Results/
+chromium copy P1_W3_C1: "P1_W3_C1: 21.18% (threshold 62, 677/3196 px)"
+chromium phone 360px P1_W1_C1: percent y=20-80 of 844, scrollY 588, results top 0, visible=true
+chromium phone 360px P3_W2_C3: percent y=20-80 of 844, scrollY 611, results top 0, visible=true
+chromium phone 390px P1_W1_C1: percent y=19-84 of 664, scrollY 508, results top 0, visible=true
+chromium phone 390px P3_W2_C3: percent y=19-84 of 664, scrollY 531, results top 0, visible=true
+chromium phone 430px P1_W1_C1: percent y=19-90 of 844, scrollY 508, results top 0, visible=true
+chromium phone 430px P3_W2_C3: percent y=19-90 of 844, scrollY 508, results top 0, visible=true
+chromium bands cells/P1_W1_C1.PNG: 24.83 (py 24.8321) thr 36/36 77 × 58 px
+chromium bands edge/exif-rotated-orientation6.jpg: 23.98 (py 23.9812) thr 37/37 58 × 231 px
+chromium bands fullfield/Plate1_W1_untreated.png: 13.14 (py 13.1362) thr 24/24 914 × 692 px
+webkit corpus cells/P1_W1_C1.PNG 24.83 (py 24.83) diff -0.0021 thr 36/36 69 ms
+webkit corpus cells/P1_W1_C2.PNG 36.99 (py 36.99) diff 0.0008 thr 28/28 41 ms
+webkit corpus cells/P1_W1_C3.PNG 21.96 (py 21.96) diff 0.0024 thr 28/28 15 ms
+webkit corpus cells/P1_W2_C1.PNG 0.00 (py 0.00) diff 0 thr 54/54 14 ms WARN
+webkit corpus cells/P1_W2_C2.PNG 0.00 (py 0.00) diff 0 thr 49/49 15 ms WARN
+webkit corpus cells/P1_W2_C3.PNG 0.00 (py 0.00) diff 0 thr 55/55 15 ms WARN
+webkit corpus cells/P1_W3_C1.PNG 21.18 (py 21.18) diff -0.0027 thr 62/62 15 ms
+webkit corpus cells/P1_W3_C2.PNG 30.55 (py 30.55) diff 0.003 thr 51/51 14 ms
+webkit corpus cells/P1_W3_C3.PNG 40.24 (py 40.24) diff 0.0004 thr 46/46 31 ms
+webkit corpus cells/P1_W4_C1.PNG 40.03 (py 40.03) diff -0.0003 thr 21/21 13 ms
+webkit corpus cells/P1_W4_C2.PNG 44.23 (py 44.23) diff -0.0023 thr 14/14 13 ms
+webkit corpus cells/P1_W4_C3.PNG 32.77 (py 32.77) diff -0.0031 thr 17/17 13 ms
+webkit corpus cells/P2_W1_C1.PNG 29.04 (py 29.04) diff -0.0041 thr 16/16 13 ms
+webkit corpus cells/P2_W1_C2.PNG 18.44 (py 18.44) diff 0.0045 thr 24/24 15 ms
+webkit corpus cells/P2_W1_C3.PNG 29.56 (py 29.56) diff -0.0008 thr 24/24 14 ms
+webkit corpus cells/P2_W2_C1.PNG 12.47 (py 12.47) diff 0.0004 thr 46/46 15 ms
+webkit corpus cells/P2_W2_C2.PNG 21.38 (py 21.38) diff -0.0006 thr 25/25 15 ms
+webkit corpus cells/P2_W2_C3.PNG 17.81 (py 17.81) diff -0.0025 thr 21/21 15 ms
+webkit corpus cells/P2_W3_C1.PNG 21.21 (py 21.21) diff -0.0021 thr 49/49 15 ms
+webkit corpus cells/P2_W3_C2.PNG 21.74 (py 21.74) diff -0.0048 thr 21/21 15 ms
+webkit corpus cells/P2_W3_C3.PNG 19.24 (py 19.24) diff 0.0017 thr 69/69 13 ms
+webkit corpus cells/P2_W4_C1.PNG 29.87 (py 29.87) diff 0.0023 thr 32/32 15 ms
+webkit corpus cells/P2_W4_C2.PNG 24.90 (py 24.90) diff 0.0048 thr 25/25 30 ms
+webkit corpus cells/P2_W4_C3.PNG 10.04 (py 10.04) diff 0.0031 thr 33/33 14 ms
+webkit corpus cells/P3_W1_C1.PNG 31.69 (py 31.69) diff -0.0001 thr 31/31 29 ms
+webkit corpus cells/P3_W1_C2.PNG 18.55 (py 18.55) diff -0.0044 thr 32/32 29 ms
+webkit corpus cells/P3_W1_C3.PNG 5.35 (py 5.35) diff -0.0044 thr 72/72 27 ms
+webkit corpus cells/P3_W2_C1.PNG 29.03 (py 29.03) diff -0.0036 thr 23/23 14 ms
+webkit corpus cells/P3_W2_C2.PNG 18.03 (py 18.03) diff 0.0021 thr 41/41 14 ms
+webkit corpus cells/P3_W2_C3.PNG 34.71 (py 34.71) diff -0.002 thr 29/29 13 ms
+webkit corpus cells/P3_W3_C1.PNG 38.93 (py 38.93) diff 0.0007 thr 44/44 15 ms
+webkit corpus cells/P3_W3_C2.PNG 43.01 (py 43.01) diff -0.0038 thr 45/45 15 ms
+webkit corpus cells/P3_W3_C3.PNG 24.72 (py 24.72) diff -0.0049 thr 26/26 14 ms
+webkit corpus cells/P3_W4_C1.PNG 21.30 (py 21.30) diff 0.0049 thr 17/17 31 ms
+webkit corpus cells/P3_W4_C2.PNG 28.66 (py 28.66) diff 0.0039 thr 28/28 14 ms
+webkit corpus cells/P3_W4_C3.PNG 49.94 (py 49.94) diff -0.0033 thr 19/19 14 ms
+webkit corpus fullfield/Plate1_W1_green_channel_camera.jpeg 0.00 (py 0.00) diff 0 thr 27/28 115 ms WARN
+webkit corpus fullfield/Plate1_W1_untreated.png 13.14 (py 13.14) diff 0.0038 thr 24/24 76 ms
+webkit corpus fullfield/Plate2_45_nocodazole45uM.png 2.88 (py 2.88) diff 0.0009 thr 42/42 47 ms
+webkit corpus fullfield/Plate3_W2_New_nocodazole25uM.png 3.91 (py 3.91) diff -0.0049 thr 30/30 66 ms
+webkit corpus edge/all-black.png 0.00 (py 0.00) diff 0 thr 0/0 13 ms WARN
+webkit corpus edge/all-blue-nucleus-only.png 0.00 (py 0.00) diff 0 thr 0/0 14 ms WARN
+webkit corpus edge/all-green.png 100.00 (py 100.00) diff 0 thr 0/0 15 ms WARN
+webkit corpus edge/cell-16bit.png 24.83 (py 24.83) diff -0.0021 thr 36/36 15 ms
+webkit corpus edge/cell-grayscale.png 0.00 (py 0.00) diff 0 thr 24/24 15 ms WARN
+webkit corpus edge/cell-posterized.png 21.79 (py 21.79) diff 0.0032 thr 32/32 14 ms
+webkit corpus edge/cell-q60.jpg 24.12 (py 23.89) diff 0.2284 thr 37/37 15 ms
+webkit corpus edge/cell-q95.jpg 23.65 (py 23.94) diff -0.2864 thr 37/37 12 ms
+webkit corpus edge/cell-rgb.png 24.83 (py 24.83) diff -0.0021 thr 36/36 17 ms
+webkit corpus edge/cell-rgba-transparent-border.png 24.83 (py 24.83) diff -0.0021 thr 36/36 15 ms
+webkit corpus edge/cell.bmp 24.83 (py 24.83) diff -0.0021 thr 36/36 15 ms
+webkit corpus edge/cell.webp 24.83 (py 24.83) diff -0.0021 thr 36/36 15 ms
+webkit corpus edge/exif-rotated-orientation6.jpg 23.79 (py 23.98) diff -0.1912 thr 37/37 15 ms
+webkit corpus edge/one-pixel.png 100.00 (py 100.00) diff 0 thr 0/0 15 ms WARN
+webkit corpus edge/tall-100x2000.png 23.61 (py 23.61) diff -0.005 thr 36/36 33 ms
+webkit corpus edge/tiny-4x4.png 0.00 (py 0.00) diff 0 thr 19/19 13 ms WARN
+webkit corpus edge/wide-2000x100.png 25.32 (py 25.32) diff 0.004 thr 37/37 32 ms
+webkit corpus summary: 57 images, max |diff| 0.2864, lossless threshold mismatches 0, pixel mismatches 0
+webkit file edge/cell.tiff: hidden=true "cell.tiff is a TIFF, which browsers cannot read and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIF"
+webkit file edge/document.pdf: hidden=true "document.pdf is a PDF, not an image and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to"
+webkit file edge/empty.png: hidden=true "empty.png is empty (0 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG fi"
+webkit file edge/not-an-image.txt: hidden=true "not-an-image.txt is not an image file (text/plain, 35 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF"
+webkit file edge/renamed-text.png: hidden=true "renamed-text.png is not an image file (image/png, 38 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF;"
+webkit file edge/truncated.png: hidden=true "truncated.png looks damaged or truncated and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HE"
+webkit huge edge/huge-12mp-4000x3000.jpg: 23.74 (py 23.6721) wall 680 ms, max main-thread gap 24 ms, heap null MB, canvases 1632x1224 / 1632x1224
+webkit huge edge/huge-12mp-4000x3000.png: 24.78 (py 24.7754) wall 830 ms, max main-thread gap 127 ms, heap null MB, canvases 1632x1224 / 1632x1224
+webkit huge edge/generated-large/huge-24mp-6000x4000.jpg: 23.86 (py 23.9292) wall 1448 ms, max main-thread gap 40 ms, heap null MB, canvases 1732x1154 / 1732x1154
+webkit download P1_W1_C1_overlay.png: 77x58, 0 px differ from Results/
+webkit download P1_W1_C1_mask.png: 77x58, 0 px differ from Results/
+webkit download P3_W2_C3_overlay.png: 92x77, 0 px differ from Results/
+webkit download P3_W2_C3_mask.png: 92x77, 0 px differ from Results/
+webkit download P1_W3_C1_overlay.png: 68x47, 0 px differ from Results/
+webkit download P1_W3_C1_mask.png: 68x47, 0 px differ from Results/
+webkit phone 360px P1_W1_C1: percent y=21-80 of 844, scrollY 588, results top 0, visible=true
+webkit phone 360px P3_W2_C3: percent y=20-80 of 844, scrollY 611, results top 0, visible=true
+webkit phone 390px P1_W1_C1: percent y=20-84 of 664, scrollY 508, results top 0, visible=true
+webkit phone 390px P3_W2_C3: percent y=20-84 of 664, scrollY 531, results top 0, visible=true
+webkit phone 430px P1_W1_C1: percent y=20-91 of 844, scrollY 508, results top 0, visible=true
+webkit phone 430px P3_W2_C3: percent y=20-91 of 844, scrollY 508, results top 0, visible=true
+webkit bands cells/P1_W1_C1.PNG: 24.83 (py 24.8321) thr 36/36 77 × 58 px
+webkit bands edge/exif-rotated-orientation6.jpg: 23.79 (py 23.9812) thr 37/37 58 × 231 px
+webkit bands fullfield/Plate1_W1_untreated.png: 13.14 (py 13.1362) thr 24/24 914 × 692 px
+PASS: browser checks in chromium + webkit
+local exit 0

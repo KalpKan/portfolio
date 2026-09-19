@@ -1,0 +1,6 @@
+run 1 perf 1 a11y 1 bp 1 LCP 1.4 s TBT 30 ms CLS 0.021 FCP 1.4 s
+  failing binary audits: []
+run 2 perf 1 a11y 1 bp 1 LCP 0.8 s TBT 10 ms CLS 0.021 FCP 0.8 s
+  failing binary audits: []
+run 3 perf 1 a11y 1 bp 1 LCP 1.4 s TBT 0 ms CLS 0.021 FCP 1.4 s
+  failing binary audits: []
