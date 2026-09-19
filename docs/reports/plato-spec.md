@@ -1,6 +1,6 @@
 # Plato (course outline → calendar) — product spec for the Phase 5 fix loop
 
-_Written 2026-09-18 by the SPEC agent. Read this before auditing or fixing https://plato.kalpkan.com. The audit report that follows it is `docs/reports/plato.md` (format: `docs/hosting-plan.md` section 11)._
+_Written 2026-09-18 by the SPEC agent; re-verified 2026-09-18 by the resumed SPEC run (workflow restart): `KalpKan/Plato` is still at `a5a3260` (parser unchanged since the `de32e96` baseline), all 42 corpus PDFs on disk match `tests/corpus/manifest.json` sha256, `score.py` reproduces the baseline table below exactly, the report-only gate test passes, and no `docs/reports/plato.md` audit exists yet, so the first audit round starts from this baseline._ Read this before auditing or fixing https://plato.kalpkan.com. The audit report that follows it is `docs/reports/plato.md` (format: `docs/hosting-plan.md` section 11)._
 
 Live URL https://plato.kalpkan.com · Repo `KalpKan/Plato` (local `~/projects/plato`) · Vercel project `plato` (one Python 3.12 function, `src.app:app`, 60 s max duration) · Database Neon `plato` (extraction cache only) · Health `https://plato.kalpkan.com/api/health` → `{"db":"ok","ok":true,"service":"plato"}` · GitHub description: "Automatic Calendar Maker For Western Students"
 
