@@ -1,0 +1,121 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Plato course outline converter//kalpkan.com//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:CALCULUS 1301B Winter 2026
+X-WR-TIMEZONE:America/Toronto
+BEGIN:VTIMEZONE
+TZID:America/Toronto
+COMMENT:This timezone only works from 2025-01-01 00:00:00 to 2027-12-31 00
+ :00:00.
+BEGIN:STANDARD
+DTSTART:20250101T000000
+TZNAME:EST
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0500
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20250309T030000
+RDATE:20260308T030000,20270314T030000
+TZNAME:EDT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+END:DAYLIGHT
+BEGIN:STANDARD
+DTSTART:20251102T020000
+RDATE:20261101T020000,20271107T020000
+TZNAME:EST
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+SUMMARY:CALCULUS 1301B: Submitted Homework (1 of 3) due
+DTSTART;TZID=America/Toronto:20260130T235900
+DTEND;TZID=America/Toronto:20260131T000000
+DTSTAMP:20260919T225916Z
+UID:518d2d48-02d9-43d8-899b-b07cd36333d7@plato.kalpkan.com
+DESCRIPTION:Submitted Homework (assignment)\nWeight: 12%\n3 dates listed i
+ n the outline (Jan 30 – Mar 20\, 2026)\nOutline says: Submitted Homework
+  | Online\, asynchronous\, via Gradescope | Three equally weighted written
+  assignments totaling 12% of final grade. | The three assignments will be 
+ due on January 30th\, February 13th\, and March 20th\, respectively
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CALCULUS 1301B: Submitted Homework (2 of 3) due
+DTSTART;TZID=America/Toronto:20260213T235900
+DTEND;TZID=America/Toronto:20260214T000000
+DTSTAMP:20260919T225916Z
+UID:49fd3671-f49c-4940-8197-60a1f07c89bb@plato.kalpkan.com
+DESCRIPTION:Submitted Homework (assignment)\nWeight: 12%\n3 dates listed i
+ n the outline (Jan 30 – Mar 20\, 2026)\nOutline says: Submitted Homework
+  | Online\, asynchronous\, via Gradescope | Three equally weighted written
+  assignments totaling 12% of final grade. | The three assignments will be 
+ due on January 30th\, February 13th\, and March 20th\, respectively
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CALCULUS 1301B: Submitted Homework (3 of 3) due
+DTSTART;TZID=America/Toronto:20260320T235900
+DTEND;TZID=America/Toronto:20260321T000000
+DTSTAMP:20260919T225916Z
+UID:3644439e-8c3f-4e6a-8fa9-2755df6bb444@plato.kalpkan.com
+DESCRIPTION:Submitted Homework (assignment)\nWeight: 12%\n3 dates listed i
+ n the outline (Jan 30 – Mar 20\, 2026)\nOutline says: Submitted Homework
+  | Online\, asynchronous\, via Gradescope | Three equally weighted written
+  assignments totaling 12% of final grade. | The three assignments will be 
+ due on January 30th\, February 13th\, and March 20th\, respectively
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CALCULUS 1301B: Quizzes due
+DTSTART;TZID=America/Toronto:20260119T235900
+DTEND;TZID=America/Toronto:20260120T002900
+DTSTAMP:20260919T225916Z
+UID:d523c3d6-a5c5-4c1a-9046-2b5796bce12c@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 10%\nOutline says: Quizzes | Online\, 
+ asynchronous\, via WebAssign | Best Six of Eight equally weighted short as
+ sessments totaling 10% of final grade. | Due dates are posted on OWL\, wit
+ h the first quiz open during the week of Jan 19th.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CALCULUS 1301B: Midterm Test due
+DTSTART;TZID=America/Toronto:20260227T190000
+DTEND;TZID=America/Toronto:20260227T210000
+DTSTAMP:20260919T225916Z
+UID:f1634d78-65f7-4e2c-8652-9825e4782c0c@plato.kalpkan.com
+DESCRIPTION:Midterm Test (midterm)\nWeight: 36%\nOutline says: Midterm Tes
+ t | In-person | 36% | Friday February 27th\, 7pm until 9pm.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CALCULUS 1301B start: Submitted Homework
+DTSTART;TZID=America/Toronto:20260116T235900
+DTEND;TZID=America/Toronto:20260117T005900
+DTSTAMP:20260919T225916Z
+UID:bcd6830e-a221-4b69-a027-254f4f36beea@plato.kalpkan.com
+DESCRIPTION:Start studying for: Submitted Homework\nDue: 2026-01-30 23:59
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CALCULUS 1301B start: Quizzes
+DTSTART;TZID=America/Toronto:20260112T235900
+DTEND;TZID=America/Toronto:20260113T005900
+DTSTAMP:20260919T225916Z
+UID:c4143d55-cb6a-4f60-95a1-b3e3f07f34cb@plato.kalpkan.com
+DESCRIPTION:Start studying for: Quizzes\nDue: 2026-01-19 23:59
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CALCULUS 1301B start: Midterm Test
+DTSTART;TZID=America/Toronto:20260130T190000
+DTEND;TZID=America/Toronto:20260130T200000
+DTSTAMP:20260919T225916Z
+UID:1fcf7568-4e8d-4eaa-b912-8c2496bf35ad@plato.kalpkan.com
+DESCRIPTION:Start studying for: Midterm Test\nDue: 2026-02-27 19:00
+PRIORITY:3
+END:VEVENT
+END:VCALENDAR

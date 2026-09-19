@@ -2100,3 +2100,43 @@ _Entries begin below, oldest first._
 - **Fix:** none needed; `vercel ls` showed both deployments and the second one is production.
 - **Prevention:** after a piped deploy, run `npx vercel ls <project> --scope kks-projects-2edcb11a` before retrying; the team-wide 100/day window is shared by every project.
 - **Reported by:** Phase 5 FIX agent (plato, round 3)
+
+### 2026-09-19: plato dated an in-class midterm on the first day of reading week and a set of quizzes on "the week of Jan 19th" (Phase 5 TEST agent, plato, round 4; not fixed)
+
+- **Date:** 2026-09-19 (HS 2610G and Calculus 1301B, two of the five outlines drawn at random this round; live `.ics` files carry both events)
+- **Affected:** `src/outline/assessments.py:424–465` `_enrich_from_prose`, `src/outline/dates.py` `DateResolver.resolve`
+- **Symptom:** HS 2610G "Midterm Exam (in-class) · 25.0% · Feb 16, 2026" (the timetable says week 6 "February 9-13 · Mid-term Examination · TBD"; Feb 16-20 is Spring Reading Week) → `Midterm Exam (in-class) due 20260216T235900`; Calc 1301B "Quizzes · 10.0% · Jan 19, 2026" ("Due dates are posted on OWL, with the first quiz open during the week of Jan 19th") → `Quizzes due 20260119T235900`. Neither row shows a "needs a date" badge. The strict `no_fabricated` metric catches both: 67/69 on 29 labelled files, gate fails.
+- **Root cause:** the prose window (130 characters after the title match, in the flattened timetable text) runs past the row's own "TBD" into the next two rows' date cells, and the resolver reads two dates as an exact date with a secondary one; "posted on OWL" / "week of <date>" / "open during" are not status signals, so the Date cell resolves to exact Jan 19.
+- **Fix:** not applied (audit round). Suggested in `docs/reports/plato.md` D26: stop the window at a table-row boundary or a "TBD" that precedes any date; never accept a prose date inside a reading week / study day / holiday unless the sentence names it; make "posted on OWL/Brightspace", "week of", "opens/open during" resolve to `tba`.
+- **Prevention:** ground truth for HS 2610G and Calc 1301B committed (`KalpKan/Plato` `0bbf8d7`), so the gate fails until both are fixed; `verification.md` row "No invented reading-week / 'week of' dates (D26)".
+- **Reported by:** Phase 5 TEST agent (plato, round 4)
+
+### 2026-09-19: plato cannot read tutorial sections given as "times are Thurs 8:30am HSB-13, OR Friday 8:30am NCB-105" (Phase 5 TEST agent, plato, round 4; not fixed)
+
+- **Date:** 2026-09-19 (Applied Math 2402A, random draw)
+- **Affected:** `src/outline/schedule.py:219` `_from_text`, `:108` `_slots_from_fragment` (`parse_time_span` needs a start and an end)
+- **Symptom:** review page "No tutorial time was found in the outline", tile "0 / 0 / 0"; the weekly optional quizzes held in those tutorials get no events. `sections_recall` 27/29 = 93 % on the labelled files (bar 90 %).
+- **Root cause:** the sentence sits mid-paragraph (no "Tutorials:" label line), gives one clock time per section and no end time; the outline's "1 laboratory hour" is never used as a duration.
+- **Fix:** not applied. Suggested in `docs/reports/plato.md` D27.
+- **Prevention:** ground truth for AM 2402A committed (`0bbf8d7`, two tutorial slots); the gate's `sections_recall` drops below 90 % with one more such outline.
+- **Reported by:** Phase 5 TEST agent (plato, round 4)
+
+### 2026-09-19: plato titles keep "[online]" tails, footnote asterisks and a cell's second sentence; a complex outline yields date phrases as titles (Phase 5 TEST agent, plato, round 4; not fixed)
+
+- **Date:** 2026-09-19 (HS 2250A "Midterm 1* [online]" ×3, BIO 2483A "Final exam Students must pass the final exam to pass the course", unlabelled PP3000E "Opens Mar 13th at 8:00 a.m. Take-home – one", "#Completion", "report", "in lab"; MOS 2227A a weightless row "assessment.")
+- **Affected:** `src/outline/assessments.py:64` `clean_title`, the table reader's title-cell choice
+- **Symptom:** `clean_titles` 129/135 = 95.6 % on 29 labelled files (bar 95 %); one more outline like HS 2250A fails the gate. Event summaries carry the junk.
+- **Root cause:** `clean_title` strips leaders, dangling "(" and "(total)" tails but not `[…]` tails, a trailing `*`, or a second sentence; PP3000E's rows start with a date phrase that becomes the title.
+- **Fix:** not applied. Suggested in `docs/reports/plato.md` D28.
+- **Prevention:** ground truth for HS 2250A and BIO 2483A committed (`0bbf8d7`).
+- **Reported by:** Phase 5 TEST agent (plato, round 4)
+
+### 2026-09-19: plato's inline date editor saves on blur, so Tab out of a half-typed date commits it (Phase 5 TEST agent, plato, round 4; not fixed)
+
+- **Date:** 2026-09-19 (real Chrome 151, HS 2610G)
+- **Affected:** `public/static/app.js:584–598`
+- **Symptom:** open the date editor, press Tab (to reach the month segment) → the editor closes and the row reads "Feb 16, 2026 11:59 AM", saved to the server with a half-edited value.
+- **Root cause:** the `blur` handler saves any value after 200 ms; Chrome's `datetime-local` moves between segments with arrow keys, and Tab leaves the input.
+- **Fix:** not applied. Suggested in `docs/reports/plato.md` D31 (save on blur only when the value changed and focus left the editor's form; keep Enter/Save and Escape).
+- **Prevention:** `verification.md` row "Editor: Tab does not commit".
+- **Reported by:** Phase 5 TEST agent (plato, round 4)

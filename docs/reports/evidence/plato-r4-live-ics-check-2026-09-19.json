@@ -1,0 +1,696 @@
+[
+ {
+  "file": "2025F---MATH-4121A-9021A---Topology_red",
+  "events": 0,
+  "due": 0,
+  "rrule": 0,
+  "summaries": []
+ },
+ {
+  "file": "2181A001002003",
+  "events": 10,
+  "due": 8,
+  "rrule": 1,
+  "summaries": [
+   "MOS 2181A Lecture (001)",
+   "MOS 2181A: Chapter Assignments (1 of 8) due",
+   "MOS 2181A: Chapter Assignments (2 of 8) due",
+   "MOS 2181A: Chapter Assignments (3 of 8) due",
+   "MOS 2181A: Chapter Assignments (4 of 8) due",
+   "MOS 2181A: Chapter Assignments (5 of 8) due",
+   "MOS 2181A: Chapter Assignments (6 of 8) due",
+   "MOS 2181A: Chapter Assignments (7 of 8) due",
+   "MOS 2181A: Chapter Assignments (8 of 8) due",
+   "MOS 2181A start: Chapter Assignments"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "2213A_2022",
+  "events": 5,
+  "due": 1,
+  "rrule": 3,
+  "summaries": [
+   "Chemistry 2213A Lecture",
+   "Chemistry 2213A Lecture",
+   "Chemistry 2213A Lecture",
+   "Chemistry 2213A: Test of Knowledge due",
+   "Chemistry 2213A start: Test of Knowledge"
+  ],
+  "until": [
+   "2022-12-09 04:59:59+00:00",
+   "2022-12-09 04:59:59+00:00",
+   "2022-12-09 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "2223",
+  "events": 2,
+  "due": 1,
+  "rrule": 0,
+  "summaries": [
+   "Chem 2223B: Midterm Test due",
+   "Chem 2223B start: Midterm Test"
+  ]
+ },
+ {
+  "file": "2227A,001,002,003 Jean F25",
+  "events": 3,
+  "due": 1,
+  "rrule": 1,
+  "summaries": [
+   "MOS 2227A Lecture (001)",
+   "MOS 2227A: Midterm Exam due",
+   "MOS 2227A start: Midterm Exam"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "2242A001",
+  "events": 4,
+  "due": 2,
+  "rrule": 0,
+  "summaries": [
+   "MOS 2242A: Exam 1 due",
+   "MOS 2242A: Exam 2 due",
+   "MOS 2242A start: Exam 1",
+   "MOS 2242A start: Exam 2"
+  ]
+ },
+ {
+  "file": "2277A001002",
+  "events": 7,
+  "due": 3,
+  "rrule": 1,
+  "summaries": [
+   "MOS 2277A Lecture (001)",
+   "MOS 2277A: Success Assignment due",
+   "MOS 2277A: Budget Assignment due",
+   "MOS 2277A: Midterm Exam due",
+   "MOS 2277A start: Success Assignment",
+   "MOS 2277A start: Budget Assignment",
+   "MOS 2277A start: Midterm Exam"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "3300B_W25_Syllabus_revised",
+  "events": 0,
+  "due": 0,
+  "rrule": 0,
+  "summaries": []
+ },
+ {
+  "file": "3311A001",
+  "events": 4,
+  "due": 2,
+  "rrule": 0,
+  "summaries": [
+   "MOS 3311: Midterm Exam due",
+   "MOS 3311: Group Project due",
+   "MOS 3311 start: Midterm Exam",
+   "MOS 3311 start: Group Project"
+  ]
+ },
+ {
+  "file": "3313A001002003",
+  "events": 3,
+  "due": 1,
+  "rrule": 1,
+  "summaries": [
+   "MOS 3313A Lecture (001)",
+   "MOS 3313A: Midterm Exam due",
+   "MOS 3313A start: Midterm Exam"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "AM2402a_outline_2025_red",
+  "events": 2,
+  "due": 1,
+  "rrule": 0,
+  "summaries": [
+   "Applied Math 2402A: Midterm Test due",
+   "Applied Math 2402A start: Midterm Test"
+  ]
+ },
+ {
+  "file": "AM3615B_9576B_outline_red",
+  "events": 5,
+  "due": 1,
+  "rrule": 3,
+  "summaries": [
+   "AM 3615B Lecture",
+   "AM 3615B Lecture",
+   "AM 3615B Lecture",
+   "AM 3615B: Midterm Test due",
+   "AM 3615B start: Midterm Test"
+  ],
+  "until": [
+   "2026-04-10 03:59:59+00:00",
+   "2026-04-10 03:59:59+00:00",
+   "2026-04-10 03:59:59+00:00"
+  ]
+ },
+ {
+  "file": "AM3813B-AM9524B-2025_red",
+  "events": 6,
+  "due": 3,
+  "rrule": 0,
+  "summaries": [
+   "Applied Mathematics 3813B: Quiz 1 due",
+   "Applied Mathematics 3813B: Quiz 2 due",
+   "Applied Mathematics 3813B: Midterm Test due",
+   "Applied Mathematics 3813B start: Quiz 1",
+   "Applied Mathematics 3813B start: Quiz 2",
+   "Applied Mathematics 3813B start: Midterm Test"
+  ]
+ },
+ {
+  "file": "ANATCELL 3309 Syllabus FW25-26",
+  "events": 37,
+  "due": 33,
+  "rrule": 3,
+  "summaries": [
+   "ANATCELL 3309 Lecture",
+   "ANATCELL 3309 Lecture",
+   "ANATCELL 3309 Lab (002)",
+   "ANATCELL 3309: Quizzes (1 of 7) due",
+   "ANATCELL 3309: Quizzes (2 of 7) due",
+   "ANATCELL 3309: Quizzes (3 of 7) due",
+   "ANATCELL 3309: Quizzes (4 of 7) due",
+   "ANATCELL 3309: Quizzes (5 of 7) due",
+   "ANATCELL 3309: Quizzes (6 of 7) due",
+   "ANATCELL 3309: Quizzes (7 of 7) due",
+   "ANATCELL 3309: Term 1 Lab Assignment 1 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 2 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 3 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 4 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 5 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 6 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 7 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 8 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 9 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 10 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 11 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 12 due",
+   "ANATCELL 3309: Term 1 Lab Assignment 13 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 1 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 2 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 3 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 4 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 5 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 6 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 7 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 8 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 9 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 10 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 11 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 12 due",
+   "ANATCELL 3309: Term 2 Lab Assignment 13 due",
+   "ANATCELL 3309 start: Quizzes"
+  ],
+  "until": [
+   "2026-04-10 03:59:59+00:00",
+   "2026-04-10 03:59:59+00:00",
+   "2026-04-10 03:59:59+00:00"
+  ]
+ },
+ {
+  "file": "B2382 Course Outline 2025",
+  "events": 0,
+  "due": 0,
+  "rrule": 0,
+  "summaries": []
+ },
+ {
+  "file": "B2483A",
+  "events": 0,
+  "due": 0,
+  "rrule": 0,
+  "summaries": []
+ },
+ {
+  "file": "B3415G Course Outline 2025",
+  "events": 8,
+  "due": 3,
+  "rrule": 2,
+  "summaries": [
+   "Biol 3415G Lecture",
+   "Biol 3415G Lecture",
+   "Biol 3415G: Research Communication Assignment #1 due",
+   "Biol 3415G: Midterm due",
+   "Biol 3415G: Research Communication Assignment #2 due",
+   "Biol 3415G start: Research Communication Assignment #1",
+   "Biol 3415G start: Midterm",
+   "Biol 3415G start: Research Communication Assignment #2"
+  ],
+  "until": [
+   "2025-04-05 03:59:59+00:00",
+   "2025-04-05 03:59:59+00:00"
+  ]
+ },
+ {
+  "file": "B3603A",
+  "events": 4,
+  "due": 2,
+  "rrule": 0,
+  "summaries": [
+   "Biology 3603A: Term paper due",
+   "Biology 3603A: Midterm Test due",
+   "Biology 3603A start: Term paper",
+   "Biology 3603A start: Midterm Test"
+  ]
+ },
+ {
+  "file": "BIOCHEM 3381A Course Outline Fall 2025",
+  "events": 22,
+  "due": 12,
+  "rrule": 4,
+  "summaries": [
+   "Biochem 3381A Lecture",
+   "Biochem 3381A Lecture",
+   "Biochem 3381A Lecture",
+   "Biochem 3381A Tutorial",
+   "Biochem 3381A: Quizzes (1 of 7) due",
+   "Biochem 3381A: Quizzes (2 of 7) due",
+   "Biochem 3381A: Quizzes (3 of 7) due",
+   "Biochem 3381A: Quizzes (4 of 7) due",
+   "Biochem 3381A: Quizzes (5 of 7) due",
+   "Biochem 3381A: Quizzes (6 of 7) due",
+   "Biochem 3381A: Quizzes (7 of 7) due",
+   "Biochem 3381A: Assignment 1 due",
+   "Biochem 3381A: Assignment 2 due",
+   "Biochem 3381A: Assignment 3 due",
+   "Biochem 3381A: Final Written Report due",
+   "Biochem 3381A: Peer Evaluations due",
+   "Biochem 3381A start: Quizzes",
+   "Biochem 3381A start: Assignment 1",
+   "Biochem 3381A start: Assignment 2",
+   "Biochem 3381A start: Assignment 3",
+   "Biochem 3381A start: Final Written Report",
+   "Biochem 3381A start: Peer Evaluations"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00",
+   "2025-12-10 04:59:59+00:00",
+   "2025-12-10 04:59:59+00:00",
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "BMSUE Syllabus Phys3140A Fall 2025 Sept3",
+  "events": 9,
+  "due": 3,
+  "rrule": 3,
+  "summaries": [
+   "Physiology 3140A Lecture",
+   "Physiology 3140A Lecture",
+   "Physiology 3140A Lecture",
+   "Physiology 3140A: In Class Quiz 1, covers Modules 1-2 due",
+   "Physiology 3140A: Midterm Test (2 hrs), covers lecture 1 \u2013 16, Modules 1-2 due",
+   "Physiology 3140A: In Class Quiz 2, covers Modules 1-5 due",
+   "Physiology 3140A start: In Class Quiz 1, covers Modules 1-2",
+   "Physiology 3140A start: Midterm Test (2 hrs), covers lecture 1 \u2013 16, Modules 1-2",
+   "Physiology 3140A start: In Class Quiz 2, covers Modules 1-5"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00",
+   "2025-12-10 04:59:59+00:00",
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "CS1000-001 Course Outline 25-26",
+  "events": 4,
+  "due": 2,
+  "rrule": 0,
+  "summaries": [
+   "Classical Studies 1000: First test due",
+   "Classical Studies 1000: Third test due",
+   "Classical Studies 1000 start: First test",
+   "Classical Studies 1000 start: Third test"
+  ]
+ },
+ {
+  "file": "CS2301B Course Outline 25-26",
+  "events": 0,
+  "due": 0,
+  "rrule": 0,
+  "summaries": []
+ },
+ {
+  "file": "CS_2209A_FW25",
+  "events": 18,
+  "due": 8,
+  "rrule": 2,
+  "summaries": [
+   "COMPSCI 2209A Lecture",
+   "COMPSCI 2209A Lecture",
+   "COMPSCI 2209A: Assignment 1 due",
+   "COMPSCI 2209A: Assignment 2 due",
+   "COMPSCI 2209A: Assignment 3 due",
+   "COMPSCI 2209A: Quiz 1 due",
+   "COMPSCI 2209A: Quiz 2 due",
+   "COMPSCI 2209A: Quiz 3 due",
+   "COMPSCI 2209A: Quiz 4 due",
+   "COMPSCI 2209A: Midterm Test due",
+   "COMPSCI 2209A start: Assignment 1",
+   "COMPSCI 2209A start: Assignment 2",
+   "COMPSCI 2209A start: Assignment 3",
+   "COMPSCI 2209A start: Quiz 1",
+   "COMPSCI 2209A start: Quiz 2",
+   "COMPSCI 2209A start: Quiz 3",
+   "COMPSCI 2209A start: Quiz 4",
+   "COMPSCI 2209A start: Midterm Test"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00",
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "CS_2211A_FW25",
+  "events": 14,
+  "due": 6,
+  "rrule": 2,
+  "summaries": [
+   "COMPSCI 2211A Lecture (001)",
+   "COMPSCI 2211A Lecture (001)",
+   "COMPSCI 2211A: Assignment 1 due",
+   "COMPSCI 2211A: Assignment 2 due",
+   "COMPSCI 2211A: Assignment 3 due",
+   "COMPSCI 2211A: Assignment 4 due",
+   "COMPSCI 2211A: Assignment 5 due",
+   "COMPSCI 2211A: Midterm due",
+   "COMPSCI 2211A start: Assignment 1",
+   "COMPSCI 2211A start: Assignment 2",
+   "COMPSCI 2211A start: Assignment 3",
+   "COMPSCI 2211A start: Assignment 4",
+   "COMPSCI 2211A start: Assignment 5",
+   "COMPSCI 2211A start: Midterm"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00",
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "CS_3342A_FW25",
+  "events": 10,
+  "due": 5,
+  "rrule": 0,
+  "summaries": [
+   "CS 3342A: Assignment 1 due",
+   "CS 3342A: Assignment 2 due",
+   "CS 3342A: Assignment 3 due",
+   "CS 3342A: Assignment 4 due",
+   "CS 3342A: Midterm Exam due",
+   "CS 3342A start: Assignment 1",
+   "CS 3342A start: Assignment 2",
+   "CS 3342A start: Assignment 3",
+   "CS 3342A start: Assignment 4",
+   "CS 3342A start: Midterm Exam"
+  ]
+ },
+ {
+  "file": "CS_4411A_9538A_FW25",
+  "events": 12,
+  "due": 5,
+  "rrule": 2,
+  "summaries": [
+   "COMPSCI 4411 Lecture",
+   "COMPSCI 4411 Lecture",
+   "COMPSCI 4411: Assignment 1 due",
+   "COMPSCI 4411: Assignment 2 due",
+   "COMPSCI 4411: Assignment 3 due",
+   "COMPSCI 4411: Midterm test due",
+   "COMPSCI 4411: Project due",
+   "COMPSCI 4411 start: Assignment 1",
+   "COMPSCI 4411 start: Assignment 2",
+   "COMPSCI 4411 start: Assignment 3",
+   "COMPSCI 4411 start: Midterm test",
+   "COMPSCI 4411 start: Project"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00",
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "Calc1301BFW25_red",
+  "events": 8,
+  "due": 5,
+  "rrule": 0,
+  "summaries": [
+   "CALCULUS 1301B: Submitted Homework (1 of 3) due",
+   "CALCULUS 1301B: Submitted Homework (2 of 3) due",
+   "CALCULUS 1301B: Submitted Homework (3 of 3) due",
+   "CALCULUS 1301B: Quizzes due",
+   "CALCULUS 1301B: Midterm Test due",
+   "CALCULUS 1301B start: Submitted Homework",
+   "CALCULUS 1301B start: Quizzes",
+   "CALCULUS 1301B start: Midterm Test"
+  ]
+ },
+ {
+  "file": "ECE-2240A_Fall-2025-Website-Version",
+  "events": 4,
+  "due": 1,
+  "rrule": 2,
+  "summaries": [
+   "ECE 2240A Lecture",
+   "ECE 2240A Tutorial",
+   "ECE 2240A: PCB Project due",
+   "ECE 2240A start: PCB Project"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00",
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "ECE-4429_Fall-2025-Website-Version",
+  "events": 1,
+  "due": 0,
+  "rrule": 1,
+  "summaries": [
+   "ECE 4429 Lecture"
+  ],
+  "until": [
+   "2025-12-10 04:59:59+00:00"
+  ]
+ },
+ {
+  "file": "FHS Course Outline 2000",
+  "events": 11,
+  "due": 5,
+  "rrule": 1,
+  "summaries": [
+   "KIN 2000 Lecture",
+   "KIN 2000: Physical Activity Tracker 1 due",
+   "KIN 2000: Physical Activity Goal & Plan due",
+   "KIN 2000: Mid-term Exam due",
+   "KIN 2000: Physical Activity Goal Report due",
+   "KIN 2000: Physical Activity Tracker 2 due",
+   "KIN 2000 start: Physical Activity Tracker 1",
+   "KIN 2000 start: Physical Activity Goal & Plan",
+   "KIN 2000 start: Mid-term Exam",
+   "KIN 2000 start: Physical Activity Goal Report",
+   "KIN 2000 start: Physical Activity Tracker 2"
+  ],
+  "until": [
+   "2026-04-10 03:59:59+00:00"
+  ]
+ },
+ {
+  "file": "HS-2250A-Introduction-to-Health-Promotion1",
+  "events": 4,
+  "due": 2,
+  "rrule": 0,
+  "summaries": [
+   "HS 2250A: Midterm 1* [online] due",
+   "HS 2250A: Midterm 2 [online] due",
+   "HS 2250A start: Midterm 1* [online]",
+   "HS 2250A start: Midterm 2 [online]"
+  ]
+ },
+ {
+  "file": "HS-2610G-Introduction-to-Ethics-and-Health",
+  "events": 2,
+  "due": 1,
+  "rrule": 0,
+  "summaries": [
+   "HS 2610G: Midterm Exam (in-class) due",
+   "HS 2610G start: Midterm Exam (in-class)"
+  ]
+ },
+ {
+  "file": "HS-2800-Research-Methods",
+  "events": 4,
+  "due": 2,
+  "rrule": 0,
+  "summaries": [
+   "Health Sciences 2800: Mid-term test due",
+   "Health Sciences 2800: Mid-term test due",
+   "Health Sciences 2800 start: Mid-term test",
+   "Health Sciences 2800 start: Mid-term test"
+  ]
+ },
+ {
+  "file": "HS-3250F-Global-Health-Promotion",
+  "events": 6,
+  "due": 3,
+  "rrule": 0,
+  "summaries": [
+   "HS 3250F: Midterm due",
+   "HS 3250F: Reflection I due",
+   "HS 3250F: Reflection II due",
+   "HS 3250F start: Midterm",
+   "HS 3250F start: Reflection I",
+   "HS 3250F start: Reflection II"
+  ]
+ },
+ {
+  "file": "MSE-2201_Fall-2025-Website-Version",
+  "events": 0,
+  "due": 0,
+  "rrule": 0,
+  "summaries": []
+ },
+ {
+  "file": "MSE-2214_Fall-2025-Website-Version",
+  "events": 4,
+  "due": 2,
+  "rrule": 0,
+  "summaries": [
+   "MSE 2214: Term Test 1 due",
+   "MSE 2214: Term Test 2 due",
+   "MSE 2214 start: Term Test 1",
+   "MSE 2214 start: Term Test 2"
+  ]
+ },
+ {
+  "file": "Math-1228---Fall-2025_red",
+  "events": 4,
+  "due": 2,
+  "rrule": 0,
+  "summaries": [
+   "Math 1228: Term Test 1 due",
+   "Math 1228: Term Test 2 due",
+   "Math 1228 start: Term Test 1",
+   "Math 1228 start: Term Test 2"
+  ]
+ },
+ {
+  "file": "PP3000E Syllabus - Fall\u2013Winter 2025\u20132026 - FINAL",
+  "events": 24,
+  "due": 14,
+  "rrule": 1,
+  "summaries": [
+   "Physiology and Pharmacology 3000E Lab (001)",
+   "Physiology and Pharmacology 3000E: Toolboxes Quiz from Toolbox 1, 2 and 3 due",
+   "Physiology and Pharmacology 3000E: Short report intro & methods due",
+   "Physiology and Pharmacology 3000E: Short report results due",
+   "Physiology and Pharmacology 3000E: Lab book due",
+   "Physiology and Pharmacology 3000E: Rotation 1: short due",
+   "Physiology and Pharmacology 3000E: report due",
+   "Physiology and Pharmacology 3000E: Poster presentations due",
+   "Physiology and Pharmacology 3000E: Assignment 1 due",
+   "Physiology and Pharmacology 3000E: Practicum Time due",
+   "Physiology and Pharmacology 3000E: in lab due",
+   "Physiology and Pharmacology 3000E: Rotation 3 long due",
+   "Physiology and Pharmacology 3000E: Opens Mar 13th at 8:00 a.m. Take-home \u2013 one due",
+   "Physiology and Pharmacology 3000E: Mar 27th 6:00 p.m. 72 hour no late penalty due",
+   "Physiology and Pharmacology 3000E: Apr 3rd at 6:00 p.m. 72 hour no late penalty due",
+   "Physiology and Pharmacology 3000E start: Toolboxes Quiz from Toolbox 1, 2 and 3",
+   "Physiology and Pharmacology 3000E start: Lab book",
+   "Physiology and Pharmacology 3000E start: Rotation 1: short",
+   "Physiology and Pharmacology 3000E start: Poster presentations",
+   "Physiology and Pharmacology 3000E start: Assignment 1",
+   "Physiology and Pharmacology 3000E start: Rotation 3 long",
+   "Physiology and Pharmacology 3000E start: Opens Mar 13th at 8:00 a.m. Take-home \u2013 one",
+   "Physiology and Pharmacology 3000E start: Mar 27th 6:00 p.m. 72 hour no late penalty",
+   "Physiology and Pharmacology 3000E start: Apr 3rd at 6:00 p.m. 72 hour no late penalty"
+  ],
+  "until": [
+   "2026-04-10 03:59:59+00:00"
+  ]
+ },
+ {
+  "file": "Physiology 3120 Syllabus 2025\u20132026 Oct 31st UPDATED",
+  "events": 19,
+  "due": 8,
+  "rrule": 3,
+  "summaries": [
+   "Physiology 3120 Lecture",
+   "Physiology 3120 Lecture",
+   "Physiology 3120 Lecture",
+   "Physiology 3120: PeerWise Assignment 1 due",
+   "Physiology 3120: Midterm Test 1 due",
+   "Physiology 3120: Assignment 1 Slide redesign due",
+   "Physiology 3120: PeerWise Assignment 2 due",
+   "Physiology 3120: Midterm Test 2 due",
+   "Physiology 3120: PeerWise Assignment 3 due",
+   "Physiology 3120: Assignment 2 Slide redesign & Teach due",
+   "Physiology 3120: Optional Bonus Assignment due",
+   "Physiology 3120 start: PeerWise Assignment 1",
+   "Physiology 3120 start: Midterm Test 1",
+   "Physiology 3120 start: Assignment 1 Slide redesign",
+   "Physiology 3120 start: PeerWise Assignment 2",
+   "Physiology 3120 start: Midterm Test 2",
+   "Physiology 3120 start: PeerWise Assignment 3",
+   "Physiology 3120 start: Assignment 2 Slide redesign & Teach",
+   "Physiology 3120 start: Optional Bonus Assignment"
+  ],
+  "until": [
+   "2026-04-10 03:59:59+00:00",
+   "2026-04-10 03:59:59+00:00",
+   "2026-04-10 03:59:59+00:00"
+  ]
+ },
+ {
+  "file": "SE2205A-2024-25",
+  "events": 0,
+  "due": 0,
+  "rrule": 0,
+  "summaries": []
+ },
+ {
+  "file": "Updated-ECE-3349A_Outline_2023",
+  "events": 0,
+  "due": 0,
+  "rrule": 0,
+  "summaries": []
+ },
+ {
+  "file": "outline26",
+  "events": 10,
+  "due": 4,
+  "rrule": 2,
+  "summaries": [
+   "Computer Science 3340B Lecture",
+   "Computer Science 3340B Lecture",
+   "Computer Science 3340B: Midterm Exam due",
+   "Computer Science 3340B: Assignment 1 due",
+   "Computer Science 3340B: Assignment 2 due",
+   "Computer Science 3340B: Assignment 3 due",
+   "Computer Science 3340B start: Midterm Exam",
+   "Computer Science 3340B start: Assignment 1",
+   "Computer Science 3340B start: Assignment 2",
+   "Computer Science 3340B start: Assignment 3"
+  ],
+  "until": [
+   "2026-04-10 03:59:59+00:00",
+   "2026-04-10 03:59:59+00:00"
+  ]
+ }
+]
