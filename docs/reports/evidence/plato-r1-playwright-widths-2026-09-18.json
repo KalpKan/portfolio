@@ -1,0 +1,240 @@
+{
+ "index@390": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "bodyScrollWidth": 390,
+  "overflowing": [],
+  "inputFontSizes": [
+   "13.3333px"
+  ]
+ },
+ "index-file-selected@390": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "bodyScrollWidth": 390,
+  "overflowing": [],
+  "inputFontSizes": [
+   "13.3333px"
+  ]
+ },
+ "upload_ms@390": 2124,
+ "review@390": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "bodyScrollWidth": 390,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px"
+  ]
+ },
+ "review-editing@390": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "bodyScrollWidth": 390,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px",
+   "14px"
+  ]
+ },
+ "manual@390": {
+  "scrollWidth": 390,
+  "clientWidth": 390,
+  "bodyScrollWidth": 390,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px",
+   "13.3333px"
+  ]
+ },
+ "console@390": [
+  "warning: WARNING: No editable fields found! Check HTML structure.",
+  "warning: WARNING: No editable fields found! Check HTML structure."
+ ],
+ "index@360": {
+  "scrollWidth": 360,
+  "clientWidth": 360,
+  "bodyScrollWidth": 360,
+  "overflowing": [
+   "div.hero-glow right=372"
+  ],
+  "inputFontSizes": [
+   "13.3333px"
+  ]
+ },
+ "index-file-selected@360": {
+  "scrollWidth": 360,
+  "clientWidth": 360,
+  "bodyScrollWidth": 360,
+  "overflowing": [
+   "div.hero-glow right=372"
+  ],
+  "inputFontSizes": [
+   "13.3333px"
+  ]
+ },
+ "upload_ms@360": 1976,
+ "review@360": {
+  "scrollWidth": 360,
+  "clientWidth": 360,
+  "bodyScrollWidth": 360,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px"
+  ]
+ },
+ "review-editing@360": {
+  "scrollWidth": 360,
+  "clientWidth": 360,
+  "bodyScrollWidth": 360,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px",
+   "14px"
+  ]
+ },
+ "manual@360": {
+  "scrollWidth": 360,
+  "clientWidth": 360,
+  "bodyScrollWidth": 360,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px",
+   "13.3333px"
+  ]
+ },
+ "console@360": [
+  "warning: WARNING: No editable fields found! Check HTML structure.",
+  "warning: WARNING: No editable fields found! Check HTML structure."
+ ],
+ "index@320": {
+  "scrollWidth": 320,
+  "clientWidth": 320,
+  "bodyScrollWidth": 320,
+  "overflowing": [
+   "div.calendar-day right=323",
+   "div.calendar-day-inner right=323",
+   "div.calendar-day right=323",
+   "div.calendar-day-inner right=323",
+   "div.calendar-day right=323",
+   "div.calendar-day-inner right=323",
+   "div.calendar-day right=323",
+   "div.calendar-day-inner right=323"
+  ],
+  "inputFontSizes": [
+   "13.3333px"
+  ]
+ },
+ "index-file-selected@320": {
+  "scrollWidth": 320,
+  "clientWidth": 320,
+  "bodyScrollWidth": 320,
+  "overflowing": [
+   "div.calendar-day right=323",
+   "div.calendar-day-inner right=323",
+   "div.calendar-day right=323",
+   "div.calendar-day-inner right=323",
+   "div.calendar-day right=323",
+   "div.calendar-day-inner right=323",
+   "div.calendar-day right=323",
+   "div.calendar-day-inner right=323"
+  ],
+  "inputFontSizes": [
+   "13.3333px"
+  ]
+ },
+ "upload_ms@320": 1945,
+ "review@320": {
+  "scrollWidth": 320,
+  "clientWidth": 320,
+  "bodyScrollWidth": 320,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px"
+  ]
+ },
+ "review-editing@320": {
+  "scrollWidth": 345,
+  "clientWidth": 320,
+  "bodyScrollWidth": 345,
+  "overflowing": [
+   "span.editable-field. right=345",
+   "span.editable-field.missing-field right=345",
+   "form.inline-edit-form right=336",
+   "div.inline-edit-container right=336",
+   "input.inline-edit-input right=327",
+   "div.inline-edit-buttons right=327",
+   "button.btn-cancel.cancel-btn right=327"
+  ],
+  "inputFontSizes": [
+   "16px",
+   "14px"
+  ]
+ },
+ "manual@320": {
+  "scrollWidth": 320,
+  "clientWidth": 320,
+  "bodyScrollWidth": 320,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px",
+   "13.3333px"
+  ]
+ },
+ "console@320": [
+  "warning: WARNING: No editable fields found! Check HTML structure.",
+  "warning: WARNING: No editable fields found! Check HTML structure."
+ ],
+ "index@1280": {
+  "scrollWidth": 1280,
+  "clientWidth": 1280,
+  "bodyScrollWidth": 1280,
+  "overflowing": [],
+  "inputFontSizes": [
+   "13.3333px"
+  ]
+ },
+ "index-file-selected@1280": {
+  "scrollWidth": 1280,
+  "clientWidth": 1280,
+  "bodyScrollWidth": 1280,
+  "overflowing": [],
+  "inputFontSizes": [
+   "13.3333px"
+  ]
+ },
+ "upload_ms@1280": 1882,
+ "review@1280": {
+  "scrollWidth": 1280,
+  "clientWidth": 1280,
+  "bodyScrollWidth": 1280,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px"
+  ]
+ },
+ "review-editing@1280": {
+  "scrollWidth": 1280,
+  "clientWidth": 1280,
+  "bodyScrollWidth": 1280,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px",
+   "14px"
+  ]
+ },
+ "manual@1280": {
+  "scrollWidth": 1280,
+  "clientWidth": 1280,
+  "bodyScrollWidth": 1280,
+  "overflowing": [],
+  "inputFontSizes": [
+   "16px",
+   "13.3333px"
+  ]
+ },
+ "console@1280": [
+  "warning: WARNING: No editable fields found! Check HTML structure.",
+  "warning: WARNING: No editable fields found! Check HTML structure."
+ ]
+}

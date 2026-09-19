@@ -1,0 +1,39 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Course Outline Converter//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:DUE: Midterm Test 1
+DTSTART;TZID=America/Toronto:20260430T235900
+DTEND;TZID=America/Toronto:20260501T000000
+UID:259128f3-7df6-4c80-aa3f-327b5188b3e0@course-outline
+DESCRIPTION:Assessment: Midterm Test 1\nType: midterm\nWeight: 25.0%\nSour
+ ce: Text: 1. Midterm Test 1: 25% (Date TBA)...\nConfidence: 70.0%\n\nNote:
+  No due date found. Using end of term as placeholder. Please update manual
+ ly.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Midterm Test 2
+DTSTART;TZID=America/Toronto:20260430T235900
+DTEND;TZID=America/Toronto:20260501T000000
+UID:8fd25361-0f3e-40c8-8b76-c6f4ee37ed93@course-outline
+DESCRIPTION:Assessment: Midterm Test 2\nType: midterm\nWeight: 25.0%\nSour
+ ce: Text: 2. Midterm Test 2: 25% (Date TBA)...\nConfidence: 70.0%\n\nNote:
+  No due date found. Using end of term as placeholder. Please update manual
+ ly.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Final Exam
+DTSTART;TZID=America/Toronto:20260430T235900
+DTEND;TZID=America/Toronto:20260501T000000
+UID:688dea8d-0af6-4a0e-bf42-918d29ea10ae@course-outline
+DESCRIPTION:Assessment: Final Exam\nType: final\nWeight: 50.0%\nSource: Te
+ xt: 3. Final Exam: 50% (Scheduled by the Registrar)...\nConfidence: 70.0%
+ \n\nNote: No due date found. Using end of term as placeholder. Please upda
+ te manually.
+PRIORITY:5
+END:VEVENT
+END:VCALENDAR

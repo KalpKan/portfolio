@@ -1,0 +1,105 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Course Outline Converter//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:Lecture -
+DTSTART;TZID=America/Toronto:20260108T103000
+DTEND;TZID=America/Toronto:20260108T122000
+UID:349cbaad-ad21-4339-8121-a00df188dd07@course-outline
+RRULE:FREQ=WEEKLY;UNTIL=20260430;BYDAY=TH
+DESCRIPTION:Lecture section N/A
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Physical Activity Tracker 1
+DTSTART;TZID=America/Toronto:20260116T235900
+DTEND;TZID=America/Toronto:20260117T000000
+UID:d09499a9-ed26-4a91-adf8-f5c95585868c@course-outline
+DESCRIPTION:Assessment: Physical Activity Tracker 1\nType: other\nWeight: 
+ 5.0%\nSource: Physical Activity\nTracker 11 Complete Template 5% Jan 16th 
+ 72-hour no late penalty2\nConfidence: 60.0%
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Physical Activity Goal & Plan3
+DTSTART;TZID=America/Toronto:20260430T235900
+DTEND;TZID=America/Toronto:20260501T000000
+UID:524b9b80-6f39-41cd-bd46-f111a7b6c214@course-outline
+DESCRIPTION:Assessment: Physical Activity Goal & Plan3\nType: other\nWeigh
+ t: 10.0%\nSource: Physical Activity\nGoal & Plan3 Complete Template 10% Ja
+ n 21st 72-hour no late penalty2\nConfidence: 60.0%\n\nNote: No due date fo
+ und. Using end of term as placeholder. Please update manually.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Mid-term Exam4
+DTSTART;TZID=America/Toronto:20260430T235900
+DTEND;TZID=America/Toronto:20260501T000000
+UID:98902a51-4542-432d-b43e-c048098c9f4a@course-outline
+DESCRIPTION:Assessment: Mid-term Exam4\nType: midterm\nWeight: 30.0%\nSour
+ ce: Mid-term Exam4 MCQ\, in class\, paper 30% Feb 12th Designated assessme
+ nt4\nConfidence: 60.0%\n\nNote: No due date found. Using end of term as pl
+ aceholder. Please update manually.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Physical Activity Goal Report5
+DTSTART;TZID=America/Toronto:20260430T235900
+DTEND;TZID=America/Toronto:20260501T000000
+UID:b8ade595-26d8-4c59-a98a-f2615880c549@course-outline
+DESCRIPTION:Assessment: Physical Activity Goal Report5\nType: other\nWeigh
+ t: 10.0%\nSource: Physical Activity\nGoal Report5 Complete Template 10% Ma
+ r 15th 72-hour no late penalty2\nConfidence: 60.0%\n\nNote: No due date fo
+ und. Using end of term as placeholder. Please update manually.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Physical Activity Tracker 26
+DTSTART;TZID=America/Toronto:20260430T235900
+DTEND;TZID=America/Toronto:20260501T000000
+UID:2ae2b9d7-2ea6-4afe-978d-51e252737375@course-outline
+DESCRIPTION:Assessment: Physical Activity Tracker 26\nType: other\nWeight:
+  5.0%\nSource: Physical Activity\nTracker 26 Complete Template 5% Mar 20th
+  72-hour no late penalty2\nConfidence: 60.0%\n\nNote: No due date found. U
+ sing end of term as placeholder. Please update manually.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Final Exam7
+DTSTART;TZID=America/Toronto:20260430T235900
+DTEND;TZID=America/Toronto:20260501T000000
+UID:891d9449-e704-4be7-8ba9-2368a552e13b@course-outline
+DESCRIPTION:Assessment: Final Exam7\nType: final\nWeight: 40.0%\nSource: F
+ inal Exam7 MCQ 40% Registrar Not applicable\nConfidence: 60.0%\n\nNote: No
+  due date found. Using end of term as placeholder. Please update manually.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Audit Test Quiz
+DTSTART;TZID=America/Toronto:20260227T140000
+DTEND;TZID=America/Toronto:20260227T140100
+UID:d10e6c41-002b-4316-9bfe-a85e813850ad@course-outline
+DESCRIPTION:Assessment: Audit Test Quiz\nType: assignment\nWeight: 7.0%\nS
+ ource: Manual entry\nConfidence: 80.0%
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:START: Physical Activity Tracker 1
+DTSTART;TZID=America/Toronto:20260114T235900
+DTEND;TZID=America/Toronto:20260115T005900
+UID:7b5e8162-8223-4ae3-a239-52bb7af66ac1@course-outline
+DESCRIPTION:Start studying for: Physical Activity Tracker 1\nDue date: 202
+ 6-01-16 23:59
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:START: Audit Test Quiz
+DTSTART;TZID=America/Toronto:20260220T140000
+DTEND;TZID=America/Toronto:20260220T150000
+UID:0ebd0994-ef71-4b2e-902d-522dfbe06f0e@course-outline
+DESCRIPTION:Start studying for: Audit Test Quiz\nDue date: 2026-02-27 14:0
+ 0
+PRIORITY:3
+END:VEVENT
+END:VCALENDAR

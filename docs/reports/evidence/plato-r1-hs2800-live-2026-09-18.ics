@@ -1,0 +1,106 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Course Outline Converter//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+SUMMARY:DUE: End of term test
+DTSTART;TZID=America/Toronto:20260919T235900
+DTEND;TZID=America/Toronto:20260920T000000
+UID:05428126-b838-4e0e-a107-7349c8733d59@course-outline
+DESCRIPTION:Assessment: End of term test\nType: quiz\nWeight: 30.0%\nSourc
+ e: End of term test | - 30%\nConfidence: 80.0%\n\nNote: No due date found.
+  Using end of term as placeholder. Please update manually.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Mid-term test -
+DTSTART;TZID=America/Toronto:20260919T235900
+DTEND;TZID=America/Toronto:20260920T000000
+UID:0d7299ff-59fe-4977-b7ee-8a328e32f31b@course-outline
+DESCRIPTION:Assessment: Mid-term test -\nType: quiz\nWeight: 25.0%\nSource
+ : Mid-term test - | 25%\nConfidence: 80.0%\n\nNote: No due date found. Usi
+ ng end of term as placeholder. Please update manually.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: End of year assessment (no final exam)
+DTSTART;TZID=America/Toronto:20260919T235900
+DTEND;TZID=America/Toronto:20260920T000000
+UID:da57a7ad-1991-4a54-a1bf-4739534b073e@course-outline
+DESCRIPTION:Assessment: End of year assessment (no final exam)\nType: fina
+ l_exam\nWeight: 25.0%\nSource: End of year assessment (no final exam) | - 
+ 25%\nConfidence: 80.0%\n\nNote: No due date found. Using end of term as pl
+ aceholder. Please update manually.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: End of term test -
+DTSTART;TZID=America/Toronto:20260919T235900
+DTEND;TZID=America/Toronto:20260920T000000
+UID:e896bd8f-30e5-48a3-a940-3f841ca90edf@course-outline
+DESCRIPTION:Assessment: End of term test -\nType: quiz\nWeight: 30.0%\nSou
+ rce: End of term test - 30%\nConfidence: 60.0%\n\nNote: No due date found.
+  Using end of term as placeholder. Please update manually.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Jacobsen 2021: C.1 TBA
+DTSTART;TZID=America/Toronto:20260904T000000
+DTEND;TZID=America/Toronto:20260904T000100
+UID:4d2fa6b0-abe0-467c-ac19-65415fe6a871@course-outline
+DESCRIPTION:Assessment: Jacobsen 2021: C.1 TBA\nType: other\nSource: 1 | S
+ eptember 4 | Introductions\; Course Outline Review &\nExpectations\; The H
+ ealth Research Process | Jacobsen 2021:\nC.1\nTBA\nConfidence: 25.0%
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Jacobsen 2021: C.2\, 4 TBA
+DTSTART;TZID=America/Toronto:20260911T000000
+DTEND;TZID=America/Toronto:20260911T000100
+UID:bcafbc5c-90ae-499a-93c0-c49a3016c11a@course-outline
+DESCRIPTION:Assessment: Jacobsen 2021: C.2\, 4 TBA\nType: other\nSource: 2
+  | September 11 | Planning a Research Project (1) | Jacobsen 2021:\nC.2\, 
+ 4\nTBA\nConfidence: 25.0%
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: TBA
+DTSTART;TZID=America/Toronto:20260918T000000
+DTEND;TZID=America/Toronto:20260918T000100
+UID:abc770c6-7df2-4fe8-a4eb-69b0bbb3c1b3@course-outline
+DESCRIPTION:Assessment: TBA\nType: other\nSource: 3 | September 18 | Plann
+ ing a Research Project (2) | TBA\nConfidence: 25.0%
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Jacobsen 2021: C.19\, 20\, 21
+DTSTART;TZID=America/Toronto:20260925T000000
+DTEND;TZID=America/Toronto:20260925T000100
+UID:9ce2e77e-adae-4c1f-a85f-8a62f0b1e853@course-outline
+DESCRIPTION:Assessment: Jacobsen 2021: C.19\, 20\, 21\nType: other\nSource
+ : 4 | September 25 | Quantitative Data collection\, Sampling\,\nQuestionna
+ ire Design\, Coding | Jacobsen 2021:\nC.19\, 20\, 21\nConfidence: 25.0%
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: On OWL Brightspace
+DTSTART;TZID=America/Toronto:20261002T000000
+DTEND;TZID=America/Toronto:20261002T000100
+UID:9eba5f37-f28c-42af-b846-0ce62d9f2152@course-outline
+DESCRIPTION:Assessment: On OWL Brightspace\nType: other\nSource: 5 | Octob
+ er 2 | Measurement\, Reliability\, Validity\, Random\nSampling Error | On 
+ OWL\nBrightspace\nConfidence: 25.0%
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:DUE: Jacobsen 2021: C.11
+DTSTART;TZID=America/Toronto:20261030T000000
+DTEND;TZID=America/Toronto:20261030T000100
+UID:e74fdc58-3782-4be6-911b-0c9150e7de80@course-outline
+DESCRIPTION:Assessment: Jacobsen 2021: C.11\nType: other\nSource: 9 | Octo
+ ber 30 | Research Study Designs (2): Cohort Studies | Jacobsen 2021:\nC.11
+ \nConfidence: 25.0%
+PRIORITY:5
+END:VEVENT
+END:VCALENDAR

@@ -945,3 +945,63 @@ _Entries begin below, oldest first._
 - **Fix:** none needed for content; this entry records where the rows live. The pushups spec commit carries the spec, evidence, STATUS lines and incidents only.
 - **Prevention:** as the entry above says: stage and commit in one command, and prefer per-agent files over shared files where the format allows.
 - **Reported by:** Phase 5 SPEC agent (pushups)
+
+### 2026-09-18: Plato writes today's date into the `.ics` when the term is unknown (11 of 42 corpus outlines) (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 21:50 EDT
+- **Affected:** `src/pdf_extractor.py:258` `extract_term` (returns `date.today()` for both bounds when no "Fall/Winter YYYY" string matches), `src/icalendar_gen.py:76-99` (falls back to `term.end_date`).
+- **Symptom:** live download for `HS-2800-Research-Methods.pdf` (term "Unknown", review page shows Start/End "Sep 18, 2026") carries `DUE: End of term test`, `DUE: Mid-term test`, `DUE: End of year assessment` all at `20260919T235900`, i.e. the audit day; reading-list rows ("Jacobsen 2021: C.1 TBA") are exported with 2026 dates for a 2025-26 outline. Same mechanism as the 'every assessment on the term end date' entry, one step worse: the placeholder is not even the term end.
+- **Root cause:** two silent fallbacks (`today` for the term, `term.end_date` for an undated assessment) instead of a "not found" state.
+- **Fix:** not applied (audit round 1). `docs/reports/plato.md` D1 + D3.
+- **Prevention:** verification.md row "Silent-failure guard (live)" now also lists HS 2800; the corpus gate (`term` ≥ 90 %, `no_fabricated` measured in the `.ics`) stays on.
+- **Reported by:** Phase 5 TEST agent (plato, round 1)
+
+### 2026-09-18: Plato "Download Calendar" is blocked by a native alert after any successful inline edit (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 21:44 EDT
+- **Affected:** `public/static/app.js:698-704` (success branch of `saveField()`), `:26-31` and `:70` (Generate button handler).
+- **Symptom:** in real Chrome on https://plato.kalpkan.com/review, edit a weight or a lead time, Save (the chip shows the new value), click "Download Calendar" → native alert "Please refresh to save your changes.", no download; the CDP click timed out 30 s on the dialog. Reproduced twice. Adding an assessment reloads the page, which hides the bug in that path.
+- **Root cause:** the success path of `saveField` updates the display but never removes the `editing` class (only the two error paths do), so the Download handler finds `.editable-field.editing` with no `.inline-edit-input` inside and takes the "refresh" alert branch.
+- **Fix:** not applied. `docs/reports/plato.md` D5 (one-line fix: remove the class on success; replace the `alert()`s with inline notices).
+- **Prevention:** verification.md row "Edit then download (real Chrome)".
+- **Reported by:** Phase 5 TEST agent (plato, round 1)
+
+### 2026-09-18: Plato serves one visitor's inline edits to every other visitor who uploads the same outline (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 21:52 EDT
+- **Affected:** `src/app.py:126-130` `save_extracted()` called at the end of `/api/update-field`, `/api/add-assessment`, `/api/remove-assessment`; Neon table `extraction_cache` keyed by `pdf_hash` only.
+- **Symptom:** cookie jar A uploads `FHS Course Outline 2000.pdf` and renames assessment 2 to "EDITED BY VISITOR A"; a fresh cookie jar B uploads the same PDF and its review page shows "EDITED BY VISITOR A" under "Found cached extraction data for this PDF." Verified live, then reverted with a force refresh (`-F force_refresh=on`).
+- **Root cause:** edits are upserted into the shared parser cache instead of a per-session overlay (the `user_choices` table already has the `pdf_hash + session_id` key but is only used for section choices and lead times). Note for auditors: the audit's own edits therefore pollute the live cache for the next run; always force-refresh after editing.
+- **Fix:** not applied. `docs/reports/plato.md` D6.
+- **Prevention:** verification.md row "Cross-visitor cache isolation (live)"; `tests/test_cache.py` should gain a two-session test.
+- **Reported by:** Phase 5 TEST agent (plato, round 1)
+
+### 2026-09-18: Plato manual mode is a stub and unlinked; edge files get a raw Vercel 413, an empty error, or a blank review page (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 21:30 EDT
+- **Affected:** `src/app.py:923-939` (`/manual` POST flashes "Manual mode is not yet fully implemented." and drops the form), `src/app.py:616-642` (`/upload` treats an empty extraction as success; `except Exception as e` flashes `str(e)`, empty for the password error), `MAX_FILE_SIZE` 16 MB vs Vercel's 4.5 MB body cap.
+- **Symptom:** the five edge files in `~/projects/plato-corpus/edge/`: scanned and blank PDFs → `/review` with "Course Name Not found · Term Unknown · Start Date Sep 18, 2026" and no message; password PDF → "Error extracting PDF: " (blank reason); 14.6 MB PDF → HTTP 413 plain text `FUNCTION_PAYLOAD_TOO_LARGE`; `.txt` → the correct "Invalid file type" message. The landing page has no link to `/manual`; the review page's "Add one manually if needed" has nowhere to go.
+- **Root cause:** stub route; no "no text layer / nothing found" check; app limit larger than the platform limit.
+- **Fix:** not applied. `docs/reports/plato.md` D7 + D8.
+- **Prevention:** verification.md rows "Edge files (live)" and "Manual mode".
+- **Reported by:** Phase 5 TEST agent (plato, round 1)
+
+### 2026-09-18: Plato `.ics` files miss `DTSTAMP`/`VTIMEZONE` and use a DATE `UNTIL` against a local DATE-TIME `DTSTART` (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 21:58 EDT
+- **Affected:** `src/icalendar_gen.py` (`_create_recurring_section_events` passes `'UNTIL': end_date`, a `date`; no `dtstamp` anywhere; no `VTIMEZONE`; summaries `Lecture -` / `DUE: …` without the course code).
+- **Symptom:** `icalendar` parses the downloads, but 0 of 10 VEVENTs carry `DTSTAMP` (RFC 5545 §3.6.1 MUST), there is no `VTIMEZONE` for `TZID=America/Toronto`, and `RRULE:FREQ=WEEKLY;UNTIL=20260430;BYDAY=TH` sits on `DTSTART;TZID=America/Toronto:20260108T103000` (§3.3.10 requires a UTC date-time `UNTIL` in that case; Google Calendar is known to mishandle the mismatch). Google/Apple import screenshots are still pending (not done against Kalp's accounts).
+- **Root cause:** generator written against the happy path of the `icalendar` library.
+- **Fix:** not applied. `docs/reports/plato.md` D9.
+- **Prevention:** verification.md row "RFC 5545 check on a download".
+- **Reported by:** Phase 5 TEST agent (plato, round 1)
+
+### 2026-09-18: the Chrome extension tab used for the Plato audit was closed from under the agent, and the impeccable overlay injection froze the tab (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 21:50–21:57 EDT
+- **Affected:** the shared Chrome instance several agents drive at once.
+- **Symptom:** mid-flow `tabs_context_mcp` reported the audit tab gone (other agents' tabs — microtubules, plantit, hoops — appeared in and out of the group); `resize_window` refused the old tab id; injecting `http://localhost:8400/detect.js` from the impeccable live server into the live HTTPS page hung `Runtime.evaluate` for 45 s. Native `alert()` dialogs on the page (D5) also freeze every CDP call until Return is pressed.
+- **Root cause:** one Chrome, many agents; the extension's tab group is not private to a session. The overlay hang is unexplained (mixed-content fetch of a localhost script into an HTTPS page is allowed by Chrome, so probably the shared-renderer freeze again).
+- **Fix:** the phone-width measurements were moved to Playwright Chromium headless (`docs/reports/evidence/plato-r1-playwright-widths.js`), which is private to the agent and deterministic; the impeccable critique was run degraded (detector only) and the live server stopped (`.impeccable/` removed from the Plato repo; nothing committed).
+- **Prevention:** for measurements and screenshots prefer Playwright (`/Users/kalp/projects/promptflip/node_modules/playwright`, browsers in `~/Library/Caches/ms-playwright`); use the real-Chrome extension only for the flow steps that need Kalp's browser, and re-run `tabs_context_mcp` before every batch.
+- **Reported by:** Phase 5 TEST agent (plato, round 1)

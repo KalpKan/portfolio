@@ -1,0 +1,45 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+OK     3.1s  a= 4 s= 0  2025F---MATH-4121A-9021A---Topology_red.pdf
+OK     3.9s  a= 4 s= 6  2181A001002003.pdf
+OK     4.1s  a= 5 s= 0  2213A_2022.pdf
+OK     4.0s  a= 5 s= 0  2223.pdf
+OK     5.1s  a= 6 s= 0  2227A,001,002,003 Jean F25.pdf
+OK     3.8s  a= 3 s= 0  2242A001.pdf
+OK     5.0s  a= 4 s= 4  2277A001002.pdf
+OK     5.0s  a= 4 s= 0  3300B_W25_Syllabus_revised.pdf
+OK     4.7s  a= 3 s= 4  3311A001.pdf
+OK     5.1s  a= 6 s= 6  3313A001002003.pdf
+OK     3.2s  a= 3 s= 0  AM2402a_outline_2025_red.pdf
+OK     4.4s  a= 3 s= 0  AM3615B_9576B_outline_red.pdf
+OK     3.3s  a= 6 s= 0  AM3813B-AM9524B-2025_red.pdf
+OK     6.2s  a= 5 s= 0  ANATCELL 3309 Syllabus FW25-26.pdf
+OK     4.5s  a= 4 s= 0  B2382 Course Outline 2025.pdf
+OK     4.3s  a= 0 s= 2  B2483A.pdf
+OK     6.1s  a=11 s= 2  B3415G Course Outline 2025.pdf
+OK     2.1s  a= 6 s= 0  B3603A.pdf
+OK    10.2s  a= 9 s= 0  BIOCHEM 3381A Course Outline Fall 2025.pdf
+OK     7.0s  a= 4 s= 1  BMSUE Syllabus Phys3140A Fall 2025 Sept3.pdf
+OK     1.5s  a= 4 s= 0  CS1000-001 Course Outline 25-26.pdf
+OK     3.4s  a= 3 s= 0  CS2301B Course Outline 25-26.pdf
+OK     2.8s  a= 4 s= 4  CS_2209A_FW25.pdf
+OK     6.0s  a= 4 s= 0  CS_2211A_FW25.pdf
+OK     1.6s  a= 6 s= 0  CS_3342A_FW25.pdf
+OK     2.6s  a= 4 s= 6  CS_4411A_9538A_FW25.pdf
+OK     4.3s  a= 4 s= 0  Calc1301BFW25_red.pdf
+OK     2.8s  a= 3 s= 2  ECE-2240A_Fall-2025-Website-Version.pdf
+OK     2.3s  a= 4 s= 1  ECE-4429_Fall-2025-Website-Version.pdf
+OK     8.7s  a= 6 s= 2  FHS Course Outline 2000.pdf
+OK     7.8s  a= 6 s= 0  HS-2250A-Introduction-to-Health-Promotion1.pdf
+OK     3.1s  a= 3 s= 0  HS-2610G-Introduction-to-Ethics-and-Health.pdf
+OK     4.8s  a=10 s= 0  HS-2800-Research-Methods.pdf
+OK     6.3s  a= 5 s= 0  HS-3250F-Global-Health-Promotion.pdf
+OK     2.7s  a= 7 s= 0  MSE-2201_Fall-2025-Website-Version.pdf
+OK     2.4s  a= 9 s= 0  MSE-2214_Fall-2025-Website-Version.pdf
+OK     3.9s  a= 5 s= 0  Math-1228---Fall-2025_red.pdf
+OK     8.8s  a=20 s= 0  PP3000E Syllabus - Fall–Winter 2025–2026 - FINAL.pdf
+OK     7.4s  a= 9 s= 1  Physiology 3120 Syllabus 2025–2026 Oct 31st UPDATED.pdf
+OK     5.4s  a= 4 s= 0  SE2205A-2024-25.pdf
+OK     6.5s  a= 4 s= 0  Updated-ECE-3349A_Outline_2023.pdf
+OK     3.1s  a= 3 s= 5  outline26.pdf
+.venv/bin/python tests/corpus/run_extractor.py --out $SCR/corpus-out  179.51s user 3.23s system 94% cpu 3:14.14 total
+exit=0
