@@ -1,0 +1,22 @@
+{
+  "login": {
+    "url": "http://localhost:3998/login",
+    "finalUrl": "http://localhost:3998/login",
+    "performance": 0.86,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "fcp": "3.1 s",
+    "lcp": "3.4 s",
+    "tbt": "50 ms",
+    "cls": "0",
+    "a11yFails": []
+  },
+  "plants": {
+    "url": "http://localhost:3998/plants",
+    "finalUrl": "http://localhost:3998/login",
+    "performance": null,
+    "accessibility": null,
+    "bestPractices": null,
+    "a11yFails": []
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "login": {
+    "url": "http://localhost:3999/login",
+    "finalUrl": "http://localhost:3999/login",
+    "performance": 0.99,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "fcp": "0.6 s",
+    "lcp": "1.8 s",
+    "tbt": "70 ms",
+    "cls": "0",
+    "a11yFails": []
+  },
+  "plants": {
+    "url": "http://localhost:3999/plants",
+    "finalUrl": "http://localhost:3999/plants",
+    "performance": 0.92,
+    "accessibility": 1,
+    "bestPractices": 1,
+    "fcp": "0.6 s",
+    "lcp": "3.3 s",
+    "tbt": "120 ms",
+    "cls": "0",
+    "a11yFails": []
+  }
+}

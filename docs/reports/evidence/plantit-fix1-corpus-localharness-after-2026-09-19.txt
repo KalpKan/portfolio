@@ -1,0 +1,30 @@
+API http://localhost:3999: health 200 identification=plantnet care=bundled plantnet today=0
+monstera-deliciosa.jpg       200   888 ms  Monstera deliciosa            86%       t20 genus species top3 care 
+monstera-deliciosa-2.jpg     200   637 ms  Monstera deliciosa            10%       t20 genus species top3 care lowconf
+epipremnum-aureum.jpg        200   552 ms  Epipremnum pinnatum           51%       t18 genus species top3 care 
+epipremnum-aureum-2.jpg      200   338 ms  Epipremnum aureum             67%       t18 genus species top3 care 
+dracaena-trifasciata.jpg     200   334 ms  Dracaena trifasciata          39%        t8 genus species top3 care 
+dracaena-trifasciata-2.jpg   200   386 ms  Dracaena trifasciata          49%        t8 genus species top3 care 
+spathiphyllum-wallisii.jpg   200   373 ms  Spathiphyllum wallisii        33%       t28 genus species top3 care 
+spathiphyllum-wallisii-2.jpg 200   397 ms  Spathiphyllum wallisii        19%       t28 genus species top3 care lowconf
+ficus-lyrata.jpg             200   414 ms  Ficus lyrata                  89%       t20 genus species top3 care 
+ficus-lyrata-2.jpg           200   344 ms  Ficus lyrata                  85%       t20 genus species top3 care 
+aloe-vera.jpg                200   312 ms  Aloe vera                     88%        t8 genus species top3 care 
+chlorophytum-comosum.jpg     200   366 ms  Chlorophytum comosum          73%       t20 genus species top3      
+zamioculcas-zamiifolia.jpg   200   318 ms  Zamioculcas zamiifolia        42%        t8 genus species top3 care 
+pilea-peperomioides.jpg      200   322 ms  Pilea peperomioides           91%       t20 genus species top3      
+crassula-ovata.jpg           200   339 ms  Crassula multicava            41%        t8 genus ------- top3 care 
+not-a-plant-mug.jpg          422   439 ms  This does not look like a plant. Try a closer photo of the leaves or flowers, in good light.                ok
+too-small.jpg                400     2 ms  That image is too small to identify (minimum 10 KB)                ok
+not-an-image.txt             400     2 ms  Only image files are accepted                ok
+
+Bars:
+  PASS  genus top-1 >= 13/15: 15/15
+  PASS  species top-1 >= 9/15: 14/15
+  PASS  species in top-3 >= 13/15: 15/15
+  PASS  every identify < 10 s: 18/18
+  PASS  negatives refused, nothing saved: 3/3
+  PASS  care guide inside the species careBar (dry-out / moist): 13/13
+  PASS  lowConfidence flag == (score < 0.3): 15/15
+Results written to /private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/plantit-corpus-1789784899241.json
+Deleted 15 plant(s) created by this run (uid corpus-test).

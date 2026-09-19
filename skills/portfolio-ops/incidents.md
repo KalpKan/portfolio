@@ -1385,3 +1385,93 @@ _Entries begin below, oldest first._
 - **Fix:** copy the script into `apps/web` first (`cp … ./__r.tsx && npx tsx … ./__r.tsx; rm ./__r.tsx`), and run the measure script from a directory whose `node_modules` links to promptflip's (has playwright). The verification row and the report's step 3 now say so.
 - **Prevention:** evidence scripts that import project components must be run from inside that project; note it in the script header.
 - **Reported by:** Phase 5 TEST agent (hoops, round 2)
+
+### 2026-09-19: plantit, a photo of a coffee mug was saved as "Monstera deliciosa, 91 %, Demo result" (Phase 5 FIX agent, round 1; report D1, blocker)
+
+- **Date:** 2026-09-19, 02:15–03:05 UTC (fix verified on a production-shaped local stack; the production deploy is queued behind Vercel's daily limit, see the tooling entry below)
+- **Affected:** `KalpKan/PlantWater` up to `a50344c` (production `plantit-qdue6k07i`), spec story S4
+- **Symptom:** `POST /api/identify` with `tests/fixtures/plants/not-a-plant-mug.jpg` → `200`, `demo: true`, `reason: plantnet_error`, a Monstera saved with a 45 % simulated reading; corpus bar "negatives refused" 2/3.
+- **Root cause:** Pl@ntNet answers `HTTP 404 {"message":"Species not found"}` when it sees no plant; `providers.identify` caught every error as an outage and fell back to `pickDemoPlant`, and `/api/identify` saved whatever came back (the demo notice even said "Pl@ntNet did not answer", which was false).
+- **Fix:** `1d1894b`: `identifyWithPlantNet` raises `NotAPlantError` on a 404 or an empty `results` array; `identify` returns `{candidates: [], notAPlant: true, reason: plantnet_species_not_found}`; `/api/identify` answers `422 {error: "This does not look like a plant…", notAPlant: true}` before the photo upload and the Firestore write. Only 5xx/network/timeout failures still use the demo list. The page shows the message inline and PostHog gets `plant_not_recognised`.
+- **Prevention:** `backend/src/providers.test.js` (404 → notAPlant, 5xx → demo), `app.test.js` (422, no upload, no RTDB write, `/api/plants` empty), and the offline corpus test `backend/src/corpus.test.js` (negatives 3/3) run in CI; `scripts/run-corpus.js` checks the same bar live.
+- **Reported by:** Phase 5 FIX agent (plantit, round 1)
+
+### 2026-09-19: plantit, snake plants and ZZ plants were told to keep the soil moist (Phase 5 FIX agent, round 1; report D2)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/PlantWater` up to `a50344c`, spec story S3
+- **Symptom:** *Dracaena trifasciata* (both corpus photos) and *Zamioculcas zamiifolia* got the base generic guide ("water when the top 2-3 cm feels dry", threshold 20 %), so the simulated sensor asked for water about 2.5× too early.
+- **Root cause:** the bundled library listed the snake plant only under its old name *Sansevieria trifasciata* while Pl@ntNet returns the accepted *Dracaena trifasciata*; `findCannedCare` matched exact name or genus only; the generic dry-out regex knew `sansevieria` but not `dracaena trifasciata` or `zamioculcas`.
+- **Fix:** `1d1894b`: library entry renamed to *Dracaena trifasciata* with `synonyms` (Sansevieria trifasciata/zeylanica/cylindrica, …) and a per-entry `genera` list (so *D. marginata* does **not** inherit bone-dry care), a bundled ZZ-plant entry, and `genericCare`'s dry-out rule extended (zamioculcas, kalanchoe, gasteria, sedum, sempervivum, agave, yucca, beaucarnea, lithops). Every corpus item now carries a `careBar` in `ground-truth.json` (threshold range + wording).
+- **Prevention:** `demoPlants.test.js` (synonym + genus rules), `providers.test.js` (drought rule), `corpus.test.js` and `run-corpus.js` bar "care guide inside the species careBar" (13/13).
+- **Reported by:** Phase 5 FIX agent (plantit, round 1)
+
+### 2026-09-19: plantit, a 10 % match was shown like an 86 % one and the runner-up candidates were dropped (Phase 5 FIX agent, round 1; report D3)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/PlantWater` up to `a50344c`, spec story S2
+- **Symptom:** `monstera-deliciosa-2.jpg` (score 0.104) rendered "Confidence: 10 %" in grey under the green "Saved to your collection" banner; the API's other four candidates were never shown.
+- **Root cause:** nothing in the API flagged a low score and `PlantDetails.js` only ever read `candidates[0]`.
+- **Fix:** `1d1894b`: `identify` sets `lowConfidence = top score < 0.3` (`LOW_CONFIDENCE_SCORE`), the response and the saved plant carry it; the results page shows an amber "Low confidence" alert with the score, lists up to three runner-ups with their scores and common names, and drops the green banner for that case; My Plants shows a "Low confidence" chip. The plant is still saved (the visitor can delete it), which keeps the flow one-click.
+- **Prevention:** `providers.test.js`, `app.test.js`, `PlantDetails.test.js`; corpus bar "lowConfidence flag == (score < 0.3)".
+- **Reported by:** Phase 5 FIX agent (plantit, round 1)
+
+### 2026-09-19: plantit, a mistyped address rendered a blank page (Phase 5 FIX agent, round 1; report D4)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/PlantWater` up to `a50344c`, spec story S10
+- **Symptom:** `/plants/whatever` and `/x/y`: fully black signed out, nav bar over nothing signed in.
+- **Root cause:** no `path="*"` route in `App.js`; React Router renders nothing for an unmatched location.
+- **Fix:** `1d1894b`: routes moved to `frontend/src/routes.js` (`AppRoutes`, testable with a `MemoryRouter`) with `path="*"` → `NotFound` inside `PrivateRoute` (signed out it redirects to `/login` like every other page).
+- **Prevention:** `NotFound.test.js` renders both addresses and asserts the message and the Home / My Plants links.
+- **Reported by:** Phase 5 FIX agent (plantit, round 1)
+
+### 2026-09-19: plantit, the first 8 and last 4 characters of a visitor's OpenAI key were in Vercel's logs (Phase 5 FIX agent, round 1; report D5)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/PlantWater` `36a6432`–`a50344c` (T2.2 BYOK), spec story S9 ("never stored or logged")
+- **Symptom:** production log line `OpenAI (visitor key) failed, using the built-in guide: invalid_key 401 Incorrect API key provided: sk-inval*****************mnop. …`.
+- **Root cause:** OpenAI's own error message repeats the key's head and tail with the middle starred; `redactSecret` only replaced the exact key or `sk-` followed by 6+ key characters, so the starred form slipped through, and `careGuide` logged `error.message` verbatim after redaction.
+- **Fix:** `1d1894b`: the log line carries only the classification and the HTTP status (`invalid_key HTTP 401`), never the upstream message; `redactSecret` also scrubs `sk-` fragments containing `*` (`\bsk-…` so "desk-lamp" is untouched).
+- **Prevention:** `providers.test.js` feeds OpenAI's real 401 text and asserts neither `sk-inval` nor `mnop` nor "Incorrect API key" reaches the log; the verification row greps `vercel logs` for `sk-` after a live invalid-key request.
+- **Reported by:** Phase 5 FIX agent (plantit, round 1)
+
+### 2026-09-19: plantit, Lighthouse mobile performance 0.75 / 0.68 against the 0.80 bar (Phase 5 FIX agent, round 1; report D6)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/PlantWater` up to `a50344c`, spec story S10
+- **Symptom:** FCP 4.0–4.3 s, LCP 4.0–5.7 s on `/login` and `/plants`; `main.js` 246 KB gzipped, an 88 KB PNG for a 24 px Google logo, the Firebase sign-in iframe (95 KB) on every page, a 0.5 s slide + 0.5 s exit fade on every route.
+- **Root cause:** one eager bundle of every page and dialog; `getAuth()` loads `browserPopupRedirectResolver` (the iframe) at init to check for pending redirects; framer-motion `AnimatePresence mode="wait"` doubled every transition.
+- **Fix:** `1d1894b` + `fad7516`: inline 0.6 KB SVG logo; `React.lazy` for PlantList / PlantUpload / PlantDetails; `initializeAuth` without the resolver and `signInWithPopup(auth, provider, browserPopupRedirectResolver)` on click; 0.15 s opacity-only fade without exit; PostHog boots on `requestIdleCallback` after `load`; one `h1` per page with sequential levels (`heading-order`). `main.js` 246 → 182 KB gzipped. Lighthouse mobile after, on a production-shaped local stack (CRA build + the Express app, gzip): `/login` 0.99 (FCP 0.6 s, LCP 1.8 s), `/plants` 0.92 (LCP 3.3 s), accessibility 1.00 both; the pre-fix build through the same stack: `/login` 0.86 (FCP 3.1 s); production before, same harness: `/login` 0.78, `/plants` 0.69. Production numbers after the deploy are the TEST round-2 job.
+- **Prevention:** the Lighthouse row in `verification.md` (harness pattern: Playwright persistent context + `lighthouse` on port 9555, `/login` before the session is injected). The bundle size prints at the end of `npm run build`; a jump back above ~200 KB for `main.js` is the smell.
+- **Reported by:** Phase 5 FIX agent (plantit, round 1)
+
+### 2026-09-19: plantit, white text on the green buttons at 1.8:1 and a disabled button that looked enabled (Phase 5 FIX agent, round 1; report D10)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/PlantWater` up to `a50344c`, every page
+- **Symptom:** `#fff` on `#00DC82` (≈1.8:1) on Identify Plant, Water now, Sign in with Google, Add New Plant; the disabled Identify Plant kept the green gradient. Lighthouse did not flag it because its `color-contrast` audit skips gradient backgrounds.
+- **Root cause:** `primary.contrastText: '#fff'` plus a `containedPrimary` gradient override with `color: '#fff'` and no `.Mui-disabled` style; `Login.js` repeated the same colours inline.
+- **Fix:** `1d1894b`: theme extracted to `frontend/src/theme.js`; `contrastText` and the gradient text are `#062b1c` (9.6:1 on `#00DC82`, 6.1:1 on the darker gradient end); `.Mui-disabled` is flat `rgba(255,255,255,0.12)` with dim text; `Login.js` uses the same constant; the in-button spinner inherits the colour.
+- **Prevention:** `theme.test.js` computes the WCAG ratio for the accent and both gradient stops (≥ 4.5) and asserts the disabled override has no green.
+- **Reported by:** Phase 5 FIX agent (plantit, round 1)
+
+### 2026-09-19: plantit fix round found two tooling gotchas: CRA's jest cannot load `axios` (ESM) or `firebase/auth` (undici), and the app's 50/day Pl@ntNet counter blocks a same-day corpus re-run (Phase 5 FIX agent, round 1; tooling)
+
+- **Date:** 2026-09-19
+- **Affected:** `KalpKan/PlantWater` frontend tests; live corpus verification
+- **Symptom:** any frontend test importing a component that imports `axios` died with `Cannot use import statement outside a module`; importing `firebase/auth` died with `TextEncoder is not defined` then `ReadableStream is not defined` (undici). Separately, `/api/health` showed `spend.plantnet.count` 39/50 at 02:17 UTC after the spec + test rounds, so a full 16-call live corpus run would have pushed production into demo mode for the rest of the UTC day.
+- **Root cause:** react-scripts 5's jest transforms nothing under `node_modules`, and axios ≥ 1.x ships ESM as its main entry; `firebase/auth` resolves to its Node build under jest, which needs Node's fetch internals that jsdom lacks. The Pl@ntNet counter is a shared Firestore document, so any run against production spends it.
+- **Fix:** `frontend/package.json` `jest.moduleNameMapper`: `^axios$` → `axios/dist/node/axios.cjs`, `^firebase/auth$` → `src/test/firebaseAuthStub.js` (no unit test signs in). For the corpus: the full 18-fixture run went through a **local harness** (`createApp` with an in-memory Firestore + the real providers and the operator `PLANTNET_API_KEY`, 16 calls on Kalp's Pl@ntNet account's 500/day, zero on the app's counter), and production got a browser + Lighthouse pass through the same stack (`docs/reports/evidence/plantit-fix1-*`); the new `--only` flag is for the live spot check once the fix is deployed (~4 calls).
+- **Prevention:** keep the two mappers; when the day's counter is above ~34, run the corpus through the local harness pattern (documented in the runbook "Deploy an Express+CRA app to Vercel", step 14) and spot-check production with `--only`.
+- **Reported by:** Phase 5 FIX agent (plantit, round 1)
+
+### 2026-09-19: plantit FIX round 1 could not deploy: the team's rolling 24 h window held 112 deployments (73 from the hub), both the git-integration and the CLI deploys rate-limited until 19:17 UTC (Phase 5 FIX agent, plantit round 1)
+
+- **Date:** 2026-09-19, 02:29–03:05 UTC
+- **Affected:** `KalpKan/PlantWater` `1d1894b` + `fad7516`; production still `a50344c` (`plantit-qdue6k07i`)
+- **Symptom:** GitHub commit status `Vercel: Deployment rate limited — retry in 24 hours` on both pushes; `npx vercel --prod` → `api-deployments-free-per-day` on every attempt for 30 min (`scripts/vercel-redeploy-when-quota-frees.sh`, log `~/.config/portfolio-ops/logs/redeploy-plantit.kalpkan.com.log`).
+- **Root cause:** `GET /v6/deployments?teamId=…&since=<now-24h>` (paginated) listed **112** deployments in the window, 73 of them `portfolio` (docs pushes to the hub each cost a deployment even with the ignored build step). The count only drops below 100 when the 13th-oldest expires, at **2026-09-19 19:17:20 UTC**. Unlike the 2026-09-18 23:20 UTC entry (exactly 100 listed, a retry went through), 112 leaves no slack, so retrying every 3 minutes is pointless until then.
+- **Fix:** none possible at $0 without waiting. The fix was verified on a production-shaped local stack instead (`docs/reports/evidence/plantit-fix1-local-stack.js`: the CRA build with gzip and SPA fallback + the real Express app with an in-memory Firestore and the real Pl@ntNet key), browser checks at 1440/390 px (`plantit-fix1-verify.mjs`), Lighthouse (`plantit-fix1-lighthouse.mjs`) and the full corpus (`plantit-fix1-corpus-localharness-after-2026-09-19.txt`, 7/7 bars). The retry loop was stopped before the agent returned (machine hygiene: no process outlives the session).
+- **Prevention:** **any agent after 19:20 UTC 2026-09-19** runs `bash ~/projects/portfolio/scripts/vercel-redeploy-when-quota-frees.sh ~/projects/plantit plantit.kalpkan.com 20 10` (HEAD `fad7516` or later), then the live checks in `verification.md` (corpus with `--only`, `vercel logs | grep -c sk-`, Lighthouse). Before a CLI deploy, count the window with the paginated deployments API (the snippet is in this entry's root cause) instead of retrying blind: if it is above 100 the retry loop is a waste. Longer term: batch hub docs pushes (the hub burned 73 of the 100 slots).
+- **Reported by:** Phase 5 FIX agent (plantit, round 1)

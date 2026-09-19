@@ -1,0 +1,125 @@
+{
+  "base": "http://localhost:3999",
+  "ranAt": "2026-09-19T02:49:04.813Z",
+  "desktop": {
+    "signedOutUnknown": {
+      "url": "http://localhost:3999/login",
+      "text": "Plant It\n\nYour personal plant identification and care assistant\n\nSign in with Google\n\nSign in to start identifying and m"
+    },
+    "loginButton": {
+      "color": "rgb(6, 43, 28)",
+      "backgroundImage": "linear-gradient(90deg, rgb(0, 220, 130) 0%, rgb(0, 184, 107) 100%)",
+      "hasSvgLogo": true,
+      "hasImgLogo": false
+    },
+    "loginIframes": [],
+    "route /plants/whatever": {
+      "text": "Plant It Home My Plants Add Plant Logout That page does not exist There is nothing at /plants/whatever. Plant It has a home page, My Plants and Add Plant. Home ",
+      "links": [
+        "/",
+        "/plants"
+      ]
+    },
+    "route /x/y": {
+      "text": "Plant It Home My Plants Add Plant Logout That page does not exist There is nothing at /x/y. Plant It has a home page, My Plants and Add Plant. Home My Plants",
+      "links": [
+        "/",
+        "/plants"
+      ]
+    },
+    "identifyDisabled": {
+      "disabled": true,
+      "color": "rgba(255, 255, 255, 0.45)",
+      "backgroundImage": "none",
+      "backgroundColor": "rgba(255, 255, 255, 0.12)"
+    },
+    "txtDrop": {
+      "alerts": [
+        "Only JPEG, PNG or WebP images are accepted."
+      ]
+    },
+    "mug": {
+      "file": "not-a-plant-mug.jpg",
+      "ms": 1567,
+      "status": 422,
+      "body": {
+        "notAPlant": true,
+        "error": "This does not look like a plant. Try a closer photo of the leaves or flowers, in good light."
+      },
+      "url": "http://localhost:3999/add-plant",
+      "alerts": [
+        "This does not look like a plant. Try a closer photo of the leaves or flowers, in good light."
+      ]
+    },
+    "lowConf": {
+      "file": "monstera-deliciosa-2.jpg",
+      "ms": 1479,
+      "status": 200,
+      "body": {
+        "lowConfidence": true,
+        "top1": "Monstera deliciosa",
+        "score": 0.10437,
+        "n": 5,
+        "savedPlantId": "auto1",
+        "threshold": 20
+      },
+      "url": "http://localhost:3999/plant-details",
+      "alerts": [
+        "Low confidence. Pl@ntNet is only 10 % sure this is Monstera deliciosa. Check the other matches below or try a clearer photo of a single leaf or flower. It was saved with a \"Low confidence\" mark; delete it from My Plants if it is wrong."
+      ],
+      "otherCandidates": "Other matches Pl@ntNet suggested\nLivistona chinensis\n\nChinese Fan Palm · 10 %\n\nPhilodendron pastazanum\n\n4 %\n\nEpipremnum pinnatum\n\nPothos · 3 %",
+      "warning": "Low confidence. Pl@ntNet is only 10 % sure this is Monstera deliciosa. Check the other matches below or try a clearer photo of a single leaf or flower. It was saved with a \"Low confidence\" mark; delete it from My Plants if it is wrong."
+    },
+    "plantsChips": [
+      "Simulated sensor",
+      "Low confidence"
+    ],
+    "plantsCount": 1
+  },
+  "phone": {
+    "signedOutUnknown": {
+      "url": "http://localhost:3999/login",
+      "text": "Plant It\n\nYour personal plant identification and care assistant\n\nSign in with Google\n\nSign in to start identifying and m"
+    },
+    "loginButton": {
+      "color": "rgb(6, 43, 28)",
+      "backgroundImage": "linear-gradient(90deg, rgb(0, 220, 130) 0%, rgb(0, 184, 107) 100%)",
+      "hasSvgLogo": true,
+      "hasImgLogo": false
+    },
+    "loginIframes": [],
+    "route /plants/whatever": {
+      "text": "Plant It That page does not exist There is nothing at /plants/whatever. Plant It has a home page, My Plants and Add Plant. Home My Plants",
+      "links": [
+        "/",
+        "/plants"
+      ]
+    },
+    "route /x/y": {
+      "text": "Plant It That page does not exist There is nothing at /x/y. Plant It has a home page, My Plants and Add Plant. Home My Plants",
+      "links": [
+        "/",
+        "/plants"
+      ]
+    },
+    "identifyDisabled": {
+      "disabled": true,
+      "color": "rgba(255, 255, 255, 0.45)",
+      "backgroundImage": "none",
+      "backgroundColor": "rgba(255, 255, 255, 0.12)"
+    },
+    "txtDrop": {
+      "alerts": [
+        "Only JPEG, PNG or WebP images are accepted."
+      ]
+    }
+  },
+  "consoleErrors": [
+    {
+      "vp": "desktop",
+      "text": "Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)",
+      "url": "http://localhost:3999/add-plant"
+    }
+  ],
+  "deleted": 1
+}
