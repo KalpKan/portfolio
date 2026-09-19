@@ -115,3 +115,7 @@ Gaps found (each needs a fix; the TEST agent should confirm them from the steps 
 6. **Docs.** README "percentage of each cell" vs the actual whole-image denominator; `web/README.md` accuracy section covers 3 cells (now 60 fixtures, update the table and mention `tests/fixtures/`); three published CSV rows do not correspond to the committed crops (say so in `Results/` or the README so nobody "fixes" the pipeline to hit the CSV).
 
 Already fine (do not spend time here): accuracy on every fixture; RGBA transparent borders (the transparent pixels' RGB is what Python uses, and the canvas round-trip does not change the result on any of the 36 cells: worst diff 0.000); uppercase `.PNG`; 16-bit and grayscale decode; health route; offline after load; Lighthouse 0.98; PostHog events.
+
+## 7. Revalidation (2026-09-18, resumed run)
+
+Re-checked by the SPEC agent of the resumed T5.a run before reuse: project repo `main` = `e56190d` (clean, in sync with `origin/main`; the web app has not changed since the baseline in §6). `.venv/bin/python tests/fixtures/make_fixtures.py --check` → `all match` (60 images, 24 MP file regenerated); `cd web && npx vitest run --pool=forks --maxWorkers=1` → 57/57, diff 0.0000 on all 52 PNGs; live `https://microtubules.kalpkan.com` `HTTP/2 200`, `server: Vercel`, `/health.json` ok. No `docs/reports/microtubules.md` exists, so the TEST agent's next report is round 1 and should confirm the six gaps in §6. Spec and corpus reused unchanged.
