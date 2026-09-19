@@ -1006,6 +1006,106 @@ _Entries begin below, oldest first._
 - **Prevention:** for measurements and screenshots prefer Playwright (`/Users/kalp/projects/promptflip/node_modules/playwright`, browsers in `~/Library/Caches/ms-playwright`); use the real-Chrome extension only for the flow steps that need Kalp's browser, and re-run `tabs_context_mcp` before every batch.
 - **Reported by:** Phase 5 TEST agent (plato, round 1)
 
+### 2026-09-18: hoops Progress chart rendered every bar at 0 px in every browser (FIX r1, D1)
+
+- **Date:** 2026-09-18 (Phase 5 FIX round 1; basketball `7eead57`)
+- **Affected:** https://hoops.kalpkan.com, `apps/web/components/dashboard-page.tsx` `ProgressChart`
+- **Symptom:** the chart box was empty in Chromium, WebKit and real Chrome; bars had `style.height 65.2%` but a rendered height of 0; no values, axis or gridlines; the 30-session corpus widened a 390 px page to 1152 px.
+- **Root cause:** a CSS percentage height only resolves against a containing block with a definite height. Each bar sat in a `flex flex-col` column that was as tall as its content, so `height: 65.2%` computed to `auto` (0). Nothing tested the rendered size.
+- **Fix:** bars are sized in pixels from a fixed 208 px plot (`Math.round(value / axisMax * 208)`), with the value printed on every bar, a fixed 0–100 axis (25 % gridlines; streak mode scales to the max and labels it), and the column row inside an `overflow-x-auto` box with a 44 px minimum column so 30 sessions scroll instead of widening the page. `components/dashboard-page.test.tsx` renders the chart and rejects any `%` height; Playwright measured 121–208 px in all 8 configs.
+- **Prevention:** verification.md rows "chart bars render" (script `hoops-r2-playwright-audit.mjs`) and "30-session corpus fits" (`hoops-r2-synthetic30-*`); never give a chart mark a percentage height without a fixed-height ancestor.
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
+### 2026-09-18: React #418 on every non-UTC load and three date strings for one hoops session (FIX r1, D2)
+
+- **Date:** 2026-09-18 (FIX r1; basketball `7eead57`)
+- **Affected:** https://hoops.kalpkan.com, `apps/web/components/dashboard-page.tsx`, `apps/web/lib/dashboard-data.ts`
+- **Symptom:** `Minified React error #418` in Toronto and Tokyo (Chromium, WebKit, real Chrome); the 2026-09-18 19:40 Z session read `Sep 19` on the pill, `Sep 18` on the chart and `Sat, Sep 19` in the table for a Tokyo visitor.
+- **Root cause:** pill and table dates were formatted in the `"use client"` component with `Intl.DateTimeFormat` and no `timeZone`, so the server (UTC) and the browser (local zone) produced different strings for the same instant; the chart label was formatted on the server only, so it disagreed with both.
+- **Fix:** `SessionSummary` now carries `label` ("Sep 18", with the year when it is not the current year) and `dateLabel` ("Fri, Sep 18"), formatted once in `dashboard-data.ts` with `timeZone: "UTC"`; the pill, bar and row render those strings and the two client formatters are deleted. Two sessions on one UTC day get the title/device appended to the label. Unit test asserts the strings; the suite also passes under `TZ=Asia/Tokyo` and `TZ=America/Toronto`; Playwright: 0 console errors in 8 configs.
+- **Prevention:** verification.md rows "No console errors on load" and "dates agree in every timezone"; rule for every app: anything time-zone dependent is formatted on one side only, with an explicit zone.
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
+### 2026-09-18: 1970 epoch session counted in every hoops number and the ingest API accepted 1970 and future timestamps (FIX r1, D3)
+
+- **Date:** 2026-09-18 (FIX r1; basketball `7eead57`, function redeployed)
+- **Affected:** https://hoops.kalpkan.com, Edge Function `hoops-ingest-shot`
+- **Symptom:** a "Wed, Dec 31" / "Thu, Jan 1" row with 23 shots (24 % of the corpus) in the history and in every card; `capturedAt 1970-01-01T00:00:00Z` and `+30 days` both returned `200`.
+- **Root cause:** the function only checked `Date.parse` succeeded; the dashboard mapped every session row without a date guard and took the overview from `overall_analytics`, which aggregates every shot.
+- **Fix:** `validate.ts` (pure, node-tested) rejects `capturedAt` before 2000-01-01 or more than 24 h ahead with `400` and a "check the device clock" message; the dashboard hides sessions/shots stamped before 2000, counts them as `hiddenShots`, computes the overview from the kept shots and prints "23 shots with an invalid timestamp hidden". Verified on the deployed function (`400` both) and against the Python ground truth (`hidden_shots: 23`).
+- **Prevention:** verification.md rows "no pre-2000 session" and "Ingest rejects epoch/future timestamps"; `compute-expected-metrics.py --check` now fails on any pre-2000 session in the payload.
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
+### 2026-09-18: hoops Consistency / Avg Streak on different bases from the table, no basis named (FIX r1, D4)
+
+- **Date:** 2026-09-18 (FIX r1; basketball `7eead57`)
+- **Affected:** https://hoops.kalpkan.com, `apps/web/lib/dashboard-data.ts`
+- **Symptom:** Consistency 67.6 % (SQL, over 5 raw sessions incl. a 1-shot 100 % session) beside 4 table rows whose basis gives 85.9; Avg Streak on the day basis; a single-pill selection still showed the global 67.6.
+- **Root cause:** three sources of truth: `overall_analytics` (raw sessions), `session_summaries` merged in JS by UTC day, and a per-session card that reused the global value.
+- **Fix:** every number is computed in one pure function from the raw rows on one basis (one row per device + UTC day, pre-2000 hidden): Consistency = 100 − 2·sample stddev of the visible sessions' FG% (64.0 on 2026-09-18, null/"n/a" for < 2 sessions), Avg Streak = mean of those sessions' best streaks; each card's meta names the basis ("over 4 sessions", "avg of 4 best streaks"). The ground-truth generator gained a matching `dashboard` block and `--check` compares Consistency and Avg Streak too.
+- **Prevention:** `lib/dashboard-data.test.ts` compares both corpora with the Python ground truth on every run; the `overall_analytics` view is no longer read by the page.
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
+### 2026-09-18: hoops eFG% proxy reached 150 % (FIX r1, D5)
+
+- **Date:** 2026-09-18 (FIX r1; basketball `7eead57`; migration `0006_bounded_efg.sql` applied to Project B via the Management API SQL endpoint)
+- **Affected:** `hoops.session_summaries`, `apps/web/lib/dashboard-data.ts`, README, Key Metrics copy, `tests/compute-expected-metrics.py`
+- **Symptom:** `efg_percent 150.0` for session `90000000-…0100` (one made swish); hidden on the page only by the old cross-device merge.
+- **Root cause:** v1 formula `(made + 0.5·swishes) / attempts` is unbounded.
+- **Fix:** v2 `(made + 0.5·swishes) / (attempts + 0.5·swishes)` in the view, the app (`computeEfgPercent`), the README, the page copy, the handoff doc, the tap-session fixture (83.3 → 71.4) and the Python generator; both expected-metrics fixtures regenerated; the view now returns 100.0 / 75.4 / 63.0 / 71.4 / 66.7, identical to the ground truth.
+- **Prevention:** unit test `eFG% is bounded`; `--check` fails on any eFG% > 100. Rule: a formula that lives in SQL and in JS gets one migration + one commit together, and the Python generator is the referee.
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
+### 2026-09-18: hoops page never said the iPhone app does not exist and had no links (FIX r1, D6)
+
+- **Date:** 2026-09-18 (FIX r1; basketball `7eead57`)
+- **Affected:** https://hoops.kalpkan.com
+- **Symptom:** 0 `<a>` elements; subtitle "Track your shooting performance" beside a pulsing LIVE badge; no OG tags; `favicon.ico` 404.
+- **Root cause:** nothing in the component or `layout.tsx` metadata mentioned the stub or the repo.
+- **Fix:** one-line notice under the header ("The iPhone capture app is not available yet. These sessions were recorded through the ingest API for testing." + "Source and API on GitHub"), honest subtitle, `openGraph`/`twitter` metadata that says the same, `icons` → `/basketball-logo.svg`, a Session column naming the title/device.
+- **Prevention:** verification.md row "stub notice present"; component test asserts the sentence and the link and rejects "download"/"App Store".
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
+### 2026-09-18: hoops at 390 px: table clipped, 36 px toggles, 16 contrast failures (FIX r1, D7)
+
+- **Date:** 2026-09-18 (FIX r1; basketball `7eead57`)
+- **Affected:** https://hoops.kalpkan.com
+- **Symptom:** the 500 px Session History table sat in a 290 px `overflow-hidden` wrapper (eFG% and Best Streak unreachable); FG%/eFG%/Streak toggles 36 px tall; `text-white/35`–`/45` at 3.1–3.8:1.
+- **Root cause:** wrapper `overflow-hidden`, `py-2` toggles, faint secondary text tokens.
+- **Fix:** `overflow-x-auto` wrapper + `min-w-[720px]` table (scrolls inside its box, page stays 390 px), `min-h-10` toggles, every `/35`–`/55` token raised to `/60`; component test rejects the faint tokens and `overflow-hidden` on the table wrapper; Playwright: no button under 40 px, `faintTextNodes 0`.
+- **Prevention:** verification.md row "phone table reachable"; Lighthouse accessibility re-run belongs to the next TEST round.
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
+### 2026-09-18: hoops DB outage impersonated a configuration error and the host had no `/api/health` (FIX r1, D8)
+
+- **Date:** 2026-09-18 (FIX r1; basketball `7eead57`)
+- **Affected:** https://hoops.kalpkan.com, UptimeRobot monitor `804030256`
+- **Symptom:** with a bogus `SUPABASE_URL`, `/api/dashboard` returned `source mock` with 67 sample shots and the banner said "set `SUPABASE_URL`"; `/api/health` was 404.
+- **Root cause:** any query error fell through to the same `buildMockPayload()` as the missing-env case; no health route existed.
+- **Fix:** `getDashboardPayload` catches query errors and returns sample data with `dataError`; the banner is red "The database could not be reached…" for that case and amber with the settings hint only when the env is missing; `app/api/health/route.ts` runs `hoops.health_select_one()` and returns `{ok, db: ok|skipped|error, service: "hoops"}` (503 on error). Verified locally: outage → `dataError "TypeError: fetch failed"`, banner once, no `SUPABASE_URL`, health 503; production env → health `db: ok`.
+- **Prevention:** verification.md rows "Dashboard health route" and "Honest DB-failure state"; monitor `804030256` renamed `hoops health (DB, Project B)` and pointed at `/api/health` on 2026-09-19 02:40Z (`POST /v2/editMonitor`, `status: 2`), recorded in `docs/monitors.md`.
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
+### 2026-09-18: hoops merged different devices' sessions on one UTC day and capped history at 12 raw sessions (FIX r1, D9)
+
+- **Date:** 2026-09-18 (FIX r1; basketball `7eead57`)
+- **Affected:** https://hoops.kalpkan.com, `apps/web/lib/dashboard-data.ts`
+- **Symptom:** the handoff doc's 3-shot session vanished into `day-2026-04-15 60/45/15`; the 30-session corpus yielded 12 sessions while all 801 shots stayed on the map.
+- **Root cause:** `buildDailySessions` keyed on the UTC date only; `session_summaries` was read with `.limit(12)` and shots with an unrelated `.limit(1000)`.
+- **Fix:** merge key is device + UTC day (the backend's own rule, unique index from `0004`), canonical id = the earliest session of that device-day, so a new device gets its own pill/bar/row and a title/device column; the page reads the newest 200 sessions and pages through every shot (1000 per page, 10 pages, exact count for `totalShotsRecorded`), dropping shots whose session is not shown. Unit test: 30/30 sessions and 0 mismatches on the synthetic corpus.
+- **Prevention:** verification.md row "30-session corpus fits" now runs as part of `npx pnpm test`; `MAX_SESSIONS` is a named constant documented in the README.
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
+### 2026-09-18: hoops FIX r1 production deploy refused by the team-wide daily limit (deployment pending)
+
+- **Date:** 2026-09-19 02:05 UTC
+- **Affected:** Vercel project `v0-basketball-analytics-dashboard`
+- **Symptom:** `npx vercel --prod --yes` → `Resource is limited - try again in 24 hours (more than 100, code: "api-deployments-free-per-day")` right after `7eead57` was pushed; the push-triggered deploy did not appear either.
+- **Root cause:** the Hobby team's 100 deployments / 24 h budget (see the 2026-09-18 plantit entries); the `hoops-ingest-shot` function and migration `0006` are independent of Vercel and are already live.
+- **Fix:** `scripts/vercel-redeploy-when-quota-frees.sh ~/projects/basketball hoops.kalpkan.com 12 3` refused 10 times (02:06–02:34 UTC; the script itself was then killed with the agent's background task), and a direct `npx -y vercel@59.23.2 --prod --yes` at 02:35 UTC was accepted: `v0-basketball-analytics-dashboard-1r3vfa4fi` READY, `meta.githubCommitSha` = `7eead57`, aliased to `hoops.kalpkan.com`. So refusals were continuous for ~30 min with the API listing exactly 100 deployments in the window, then cleared without any slot ageing out (oldest was due 19:10 UTC): the limit is enforced with some lag or tolerance, and "retry every few minutes" remains the right procedure. During the 30 min the live page ran the old build against the migrated view: its `session_summaries` numbers were already the bounded eFG% while the page's own copy in `dashboard-data.ts` was still v1, a harmless but visible mismatch to keep in mind when a fix spans DB and app (deploy the app first when the app tolerates both, or accept the window).
+- **Prevention:** one push per task, as the runbook says; the ingest/DB half of a fix is deployable independently of the Vercel quota.
+- **Reported by:** Phase 5 FIX agent (hoops, round 1)
+
 ### 2026-09-19: Plant It saves a coffee mug as "Monstera deliciosa, 91 %, Demo result" because Pl@ntNet's 404 is treated as an outage (Phase 5 TEST agent, round 1; confirmed from round 0)
 
 - **Date:** 2026-09-19, 02:00 UTC
