@@ -1839,3 +1839,43 @@ _Entries begin below, oldest first._
 - **Fix:** none yet (patterns listed in the report). The three ground-truth files make the gate fail until they are handled, which is the point.
 - **Prevention:** `verification.md` row "Corpus gate on 18 labelled files"; before the bar is declared met, label 5–10 outlines chosen at random from the manifest (`labelled: false`), not by looking at the parser output.
 - **Reported by:** Phase 5 TEST agent (plato, round 2)
+
+### 2026-09-19: plantit FIX round 1 reached production at 03:23 UTC through a CLI deploy that the CLI itself reported as failed (Phase 5 FIX agent, plantit round 2; closes report D14)
+
+- **Date:** 2026-09-19 03:23 UTC (found 20:46 UTC)
+- **Affected:** https://plantit.kalpkan.com; `scripts/vercel-redeploy-when-quota-frees.sh`
+- **Symptom:** the round-2 report and STATUS said production was `a50344c` until the team window frees at ~19:20 UTC. One attempt of the redeploy script at 03:23 UTC was accepted by Vercel (the API shows `plantit-jqniwihbz`, `fad7516`, source `cli`, READY, aliased) although the trailing-24 h count was 114, but the Mac slept for 17 hours in the middle of the CLI's wait and the script logged `attempt 1: vercel exited 1 (deploy or build failed): … fetch failed` at 20:45 UTC and exited 1; the CLI's OAuth token had also expired meanwhile (`auth.json` was refreshed by `vercel whoami`).
+- **Root cause:** two things: (1) the `api-deployments-free-per-day` refusal is not a strict count, git-integration deploys for microtubules and hoops went through at 02:20/02:35 UTC with > 100 in the window, and this CLI one at 03:23; (2) the script's "did a deployment for HEAD appear since we started?" fallback ran only after the sleep, with a token that no longer worked, so it could not see the deployment it had made.
+- **Fix:** none needed for the site: `fad7516` was live (`/api/nope` clean at 20:47 UTC, bundle `main.23cab8ac.js`); FIX round 2 (`5b77609`) then deployed by plain `git push` at 21:15 UTC (window at 49/100), READY in ~75 s.
+- **Prevention:** when the script exits 1 with `fetch failed`, read `GET /v6/deployments?projectId=…` before believing it (the runbook's "Deploy an Express+CRA app" already says the alias, not the CLI, is the proof); do not leave a deploy attempt running across a laptop sleep; a token error from `api.vercel.com` (`invalidToken: true`) after a long gap means run `npx vercel whoami` once to refresh `auth.json` and read the token again.
+- **Reported by:** Phase 5 FIX agent (plantit, round 2)
+
+### 2026-09-19: plantit `/plants` Lighthouse 0.77–0.80 with real plants: the first card photo waited on five sequential hops and shared the phone's bandwidth with PostHog (Phase 5 FIX agent, plantit round 2; report D6, major)
+
+- **Date:** 2026-09-19 21:00 UTC
+- **Affected:** `KalpKan/PlantWater` `frontend/src/{routes.js,analytics.js,components/PlantList.js,components/PlantPhoto.js}`, `backend/src/app.js`
+- **Symptom:** Lighthouse mobile on `/plants` with 3 real plants and the production PostHog key: 0.77–0.80 (TEST r2), 0.53–0.69 on this loaded Mac; LCP 4.9–5.6 s on the first card `<img>`.
+- **Root cause:** the diag harness's LCP phases said TTFB 0.5 s, **load delay 2.5 s**, **load time 1.8 s**. The delay: `main.js` (182 KB gz, 21 % of it framer-motion for a 0.15 s fade) → the route chunk (requested only after the auth check) → Firebase Auth's `accounts:lookup` (preflight + POST to a cold origin) → `/api/plants` → the photo. The load time: the 800 px JPEG (60–100 KB) for a 200 px card, three photos requested at once, and PostHog's 165 KB (`232.chunk.js` + `posthog-recorder.js`) downloading beside them because "boot when idle" fires ~40 ms after `load`. The per-card framer stagger also held the paint until the fade ended. The fixer's round-1 0.92 had none of this because the list was empty and PostHog was not compiled in.
+- **Fix:** `5b77609`: a 400 px card rendition written at identify time (`thumbUrl`, deleted with the plant), `fetchpriority=high` + eager on the first card and `loading=lazy` after it, explicit `width`/`height`, no card animation, framer-motion removed (main.js 182 → 144 KB gz), the route chunk for the opened address fetched during `main.js`, `preconnect` to Supabase Storage and `identitytoolkit.googleapis.com`, PostHog booted 3 s after `load`, and `reading` inside `/api/plants`. Production: `/plants` 0.91 / 0.95 / 0.94, `/login` 0.96 / 0.99 / 0.99 (LCP 2.9–3.3 s and 1.6–1.8 s).
+- **Prevention:** `verification.md` Lighthouse row now measures with 3 real plants + the production key on production, three runs, and the diag harness is the first step of any performance task (runbook step 15(d)); `PlantList.test.js` fails if a card starts at `opacity: 0`, if the first card is not `fetchpriority=high`, or if later cards are not lazy; `app.test.js` fails if identify stops writing the 400 px copy.
+- **Reported by:** Phase 5 FIX agent (plantit, round 2)
+
+### 2026-09-19: plantit's page fade rewritten in CSS made Lighthouse report NO_FCP on /login: a first paint that starts at opacity 0 on the compositor is never counted (Phase 5 FIX agent, plantit round 2; caught before deploy)
+
+- **Date:** 2026-09-19 21:05 UTC
+- **Affected:** `frontend/src/routes.js` (between two local builds; never on production)
+- **Symptom:** after replacing framer-motion's page fade with a CSS keyframe on the route wrapper, Lighthouse on `/login` returned `performance: null` with `runtimeError NO_FCP: The page did not paint any content`; `/plants` still scored (its cards paint later on the main thread). Playwright showed the page rendered fine, opacity 1.
+- **Root cause:** Chrome reports First Contentful Paint from a main-thread paint of visible content; with `animation: fade-in` on the whole page the only main-thread paint is at opacity 0 and the 0 → 1 change runs on the compositor, so on a page that never repaints (`/login`) no FCP, and no LCP, is ever emitted. framer-motion animated the inline style from JS, which repaints, hence it never showed.
+- **Fix:** the fade skips the first render (a ref flips after mount) and only runs on later address changes; the "My Plants" title fade was dropped. `routes.test.js` asserts the first render carries no animation and a navigation does.
+- **Prevention:** runbook step 15(d) and the rule for every app: no `opacity: 0` start on the page or the LCP element via CSS/compositor animation; run Lighthouse on a page that paints once and never again (`/login` here) after any animation change.
+- **Reported by:** Phase 5 FIX agent (plantit, round 2)
+
+### 2026-09-19: plantit dialog opened on a full-height photo; the reading and Water now needed a scroll at 1440×900 and 390×844 (Phase 5 FIX agent, plantit round 2; report D8, major)
+
+- **Date:** 2026-09-19 21:10 UTC
+- **Affected:** `frontend/src/components/{PlantList.js,PlantPhoto.js,SensorPanel.js}`
+- **Symptom:** Water now at y = 990 (desktop) / 1 147 (phone); first phone screen = title, photo, Close / Delete Plant / Connect ESP8266; the reading only after the `/device` request answered.
+- **Root cause:** the left column rendered `<PlantPhoto dialog>` (no max height) before `SensorPanel`, `DialogActions` gave Delete and the hardware button the same weight as Close, and the panel started with a spinner because the list had no readings.
+- **Fix:** `5b77609`: `GET /api/plants` carries each plant's `reading` (pure arithmetic for the simulated sensor), `SensorPanel` takes `initialReading`/`mode` and renders at once (the device call only adds the watering log), the panel comes first, the photo is a 180 px strip that links to the full size, the title wears the card's chips, Delete / Connect are text buttons and Close the filled one. Production: Water now bottom edge 483 / 900 and 526 / 844, dialog open → Water now in 108–132 ms.
+- **Prevention:** `PlantList.test.js` asserts the panel precedes the image, the reading is on screen before the device request answers, the photo cap and the button variants; `verification.md` row "The plant dialog leads with the reading".
+- **Reported by:** Phase 5 FIX agent (plantit, round 2)

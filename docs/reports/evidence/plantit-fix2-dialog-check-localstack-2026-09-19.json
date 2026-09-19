@@ -1,0 +1,191 @@
+{
+  "base": "http://localhost:3999",
+  "ranAt": "2026-09-19T21:14:12.342Z",
+  "seeds": [
+    {
+      "f": "monstera-deliciosa-2.jpg",
+      "status": 200,
+      "species": "Monstera deliciosa",
+      "lowConfidence": true,
+      "thumbUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/fix2-dialog/VKijPoW84kizA3eV9Hpi-400.jpg",
+      "thumbHead": 200
+    },
+    {
+      "f": "zamioculcas-zamiifolia.jpg",
+      "status": 200,
+      "species": "Zamioculcas zamiifolia",
+      "lowConfidence": false,
+      "thumbUrl": "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-photos/fix2-dialog/qXyIjbMeYoopEOJhIPdw-400.jpg",
+      "thumbHead": 200
+    }
+  ],
+  "widths": {
+    "desktop": {
+      "cards": [
+        {
+          "img": {
+            "src": "IPdw-400.jpg",
+            "fetchpriority": "high",
+            "loading": "eager",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 300
+          },
+          "reading": "28% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]"
+          ]
+        },
+        {
+          "img": {
+            "src": "9Hpi-400.jpg",
+            "fetchpriority": null,
+            "loading": "lazy",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 400
+          },
+          "reading": "45% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]",
+            "Low confidence [warning]"
+          ]
+        }
+      ],
+      "scrollWidth": 1440,
+      "dialogOpenMs": 125,
+      "dialog": {
+        "viewportH": 900,
+        "img": {
+          "top": 512,
+          "bottom": 512,
+          "height": 0
+        },
+        "sensorPanel": {
+          "top": 168,
+          "bottom": 496,
+          "height": 327
+        },
+        "waterNow": {
+          "top": 418,
+          "bottom": 463,
+          "height": 45
+        },
+        "waterNowVisibleWithoutScroll": true,
+        "panelBeforeImg": true,
+        "titleChips": [
+          "Simulated sensor"
+        ],
+        "panelText": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after",
+        "actions": [
+          "Delete plant [text]",
+          "Connect ESP8266 (hardware required) [text]",
+          "Close [contained]"
+        ]
+      },
+      "dialogAfterLoad": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 day",
+      "water": {
+        "status": 200,
+        "mode": "simulated"
+      },
+      "cardReadingAfterWater": "28% soil water · moist enough",
+      "errors": []
+    },
+    "phone": {
+      "cards": [
+        {
+          "img": {
+            "src": "IPdw-400.jpg",
+            "fetchpriority": "high",
+            "loading": "eager",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 300
+          },
+          "reading": "28% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]"
+          ]
+        },
+        {
+          "img": {
+            "src": "9Hpi-400.jpg",
+            "fetchpriority": null,
+            "loading": "lazy",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 400
+          },
+          "reading": "45% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]",
+            "Low confidence [warning]"
+          ]
+        }
+      ],
+      "scrollWidth": 390,
+      "dialogOpenMs": 101,
+      "dialog": {
+        "viewportH": 844,
+        "img": {
+          "top": 607,
+          "bottom": 787,
+          "height": 180
+        },
+        "sensorPanel": {
+          "top": 172,
+          "bottom": 591,
+          "height": 419
+        },
+        "waterNow": {
+          "top": 514,
+          "bottom": 558,
+          "height": 45
+        },
+        "waterNowVisibleWithoutScroll": true,
+        "panelBeforeImg": true,
+        "titleChips": [
+          "Simulated sensor"
+        ],
+        "panelText": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after",
+        "actions": [
+          "Delete plant [text]",
+          "Connect ESP8266 (hardware required) [text]",
+          "Close [contained]"
+        ]
+      },
+      "dialogAfterLoad": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 day",
+      "water": {
+        "status": 200,
+        "mode": "simulated"
+      },
+      "cardReadingAfterWater": "28% soil water · moist enough",
+      "errors": []
+    }
+  },
+  "listReadings": [
+    {
+      "species": "Zamioculcas zamiifolia",
+      "thumbUrl": true,
+      "reading": {
+        "currentVWC": 28,
+        "needsWater": false,
+        "wateringThreshold": 8
+      }
+    },
+    {
+      "species": "Monstera deliciosa",
+      "thumbUrl": true,
+      "reading": {
+        "currentVWC": 45,
+        "needsWater": false,
+        "wateringThreshold": 20
+      }
+    }
+  ],
+  "deleted": 2
+}

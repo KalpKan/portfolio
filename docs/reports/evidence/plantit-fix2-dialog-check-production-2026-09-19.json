@@ -1,0 +1,211 @@
+{
+  "base": "https://plantit.kalpkan.com",
+  "ranAt": "2026-09-19T21:19:20.829Z",
+  "seeds": [],
+  "widths": {
+    "desktop": {
+      "cards": [
+        {
+          "img": {
+            "src": "nRIj-400.jpg",
+            "fetchpriority": "high",
+            "loading": "eager",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 400
+          },
+          "reading": "25% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]"
+          ]
+        },
+        {
+          "img": {
+            "src": "h0an-400.jpg",
+            "fetchpriority": null,
+            "loading": "lazy",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 180
+          },
+          "reading": "45% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]"
+          ]
+        },
+        {
+          "img": {
+            "src": "U2KK-400.jpg",
+            "fetchpriority": null,
+            "loading": "lazy",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 225
+          },
+          "reading": "45% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]"
+          ]
+        }
+      ],
+      "scrollWidth": 1440,
+      "dialogOpenMs": 132,
+      "dialog": {
+        "viewportH": 900,
+        "img": {
+          "top": 532,
+          "bottom": 532,
+          "height": 0
+        },
+        "sensorPanel": {
+          "top": 189,
+          "bottom": 516,
+          "height": 327
+        },
+        "waterNow": {
+          "top": 438,
+          "bottom": 483,
+          "height": 45
+        },
+        "waterNowVisibleWithoutScroll": true,
+        "panelBeforeImg": true,
+        "titleChips": [
+          "Simulated sensor"
+        ],
+        "panelText": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after",
+        "actions": [
+          "Delete plant [text]",
+          "Connect ESP8266 (hardware required) [text]",
+          "Close [contained]"
+        ]
+      },
+      "dialogAfterLoad": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 day",
+      "water": {
+        "status": 200,
+        "mode": "simulated"
+      },
+      "cardReadingAfterWater": "25% soil water · moist enough",
+      "errors": []
+    },
+    "phone": {
+      "cards": [
+        {
+          "img": {
+            "src": "nRIj-400.jpg",
+            "fetchpriority": "high",
+            "loading": "eager",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 400
+          },
+          "reading": "25% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]"
+          ]
+        },
+        {
+          "img": {
+            "src": "h0an-400.jpg",
+            "fetchpriority": null,
+            "loading": "lazy",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 180
+          },
+          "reading": "45% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]"
+          ]
+        },
+        {
+          "img": {
+            "src": "U2KK-400.jpg",
+            "fetchpriority": null,
+            "loading": "lazy",
+            "width": "400",
+            "height": "200",
+            "complete": true,
+            "naturalWidth": 225
+          },
+          "reading": "45% soil water · moist enough",
+          "chips": [
+            "Simulated sensor [default]"
+          ]
+        }
+      ],
+      "scrollWidth": 390,
+      "dialogOpenMs": 108,
+      "dialog": {
+        "viewportH": 844,
+        "img": {
+          "top": 575,
+          "bottom": 755,
+          "height": 180
+        },
+        "sensorPanel": {
+          "top": 140,
+          "bottom": 559,
+          "height": 419
+        },
+        "waterNow": {
+          "top": 482,
+          "bottom": 526,
+          "height": 45
+        },
+        "waterNowVisibleWithoutScroll": true,
+        "panelBeforeImg": true,
+        "titleChips": [
+          "Simulated sensor"
+        ],
+        "panelText": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after",
+        "actions": [
+          "Delete plant [text]",
+          "Connect ESP8266 (hardware required) [text]",
+          "Close [contained]"
+        ]
+      },
+      "dialogAfterLoad": "Soil moisture\nSimulated sensor\nNo ESP8266 has reported for this plant, so the reading is simulated: it starts full after watering and dries out over about 3 day",
+      "water": {
+        "status": 200,
+        "mode": "simulated"
+      },
+      "cardReadingAfterWater": "25% soil water · moist enough",
+      "errors": []
+    }
+  },
+  "listReadings": [
+    {
+      "species": "Aloe vera",
+      "thumbUrl": true,
+      "reading": {
+        "currentVWC": 25,
+        "needsWater": false,
+        "wateringThreshold": 8
+      }
+    },
+    {
+      "species": "Ficus lyrata",
+      "thumbUrl": true,
+      "reading": {
+        "currentVWC": 45,
+        "needsWater": false,
+        "wateringThreshold": 20
+      }
+    },
+    {
+      "species": "Monstera deliciosa",
+      "thumbUrl": true,
+      "reading": {
+        "currentVWC": 45,
+        "needsWater": false,
+        "wateringThreshold": 20
+      }
+    }
+  ],
+  "deleted": 3
+}

@@ -1,0 +1,21 @@
+API https://plantit.kalpkan.com: health 200 identification=plantnet care=bundled plantnet today=40
+PARTIAL RUN (--only mug,dracaena,zamioculcas,monstera): 8 of 18 fixtures; the bars below are scaled to this subset.
+monstera-deliciosa.jpg       200  2039 ms  Monstera deliciosa            86%       t20 genus species top3 care 
+monstera-deliciosa-2.jpg     200  4427 ms  Monstera deliciosa            10%       t20 genus species top3 care lowconf
+dracaena-trifasciata.jpg     200  1722 ms  Dracaena trifasciata          39%        t8 genus species top3 care 
+dracaena-trifasciata-2.jpg   200  1416 ms  Dracaena trifasciata          49%        t8 genus species top3 care 
+zamioculcas-zamiifolia.jpg   200  1514 ms  Zamioculcas zamiifolia        42%        t8 genus species top3 care 
+not-a-plant-mug.jpg          422   748 ms  This does not look like a plant. Try a closer photo of the leaves or flowers, in good light.                ok
+too-small.jpg                400    92 ms  That image is too small to identify (minimum 10 KB)                ok
+not-an-image.txt             400    67 ms  Only image files are accepted                ok
+
+Bars:
+  PASS  genus top-1 >= 5/5: 5/5
+  PASS  species top-1 >= 3/5: 5/5
+  PASS  species in top-3 >= 5/5: 5/5
+  PASS  every identify < 10 s: 8/8
+  PASS  negatives refused, nothing saved: 3/3
+  PASS  care guide inside the species careBar (dry-out / moist): 5/5
+  PASS  lowConfidence flag == (score < 0.3): 5/5
+Results written to /tmp/plantit-corpus-1789852687534.json
+Deleted 5 plant(s) created by this run (uid corpus-test).
