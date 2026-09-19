@@ -1960,3 +1960,93 @@ _Entries begin below, oldest first._
 - **Fix (for the FIX agent):** debounce on a "problem present" state with hysteresis (hold 700 ms after the last raise, clear after 700 ms of continuous clean frames), treat invisible eye/ear landmarks as head-out, skip `tracker.push` while a hint is up and say "paused".
 - **Prevention:** `verification.md` row "Placement hints appear within 1 s" with the canvas-text timeline harness `docs/reports/evidence/pushups-r2-ux-checks.mjs` (`cropped-right` must show a hint < 1 s and `total 0`).
 - **Reported by:** Phase 5 TEST agent (pushups, round 2)
+
+### 2026-09-19: plato dates a Registrar-scheduled final on the first day of the exam period when a schedule row or a "Dec. 11-22" range sits next to it (Phase 5 TEST agent, plato round 3; report D21, blocker)
+
+- **Date:** 2026-09-19 (live `d162e7b`; found on a **randomly** drawn ground-truth file, Biol 3415G, and on the unlabelled MOS 2242A by scanning all 42 parses)
+- **Affected:** `src/outline/assessments.py:385-411` (`_enrich_from_schedule` overwrites `registrar`/`range`/`tba` results; only "TBA/TBD" rows are excluded, not "registrar"/"exam period"), `src/outline/dates.py:271-286` ("Dec. 11-22, 2025" yields a date, so `exam_mention and not dates` is false and the row becomes `exact` Dec 11); the scorer's `no_fabricated` tolerates any date inside the exam window, so the gate said 57/57
+- **Symptom:** review page "Final Exam · 40.0% · Apr 07, 2025" with no badge and no reason; live `.ics` `Biol 3415G: Final Exam due 20250407T235900` plus a study event; MOS 2242A "Exam 3 · Dec 11, 2025". Two of 42 live calendars carry an invented final-exam date, the one thing story 4 forbids.
+- **Root cause:** the week-by-week schedule pass runs after the evaluation-table pass and does not respect an already-undated status; a day range is parsed as its first day.
+- **Fix (for the FIX agent):** skip items already `registrar`/`range`/`tba` in `_enrich_from_schedule`, exclude schedule rows mentioning registrar/exam period, parse "<Month> d-d" as a window, and make `no_fabricated` count any date on a `registrar` item as fabricated.
+- **Prevention:** `verification.md` row "No invented Registrar / exam-period dates in the parser (D21)" (whole-corpus scan, expect no output) and the live corpus + ground-truth cross-check row.
+- **Reported by:** Phase 5 TEST agent (plato, round 3)
+
+### 2026-09-19: plato offers a two-day lecture as two alternative "sections"; the default "Select a section" passes `required` and the download has no lecture at all (Phase 5 TEST agent, plato round 3; report D22, major)
+
+- **Date:** 2026-09-19 (live `d162e7b`, real Chrome on Biol 3415G; CS 2209A and CS 4411 identical)
+- **Affected:** `src/outline/schedule.py` (one `SectionOption` per day/time pair, `section_id=''`), `templates/review.html:117-147` (`<option value="none">` selected; `required` only blocks an empty value; preselect only when `loop.length == 1`), `src/app.py` `/review` POST (one lecture section); the scorer's slot matching counts both pairs as found
+- **Symptom:** "Mon 10:30–11:30" and "Wed 9:30–11:30" as a picker; a visitor who downloads without touching it gets 12 VEVENTs and 0 RRULE; picking one gives half the lectures.
+- **Root cause:** no notion of "one section with several meetings" between the parser and the template.
+- **Fix (for the FIX agent):** group slots without section ids into one preselected section with several meetings, emit one series per meeting, make the empty option `value=""`.
+- **Prevention:** `verification.md` row "Two-day course: both weekly meetings in the default download (D22)"; extend the corpus scorer to check the default download, not only the extractor.
+- **Reported by:** Phase 5 TEST agent (plato, round 3)
+
+### 2026-09-19: plato resolves a "day of lab" rule at upload time to the first lab when the outline prints the lab slot; the review page promises one event per lab, the `.ics` has one at 11:30 and Term 2's in Term 1 (Phase 5 TEST agent, plato round 3; report D23, major)
+
+- **Date:** 2026-09-19 (live `d162e7b`, ANATCELL 3309)
+- **Affected:** `src/app.py:603` (`RuleResolver.resolve_rules` at upload with `all_sections()`), `src/rule_resolver.py:88-98` (first occurrence stored "as placeholder"), `src/app.py:204` (`expand_rule_assessments` skips rows with a `due_datetime`), `src/app.py:182` (`_STATED_TOTAL` matches "1 Lab" in "Term 1 Lab Assignments" → cap 1), `_parse_rule_offset` ("Day of lab at 11:59pm" → offset 0 = lab start time)
+- **Symptom:** "Term 1 Lab Assignments · Sep 08, 2025 11:30 AM · Relative rule: … One due event per lab is generated from your lab slot" and the same date for Term 2; download: one event each on 2025-09-08T11:30.
+- **Root cause:** the FIX r2 expansion only runs for rows that still have no date; a printed lab slot lets the legacy resolver date them first.
+- **Fix (for the FIX agent):** drop the upload-time `resolve_rules`, tighten `_STATED_TOTAL`, read the rule's own time, clip "Term 2" rows to the second half of a full-year term.
+- **Prevention:** `verification.md` row "Printed lab slot + 'day of lab' rule → one event per lab (D23)".
+- **Reported by:** Phase 5 TEST agent (plato, round 3)
+
+### 2026-09-19: plato misses test dates that live only in prose ("held on October 2nd, 2025 and October 30th, 2025") and lets a table's Format column into titles ("Test 1 mixed"); pooled `clean_titles` 94.96 % fails the 24-file gate (Phase 5 TEST agent, plato round 3; report D24, major; D25 term header, minor)
+
+- **Date:** 2026-09-19 (random ground truth: MSE 2214, MICROIMM 3300B)
+- **Affected:** `src/outline/assessments.py:415` `_enrich_from_prose` (keys on the exact title; a plural two-date sentence matches nothing), the table reader (cells before the weight concatenated into the title), the reason line (missing on MSE 2214's undated rows), `src/outline/term.py` ("Fall/Winter 2025" → Sep 4 – Apr 9 for a one-term course; ECE 2240A with the same header is Fall 2025 because of its "A" suffix)
+- **Symptom:** MSE 2214 Term Test 1/2 "Needs a date" with no reason and 0 events; "Test 1 mixed" ×4; MSE 2214 exam-period note says "Apr 12 – Apr 30, 2026" for a December exam.
+- **Root cause:** prose enrichment is per-title and singular; table title = all non-weight cells; Fall/Winter collapse depends on the code suffix.
+- **Fix (for the FIX agent):** assign "tests … held on A and B" to Test 1/2 in order with the stated time; drop Format/Type/Mode columns from titles; print a reason on every undated row; collapse "Fall/Winter" to one term when every dated item sits in it.
+- **Prevention:** `verification.md` row "Prose test dates + Format column (D24)"; the six random ground-truth files stay in the gate.
+- **Reported by:** Phase 5 TEST agent (plato, round 3)
+
+### 2026-09-19: emotes, a clear flex plays Thumbs Up through the real pipeline and the gate was widened to accept it (Phase 5 TEST agent, emotes round 3; report D1, major)
+
+- **Date:** 2026-09-19 (live `10c2bae` = FIX round 2, fake camera at 1000 and 390 px)
+- **Affected:** `src/gestures/engine.ts:102` (`THUMB_ON_ARM_MS` only applies once the pose model's `bend`/`beside`/`level` cues are all ≥ 0.5), `engine.ts:131` (`resolveConflicts` drops a flex under 0.9 × the thumbs-up), `src/gestures/thumbsUp.ts:71` (`up` cue is satisfied by any fist curled towards the shoulder), `scripts/build_e2e_clips.py:33` + `tests/video.test.ts` (`accept: ["thumbs_up"]` on the `flex09x3` reel)
+- **Symptom:** `flex-09` (labelled `ok` / `flex`, a boy flexing one arm with the knuckles up) plays **Thumbs Up** 3/3 at 1000 px and 2/3 at 390 px on the live site, and the harness prints PASS because FIX round 2 made the reel's ground truth accept either emote and the README calls it "one limit, on purpose".
+- **Root cause:** the VIDEO-mode cue trace (`docs/reports/evidence/emotes-r3-flex09-video-cues-2026-09-19.txt`) shows the hand model at `folded 1.0 up 1.0 upright 1.0 clear 1.0` from the first frame after the cut while the pose model reports `bend 0.0 height 0.0` for 300 ms; the smoothed thumbs-up crosses 0.5 at +100 ms and fires at +200 ms, the flex becomes active at +1000 ms and takes the hold over silently.
+- **Fix (for the FIX agent):** delay a thumbs-up whenever the same hand's wrist is above its shoulder in the pose (stable from the first frame), let a flex that becomes active within ~600 ms of a thumbs-up that fired on a raised arm play its own emote, then remove the `accept` so the gate measures what the visitor sees.
+- **Prevention:** a ground-truth `accept` that names a *different* gesture for a clear positive is a red flag in review; the verification row "Flex whose fist reads as a thumbs-up" below expects Goblin Muscle ×3.
+- **Reported by:** Phase 5 TEST agent (emotes, round 3)
+
+### 2026-09-19: emotes, two clear positives miss the 1 s bar on video (flex-12 at 1.5 s, yawn-17 never) and the held-out yawn recall is still 63–75 % (Phase 5 TEST agent, emotes round 3; report D2, D3, D4, minors)
+
+- **Date:** 2026-09-19 (local production build of `10c2bae`, GPU; held-out sets re-extracted from the Desktop photos)
+- **Affected:** `src/gestures/flex.ts:66-79` (`level` / `beside` bands settle slowly on a back view), `src/gestures/face.ts:126-142` (`EYES_OPEN = 0.14`, `BROWS_DOWN = 0.10`, the `eyes / 0.6` cap)
+- **Symptom:** new reels: `flex-both` fires flex-12 (back view, double biceps) 1,525 ms after onset (bar ≤ 1000 max); `yawn-more` fires 5 of 6 yawns and never yawn-17 (brow lift 0.109 against the 0.10–0.125 ramp); mirror / portrait / far landmark sets give yawn recall 5/8, 6/8, 5/8 with precision 100 % and 0 negatives fired, unchanged since round 2 because the rules were not touched in FIX round 2.
+- **Root cause:** cue ramps tuned on the 95 IMAGE-mode originals; VIDEO mode and small or flipped faces sit a little under them.
+- **Fix (for the FIX agent):** lower `BROWS_DOWN` to 0.095 or weight `brows` less when `mouth ≥ 0.9`; relax the eyes cap when the mouth is very open; add flex-11/12 and yawn-17 VIDEO-mode reels to `tests/fixtures/video/`; commit the variant landmark sets as a held-out gate.
+- **Prevention:** the verification rows "Round-3 reels" and "Held-out landmark sets" carry the expected numbers.
+- **Reported by:** Phase 5 TEST agent (emotes, round 3)
+
+### 2026-09-19: emotes, the same gesture repeated with a 0.6 s rest merges into one hold (Phase 5 TEST agent, emotes round 3; report D5, minor)
+
+- **Date:** 2026-09-19 (local production build of `10c2bae`)
+- **Affected:** `src/gestures/engine.ts:87-89` (`SMOOTH_MS = 200`, `OFF_MS = 500`)
+- **Symptom:** `quick-thumb` (1.5 s holds, 0.6 s rests, ×3) fires Thumbs Up once, `quick-flex` twice, `quick-yawn` three times; the spec's 1.2–1.5 s rests fire 3/3 live at both widths.
+- **Root cause:** after the hand drops the smoothed score needs ~210 ms to fall under 0.35, so a 600 ms rest leaves ~390 ms of "gone", short of the 500 ms release; the next hold is the same hold and produces no edge.
+- **Fix (for the FIX agent):** drain `gone` from the raw score when it is exactly 0 (no hand), or lower `OFF_MS` for thumbs-up / flex; add a 0.6 s-rest repeat clip to `tests/clips.test.ts`; if the rest stays, say the minimum rest in the page's note.
+- **Prevention:** the round-3 `quick-*` reels in the verification table.
+- **Reported by:** Phase 5 TEST agent (emotes, round 3)
+
+### 2026-09-19: emotes, one fake-camera run in six lost its last two passes with no wrong emote and no attributable cause; the repo harness records no frame times (Phase 5 TEST agent, emotes round 3; report D8, minor)
+
+- **Date:** 2026-09-19 (live, `tu04x4` at 390 px, run 1 of 3 in the batch)
+- **Affected:** `scripts/e2e-camera.mjs` (judge only; no fps or `<video>.currentTime` log)
+- **Symptom:** `Thumbs Up@2573 Thumbs Up@6740` then nothing for the passes at 11,000 and 15,500 ms; the next five runs at 390 px (two in the batch, three with the round-3 harness logging 18.8–19.7 fps and max frame gaps ≤ 100 ms) fired 4/4.
+- **Root cause:** not established. Round 2 saw Chrome's fake device freeze on its first frame once (`incidents.md`); the page's loop stalling is the other candidate.
+- **Fix (for the FIX agent):** make the harness record the pipeline's frame times (a MutationObserver on a meter value, as `docs/reports/evidence/emotes-r3-e2e-harness.mjs` does) and the video's `currentTime` once a second, and print both on FAIL.
+- **Prevention:** always run a flaky reel three times before calling it; the round-3 harness is the one to use for latency questions.
+- **Reported by:** Phase 5 TEST agent (emotes, round 3)
+
+### 2026-09-19: claude-in-chrome pass on emotes degraded again: hidden tab throttles the demo to 1 Hz and `resize_window` did not change the viewport (Phase 5 TEST agent, emotes round 3)
+
+- **Date:** 2026-09-19
+- **Affected:** the claude-in-chrome tab group shared with other agents' tabs (Plato, Plant It)
+- **Symptom:** the new tab had `document.visibilityState === "hidden"`; the demo's `setTimeout` chain ran once a second so the first emote took 42 s; `resize_window` to 1280×900 and 390×844 reported success but `innerWidth` stayed 606 / screenshot frame 1082 px; a 17 s `javascript_tool` evaluation timed out ("renderer may be frozen"). Console had no site errors and the network showed only `emotes.kalpkan.com`.
+- **Root cause:** several agents drive one Chrome; a background tab is throttled by Chrome, not by the site.
+- **Fix:** the layout / theme / console / network / demo pass was done in headless real Chrome (`emotes-r2-ux-puppeteer.mjs`, `emotes-r2-net-puppeteer.mjs`) instead; the claude-in-chrome results are reported as degraded in the report.
+- **Prevention:** when the session shares Chrome with other agents, use headless Chrome for anything timed and keep claude-in-chrome for console / network reads; a hidden tab is detectable with `document.visibilityState` before drawing conclusions.
+- **Reported by:** Phase 5 TEST agent (emotes, round 3)

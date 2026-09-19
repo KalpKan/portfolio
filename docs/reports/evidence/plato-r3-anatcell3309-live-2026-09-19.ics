@@ -1,0 +1,206 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Plato course outline converter//kalpkan.com//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:ANATCELL 3309 Fall 2025
+X-WR-TIMEZONE:America/Toronto
+BEGIN:VTIMEZONE
+TZID:America/Toronto
+COMMENT:This timezone only works from 2024-01-01 00:00:00 to 2027-12-31 00
+ :00:00.
+BEGIN:STANDARD
+DTSTART:20240101T000000
+TZNAME:EST
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0500
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20240310T030000
+RDATE:20250309T030000,20260308T030000,20270314T030000
+TZNAME:EDT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+END:DAYLIGHT
+BEGIN:STANDARD
+DTSTART:20241103T020000
+RDATE:20251102T020000,20261101T020000,20271107T020000
+TZNAME:EST
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309 Lecture
+DTSTART;TZID=America/Toronto:20250909T113000
+DTEND;TZID=America/Toronto:20250909T123000
+DTSTAMP:20260919T220143Z
+UID:24749b18-490f-407b-8405-3e055cfee3ab@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20260410T035959Z;BYDAY=TU
+DESCRIPTION:Lecture\, weekly from Sep 4 to Apr 9\, 2026
+LOCATION:SEB-2200
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309 Lecture
+DTSTART;TZID=America/Toronto:20250904T113000
+DTEND;TZID=America/Toronto:20250904T123000
+DTSTAMP:20260919T220143Z
+UID:0b493e85-f3a3-4a01-a183-0e2e8adfe9ab@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20260410T035959Z;BYDAY=TH
+DESCRIPTION:Lecture\, weekly from Sep 4 to Apr 9\, 2026
+LOCATION:SEB-2200
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309 Lab (002)
+DTSTART;TZID=America/Toronto:20250908T113000
+DTEND;TZID=America/Toronto:20250908T132000
+DTSTAMP:20260919T220143Z
+UID:5137b0a2-31a4-4805-b9cc-dd797a7cc3bb@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20260410T035959Z;BYDAY=MO
+DESCRIPTION:Lab section 002\, weekly from Sep 4 to Apr 9\, 2026
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309: Quizzes (1 of 7) due
+DTSTART;TZID=America/Toronto:20251006T235900
+DTEND;TZID=America/Toronto:20251007T002900
+DTSTAMP:20260919T220143Z
+UID:7a01b0d8-e0f6-405c-9015-49226b62b340@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 30%\n7 dates listed in the outline (Oc
+ t 6 – Apr 9\, 2026)\nOutline says: Quizzes | In-Lab via Owl | 30% (5% ea
+ ch) | Quiz 1 Oct 6th Quiz 2 Nov 10th Quiz 3 Dec 8th Quiz 4 Jan 26th Quiz 5
+  Feb 23rd Quiz 6 Mar 22nd Quiz 7 April 9th | Drop lowest 1 Quiz 7 will be 
+ held during the lecture hour and delivered online via Owl.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309: Quizzes (2 of 7) due
+DTSTART;TZID=America/Toronto:20251110T235900
+DTEND;TZID=America/Toronto:20251111T002900
+DTSTAMP:20260919T220143Z
+UID:faefaca7-feaf-42e3-8c15-7b81f9e6fa58@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 30%\n7 dates listed in the outline (Oc
+ t 6 – Apr 9\, 2026)\nOutline says: Quizzes | In-Lab via Owl | 30% (5% ea
+ ch) | Quiz 1 Oct 6th Quiz 2 Nov 10th Quiz 3 Dec 8th Quiz 4 Jan 26th Quiz 5
+  Feb 23rd Quiz 6 Mar 22nd Quiz 7 April 9th | Drop lowest 1 Quiz 7 will be 
+ held during the lecture hour and delivered online via Owl.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309: Quizzes (3 of 7) due
+DTSTART;TZID=America/Toronto:20251208T235900
+DTEND;TZID=America/Toronto:20251209T002900
+DTSTAMP:20260919T220143Z
+UID:4f4f8381-15c1-4065-a440-1e54f2af584c@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 30%\n7 dates listed in the outline (Oc
+ t 6 – Apr 9\, 2026)\nOutline says: Quizzes | In-Lab via Owl | 30% (5% ea
+ ch) | Quiz 1 Oct 6th Quiz 2 Nov 10th Quiz 3 Dec 8th Quiz 4 Jan 26th Quiz 5
+  Feb 23rd Quiz 6 Mar 22nd Quiz 7 April 9th | Drop lowest 1 Quiz 7 will be 
+ held during the lecture hour and delivered online via Owl.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309: Quizzes (4 of 7) due
+DTSTART;TZID=America/Toronto:20260126T235900
+DTEND;TZID=America/Toronto:20260127T002900
+DTSTAMP:20260919T220143Z
+UID:d28f3845-8d8f-42fb-a907-612fc7438518@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 30%\n7 dates listed in the outline (Oc
+ t 6 – Apr 9\, 2026)\nOutline says: Quizzes | In-Lab via Owl | 30% (5% ea
+ ch) | Quiz 1 Oct 6th Quiz 2 Nov 10th Quiz 3 Dec 8th Quiz 4 Jan 26th Quiz 5
+  Feb 23rd Quiz 6 Mar 22nd Quiz 7 April 9th | Drop lowest 1 Quiz 7 will be 
+ held during the lecture hour and delivered online via Owl.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309: Quizzes (5 of 7) due
+DTSTART;TZID=America/Toronto:20260223T235900
+DTEND;TZID=America/Toronto:20260224T002900
+DTSTAMP:20260919T220143Z
+UID:0f76296b-74d4-4644-a196-f70e9b23eeaf@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 30%\n7 dates listed in the outline (Oc
+ t 6 – Apr 9\, 2026)\nOutline says: Quizzes | In-Lab via Owl | 30% (5% ea
+ ch) | Quiz 1 Oct 6th Quiz 2 Nov 10th Quiz 3 Dec 8th Quiz 4 Jan 26th Quiz 5
+  Feb 23rd Quiz 6 Mar 22nd Quiz 7 April 9th | Drop lowest 1 Quiz 7 will be 
+ held during the lecture hour and delivered online via Owl.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309: Quizzes (6 of 7) due
+DTSTART;TZID=America/Toronto:20260322T235900
+DTEND;TZID=America/Toronto:20260323T002900
+DTSTAMP:20260919T220143Z
+UID:3b1d31b4-0b4c-4f30-b77f-42ae1c933333@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 30%\n7 dates listed in the outline (Oc
+ t 6 – Apr 9\, 2026)\nOutline says: Quizzes | In-Lab via Owl | 30% (5% ea
+ ch) | Quiz 1 Oct 6th Quiz 2 Nov 10th Quiz 3 Dec 8th Quiz 4 Jan 26th Quiz 5
+  Feb 23rd Quiz 6 Mar 22nd Quiz 7 April 9th | Drop lowest 1 Quiz 7 will be 
+ held during the lecture hour and delivered online via Owl.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309: Quizzes (7 of 7) due
+DTSTART;TZID=America/Toronto:20260409T235900
+DTEND;TZID=America/Toronto:20260410T002900
+DTSTAMP:20260919T220143Z
+UID:39d8788a-056c-460f-ad45-56e54909e913@plato.kalpkan.com
+DESCRIPTION:Quizzes (quiz)\nWeight: 30%\n7 dates listed in the outline (Oc
+ t 6 – Apr 9\, 2026)\nOutline says: Quizzes | In-Lab via Owl | 30% (5% ea
+ ch) | Quiz 1 Oct 6th Quiz 2 Nov 10th Quiz 3 Dec 8th Quiz 4 Jan 26th Quiz 5
+  Feb 23rd Quiz 6 Mar 22nd Quiz 7 April 9th | Drop lowest 1 Quiz 7 will be 
+ held during the lecture hour and delivered online via Owl.
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309: Term 1 Lab Assignments due
+DTSTART;TZID=America/Toronto:20250908T113000
+DTEND;TZID=America/Toronto:20250908T113100
+DTSTAMP:20260919T220143Z
+UID:59b8db58-310d-4d02-b457-64bc5fa8c3e0@plato.kalpkan.com
+DESCRIPTION:Term 1 Lab Assignments (lab_report)\nWeight: 10%\nRelative rul
+ e: Day of lab at 11:59pm. One due event per lab is generated from your lab
+  slot.\nOutline says: Term 1 Lab Assignments | Online via Gradescope | 10%
+  | Day of lab at 11:59pm | 24-hour no late penalty
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309: Term 2 Lab Assignments due
+DTSTART;TZID=America/Toronto:20250908T113000
+DTEND;TZID=America/Toronto:20250908T113100
+DTSTAMP:20260919T220143Z
+UID:e53b96ed-2c85-419d-a36b-51fa1db44a8e@plato.kalpkan.com
+DESCRIPTION:Term 2 Lab Assignments (lab_report)\nWeight: 10%\nRelative rul
+ e: Day of lab at 11:59pm. One due event per lab is generated from your lab
+  slot.\nOutline says: Term 2 Lab Assignments | Online via Gradescope | 10%
+  | Day of lab at 11:59pm | 24-hour no late penalty
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309 start: Quizzes
+DTSTART;TZID=America/Toronto:20250915T235900
+DTEND;TZID=America/Toronto:20250916T005900
+DTSTAMP:20260919T220143Z
+UID:720eef83-cc75-45b7-8c0f-ca243a2d7fbb@plato.kalpkan.com
+DESCRIPTION:Start studying for: Quizzes\nDue: 2025-10-06 23:59
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309 start: Term 1 Lab Assignments
+DTSTART;TZID=America/Toronto:20250901T113000
+DTEND;TZID=America/Toronto:20250901T123000
+DTSTAMP:20260919T220143Z
+UID:447f1233-fa22-4fa2-8725-c1705899972d@plato.kalpkan.com
+DESCRIPTION:Start studying for: Term 1 Lab Assignments\nDue: 2025-09-08 11
+ :30
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ANATCELL 3309 start: Term 2 Lab Assignments
+DTSTART;TZID=America/Toronto:20250901T113000
+DTEND;TZID=America/Toronto:20250901T123000
+DTSTAMP:20260919T220143Z
+UID:2489160c-087b-47da-a438-b74d85d1ccbf@plato.kalpkan.com
+DESCRIPTION:Start studying for: Term 2 Lab Assignments\nDue: 2025-09-08 11
+ :30
+PRIORITY:3
+END:VEVENT
+END:VCALENDAR

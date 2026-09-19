@@ -1,0 +1,170 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Plato course outline converter//kalpkan.com//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:ECE 2240A Fall 2025
+X-WR-TIMEZONE:America/Toronto
+BEGIN:VTIMEZONE
+TZID:America/Toronto
+COMMENT:This timezone only works from 2024-01-01 00:00:00 to 2026-12-31 00
+ :00:00.
+BEGIN:STANDARD
+DTSTART:20240101T000000
+TZNAME:EST
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0500
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20240310T030000
+RDATE:20250309T030000,20260308T030000
+TZNAME:EDT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+END:DAYLIGHT
+BEGIN:STANDARD
+DTSTART:20241103T020000
+RDATE:20251102T020000,20261101T020000
+TZNAME:EST
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+SUMMARY:ECE 2240A Lecture
+DTSTART;TZID=America/Toronto:20250905T133000
+DTEND;TZID=America/Toronto:20250905T143000
+DTSTAMP:20260919T220930Z
+UID:4d8e244c-2100-4c23-a88d-21996a9d18f1@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20251210T045959Z;BYDAY=FR
+DESCRIPTION:Lecture\, weekly from Sep 4 to Dec 9\, 2025
+LOCATION:HSB-236
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A Lab
+DTSTART;TZID=America/Toronto:20250908T143000
+DTEND;TZID=America/Toronto:20250908T173000
+DTSTAMP:20260919T220930Z
+UID:bf9b899e-722d-4199-9b59-b113ccbf1fdf@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20251210T045959Z;BYDAY=MO
+DESCRIPTION:Lab\, weekly from Sep 4 to Dec 9\, 2025
+LOCATION:TEB-1
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A Tutorial
+DTSTART;TZID=America/Toronto:20250905T123000
+DTEND;TZID=America/Toronto:20250905T133000
+DTSTAMP:20260919T220930Z
+UID:51be20ab-34df-478f-99a8-3f2b7f6d1cdc@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20251210T045959Z;BYDAY=FR
+DESCRIPTION:Tutorial\, weekly from Sep 4 to Dec 9\, 2025
+LOCATION:UCC-56
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A: Lab report 1 due
+DTSTART;TZID=America/Toronto:20250909T143000
+DTEND;TZID=America/Toronto:20250909T143100
+DTSTAMP:20260919T220930Z
+UID:b171e62f-5a0c-4bc1-a81c-78b9c8b7863f@plato.kalpkan.com
+DESCRIPTION:Lab report 1 (lab_report)\nWeight: 6.25%\nOutline says: Labs (
+ Total = 8) | 50% | Weekly (Sept 16th through Nov.22nd) | Lab Report due 24
+ hrs after each Lab Session | I1\, I2\, I3\, ET1\, ET2
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A: Lab report 2 due
+DTSTART;TZID=America/Toronto:20250916T143000
+DTEND;TZID=America/Toronto:20250916T143100
+DTSTAMP:20260919T220930Z
+UID:1bc0d267-c3e2-4f8c-9b9c-0177e3ebfa68@plato.kalpkan.com
+DESCRIPTION:Lab report 2 (lab_report)\nWeight: 6.25%\nOutline says: Labs (
+ Total = 8) | 50% | Weekly (Sept 16th through Nov.22nd) | Lab Report due 24
+ hrs after each Lab Session | I1\, I2\, I3\, ET1\, ET2
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A: Lab report 3 due
+DTSTART;TZID=America/Toronto:20250923T143000
+DTEND;TZID=America/Toronto:20250923T143100
+DTSTAMP:20260919T220930Z
+UID:c77136c5-605c-4881-a2da-2337d98d5d11@plato.kalpkan.com
+DESCRIPTION:Lab report 3 (lab_report)\nWeight: 6.25%\nOutline says: Labs (
+ Total = 8) | 50% | Weekly (Sept 16th through Nov.22nd) | Lab Report due 24
+ hrs after each Lab Session | I1\, I2\, I3\, ET1\, ET2
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A: Lab report 4 due
+DTSTART;TZID=America/Toronto:20250930T143000
+DTEND;TZID=America/Toronto:20250930T143100
+DTSTAMP:20260919T220930Z
+UID:e647233f-e56f-4174-852d-6834dcfa24a0@plato.kalpkan.com
+DESCRIPTION:Lab report 4 (lab_report)\nWeight: 6.25%\nOutline says: Labs (
+ Total = 8) | 50% | Weekly (Sept 16th through Nov.22nd) | Lab Report due 24
+ hrs after each Lab Session | I1\, I2\, I3\, ET1\, ET2
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A: Lab report 5 due
+DTSTART;TZID=America/Toronto:20251007T143000
+DTEND;TZID=America/Toronto:20251007T143100
+DTSTAMP:20260919T220930Z
+UID:6e9b26d4-e3e3-4e59-bfbe-49feafcf3126@plato.kalpkan.com
+DESCRIPTION:Lab report 5 (lab_report)\nWeight: 6.25%\nOutline says: Labs (
+ Total = 8) | 50% | Weekly (Sept 16th through Nov.22nd) | Lab Report due 24
+ hrs after each Lab Session | I1\, I2\, I3\, ET1\, ET2
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A: Lab report 6 due
+DTSTART;TZID=America/Toronto:20251014T143000
+DTEND;TZID=America/Toronto:20251014T143100
+DTSTAMP:20260919T220930Z
+UID:06e0634e-4858-45e9-9b6a-533e8953f238@plato.kalpkan.com
+DESCRIPTION:Lab report 6 (lab_report)\nWeight: 6.25%\nOutline says: Labs (
+ Total = 8) | 50% | Weekly (Sept 16th through Nov.22nd) | Lab Report due 24
+ hrs after each Lab Session | I1\, I2\, I3\, ET1\, ET2
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A: Lab report 7 due
+DTSTART;TZID=America/Toronto:20251021T143000
+DTEND;TZID=America/Toronto:20251021T143100
+DTSTAMP:20260919T220930Z
+UID:f2fb9974-c0f6-4612-bf91-72bcebf08631@plato.kalpkan.com
+DESCRIPTION:Lab report 7 (lab_report)\nWeight: 6.25%\nOutline says: Labs (
+ Total = 8) | 50% | Weekly (Sept 16th through Nov.22nd) | Lab Report due 24
+ hrs after each Lab Session | I1\, I2\, I3\, ET1\, ET2
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A: Lab report 8 due
+DTSTART;TZID=America/Toronto:20251028T143000
+DTEND;TZID=America/Toronto:20251028T143100
+DTSTAMP:20260919T220930Z
+UID:bccb604a-af21-461f-af98-843294cb50f2@plato.kalpkan.com
+DESCRIPTION:Lab report 8 (lab_report)\nWeight: 6.25%\nOutline says: Labs (
+ Total = 8) | 50% | Weekly (Sept 16th through Nov.22nd) | Lab Report due 24
+ hrs after each Lab Session | I1\, I2\, I3\, ET1\, ET2
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A: PCB Project due
+DTSTART;TZID=America/Toronto:20251129T235900
+DTEND;TZID=America/Toronto:20251130T000000
+DTSTAMP:20260919T220930Z
+UID:19d0cb76-4444-4501-bcd5-3ee8e16d0e61@plato.kalpkan.com
+DESCRIPTION:PCB Project (project)\nWeight: 20%\nOutline says: PCB Project 
+ | 20% | Oct 21st | Nov.29th | ET2\, CS3
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:ECE 2240A start: PCB Project
+DTSTART;TZID=America/Toronto:20251115T235900
+DTEND;TZID=America/Toronto:20251116T005900
+DTSTAMP:20260919T220930Z
+UID:810e7979-0bd1-4d6c-9fc9-f9ea9880cbd5@plato.kalpkan.com
+DESCRIPTION:Start studying for: PCB Project\nDue: 2025-11-29 23:59
+PRIORITY:3
+END:VEVENT
+END:VCALENDAR

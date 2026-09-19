@@ -1,0 +1,127 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Plato course outline converter//kalpkan.com//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Biol 3415G Winter 2025
+X-WR-TIMEZONE:America/Toronto
+BEGIN:VTIMEZONE
+TZID:America/Toronto
+COMMENT:This timezone only works from 2024-01-01 00:00:00 to 2026-12-31 00
+ :00:00.
+BEGIN:STANDARD
+DTSTART:20240101T000000
+TZNAME:EST
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0500
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:20240310T030000
+RDATE:20250309T030000,20260308T030000
+TZNAME:EDT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+END:DAYLIGHT
+BEGIN:STANDARD
+DTSTART:20241103T020000
+RDATE:20251102T020000,20261101T020000
+TZNAME:EST
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+SUMMARY:Biol 3415G Lecture
+DTSTART;TZID=America/Toronto:20250106T103000
+DTEND;TZID=America/Toronto:20250106T113000
+DTSTAMP:20260919T220154Z
+UID:7288df08-4347-42f1-81ef-9f77ea2c2e13@plato.kalpkan.com
+RRULE:FREQ=WEEKLY;UNTIL=20250405T035959Z;BYDAY=MO
+DESCRIPTION:Lecture\, weekly from Jan 6 to Apr 4\, 2025
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biol 3415G: Research Communication Assignment #1 due
+DTSTART;TZID=America/Toronto:20250214T170000
+DTEND;TZID=America/Toronto:20250214T170100
+DTSTAMP:20260919T220154Z
+UID:45de055f-86b1-4d82-9c92-4664d77d4d5e@plato.kalpkan.com
+DESCRIPTION:Research Communication Assignment #1 (assignment)\nWeight: 10%
+ \nOutline says: Research Communication Assignment #1 | 10% | Writing to ex
+ plain and communicate scientific research | Online – Friday February 14t
+ h\, 5pm
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biol 3415G: Midterm due
+DTSTART;TZID=America/Toronto:20250305T093000
+DTEND;TZID=America/Toronto:20250305T100000
+DTSTAMP:20260919T220154Z
+UID:150e2a0b-61fe-401d-af36-84b0774c568f@plato.kalpkan.com
+DESCRIPTION:Midterm (midterm)\nWeight: 25%\nOutline says: Midterm | 25% | 
+ Short and long answer | In class – Wednesday March 5th\, 9:30am (make-up
+  on Wednesday March 12th\, 4:00 pm)
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biol 3415G: Research Communication Assignment #2 due
+DTSTART;TZID=America/Toronto:20250321T170000
+DTEND;TZID=America/Toronto:20250321T170100
+DTSTAMP:20260919T220154Z
+UID:964ec10c-4ac6-4782-bcd1-c086738d909f@plato.kalpkan.com
+DESCRIPTION:Research Communication Assignment #2 (assignment)\nWeight: 15%
+ \nOutline says: Research Communication Assignment #2 | 15% | Writing to ex
+ plain and communicate scientific research | Online – Friday March 21st\,
+  5pm
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biol 3415G: Final Exam due
+DTSTART;TZID=America/Toronto:20250407T235900
+DTEND;TZID=America/Toronto:20250408T002900
+DTSTAMP:20260919T220154Z
+UID:195015f2-4c49-4b38-902d-525661ba5f96@plato.kalpkan.com
+DESCRIPTION:Final Exam (final)\nWeight: 40%\nDate taken from the weekly sc
+ hedule\nOutline says: Final Exam | 40% | Short and long answer Including i
+ nterpretation and communication questions about a pre-assigned research ar
+ ticle | Scheduled by the registrar
+PRIORITY:5
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biol 3415G start: Research Communication Assignment #1
+DTSTART;TZID=America/Toronto:20250207T170000
+DTEND;TZID=America/Toronto:20250207T180000
+DTSTAMP:20260919T220154Z
+UID:e5c9a0e0-1d02-43b9-b6c5-5f860977c6fc@plato.kalpkan.com
+DESCRIPTION:Start studying for: Research Communication Assignment #1\nDue:
+  2025-02-14 17:00
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biol 3415G start: Midterm
+DTSTART;TZID=America/Toronto:20250212T093000
+DTEND;TZID=America/Toronto:20250212T103000
+DTSTAMP:20260919T220154Z
+UID:dfcf5945-7c14-41ab-91ca-0ed008be4f7f@plato.kalpkan.com
+DESCRIPTION:Start studying for: Midterm\nDue: 2025-03-05 09:30
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biol 3415G start: Research Communication Assignment #2
+DTSTART;TZID=America/Toronto:20250307T170000
+DTEND;TZID=America/Toronto:20250307T180000
+DTSTAMP:20260919T220154Z
+UID:629e59f6-82eb-4c84-959a-ce60702daf65@plato.kalpkan.com
+DESCRIPTION:Start studying for: Research Communication Assignment #2\nDue:
+  2025-03-21 17:00
+PRIORITY:3
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Biol 3415G start: Final Exam
+DTSTART;TZID=America/Toronto:20250310T235900
+DTEND;TZID=America/Toronto:20250311T005900
+DTSTAMP:20260919T220154Z
+UID:16e53dca-d3d6-42f7-ae82-92dab9696860@plato.kalpkan.com
+DESCRIPTION:Start studying for: Final Exam\nDue: 2025-04-07 23:59
+PRIORITY:3
+END:VEVENT
+END:VCALENDAR
