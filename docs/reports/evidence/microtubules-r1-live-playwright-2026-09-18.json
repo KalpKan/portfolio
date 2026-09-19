@@ -1,0 +1,167 @@
+{
+  "readyMs": 882,
+  "statusEarly": "Ready. Choose an image or try a sample.",
+  "cls": 0,
+  "loadRequests": [
+    "/",
+    "/assets/index-CtfItMnP.js",
+    "/assets/index-BYqMXDua.css",
+    "/ingest/array/phc_xCXynPYRpsuUVEsyWQ7NhQuCXbL6Lt4S7gPBDogPzNkT/config.js",
+    "/opencv.js",
+    "/ingest/static/1.434.2/posthog-recorder.js",
+    "/ingest/static/1.434.2/dead-clicks-autocapture.js"
+  ],
+  "sampleMs": 203,
+  "sampleResult": {
+    "p": "24.83",
+    "t": "36",
+    "px": "1,109 / 4,466"
+  },
+  "sampleRequests": [
+    {
+      "url": "/samples/P1_W1_C1.png",
+      "method": "GET",
+      "post": null
+    }
+  ],
+  "uploadRequests": [],
+  "exif": {
+    "p": "23.98",
+    "dims": "58 × 231 px",
+    "status": "Done: exif-rotated-orientation6.jpg. Pick another image or sample to run again."
+  },
+  "offlineSample": {
+    "p": "23.98",
+    "status": "Could not load the sample: Failed to fetch"
+  },
+  "offlineUpload": {
+    "p": "21.18",
+    "status": "Done: P1_W3_C1.PNG. Pick another image or sample to run again."
+  },
+  "consoleDesktop": [
+    "error: Failed to load resource: net::ERR_INTERNET_DISCONNECTED"
+  ],
+  "accept": [
+    "image/*",
+    "image/*",
+    "environment"
+  ],
+  "afterBadFile": {
+    "status": "Could not analyse that image: The source image could not be decoded.",
+    "resultsHidden": false,
+    "percent": "21.18",
+    "dims": "68 × 47 px",
+    "marked": "results"
+  },
+  "phone360": {
+    "scrollWidth": 360,
+    "clientWidth": 360,
+    "bodyScrollW": 360,
+    "btns": [
+      {
+        "text": "Choose an image",
+        "h": 46,
+        "w": 294
+      },
+      {
+        "text": "Take a photo",
+        "h": 46,
+        "w": 294
+      },
+      {
+        "text": "Untreated",
+        "h": 46,
+        "w": 294
+      },
+      {
+        "text": "Nocodazole 25 µM",
+        "h": 46,
+        "w": 294
+      },
+      {
+        "text": "Taxol control",
+        "h": 46,
+        "w": 294
+      }
+    ],
+    "statusTop": 591,
+    "resultsTop": 0
+  },
+  "phone390": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "bodyScrollW": 390,
+    "btns": [
+      {
+        "text": "Choose an image",
+        "h": 46,
+        "w": 174
+      },
+      {
+        "text": "Take a photo",
+        "h": 46,
+        "w": 140
+      },
+      {
+        "text": "Untreated",
+        "h": 46,
+        "w": 125
+      },
+      {
+        "text": "Nocodazole 25 µM",
+        "h": 46,
+        "w": 190
+      },
+      {
+        "text": "Taxol control",
+        "h": 46,
+        "w": 324
+      }
+    ],
+    "statusTop": 479,
+    "resultsTop": 0
+  },
+  "phone390AfterTap": {
+    "tapMs": 149,
+    "top": 576,
+    "bottom": 641,
+    "innerH": 844,
+    "scrollY": 0,
+    "visible": true,
+    "resultsTop": 557
+  },
+  "phone430": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "bodyScrollW": 430,
+    "btns": [
+      {
+        "text": "Choose an image",
+        "h": 46,
+        "w": 194
+      },
+      {
+        "text": "Take a photo",
+        "h": 46,
+        "w": 160
+      },
+      {
+        "text": "Untreated",
+        "h": 46,
+        "w": 145
+      },
+      {
+        "text": "Nocodazole 25 µM",
+        "h": 46,
+        "w": 210
+      },
+      {
+        "text": "Taxol control",
+        "h": 46,
+        "w": 364
+      }
+    ],
+    "statusTop": 455,
+    "resultsTop": 0
+  }
+}

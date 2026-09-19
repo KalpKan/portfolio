@@ -825,3 +825,34 @@ _Entries begin below, oldest first._
 - **Fix:** waited 20 s and re-ran with 6 s between calls (all succeeded). A descriptive `User-Agent` was already set.
 - **Prevention:** when scripting Wikimedia lookups, sleep ≥ 5 s between calls and batch titles into one `titles=A|B|C` request (up to 50) instead of one call per file.
 - **Reported by:** Phase 5 SPEC agent (plantit)
+
+### 2026-09-18: in Safari's engine the microtubules page gives a different number and Otsu threshold for Mac-exported PNGs with an embedded ICC profile (found by the Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, ~21:40 EDT (TEST + CRITIQUE round 1)
+- **Affected:** `https://microtubules.kalpkan.com` (`web/src/main.ts` `decode()` in `KalpKan/Microtubule-Quantification` `e56190d`); hosting is fine.
+- **Symptom:** Playwright WebKit 2359 on the local build: `tests/fixtures/fullfield/Plate2_45_nocodazole45uM.png` → 3.85 % threshold 45 (Python and Chrome: 2.8791 % / 42); `Plate1_W1_untreated.png` 13.47 vs 13.1362 (30 vs 24); `Plate3_W2_New_nocodazole25uM.png` 4.77 vs 3.9149 (34 vs 30). The 36 ImageJ cells and every untagged PNG match exactly in WebKit; JPEGs differ ≤ 0.29 (decoder rounding).
+- **What was tried:** full 60-image corpus in Chromium and WebKit (`docs/reports/evidence/microtubules-r1-corpus-{chromium,webkit}-2026-09-18.json`); PNG chunk walk of the three files (`iCCP` named `kCGColorSpaceGenericRGB`); rewrote one file without `iCCP`/`gAMA`/`cHRM`/`sRGB` → WebKit 2.88 % / 42.
+- **Root cause:** WebKit ignores `createImageBitmap(..., { colorSpaceConversion: "none" })` and converts the embedded Apple Generic RGB profile to sRGB before `getImageData`; `cv2.imread` (the ground truth) ignores ICC profiles. Chrome honours "none", so the earlier "matches Python" claims were Chrome-only.
+- **Fix:** Not applied (report task). `docs/reports/microtubules.md` D1: strip `iCCP`/`gAMA`/`cHRM`/`sRGB` chunks (and JPEG APP2 ICC) from the bytes before `createImageBitmap`.
+- **Prevention:** `verification.md` microtubules gains a "Safari engine gives the Python number" row run in Playwright WebKit; a "matches Python" claim needs a Chromium and a WebKit run.
+- **Reported by:** TEST agent (Phase 5, microtubules, round 1)
+
+### 2026-09-18: the microtubules Lighthouse row rested on one run; three runs give 0.73 / 0.97 / 0.61 (found by the Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, ~21:35 EDT
+- **Affected:** `verification.md` microtubules "Lighthouse performance" row (said ✅ 0.98 from a single run on 2026-09-18); the page itself (`web/src/main.ts:135` warms up the 11 MB `opencv.js` at load; the official build embeds the 8 MB wasm as base64 in the JS).
+- **Symptom:** Lighthouse 12.8.2 mobile on the live URL: 0.73 (LCP 18.7 s), 0.97 (LCP 1.5 s), 0.61 (LCP 18.8 s, TBT 520 ms); `bootup-time` attributes 12–16 s (4× CPU) to `/opencv.js`. Real Chromium at 4× CPU shows long tasks of at most 588 ms at load, so the swing is Lighthouse's render-delay attribution, but the ≥ 0.90 bar fails 2 of 3 runs. Ready takes 19.9 s at 1.6 Mbps, 8.8 s at 4 Mbps, with no progress indicator during the download.
+- **Root cause:** one Lighthouse run was accepted as evidence; the OpenCV parse + wasm instantiation runs on the main thread at load.
+- **Fix:** Not applied. `docs/reports/microtubules.md` D7 (load OpenCV in the Worker that D2 needs, or the split `opencv_js.wasm` build; download progress in the status line). The verification row now requires three runs.
+- **Prevention:** every Lighthouse row in `verification.md` says "three consecutive runs".
+- **Reported by:** TEST agent (Phase 5, microtubules, round 1)
+
+### 2026-09-18: microtubules "works offline once loaded" is not true for a sample that was never tapped (found by the Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, ~21:35 EDT
+- **Affected:** `https://microtubules.kalpkan.com` (`web/src/main.ts` `runSample()` fetches `/samples/<name>.png` on click).
+- **Symptom:** Playwright `setOffline(true)` after Ready: an upload analyses (21.18 %), the sample tapped earlier analyses (HTTP cache, `max-age=86400`), a sample not tapped before → red `Could not load the sample: Failed to fetch`. The footer promises "works offline once loaded".
+- **Root cause:** samples are fetched lazily; nothing prefetches or inlines the 14 KB.
+- **Fix:** Not applied. `docs/reports/microtubules.md` D8 (prefetch after Ready or inline as assets).
+- **Prevention:** `verification.md` microtubules "Works offline after load" row taps all three samples offline.
+- **Reported by:** TEST agent (Phase 5, microtubules, round 1)

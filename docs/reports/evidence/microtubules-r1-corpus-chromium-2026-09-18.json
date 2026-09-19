@@ -1,0 +1,1794 @@
+{
+  "rows": [
+    {
+      "f": "cells/P1_W1_C1.PNG",
+      "status": "Done: P1_W1_C1.PNG. Pick another image or sample to run again.",
+      "got": 24.83,
+      "ref": 24.832064487236902,
+      "diff": -0.0021,
+      "threshold": "36",
+      "refThreshold": 36,
+      "pixels": "1,109 / 4,466",
+      "refPixels": "1109 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "5 ms",
+      "wallMs": 70,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 39,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W1_C2.PNG",
+      "status": "Done: P1_W1_C2.PNG. Pick another image or sample to run again.",
+      "got": 36.99,
+      "ref": 36.98924731182795,
+      "diff": 0.0008,
+      "threshold": "28",
+      "refThreshold": 28,
+      "pixels": "4,988 / 13,485",
+      "refPixels": "4988 / 13485",
+      "dims": "87 × 155 px",
+      "refDims": "87 × 155",
+      "elapsed": "2 ms",
+      "wallMs": 53,
+      "resultsHidden": false,
+      "inputCanvas": [
+        87,
+        155
+      ],
+      "overlayCanvas": [
+        87,
+        155
+      ],
+      "heapMB": 39,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W1_C3.PNG",
+      "status": "Done: P1_W1_C3.PNG. Pick another image or sample to run again.",
+      "got": 21.96,
+      "ref": 21.95762711864407,
+      "diff": 0.0024,
+      "threshold": "28",
+      "refThreshold": 28,
+      "pixels": "2,591 / 11,800",
+      "refPixels": "2591 / 11800",
+      "dims": "100 × 118 px",
+      "refDims": "100 × 118",
+      "elapsed": "1 ms",
+      "wallMs": 43,
+      "resultsHidden": false,
+      "inputCanvas": [
+        100,
+        118
+      ],
+      "overlayCanvas": [
+        100,
+        118
+      ],
+      "heapMB": 39,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W2_C1.PNG",
+      "status": "Done: P1_W2_C1.PNG. Pick another image or sample to run again.",
+      "got": 0,
+      "ref": 0,
+      "diff": 0,
+      "threshold": "54",
+      "refThreshold": 54,
+      "pixels": "0 / 5,776",
+      "refPixels": "0 / 5776",
+      "dims": "76 × 76 px",
+      "refDims": "76 × 76",
+      "elapsed": "0 ms",
+      "wallMs": 36,
+      "resultsHidden": false,
+      "inputCanvas": [
+        76,
+        76
+      ],
+      "overlayCanvas": [
+        76,
+        76
+      ],
+      "heapMB": 40,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W2_C2.PNG",
+      "status": "Done: P1_W2_C2.PNG. Pick another image or sample to run again.",
+      "got": 0,
+      "ref": 0,
+      "diff": 0,
+      "threshold": "49",
+      "refThreshold": 49,
+      "pixels": "0 / 4,260",
+      "refPixels": "0 / 4260",
+      "dims": "71 × 60 px",
+      "refDims": "71 × 60",
+      "elapsed": "0 ms",
+      "wallMs": 49,
+      "resultsHidden": false,
+      "inputCanvas": [
+        71,
+        60
+      ],
+      "overlayCanvas": [
+        71,
+        60
+      ],
+      "heapMB": 40,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W2_C3.PNG",
+      "status": "Done: P1_W2_C3.PNG. Pick another image or sample to run again.",
+      "got": 0,
+      "ref": 0,
+      "diff": 0,
+      "threshold": "55",
+      "refThreshold": 55,
+      "pixels": "0 / 7,313",
+      "refPixels": "0 / 7313",
+      "dims": "71 × 103 px",
+      "refDims": "71 × 103",
+      "elapsed": "1 ms",
+      "wallMs": 61,
+      "resultsHidden": false,
+      "inputCanvas": [
+        71,
+        103
+      ],
+      "overlayCanvas": [
+        71,
+        103
+      ],
+      "heapMB": 40,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W3_C1.PNG",
+      "status": "Done: P1_W3_C1.PNG. Pick another image or sample to run again.",
+      "got": 21.18,
+      "ref": 21.182728410513143,
+      "diff": -0.0027,
+      "threshold": "62",
+      "refThreshold": 62,
+      "pixels": "677 / 3,196",
+      "refPixels": "677 / 3196",
+      "dims": "68 × 47 px",
+      "refDims": "68 × 47",
+      "elapsed": "0 ms",
+      "wallMs": 71,
+      "resultsHidden": false,
+      "inputCanvas": [
+        68,
+        47
+      ],
+      "overlayCanvas": [
+        68,
+        47
+      ],
+      "heapMB": 37,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W3_C2.PNG",
+      "status": "Done: P1_W3_C2.PNG. Pick another image or sample to run again.",
+      "got": 30.55,
+      "ref": 30.546955624355004,
+      "diff": 0.003,
+      "threshold": "51",
+      "refThreshold": 51,
+      "pixels": "592 / 1,938",
+      "refPixels": "592 / 1938",
+      "dims": "51 × 38 px",
+      "refDims": "51 × 38",
+      "elapsed": "0 ms",
+      "wallMs": 51,
+      "resultsHidden": false,
+      "inputCanvas": [
+        51,
+        38
+      ],
+      "overlayCanvas": [
+        51,
+        38
+      ],
+      "heapMB": 29,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W3_C3.PNG",
+      "status": "Done: P1_W3_C3.PNG. Pick another image or sample to run again.",
+      "got": 40.24,
+      "ref": 40.23957409050577,
+      "diff": 0.0004,
+      "threshold": "46",
+      "refThreshold": 46,
+      "pixels": "907 / 2,254",
+      "refPixels": "907 / 2254",
+      "dims": "46 × 49 px",
+      "refDims": "46 × 49",
+      "elapsed": "0 ms",
+      "wallMs": 36,
+      "resultsHidden": false,
+      "inputCanvas": [
+        46,
+        49
+      ],
+      "overlayCanvas": [
+        46,
+        49
+      ],
+      "heapMB": 29,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W4_C1.PNG",
+      "status": "Done: P1_W4_C1.PNG. Pick another image or sample to run again.",
+      "got": 40.03,
+      "ref": 40.03033645890789,
+      "diff": -0.0003,
+      "threshold": "21",
+      "refThreshold": 21,
+      "pixels": "2,903 / 7,252",
+      "refPixels": "2903 / 7252",
+      "dims": "74 × 98 px",
+      "refDims": "74 × 98",
+      "elapsed": "1 ms",
+      "wallMs": 45,
+      "resultsHidden": false,
+      "inputCanvas": [
+        74,
+        98
+      ],
+      "overlayCanvas": [
+        74,
+        98
+      ],
+      "heapMB": 29,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W4_C2.PNG",
+      "status": "Done: P1_W4_C2.PNG. Pick another image or sample to run again.",
+      "got": 44.23,
+      "ref": 44.23234811165845,
+      "diff": -0.0023,
+      "threshold": "14",
+      "refThreshold": 14,
+      "pixels": "2,155 / 4,872",
+      "refPixels": "2155 / 4872",
+      "dims": "58 × 84 px",
+      "refDims": "58 × 84",
+      "elapsed": "0 ms",
+      "wallMs": 31,
+      "resultsHidden": false,
+      "inputCanvas": [
+        58,
+        84
+      ],
+      "overlayCanvas": [
+        58,
+        84
+      ],
+      "heapMB": 29,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P1_W4_C3.PNG",
+      "status": "Done: P1_W4_C3.PNG. Pick another image or sample to run again.",
+      "got": 32.77,
+      "ref": 32.773109243697476,
+      "diff": -0.0031,
+      "threshold": "17",
+      "refThreshold": 17,
+      "pixels": "1,872 / 5,712",
+      "refPixels": "1872 / 5712",
+      "dims": "68 × 84 px",
+      "refDims": "68 × 84",
+      "elapsed": "1 ms",
+      "wallMs": 35,
+      "resultsHidden": false,
+      "inputCanvas": [
+        68,
+        84
+      ],
+      "overlayCanvas": [
+        68,
+        84
+      ],
+      "heapMB": 29,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W1_C1.PNG",
+      "status": "Done: P2_W1_C1.PNG. Pick another image or sample to run again.",
+      "got": 29.04,
+      "ref": 29.044117647058826,
+      "diff": -0.0041,
+      "threshold": "16",
+      "refThreshold": 16,
+      "pixels": "948 / 3,264",
+      "refPixels": "948 / 3264",
+      "dims": "68 × 48 px",
+      "refDims": "68 × 48",
+      "elapsed": "0 ms",
+      "wallMs": 46,
+      "resultsHidden": false,
+      "inputCanvas": [
+        68,
+        48
+      ],
+      "overlayCanvas": [
+        68,
+        48
+      ],
+      "heapMB": 30,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W1_C2.PNG",
+      "status": "Done: P2_W1_C2.PNG. Pick another image or sample to run again.",
+      "got": 18.44,
+      "ref": 18.435462842242504,
+      "diff": 0.0045,
+      "threshold": "24",
+      "refThreshold": 24,
+      "pixels": "707 / 3,835",
+      "refPixels": "707 / 3835",
+      "dims": "59 × 65 px",
+      "refDims": "59 × 65",
+      "elapsed": "0 ms",
+      "wallMs": 56,
+      "resultsHidden": false,
+      "inputCanvas": [
+        59,
+        65
+      ],
+      "overlayCanvas": [
+        59,
+        65
+      ],
+      "heapMB": 30,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W1_C3.PNG",
+      "status": "Done: P2_W1_C3.PNG. Pick another image or sample to run again.",
+      "got": 29.56,
+      "ref": 29.56081081081081,
+      "diff": -0.0008,
+      "threshold": "24",
+      "refThreshold": 24,
+      "pixels": "700 / 2,368",
+      "refPixels": "700 / 2368",
+      "dims": "37 × 64 px",
+      "refDims": "37 × 64",
+      "elapsed": "0 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        37,
+        64
+      ],
+      "overlayCanvas": [
+        37,
+        64
+      ],
+      "heapMB": 30,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W2_C1.PNG",
+      "status": "Done: P2_W2_C1.PNG. Pick another image or sample to run again.",
+      "got": 12.47,
+      "ref": 12.469635627530366,
+      "diff": 0.0004,
+      "threshold": "46",
+      "refThreshold": 46,
+      "pixels": "462 / 3,705",
+      "refPixels": "462 / 3705",
+      "dims": "65 × 57 px",
+      "refDims": "65 × 57",
+      "elapsed": "1 ms",
+      "wallMs": 33,
+      "resultsHidden": false,
+      "inputCanvas": [
+        65,
+        57
+      ],
+      "overlayCanvas": [
+        65,
+        57
+      ],
+      "heapMB": 30,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W2_C2.PNG",
+      "status": "Done: P2_W2_C2.PNG. Pick another image or sample to run again.",
+      "got": 21.38,
+      "ref": 21.380597014925375,
+      "diff": -0.0006,
+      "threshold": "25",
+      "refThreshold": 25,
+      "pixels": "1,146 / 5,360",
+      "refPixels": "1146 / 5360",
+      "dims": "80 × 67 px",
+      "refDims": "80 × 67",
+      "elapsed": "1 ms",
+      "wallMs": 40,
+      "resultsHidden": false,
+      "inputCanvas": [
+        80,
+        67
+      ],
+      "overlayCanvas": [
+        80,
+        67
+      ],
+      "heapMB": 30,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W2_C3.PNG",
+      "status": "Done: P2_W2_C3.PNG. Pick another image or sample to run again.",
+      "got": 17.81,
+      "ref": 17.8125,
+      "diff": -0.0025,
+      "threshold": "21",
+      "refThreshold": 21,
+      "pixels": "285 / 1,600",
+      "refPixels": "285 / 1600",
+      "dims": "40 × 40 px",
+      "refDims": "40 × 40",
+      "elapsed": "0 ms",
+      "wallMs": 34,
+      "resultsHidden": false,
+      "inputCanvas": [
+        40,
+        40
+      ],
+      "overlayCanvas": [
+        40,
+        40
+      ],
+      "heapMB": 30,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W3_C1.PNG",
+      "status": "Done: P2_W3_C1.PNG. Pick another image or sample to run again.",
+      "got": 21.21,
+      "ref": 21.21212121212121,
+      "diff": -0.0021,
+      "threshold": "49",
+      "refThreshold": 49,
+      "pixels": "273 / 1,287",
+      "refPixels": "273 / 1287",
+      "dims": "39 × 33 px",
+      "refDims": "39 × 33",
+      "elapsed": "0 ms",
+      "wallMs": 44,
+      "resultsHidden": false,
+      "inputCanvas": [
+        39,
+        33
+      ],
+      "overlayCanvas": [
+        39,
+        33
+      ],
+      "heapMB": 30,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W3_C2.PNG",
+      "status": "Done: P2_W3_C2.PNG. Pick another image or sample to run again.",
+      "got": 21.74,
+      "ref": 21.744791666666664,
+      "diff": -0.0048,
+      "threshold": "21",
+      "refThreshold": 21,
+      "pixels": "1,169 / 5,376",
+      "refPixels": "1169 / 5376",
+      "dims": "56 × 96 px",
+      "refDims": "56 × 96",
+      "elapsed": "0 ms",
+      "wallMs": 43,
+      "resultsHidden": false,
+      "inputCanvas": [
+        56,
+        96
+      ],
+      "overlayCanvas": [
+        56,
+        96
+      ],
+      "heapMB": 30,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W3_C3.PNG",
+      "status": "Done: P2_W3_C3.PNG. Pick another image or sample to run again.",
+      "got": 19.24,
+      "ref": 19.23828125,
+      "diff": 0.0017,
+      "threshold": "69",
+      "refThreshold": 69,
+      "pixels": "197 / 1,024",
+      "refPixels": "197 / 1024",
+      "dims": "32 × 32 px",
+      "refDims": "32 × 32",
+      "elapsed": "0 ms",
+      "wallMs": 37,
+      "resultsHidden": false,
+      "inputCanvas": [
+        32,
+        32
+      ],
+      "overlayCanvas": [
+        32,
+        32
+      ],
+      "heapMB": 30,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W4_C1.PNG",
+      "status": "Done: P2_W4_C1.PNG. Pick another image or sample to run again.",
+      "got": 29.87,
+      "ref": 29.867724867724867,
+      "diff": 0.0023,
+      "threshold": "32",
+      "refThreshold": 32,
+      "pixels": "1,129 / 3,780",
+      "refPixels": "1129 / 3780",
+      "dims": "60 × 63 px",
+      "refDims": "60 × 63",
+      "elapsed": "0 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        60,
+        63
+      ],
+      "overlayCanvas": [
+        60,
+        63
+      ],
+      "heapMB": 31,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W4_C2.PNG",
+      "status": "Done: P2_W4_C2.PNG. Pick another image or sample to run again.",
+      "got": 24.9,
+      "ref": 24.895158215783454,
+      "diff": 0.0048,
+      "threshold": "25",
+      "refThreshold": 25,
+      "pixels": "653 / 2,623",
+      "refPixels": "653 / 2623",
+      "dims": "61 × 43 px",
+      "refDims": "61 × 43",
+      "elapsed": "0 ms",
+      "wallMs": 38,
+      "resultsHidden": false,
+      "inputCanvas": [
+        61,
+        43
+      ],
+      "overlayCanvas": [
+        61,
+        43
+      ],
+      "heapMB": 31,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P2_W4_C3.PNG",
+      "status": "Done: P2_W4_C3.PNG. Pick another image or sample to run again.",
+      "got": 10.04,
+      "ref": 10.036876703543369,
+      "diff": 0.0031,
+      "threshold": "33",
+      "refThreshold": 33,
+      "pixels": "626 / 6,237",
+      "refPixels": "626 / 6237",
+      "dims": "99 × 63 px",
+      "refDims": "99 × 63",
+      "elapsed": "1 ms",
+      "wallMs": 34,
+      "resultsHidden": false,
+      "inputCanvas": [
+        99,
+        63
+      ],
+      "overlayCanvas": [
+        99,
+        63
+      ],
+      "heapMB": 31,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W1_C1.PNG",
+      "status": "Done: P3_W1_C1.PNG. Pick another image or sample to run again.",
+      "got": 31.69,
+      "ref": 31.690140845070424,
+      "diff": -0.0001,
+      "threshold": "31",
+      "refThreshold": 31,
+      "pixels": "1,305 / 4,118",
+      "refPixels": "1305 / 4118",
+      "dims": "71 × 58 px",
+      "refDims": "71 × 58",
+      "elapsed": "0 ms",
+      "wallMs": 33,
+      "resultsHidden": false,
+      "inputCanvas": [
+        71,
+        58
+      ],
+      "overlayCanvas": [
+        71,
+        58
+      ],
+      "heapMB": 31,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W1_C2.PNG",
+      "status": "Done: P3_W1_C2.PNG. Pick another image or sample to run again.",
+      "got": 18.55,
+      "ref": 18.554396423248882,
+      "diff": -0.0044,
+      "threshold": "32",
+      "refThreshold": 32,
+      "pixels": "747 / 4,026",
+      "refPixels": "747 / 4026",
+      "dims": "61 × 66 px",
+      "refDims": "61 × 66",
+      "elapsed": "0 ms",
+      "wallMs": 34,
+      "resultsHidden": false,
+      "inputCanvas": [
+        61,
+        66
+      ],
+      "overlayCanvas": [
+        61,
+        66
+      ],
+      "heapMB": 31,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W1_C3.PNG",
+      "status": "Done: P3_W1_C3.PNG. Pick another image or sample to run again.",
+      "got": 5.35,
+      "ref": 5.3544494720965305,
+      "diff": -0.0044,
+      "threshold": "72",
+      "refThreshold": 72,
+      "pixels": "71 / 1,326",
+      "refPixels": "71 / 1326",
+      "dims": "34 × 39 px",
+      "refDims": "34 × 39",
+      "elapsed": "0 ms",
+      "wallMs": 33,
+      "resultsHidden": false,
+      "inputCanvas": [
+        34,
+        39
+      ],
+      "overlayCanvas": [
+        34,
+        39
+      ],
+      "heapMB": 31,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W2_C1.PNG",
+      "status": "Done: P3_W2_C1.PNG. Pick another image or sample to run again.",
+      "got": 29.03,
+      "ref": 29.03364969801553,
+      "diff": -0.0036,
+      "threshold": "23",
+      "refThreshold": 23,
+      "pixels": "1,346 / 4,636",
+      "refPixels": "1346 / 4636",
+      "dims": "76 × 61 px",
+      "refDims": "76 × 61",
+      "elapsed": "0 ms",
+      "wallMs": 30,
+      "resultsHidden": false,
+      "inputCanvas": [
+        76,
+        61
+      ],
+      "overlayCanvas": [
+        76,
+        61
+      ],
+      "heapMB": 31,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W2_C2.PNG",
+      "status": "Done: P3_W2_C2.PNG. Pick another image or sample to run again.",
+      "got": 18.03,
+      "ref": 18.02791123312743,
+      "diff": 0.0021,
+      "threshold": "41",
+      "refThreshold": 41,
+      "pixels": "1,576 / 8,742",
+      "refPixels": "1576 / 8742",
+      "dims": "93 × 94 px",
+      "refDims": "93 × 94",
+      "elapsed": "1 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        93,
+        94
+      ],
+      "overlayCanvas": [
+        93,
+        94
+      ],
+      "heapMB": 32,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W2_C3.PNG",
+      "status": "Done: P3_W2_C3.PNG. Pick another image or sample to run again.",
+      "got": 34.71,
+      "ref": 34.71202710333145,
+      "diff": -0.002,
+      "threshold": "29",
+      "refThreshold": 29,
+      "pixels": "2,459 / 7,084",
+      "refPixels": "2459 / 7084",
+      "dims": "92 × 77 px",
+      "refDims": "92 × 77",
+      "elapsed": "0 ms",
+      "wallMs": 34,
+      "resultsHidden": false,
+      "inputCanvas": [
+        92,
+        77
+      ],
+      "overlayCanvas": [
+        92,
+        77
+      ],
+      "heapMB": 32,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W3_C1.PNG",
+      "status": "Done: P3_W3_C1.PNG. Pick another image or sample to run again.",
+      "got": 38.93,
+      "ref": 38.92931392931393,
+      "diff": 0.0007,
+      "threshold": "44",
+      "refThreshold": 44,
+      "pixels": "749 / 1,924",
+      "refPixels": "749 / 1924",
+      "dims": "37 × 52 px",
+      "refDims": "37 × 52",
+      "elapsed": "1 ms",
+      "wallMs": 34,
+      "resultsHidden": false,
+      "inputCanvas": [
+        37,
+        52
+      ],
+      "overlayCanvas": [
+        37,
+        52
+      ],
+      "heapMB": 32,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W3_C2.PNG",
+      "status": "Done: P3_W3_C2.PNG. Pick another image or sample to run again.",
+      "got": 43.01,
+      "ref": 43.0137684854666,
+      "diff": -0.0038,
+      "threshold": "45",
+      "refThreshold": 45,
+      "pixels": "1,687 / 3,922",
+      "refPixels": "1687 / 3922",
+      "dims": "53 × 74 px",
+      "refDims": "53 × 74",
+      "elapsed": "0 ms",
+      "wallMs": 34,
+      "resultsHidden": false,
+      "inputCanvas": [
+        53,
+        74
+      ],
+      "overlayCanvas": [
+        53,
+        74
+      ],
+      "heapMB": 32,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W3_C3.PNG",
+      "status": "Done: P3_W3_C3.PNG. Pick another image or sample to run again.",
+      "got": 24.72,
+      "ref": 24.724871606749815,
+      "diff": -0.0049,
+      "threshold": "26",
+      "refThreshold": 26,
+      "pixels": "337 / 1,363",
+      "refPixels": "337 / 1363",
+      "dims": "29 × 47 px",
+      "refDims": "29 × 47",
+      "elapsed": "0 ms",
+      "wallMs": 34,
+      "resultsHidden": false,
+      "inputCanvas": [
+        29,
+        47
+      ],
+      "overlayCanvas": [
+        29,
+        47
+      ],
+      "heapMB": 32,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W4_C1.PNG",
+      "status": "Done: P3_W4_C1.PNG. Pick another image or sample to run again.",
+      "got": 21.3,
+      "ref": 21.295103092783503,
+      "diff": 0.0049,
+      "threshold": "17",
+      "refThreshold": 17,
+      "pixels": "1,322 / 6,208",
+      "refPixels": "1322 / 6208",
+      "dims": "64 × 97 px",
+      "refDims": "64 × 97",
+      "elapsed": "0 ms",
+      "wallMs": 34,
+      "resultsHidden": false,
+      "inputCanvas": [
+        64,
+        97
+      ],
+      "overlayCanvas": [
+        64,
+        97
+      ],
+      "heapMB": 32,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W4_C2.PNG",
+      "status": "Done: P3_W4_C2.PNG. Pick another image or sample to run again.",
+      "got": 28.66,
+      "ref": 28.65608465608466,
+      "diff": 0.0039,
+      "threshold": "28",
+      "refThreshold": 28,
+      "pixels": "1,354 / 4,725",
+      "refPixels": "1354 / 4725",
+      "dims": "75 × 63 px",
+      "refDims": "75 × 63",
+      "elapsed": "1 ms",
+      "wallMs": 40,
+      "resultsHidden": false,
+      "inputCanvas": [
+        75,
+        63
+      ],
+      "overlayCanvas": [
+        75,
+        63
+      ],
+      "heapMB": 32,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "cells/P3_W4_C3.PNG",
+      "status": "Done: P3_W4_C3.PNG. Pick another image or sample to run again.",
+      "got": 49.94,
+      "ref": 49.94331065759637,
+      "diff": -0.0033,
+      "threshold": "19",
+      "refThreshold": 19,
+      "pixels": "1,762 / 3,528",
+      "refPixels": "1762 / 3528",
+      "dims": "56 × 63 px",
+      "refDims": "56 × 63",
+      "elapsed": "0 ms",
+      "wallMs": 60,
+      "resultsHidden": false,
+      "inputCanvas": [
+        56,
+        63
+      ],
+      "overlayCanvas": [
+        56,
+        63
+      ],
+      "heapMB": 32,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "fullfield/Plate1_W1_green_channel_camera.jpeg",
+      "status": "Done: Plate1_W1_green_channel_camera.jpeg. Pick another image or sample to run again.",
+      "got": 0,
+      "ref": 0,
+      "diff": 0,
+      "threshold": "28",
+      "refThreshold": 28,
+      "pixels": "0 / 1,392,640",
+      "refPixels": "0 / 1392640",
+      "dims": "1360 × 1024 px",
+      "refDims": "1360 × 1024",
+      "elapsed": "60 ms",
+      "wallMs": 107,
+      "resultsHidden": false,
+      "inputCanvas": [
+        1360,
+        1024
+      ],
+      "overlayCanvas": [
+        1360,
+        1024
+      ],
+      "heapMB": 55,
+      "maxLongTaskMs": 66,
+      "longTaskCount": 1
+    },
+    {
+      "f": "fullfield/Plate1_W1_untreated.png",
+      "status": "Done: Plate1_W1_untreated.png. Pick another image or sample to run again.",
+      "got": 13.14,
+      "ref": 13.136217604128458,
+      "diff": 0.0038,
+      "threshold": "24",
+      "refThreshold": 24,
+      "pixels": "83,085 / 632,488",
+      "refPixels": "83085 / 632488",
+      "dims": "914 × 692 px",
+      "refDims": "914 × 692",
+      "elapsed": "27 ms",
+      "wallMs": 44,
+      "resultsHidden": false,
+      "inputCanvas": [
+        914,
+        692
+      ],
+      "overlayCanvas": [
+        914,
+        692
+      ],
+      "heapMB": 65,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "fullfield/Plate2_45_nocodazole45uM.png",
+      "status": "Done: Plate2_45_nocodazole45uM.png. Pick another image or sample to run again.",
+      "got": 2.88,
+      "ref": 2.8790897017988653,
+      "diff": 0.0009,
+      "threshold": "42",
+      "refThreshold": 42,
+      "pixels": "9,539 / 331,320",
+      "refPixels": "9539 / 331320",
+      "dims": "660 × 502 px",
+      "refDims": "660 × 502",
+      "elapsed": "14 ms",
+      "wallMs": 31,
+      "resultsHidden": false,
+      "inputCanvas": [
+        660,
+        502
+      ],
+      "overlayCanvas": [
+        660,
+        502
+      ],
+      "heapMB": 34,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "fullfield/Plate3_W2_New_nocodazole25uM.png",
+      "status": "Done: Plate3_W2_New_nocodazole25uM.png. Pick another image or sample to run again.",
+      "got": 3.91,
+      "ref": 3.914942416552801,
+      "diff": -0.0049,
+      "threshold": "30",
+      "refThreshold": 30,
+      "pixels": "22,463 / 573,776",
+      "refPixels": "22463 / 573776",
+      "dims": "872 × 658 px",
+      "refDims": "872 × 658",
+      "elapsed": "24 ms",
+      "wallMs": 40,
+      "resultsHidden": false,
+      "inputCanvas": [
+        872,
+        658
+      ],
+      "overlayCanvas": [
+        872,
+        658
+      ],
+      "heapMB": 44,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/all-black.png",
+      "status": "Done: all-black.png. Pick another image or sample to run again.",
+      "got": 0,
+      "ref": 0,
+      "diff": 0,
+      "threshold": "0",
+      "refThreshold": 0,
+      "pixels": "0 / 4,096",
+      "refPixels": "0 / 4096",
+      "dims": "64 × 64 px",
+      "refDims": "64 × 64",
+      "elapsed": "0 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        64,
+        64
+      ],
+      "overlayCanvas": [
+        64,
+        64
+      ],
+      "heapMB": 44,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/all-blue-nucleus-only.png",
+      "status": "Done: all-blue-nucleus-only.png. Pick another image or sample to run again.",
+      "got": 0,
+      "ref": 0,
+      "diff": 0,
+      "threshold": "0",
+      "refThreshold": 0,
+      "pixels": "0 / 4,096",
+      "refPixels": "0 / 4096",
+      "dims": "64 × 64 px",
+      "refDims": "64 × 64",
+      "elapsed": "0 ms",
+      "wallMs": 33,
+      "resultsHidden": false,
+      "inputCanvas": [
+        64,
+        64
+      ],
+      "overlayCanvas": [
+        64,
+        64
+      ],
+      "heapMB": 44,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/all-green.png",
+      "status": "Done: all-green.png. Pick another image or sample to run again.",
+      "got": 100,
+      "ref": 100,
+      "diff": 0,
+      "threshold": "0",
+      "refThreshold": 0,
+      "pixels": "4,096 / 4,096",
+      "refPixels": "4096 / 4096",
+      "dims": "64 × 64 px",
+      "refDims": "64 × 64",
+      "elapsed": "0 ms",
+      "wallMs": 34,
+      "resultsHidden": false,
+      "inputCanvas": [
+        64,
+        64
+      ],
+      "overlayCanvas": [
+        64,
+        64
+      ],
+      "heapMB": 44,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/cell-16bit.png",
+      "status": "Done: cell-16bit.png. Pick another image or sample to run again.",
+      "got": 24.83,
+      "ref": 24.832064487236902,
+      "diff": -0.0021,
+      "threshold": "36",
+      "refThreshold": 36,
+      "pixels": "1,109 / 4,466",
+      "refPixels": "1109 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "1 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 44,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/cell-grayscale.png",
+      "status": "Done: cell-grayscale.png. Pick another image or sample to run again.",
+      "got": 0,
+      "ref": 0,
+      "diff": 0,
+      "threshold": "24",
+      "refThreshold": 24,
+      "pixels": "0 / 4,466",
+      "refPixels": "0 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "0 ms",
+      "wallMs": 30,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 44,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/cell-posterized.png",
+      "status": "Done: cell-posterized.png. Pick another image or sample to run again.",
+      "got": 21.79,
+      "ref": 21.786833855799372,
+      "diff": 0.0032,
+      "threshold": "32",
+      "refThreshold": 32,
+      "pixels": "973 / 4,466",
+      "refPixels": "973 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "0 ms",
+      "wallMs": 53,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 44,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/cell-q60.jpg",
+      "status": "Done: cell-q60.jpg. Pick another image or sample to run again.",
+      "got": 23.89,
+      "ref": 23.891625615763548,
+      "diff": -0.0016,
+      "threshold": "37",
+      "refThreshold": 37,
+      "pixels": "1,067 / 4,466",
+      "refPixels": "1067 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "0 ms",
+      "wallMs": 35,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 45,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/cell-q95.jpg",
+      "status": "Done: cell-q95.jpg. Pick another image or sample to run again.",
+      "got": 23.94,
+      "ref": 23.93640841916704,
+      "diff": 0.0036,
+      "threshold": "37",
+      "refThreshold": 37,
+      "pixels": "1,069 / 4,466",
+      "refPixels": "1069 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "0 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 45,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/cell-rgb.png",
+      "status": "Done: cell-rgb.png. Pick another image or sample to run again.",
+      "got": 24.83,
+      "ref": 24.832064487236902,
+      "diff": -0.0021,
+      "threshold": "36",
+      "refThreshold": 36,
+      "pixels": "1,109 / 4,466",
+      "refPixels": "1109 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "0 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 45,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/cell-rgba-transparent-border.png",
+      "status": "Done: cell-rgba-transparent-border.png. Pick another image or sample to run again.",
+      "got": 24.83,
+      "ref": 24.832064487236902,
+      "diff": -0.0021,
+      "threshold": "36",
+      "refThreshold": 36,
+      "pixels": "1,109 / 4,466",
+      "refPixels": "1109 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "1 ms",
+      "wallMs": 30,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 45,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/cell.bmp",
+      "status": "Done: cell.bmp. Pick another image or sample to run again.",
+      "got": 24.83,
+      "ref": 24.832064487236902,
+      "diff": -0.0021,
+      "threshold": "36",
+      "refThreshold": 36,
+      "pixels": "1,109 / 4,466",
+      "refPixels": "1109 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "0 ms",
+      "wallMs": 36,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 45,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/cell.webp",
+      "status": "Done: cell.webp. Pick another image or sample to run again.",
+      "got": 24.83,
+      "ref": 24.832064487236902,
+      "diff": -0.0021,
+      "threshold": "36",
+      "refThreshold": 36,
+      "pixels": "1,109 / 4,466",
+      "refPixels": "1109 / 4466",
+      "dims": "77 × 58 px",
+      "refDims": "77 × 58",
+      "elapsed": "0 ms",
+      "wallMs": 38,
+      "resultsHidden": false,
+      "inputCanvas": [
+        77,
+        58
+      ],
+      "overlayCanvas": [
+        77,
+        58
+      ],
+      "heapMB": 45,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/exif-rotated-orientation6.jpg",
+      "status": "Done: exif-rotated-orientation6.jpg. Pick another image or sample to run again.",
+      "got": 23.98,
+      "ref": 23.981191222570533,
+      "diff": -0.0012,
+      "threshold": "37",
+      "refThreshold": 37,
+      "pixels": "3,213 / 13,398",
+      "refPixels": "3213 / 13398",
+      "dims": "58 × 231 px",
+      "refDims": "58 × 231",
+      "elapsed": "1 ms",
+      "wallMs": 33,
+      "resultsHidden": false,
+      "inputCanvas": [
+        58,
+        231
+      ],
+      "overlayCanvas": [
+        58,
+        231
+      ],
+      "heapMB": 45,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/huge-12mp-4000x3000.jpg",
+      "status": "Done: huge-12mp-4000x3000.jpg. Pick another image or sample to run again.",
+      "got": 23.67,
+      "ref": 23.672058333333336,
+      "diff": -0.0021,
+      "threshold": "37",
+      "refThreshold": 37,
+      "pixels": "2,840,647 / 12,000,000",
+      "refPixels": "2840647 / 12000000",
+      "dims": "4000 × 3000 px",
+      "refDims": "4000 × 3000",
+      "elapsed": "532 ms",
+      "wallMs": 680,
+      "resultsHidden": false,
+      "inputCanvas": [
+        4000,
+        3000
+      ],
+      "overlayCanvas": [
+        4000,
+        3000
+      ],
+      "heapMB": 223,
+      "maxLongTaskMs": 619,
+      "longTaskCount": 1
+    },
+    {
+      "f": "edge/huge-12mp-4000x3000.png",
+      "status": "Done: huge-12mp-4000x3000.png. Pick another image or sample to run again.",
+      "got": 24.78,
+      "ref": 24.7754,
+      "diff": 0.0046,
+      "threshold": "36",
+      "refThreshold": 36,
+      "pixels": "2,973,048 / 12,000,000",
+      "refPixels": "2973048 / 12000000",
+      "dims": "4000 × 3000 px",
+      "refDims": "4000 × 3000",
+      "elapsed": "534 ms",
+      "wallMs": 695,
+      "resultsHidden": false,
+      "inputCanvas": [
+        4000,
+        3000
+      ],
+      "overlayCanvas": [
+        4000,
+        3000
+      ],
+      "heapMB": 223,
+      "maxLongTaskMs": 597,
+      "longTaskCount": 1
+    },
+    {
+      "f": "edge/one-pixel.png",
+      "status": "Done: one-pixel.png. Pick another image or sample to run again.",
+      "got": 100,
+      "ref": 100,
+      "diff": 0,
+      "threshold": "0",
+      "refThreshold": 0,
+      "pixels": "1 / 1",
+      "refPixels": "1 / 1",
+      "dims": "1 × 1 px",
+      "refDims": "1 × 1",
+      "elapsed": "0 ms",
+      "wallMs": 33,
+      "resultsHidden": false,
+      "inputCanvas": [
+        1,
+        1
+      ],
+      "overlayCanvas": [
+        1,
+        1
+      ],
+      "heapMB": 223,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/tall-100x2000.png",
+      "status": "Done: tall-100x2000.png. Pick another image or sample to run again.",
+      "got": 23.61,
+      "ref": 23.615,
+      "diff": -0.005,
+      "threshold": "36",
+      "refThreshold": 36,
+      "pixels": "47,230 / 200,000",
+      "refPixels": "47230 / 200000",
+      "dims": "100 × 2000 px",
+      "refDims": "100 × 2000",
+      "elapsed": "9 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        100,
+        2000
+      ],
+      "overlayCanvas": [
+        100,
+        2000
+      ],
+      "heapMB": 227,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/tiny-4x4.png",
+      "status": "Done: tiny-4x4.png. Pick another image or sample to run again.",
+      "got": 0,
+      "ref": 0,
+      "diff": 0,
+      "threshold": "19",
+      "refThreshold": 19,
+      "pixels": "0 / 16",
+      "refPixels": "0 / 16",
+      "dims": "4 × 4 px",
+      "refDims": "4 × 4",
+      "elapsed": "0 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        4,
+        4
+      ],
+      "overlayCanvas": [
+        4,
+        4
+      ],
+      "heapMB": 227,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/wide-2000x100.png",
+      "status": "Done: wide-2000x100.png. Pick another image or sample to run again.",
+      "got": 25.32,
+      "ref": 25.316,
+      "diff": 0.004,
+      "threshold": "37",
+      "refThreshold": 37,
+      "pixels": "50,632 / 200,000",
+      "refPixels": "50632 / 200000",
+      "dims": "2000 × 100 px",
+      "refDims": "2000 × 100",
+      "elapsed": "9 ms",
+      "wallMs": 32,
+      "resultsHidden": false,
+      "inputCanvas": [
+        2000,
+        100
+      ],
+      "overlayCanvas": [
+        2000,
+        100
+      ],
+      "heapMB": 230,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/generated-large/huge-24mp-6000x4000.jpg",
+      "status": "Done: huge-24mp-6000x4000.jpg. Pick another image or sample to run again.",
+      "got": 23.93,
+      "ref": 23.929191666666664,
+      "diff": 0.0008,
+      "threshold": "37",
+      "refThreshold": 37,
+      "pixels": "5,743,006 / 24,000,000",
+      "refPixels": "5743006 / 24000000",
+      "dims": "6000 × 4000 px",
+      "refDims": "6000 × 4000",
+      "elapsed": "1078 ms",
+      "wallMs": 1404,
+      "resultsHidden": false,
+      "inputCanvas": [
+        6000,
+        4000
+      ],
+      "overlayCanvas": [
+        6000,
+        4000
+      ],
+      "heapMB": 418,
+      "maxLongTaskMs": 1264,
+      "longTaskCount": 1
+    },
+    {
+      "f": "edge/cell.tiff",
+      "status": "Could not analyse that image: The source image could not be decoded.",
+      "got": null,
+      "ref": null,
+      "diff": null,
+      "threshold": "37",
+      "refThreshold": null,
+      "pixels": "5,743,006 / 24,000,000",
+      "refPixels": null,
+      "dims": "6000 × 4000 px",
+      "refDims": null,
+      "elapsed": "1078 ms",
+      "wallMs": 76,
+      "resultsHidden": false,
+      "inputCanvas": [
+        6000,
+        4000
+      ],
+      "overlayCanvas": [
+        6000,
+        4000
+      ],
+      "heapMB": 418,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/document.pdf",
+      "status": "Could not analyse that image: The source image could not be decoded.",
+      "got": null,
+      "ref": null,
+      "diff": null,
+      "threshold": "37",
+      "refThreshold": null,
+      "pixels": "5,743,006 / 24,000,000",
+      "refPixels": null,
+      "dims": "6000 × 4000 px",
+      "refDims": null,
+      "elapsed": "1078 ms",
+      "wallMs": 76,
+      "resultsHidden": false,
+      "inputCanvas": [
+        6000,
+        4000
+      ],
+      "overlayCanvas": [
+        6000,
+        4000
+      ],
+      "heapMB": 418,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/empty.png",
+      "status": "Could not analyse that image: The source image could not be decoded.",
+      "got": null,
+      "ref": null,
+      "diff": null,
+      "threshold": "37",
+      "refThreshold": null,
+      "pixels": "5,743,006 / 24,000,000",
+      "refPixels": null,
+      "dims": "6000 × 4000 px",
+      "refDims": null,
+      "elapsed": "1078 ms",
+      "wallMs": 37,
+      "resultsHidden": false,
+      "inputCanvas": [
+        6000,
+        4000
+      ],
+      "overlayCanvas": [
+        6000,
+        4000
+      ],
+      "heapMB": 418,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/not-an-image.txt",
+      "status": "Could not analyse that image: The source image could not be decoded.",
+      "got": null,
+      "ref": null,
+      "diff": null,
+      "threshold": "37",
+      "refThreshold": null,
+      "pixels": "5,743,006 / 24,000,000",
+      "refPixels": null,
+      "dims": "6000 × 4000 px",
+      "refDims": null,
+      "elapsed": "1078 ms",
+      "wallMs": 38,
+      "resultsHidden": false,
+      "inputCanvas": [
+        6000,
+        4000
+      ],
+      "overlayCanvas": [
+        6000,
+        4000
+      ],
+      "heapMB": 418,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/renamed-text.png",
+      "status": "Could not analyse that image: The source image could not be decoded.",
+      "got": null,
+      "ref": null,
+      "diff": null,
+      "threshold": "37",
+      "refThreshold": null,
+      "pixels": "5,743,006 / 24,000,000",
+      "refPixels": null,
+      "dims": "6000 × 4000 px",
+      "refDims": null,
+      "elapsed": "1078 ms",
+      "wallMs": 41,
+      "resultsHidden": false,
+      "inputCanvas": [
+        6000,
+        4000
+      ],
+      "overlayCanvas": [
+        6000,
+        4000
+      ],
+      "heapMB": 418,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    },
+    {
+      "f": "edge/truncated.png",
+      "status": "Could not analyse that image: The source image could not be decoded.",
+      "got": null,
+      "ref": null,
+      "diff": null,
+      "threshold": "37",
+      "refThreshold": null,
+      "pixels": "5,743,006 / 24,000,000",
+      "refPixels": null,
+      "dims": "6000 × 4000 px",
+      "refDims": null,
+      "elapsed": "1078 ms",
+      "wallMs": 35,
+      "resultsHidden": false,
+      "inputCanvas": [
+        6000,
+        4000
+      ],
+      "overlayCanvas": [
+        6000,
+        4000
+      ],
+      "heapMB": 418,
+      "maxLongTaskMs": 0,
+      "longTaskCount": 0
+    }
+  ],
+  "consoleErrors": [
+    "error: InvalidStateError: The source image could not be decoded.",
+    "error: InvalidStateError: The source image could not be decoded.",
+    "error: InvalidStateError: The source image could not be decoded.",
+    "error: InvalidStateError: The source image could not be decoded.",
+    "error: InvalidStateError: The source image could not be decoded.",
+    "error: InvalidStateError: The source image could not be decoded."
+  ]
+}
