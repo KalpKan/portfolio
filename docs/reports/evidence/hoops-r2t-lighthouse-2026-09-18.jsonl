@@ -1,0 +1,3 @@
+{"run":1,"perf":0.98,"a11y":1,"bp":1,"lcp":1225.762,"tbt":158.5,"cls":0,"contrastFails":0,"consoleErrors":0}
+{"run":2,"perf":1,"a11y":1,"bp":1,"lcp":1820.699,"tbt":59,"cls":0,"contrastFails":0,"consoleErrors":0}
+{"run":3,"perf":0.97,"a11y":1,"bp":1,"lcp":2414.8469999999998,"tbt":91,"cls":0,"contrastFails":0,"consoleErrors":0}

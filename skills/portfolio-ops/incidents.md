@@ -1355,3 +1355,33 @@ _Entries begin below, oldest first._
 - **Fix:** not applied (TEST only); D13 (minor) in the report: keep the "damaged" wording only when the sniffed format is supported and the bytes are complete, otherwise surface the browser's message plus "reload and try again".
 - **Prevention:** error copy should never assert a cause the code did not establish; map browser errors to user text by evidence (magic bytes, length, dimensions), not by default.
 - **Reported by:** Phase 5 TEST agent (microtubules, round 2)
+
+### 2026-09-19: hoops — phone Progress chart truncates the disambiguated "Apr 15 · …" labels to "Apr 1…" (Phase 5 TEST agent, hoops round 2)
+
+- **Date:** 2026-09-19, 02:42 UTC
+- **Affected:** `KalpKan/Basketball-Stat-Tracker` `apps/web/components/dashboard-page.tsx` `ProgressChart` (label span `flex-1 truncate`, `minWidth` 36 px) + `apps/web/lib/dashboard-data.ts` `buildDailySessions` (appends ` · <title|deviceId>` to `label` when two sessions share a date); live at `7eead57`, 390 px only
+- **Symptom:** in every phone config (Chromium ×3, WebKit ×3, UTC/Toronto/Tokyo) the chart labels for the two Apr 15 sessions read `Apr 1…` (scrollWidth 218/181 px in 46 px columns), so two of four bars look like April 1 and cannot be told apart; desktop columns are 276 px and show the full text.
+- **Root cause:** FIX r1 solved the "two sessions, one label" problem by lengthening the label, and solved the "30 bars widen the page" problem with a 44 px minimum column; the two fixes were verified separately (labels on desktop, columns on the phone) and never together on a phone with a long label.
+- **Fix:** not applied (TEST only); `docs/reports/hoops.md` D1 (major): keep the axis label to the date and put the disambiguator on a second line or as a ①/② suffix, or size the column from the longest label so the chart scrolls instead of clipping.
+- **Prevention:** the phone smoke now asserts `clipped []` and no `truncated` label (verification.md row "phone chart labels not clipped", script `hoops-r2t-playwright-audit.mjs` measures `scrollWidth > clientWidth` on every `truncate`/`overflow:hidden` text node). Any label that is the only carrier of which-row-is-which must never be allowed to truncate.
+- **Reported by:** Phase 5 TEST agent (hoops, round 2)
+
+### 2026-09-19: hoops — table Date cell is not the same string as the pill/bar label (Phase 5 TEST agent, hoops round 2)
+
+- **Date:** 2026-09-19, 02:42 UTC
+- **Affected:** `apps/web/lib/dashboard-data.ts` (`label` vs `dateLabel`), `dashboard-page.tsx` Session History
+- **Symptom:** pill and bar say `Apr 15 · shootit-ios-manual-test`; the table says `Wed, Apr 15` + Session column `shootit-ios-manual-test`; both Apr 15 rows carry the same Date text. Spec bar 5 asked for byte-identical strings. Strings are identical across timezones, so the round-1 blocker (React #418, Sep 18 vs Sep 19) is gone.
+- **Root cause:** two formatters (`formatSessionLabel`, `formatSessionDateLabel`) and the ` · title` disambiguation applied to one of them.
+- **Fix:** not applied; `docs/reports/hoops.md` D2 (minor): render one string per session everywhere (or amend the bar to allow the weekday).
+- **Prevention:** the verification row compares `pillLabels[1..]` with `chart.labels[].text` (reversed) and `rows[][0]`; keep that three-way comparison in the smoke.
+- **Reported by:** Phase 5 TEST agent (hoops, round 2)
+
+### 2026-09-19: hoops — running the 30-corpus render script from the portfolio evidence folder throws "Invalid hook call" (Phase 5 TEST agent, hoops round 2)
+
+- **Date:** 2026-09-19, 02:40 UTC
+- **Affected:** `docs/reports/evidence/hoops-r2-synthetic30-render.tsx` (and `-measure.mjs`, which needs `playwright` resolvable from cwd)
+- **Symptom:** `npx tsx --tsconfig tsconfig.test.json ~/projects/portfolio/docs/reports/evidence/hoops-r2-synthetic30-render.tsx` from `apps/web` fails with `Invalid hook call … Cannot read properties of null (reading 'useState')`.
+- **Root cause:** module resolution starts from the script's own directory, so `react-dom/server` came from `~/projects/portfolio/node_modules` (the hub's React) while `dashboard-page.tsx` imported the basketball workspace's React: two copies of React in one render.
+- **Fix:** copy the script into `apps/web` first (`cp … ./__r.tsx && npx tsx … ./__r.tsx; rm ./__r.tsx`), and run the measure script from a directory whose `node_modules` links to promptflip's (has playwright). The verification row and the report's step 3 now say so.
+- **Prevention:** evidence scripts that import project components must be run from inside that project; note it in the script header.
+- **Reported by:** Phase 5 TEST agent (hoops, round 2)
