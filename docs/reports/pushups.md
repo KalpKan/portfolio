@@ -1,271 +1,211 @@
-# pushups (Pushup Form Tracker) functional audit — 2026-09-18 (TEST + CRITIQUE round 1)
+# pushups (Pushup Form Tracker) functional audit — 2026-09-19 (TEST + CRITIQUE round 2)
 
-Live URL https://pushups.kalpkan.com · Repo `KalpKan/pushup-tracker-web` (local `~/projects/pushups`, audited at commit `06e245a`, clean, = `origin/main`; production deployment `pushups-87n4ptvqo` is `4f0708e`, and `git diff 4f0708e HEAD -- src index.html public` is empty, so the live bundle `assets/index-CReZYZ1E.js` is the audited source; the only non-test change since is the `vercel.json` `ignoreCommand`) · Vercel project `pushups` (repo root, framework Vite, static) · Database none · Health route `https://pushups.kalpkan.com/health.json` → `{"ok":true,"service":"pushups"}`
+Live URL https://pushups.kalpkan.com · Repo `KalpKan/pushup-tracker-web` (local `~/projects/pushups`, audited at `0dbdc48`, clean, = `origin/main`; production deployment `pushups-mgen7b0v8` built 21:16 UTC from that commit: the live `assets/session-L_dago3h.js` is byte-identical to the local build apart from the `index-*.js` import hash, which carries the PostHog key) · Vercel project `pushups` (repo root, framework Vite, static) · Database none · Health route `https://pushups.kalpkan.com/health.json` → `{"ok":true,"service":"pushups"}` · CI run `35469904988` green on `0dbdc48`.
 
-Spec and bars: `docs/reports/pushups-spec.md` (10 stories, §3 bar table, §5 root causes, §6 baseline). Method: real Chrome 151 (claude-in-chrome) on the live URL for the load path, resource list and console (the shared MCP tab is hidden, so `<video>` never starts there: `document.hidden === true`, the session stalls at "Loading the pose model…", the same limitation the spec and H15 record); real Chrome 151 headless (puppeteer-core, `--use-gl=angle --use-angle=metal`, the Mac GPU) on the live URL for everything that moves: the repo's own fake-camera harness `scripts/e2e-corpus.mjs` on all 15 ground-truth clips **three consecutive times**, `scripts/e2e-demo.mjs` three times, mid-clip stage screenshots, a 12 s black MJPEG for the no-pose hint, `--deny-permission-prompts` for the refusal path, stop/restart/double-start, host and request lists, 360/390/430/1280 px in dark and light schemes with a layout-shift observer; Lighthouse 12 mobile; the Python landmark traces replayed through `src/repCounter.ts` at 30/20/15/10 fps and per-rep verdicts compared with the labels (`docs/reports/evidence/pushups-r1-framedrop-replay.test.ts`); `npm test` and `PUSHUPS_CORPUS_GATE=1`; `impeccable detect`. Every harness JSON, log, screenshot and script is in `docs/reports/evidence/pushups-r1-*`.
+Spec and bars: `docs/reports/pushups-spec.md`. Round-1 report: the previous version of this file (its D1–D14 are re-tested in the table below). Method: real Chrome 151 (claude-in-chrome) on the live URL for the load path, resource list, console and the **browser-cache probe** (the shared MCP tab is hidden, so `<video>` never starts there; the round-1 limitation); real Chrome headless (puppeteer-core, `--use-gl=angle --use-angle=metal`, the Mac GPU) on the live URL for everything that moves: the repo's `scripts/e2e-corpus.mjs` on all 15 ground-truth clips **three consecutive times** (load average 12–40 with another agent's Chrome on the same GPU), `scripts/e2e-demo.mjs` ×3, a canvas `fillText` hook that timestamps every hint / verdict / rep flash drawn on the overlay (black, two-people, cropped, frontal and portrait synthetic cameras plus `IMG_1359`, `IMG_1305`, `IMG_1512`), CPU throttling ×4 and ×20 on the camera path, stop/restart/double-start/deny, hosts and post-load requests, 360/390/430/1280 px in both colour schemes with a layout-shift observer, a portrait 390 px phone with a 360×640 camera, Lighthouse 12 mobile; the Python, browser-recorded and live-recorded landmark traces replayed through `src/tracker.ts` at 30/20/15/10 fps; `npm test` (117 passed + 2 expected fails, corpus gate on by default); `impeccable detect`. Every log, JSON, script and screenshot is in `docs/reports/evidence/pushups-r2-*`.
 
 ## Verdict: PARTIALLY WORKING
 
-The site loads fast and honestly (Lighthouse mobile 0.99, CLS 0, nothing heavy before a click, only `/ingest/*` after load, no console errors, permission refusal handled, stop really ends the camera track) and the pose pipeline runs at 26–30 fps on the GPU. But the one thing the page is for, counting pushups, is not trustworthy: on the live site with the 15 hand-labelled clips played into Chrome's camera the count is within tolerance on **4/15, 4/15 and 5/15** clips in three consecutive runs, every miss is an under-count (the first rep is lost on almost every clip, the three bad-form clips register 2 of 4 attempts, a 9-rep set shows 6), and **six of the fifteen clips give different numbers from run to run** (one 8-rep clip counted 7, then 0, then 7). Four clean reps in `test_video_4` yield 0 good reps because the classifier calls every top "bad"; a pike is scored "Good form 100 %" and counted as a good rep; kneeling to rest is "Good form 100 %"; a bad rep shows a percentage but never a reason; the only placement hint is "Step back so your whole body is visible", shown also when the room is dark, and never when the head or feet are out of frame; the demo clip reports 2 / 1 against a truth of 4 / 2–3 while analysing every frame twice. None of the six root causes in spec §5 has been touched (no commits since the spec). A stranger would do five pushups, see "3", and leave.
+The counting is now what the spec asked for: on the live site the 15 clips give **the same attempts and good numbers in all three runs**, 14/15 are inside the tolerance (attempts within ±1 on 15/15; the miss is two clean reps in `test_video` scored "keep your body straight"), the first rep counts, no clip over-counts, standing/kneeling/resting/partials add 0 attempts, the pipeline runs at 27–30 fps (min 23) and the attempts do not change at 20/15/10 fps or under ×4 CPU throttling. The demo reports 4/4 three times, hints for dark / two people / feet out / head out appear in 0.74–1.0 s, stop kills the track, restart resets, refusal is handled, only `/ingest/*` after load, 0 console errors, Lighthouse 0.98, CLS 0, no horizontal scroll, the placement sentence is the first line of the page. Round-1 D1, D2, D4, D6, D7, D8, D9, D10, D11, D12, D13 are fixed and D3, D5, D14 mostly.
+
+Two things stop it being consumer-grade. **(1) Every returning visitor gets a dead page**: the classifier was retrained with a different input shape (36 → 24) but kept the same URL under `cache-control: immutable, max-age=31536000`, so a browser that visited before 21:17 UTC today (Kalp's own Chrome does, verified: it serves the 36-input `model.json` from cache) loads the new code with the old model, throws `expected keypoints to have shape [null,36] but got array with shape [1,24]` on every frame inside the frame loop, draws nothing and ends the demo with "Clip finished: 0 good of 0"; the camera path fails the same way with no message. A first-time visitor and every headless run in this report are unaffected, which is why the numbers above look good. **(2) One rep in five gets the wrong verdict**: 56/69 high-confidence reps match their label on the live overlay (bar: all). Six clean reps are called bad (the demo's own first rep reads "keep your body straight"), five bad reps are called good (the demo's worm rep reads good, and three of the five bad-form clips show one good rep), and a knee pushup is not an attempt at all.
+
+## Round-1 defects re-tested
+
+| R1 | Title | Status now | Evidence |
+|---|---|---|---|
+| D1 | First rep lost, sets under-counted (4/15) | **fixed** | 15/15 attempts within ±1 in three live runs; first labelled bottom → first counted event within 0.4–1.0 s on 14/15 clips (`pushups-r2-corpus-live-run{1,2,3}-2026-09-19.log`, run-1 traces). `IMG_1305`'s first rep begins before frame 0 (shoulder already 1/3 down, `mediaTime` 0.08 s y = 0.29 vs top 0.17) and is reported as a partial: see limitations |
+| D2 | Different counts on consecutive runs (6/15) | **fixed** | `attempts/good` identical on **15/15** clips across runs 1, 2, 3 |
+| D3 | Single-frame verdict; `test_video_4` tops all bad; pike/kneeling "Good form 100 %" | **mostly fixed** | `test_video_4` 5/4 ×3 (was 4/0); pike at `IMG_1512` 32.6 s → "Rep 6: hips too high" (montage); kneeling at `IMG_1359` 5.5 s → "Bad form: knees down", never counted; verdict = majority of the end window (`repCounter.ts:134-149`). Residual: 13/69 verdicts wrong → new D2 |
+| D4 | No reason for a bad verdict | **fixed** | overlay "Bad form: keep your body straight / hips sagging / hips too high / knees down", flash "Rep N: <reason>", tile "bad: <reason>" (montage, fillText timelines) |
+| D5 | No placement hints beyond "no pose" | **mostly fixed** | dark 741 ms, two people 748 ms, feet out 739 ms, head out ≈ 1 s on `IMG_1359`; residual: debounce resets on intermittent detection (new D4), counting continues under a hint (new D5) |
+| D6 | Count depends on the frame rate | **fixed** | attempts identical at 30/20/15/10 fps on 15/15 clips on all three trace sets (`pushups-r2-framedrop-table-2026-09-19.txt`); live ×4 CPU throttle (20–27 fps) same counts on 6/6 clips |
+| D7 | Demo 2/1 at "60 fps" | **fixed** | `4 / 4` at 24–30 fps ×3, `hosts: ["pushups.kalpkan.com"]`, `errors: []` (`pushups-r2-demo-run{1,2,3}-2026-09-19.json`); the verdicts inside it are wrong → new D2/D7 |
+| D8 | Bad clips 2 of 4 attempts | **fixed** | `bad_IMG_4456/4470/4451` 4 attempts ×3 runs |
+| D9 | "Step back" in the dark | **fixed** | black camera → "Too dark: turn a light on or uncover the camera" at 741 ms |
+| D10 | Placement sentence below the fold | **fixed** | lede "Phone or laptop on the floor, side-on, whole body in frame, one person." at y = 85 px at 390 × 844 (`pushups-r2-phone390-2026-09-19.jpg`) |
+| D11 | 2 fps first second | **fixed** | shader warm-up before `play()` (`session.ts:47-57`); fps min per clip 23–30 across 45 clip-runs, including the first clip of a fresh browser (25) |
+| D12 | Stats below the fold in portrait | **fixed** | 390 × 844 with a 360 × 640 camera: page scrolls to the stage on Start, canvas 358 × 439 (52 vh cap), stats bottom at y = 621 (`pushups-r2-portrait390-live-2026-09-19.jpg`); count 5/5 on the portrait clip |
+| D13 | Stale tiles after Stop | **fixed** | after Stop: form "–", fps "–", status "Stopped: 2 good reps of 2 attempts." |
+| D14 | Limits copy, "1 attempts" | **mostly fixed** | Tips name the frontal view, the second person, the pike and kneeling; "1 attempt" singular. Residual: the Tips say the demo has "2 good" while the app reports 4 → new D7 |
 
 ## User stories tested
 
 | # | Story | Result | Evidence |
 |---|---|---|---|
-| S1 | Load and understand: what it does, Start camera + Play demo clip, a placement sentence (side-on, floor level, whole body, one person), nothing heavy before a click; `200` + Vercel, Lighthouse ≥ 0.85, no horizontal scroll at 360/390/430, buttons ≥ 44 px, placement sentence above the fold at 390 px, CLS ≤ 0.1 | **PASS (partial)** | `HTTP/2 200`, `server: Vercel`, `/health.json` ok. Lighthouse mobile: **performance 0.99**, accessibility 1.00, best-practices 1.00 (FCP 1.1 s, LCP 1.8 s, TBT 20 ms, CLS 0). `scrollWidth == innerWidth` at 360/390/430/1280 in both schemes, layout-shift total **0** in all eight loads (`pushups-r1-ux-checks-2026-09-18.json` `layout`). Both buttons 50 px tall. Resources before any click: `index-*.js` (3.8 KB), CSS, `analytics-*.js`, three `/ingest/*` PostHog files; no `/wasm/*`, `/models/*`, `/demo/*` (real Chrome `performance.getEntriesByType('resource')`, and headless `heavy: []`). **Placement sentence: the lede says only "side-on"; the full sentence ("Camera at roughly floor level, whole body in frame, side view, one person") is the fourth bullet of the Tips section at y = 886 px at 390 × 844, i.e. below the fold** (`pushups-r1-phone390-2026-09-18.jpg`) → D10. Light scheme renders the identical dark page (`color-scheme: dark`, no light tokens): by design, noted under limitations |
-| S2 | Live count on a laptop: skeleton at ≥ 15 fps, good reps = N, every rep counted once including the first; e2e-corpus 15/15 PASS with attempts ±1 and good in [min−1, max+1], fps avg ≥ 15 and never < 10, identical numbers on 3 consecutive runs | **FAIL** | `GPU=1 node scripts/e2e-corpus.mjs https://pushups.kalpkan.com/` ×3: **4/15, 4/15, 5/15** within tolerance (`pushups-r1-corpus-live-run{1,2,3}-2026-09-18.{json,log}`). Per clip (attempts/good per run; truth): demo 1/0, 2/1, 2/1 (4 / 2–3); test_video3 2/1 ×3 (5 / 2–4); test_video 3/2, 3/3, 3/3 (4 / 2) pass; test_video_2 2/0 ×3 (4 / 0–2); test_video_4 4/0 ×3 (5 / 4); good_IMG_4378 **7/7, 0/0, 7/7** (8 / 8); good_IMG_4409 4/4 ×3 (5 / 5) pass; bad_IMG_4456, bad_IMG_4470, bad_IMG_4451 2/0 ×3 (4 / 0); IMG_1305 4/4, 2/2, 4/4 (6 / 6); IMG_1359 6/6 ×3 (9 / 9); IMG_1360 3/3, 5/5, 5/5 (6 / 6); IMG_1512 3/3, 4/4, 3/3 (6 / 4); IMG_1513 1/0 ×3 (1 / 0) pass. **Every miss is an under-count; the first rep is lost on 12/15 clips** (e.g. IMG_1305 at 3.0 s, two bottoms into the clip, still "0 attempts", montage panel 4). Consistency: **6/15 clips change numbers between runs** (demo, test_video, good_IMG_4378, IMG_1305, IMG_1360, IMG_1512) → D1, D2. Pipeline rate: avg 26–30 fps on every clip (45 clip-runs), min per clip 12–20 except the first clip of run 1 (**min 2 fps**, the fresh browser's model warm-up) → the "never < 10" half fails only there (D11). Skeleton drawn on every frame with a pose (montage). Offline: `PUSHUPS_CORPUS_GATE=1 npx vitest run tests/corpus.test.ts` → **10 failed / 7 passed** (5/15 clips), identical to the spec baseline |
-| S3 | Bad form is not a good rep: red skeleton, a one-line reason, attempts up, good reps flat; bad clips 0 good ±1 with the right attempts; high-confidence verdicts match the label at the bottom; rep verdict from a 3-frame majority | **FAIL** | The three bad clips give **0 good** in all 9 runs (pass) but **2 attempts of 4** (fail, D1). Skeleton turns red and the label reads "Bad form 94 %" at the bottom of `bad_IMG_4456` at 2.2 s (montage panel 1) — **no reason is ever shown** (`src/draw.ts:61-65` prints only `Good/Bad form NN%`) → D4. Per-rep verdict at the labelled bottom on the traces: single frame matches the label on **67/69** high-confidence reps, the 3-frame majority also 67/69, so the bottom is fine; the failures are at the **top**: `test_video_4` reps 1–4 (labelled good, high) have P(good) = 0.07–0.16 on every top frame (y ≈ 0.41) → 0 good reps of 4 in all three live runs; and the two pike reps in `IMG_1512` (28.8 s medium, 32.6 s high, labelled bad) read "Good form 100 %" at 31 s and 33 s and were counted as good (5 good on screen at 31 s, montage panel 5) → D3. The verdict is still a single frame at each end (`src/repCounter.ts:66-68, 72-74`); a 3-frame majority does not exist in the code. In the `formPerSecond` strings of run 1 the label flips good→bad→good within one second on demo/test_video3 (`goodgoodbadgoodbadbad…`) |
-| S4 | Consistent across pace and camera: fast (IMG_1305), slow with holds (IMG_1512), head out at the top (IMG_1359), quarter partial (IMG_1360), stands up (test_video3) each within tolerance; standing/kneeling/resting/partials add 0 attempts; a clip that starts mid-descent gets its first rep only after a top | **FAIL** | IMG_1305 4/4, 2/2, 4/4 vs 6; IMG_1512 3, 4, 3 vs 6; IMG_1359 6 vs 9 (all three runs); IMG_1360 3, 5, 5 vs 6; test_video3 2 vs 5. Phantom reps: **none** in any run (no clip ever over-counts; standing, kneeling, resting and the partials add 0 attempts: pass). IMG_1513 (starts at the bottom) counts 1 attempt / 0 good in all runs, exactly the truth: pass. The pace cases fail by under-count, not by double count |
-| S5 | Demo clip: same overlay, 3–5 attempts and 1–4 good when it finishes, identical every play, hosts = own host, no console errors | **FAIL (partial)** | `GPU=1 node scripts/e2e-demo.mjs https://pushups.kalpkan.com/` ×3: **attempts 2, good 1** all three times (bar 3–5 / 1–4; truth 4 / 2–3), `hosts: ["pushups.kalpkan.com"]`, `errors: []`, status "Clip finished. Play it again or start your camera.", canvas 640 × 360, `scrollWidth == innerWidth`. Consistent but wrong; and `stat-fps` reads **"60 fps"** for a 30 fps clip (every frame analysed twice, spec §5.6, D7). In camera mode the same clip gave 1/0, 2/1, 2/1 |
-| S6 | Phone front camera: mirrored preview ≤ 100 % width, skeleton and count at ≥ 8 fps, count independent of frame rate (traces with every third frame dropped give the same count), stats visible in portrait after Start | **FAIL (frame-rate) / untested (device)** | Mirroring is real: `src/session.ts:63` `mirror = mode === "camera"` and `src/draw.ts:25-28` flip the canvas; `getUserMedia({ facingMode: "user" })` at `session.ts:40`; `.stage canvas { width: 100% }`. **Trace replay: dropping every third frame (20 fps) changes the count on 3/15 clips** (bad_IMG_4456 3→2, IMG_1359 7→6, IMG_1512 4→3); at 15 fps 4/15 differ, at 10 fps **6/15** (also good_IMG_4409 5→4, bad_IMG_4451 2→1, IMG_1360 4→3) (`pushups-r1-framedrop-replay.test.ts`, output `pushups-r1-framedrop-replay-output-2026-09-18.txt`) → D6. Portrait: with a 480 × 640 front camera the stage at 390 px is 520 px tall starting at y ≈ 300, so the stats list sits at y ≈ 830+, below an 844 px viewport (the count is also drawn on the canvas top-left, which is what a visitor actually reads) → D12. A real iPhone/Android was not available (H15 stays open) |
-| S7 | Placement guidance: no pose > 1 s → where to move; head/feet out > 1 s → say so; two poses or frontal → "turn side-on / one person"; hint gone within 1 s of fixing; hints never cover the count | **FAIL** | Black camera: "no pose" state and the hint "Step back so your whole body is visible" appear **510 ms** after the session starts (pass for timing; `pushups-r1-ux-checks…` `noPoseAfterMs`), but the advice is wrong for a dark room (D9). `IMG_1359` at 2.0 s (head cut off at the top of the rep): skeleton drawn to the frame edge, "Good form 100 %", **no hint** (montage panel 2). `IMG_1305` at 3.0 s (feet at the edge, bystander in the background): "Good form 100 %", no hint (panel 4). `IMG_1359` at 5.5 s (kneeling to rest): "Good form 100 %", no hint (panel 3). The only hint in the code is `src/session.ts:100` `hint: landmarks ? undefined : "Step back…"`; there is no head/feet/visibility check, no frontal check (shoulder width vs torso), no second-person check (`result.landmarks[0]` at `session.ts:85` silently takes the first pose) → D5. The hint sits at the bottom centre and never covers the count (pass) |
-| S8 | Stop ends the track, hides the video, restart shows 0 / 0; refusal shows the message and the demo button still works; a double Start never opens two loops | **PASS** | After Stop: `MediaStreamTrack.readyState` = `["ended"]`, `video.srcObject` = null, Stop hidden, status "Stopped.", Start enabled; restart → good 0, attempts 0, 24 fps; two `click()`s in the same tick → one session, one status, 24 fps (no doubled count, `main.ts:32` `starting` guard). `--deny-permission-prompts`: status "Camera permission was refused. You can still watch the demo clip.", demo enabled, stage back to the placeholder (`pushups-r1-camera-denied-2026-09-18.jpg`). Minor: after Stop the stats still read "Speed 30 fps" and "Form now: no pose" (stale, D13) |
-| S9 | Private and offline: after load only `/ingest/*`; `rep_counted {good}` carries no landmark/image keys; second load serves `/wasm/*` and `/models/*` immutable; health ok | **PASS** | Hosts contacted during a full camera session: `["pushups.kalpkan.com"]`; requests after load, excluding `/wasm/`, `/models/`, `/assets/`: `/ingest/i/v0/e/` ×5 and `/ingest/s/` ×2 (PostHog events + session-replay chunks; rrweb does not capture canvas or video pixels, `recordCanvas` is off by default). `src/analytics.ts` events carry only `mode` / `good`. `curl -I`: `/wasm/vision_wasm_internal.wasm` 11.15 MB and `/models/pose_landmarker_full.task` 9.40 MB both `cache-control: public, max-age=31536000, immutable`; `/demo/pushups.mp4` 265 KB `max-age=86400`; in real Chrome on a second visit every model/WASM entry had `transferSize 0` (served from cache). Console errors in all 45 corpus runs + 3 demo runs + the UX run: **0** |
-| S10 | Honest about limits: page and README name the training set, the three things the classifier cannot judge (front view, second person, pike vs plank) and the placement rules; README runs for a non-developer | **PASS (partial)** | Page "How it decides": "trained on Kalp's own good- and bad-form videos", 94.8 % held-out; Tips give the placement rule. README "Limits (honest ones)": one person, side-on, "other angles read as bad form", first rep may be missed, phone 8–15 fps. **Neither says a second person, a pike, or kneeling can be scored as good** (they are: montage panels 3 and 5), and the page claims "it only counts when the form was good at both ends" while the README's "How to run this" (`npm install`, `npm run dev`, `npm test`) is accurate (`npm test` → 26/26 + the corpus table) → D14 |
+| S1 | Load and understand; ≥ 0.85 Lighthouse; no horizontal scroll at 360/390/430; buttons ≥ 44 px; placement sentence above the fold at 390; nothing heavy before a click; CLS ≤ 0.1 | **PASS** | `HTTP/2 200`, `server: Vercel`, health ok. Lighthouse mobile **performance 0.98**, accessibility 1.00, best-practices 1.00 (FCP 1.1 s, LCP 1.9 s, TBT 40 ms, CLS 0). `scrollWidth == innerWidth` at 360/390/430/1280 in dark and light (the page is dark-only by design), layout-shift 0 in all eight loads, both buttons 50 px, lede at y = 85 px at 390, `heavy: []` before a click; real Chrome resource list before a click: `index-*.js` 2.3 KB, CSS, `analytics-*.js`, three `/ingest/*` PostHog files (`pushups-r2-ux-checks-2026-09-19.json` `layout`) |
+| S2 | Live count on a laptop: 15/15 within tolerance, first rep counted, ≥ 15 fps avg and never < 10, identical on 3 runs | **FAIL (1 clip)** | `GPU=1 node scripts/e2e-corpus.mjs https://pushups.kalpkan.com/` ×3: **14/15, 14/15, 14/15**, every clip's numbers identical across the runs. Per clip (attempts/good; truth): demo 4/3 (4/2–3), test_video3 5/4 (5/2–4), **test_video 4/0 (4/2)** miss, test_video_2 3/1 (4/0–2), test_video_4 5/4 (5/4), good_IMG_4378 8/8, good_IMG_4409 5/5, bad_IMG_4456 4/1 (4/0), bad_IMG_4470 4/1 (4/0), bad_IMG_4451 4/0, IMG_1305 5/5 (6/6), IMG_1359 9/8 (9/9), IMG_1360 6/5 (6/6), IMG_1512 6/5 (6/4), IMG_1513 1/1 (1/0). fps avg 29.7 over 45 clip-runs (lowest per-clip avg 27), min 23. The first rep is counted on every clip that starts in a plank (event 0.4–1.0 s after the labelled bottom). Offline gate: python 14/15, browser 14/15, same miss. **But a returning visitor sees 0/0 with no skeleton** (D1) |
+| S3 | Bad form is not a good rep: red skeleton + reason, attempts up, good flat; the five bad clips 0 good; high-confidence bottom verdicts match; 3-frame majority | **FAIL** | Red skeleton and a reason on every bad frame and every bad rep (montage: "Bad form: keep your body straight", "hips too high", "knees down"; flash "Rep 6: hips too high"). Bad clips: `bad_IMG_4451` 0 good, but **`bad_IMG_4456` 1 good (rep at 5.1 s), `bad_IMG_4470` 1 good (3.8 s), `IMG_1513` 1 good (its only rep, labelled bad)** in all three runs; `test_video_2` 1 good of 0–2 ok. High-confidence verdicts on the live overlay **56/69** (python traces 62/69, browser traces 57/69; bar: all). Majority windows exist (`repCounter.ts:134`, `tracker.ts:46-62`) and the verdict no longer flips per frame. Knee pushup (`test_video_2` 12–19 s): "Bad form: knees down" live but **0 attempts** (D3) |
+| S4 | Pace and camera: the five edge clips within tolerance; standing/kneeling/resting/partials add 0; mid-descent start counts only after a top | **PASS** | IMG_1305 5/5 (6), IMG_1512 6/5 (6/4), IMG_1359 9/8 (9), IMG_1360 6/5 (6), test_video3 5/4 (5/2–4): all within ±1. Not-rep windows: 0 events inside any of the 14 windows on all trace sets (`corpus.test.ts` "no rep inside the not-rep windows" ×2 sets, live run-1 trace: IMG_1360's quarter dip → "Go lower" flash at 9.0 s, IMG_1512's two partials → one "Go lower", test_video3 stands up → nothing, IMG_1359 kneels → "knees down", nothing counted). IMG_1513: 1 attempt after the top at 2.5 s (right), graded good (wrong, D2). No clip over-counts in 45 runs |
+| S5 | Demo clip: 3–5 attempts, 1–4 good, identical each play, own host only, no console errors | **PASS (partial)** | `GPU=1 node scripts/e2e-demo.mjs https://pushups.kalpkan.com/` ×3: **4 attempts / 4 good** all three times, "30 fps / 24 fps / 25 fps", `hosts: ["pushups.kalpkan.com"]`, `errors: []`, status "Clip finished: 4 good of 4. Play it again or start your camera.", canvas 640 × 360. Inside the band, but the per-rep verdicts are 2/4 wrong (the 6.2 s worm ascent reads good; in camera mode the same clip reads 4/3 with the first clean rep "keep your body straight") and the page promises "4 attempts, 2 good" (D7). **A returning visitor gets "Clip finished: 0 good of 0"** (D1) |
+| S6 | Phone front camera: mirrored ≤ 100 % width, ≥ 8 fps, count independent of frame rate, portrait stats visible | **PASS (partial) / device untested** | Mirroring: `session.ts:108` + `draw.ts:31-34` (canvas flipped, text not). Frame-rate independence: attempts identical at 30/20/15/10 fps on **15/15** clips on the python, browser and live-run-1 traces; good reps differ by 1 at some rate on 1/15, 4/15 and 3/15 clips (classifier mean near 0.5). Live camera path with ×4 CPU throttling (20–27 fps): same counts as unthrottled on 6/6 clips (`pushups-r2-cpu-throttled-2026-09-19.log`). At ×20 (3–9 fps, below the README's 8 fps floor) fast reps are lost: IMG_1305 4/4, demo 1/1, IMG_1359 still 9/8 (D8). Portrait 390 × 844 with a 360 × 640 camera: canvas 358 × 439, stats fully visible (bottom 621), no overflow, 5/5 on the clip. Real iPhone/Android: H15 |
+| S7 | Placement hints: no pose > 1 s, head/feet out, two poses, frontal, gone within 1 s, never over the count | **PASS (partial)** | fillText timelines (`pushups-r2-ux-checks-2026-09-19.json` `hints`): black → "Too dark: turn a light on or uncover the camera" at **741 ms**; two people → "Only one person in the frame, please" at **748 ms**; frontal upper body → "Feet out of frame: move the camera back" at **739 ms** (feet outrank frontal in `hints.ts:33-38`); `IMG_1359` head off at the top → "Head out of frame: move the camera back or tilt it up" from 3.0 s (≈ 1 s after the head left) to 6.4 s, gone 0.5 s after the head is back. Hints sit at the bottom centre, the count top-left (montage). Failures: a **cropped body that MediaPipe half-detects shows no hint for 4.5 s** and counts "Rep 1: good" with no head in the frame, then the generic "Step back…" (D4); `IMG_1512` lying flat at the bottom triggers a false "Only one person" for 1.2 s (D6); counting and verdicts continue under a hint (D5) |
+| S8 | Stop ends the track, restart 0/0, refusal message + demo enabled, double start = one loop | **PASS** | After Stop: track `["ended"]`, `srcObject` null, Stop hidden, Start enabled, status "Stopped: 2 good reps of 2 attempts.", tiles "–"; restart → 0/0 at 31 fps; two `click()`s in one tick → one session (31 fps, one status); `--deny-permission-prompts` → "Camera permission was refused. You can still watch the demo clip.", demo enabled, stage back to the placeholder |
+| S9 | Private and offline: only `/ingest/*` after load, no landmarks in events, second visit cached, health ok | **PASS (and the cache is the blocker)** | Hosts during a full camera session: `["pushups.kalpkan.com"]`; requests after load excluding `/wasm/ /models/ /assets/`: `POST /ingest/i/v0/e/` ×7 (≤ 2 KB each), `POST /ingest/s/` ×3 (session replay, DOM only). `analytics.ts` events carry `mode` / `good` / `reason` (a word). Real Chrome second visit: `model.json`, `.bin`, `vision_wasm_internal.*`, `pose_landmarker_full.task` all `deliveryType: "cache"`, `transferSize 0`. `/wasm/*` and `/models/*` `cache-control: public, max-age=31536000, immutable`. Console errors: **0** in 45 corpus runs, 3 demo runs, 7 hint runs, the controls run. That immutable cache is what serves the wrong classifier to returning visitors (D1) |
+| S10 | Honest about limits on the page and in the README | **PASS (partial)** | Page "How it decides / Tips": trained on Kalp's clips, one orientation, "a frontal view is not graded; with a second person in the frame the biggest body is tracked; a pike (hips high) and kneeling are caught by geometry, a shallow sag mostly by the classifier". README "Limits (honest ones)" says the same plus 2D geometry and the 8–15 fps phone rate; "How to run this" is accurate (`npm install`, `npm run dev`, `npm test` → 117 passed + 2 expected fails). Residual: Tips claim the demo gives "4 attempts, 2 good" while the app says 4 good (D7) |
 
-Global: `npm test` (vitest `--pool=forks --maxWorkers=1`) 26/26; with `PUSHUPS_CORPUS_GATE=1` the corpus test fails 10/17 (expected until the fix round); CI run `35413958556` green on `06e245a`; static Hobby, $0, no deploy made by this round; `impeccable detect --json index.html` → 1 warning (`flat-type-hierarchy`), a false positive (sizes live in `src/style.css`: `h1` `clamp(1.6rem, 5vw, 2.4rem)`).
+Global: `npm test` (vitest `--pool=forks --maxWorkers=1`) 7 files, **117 passed, 2 expected fail** (the `test_video` known miss on both trace sets, `it.fails`); the corpus gate is on by default (no env variable any more; `PUSHUPS_CORPUS_GATE=1` is accepted and changes nothing); CI `35469904988` green on `0dbdc48`; static Hobby, $0, no deploy made by this round; `impeccable detect --json index.html` → 1 warning (`flat-type-hierarchy`), the same false positive as round 1 (sizes live in `src/style.css`).
 
 ## Defects
 
-### D1 — The counter loses the first rep and then under-counts every set (4/15 clips on the live site; all misses are under-counts)
+### D1 — Returning visitors get a dead page: the retrained classifier kept its URL under a one-year immutable cache, so the cached 36-input model meets code that feeds 24 inputs
 
-Severity: **blocker** (S2, S3, S4 bars; this is the product)
+Severity: **blocker** (S2, S5; every visitor who pressed a button before 2026-09-19 21:17 UTC, including Kalp's Mac Chrome and, if he did H15, his phone)
 
-Steps to reproduce: `cd ~/projects/pushups && GPU=1 REPORT_ONLY=1 node scripts/e2e-corpus.mjs https://pushups.kalpkan.com/` (needs the git-ignored `.mjpeg` files, `node scripts/make-mjpeg.mjs` once). Or offline: `PUSHUPS_CORPUS_GATE=1 npx vitest run --pool=forks --maxWorkers=1 tests/corpus.test.ts`.
+Steps to reproduce: in a browser that opened the site before the fix deploy (Kalp's Chrome: `fetch('/models/form/model.json').then(r => r.json())` → `batch_input_shape [null, 36]`, `deliveryType: "cache"`, while `fetch(…, {cache: "reload"})` → `[null, 24]`), press **Play demo clip** or **Start camera**. Reproducible from scratch: `node docs/reports/evidence/pushups-r2-stale-cache.mjs https://pushups.kalpkan.com/ <dir with 4f0708e's public/models/form/> <out>` (answers the two model requests with the v1 files, exactly what the HTTP cache does).
 
-Expected / Actual: 15/15 within ±1. Actual 4/15, 4/15, 5/15 live (traces 5/15). `bad_IMG_4456` 4 reps → 2 attempts; `IMG_1359` 9 → 6; `test_video3` 5 → 2; `IMG_1305` at t = 3.0 s (after two bottoms at 0.7 and 2.6 s) still shows "0 attempts".
+Expected / Actual: the site works, or at worst a message. Actual: black stage, no skeleton, count 0/0, **254 uncaught errors** `Error when checking : expected keypoints to have shape [null,36] but got array with shape [1,24]`, then "Clip finished: 0 good of 0. Play it again or start your camera." (`pushups-r2-stale-cache-demo-2026-09-19.jpg`). The camera path: the same, with no message at all.
 
-Evidence: `docs/reports/evidence/pushups-r1-corpus-live-run{1,2,3}-2026-09-18.json` (`got` vs `expected` per clip), `pushups-r1-overlay-montage-2026-09-18.jpg` panel 4; the corpus test's event lists (e.g. `IMG_1359 events 1.7g 7.7g 8.8g 9.8g 11.9g 14.4g 15.9g`, reps at 16.4 and 17.5 s missing).
+Evidence: `curl -sI https://pushups.kalpkan.com/models/form/model.json` → `cache-control: public, max-age=31536000, immutable`, `last-modified: 19 Sep 2026 21:17:41`; `git show 4f0708e:public/models/form/model.json` → 36 inputs, `group1-shard1of1.bin` 60 420 B; HEAD → 24 inputs, 5 380 B; `vercel.json` `headers` `/models/(.*)`; real-Chrome probe in this session (`deliveryType: "cache"`, 60 420 B served).
 
-Likely cause: `src/repCounter.ts:54-58, 65` — the top band is `shoulderMin + 0.1 × range` on the **all-time** min/max. At the start `range ≈ 0`, so the plank the visitor is already in never registers as a "top" and the first descent counts for nothing (spec §5.1); after that, one deeper bottom or a higher top (head-off-frame extrapolation, standing up, `test_video3` overshoot at 2.4 s) widens the range so the 10 % bands become unreachable for normal reps (§5.2). `WARMUP_FRAMES = 10` (`:31, :60-63`) discards the first third of a second regardless of what happened in it.
+Likely cause: `vercel.json:18-25` marks everything under `/models/` immutable for a year (right for the 9.4 MB pose model, which never changed), and `src/classifier.ts:36` loads the classifier from the fixed path `/models/form/model.json`; `c446bcb` replaced the files in place. Second fault: `session.ts:149-190` `step()` runs inside the `requestVideoFrameCallback` loop with no try/catch, so an exception per frame is invisible to the visitor (the loop keeps re-arming, `frames++` never runs, the fps tile stays "–").
 
-Suggested fix: treat the first stable shoulder height as the top (seed `topReached` when the shoulder has been within a small band for ~0.3 s), replace all-time min/max by a decaying or per-rep re-estimated range (e.g. exponential decay toward the last rep's extremes, or a rolling window of ~4 s) with hysteresis, and express the bands as a fraction of the last completed rep's amplitude rather than of the session extremes. Keep `tests/corpus.test.ts` as the gate (flip `PUSHUPS_CORPUS_GATE=1` in CI when it passes) and confirm with `e2e-corpus.mjs` ×3.
+Suggested fix: version the classifier's URL (e.g. `public/models/form-v2/…` or import `model.json` through Vite with `?url` so the filename carries a hash, and update `scaler.ts`/tests), and drop `immutable` for the small classifier files (or add a `?v=<hash>` query in `loadClassifier`). Wrap `step()` in try/catch: stop the session, set the status to "Something went wrong: <message>. Reload the page." and report it as a PostHog event, so a broken pipeline is never silent. Add a verification row that fetches `model.json` from a cold cache and asserts the input shape matches `formFeatures`.
 
-### D2 — The same clip gives different counts on consecutive runs (6/15 clips; one 8-rep clip counted 7, 0, 7)
+### D2 — One rep in five gets the wrong verdict: 13/69 high-confidence reps on the live overlay (6 clean reps called bad, 5 bad reps called good, 3 of the 5 bad-form clips show a good rep)
 
-Severity: **blocker** (S2 "identical on 3 consecutive runs"; a visitor who repeats a set and gets a different number stops trusting the page)
+Severity: **major** (S3 bar "every high-confidence verdict matches"; S2's `test_video` miss; S5's demo verdicts)
 
-Steps to reproduce: run `scripts/e2e-corpus.mjs` three times as in D1 and diff the `got` columns.
+Steps to reproduce: `GPU=1 REPORT_ONLY=1 TRACE_DIR=/tmp/t node scripts/e2e-corpus.mjs https://pushups.kalpkan.com/` and compare each clip's `event` list with `ground_truth.json`; or `npx vitest run --pool=forks --maxWorkers=1 tests/corpus.test.ts --reporter=verbose` and read "bottom verdicts".
 
-Expected / Actual: identical numbers. Actual: demo 1/0 → 2/1 → 2/1; test_video 3/2 → 3/3 → 3/3; good_IMG_4378 **7/7 → 0/0 → 7/7**; IMG_1305 4/4 → 2/2 → 4/4; IMG_1360 3/3 → 5/5 → 5/5; IMG_1512 3/3 → 4/4 → 3/3. A separate screenshot run of IMG_1512 showed **5/5 at 31 s** (a fourth value).
+Expected / Actual: verdict = label. Actual (live run 1): clean reps called bad: demo 0.8 s and test_video3 0.8 s "keep your body straight" (the first rep of the demo clip every visitor watches), test_video 13.5 s + 15.0 s "keep your body straight" (→ `test_video` 4/0 vs 4/2, the one corpus FAIL), IMG_1359 13.6 s "hips too high", IMG_1360 10.0 s "hips sagging". Bad reps called good: demo 6.2 s and test_video3 6.2 s (lies on the floor, chest first: the worm), bad_IMG_4456 5.1 s, bad_IMG_4470 3.8 s, IMG_1513 5.7 s (the only rep of a bad clip). `[python]` 62/69, `[browser]` 57/69, live 56/69; the test ratchet is at 0.8.
 
-Evidence: the three run JSONs above; `fpsMin` 2 on the first clip of run 1 (model warm-up in a fresh browser).
+Evidence: `pushups-r2-npm-test-2026-09-19.txt` (both "bottom verdicts" lists), run-1 traces summarised in the report's S3 row, montage panel `IMG_1512-31s` ("Rep 5: good" on the rep that ends in a pike), `demo` fillText timeline.
 
-Likely cause: the counter is frame-based, not time-based, and every decision is a single sample: `WARMUP_FRAMES` (`repCounter.ts:31`) is 10 *detections*, and a band crossing is registered on the first frame that lands inside the 10 % band (`:65-76`). Which frames the pipeline samples varies from run to run (29 ± 1 fps against a 30 fps source, plus the first second at 2–16 fps while MediaPipe's GPU shaders compile), so a top or bottom that lasts one or two frames is sometimes seen and sometimes not. A single spurious landmark frame during warm-up (`shoulderY` far outside the body's range) is enough to poison the all-time min/max for the whole session, which is the most plausible reading of the 0/0 run on `good_IMG_4378` (the range never became reachable).
+Likely cause: the classifier (`src/classifier.ts`, 24 hip-centred x/y inputs) is the only signal for a shallow sag and the worm, it is trained on one person, and its mean probability over the bottom window sits near 0.5 on those reps (`repCounter.ts:144-147`); it is disabled for the other facing (`form.ts:97`), so the other person's reps are judged by the geometry only, whose thresholds (`SAG_DEV 0.18`, `PIKE_DEV -0.26`, `form.ts:47-48`) were tuned on the same clips and still misfire on IMG_1359/1360's tops. The worm (chest rises before the hips) is a *temporal* fault that no single-frame measure sees: at the bottom window the body is straight on the floor.
 
-Suggested fix: make warm-up and hold times wall-clock (`performance.now()`), smooth `shoulderY` with a short time-based filter (e.g. 100 ms EMA or a 3-sample median) before the state machine, require a band to be held for ~100 ms rather than one frame, and ignore frames whose pose visibility/confidence is low. Then the count depends on the movement, not on which frames the GPU happened to process.
+Suggested fix: add a rule for the worm on the ascent (hip deviation integrated over the first half of the rise, or the hip's rise lagging the shoulder's by more than a fraction of the depth); raise the classifier's training set with the corpus's labelled bottoms of the second person (or gate it on a confidence margin, e.g. only "bad" below 0.35, and say "form: unsure" between); loosen `SAG_DEV`/`PIKE_DEV` at the top window where the body is loaded differently; then raise `BOTTOM_VERDICT_MIN` to the measured value and remove `test_video` from `KNOWN_MISSES`.
 
-### D3 — Form is judged on one frame at each end, the classifier calls every clean top in `test_video_4` "bad", and pikes / kneeling read "Good form 100 %"
+### D3 — A knee pushup is not an attempt
 
-Severity: **major** (S3; 4 clean reps → 0 good in three runs; a pike counted as a good rep)
+Severity: **major** (S3 "on my knees … the attempts number go up and the good reps number stay put")
 
-Steps to reproduce: `e2e-corpus.mjs … test_video_4` (0 good of 4 good reps, every run); `IMG_1512` screenshot at 31 s; `IMG_1359` at 5.5 s.
+Steps to reproduce: `test_video_2` 12–19 s (knee pushup, labelled bad rep at 15.9 s), or do a set on the knees.
 
-Expected / Actual: `test_video_4` → 4 good; pike → bad with a reason; kneeling → not a good plank. Actual: 0 good; "Good form 100 %" on the downward-dog pike (counted as a good rep, "5 good reps · 5 attempts" at 31 s); "Good form 100 %" while kneeling to rest.
+Expected / Actual: attempts +1 with "knees down". Actual: the live tile reads "bad: knees down" throughout, but the counter needs `plank` (knee angle ≥ 130°) to open a descent (`repCounter.ts:184`), so the rep is never counted: `test_video_2` 3 attempts of 4 in all runs (inside the ±1 tolerance, so no red in the harness, but the story is not met and a visitor doing knee pushups sees "0 attempts" for the whole set).
 
-Evidence: `pushups-r1-overlay-montage-2026-09-18.jpg` panels 3 and 5; trace `tests/fixtures/traces/test_video_4.json` frames at t = 2.3–2.6, 3.9–4.2, 5.5–5.6, 7.0–7.5 s: `shoulderY ≈ 0.41–0.44`, `prob` 0.07–0.16 (the frames show a straight plank, spec §5.4); at the labelled bottoms the single-frame verdict matches 67/69 high-confidence labels, so the bottom is not the problem.
+Evidence: run-1 trace `test_video_2` frames 12.0–19.1 s: `plank=False faults=knees down`, no event; the corpus table's `test_video_2 total 3 (want 4)`.
 
-Likely cause: `src/repCounter.ts:66-68` and `:72-74` copy `good` from the *first* frame inside each band; `src/session.ts:90` feeds `prob > 0.5` per frame with no temporal smoothing. The MLP (`src/classifier.ts`, 36 raw landmark coordinates through a `StandardScaler`) was trained on one person, one camera, one orientation; `test_video_4` has a 180° rotation baked in (so the body faces the other way) and pikes/kneeling were under-represented, so the network's answer at the top and on those shapes is not the definition in `ground_truth.json`.
+Likely cause: `plank` doubles as "eligible top" and "eligible to start a rep"; kneeling was excluded because kneeling *to rest* must not count (IMG_1359 5.1–5.9 s, IMG_1513 7.7 s), and both look the same to the gate.
 
-Suggested fix: (1) take each end's verdict as the majority of the frames spent inside the band (or at least 3 frames around the extreme); (2) add the geometric rules the spec asks for on the 33 landmarks, independent of the network: hip deviation from the shoulder–ankle line (sag below / pike above a threshold), knee–ankle–hip geometry for kneeling, and depth from the shoulder amplitude; the rep verdict = network AND rules; (3) mirror the feature vector horizontally when the person faces left so both orientations look like the training data.
+Suggested fix: let a descent open from a kneeling top too, but only when the body angle is plank-like (≤ 30°) and the knees stay on the floor through the rep, and grade it "knees down"; keep the rest case out with the existing depth rule (a rest drop has no matching ascent within the rep window). Add the `test_video_2` 15.9 s rep as an expected `bad:knees down` event in `corpus.test.ts`.
 
-### D4 — A bad verdict never says why
+### D4 — Hints never appear while a body is half-detected: a cropped body counted "Rep 1: good" with no head in the frame and no hint for 4.5 s
 
-Severity: **major** (S3 "a one-line reason (hips sagging / knees on the floor / go lower)")
+Severity: **major** (S7 "head or feet out of frame for > 1 s → say so"; the count taken meanwhile is what a visitor trusts)
 
-Steps to reproduce: any bad frame, e.g. `bad_IMG_4456` at 2.2 s.
+Steps to reproduce: `node docs/reports/evidence/pushups-r2-ux-checks.mjs https://pushups.kalpkan.com/ <out> <dir>` with `cropped-right.mjpeg` (`good_IMG_4378` with the right 28 % cut off, so the head is outside the frame), or prop the phone so the head is cut off.
 
-Expected / Actual: "Bad form: hips sagging". Actual: "Bad form 94 %" and a red skeleton; the stats tile says "bad 97 %".
+Expected / Actual: "Head out of frame…" within 1 s, no counting. Actual: MediaPipe alternates between no pose and a pose with the nose extrapolated inside the frame; every alternation restarts the 700 ms debounce (`session.ts:139-147`, `raw !== hintCandidate`), so no hint at all until 4.5 s, when the generic "Step back so your whole body is visible" appears; meanwhile "Good form" was drawn on 57 frames and **"Rep 1: good"** was counted at 3.1 s (`hints.cropped-right` timeline, montage `cropped-right-2s`: 0 attempts, no skeleton, no hint).
 
-Evidence: montage panel 1; `src/draw.ts:61-65` (`${good ? "Good" : "Bad"} form ${pct}%`); `src/main.ts:55`.
+Evidence: `pushups-r2-ux-checks-2026-09-19.json` `hints["cropped-right"]`; compare `IMG_1359`, where the head leaves cleanly and the hint comes in ≈ 1 s.
 
-Likely cause: the pipeline has one scalar (`prob`) and no per-fault signal; nothing in `features.ts` computes hip/knee/depth geometry.
+Likely cause: the debounce is per exact string and resets on any change, including null; and `hints.ts:33` decides "head out" from the nose's coordinates/visibility only, which MediaPipe fills in with a guess when the head is just outside the frame.
 
-Suggested fix: with the rules from D3, pass a `reason` string into `draw()` and the "Form now" tile ("hips sagging", "hips too high", "knees down", "go lower", or "form: unsure" when only the network disagrees), and show it on the rep event so the attempt that just failed says why.
+Suggested fix: debounce on a "problem present" state with hysteresis (keep the last hint for 700 ms after it stops being raised; require 700 ms of *continuous* clean frames to clear) and treat "no pose" and "head out" as the same family; also read the eye/ear landmarks' visibility (MediaPipe drops it below 0.5 when the face is out) and treat a pose whose nose is within 2 % of the edge *or* whose head landmarks are invisible as "head out". Pause the counter (do not open a descent) while any hint is raised.
 
-### D5 — No placement guidance beyond "no pose": head or feet out of frame, a second person and a frontal view are silently scored
+### D5 — Counting and verdicts continue while a placement hint is up
 
-Severity: **major** (S7)
+Severity: **minor** (S7 "instead of a silent wrong count"; the hint is there, but the count runs anyway)
 
-Steps to reproduce: `IMG_1359` (head leaves the frame at every top), `IMG_1305` (feet at the edge, bystander), any frontal recording.
+Steps to reproduce: two-people clip (both doing pushups); the frontal clip.
 
-Expected / Actual: "move the phone back until your whole body is in the frame" / "only one person" / "turn side-on" within 1 s. Actual: nothing; "Good form 100 %" and a skeleton extrapolated past the frame edge.
+Expected / Actual: the hint pauses counting or says the count is paused. Actual: "Only one person in the frame, please" from 0.75 s **and** 4 attempts counted on the biggest body under it; the standing frontal person gets a green skeleton, "Good form", then "Bad form: keep your body straight" under "Feet out of frame: move the camera back" (montage `two-people-2s`, `frontal-2s`).
 
-Evidence: montage panels 2 and 4; `src/session.ts:85` (`result.landmarks[0] ?? null`) and `:100` (single hint string).
+Evidence: `hints["two-people"]` (`total 4`), `hints.frontal` timeline.
 
-Likely cause: the only condition checked is `landmarks == null`. MediaPipe returns landmarks with coordinates outside [0, 1] and low `visibility` for out-of-frame joints, and `result.landmarks.length > 1` for a second person; none of it is read.
+Likely cause: `session.ts:156-169` runs the tracker whenever a visible pose exists; the hint is computed afterwards (`:171`) and only drawn.
 
-Suggested fix: per frame, compute (a) any of nose/ankles outside [0.02, 0.98] or `visibility < 0.5` → "move back / lower the phone", (b) `result.landmarks.length > 1` → "only one person in the frame", (c) shoulder x-distance > 0.6 × shoulder–hip distance → "turn side-on", (d) mean frame luminance below a threshold when no pose → "too dark"; debounce each for 1 s, show the most important one, and pause counting while a hint is up (a count taken with the head off frame is what D1's range poisoning feeds on).
+Suggested fix: compute the hint first; when one is raised skip `tracker.push`, draw the skeleton in grey and hide the verdict, and show "paused" next to the count.
 
-### D6 — The count depends on the frame rate (a phone at 10–15 fps counts differently from a laptop)
+### D6 — A false "Only one person in the frame" while lying flat, and "keep your body straight" is not a reason a beginner can act on
 
-Severity: **major** (S6 "a rep is never counted twice because the phone is slower" and the frame-drop bar)
+Severity: **minor** (S3 wording, S7 false positive)
 
-Steps to reproduce: replay `tests/fixtures/traces/*.json` through `createRepCounter` keeping every frame, then 2 of 3, 1 of 2, 1 of 3 (`docs/reports/evidence/pushups-r1-framedrop-replay.test.ts`, copy into `tests/` and run with vitest).
+Steps to reproduce: `IMG_1512` 3.5–4.2 s (rests flat at the bottom).
 
-Expected / Actual: same counts. Actual: 3/15 clips differ at 20 fps, 4/15 at 15 fps, 6/15 at 10 fps (e.g. `IMG_1359` 7 → 6 → 6 → 6, `IMG_1512` 4 → 3, `good_IMG_4409` 5 → 5 → 4 → 4).
+Expected / Actual: no hint. Actual: "Only one person in the frame, please" for 1.2 s (3.8–5.0 s, montage `IMG_1512-4s`): MediaPipe returns two poses for one body lying flat. Separately, the classifier's fault is shown as "keep your body straight" on 60 % of bad reps in the corpus, which does not say *what* to straighten.
 
-Evidence: `pushups-r1-framedrop-replay-output-2026-09-18.txt`; the live "60 fps" demo (D7) vs the 27–29 fps camera path already give different counts for the same clip (2/1 vs 1/0–2/1).
+Evidence: `hints.IMG_1512` timeline; run-1 events (`bad:keep your body straight` ×14 of 24 bad events).
 
-Likely cause: same as D2: `WARMUP_FRAMES` and single-frame band crossings (`repCounter.ts:31, 60-76`).
+Likely cause: `hints.ts:30` trusts `poses.length > 1` without checking that the second pose is a different body (its size, or an overlap with the first); the classifier has one output.
 
-Suggested fix: as in D2 (time-based warm-up, time-based hold, smoothing). Add the frame-drop replay to `tests/corpus.test.ts` as a permanent invariant ("count at 30 fps == count at 10 fps for every clip").
+Suggested fix: count a second person only when the second pose's torso is ≥ 40 % of the first's and its bounding box overlaps the first's by < 50 %; when the classifier alone says bad, choose the wording from the geometry's sign (`hipDev > 0` → "hips sagging a little", else "keep your body straight") so it is at least directional.
 
-### D7 — The demo clip reports 2 / 1 (truth 4 / 2–3) and analyses every frame twice ("60 fps")
+### D7 — The demo's verdicts contradict its own caption, and the same clip grades differently in demo and camera mode
 
-Severity: **major** (S5; the demo is the only path most visitors try, and it is wrong on a clip the site chose)
+Severity: **minor** (S5, S10; the totals are inside the band)
 
-Steps to reproduce: press **Play demo clip**, or `GPU=1 node scripts/e2e-demo.mjs https://pushups.kalpkan.com/`.
+Steps to reproduce: press **Play demo clip**; read the Tips bullet; play the same file through the fake camera.
 
-Expected / Actual: 3–5 attempts, 1–4 good, Speed ≈ 30 fps. Actual: 2 attempts, 1 good (three runs), "60 fps".
+Expected / Actual: the page says "4 attempts, 2 good"; the demo reports **4 good of 4** (the 6.2 s worm ascent is graded good); the fake camera on the identical file reports 4/3 (the first clean rep is graded "keep your body straight"). Both are inside 3–5 / 1–4, both are wrong on at least one rep, and the two modes disagree.
 
-Evidence: e2e-demo output ×3 in the session log; `src/session.ts:79` (`video.currentTime !== lastTime` is true on every 60 Hz animation frame because `currentTime` advances continuously, not per decoded frame).
+Evidence: `pushups-r2-demo-run{1,2,3}-2026-09-19.json`, `pushups-r2-corpus-live-run1-2026-09-19.log` `demo 4/3`, `index.html:62`.
 
-Likely cause: D1 for the count (the clip starts in a plank, the first rep at 0.8 s is lost during warm-up, the second at 1.8 s falls inside the calibration); duplicated detections for the fps (`requestVideoFrameCallback` is not used).
+Likely cause: D2 (classifier mean ≈ 0.5 at those two bottoms: 0.73 in demo mode, < 0.5 in camera mode because the MJPEG re-encode shifts the landmarks slightly).
 
-Suggested fix: fix D1/D2 (the demo is `test_video3` 0–8.5 s and will follow); drive demo mode with `video.requestVideoFrameCallback` (falls back to rAF gated on `mediaTime`), which also halves GPU work on phones.
+Suggested fix: D2; then make the caption "4 attempts, 2–3 good" or, better, pick a demo clip whose every rep the pipeline grades the way a human does.
 
-### D8 — Attempts are under-counted on every bad-form clip (2 of 4) so "attempts" does not tell the visitor how many reps they did
+### D8 — Below ~7 fps the fast reps are lost and the page does not say so
 
-Severity: **major** (S3 "the attempts number go up"; folded into D1's cause but a distinct visible symptom: a visitor doing bad reps sees half of them)
+Severity: **minor** (S6; the README promises 8–15 fps on a phone and the trace tests hold at 10 fps, but nothing on the page warns when the device is slower)
 
-Steps to reproduce: `e2e-corpus.mjs … bad_IMG_4456 bad_IMG_4470 bad_IMG_4451`.
+Steps to reproduce: `node docs/reports/evidence/pushups-r2-throttled.mjs https://pushups.kalpkan.com/ <out> 20 IMG_1305 demo` (×20 CPU throttling → 3–7 fps).
 
-Expected / Actual: 4 attempts / 0 good each. Actual: 2 / 0 in all nine runs.
+Expected / Actual: a warning ("your device is too slow for a reliable count") or a degraded but honest count. Actual: IMG_1305 4/4 (truth 6/6), demo 1/1 (truth 4/2–3), fps tile "3 fps" with no comment; IMG_1359 at 9 fps still 9/8, bad_IMG_4470 at 4 fps 4/1.
 
-Evidence: run JSONs; corpus test events `bad_IMG_4470 events 4.5b 6.3b` (reps at 0.9 and 2.2 s missing).
+Evidence: `pushups-r2-cpu-throttled-2026-09-19.log` (×4 block: all six clips identical to unthrottled at 20–27 fps; ×20 block).
 
-Likely cause: D1 (first rep lost) plus the range widening as the sagging hips push the shoulders lower on later reps, so the first band crossing never re-arms.
+Likely cause: a 0.7 s rep sampled at 3–4 fps has 1–2 frames per phase; `repCounter.ts` needs a sample near the top and one near the bottom.
 
-Suggested fix: D1.
-
-### D9 — The no-pose hint gives wrong advice in the dark
-
-Severity: **minor** (S7 wording)
-
-Steps to reproduce: start the camera with the lens covered or in a dark room (black MJPEG in the harness).
-
-Expected / Actual: "Can't see you: turn on a light or uncover the camera." Actual: "Step back so your whole body is visible" within 0.5 s.
-
-Evidence: `pushups-r1-ux-checks-2026-09-18.json` `noPoseAfterMs: 510`; `pushups-r1-black-camera-hint-2026-09-18.jpg`.
-
-Likely cause: `src/session.ts:100` has one string for every no-pose case.
-
-Suggested fix: part of D5 (frame luminance check).
-
-### D10 — The placement sentence is below the fold at phone width and the lede only says "side-on"
-
-Severity: **minor** (S1 bar "placement sentence visible above the fold at 390 px")
-
-Steps to reproduce: open the site at 390 × 844.
-
-Expected / Actual: "side-on, floor level, whole body in frame, one person" before the buttons. Actual: the sentence is Tips bullet 1 at y = 886 px; the lede above the buttons says only "Point your camera at yourself side-on".
-
-Evidence: `pushups-r1-phone390-2026-09-18.jpg`; `layout[1].notesTop = 886` in the UX JSON.
-
-Likely cause: `index.html:19-24` (lede) and `:57-62` (Tips at the bottom).
-
-Suggested fix: make the status line before Start read "Phone on the floor, side-on, whole body in frame, one person." and keep the Tips for the rest.
-
-### D11 — The first second of a fresh session runs at 2 fps while the GPU warms up, and a rep done in it is lost
-
-Severity: **minor** (S2 "never below 10 fps"; visible once per browser, but the demo clip's first rep falls exactly there)
-
-Steps to reproduce: first camera session in a fresh Chrome profile (run 1, clip 1 of the harness).
-
-Expected / Actual: ≥ 10 fps from the first frame, or counting deferred until the pipeline is warm. Actual: `fpsMin: 2` on `demo` in run 1 (`fpsAvg` 27), min 12–16 on the first clip of runs 2–3.
-
-Evidence: `pushups-r1-corpus-live-run1-2026-09-18.json` `results[0]`.
-
-Likely cause: `src/pose.ts` creates the landmarker but the first `detectForVideo` compiles the WebGL shaders; `session.ts` starts the loop and the counter at once.
-
-Suggested fix: run one `detectForVideo` on a blank frame before `video.play()` (or before the status flips to "Get into pushup position"), and start the counter only after the first pose is seen at ≥ 10 fps for 0.5 s.
-
-### D12 — In portrait on a phone the stats tiles are below the fold after Start
-
-Severity: **minor** (S6 "stats visible without scrolling after tapping Start"; mitigated because the count is drawn on the canvas)
-
-Steps to reproduce: 390 px wide, front camera 480 × 640.
-
-Expected / Actual: count visible without scrolling. Actual: stage height 520 px from y ≈ 300, stats at y ≈ 830+; the on-canvas count (top-left, `draw.ts:58-60`) is visible.
-
-Evidence: geometry from `src/style.css:24-26` and the 390 px screenshot (placeholder stage at 4:3).
-
-Likely cause: header + lede + two full-width buttons + status take ~300 px before the stage.
-
-Suggested fix: on `.stage.live` at ≤ 480 px collapse the lede (or scroll the stage into view on Start) and cap the stage at `max-height: 60vh` with `object-fit`.
-
-### D13 — After Stop the stats keep saying "Speed 30 fps" and "Form now: no pose"
-
-Severity: **minor** (S8 polish)
-
-Steps to reproduce: Start camera, Stop.
-
-Expected / Actual: fps "–" and form "–" (or "stopped"). Actual: stale values from the last frame; the stage keeps the last frame.
-
-Evidence: `pushups-r1-ux-checks-2026-09-18.json` `stop.fps = "30 fps"`, `stop.form = "no pose"`.
-
-Likely cause: `src/main.ts:85-90` resets nothing but the buttons and the status.
-
-Suggested fix: reset the four tiles in the stop handler (and say "Stopped · 3 good reps of 5" in the status so the result survives).
-
-### D14 — The limits copy does not say that a second person, a pike or kneeling can be scored "good", and "1 attempts"
-
-Severity: **minor** (S10; plus a grammar slip on the overlay)
-
-Steps to reproduce: read "How it decides / Tips" and README "Limits".
-
-Expected / Actual: the three things the classifier cannot judge (front view, second person, pike vs plank) named. Actual: "other angles read as bad form more than they should" only; nothing about a second person or a pike (which today reads "Good form 100 %"). The overlay prints "good reps · 1 attempts".
-
-Evidence: `index.html:50-62`, `README.md` "Limits"; montage panel 1 ("0 attempts") and the demo end frame ("1 attempts").
-
-Likely cause: copy written before the corpus existed; `draw.ts:60` has no plural rule.
-
-Suggested fix: one sentence in both places listing the three; `attempt${n === 1 ? "" : "s"}`.
+Suggested fix: when the measured fps stays < 8 for 2 s, show "Slow device: fast reps may be missed, slow down a little" under the count; consider the lite pose model as a fallback when fps < 8 (the classifier would need retraining on its landmarks, see the incidents entry from T3.1).
 
 ## UX critique (impeccable, critique mode)
 
-⚠️ DEGRADED: single-context (this session exposes no sub-agent tool; Assessment A and B ran inline, A written before the detector output was read). Detector: `impeccable detect --json index.html` → 1 warning, false positive (see Global). Mode: **Operate** (a tool the visitor uses for one task).
+⚠️ DEGRADED: single-context (this session exposes no sub-agent tool; Assessment A was written before the detector output was read, Assessment B = `impeccable detect --json index.html` → 1 warning `flat-type-hierarchy`, a false positive: `h1` is `clamp(1.6rem, 5vw, 2.4rem)` in `src/style.css`). Mode: **Operate**.
 
 | # | Heuristic | Score | Key issue |
 |---|---|---|---|
-| 1 | Visibility of system status | 2 | The 20 MB download is one static sentence with no progress; during a set the only feedback is the number, which is wrong; nothing says "calibrating" while the first rep is being eaten; "60 fps" on the demo |
-| 2 | Match system / real world | 2 | "Bad form 94 %" is a probability, not coaching; "attempts" vs "good reps" is a developer's distinction, a visitor wants "5 reps, 3 with good form" |
-| 3 | User control and freedom | 3 | Stop/restart work; nothing to reset the count without stopping the camera, no "start counting" moment (counting begins while you are still crawling into position) |
-| 4 | Consistency and standards | 3 | Buttons, tiles and colours are consistent; the same clip gives different numbers on different plays (D2), which is the inconsistency that matters |
-| 5 | Error prevention | 1 | No placement checks, no "too dark", no second-person guard, no calibration step; the page lets the visitor start counting with the head off frame and then under-counts silently |
-| 6 | Recognition rather than recall | 3 | Everything is on one screen; the placement rule has to be remembered from the bottom of the page |
-| 7 | Flexibility and efficiency | 2 | No keyboard shortcut, no target-rep goal, no rep beep (a visitor on the floor cannot read the screen at the bottom of a pushup; audio is the natural channel and is absent) |
-| 8 | Aesthetic and minimalist design | 3 | Clean dark panel, good hierarchy, yellow count reads well on video; the four tiles duplicate what the canvas already shows |
-| 9 | Error recovery | 2 | Refusal path is good; a wrong count offers no way to see why (no reason, no per-rep list) |
-| 10 | Help and documentation | 2 | "How it decides" is honest engineering prose; there is no "why was my rep not counted?" and the limits are incomplete (D14) |
-| **Total** | | **23/40** | needs work |
+| 1 | Visibility of system status | 3 | Count, live verdict, per-rep flash, hints and an end summary all exist now; nothing says "paused" under a hint, nothing warns at 3 fps, and a broken pipeline (D1) shows a black box with "0 good of 0" |
+| 2 | Match system / real world | 3 | "hips sagging / hips too high / knees down / go lower" are coach words; "keep your body straight" is not; "attempts" is still a developer's noun for "reps" |
+| 3 | User control and freedom | 3 | Stop/restart/deny are clean and the stop line keeps the result; no way to reset the count without stopping the camera, no "start counting now" |
+| 4 | Consistency and standards | 3 | The same clip is graded 4/4 in demo mode, 4/3 through the camera, and "2 good" in the copy (D7) |
+| 5 | Error prevention | 2 | Placement hints arrive in < 1 s for dark / two people / feet / head, but counting keeps running under them (D5) and a half-detected body slips through (D4); the cache trap (D1) was preventable |
+| 6 | Recognition rather than recall | 4 | The placement rule is the first sentence, the reasons are on the video where the eye is, the Tips explain every hint the overlay can show |
+| 7 | Flexibility and efficiency | 2 | No sound or haptic per rep (a visitor at the bottom of a pushup cannot read the screen), no target, no per-rep list |
+| 8 | Aesthetic and minimalist design | 3 | Dark panel, yellow count, green/red skeleton read well; the four tiles duplicate the canvas; the "How it decides" prose is long for a phone |
+| 9 | Error recovery | 1 | The one failure a real visitor will hit today (D1) surfaces as nothing: no message, no reload prompt, 254 silent exceptions |
+| 10 | Help and documentation | 3 | Honest "How it decides / Tips / Limits"; still no "why was my rep not counted?" and the demo caption is wrong |
+| **Total** | | **27/40** | needs work (round 1: 23/40) |
 
-Design specificity: the page is authored for this product (yellow rep count on the video, honest privacy line, "Python original" link), not a template; but the interaction is a developer's console, not a trainer: numbers and percentages where a coach would say one word. Strengths: nothing loads until a click and the page says so; the count is drawn on the video where the visitor is looking; refusal and stop are handled cleanly. Priority issues: [P0] the count is wrong and unstable (D1, D2); [P1] no reason and no placement coaching (D4, D5); [P1] no audio/haptic cue per rep, so the visitor must look up from a plank to know whether it counted; [P2] the placement rule is below the fold (D10); [P2] "1 attempts", stale tiles after Stop (D13, D14). Persona red flags: *first-timer on a phone* props the phone, starts, does 5, reads 3, does not know it "calibrates" (the sentence is 900 px down), blames themself; *power user* wants a target, a beep and a per-rep log, gets a percentage; *sceptic* wants to know why rep 2 was bad and gets "Bad form 71 %". Questions skipped: Kalp is not watching this run; the questions a fixer should answer are in D1–D5.
+Design specificity: authored for this product (the placement sentence leads, the reasons are on the video, the limits are specific to this classifier); the interaction is now a coach's, not a console's, except for "keep your body straight" and "attempts". Strengths: the first rep counts and the count is the same every time, which is the thing the page is for; the hint set covers the real placement mistakes and fires within a second; the end-of-session line ("Stopped: 2 good reps of 2 attempts.") gives the result a home. Priority issues: [P0] returning visitors get a dead page (D1); [P1] one rep in five mis-graded and the demo mis-grades two of its four reps (D2, D7); [P1] counting under a hint and the half-detected body (D4, D5); [P2] no per-rep sound; [P2] "keep your body straight", "attempts". Persona red flags: *first-timer on a phone (Kalp, H15)* opens the site he opened yesterday → black box, "0 good of 0", blames the phone; *sceptic* watches the demo, sees rep 1 (clean) flagged bad and rep 4 (worm) flagged good, closes the tab; *power user* wants a beep, a target and a rep log, gets a probability-free but silent count. Questions skipped: Kalp is not watching this run.
 
 ## Known limitations that are NOT defects
 
-- iOS Safari / Android Chrome on a real phone could not be driven from this Mac; S6's device half stays with H15. The mirroring, `facingMode: "user"` and width rules were verified in code and the frame-rate half was measured on the traces.
-- The claude-in-chrome tab is hidden (`document.hidden`), so `<video>` never plays there; the live pipeline was exercised in headless real Chrome on the same URL with the GPU, which the spec names as the evidence path.
-- Chrome's fake camera plays the MJPEG at real time, so run-to-run jitter in which frames the pipeline sees is part of the test; that is also what a real webcam does, which is why D2 is a defect and not a harness artefact.
-- Light colour scheme: the site is dark-only by design (`color-scheme: dark`); the "both themes" pass shows the identical page.
-- Two of the external clips show another person and one has a bystander; the app is not expected to identify people.
-- PostHog session replay (`/ingest/s/`) records DOM events, not canvas or video pixels (`recordCanvas` off), so "no frame leaves the device" holds; a fixer may still want to set it explicitly.
-- The first-second GPU warm-up (D11) is a property of MediaPipe's WebGL delegate; the fix is to defer counting, not to make shaders compile faster.
+- `IMG_1305`'s first labelled rep (bottom 0.7 s) begins before the clip's first frame (shoulder already a third of the way down at `mediaTime` 0.08 s), so the pipeline reports it as a partial ("Go lower") and counts 5 of 6: inside the ±1 tolerance and consistent with the ground truth's own rule ("a clip that starts mid-descent does not get that rep"). The label and the rule disagree on this clip; the fixer may relabel `total: 5`.
+- iOS Safari / Android Chrome on a real phone could not be driven from this Mac; S6's device half stays with H15 (which will hit D1 until it is fixed and Kalp's phone cache expires or is cleared). Mirroring, `facingMode: "user"`, width and portrait layout were verified in headless Chrome with a portrait fake camera.
+- The claude-in-chrome tab is hidden (`document.hidden`), so `<video>` never plays there; the live pipeline was exercised in headless real Chrome on the same URL with the GPU. The hidden tab was still useful: it is the browser that proved D1 from Kalp's own cache.
+- Another agent's headless Chrome shared the GPU during every run (load average 12–40); the counts did not move and fps stayed ≥ 23, which is itself evidence for the time-based counter.
+- Light colour scheme: the site is dark-only by design (`color-scheme: dark`); both schemes render the identical page.
+- Two of the external clips show another person and the classifier is deliberately not consulted for the non-training facing (`form.ts:97`); their verdict misses in D2 are the geometry's, not the classifier's.
+- PostHog session replay records DOM events, not canvas pixels (`recordCanvas` off), so "no frame leaves the device" holds.
+- At 3–4 fps (×20 CPU throttling) nothing time-based can count a 0.7 s rep; D8 asks for a warning, not a miracle.
 
 ## How a fixing agent should verify the fix
 
 ```bash
 cd ~/projects/pushups
-npm test                                                   # 26 unit tests + corpus table
-PUSHUPS_CORPUS_GATE=1 npx vitest run --pool=forks --maxWorkers=1 tests/corpus.test.ts   # must be 17/17 (then set the CI variable)
-cp ~/projects/portfolio/docs/reports/evidence/pushups-r1-framedrop-replay.test.ts tests/zz_framedrop.test.ts \
-  && npx vitest run --pool=forks --maxWorkers=1 tests/zz_framedrop.test.ts --reporter=verbose | grep -E "fps|clips whose"   # "0/15" clips change at 20 fps
-node scripts/make-mjpeg.mjs                                # once (needs .venv ffmpeg)
+npm test                                                   # 7 files; after D2: 119 passed, 0 expected fail (remove test_video from KNOWN_MISSES, raise BOTTOM_VERDICT_MIN)
+npx vitest run --pool=forks --maxWorkers=1 tests/corpus.test.ts --reporter=verbose 2>&1 | grep -E "bottom verdicts|MISS"   # ≥ 66/69 on both sets, no MISS
 npm run build && npx vite preview --port 4177 --strictPort &
-for i in 1 2 3; do GPU=1 node scripts/e2e-corpus.mjs http://localhost:4177/; done   # 15/15 PASS three times, identical got columns, fpsMin ≥ 10
-for i in 1 2 3; do GPU=1 node scripts/e2e-demo.mjs http://localhost:4177/; done     # attempts 3-5, good 1-4, same each time, fps ≈ 30, hosts = [localhost:4177], errors []
+# D1: the classifier URL must change (or lose `immutable`) and a stale cache must show a message, not a black box
+node ~/projects/portfolio/docs/reports/evidence/pushups-r2-stale-cache.mjs http://localhost:4177/ <dir with 4f0708e public/models/form> /tmp   # expect: the status names the problem, 0 uncaught errors per frame
+curl -sI https://pushups.kalpkan.com/models/form/model.json | grep -i cache-control          # after the deploy: not immutable at the old path, or the path is gone (404)
+for i in 1 2 3; do GPU=1 node scripts/e2e-corpus.mjs http://localhost:4177/; done             # 15/15 PASS ×3, identical got columns, fpsMin ≥ 10
+for i in 1 2 3; do GPU=1 node scripts/e2e-demo.mjs http://localhost:4177/; done               # same numbers each time, errors []
+node ~/projects/portfolio/docs/reports/evidence/pushups-r2-ux-checks.mjs http://localhost:4177/ /tmp/ux <dir with black/two-people/cropped-right/frontal/portrait .mjpeg>   # D4: hints["cropped-right"] shows a head/no-pose hint < 1000 ms and total 0; D5: two-people total 0
+node ~/projects/portfolio/docs/reports/evidence/pushups-r2-throttled.mjs http://localhost:4177/ /tmp/thr 4 IMG_1305 bad_IMG_4456,2.2 test_video_2   # same counts as unthrottled; test_video_2 4 attempts after D3
 pkill -f "vite preview --port 4177"
 ```
 
-Then on the live URL after the single deploy: the same `e2e-corpus.mjs` ×3 and `e2e-demo.mjs` ×3 against `https://pushups.kalpkan.com/`; mid-clip screenshots of `IMG_1359` at 2 s (expect a "move back" hint), `IMG_1359` at 5.5 s (no "Good form" while kneeling), `IMG_1512` at 31 s (pike → bad with a reason), `bad_IMG_4456` at 2.2 s (a reason under "Bad form"); a black MJPEG (expect a "too dark / uncover the camera" hint within 1 s); `--deny-permission-prompts` (message + demo enabled); Stop → tiles reset; Lighthouse mobile ≥ 0.85; 360/390/430 px `scrollWidth == innerWidth`; the placement sentence in the viewport at 390 × 844 before scrolling.
+The synthetic cameras are built with the `.venv` ffmpeg: black `-f lavfi -i color=c=black:s=640x360:r=30 -t 12`; two-people = `good_IMG_4409` and `bad_IMG_4456` each scaled to 320×360 and `hstack`ed; cropped-right = `good_IMG_4378` with `crop=iw*0.72:ih:0:0`; frontal = `~/projects/emotes/tests/fixtures/clips/e2e-three-gestures.mjpeg`; portrait = `good_IMG_4409` scaled/padded to 360×640; all MJPEG `-q:v 6`. Then on the live URL after the single deploy: `e2e-corpus.mjs` ×3 and `e2e-demo.mjs` ×3, the stale-cache script against the live host, the head-out screenshot of `IMG_1359` at 2 s, the knee set of `test_video_2` at 17 s (expect an attempt with "knees down"), Lighthouse ≥ 0.85, 360/390/430 px `scrollWidth == innerWidth`.

@@ -1,0 +1,22 @@
+bad_IMG_4456   x4  PASS  total 4 (want 4±1)  good 1 (want 0-0±1)  fps avg 27 min 22  shots [{"t":2.2,"good":"0","total":"1","form":"bad: keep your body straight","fps":"28 fps"},{"t":3.6,"good":"0","total":"2","form":"bad: keep your body straight","fps":"26 fps"}]
+IMG_1305       x4  PASS  total 5 (want 6±1)  good 5 (want 6-6±1)  fps avg 26 min 24  shots []
+IMG_1359       x4  PASS  total 9 (want 9±1)  good 8 (want 9-9±1)  fps avg 23 min 14  shots []
+good_IMG_4409  x4  PASS  total 5 (want 5±1)  good 5 (want 5-5±1)  fps avg 24 min 18  shots []
+test_video_4   x4  PASS  total 5 (want 5±1)  good 4 (want 4-4±1)  fps avg 20 min 13  shots []
+IMG_1360       x4  PASS  total 6 (want 6±1)  good 5 (want 6-6±1)  fps avg 21 min 17  shots []
+        0,
+        0
+        6,
+        6
+        9,
+        9
+        5,
+        5
+        4,
+        4
+        6,
+        6
+IMG_1305       x20  FAIL  total 4 (want 6±1)  good 4 (want 6-6±1)  fps avg 7 min 2  shots []
+IMG_1359       x20  PASS  total 9 (want 9±1)  good 8 (want 9-9±1)  fps avg 9 min 4  shots []
+bad_IMG_4470   x20  PASS  total 4 (want 4±1)  good 1 (want 0-0±1)  fps avg 4 min 1  shots []
+demo           x20  FAIL  total 1 (want 4±1)  good 1 (want 2-3±1)  fps avg 3 min 1  shots []

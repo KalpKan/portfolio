@@ -1,0 +1,53 @@
+[python]
+demo           30fps 4/2   20fps 4/2   15fps 4/2   10fps 4/2   truth 4/2-3
+test_video3    30fps 5/3   20fps 5/3   15fps 5/2   10fps 5/3   truth 5/2-4
+test_video     30fps 4/0   20fps 4/0   15fps 4/0   10fps 4/0   truth 4/2-2
+test_video_2   30fps 3/2   20fps 3/2   15fps 3/2   10fps 3/2   truth 4/0-2
+test_video_4   30fps 5/4   20fps 5/4   15fps 5/4   10fps 5/4   truth 5/4-4
+good_IMG_4378  30fps 8/8   20fps 8/8   15fps 8/8   10fps 8/8   truth 8/8-8
+good_IMG_4409  30fps 5/5   20fps 5/5   15fps 5/5   10fps 5/5   truth 5/5-5
+bad_IMG_4456   30fps 4/0   20fps 4/0   15fps 4/0   10fps 4/0   truth 4/0-0
+bad_IMG_4470   30fps 4/0   20fps 4/0   15fps 4/0   10fps 4/0   truth 4/0-0
+bad_IMG_4451   30fps 4/0   20fps 4/0   15fps 4/0   10fps 4/0   truth 4/0-0
+IMG_1305       30fps 5/5   20fps 5/5   15fps 5/5   10fps 5/5   truth 6/6-6
+IMG_1359       30fps 9/8   20fps 9/8   15fps 9/8   10fps 9/8   truth 9/9-9
+IMG_1360       30fps 6/5   20fps 6/5   15fps 6/5   10fps 6/5   truth 6/6-6
+IMG_1512       30fps 6/5   20fps 6/5   15fps 6/5   10fps 6/5   truth 6/4-4
+IMG_1513       30fps 1/1   20fps 1/1   15fps 1/1   10fps 1/1   truth 1/0-0
+clips whose ATTEMPTS change at 20/15/10 fps: 0/15; whose GOOD changes: 1/15
+
+[browser]
+demo           30fps 4/3   20fps 4/3   15fps 4/3   10fps 4/4   truth 4/2-3
+test_video3    30fps 5/4   20fps 5/4   15fps 5/5   10fps 5/4   truth 5/2-4
+test_video     30fps 4/0   20fps 4/0   15fps 4/0   10fps 4/0   truth 4/2-2
+test_video_2   30fps 3/1   20fps 3/1   15fps 3/1   10fps 3/1   truth 4/0-2
+test_video_4   30fps 5/4   20fps 5/4   15fps 5/4   10fps 5/4   truth 5/4-4
+good_IMG_4378  30fps 8/8   20fps 8/8   15fps 8/8   10fps 8/8   truth 8/8-8
+good_IMG_4409  30fps 5/5   20fps 5/5   15fps 5/5   10fps 5/4   truth 5/5-5
+bad_IMG_4456   30fps 4/1   20fps 4/1   15fps 4/1   10fps 4/1   truth 4/0-0
+bad_IMG_4470   30fps 4/1   20fps 4/1   15fps 4/2   10fps 4/2   truth 4/0-0
+bad_IMG_4451   30fps 4/0   20fps 4/0   15fps 4/0   10fps 4/0   truth 4/0-0
+IMG_1305       30fps 5/5   20fps 5/5   15fps 5/5   10fps 5/5   truth 6/6-6
+IMG_1359       30fps 9/8   20fps 9/8   15fps 9/8   10fps 9/8   truth 9/9-9
+IMG_1360       30fps 6/5   20fps 6/5   15fps 6/5   10fps 6/5   truth 6/6-6
+IMG_1512       30fps 6/5   20fps 6/5   15fps 6/5   10fps 6/5   truth 6/4-4
+IMG_1513       30fps 1/1   20fps 1/1   15fps 1/1   10fps 1/1   truth 1/0-0
+clips whose ATTEMPTS change at 20/15/10 fps: 0/15; whose GOOD changes: 4/15
+
+[live-r2-run1]
+demo           30fps 4/3   20fps 4/3   15fps 4/3   10fps 4/4   truth 4/2-3
+test_video3    30fps 5/4   20fps 5/3   15fps 5/3   10fps 5/3   truth 5/2-4
+test_video     30fps 4/0   20fps 4/0   15fps 4/0   10fps 4/0   truth 4/2-2
+test_video_2   30fps 3/1   20fps 3/1   15fps 3/1   10fps 3/1   truth 4/0-2
+test_video_4   30fps 5/4   20fps 5/4   15fps 5/4   10fps 5/4   truth 5/4-4
+good_IMG_4378  30fps 8/8   20fps 8/8   15fps 8/8   10fps 8/8   truth 8/8-8
+good_IMG_4409  30fps 5/5   20fps 5/5   15fps 5/5   10fps 5/5   truth 5/5-5
+bad_IMG_4456   30fps 4/1   20fps 4/1   15fps 4/1   10fps 4/1   truth 4/0-0
+bad_IMG_4470   30fps 4/1   20fps 4/2   15fps 4/1   10fps 4/2   truth 4/0-0
+bad_IMG_4451   30fps 4/0   20fps 4/0   15fps 4/0   10fps 4/0   truth 4/0-0
+IMG_1305       30fps 5/5   20fps 5/5   15fps 5/5   10fps 5/5   truth 6/6-6
+IMG_1359       30fps 9/8   20fps 9/8   15fps 9/8   10fps 9/8   truth 9/9-9
+IMG_1360       30fps 6/5   20fps 6/5   15fps 6/5   10fps 6/5   truth 6/6-6
+IMG_1512       30fps 6/5   20fps 6/5   15fps 6/5   10fps 6/5   truth 6/4-4
+IMG_1513       30fps 1/1   20fps 1/1   15fps 1/1   10fps 1/1   truth 1/0-0
+clips whose ATTEMPTS change at 20/15/10 fps: 0/15; whose GOOD changes: 3/15

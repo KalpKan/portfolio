@@ -1,0 +1,339 @@
+{
+  "url": "https://pushups.kalpkan.com/",
+  "gpu": true,
+  "date": "2026-09-19T21:48:07.767Z",
+  "passed": 14,
+  "ran": 15,
+  "results": [
+    {
+      "id": "demo",
+      "committed": true,
+      "expected": {
+        "total": 4,
+        "good": [
+          2,
+          3
+        ]
+      },
+      "got": {
+        "total": 4,
+        "good": 3
+      },
+      "fpsAvg": 29,
+      "fpsMin": 26,
+      "formPerSecond": "goodgoodgoodgoodgoodgoodbad:bad:nono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "test_video3",
+      "committed": true,
+      "expected": {
+        "total": 5,
+        "good": [
+          2,
+          4
+        ]
+      },
+      "got": {
+        "total": 5,
+        "good": 4
+      },
+      "fpsAvg": 30,
+      "fpsMin": 29,
+      "formPerSecond": "goodgoodgoodgoodgoodgoodgoodbad:bad:bad:bad:bad:bad:nono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "test_video",
+      "committed": true,
+      "expected": {
+        "total": 4,
+        "good": [
+          2,
+          2
+        ]
+      },
+      "got": {
+        "total": 4,
+        "good": 0
+      },
+      "fpsAvg": 30,
+      "fpsMin": 27,
+      "formPerSecond": "bad:bad:bad:bad:bad:goodgoodbad:bad:bad:bad:bad:goodbad:bad:bad:nonono",
+      "totalOk": true,
+      "goodOk": false,
+      "pass": false,
+      "errors": []
+    },
+    {
+      "id": "test_video_2",
+      "committed": true,
+      "expected": {
+        "total": 4,
+        "good": [
+          0,
+          2
+        ]
+      },
+      "got": {
+        "total": 3,
+        "good": 1
+      },
+      "fpsAvg": 30,
+      "fpsMin": 26,
+      "formPerSecond": "goodbad:bad:bad:bad:bad:bad:bad:bad:bad:bad:bad:bad:bad:bad:bad:bad:bad:bad:goodgoodgoodgoodnono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "test_video_4",
+      "committed": true,
+      "expected": {
+        "total": 5,
+        "good": [
+          4,
+          4
+        ]
+      },
+      "got": {
+        "total": 5,
+        "good": 4
+      },
+      "fpsAvg": 29,
+      "fpsMin": 26,
+      "formPerSecond": "goodgoodgoodbad:goodgoodgoodbad:bad:bad:bad:goodnono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "good_IMG_4378",
+      "committed": true,
+      "expected": {
+        "total": 8,
+        "good": [
+          8,
+          8
+        ]
+      },
+      "got": {
+        "total": 8,
+        "good": 8
+      },
+      "fpsAvg": 29,
+      "fpsMin": 28,
+      "formPerSecond": "goodbad:goodbad:goodbad:goodbad:goodgoodgoodgoodgoodgoodbad:nonono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "good_IMG_4409",
+      "committed": true,
+      "expected": {
+        "total": 5,
+        "good": [
+          5,
+          5
+        ]
+      },
+      "got": {
+        "total": 5,
+        "good": 5
+      },
+      "fpsAvg": 30,
+      "fpsMin": 29,
+      "formPerSecond": "goodgoodgoodgoodgoodgoodgoodgoodgoodgoodnono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "bad_IMG_4456",
+      "committed": true,
+      "expected": {
+        "total": 4,
+        "good": [
+          0,
+          0
+        ]
+      },
+      "got": {
+        "total": 4,
+        "good": 1
+      },
+      "fpsAvg": 30,
+      "fpsMin": 30,
+      "formPerSecond": "bad:bad:bad:bad:goodbad:nono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "bad_IMG_4470",
+      "committed": true,
+      "expected": {
+        "total": 4,
+        "good": [
+          0,
+          0
+        ]
+      },
+      "got": {
+        "total": 4,
+        "good": 1
+      },
+      "fpsAvg": 30,
+      "fpsMin": 30,
+      "formPerSecond": "bad:bad:bad:bad:bad:bad:goodnonono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "bad_IMG_4451",
+      "committed": true,
+      "expected": {
+        "total": 4,
+        "good": [
+          0,
+          0
+        ]
+      },
+      "got": {
+        "total": 4,
+        "good": 0
+      },
+      "fpsAvg": 30,
+      "fpsMin": 30,
+      "formPerSecond": "bad:bad:bad:bad:bad:bad:bad:nonono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "IMG_1305",
+      "committed": false,
+      "expected": {
+        "total": 6,
+        "good": [
+          6,
+          6
+        ]
+      },
+      "got": {
+        "total": 5,
+        "good": 5
+      },
+      "fpsAvg": 30,
+      "fpsMin": 29,
+      "formPerSecond": "goodgoodgoodgoodgoodgoodgoodgoodnonono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "IMG_1359",
+      "committed": false,
+      "expected": {
+        "total": 9,
+        "good": [
+          9,
+          9
+        ]
+      },
+      "got": {
+        "total": 9,
+        "good": 8
+      },
+      "fpsAvg": 30,
+      "fpsMin": 26,
+      "formPerSecond": "goodgoodgoodgoodgoodbad:goodgoodgoodgoodgoodgoodbad:goodgoodgoodgoodgoodnono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "IMG_1360",
+      "committed": false,
+      "expected": {
+        "total": 6,
+        "good": [
+          6,
+          6
+        ]
+      },
+      "got": {
+        "total": 6,
+        "good": 5
+      },
+      "fpsAvg": 30,
+      "fpsMin": 29,
+      "formPerSecond": "goodgoodgoodgoodgoodgoodgoodgoodbad:goodgoodgoodbad:nono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "IMG_1512",
+      "committed": false,
+      "expected": {
+        "total": 6,
+        "good": [
+          4,
+          4
+        ]
+      },
+      "got": {
+        "total": 6,
+        "good": 5
+      },
+      "fpsAvg": 30,
+      "fpsMin": 25,
+      "formPerSecond": "goodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodgoodbad:bad:bad:bad:nono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    },
+    {
+      "id": "IMG_1513",
+      "committed": false,
+      "expected": {
+        "total": 1,
+        "good": [
+          0,
+          0
+        ]
+      },
+      "got": {
+        "total": 1,
+        "good": 1
+      },
+      "fpsAvg": 30,
+      "fpsMin": 29,
+      "formPerSecond": "goodgoodgoodgoodgoodgoodgoodbad:nono",
+      "totalOk": true,
+      "goodOk": true,
+      "pass": true,
+      "errors": []
+    }
+  ]
+}

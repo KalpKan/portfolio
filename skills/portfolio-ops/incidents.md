@@ -1930,3 +1930,33 @@ _Entries begin below, oldest first._
 - **Root cause:** helper scripts written with a hardcoded connection string before any secret hygiene existed.
 - **Prevention:** run `scripts/secret-scan.sh` before making any repo public and after every agent burst; reviewers grep diffs (already in the reviewer prompt). Kalp checkpoint H17: rotate the database password of `plato-course-converter` (Supabase dashboard → project → Settings → Database → Reset password) or simply delete that project; optionally rewrite Plato history with git filter-repo (same procedure as the RC-car PR).
 - **Reported by:** orchestrator
+
+### 2026-09-19: pushups, returning visitors get a black stage and "0 good of 0": the retrained form classifier replaced `/models/form/*` in place under a one-year `immutable` cache (Phase 5 TEST agent, pushups round 2; report D1, blocker)
+
+- **Date:** 2026-09-19 (found ~21:50 UTC in Kalp's own Chrome on `pushups.kalpkan.com`, production `0dbdc48`)
+- **Affected:** `vercel.json` (`/models/(.*)` → `public, max-age=31536000, immutable`), `src/classifier.ts:36` (fixed path `/models/form/model.json`), `c446bcb` (classifier v2, 36 → 24 inputs, same filenames), `src/session.ts` `step()` (no try/catch in the frame loop)
+- **Symptom:** any browser that pressed a button on the site before 21:17 UTC (Kalp's Mac Chrome does; H15's phone would) loads the new bundle with the old cached `model.json`/`.bin`: `Error when checking : expected keypoints to have shape [null,36] but got array with shape [1,24]` on every frame (254 in one demo play), no skeleton, count 0/0, demo ends "Clip finished: 0 good of 0", camera path fails with no message at all. First-time visitors and every headless test run are unaffected, so the corpus numbers looked fine.
+- **Root cause:** a self-hosted ML file was changed without changing its URL while the header promised the browser the bytes would never change; and the loop swallows exceptions.
+- **Fix (for the FIX agent):** version the classifier path per retrain (`/models/form-v2/` or a Vite `?url` import so the filename carries a hash) or drop `immutable` for the classifier files; catch errors in `step()`, stop the session and put the message in the status line.
+- **Prevention:** rule for every self-hosted ML file (`/models/*`, `/wasm/*`, including a future `@mediapipe/tasks-vision` bump): new content = new URL, never a replace in place; `verification.md` row "Classifier files are not served stale" (shape of the cached `model.json` = the vector `formFeatures.ts` builds); reproducer `docs/reports/evidence/pushups-r2-stale-cache.mjs`.
+- **Reported by:** Phase 5 TEST agent (pushups, round 2)
+
+### 2026-09-19: pushups, one rep in five gets the wrong verdict (13/69 high-confidence reps on the live overlay) and a knee pushup is never an attempt (Phase 5 TEST agent, pushups round 2; report D2, D3, majors)
+
+- **Date:** 2026-09-19 (live `0dbdc48`, three fake-camera runs, identical each time)
+- **Affected:** `src/classifier.ts` / `src/form.ts` (`SAG_DEV`, `PIKE_DEV`, classifier gated to one facing), `src/repCounter.ts:184` (`plank` required to open a descent), `tests/corpus.test.ts` (`BOTTOM_VERDICT_MIN = 0.8`, `KNOWN_MISSES.test_video`)
+- **Symptom:** clean reps called bad: the demo clip's own first rep ("keep your body straight"), `test_video` 13.5 s + 15 s (the one corpus FAIL, 4/0 vs 4/2), `IMG_1359` 13.6 s "hips too high", `IMG_1360` 10.0 s "hips sagging"; bad reps called good: the worm ascent at 6.2 s in demo/`test_video3`, `bad_IMG_4456` 5.1 s, `bad_IMG_4470` 3.8 s, `IMG_1513` 5.7 s (three of the five bad-form clips show 1 good rep). The knee pushup in `test_video_2` (12–19 s) reads "bad: knees down" live but adds no attempt (3 of 4).
+- **Root cause:** the worm is a temporal fault (chest rises before the hips) invisible at the bottom window; the classifier's mean probability sits near 0.5 on the shallow-sag reps and it is off for the other facing; the geometry thresholds were tuned on the same clips; `plank` doubles as "may start a rep", which excludes kneeling to rest and kneeling pushups alike.
+- **Fix (for the FIX agent):** an ascent-phase hip-lag rule for the worm; a confidence margin for the classifier ("unsure" between 0.35 and 0.65); knee reps counted as `knees down` attempts when the body angle is plank-like and a matching ascent follows; then raise `BOTTOM_VERDICT_MIN` and delete the `test_video` known miss.
+- **Prevention:** the corpus test's "bottom verdicts" ratchet and the `test_video_2` 15.9 s rep as an expected `bad:knees down` event.
+- **Reported by:** Phase 5 TEST agent (pushups, round 2)
+
+### 2026-09-19: pushups, a half-detected body shows no placement hint for 4.5 s and counts a rep with the head out of frame; counting continues under every hint (Phase 5 TEST agent, pushups round 2; report D4, D5, major + minor)
+
+- **Date:** 2026-09-19 (live `0dbdc48`, synthetic fake cameras: `good_IMG_4378` cropped so the head is outside the frame; two clips side by side; a frontal upper body)
+- **Affected:** `src/session.ts:139-147` (`debounceHint` resets on every change of the raw hint, including null), `src/hints.ts:33` (head-out decided from the nose's extrapolated coordinates only), `src/session.ts:156-171` (tracker runs before the hint is computed)
+- **Symptom:** MediaPipe alternates between "no pose" and a pose with a guessed nose, each flip restarts the 700 ms debounce, so no hint appears until 4.5 s (then the generic "Step back…") while "Good form" is drawn and "Rep 1: good" is counted; with two people the hint appears in 748 ms but 4 attempts are counted underneath it; the frontal person gets a green skeleton and verdicts under "Feet out of frame". On the real `IMG_1359` the head hint comes in ≈ 1 s and dark/two-people/feet hints in 0.74–0.75 s, so the mechanism works when the detection is stable.
+- **Root cause:** per-string debounce without hysteresis; no use of the head landmarks' visibility; the counter is not paused while a hint is raised.
+- **Fix (for the FIX agent):** debounce on a "problem present" state with hysteresis (hold 700 ms after the last raise, clear after 700 ms of continuous clean frames), treat invisible eye/ear landmarks as head-out, skip `tracker.push` while a hint is up and say "paused".
+- **Prevention:** `verification.md` row "Placement hints appear within 1 s" with the canvas-text timeline harness `docs/reports/evidence/pushups-r2-ux-checks.mjs` (`cropped-right` must show a hint < 1 s and `total 0`).
+- **Reported by:** Phase 5 TEST agent (pushups, round 2)

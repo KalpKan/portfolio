@@ -1,0 +1,20 @@
+17:48  up 49 days, 18:13, 8 users, load averages: 22.72 25.33 22.97
+demo             PASS  total 4 (want 4±1)  good 3 (want 2-3±1)  fps avg 30 min 30
+test_video3      PASS  total 5 (want 5±1)  good 4 (want 2-4±1)  fps avg 29 min 25
+test_video       FAIL  total 4 (want 4±1)  good 0 (want 2-2±1)  fps avg 30 min 29
+test_video_2     PASS  total 3 (want 4±1)  good 1 (want 0-2±1)  fps avg 30 min 29
+test_video_4     PASS  total 5 (want 5±1)  good 4 (want 4-4±1)  fps avg 30 min 29
+good_IMG_4378    PASS  total 8 (want 8±1)  good 8 (want 8-8±1)  fps avg 30 min 30
+good_IMG_4409    PASS  total 5 (want 5±1)  good 5 (want 5-5±1)  fps avg 30 min 30
+bad_IMG_4456     PASS  total 4 (want 4±1)  good 1 (want 0-0±1)  fps avg 30 min 30
+bad_IMG_4470     PASS  total 4 (want 4±1)  good 1 (want 0-0±1)  fps avg 29 min 24
+bad_IMG_4451     PASS  total 4 (want 4±1)  good 0 (want 0-0±1)  fps avg 30 min 30
+IMG_1305         PASS  total 5 (want 6±1)  good 5 (want 6-6±1)  fps avg 30 min 30
+IMG_1359         PASS  total 9 (want 9±1)  good 8 (want 9-9±1)  fps avg 30 min 27
+IMG_1360         PASS  total 6 (want 6±1)  good 5 (want 6-6±1)  fps avg 29 min 28
+IMG_1512         PASS  total 6 (want 6±1)  good 5 (want 4-4±1)  fps avg 30 min 30
+IMG_1513         PASS  total 1 (want 1±1)  good 1 (want 0-0±1)  fps avg 30 min 30
+
+14/15 clips within tolerance (https://pushups.kalpkan.com/, GPU)
+written /Users/kalp/projects/pushups/tests/fixtures/results/2026-09-19T21-52-50-440Z.json
+17:52  up 49 days, 18:18, 8 users, load averages: 11.71 18.48 20.59

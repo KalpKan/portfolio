@@ -1,0 +1,16 @@
+{
+ "url": "https://pushups.kalpkan.com/",
+ "formFactor": "mobile",
+ "categories": {
+  "performance": 0.98,
+  "accessibility": 1,
+  "best-practices": 1
+ },
+ "metrics": {
+  "first-contentful-paint": "1.1\u00a0s",
+  "largest-contentful-paint": "1.9\u00a0s",
+  "total-blocking-time": "40\u00a0ms",
+  "cumulative-layout-shift": "0",
+  "speed-index": "3.8\u00a0s"
+ }
+}

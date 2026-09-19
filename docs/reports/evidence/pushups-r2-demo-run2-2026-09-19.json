@@ -1,0 +1,19 @@
+{
+  "url": "https://pushups.kalpkan.com/",
+  "seconds": 9.8,
+  "good": "4",
+  "attempts": "4",
+  "form": "bad: keep your body straight",
+  "fps": "24 fps",
+  "status": "Clip finished: 4 good of 4. Play it again or start your camera.",
+  "canvas": [
+    640,
+    360
+  ],
+  "scrollWidth": 1000,
+  "innerWidth": 1000,
+  "hosts": [
+    "pushups.kalpkan.com"
+  ],
+  "errors": []
+}
