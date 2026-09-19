@@ -1551,3 +1551,78 @@ _Entries begin below, oldest first._
 - **Fix:** none possible at $0 without waiting. The fix was verified on the production build served by `vite preview` through the real pipeline (`docs/reports/evidence/emotes-fix1-e2e-local-2026-09-19.txt`: official clip PASS at 1000 and 390, hard / misses / repeat PASS) and CI on `4e25a95` is green (unit + corpus).
 - **Prevention:** **any agent after 19:20 UTC 2026-09-19** runs `bash ~/projects/portfolio/scripts/vercel-redeploy-when-quota-frees.sh ~/projects/emotes emotes.kalpkan.com 20 10` (HEAD `4e25a95` or later), then the live checks: `curl -s https://emotes.kalpkan.com | grep -o 'index-[A-Za-z0-9_-]*\.js'` must NOT be `index-CCXAWVGh.js`; `curl -sI https://emotes.kalpkan.com/assets/<that file> | grep -i cache-control` → `immutable` (D10); `GPU=1 npm run e2e -- https://emotes.kalpkan.com/` and `WIDTH=390` → PASS.
 - **Reported by:** Phase 5 FIX agent (emotes, round 1)
+
+### 2026-09-18: plato, the `.ics` dated every undated assessment on the term end or on "today" (Phase 5 FIX agent, plato round 1; report D1, blocker)
+
+- **Date:** found by SPEC + TEST r1 2026-09-18, fixed in `KalpKan/Plato` `d691455`
+- **Symptom:** CS 2301B (every assessment "Date TBA") downloaded as three `DUE:` events at `20260430T235900`; HS 2800 (term Unknown) at `20260919T235900` = the audit day.
+- **Root cause:** `src/icalendar_gen.py` had two fallbacks (`elif assessment.due_rule` and the final `else`) that built the event on `term.end_date`, and `extract_term` returned `date.today()` for an unknown term, so "end of term" became today.
+- **Fix:** an assessment without a resolved date produces no VEVENT at all; each row carries a `date_status` (`exact | registrar | tba | range | rule | recurring | missing`) and a `date_note` that the review page prints ("Outline says: scheduled by the Registrar (exam period Apr 12 – Apr 30, 2026) — no calendar event until you add a date"); the term is never today (see the D3 entry).
+- **Prevention:** `tests/test_ics.py::test_undated_assessments_get_no_event` and `test_unresolved_rule_gets_no_event`; `tests/test_app_fixes.py::test_download_includes_tutorial_and_no_invented_dates`; the corpus gate's `no_fabricated` metric (37/37).
+- **Reported by:** Phase 5 FIX agent (plato, round 1)
+
+### 2026-09-18: plato, due-date cells were not parsed (14 % of dated assessments got a date) (Phase 5 FIX agent, plato round 1; report D2, blocker)
+
+- **Date:** found by SPEC 2026-09-18 (baseline 4/29), fixed in `d691455`
+- **Root cause:** `assessment_extractor._extract_date` handed the raw cell to `dateparser.parse` with no year context and gave up on ordinals ("Jan 16th"), weekdays, wrapped cells and times; the legacy path hard-coded 2025/2026; pdfplumber's header row sits one column to the right of the body so the Due Date column was read from the wrong cell.
+- **Fix:** `src/outline/dates.py` `DateResolver`: strips ordinals, reads `Mon, Oct. 27th by 11:59 PM`, `12 November 2025`, `Nov.29th`, `Thursday, Oct. 30, 11:30 - 1:30pm`, `November 14th 6 – 8 PM`; the year comes from the term window (Sept–Dec → first year, Jan–Aug → second) or from the printed weekday when the term is unknown (Friday Oct. 3 → 2025); ≥ 3 dates in a cell → `recurring` with every date; "Registrar" / "TBA" / "exam period" / "24 hrs after each lab" → a status, never a date. `src/outline/tables.py` re-aligns body cells to the nearest header column. Dates for still-undated rows come from the weekly schedule table (HS 2800 midterms), from prose ("The Midterm exam will be … on Thursday March 12") and from the item's own paragraph ("submit their evaluation … on Dec 8th").
+- **Result:** `dates_exact` 36/36 on the 15 labelled outlines (baseline 4/29).
+- **Prevention:** `tests/test_dates.py` (31 cases from real cells) and the corpus gate.
+- **Reported by:** Phase 5 FIX agent (plato, round 1)
+
+### 2026-09-18: plato, the term window was guessed, 11 of 42 outlines fell back to today (Phase 5 FIX agent, plato round 1; report D3, blocker)
+
+- **Date:** found by SPEC 2026-09-18 (0/10), fixed in `d691455`
+- **Root cause:** `extract_term` discarded its own date-range match (`pass`), mapped Fall to Sept 1–Dec 15 and Winter to Jan 8–Apr 30, and returned `date.today()` when no "Fall/Winter YYYY" string matched; course codes came from `[A-Z]{2,4} \d{4}` on the first page (rooms, prerequisites, "ROME 2025").
+- **Fix:** `src/outline/term.py` reads the outline's "Classes Begin / Reading Week / Classes End / Exam Period" table (one row per term; Physiology prints two), "Class Begin: Monday, January 5, 2026" lines, weekly tables with date ranges, else the season + year from the text or file name (`A` suffix = Fall, `B` = Winter, "Fall 2025/Winter 2026" or "2025-2026" = full year, "Winter 2023−24" = Winter 2024) mapped to Western's sessional dates (2022–2027 table, verified on westerncalendar.uwo.ca and its Wayback snapshots; unknown years are estimated and flagged). Unknown stays Unknown and the review page asks. `src/outline/course.py` knows Western subject names and abbreviations, skips prerequisite lines and rooms, and falls back to the department line + number or the file name (CS 3342A whose page 1 is an image).
+- **Result:** term 15/15, course_code 15/15; 42/42 corpus outlines get a term and 42/42 a code.
+- **Prevention:** `tests/test_term.py`, `tests/test_course.py`; the corpus gate.
+- **Reported by:** Phase 5 FIX agent (plato, round 1)
+
+### 2026-09-18: plato, timetable slots at 27 % recall, lecture duplicated as a lab, tutorial typed lab, `SUMMARY:Lecture -` (Phase 5 FIX agent, plato round 1; report D4, major)
+
+- **Fix (`src/outline/schedule.py`, `d691455`):** slots from timetable tables ("Lecture | Thursday | 10:30-12:20 | SSC-2050", "Lectures In person/Online | Tuesdays/Thursdays | 11:30 AM - 12:30 PM EST SEB 2200"), per-section rows that inherit the day ("Mondays Section 002 11:30 AM- 1:20 PM … Section 003 1:30-3:20 PM"), prose ("Lectures: MWF 12:30 - 1:20 pm in AHB-1R40", "Tutorials: W 5:30 - 6:20 pm via zoom", "LECTURE: Friday 1.30 pm-2.30 pm HSB-236", "Class Meetings: Tuesday 2:30-3:30pm, Thursday 2:30-4:30pm" + "Location: MC-110", "In-person lectures. UCC-65 M/W/F 9:30-10:30 AM"), a text table "Lecture Section | Time and Room" + "MWF 12:30 – 1:20", and a weekly schedule whose dates all fall on one weekday (HS 2800 → Thursday, no clock time). Tutorial is its own type (`ExtractedCourseData.tutorial_sections`, a third select on the review page, "KIN 2000 Tutorial" series). A component with no day/time (ECE "LAB: 3hrs/session") becomes a note. `.ics` summaries are `<code> Lecture|Lab|Tutorial`, with `LOCATION`.
+- **Result:** sections 15/15 recall, 15/15 precision (CS 3342A's slots sit on an image-only page and are excluded by the ground truth's `sections_extractable_without_ocr: false` flag, which the scorer now honours; the review page says the page could not be read).
+- **Prevention:** `tests/test_schedule.py`, `tests/test_ics.py::test_tutorial_is_its_own_event_type`.
+- **Reported by:** Phase 5 FIX agent (plato, round 1)
+
+### 2026-09-18: plato, "Download Calendar" blocked by a native alert after any inline save (Phase 5 FIX agent, plato round 1; report D5, major)
+
+- **Root cause:** `public/static/app.js` `saveField()` success path never removed the `editing` class; the download handler found `.editable-field.editing` with no input inside and called `alert('Please refresh to save your changes.')`.
+- **Fix (`d691455`):** the success path removes `editing`; the handler's dead branch just clears the class; every `alert()` on the review page became an inline notice (`showReviewNotice`, `#review-notice`); the 36 debug `console.log/warn` calls are gone. Verified in real Chromium at 1280 and 390 px: edit a weight to 7, Enter, Download → `KIN_2000_Winter2026_f117ffd5.ics` with `Weight: 7%`, no dialog (`~/projects/plato-corpus/evidence/fix1-2026-09-19/playwright-*.json`).
+- **Prevention:** the Playwright script `scratchpad d5.js` recorded in `verification.md` (run against the live host after the deploy).
+- **Reported by:** Phase 5 FIX agent (plato, round 1)
+
+### 2026-09-18: plato, one visitor's edits were served to the next visitor of the same PDF (Phase 5 FIX agent, plato round 1; report D6, major)
+
+- **Root cause:** `save_extracted()` upserted the edited data into `extraction_cache` keyed only by `pdf_hash`.
+- **Fix (`d691455`):** the parser's output stays under the bare hash; every edit is stored under `<pdf_hash>:<session_id>` (`visitor_key()`), `load_extracted()` reads the visitor's copy first, force refresh deletes it (`delete_extraction` added to both caches). Manual-mode courses use `manual-<uuid>` hashes under the same key. No schema change on Neon.
+- **Prevention:** `tests/test_app_fixes.py::test_edits_are_per_visitor`, `test_force_refresh_discards_a_visitors_edits`; `tests/test_flow.py::test_session_cookie_stays_small` now asserts the shared row is untouched.
+- **Reported by:** Phase 5 FIX agent (plato, round 1)
+
+### 2026-09-18: plato, manual mode was a stub and unlinked (Phase 5 FIX agent, plato round 1; report D7, major)
+
+- **Fix (`d691455`):** `POST /manual` builds an `ExtractedCourseData` (code, name, term, optional lecture/lab/tutorial slot, assessments with an optional date) and redirects to `/review`; the upload page links "Enter the course by hand"; every edge-file message points there. `tests/test_app_fixes.py::test_manual_mode_builds_a_review_page` (302 → /review, the calendar carries the dated quiz and no event for the undated final).
+- **Reported by:** Phase 5 FIX agent (plato, round 1)
+
+### 2026-09-18: plato, scanned / blank / password / oversize files gave a blank review page, an empty error or a raw 413 (Phase 5 FIX agent, plato round 1; report D8, major)
+
+- **Root cause:** an extraction that found nothing was treated as success; `str(PdfminerException)` is empty for an encrypted file; the app's 16 MB limit sat above Vercel's 4.5 MB body cap so the platform answered `FUNCTION_PAYLOAD_TOO_LARGE` in plain text.
+- **Fix (`d691455`):** `outline.pipeline.load_pages` raises `PasswordProtected` (PyMuPDF `needs_pass`, since pdfminer only raises a bare exception) and `NoTextLayer`; `/upload` turns each into a plain message; a parse with no code, no slot and no assessment redirects with "No course information was found"; image-only pages are listed on the review page; `MAX_CONTENT_LENGTH` = 4.5 MB with a 413 handler and a content-length pre-check that say "larger than 4 MB"; the browser refuses > 4 MB before uploading and shows an inline error; landing copy says "PDF only, up to 4 MB", no more DOCX/TXT/"AI-powered".
+- **Prevention:** `tests/test_app_fixes.py` (blank, image-only, password, non-PDF, oversize, and the five real edge files when present).
+- **Reported by:** Phase 5 FIX agent (plato, round 1)
+
+### 2026-09-18: plato, `.ics` not RFC 5545 clean (Phase 5 FIX agent, plato round 1; report D9, major)
+
+- **Fix (`src/icalendar_gen.py`, `d691455`):** every VEVENT gets `DTSTAMP` (UTC) and a `UID`; a `VTIMEZONE` for `America/Toronto` is built from zoneinfo (`icalendar.Timezone.from_tzinfo`, `icalendar>=6`); `RRULE UNTIL` is the last day of classes at 23:59:59 local converted to UTC (`20260410T035959Z` for Apr 9, 2026); summaries carry the course code; exams with an end time get a real `DTEND`; recurring items are one event per listed date ("Quizzes (3 of 9) due"). Checked with `icalendar` on four downloads: `missing DTSTAMP 0 VTIMEZONE True`.
+- **Still pending:** Google / Apple Calendar import screenshots (needs a throwaway calendar in Kalp's account; not done in this round).
+- **Reported by:** Phase 5 FIX agent (plato, round 1)
+
+### 2026-09-19: plato FIX round 1 could not deploy: Vercel's team deployment window still full (Phase 5 FIX agent, plato round 1)
+
+- **Date:** 2026-09-19, 03:04 UTC onwards
+- **Affected:** `KalpKan/Plato` `d691455` + `ef4251d` pushed to `main`; production still `a5a3260` (deployment `plato-aik4hl0vq`, 5 h old).
+- **Symptom:** `npx vercel --prod --yes` → `api-deployments-free-per-day`; the Git-integration deploy for the push is rate-limited too. The emotes entry above puts the window's release at 2026-09-19 19:19 UTC.
+- **Fix:** none possible at $0 without waiting. `scripts/vercel-redeploy-when-quota-frees.sh ~/projects/plato plato.kalpkan.com 30 8` ran in the background for the rest of the session (log `~/.config/portfolio-ops/logs/redeploy-plato.kalpkan.com.log`); the fix was verified on a local Flask server (`SECRET_KEY=local … app.run(port=5078)`) with the same PDFs, the same curl commands from `verification.md` and real Chromium via Playwright.
+- **Prevention / next step:** any agent after 19:20 UTC 2026-09-19 runs `bash ~/projects/portfolio/scripts/vercel-redeploy-when-quota-frees.sh ~/projects/plato plato.kalpkan.com 20 10` (HEAD `ef4251d` or later), then the live rows in `verification.md` (Plato section: silent-failure guard must print no `DTSTART` for CS 2301B; cross-visitor count `0`; edge files each `302` to `/` with their message; manual `302` to `/review`; the RFC check `missing DTSTAMP 0 VTIMEZONE True`; `curl -s https://plato.kalpkan.com/ | grep -c 'up to 4 MB'` → `1` proves the new build).
+- **Reported by:** Phase 5 FIX agent (plato, round 1)

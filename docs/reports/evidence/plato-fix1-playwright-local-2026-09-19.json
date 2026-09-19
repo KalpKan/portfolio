@@ -1,0 +1,148 @@
+{
+  "base": "http://localhost:5078",
+  "index@1280": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "overflowing": [],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "parse_seconds@1280": "1.6",
+  "review@1280": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "overflowing": [],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "review-editing@1280": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "overflowing": [],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "editing_left@1280": 0,
+  "download@1280": {
+    "file": "KIN_2000_Winter2026_f117ffd5.ics",
+    "vevents": 11,
+    "has7pct": true,
+    "dtstamp": 11,
+    "vtimezone": true,
+    "until": "UNTIL=20260410T035959Z",
+    "summaries": [
+      "SUMMARY:KIN 2000 Lecture",
+      "SUMMARY:KIN 2000: Physical Activity Tracker 1 due",
+      "SUMMARY:KIN 2000: Physical Activity Goal & Plan due",
+      "SUMMARY:KIN 2000: Mid-term Exam due",
+      "SUMMARY:KIN 2000: Physical Activity Goal Report due",
+      "SUMMARY:KIN 2000: Physical Activity Tracker 2 due"
+    ],
+    "invented": false
+  },
+  "dialogs@1280": [],
+  "errors@1280": [],
+  "index@390": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "overflowing": [],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "parse_seconds@390": "1.5",
+  "review@390": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "overflowing": [],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "review-editing@390": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "overflowing": [],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "editing_left@390": 0,
+  "download@390": {
+    "file": "KIN_2000_Winter2026_f117ffd5.ics",
+    "vevents": 11,
+    "has7pct": true,
+    "dtstamp": 11,
+    "vtimezone": true,
+    "until": "UNTIL=20260410T035959Z",
+    "summaries": [
+      "SUMMARY:KIN 2000 Lecture",
+      "SUMMARY:KIN 2000: Physical Activity Tracker 1 due",
+      "SUMMARY:KIN 2000: Physical Activity Goal & Plan due",
+      "SUMMARY:KIN 2000: Mid-term Exam due",
+      "SUMMARY:KIN 2000: Physical Activity Goal Report due",
+      "SUMMARY:KIN 2000: Physical Activity Tracker 2 due"
+    ],
+    "invented": false
+  },
+  "dialogs@390": [],
+  "errors@390": [],
+  "index@360": {
+    "scrollWidth": 360,
+    "clientWidth": 360,
+    "overflowing": [
+      "div.hero-glow right=372"
+    ],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "parse_seconds@360": "2.0",
+  "review@360": {
+    "scrollWidth": 360,
+    "clientWidth": 360,
+    "overflowing": [],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "errors@360": [],
+  "index@320": {
+    "scrollWidth": 320,
+    "clientWidth": 320,
+    "overflowing": [
+      "div.calendar-day right=323",
+      "div.calendar-day-inner right=323",
+      "div.calendar-day right=323",
+      "div.calendar-day-inner right=323",
+      "div.calendar-day right=323",
+      "div.calendar-day-inner right=323"
+    ],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "parse_seconds@320": "1.4",
+  "review@320": {
+    "scrollWidth": 320,
+    "clientWidth": 320,
+    "overflowing": [],
+    "inputFontSizes": [
+      "16px",
+      "13.3333px"
+    ]
+  },
+  "errors@320": []
+}
