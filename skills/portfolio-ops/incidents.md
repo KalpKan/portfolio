@@ -1045,3 +1045,43 @@ _Entries begin below, oldest first._
 - **Fix:** width-specific stories (1440/390) and everything after sign-in were driven with Playwright Chromium on the live URL, signed in by writing the Firebase Auth record into IndexedDB from a custom token (`docs/reports/evidence/plantit-r1-playwright-audit.mjs`); the real Chrome pass was limited to Logout and the sign-in click.
 - **Prevention:** when several agents share the extension, use it only for what needs the human's Google session and measure widths in Playwright; the harness is reusable (verification.md row "whole spec in a real browser").
 - **Reported by:** Phase 5 TEST agent (plantit, round 1)
+
+### 2026-09-19: emotes fires a held yawn every 2.3 s because dwell and cool-down are frame counts (TEST r1, D4)
+
+- **Date:** 2026-09-19 (Phase 5 TEST round 1, emotes; repo `9807a11`, rules unchanged since `0b0753a`)
+- **Affected:** https://emotes.kalpkan.com, `src/gestures/engine.ts:48,86,106-119`
+- **Symptom:** a 10 s hold of the "clear yawn" still yawn-12, synthesised at 25 fps with the corpus's own landmark jitter (σ 0.004) through `tests/corpus.ts`, fires Princess Yawn 5 times (2040, 4200, 6760, 9120, 11160 ms); yawn-19 at σ 0.008 fires 4–5 times at 25, 12 and 8 fps; at 8 fps the first fire is 825–2075 ms after onset. Thumbs-up and flex holds fire once (their scores sit far above 0.5). The spec's S6 bar ("held for ten seconds fires once") and S8 bar ("time-based hysteresis") both fail.
+- **Root cause:** `GestureEngine` counts frames: three frames under 0.5 (120 ms at 25 fps) reset `active`, three above re-fire the edge, and the 2 s `EmoteGate` only rate-limits, so a score hovering near the threshold re-fires as soon as the cooldown ends. The hysteresis therefore also scales with the device's frame rate.
+- **Fix:** not applied (test round). `docs/reports/emotes.md` D4: timestamps into `update()`, on after ≥ 150 ms above, off after ≥ 400–500 ms below, an on/off band (0.5 / 0.35) and a per-gesture refractory period.
+- **Prevention:** `docs/reports/evidence/emotes-r1-hold-flicker.ts` (every row must read `fires=1`) is the check; the verification row "Held gesture fires once" runs it. Rule of thumb for every browser-ML state machine: express dwell and release in milliseconds, then test at 8 fps as well as 25.
+- **Reported by:** Phase 5 TEST agent (emotes, round 1)
+
+### 2026-09-19: emotes stills gate asserts 42 clear positives, the corpus has 39, so CI stays red even after the rules are fixed (TEST r1, D7)
+
+- **Date:** 2026-09-19 (Phase 5 TEST round 1, emotes; repo `9807a11`)
+- **Affected:** `tests/stills.test.ts:21`, `docs/reports/emotes-spec.md` §3/§4 ("42 clear photos"), CI `corpus` job
+- **Symptom:** `npm run test:corpus` → `loads every labelled still: expected 39 to be 42`. `index.json` has `ok` = 13 flex + 17 thumbs_up + 9 yawn = 39 (the 21 yawn photos are 9 ok + 8 occluded + 3 partial + 1 skip).
+- **Root cause:** the spec agent's count added the 3 partial yawns to the ok set when writing the assertion and the spec; `labels.json` is right.
+- **Fix:** not applied (test round): set the assertion to 39 or derive it from `index.json`, and correct the spec wording.
+- **Prevention:** derive fixture counts in gate tests from the index rather than hard-coding them; a gate test that can never go green hides a real fix.
+- **Reported by:** Phase 5 TEST agent (emotes, round 1)
+
+### 2026-09-19: emotes fake-camera judge reports a spurious false trigger when the models become ready mid-event (TEST r1, D9)
+
+- **Date:** 2026-09-19 (Phase 5 TEST round 1, emotes; `scripts/e2e-camera.mjs:66-69`)
+- **Affected:** any clip whose first event starts before the models are ready (short rest segments, ~1.7 s on the GPU)
+- **Symptom:** an 11.6 s clip of thumbs_up-07 held three times fired Thumbs Up at 406 / 103 / 131 ms after each onset, yet the harness printed `FAIL: false trigger: Thumbs Up at 1633 ms` (and, on another run, `thumbs_up late: 1019 ms`): detection started at clip position 1,728 ms, so the one-loop window `sinceStart < D` reached 1,728 ms into the second pass and caught its first event again; the "late" fire was the first still already 850 ms on screen when detection began.
+- **Root cause:** the one-loop window is anchored on when detection started, not on the clip's origin; events already in progress at that moment are judged on a partial view.
+- **Fix:** not applied (test round): de-duplicate to one fire per event per loop and drop the part of the window that precedes `phase` on the second pass, or start the stream only after the models are loaded.
+- **Prevention:** give every fake-camera clip ≥ 2.5 s of rest before its first event (the official clip has 2.0 s and passes only because the GPU loads in ≤ 2 s); this is the fourth fake-camera gotcha for runbook "Deploy a browser-ML app (MediaPipe) to Vercel" step 9.
+- **Reported by:** Phase 5 TEST agent (emotes, round 1)
+
+### 2026-09-19: emotes 4:3 stage crops a portrait phone stream, and the real-Chrome extension tab stayed hidden behind other agents' tabs (TEST r1, D6)
+
+- **Date:** 2026-09-19 (Phase 5 TEST round 1, emotes)
+- **Affected:** https://emotes.kalpkan.com on phones (`src/style.css:76, 89, 110`); this session's claude-in-chrome checks
+- **Symptom:** `.stage` is `aspect-ratio: 4 / 3` with `object-fit: cover`, so a 3:4 front-camera stream loses its top and bottom ~30 % (the square 480 × 480 stream Chrome's fake device produces already cuts the top and bottom of the flex still at 390 px). Separately, the claude-in-chrome tab was `document.hidden` the whole time because three other agents kept their tabs in front in the same window, so the demo's `setTimeout` loop ran at ~1 fps and `resize_window` never took effect.
+- **Root cause:** the stage never reads `videoWidth / videoHeight`; and Chrome's fake device honours the 640 × 480 constraint with crop-and-scale, so a portrait stream cannot be simulated headlessly.
+- **Fix:** not applied (test round): `docs/reports/emotes.md` D6. Measurements and screenshots were taken in headless real Chrome via `puppeteer-core` (the repo's own dev dependency) instead of the extension.
+- **Prevention:** when several agents share Kalp's Chrome, use the extension only for steps that need his logged-in browser and take widths/screenshots headlessly (same lesson as the plato TEST r1 entry); H11 (Kalp on his phone) is the only test of a real portrait stream until the stage follows the video's aspect.
+- **Reported by:** Phase 5 TEST agent (emotes, round 1)

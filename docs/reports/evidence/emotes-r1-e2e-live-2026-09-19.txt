@@ -1,0 +1,36 @@
+# emotes TEST r1: fake-camera e2e through the live pipeline (https://emotes.kalpkan.com, Mac GPU), 2026-09-19T02:09:32Z
+
+## WIDTH=1000 clip=official
+clip e2e-three-gestures.mjpeg (15500 ms), url https://emotes.kalpkan.com/; models ready 1843 ms after the stream started (clip position 1843 ms)
+fires (clip position): Thumbs Up@2150 Goblin Muscle@6650 Princess Yawn@11147
+console errors: INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+PASS: every gesture fired once within 1 s, nothing else fired
+
+## WIDTH=390 clip=official
+clip e2e-three-gestures.mjpeg (15500 ms), url https://emotes.kalpkan.com/; models ready 1578 ms after the stream started (clip position 1578 ms)
+fires (clip position): Thumbs Up@2111 Goblin Muscle@6642 Princess Yawn@11116
+console errors: INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+PASS: every gesture fired once within 1 s, nothing else fired
+
+## WIDTH=1000 clip=hard
+clip e2e-hard.mjpeg (24500 ms), url https://emotes.kalpkan.com/; models ready 1699 ms after the stream started (clip position 1699 ms)
+fires (clip position): Goblin Muscle@2135 Goblin Muscle@6707 Princess Yawn@11081 Goblin Muscle@13596 Thumbs Up@17682
+console errors: INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+FAIL: false trigger: Goblin Muscle at 2135 ms; false trigger: Goblin Muscle at 6707 ms; false trigger: Princess Yawn at 11081 ms; false trigger: Goblin Muscle at 13596 ms; false trigger: Thumbs Up at 17682 ms
+
+## WIDTH=1000 clip=misses
+clip e2e-misses.mjpeg (24500 ms), url https://emotes.kalpkan.com/; models ready 1581 ms after the stream started (clip position 1581 ms)
+fires (clip position): Goblin Muscle@2158
+console errors: INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+FAIL: missed thumbs_up (2000-4500 ms); missed thumbs_up (6500-9000 ms); missed yawn (11000-13500 ms); missed yawn (15500-18000 ms); missed thumbs_up (20000-22500 ms); false trigger: Goblin Muscle at 2158 ms
+
+## WIDTH=1000 clip=repeat
+clip e2e-repeat.mjpeg (11600 ms), url https://emotes.kalpkan.com/; models ready 1728 ms after the stream started (clip position 1728 ms)
+fires (clip position): Thumbs Up@1906 Thumbs Up@4903 Thumbs Up@8231 Thumbs Up@1633
+console errors: INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+FAIL: false trigger: Thumbs Up at 1633 ms
+
+## clip segment scripts (still id, seconds), built by build_hard_clip.py from the read-only photo folder, 640x480 30 fps
+hard: [['angry-04', 2.0], ['cover_eyes-02', 2.5], ['angry-04', 2.0], ['dab-01', 2.5], ['angry-04', 2.0], ['angry-01', 2.5], ['angry-04', 2.0], ['yawn-08', 2.5], ['angry-04', 2.0], ['angry-07', 2.5], ['angry-04', 2.0]]
+misses: [['angry-04', 2.0], ['thumbs_up-04', 2.5], ['angry-04', 2.0], ['thumbs_up-09', 2.5], ['angry-04', 2.0], ['yawn-05', 2.5], ['angry-04', 2.0], ['yawn-02', 2.5], ['angry-04', 2.0], ['thumbs_up-16', 2.5], ['angry-04', 2.0]]
+repeat: [['angry-04', 1.5], ['thumbs_up-07', 2.0], ['angry-04', 1.3], ['thumbs_up-07', 2.0], ['angry-04', 1.3], ['thumbs_up-07', 2.0], ['angry-04', 1.5]]

@@ -1,0 +1,51 @@
+# npm run report at 9807a11, 2026-09-19T02:15:13Z
+
+> emote-detector-web@1.0.0 report
+> vite-node scripts/eval-corpus.ts
+
+STILLS (frame level, 94 photos; gated set = ok + neutral + hard)
+  flex       precision 35%  recall 100%  (tp 13 fp 24 fn 0)
+  thumbs_up  precision 88%  recall 41%  (tp 7 fp 1 fn 10)
+  yawn       precision 63%  recall 56%  (tp 5 fp 3 fn 4)
+  neutral stills that fired: 1/9   hard negatives that fired: 25/33
+  occluded yawns: 0/8 detected, 2 fired a wrong emote   partial stills (gesture not visible): 0/5 detected, 3 fired a wrong emote
+
+CLIPS (emote level, 25 fps synthesized from the stills; fire window 1000 ms)
+  single-thumbs_up-04    positive FAIL fires=[flex@1920] missed thumbs_up at 1800 ms; false trigger: flex at 1920 ms
+  single-thumbs_up-06    positive FAIL fires=[] missed thumbs_up at 1800 ms
+  single-thumbs_up-08    positive FAIL fires=[] missed thumbs_up at 1800 ms
+  single-thumbs_up-09    positive FAIL fires=[] missed thumbs_up at 1800 ms
+  single-thumbs_up-11    positive FAIL fires=[] missed thumbs_up at 1800 ms
+  single-thumbs_up-12    positive FAIL fires=[] missed thumbs_up at 1800 ms
+  single-thumbs_up-13    positive FAIL fires=[] missed thumbs_up at 1800 ms
+  single-thumbs_up-15    positive FAIL fires=[] missed thumbs_up at 1800 ms
+  single-thumbs_up-16    positive FAIL fires=[] missed thumbs_up at 1800 ms
+  single-thumbs_up-17    positive FAIL fires=[flex@1880] missed thumbs_up at 1800 ms; false trigger: flex at 1880 ms
+  single-yawn-02         positive FAIL fires=[] missed yawn at 1800 ms
+  single-yawn-03         positive FAIL fires=[flex@1880] missed yawn at 1800 ms; false trigger: flex at 1880 ms
+  single-yawn-04         occluded FAIL fires=[thumbs_up@1920] false trigger: thumbs_up at 1920 ms
+  single-yawn-05         positive FAIL fires=[] missed yawn at 1800 ms
+  single-yawn-06         partial  FAIL fires=[flex@1840] false trigger: flex at 1840 ms
+  single-yawn-08         occluded FAIL fires=[thumbs_up@1840] false trigger: thumbs_up at 1840 ms
+  single-yawn-10         partial  FAIL fires=[flex@1880] false trigger: flex at 1880 ms
+  single-yawn-11         partial  FAIL fires=[flex@1880] false trigger: flex at 1880 ms
+  single-yawn-13         positive FAIL fires=[] missed yawn at 1800 ms
+  single-yawn-17         positive FAIL fires=[] missed yawn at 1800 ms
+  neutral-60s            2 firings in 59 s (2.1 per minute): thumbs_up@9360 thumbs_up@43920
+  hard-negatives-60s     12 firings in 60 s (12.0 per minute): yawn@1360 yawn@5560 flex@12120 flex@15480 flex@24200 flex@28200 flex@33520 flex@38880 flex@47160 flex@49600 flex@54960 flex@57560
+
+  flex       precision 52%  recall 100%  (tp 17 fp 16 fn 0)
+  thumbs_up  precision 73%  recall 52%  (tp 11 fp 4 fn 10)
+  yawn       precision 80%  recall 62%  (tp 8 fp 2 fn 5)
+  latency from onset: median 80 ms, p95 520 ms, max 540 ms (37 matched fires)
+  gated clips passing: 36/58
+
+# npm run test:corpus summary
+⎯⎯⎯⎯⎯⎯ Failed Tests 32 ⎯⎯⎯⎯⎯⎯⎯
+AssertionError: expected 39 to be 42 // Object.is equality
+ Test Files  2 failed (2)
+      Tests  32 failed | 39 passed (71)
+
+# npm run test:unit summary
+ Test Files  3 passed (3)
+      Tests  33 passed (33)

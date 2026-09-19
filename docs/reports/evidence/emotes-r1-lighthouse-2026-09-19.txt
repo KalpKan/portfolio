@@ -1,0 +1,3 @@
+Lighthouse 12.8.2 mobile, perf preset, https://emotes.kalpkan.com/, fetchTime 2026-09-19T02:14:22.632Z
+{'performance': 0.99, 'accessibility': 1, 'best-practices': 1}
+LCP 1.8 s TBT 20 ms CLS 0 FCP 1.1 s SI 2.3 s
