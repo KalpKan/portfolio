@@ -25,6 +25,7 @@ for f in "$HOME/Library/Application Support/com.vercel.cli/auth.json" "$HOME/.lo
 done
 [ -n "$AUTH" ] || { say "Vercel CLI is not logged in (no auth.json)"; exit 1; }
 TOKEN=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['token'])" "$AUTH")
+START_MS=$(( $(date +%s) * 1000 ))
 say "start: $DIR -> $HOST (HEAD ${HEAD_SHA:0:7}), up to $MAX attempts every $EVERY min"
 for i in $(seq 1 "$MAX"); do
   OUT=$(npx -y "$CLI" --prod --yes --scope "$SCOPE" 2>&1); RC=$?
@@ -34,7 +35,22 @@ for i in $(seq 1 "$MAX"); do
   fi
   URL=$(echo "$OUT" | grep -Eo 'https://[a-z0-9.-]+\.vercel\.app' | tail -1)
   if [ "$RC" -ne 0 ] || [ -z "$URL" ]; then
-    say "attempt $i: vercel exited $RC (deploy or build failed):"; echo "$OUT" | tail -15 | tee -a "$LOG"; exit 1
+    # The CLI can lose its own connection AFTER the upload went through ("fetch failed", seen
+    # 2026-09-18 23:49Z: the deployment existed and was READY on HEAD while the CLI exited 1).
+    # Before calling it a failure, ask the API whether a deployment for HEAD appeared since we started.
+    PROJECT_ID=$(python3 -c "import json;print(json.load(open('.vercel/project.json'))['projectId'])" 2>/dev/null || true)
+    FOUND=$(curl -s "https://api.vercel.com/v6/deployments?projectId=$PROJECT_ID&teamId=$TEAM_ID&target=production&limit=5" -H "Authorization: Bearer $TOKEN" \
+      | HEAD_SHA="$HEAD_SHA" SINCE="$START_MS" python3 -c '
+import json, os, sys
+for d in json.load(sys.stdin).get("deployments", []):
+    if (d.get("meta") or {}).get("githubCommitSha") == os.environ["HEAD_SHA"] and d.get("created", 0) >= int(os.environ["SINCE"]):
+        print("https://" + d["url"]); break' 2>/dev/null)
+    if [ -n "$FOUND" ]; then
+      say "attempt $i: vercel exited $RC ($(echo "$OUT" | grep -Eo '"message": *"[^"]*"' | head -1)), but the API shows a deployment for HEAD: $FOUND; verifying it"
+      URL="$FOUND"
+    else
+      say "attempt $i: vercel exited $RC (deploy or build failed):"; echo "$OUT" | tail -15 | tee -a "$LOG"; exit 1
+    fi
   fi
   say "attempt $i: deployment created $URL; checking it is READY, is commit ${HEAD_SHA:0:7}, and owns $HOST"
   for j in $(seq 1 30); do

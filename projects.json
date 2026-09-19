@@ -157,9 +157,9 @@
       "hero": null
     },
     {
-      "slug": "yash-birthday-pcb",
-      "name": "Yash Birthday PCB",
-      "tagline": "A 12 × 37 mm USB-C board with a basketball player cut through it and three LEDs behind the cut, designed in KiCad as a birthday gift.",
+      "slug": "porsche-pcb-keychain",
+      "name": "Porsche PCB keychain",
+      "tagline": "A 12 \u00d7 37 mm USB-C board with a basketball player cut through it and three LEDs behind the cut, designed in KiCad as a birthday gift.",
       "type": "showcase",
       "status": "live",
       "repo": null,

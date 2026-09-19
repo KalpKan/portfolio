@@ -2,7 +2,7 @@ import type { CaseStudy } from "@/content/case-study";
 import unpark from "./unpark";
 import rcCar from "./rc-car";
 import flashcards from "./flashcards";
-import yashBirthdayPcb from "./yash-birthday-pcb";
+import porschePcbKeychain from "./porsche-pcb-keychain";
 import eeg from "./eeg";
 
 /**
@@ -17,7 +17,7 @@ export const caseStudies: Record<string, CaseStudy> = {
   [unpark.slug]: unpark,
   [rcCar.slug]: rcCar,
   [flashcards.slug]: flashcards,
-  [yashBirthdayPcb.slug]: yashBirthdayPcb,
+  [porschePcbKeychain.slug]: porschePcbKeychain,
   [eeg.slug]: eeg,
 };
 

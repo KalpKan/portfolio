@@ -1,9 +1,9 @@
 import type { CaseStudy } from "@/content/case-study";
-import renderBoth from "@/public/images/projects/yash-birthday-pcb/render-both.webp";
-import renderTop from "@/public/images/projects/yash-birthday-pcb/render-top.webp";
-import renderBottom from "@/public/images/projects/yash-birthday-pcb/render-bottom.webp";
-import layout from "@/public/images/projects/yash-birthday-pcb/layout.webp";
-import schematic from "@/public/images/projects/yash-birthday-pcb/schematic.webp";
+import renderBoth from "@/public/images/projects/porsche-pcb-keychain/render-both.webp";
+import renderTop from "@/public/images/projects/porsche-pcb-keychain/render-top.webp";
+import renderBottom from "@/public/images/projects/porsche-pcb-keychain/render-bottom.webp";
+import layout from "@/public/images/projects/porsche-pcb-keychain/layout.webp";
+import schematic from "@/public/images/projects/porsche-pcb-keychain/schematic.webp";
 
 // Written from the KiCad project on Kalp's Mac (~/Documents/Yash Birthday PCB:
 // .kicad_sch, .kicad_pcb, the Gerber job, BOM and pick-and-place exports,
@@ -13,10 +13,10 @@ import schematic from "@/public/images/projects/yash-birthday-pcb/schematic.webp
 // of the schematic; the layout view is Kalp's own KiCad screenshot from
 // 2025-07-15. No photo of the physical board exists on disk yet.
 
-const yashBirthdayPcb: CaseStudy = {
-  slug: "yash-birthday-pcb",
+const porschePcbKeychain: CaseStudy = {
+  slug: "porsche-pcb-keychain",
   kicker: "Hardware · KiCad · July 2025",
-  title: "Yash Birthday PCB",
+  title: "Porsche PCB keychain",
   lede:
     "A 12 × 37 mm circuit board shaped like a USB stick, with a basketball player cut clean through it and three LEDs behind the cut, designed in KiCad as a birthday present for a friend.",
   hero: {
@@ -29,7 +29,7 @@ const yashBirthdayPcb: CaseStudy = {
   howItWorks: {
     intro:
       "Nine parts, one sheet. The circuit is deliberately simple so the board could be about the shape: a USB-C plug on the bottom edge supplies 5 V, three LEDs sit on the back along the cut-out, and the silhouette itself is the design.",
-    diagram: "yash-birthday-pcb",
+    diagram: "porsche-pcb-keychain",
     steps: [
       {
         title: "Schematic",
@@ -90,4 +90,4 @@ const yashBirthdayPcb: CaseStudy = {
   ],
 };
 
-export default yashBirthdayPcb;
+export default porschePcbKeychain;

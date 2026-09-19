@@ -34,8 +34,8 @@ export const DIAGRAMS: Record<DiagramId, FlowData> = {
     ],
     edges: ["AppState", "cards"],
   },
-  "yash-birthday-pcb": {
-    title: "Yash Birthday PCB: a USB-C plug supplies 5 V, three LEDs light the player cut through the board",
+  "porsche-pcb-keychain": {
+    title: "Porsche PCB keychain: a USB-C plug supplies 5 V, three LEDs light the player cut through the board",
     nodes: [
       { id: "usb", title: "USB-C plug", sub: ["Molex 105444, 2.0", "CC1/CC2: 5.1 kΩ to GND", "D+/D−: no connect"] },
       { id: "led", title: "Three LEDs (back)", sub: ["0603, 220 Ω each", "along the cut-out edge"] },

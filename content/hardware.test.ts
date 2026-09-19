@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import pcb from "@/content/projects/yash-birthday-pcb";
+import pcb from "@/content/projects/porsche-pcb-keychain";
 import eeg from "@/content/projects/eeg";
 import flashcards from "@/content/projects/flashcards";
 import { isPlaceholder } from "@/content/case-study";
@@ -7,7 +7,7 @@ import { isPlaceholder } from "@/content/case-study";
 // The two hardware pages are written from the KiCad / LTspice files on
 // Kalp's Mac (read-only). These pin the facts the prose must carry.
 
-describe("Yash Birthday PCB content", () => {
+describe("Porsche PCB keychain content", () => {
   it("is publishable, with a rendered board as the hero and real numbers", () => {
     expect(pcb.draft).not.toBe(true);
     expect(isPlaceholder(pcb.hero)).toBe(false);

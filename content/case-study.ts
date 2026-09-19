@@ -59,7 +59,7 @@ export type DiagramId =
   | "unpark"
   | "rc-car"
   | "flashcards"
-  | "yash-birthday-pcb"
+  | "porsche-pcb-keychain"
   | "eeg";
 
 export type Step = { title: string; body: string };

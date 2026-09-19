@@ -48,7 +48,7 @@ These do not get their own subdomain or deployment. Each becomes a page on the h
 | **UnPark / "Antifreeze" — the Parkinson's device** (GitHub `UnPark`, local `Sidequest/Antifreeze/`) | iOS app (SwiftUI) + Raspberry Pi with MPU6050 accelerometer + Flask-SocketIO server + Firebase: real-time freezing-of-gait detection, charts, predictive alerts, notifications | Problem statement, hardware photos, app screenshots, demo video, architecture diagram (Pi → Firebase → app), repo link. Fix the repo-name/content mismatch (rename repo or explain "UnPark, codename Antifreeze") | App Store (needs Apple Developer Program, $99 USD/yr, outside the hosting budget) |
 | **Automatic-RC-Car** (943 MB repo) | C++ / CMake, PS4-controller-driven autonomous RC car | Build photos, driving video, repo link **after purging the large committed data** | — |
 | FlashCardsApp (private, **has committed `GoogleService-Info.plist`**, remove before any public link) | Native iOS, **under construction** | "Under construction" placeholder page only | App Store, later |
-| **Yash Birthday PCB** (`~/Documents/Yash Birthday PCB/`, KiCad) | Custom PCB designed as a gift | Board render, schematic, photos Kalp supplies | — |
+| **Porsche PCB keychain** (`~/Documents/Porsche PCB keychain/`, KiCad) | Custom PCB designed as a gift | Board render, schematic, photos Kalp supplies | — |
 | **DIY EEG** (`~/Desktop/EEG Circuit /`, KiCad + LTspice) | Hardware, **under construction** | Case-study page marked under construction: schematic, simulation, plan | — |
 | ~~Outline~~ | Removed 2026-09-18: not a real project | — | — |
 | ~~classmyschedule~~ | Removed 2026-09-18: not Kalp's work | — | — |
