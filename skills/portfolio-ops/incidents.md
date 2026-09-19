@@ -1085,3 +1085,63 @@ _Entries begin below, oldest first._
 - **Fix:** not applied (test round): `docs/reports/emotes.md` D6. Measurements and screenshots were taken in headless real Chrome via `puppeteer-core` (the repo's own dev dependency) instead of the extension.
 - **Prevention:** when several agents share Kalp's Chrome, use the extension only for steps that need his logged-in browser and take widths/screenshots headlessly (same lesson as the plato TEST r1 entry); H11 (Kalp on his phone) is the only test of a real portrait stream until the stage follows the video's aspect.
 - **Reported by:** Phase 5 TEST agent (emotes, round 1)
+
+### 2026-09-18: pushups counts the same clip differently on consecutive plays (7, 0, 7 on an 8-rep clip) (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 22:00–22:15 EDT (2026-09-19 02:00–02:15 UTC)
+- **Affected:** https://pushups.kalpkan.com (production `4f0708e`), `src/repCounter.ts:31, 60-76`
+- **Symptom:** `GPU=1 node scripts/e2e-corpus.mjs https://pushups.kalpkan.com/` three times in a row: 6 of 15 clips print different `total`/`good` each time (demo 1/0 → 2/1 → 2/1; `good_IMG_4378` 7/7 → 0/0 → 7/7; IMG_1305 4 → 2 → 4; IMG_1360 3 → 5 → 5; IMG_1512 3 → 4 → 3; test_video good 2 → 3 → 3). Pass count 4/15, 4/15, 5/15.
+- **Root cause:** the state machine is frame-based (10-detection warm-up) and every band crossing is a single sample; the pipeline samples 27–30 of the 30 source frames with jitter and the first second of a fresh browser runs at 2–16 fps while MediaPipe compiles its GPU shaders, so which frames land inside the 10 % bands differs per run. One spurious landmark frame during warm-up poisons the all-time min/max for the whole session (the 0/0 run).
+- **Fix:** not applied. `docs/reports/pushups.md` D2: time-based warm-up and hold (≈100 ms in a band), a short median/EMA on `shoulderY`, ignore low-visibility frames.
+- **Prevention:** verification.md row "same clip, same count" (three runs must print identical columns).
+- **Reported by:** Phase 5 TEST agent (pushups, round 1)
+
+### 2026-09-18: pushups scores a pike and kneeling as "Good form 100 %" and calls every clean top in `test_video_4` bad (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 22:10 EDT
+- **Affected:** `src/classifier.ts` + `src/repCounter.ts:66-74`, live site
+- **Symptom:** mid-clip screenshots on the live site: `IMG_1512` at 31 s (downward-dog pike) "Good form 100 %" and the rep counted as good #5; `IMG_1359` at 5.5 s (kneeling to rest) "Good form 100 %"; `test_video_4` (four straight-plank reps, labelled good with high confidence) gives 0 good reps in every run because P(good) is 0.07–0.16 on every top frame (trace t = 2.3–2.6 s etc.). At the labelled bottoms the single-frame verdict matches 67/69 high-confidence labels, so the defect is the top and the shapes the network never saw.
+- **Root cause:** the MLP sees 36 raw scaled coordinates from one person, one camera, one facing direction; `test_video_4` has its 180° rotation baked in (the body faces the other way), and pikes/kneeling are not in the training set as "bad". No geometric rule backs the network.
+- **Fix:** not applied. `docs/reports/pushups.md` D3/D4: majority verdict per band, hip-line / knee / depth rules from the 33 landmarks with a reason string, horizontal mirroring of the feature vector.
+- **Prevention:** verification.md row "overlay at the moments that matter" (5 timestamps that must show the right verdict and a reason).
+- **Reported by:** Phase 5 TEST agent (pushups, round 1)
+
+### 2026-09-18: pushups shows "Step back so your whole body is visible" in the dark and nothing when the head or feet leave the frame (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 22:12 EDT
+- **Affected:** `src/session.ts:85, 100`, live site
+- **Symptom:** a black fake camera gets the "Step back" hint in 510 ms (wrong advice); `IMG_1359` at 2 s (head cut off at the top) and `IMG_1305` at 3 s (feet at the edge, bystander) get no hint and "Good form 100 %"; a second person is never mentioned (`result.landmarks[0]` is taken silently).
+- **Root cause:** the only condition is `landmarks == null`; landmark visibility, out-of-range coordinates, `landmarks.length`, shoulder-width geometry and frame luminance are not read.
+- **Fix:** not applied. `docs/reports/pushups.md` D5/D9.
+- **Prevention:** verification.md row "hints, stop, refusal, hosts" (expected hint texts listed).
+- **Reported by:** Phase 5 TEST agent (pushups, round 1)
+
+### 2026-09-18: pushups first second of a fresh session runs at 2 fps (GPU warm-up) and the count starts anyway (Phase 5 TEST agent, round 1)
+
+- **Date:** 2026-09-18, 21:58 EDT
+- **Affected:** `src/pose.ts`, `src/session.ts:72-112`
+- **Symptom:** the first clip of the first corpus run in a fresh Chrome profile reports `fpsMin: 2` (avg 27); the demo clip's first rep (bottom at 0.8 s) falls inside that second and is lost; later clips in the same browser show min 12–20.
+- **Root cause:** the first `detectForVideo` compiles MediaPipe's WebGL shaders; the loop and the rep counter start at once.
+- **Fix:** not applied. `docs/reports/pushups.md` D11: one warm-up detection before the status flips, counter armed only once the pose is seen at ≥ 10 fps.
+- **Prevention:** the corpus verification row now requires `min` ≥ 10 on every clip including the first.
+- **Reported by:** Phase 5 TEST agent (pushups, round 1)
+
+### 2026-09-18: pushups placement sentence sits below the fold on a phone, stale stats after Stop, "1 attempts" (Phase 5 TEST agent, round 1; cosmetic)
+
+- **Date:** 2026-09-18, 22:05 EDT
+- **Affected:** `index.html:19-24, 57-62`, `src/main.ts:85-90`, `src/draw.ts:60`
+- **Symptom:** at 390 × 844 the full placement rule is Tips bullet 1 at y = 886 px (the lede only says "side-on"); after Stop the tiles keep "Speed 30 fps" / "Form now: no pose"; the overlay prints "0 good reps · 1 attempts". Neither the page nor the README says a second person, a pike or kneeling can be scored "good".
+- **Root cause:** copy placement and no reset in the stop handler; no plural rule.
+- **Fix:** not applied. `docs/reports/pushups.md` D10, D13, D14.
+- **Prevention:** the UX-checks script asserts `notesTop` (or the sentence's own element) is inside the 844 px viewport after the fix.
+- **Reported by:** Phase 5 TEST agent (pushups, round 1)
+
+### 2026-09-18: the shared claude-in-chrome tab is hidden, so the pushups `<video>` never starts there (Phase 5 TEST agent, pushups round 1; tooling, third occurrence)
+
+- **Date:** 2026-09-18, 21:56 EDT
+- **Affected:** the browser half of the pushups audit (tooling, not the product)
+- **Symptom:** in the MCP tab group `document.hidden === true`; after "Play demo clip" the status stayed "Loading the pose model…" for 20 s with every model file served from cache and `video.currentTime` 0; `resize_window` to 390 × 844 returned success but `innerWidth` stayed 1200.
+- **Root cause:** Chrome defers media and WebGL work in hidden tabs; the extension's window is shared by several agents and its size cannot be changed from here (same as the plantit r1 incident).
+- **Fix:** the extension was used only for the load path (resources before a click, buttons, console); every moving part ran in headless real Chrome with `--use-angle=metal` on the live URL (`scripts/e2e-corpus.mjs`, `scripts/e2e-demo.mjs`, `docs/reports/evidence/pushups-r1-ux-checks.mjs`, `pushups-r1-stage-shots.mjs`), and widths/schemes were emulated there.
+- **Prevention:** for camera/video features, go straight to the headless-GPU harnesses; keep the extension for what needs Kalp's session.
+- **Reported by:** Phase 5 TEST agent (pushups, round 1)

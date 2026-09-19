@@ -1,0 +1,20 @@
+# Output of pushups-r1-framedrop-replay.test.ts on KalpKan/pushup-tracker-web 06e245a (traces = Python pipeline at 30 fps).
+# Columns: attempts/good when keeping every frame (30fps), 2 of 3 (20fps), 1 of 2 (15fps), 1 of 3 (10fps); truth; per labelled bottom: label / single-frame verdict, 3-frame majority.
+demo           30fps 2/1  20fps 2/1  15fps 2/1  10fps 2/1  truth 4/2-3  | bottoms label/single,maj: 0.8s:g/gg 1.8s:g/gg 3.5s:g/bb 6.2s:b/bb
+test_video3    30fps 2/1  20fps 2/1  15fps 2/1  10fps 2/1  truth 5/2-4  | bottoms label/single,maj: 0.8s:g/gg 1.8s:g/gg 3.5s:g/bb 6.2s:b/bb 9.8s:g/bb
+test_video     30fps 3/1  20fps 3/1  15fps 3/1  10fps 3/1  truth 4/2-2  | bottoms label/single,maj: 3.5s:b/bb 9.5s:b/gg 13.5s:g/gg 15s:g/gg
+test_video_2   30fps 2/0  20fps 2/0  15fps 2/0  10fps 2/0  truth 4/0-2  | bottoms label/single,maj: 2.5s:g/gg 8.5s:b/bb 15.9s:b/bb 21.5s:g/gg
+test_video_4   30fps 4/1  20fps 4/1  15fps 4/1  10fps 4/1  truth 5/4-4  | bottoms label/single,maj: 1.7s:g/gg 3.4s:g/gg 4.9s:g/gg 6.5s:g/gg 10s:b/bb
+good_IMG_4378  30fps 7/7  20fps 7/7  15fps 7/7  10fps 7/7  truth 8/8-8  | bottoms label/single,maj: 1s:g/gg 2.8s:g/gg 4.8s:g/gg 6.9s:g/gg 8.8s:g/gg 10.7s:g/gg 12.7s:g/gg 14.6s:g/gg
+good_IMG_4409  30fps 5/5  20fps 5/5  15fps 4/4  10fps 4/4  truth 5/5-5  | bottoms label/single,maj: 2s:g/gg 3.9s:g/gg 5.7s:g/gg 7.5s:g/gg 9.5s:g/gg
+bad_IMG_4456   30fps 3/0  20fps 2/0  15fps 2/0  10fps 2/0  truth 4/0-0  | bottoms label/single,maj: 0.8s:b/bb 2.2s:b/bb 3.6s:b/bb 5.1s:b/bb
+bad_IMG_4470   30fps 2/0  20fps 2/0  15fps 2/0  10fps 2/0  truth 4/0-0  | bottoms label/single,maj: 0.9s:b/bb 2.2s:b/bb 3.8s:b/bb 5.5s:b/bb
+bad_IMG_4451   30fps 2/0  20fps 2/0  15fps 2/0  10fps 1/0  truth 4/0-0  | bottoms label/single,maj: 1.3s:b/bb 2.8s:b/bb 4.6s:b/bb 6.4s:b/bb
+IMG_1305       30fps 4/4  20fps 4/4  15fps 4/4  10fps 4/4  truth 6/6-6  | bottoms label/single,maj: 0.7s:g/gg 2.6s:g/gg 3.6s:g/gg 5.1s:g/gg 6.5s:g/gg 7.6s:g/gg
+IMG_1359       30fps 7/7  20fps 6/6  15fps 6/6  10fps 6/6  truth 9/9-9  | bottoms label/single,maj: 1.1s:g/gg 7.3s:g/gg 8.3s:g/gg 9.3s:g/gg 11.2s:g/gg 13.6s:g/gg 15.4s:g/gg 16.4s:g/gg 17.5s:g/gg
+IMG_1360       30fps 4/4  20fps 4/4  15fps 4/4  10fps 3/3  truth 6/6-6  | bottoms label/single,maj: 2s:g/gg 3.7s:g/gg 5.4s:g/gg 7.1s:g/gg 10s:g/gg 11.5s:g/gg
+IMG_1512       30fps 4/4  20fps 3/3  15fps 3/3  10fps 3/3  truth 6/4-4  | bottoms label/single,maj: 4s:g/gg 8s:g/gg 13s:g/gg 21.3s:g/gg 28.8s:b/gg 32.6s:b/gg
+IMG_1513       30fps 0/0  20fps 0/0  15fps 0/0  10fps 0/0  truth 1/0-0  | bottoms label/single,maj: 5.7s:b/bb
+clips whose count changes when every 3rd frame is dropped: 3/15
+high-confidence reps: single-frame verdict at bottom matches label 67/69; 3-frame majority 67/69
+bad-labelled reps where the single bottom frame says good: 3/22

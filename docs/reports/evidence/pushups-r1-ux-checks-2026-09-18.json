@@ -1,0 +1,250 @@
+{
+  "layout": [
+    {
+      "scheme": "dark",
+      "w": 360,
+      "scrollW": 360,
+      "innerW": 360,
+      "innerH": 844,
+      "cls": 0,
+      "start": {},
+      "demo": {},
+      "status": {},
+      "stage": {},
+      "notesTop": 906.703125,
+      "ledeText": "Point your camera at yourself side-on, do pushups, and the page counts the reps whose form was good at the\n          top and the bottom. Everything runs on your device: the pose model and the form classifier are downloaded\n          once (about 20 MB) and no frame is ever uploaded. Ported from the\n          Python original.",
+      "tips": [
+        "MediaPipe PoseLandmarker (full) finds 33 body points on every frame, on your GPU when available.",
+        "Twelve of them (wrists, elbows, shoulders, hips, knees, ankles) go into a small neural network trained on Kalp's own good- and bad-form videos; it answers \"good\" or \"bad\" per frame (94.8 % on held-out frames).",
+        "Shoulder height tracks the movement. A rep is top → bottom → top, and it only counts when the form was good at both ends.",
+        "Camera at roughly floor level, whole body in frame, side view, one person.",
+        "The first rep calibrates the range, so the count may lag by one rep.",
+        "No camera? The demo clip runs the exact same pipeline on a short recording."
+      ],
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "dark",
+      "w": 390,
+      "scrollW": 390,
+      "innerW": 390,
+      "innerH": 844,
+      "cls": 0,
+      "start": {},
+      "demo": {},
+      "status": {},
+      "stage": {},
+      "notesTop": 886.015625,
+      "ledeText": "Point your camera at yourself side-on, do pushups, and the page counts the reps whose form was good at the\n          top and the bottom. Everything runs on your device: the pose model and the form classifier are downloaded\n          once (about 20 MB) and no frame is ever uploaded. Ported from the\n          Python original.",
+      "tips": [
+        "MediaPipe PoseLandmarker (full) finds 33 body points on every frame, on your GPU when available.",
+        "Twelve of them (wrists, elbows, shoulders, hips, knees, ankles) go into a small neural network trained on Kalp's own good- and bad-form videos; it answers \"good\" or \"bad\" per frame (94.8 % on held-out frames).",
+        "Shoulder height tracks the movement. A rep is top → bottom → top, and it only counts when the form was good at both ends.",
+        "Camera at roughly floor level, whole body in frame, side view, one person.",
+        "The first rep calibrates the range, so the count may lag by one rep.",
+        "No camera? The demo clip runs the exact same pipeline on a short recording."
+      ],
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "dark",
+      "w": 430,
+      "scrollW": 430,
+      "innerW": 430,
+      "innerH": 844,
+      "cls": 0,
+      "start": {},
+      "demo": {},
+      "status": {},
+      "stage": {},
+      "notesTop": 892.015625,
+      "ledeText": "Point your camera at yourself side-on, do pushups, and the page counts the reps whose form was good at the\n          top and the bottom. Everything runs on your device: the pose model and the form classifier are downloaded\n          once (about 20 MB) and no frame is ever uploaded. Ported from the\n          Python original.",
+      "tips": [
+        "MediaPipe PoseLandmarker (full) finds 33 body points on every frame, on your GPU when available.",
+        "Twelve of them (wrists, elbows, shoulders, hips, knees, ankles) go into a small neural network trained on Kalp's own good- and bad-form videos; it answers \"good\" or \"bad\" per frame (94.8 % on held-out frames).",
+        "Shoulder height tracks the movement. A rep is top → bottom → top, and it only counts when the form was good at both ends.",
+        "Camera at roughly floor level, whole body in frame, side view, one person.",
+        "The first rep calibrates the range, so the count may lag by one rep.",
+        "No camera? The demo clip runs the exact same pipeline on a short recording."
+      ],
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "dark",
+      "w": 1280,
+      "scrollW": 1280,
+      "innerW": 1280,
+      "innerH": 800,
+      "cls": 0,
+      "start": {},
+      "demo": {},
+      "status": {},
+      "stage": {},
+      "notesTop": 1059.796875,
+      "ledeText": "Point your camera at yourself side-on, do pushups, and the page counts the reps whose form was good at the\n          top and the bottom. Everything runs on your device: the pose model and the form classifier are downloaded\n          once (about 20 MB) and no frame is ever uploaded. Ported from the\n          Python original.",
+      "tips": [
+        "MediaPipe PoseLandmarker (full) finds 33 body points on every frame, on your GPU when available.",
+        "Twelve of them (wrists, elbows, shoulders, hips, knees, ankles) go into a small neural network trained on Kalp's own good- and bad-form videos; it answers \"good\" or \"bad\" per frame (94.8 % on held-out frames).",
+        "Shoulder height tracks the movement. A rep is top → bottom → top, and it only counts when the form was good at both ends.",
+        "Camera at roughly floor level, whole body in frame, side view, one person.",
+        "The first rep calibrates the range, so the count may lag by one rep.",
+        "No camera? The demo clip runs the exact same pipeline on a short recording."
+      ],
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "light",
+      "w": 360,
+      "scrollW": 360,
+      "innerW": 360,
+      "innerH": 844,
+      "cls": 0,
+      "start": {},
+      "demo": {},
+      "status": {},
+      "stage": {},
+      "notesTop": 906.703125,
+      "ledeText": "Point your camera at yourself side-on, do pushups, and the page counts the reps whose form was good at the\n          top and the bottom. Everything runs on your device: the pose model and the form classifier are downloaded\n          once (about 20 MB) and no frame is ever uploaded. Ported from the\n          Python original.",
+      "tips": [
+        "MediaPipe PoseLandmarker (full) finds 33 body points on every frame, on your GPU when available.",
+        "Twelve of them (wrists, elbows, shoulders, hips, knees, ankles) go into a small neural network trained on Kalp's own good- and bad-form videos; it answers \"good\" or \"bad\" per frame (94.8 % on held-out frames).",
+        "Shoulder height tracks the movement. A rep is top → bottom → top, and it only counts when the form was good at both ends.",
+        "Camera at roughly floor level, whole body in frame, side view, one person.",
+        "The first rep calibrates the range, so the count may lag by one rep.",
+        "No camera? The demo clip runs the exact same pipeline on a short recording."
+      ],
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "light",
+      "w": 390,
+      "scrollW": 390,
+      "innerW": 390,
+      "innerH": 844,
+      "cls": 0,
+      "start": {},
+      "demo": {},
+      "status": {},
+      "stage": {},
+      "notesTop": 886.015625,
+      "ledeText": "Point your camera at yourself side-on, do pushups, and the page counts the reps whose form was good at the\n          top and the bottom. Everything runs on your device: the pose model and the form classifier are downloaded\n          once (about 20 MB) and no frame is ever uploaded. Ported from the\n          Python original.",
+      "tips": [
+        "MediaPipe PoseLandmarker (full) finds 33 body points on every frame, on your GPU when available.",
+        "Twelve of them (wrists, elbows, shoulders, hips, knees, ankles) go into a small neural network trained on Kalp's own good- and bad-form videos; it answers \"good\" or \"bad\" per frame (94.8 % on held-out frames).",
+        "Shoulder height tracks the movement. A rep is top → bottom → top, and it only counts when the form was good at both ends.",
+        "Camera at roughly floor level, whole body in frame, side view, one person.",
+        "The first rep calibrates the range, so the count may lag by one rep.",
+        "No camera? The demo clip runs the exact same pipeline on a short recording."
+      ],
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "light",
+      "w": 430,
+      "scrollW": 430,
+      "innerW": 430,
+      "innerH": 844,
+      "cls": 0,
+      "start": {},
+      "demo": {},
+      "status": {},
+      "stage": {},
+      "notesTop": 892.015625,
+      "ledeText": "Point your camera at yourself side-on, do pushups, and the page counts the reps whose form was good at the\n          top and the bottom. Everything runs on your device: the pose model and the form classifier are downloaded\n          once (about 20 MB) and no frame is ever uploaded. Ported from the\n          Python original.",
+      "tips": [
+        "MediaPipe PoseLandmarker (full) finds 33 body points on every frame, on your GPU when available.",
+        "Twelve of them (wrists, elbows, shoulders, hips, knees, ankles) go into a small neural network trained on Kalp's own good- and bad-form videos; it answers \"good\" or \"bad\" per frame (94.8 % on held-out frames).",
+        "Shoulder height tracks the movement. A rep is top → bottom → top, and it only counts when the form was good at both ends.",
+        "Camera at roughly floor level, whole body in frame, side view, one person.",
+        "The first rep calibrates the range, so the count may lag by one rep.",
+        "No camera? The demo clip runs the exact same pipeline on a short recording."
+      ],
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "light",
+      "w": 1280,
+      "scrollW": 1280,
+      "innerW": 1280,
+      "innerH": 800,
+      "cls": 0,
+      "start": {},
+      "demo": {},
+      "status": {},
+      "stage": {},
+      "notesTop": 1059.796875,
+      "ledeText": "Point your camera at yourself side-on, do pushups, and the page counts the reps whose form was good at the\n          top and the bottom. Everything runs on your device: the pose model and the form classifier are downloaded\n          once (about 20 MB) and no frame is ever uploaded. Ported from the\n          Python original.",
+      "tips": [
+        "MediaPipe PoseLandmarker (full) finds 33 body points on every frame, on your GPU when available.",
+        "Twelve of them (wrists, elbows, shoulders, hips, knees, ankles) go into a small neural network trained on Kalp's own good- and bad-form videos; it answers \"good\" or \"bad\" per frame (94.8 % on held-out frames).",
+        "Shoulder height tracks the movement. A rep is top → bottom → top, and it only counts when the form was good at both ends.",
+        "Camera at roughly floor level, whole body in frame, side view, one person.",
+        "The first rep calibrates the range, so the count may lag by one rep.",
+        "No camera? The demo clip runs the exact same pipeline on a short recording."
+      ],
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    }
+  ],
+  "noPoseAfterMs": 510,
+  "trackBeforeStop": [
+    "live"
+  ],
+  "stop": {
+    "status": "Stopped.",
+    "trackStates": [
+      "ended"
+    ],
+    "srcObject": null,
+    "stopHidden": true,
+    "stageLive": true,
+    "startDisabled": false,
+    "good": "0",
+    "total": "0",
+    "form": "no pose",
+    "fps": "30 fps"
+  },
+  "restart": {
+    "good": "0",
+    "total": "0",
+    "fps": "24 fps"
+  },
+  "doubleStart": {
+    "status": "Get into pushup position side-on to the camera, whole body in frame.",
+    "fps": "24 fps"
+  },
+  "hosts": [
+    "pushups.kalpkan.com"
+  ],
+  "requestsAfterLoad": [
+    "/ingest/i/v0/e/",
+    "/ingest/i/v0/e/",
+    "/ingest/s/",
+    "/ingest/i/v0/e/",
+    "/ingest/i/v0/e/",
+    "/ingest/i/v0/e/",
+    "/ingest/s/"
+  ],
+  "errors": [],
+  "deny": {
+    "status": "Camera permission was refused. You can still watch the demo clip.",
+    "demoDisabled": false,
+    "startDisabled": false,
+    "stageLive": false
+  }
+}
