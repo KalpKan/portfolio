@@ -32,6 +32,7 @@ Conventions used below:
 | Check PostHog billing | Written and executed 2026-09-18 (T0.5) |
 | Deploy a browser-ML app (MediaPipe) to Vercel | Written and executed 2026-09-18 (T3.1, pushups: `KalpKan/pushup-tracker-web` → project `pushups`, `https://pushups.kalpkan.com`) |
 | Deploy a static Vite app to Vercel | Written and executed 2026-09-18 (T1.4, microtubules: `KalpKan/Microtubule-Quantification` `web/` → project `microtubules`, `https://microtubules.kalpkan.com`) |
+| Verify a browser image pipeline against its Python truth in Chromium and WebKit | Written and executed 2026-09-19 (microtubules FIX r1): `npm run test:browser` in the app, Playwright as a devDependency, both engines, exit code |
 | Rotate the PostHog key | Written 2026-09-18 (T0.5); not yet executed |
 | Deploy a Python app to Vercel | Written and executed 2026-09-18 (T1.3, Plato) |
 | Deploy an Express+CRA app to Vercel | Written and executed 2026-09-18 (T2.1, Plant It: `KalpKan/PlantWater` → project `plantit`, `https://plantit.kalpkan.com`) |
@@ -613,3 +614,16 @@ Run this at the end of every phase, and whenever several agents have worked conc
 ## Hub: ignored build step (set 2026-09-18)
 
 `vercel.json` in the hub has `"ignoreCommand": "git diff --quiet HEAD^ HEAD -- . \":(exclude)docs\" ... "`. A push that only touches docs/, skills/, STATUS.md, scripts/ or Markdown files is not deployed (the command exits 0 = skip). Why: Hobby allows 100 deployments per day per team and agent bursts hit that cap on 2026-09-18. To force a deploy after docs-only commits, run `npx vercel@latest --prod --scope kks-projects-2edcb11a` from the hub checkout. Remove the key from vercel.json to restore deploy-on-every-push. (The REST API route for this setting returned "Not authorized" for the CLI token, so the in-repo key is used.)
+
+
+## Verify a browser image pipeline against its Python truth in Chromium and WebKit
+
+**Status: written and executed 2026-09-19 for microtubules (`KalpKan/Microtubule-Quantification` `web/scripts/browser-check.cjs`, `npm run test:browser`).** Use it for any app whose browser-side number must equal a Python/OpenCV reference (the emotes/pushups corpora are video-based and have their own harnesses).
+
+Why both engines: Node tests (`vitest` + pngjs) prove the pure pipeline, but the browser decoder is part of the product, and WebKit decodes differently from Chromium (it honours embedded ICC profiles even with `colorSpaceConversion: "none"`, and its JPEG decoder rounds differently). A number that is right in Chrome can be 0.97 points off in Safari (incidents.md 2026-09-19 D1).
+
+1. **Playwright as a devDependency of the app** (`npm i -D playwright@<version already in the Playwright cache>`; the package downloads no browsers on install, so Vercel's `npm ci` stays cheap). Browsers once: `npx playwright install chromium webkit` (they live in `~/Library/Caches/ms-playwright/`). Node scripts in a `"type": "module"` package must be `.cjs` to `require("playwright")`.
+2. **Serve the built app plus the fixtures from one origin** inside the script (a tiny `http.createServer` mapping `/fixtures/*` to `tests/fixtures/`), or point it at the live host with `BASE=` (fixtures still come from disk through `setInputFiles`).
+3. **Drive the real file input** (`page.locator("#file-input").setInputFiles(abs)`), wait on the status text, read the DOM the user reads (`#percent`, `#threshold`, `#pixels`, `#dims`, the results card's `hidden`, the warning box), and compare with `tests/fixtures/ground_truth.json`. Assert, don't print: lossless formats exact to 2 decimals with identical threshold and pixel counts; JPEG within the spec's tolerance; every wrong-file fixture refused with the file name and the format list and the previous result hidden; the huge files under the main-thread budget (a 16 ms `setInterval` gap meter in the page), display canvases capped, `performance.memory` (Chromium) and the worker's `self.cv.HEAPU8.length` via `page.workers()[0].evaluate`; downloads saved and diffed with pngjs against `Results/`; phone widths with the iPhone-13 UA and the 664 px Safari viewport. A `Could not` status on a corpus row is a failure, never a skip.
+4. **Exit code 1 on any failed assertion**, `PASS: browser checks in chromium + webkit` on success, `OUT=<json>` for the evidence file; wire it as `npm run test:browser` and put the rows in verification.md.
+5. Known emulation limits: Playwright WebKit's `setOffline(true)` fails in-memory blob decodes (test offline in Chromium); WebKit has no `performance.memory`; headless Chromium will not lay out below 500 px without `isMobile`.

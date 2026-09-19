@@ -1,0 +1,3 @@
+run 1: performance 0.97 LCP 2.1 s TBT 10 ms CLS 0
+run 2: performance 0.97 LCP 1.9 s TBT 0 ms CLS 0
+run 3: performance 0.99 LCP 1.9 s TBT 0 ms CLS 0

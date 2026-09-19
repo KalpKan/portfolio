@@ -249,3 +249,23 @@ for i in 1 2 3; do npx lighthouse https://microtubules.kalpkan.com --only-catego
 # Privacy (S10, must still hold): Network tab after load shows only GET /samples/* and POST /ingest/...; PostHog image_analyzed carries only percent/width/height/source
 curl -sf https://microtubules.kalpkan.com/health.json                 # {"ok":true,"service":"microtubules"}
 ```
+
+## FIX round 1 (2026-09-19, FIX agent) — what changed, for the next TEST round
+
+Project commits `efe7f76` (fix) and `52aa5c0` (harness), both on `main` and live at https://microtubules.kalpkan.com (production deployment `microtubules-n6ezmi2ak…`, `githubCommitSha efe7f76`, verified by the v13 deployments API; the CLI deploy was refused by the daily limit but the push-triggered build went through).
+
+| Defect | Change | Evidence after the fix |
+|---|---|---|
+| D1 Safari ICC | `web/src/decode.ts` strips PNG `iCCP`/`gAMA`/`cHRM`/`sRGB`/`cICP` and JPEG APP2 ICC before `createImageBitmap` (EXIF kept); 20 byte-level tests in `tests/decode.test.ts` | WebKit: 13.14 / 2.88 / 3.91 %, thresholds 24 / 42 / 30, 57 images with 0 lossless mismatches, local and live (`evidence/microtubules-fix1-browser-local.txt`, `…-browser-live.json`) |
+| D2 12–24 MP | `web/src/worker.ts`: OpenCV, decoding (banded, ≤ 4 MP canvases), analysis and PNG encoding in a Web Worker; display bitmaps ≤ 2 MP; > 30 MP refused from the header with the limit in the message; `pipeline.ts` keeps single-channel Mats and frees each early | 24 MP: wall 1.25 s Chromium / 1.43 s WebKit, longest main-thread gap 19–49 ms, main-thread heap 6 MB, canvases 1732 × 1154, worker wasm heap 128 MB; numbers 23.67 / 24.78 / 23.93 |
+| D3 wrong file | magic-byte sniffing; message names the file, the reason, the five formats and the TIFF/HEIC note; result card hidden on failure, dimmed while busy; `accept` lists concrete types | all six fixtures `hidden=true` with the required phrases in both engines (`…-browser-local.txt` "file" rows; `evidence/microtubules-fix1-desktop-dark-badfile.jpg`) |
+| D4 meaning + warnings | definition sentence, "Nucleus removed" tile, "What these numbers mean" disclosure, "Is that high or low?" reference block with caveat; `interpret.ts` warnings (identical channels, nucleus > 90 %, threshold 0, 0 %, 100 %); `TIME` tile removed | `WARN` on exactly the degenerate rows (grayscale, camera JPEG, all-black/green/blue, one-pixel, tiny-4x4, and the three DMSO cells Python itself scores 0.0); `tests/interpret.test.ts`; `evidence/microtubules-fix1-desktop-dark-warning.jpg` |
+| D5 download/copy | Download overlay, Download mask (worker-encoded, full resolution, `Results/`-style names), Copy result | six downloads `0 px differ from Results/` in Chromium and WebKit, local and live; clipboard `P1_W1_C1: 24.83% (threshold 36, 1109/4466 px)` |
+| D6 phone fold | `scrollIntoView` + focus after every run, two-line lede, one-row scrolling samples below 520 px | `results top 0`, percent y = 19–84 of 664 at 360/390/430 in both engines (`evidence/microtubules-fix1-chromium-phone390-after-sample.jpg`) |
+| D7 Lighthouse | OpenCV fetched (with progress text) and run inside the worker | 0.97 / 0.97 / 0.99, TBT 10 / 0 / 0 ms (`evidence/microtubules-fix1-lighthouse-runs.txt`) |
+| D8 offline sample | the three samples are prefetched as bytes once OpenCV is ready | Chromium offline: 24.83 / 34.71 / 21.18 and an upload, zero requests (`evidence/microtubules-fix1-offline.cjs`); WebKit not provable under Playwright's offline emulation (fails all blob decodes, see incidents.md) |
+| D9 tall images | canvases `max-height: 70vh`, `object-fit: contain` | (not re-measured; CSS only) |
+| D10 link contrast | `--accent-text #0f6e3b` for links in light mode | (CSS only) |
+| D11 docs | READMEs reworded (denominator, formats, 60-image corpus, re-cropped cells), `Results/README.md` | `git show efe7f76 -- README.md web/README.md Results/README.md` |
+
+How to re-verify: `cd ~/projects/microtubules/web && npm ci && npx vitest run --pool=forks --maxWorkers=1` (93/93) and `npm run build && npm run test:browser` (PASS in chromium + webkit; add `BASE=https://microtubules.kalpkan.com/` for the live site). Not done this round: a real iPhone (Kalp's phone) for the camera path and the < 16.4 Safari fallback (`analyze-decoded`, exercised only by code review), and the S1 "Ready ≤ 10 s on Slow 4G" bar (unchanged 11 MB download; the progress text now shows a percentage).

@@ -1,0 +1,466 @@
+{
+  "rows": [
+    {
+      "engine": "chromium",
+      "kind": "file",
+      "file": "edge/cell.tiff",
+      "status": "cell.tiff is a TIFF, which browsers cannot read and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "chromium",
+      "kind": "file",
+      "file": "edge/document.pdf",
+      "status": "document.pdf is a PDF, not an image and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "chromium",
+      "kind": "file",
+      "file": "edge/empty.png",
+      "status": "empty.png is empty (0 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "chromium",
+      "kind": "file",
+      "file": "edge/not-an-image.txt",
+      "status": "not-an-image.txt is not an image file (text/plain, 35 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "chromium",
+      "kind": "file",
+      "file": "edge/renamed-text.png",
+      "status": "renamed-text.png is not an image file (image/png, 38 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "chromium",
+      "kind": "file",
+      "file": "edge/truncated.png",
+      "status": "truncated.png looks damaged or truncated and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "chromium",
+      "kind": "huge",
+      "file": "edge/huge-12mp-4000x3000.jpg",
+      "got": 23.67,
+      "ref": 23.672058333333336,
+      "wallMs": 963,
+      "maxMainThreadGapMs": 17,
+      "heapMB": 8,
+      "inputCanvas": [
+        1632,
+        1224
+      ],
+      "overlayCanvas": [
+        1632,
+        1224
+      ],
+      "status": "Done: huge-12mp-4000x3000.jpg in 0.8 s. Pick another image or sample to run again."
+    },
+    {
+      "engine": "chromium",
+      "kind": "huge",
+      "file": "edge/huge-12mp-4000x3000.png",
+      "got": 24.78,
+      "ref": 24.7754,
+      "wallMs": 712,
+      "maxMainThreadGapMs": 18,
+      "heapMB": 8,
+      "inputCanvas": [
+        1632,
+        1224
+      ],
+      "overlayCanvas": [
+        1632,
+        1224
+      ],
+      "status": "Done: huge-12mp-4000x3000.png in 0.5 s. Pick another image or sample to run again."
+    },
+    {
+      "engine": "chromium",
+      "kind": "huge",
+      "file": "edge/generated-large/huge-24mp-6000x4000.jpg",
+      "got": 23.93,
+      "ref": 23.929191666666664,
+      "wallMs": 1286,
+      "maxMainThreadGapMs": 27,
+      "heapMB": 7,
+      "inputCanvas": [
+        1732,
+        1154
+      ],
+      "overlayCanvas": [
+        1732,
+        1154
+      ],
+      "status": "Done: huge-24mp-6000x4000.jpg in 1.0 s. Pick another image or sample to run again."
+    },
+    {
+      "engine": "chromium",
+      "kind": "worker-memory",
+      "wasmHeapMB": 128
+    },
+    {
+      "engine": "chromium",
+      "kind": "download",
+      "file": "P1_W1_C1_overlay.png",
+      "suggested": "P1_W1_C1_overlay.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "chromium",
+      "kind": "download",
+      "file": "P1_W1_C1_mask.png",
+      "suggested": "P1_W1_C1_mask.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "chromium",
+      "kind": "copy",
+      "file": "P1_W1_C1",
+      "text": "P1_W1_C1: 24.83% (threshold 36, 1109/4466 px)"
+    },
+    {
+      "engine": "chromium",
+      "kind": "download",
+      "file": "P3_W2_C3_overlay.png",
+      "suggested": "P3_W2_C3_overlay.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "chromium",
+      "kind": "download",
+      "file": "P3_W2_C3_mask.png",
+      "suggested": "P3_W2_C3_mask.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "chromium",
+      "kind": "copy",
+      "file": "P3_W2_C3",
+      "text": "P3_W2_C3: 34.71% (threshold 29, 2459/7084 px)"
+    },
+    {
+      "engine": "chromium",
+      "kind": "download",
+      "file": "P1_W3_C1_overlay.png",
+      "suggested": "P1_W3_C1_overlay.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "chromium",
+      "kind": "download",
+      "file": "P1_W3_C1_mask.png",
+      "suggested": "P1_W3_C1_mask.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "chromium",
+      "kind": "copy",
+      "file": "P1_W3_C1",
+      "text": "P1_W3_C1: 21.18% (threshold 62, 677/3196 px)"
+    },
+    {
+      "engine": "chromium",
+      "kind": "phone",
+      "width": 360,
+      "sample": "P1_W1_C1",
+      "top": 20,
+      "bottom": 80,
+      "innerH": 844,
+      "scrollY": 588,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "chromium",
+      "kind": "phone",
+      "width": 360,
+      "sample": "P3_W2_C3",
+      "top": 20,
+      "bottom": 80,
+      "innerH": 844,
+      "scrollY": 611,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "chromium",
+      "kind": "phone",
+      "width": 390,
+      "sample": "P1_W1_C1",
+      "top": 19,
+      "bottom": 84,
+      "innerH": 664,
+      "scrollY": 508,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "chromium",
+      "kind": "phone",
+      "width": 390,
+      "sample": "P3_W2_C3",
+      "top": 19,
+      "bottom": 84,
+      "innerH": 664,
+      "scrollY": 531,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "chromium",
+      "kind": "phone",
+      "width": 430,
+      "sample": "P1_W1_C1",
+      "top": 19,
+      "bottom": 90,
+      "innerH": 844,
+      "scrollY": 508,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "chromium",
+      "kind": "phone",
+      "width": 430,
+      "sample": "P3_W2_C3",
+      "top": 19,
+      "bottom": 90,
+      "innerH": 844,
+      "scrollY": 508,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "webkit",
+      "kind": "file",
+      "file": "edge/cell.tiff",
+      "status": "cell.tiff is a TIFF, which browsers cannot read and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "webkit",
+      "kind": "file",
+      "file": "edge/document.pdf",
+      "status": "document.pdf is a PDF, not an image and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "webkit",
+      "kind": "file",
+      "file": "edge/empty.png",
+      "status": "empty.png is empty (0 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "webkit",
+      "kind": "file",
+      "file": "edge/not-an-image.txt",
+      "status": "not-an-image.txt is not an image file (text/plain, 35 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "webkit",
+      "kind": "file",
+      "file": "edge/renamed-text.png",
+      "status": "renamed-text.png is not an image file (image/png, 38 bytes) and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "webkit",
+      "kind": "file",
+      "file": "edge/truncated.png",
+      "status": "truncated.png looks damaged or truncated and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first.",
+      "resultsHidden": true,
+      "stale": false
+    },
+    {
+      "engine": "webkit",
+      "kind": "huge",
+      "file": "edge/huge-12mp-4000x3000.jpg",
+      "got": 23.74,
+      "ref": 23.672058333333336,
+      "wallMs": 697,
+      "maxMainThreadGapMs": 24,
+      "heapMB": null,
+      "inputCanvas": [
+        1632,
+        1224
+      ],
+      "overlayCanvas": [
+        1632,
+        1224
+      ],
+      "status": "Done: huge-12mp-4000x3000.jpg in 0.4 s. Pick another image or sample to run again."
+    },
+    {
+      "engine": "webkit",
+      "kind": "huge",
+      "file": "edge/huge-12mp-4000x3000.png",
+      "got": 24.78,
+      "ref": 24.7754,
+      "wallMs": 917,
+      "maxMainThreadGapMs": 140,
+      "heapMB": null,
+      "inputCanvas": [
+        1632,
+        1224
+      ],
+      "overlayCanvas": [
+        1632,
+        1224
+      ],
+      "status": "Done: huge-12mp-4000x3000.png in 0.4 s. Pick another image or sample to run again."
+    },
+    {
+      "engine": "webkit",
+      "kind": "huge",
+      "file": "edge/generated-large/huge-24mp-6000x4000.jpg",
+      "got": 23.86,
+      "ref": 23.929191666666664,
+      "wallMs": 1384,
+      "maxMainThreadGapMs": 49,
+      "heapMB": null,
+      "inputCanvas": [
+        1732,
+        1154
+      ],
+      "overlayCanvas": [
+        1732,
+        1154
+      ],
+      "status": "Done: huge-24mp-6000x4000.jpg in 0.8 s. Pick another image or sample to run again."
+    },
+    {
+      "engine": "webkit",
+      "kind": "download",
+      "file": "P1_W1_C1_overlay.png",
+      "suggested": "P1_W1_C1_overlay.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "webkit",
+      "kind": "download",
+      "file": "P1_W1_C1_mask.png",
+      "suggested": "P1_W1_C1_mask.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "webkit",
+      "kind": "download",
+      "file": "P3_W2_C3_overlay.png",
+      "suggested": "P3_W2_C3_overlay.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "webkit",
+      "kind": "download",
+      "file": "P3_W2_C3_mask.png",
+      "suggested": "P3_W2_C3_mask.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "webkit",
+      "kind": "download",
+      "file": "P1_W3_C1_overlay.png",
+      "suggested": "P1_W3_C1_overlay.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "webkit",
+      "kind": "download",
+      "file": "P1_W3_C1_mask.png",
+      "suggested": "P1_W3_C1_mask.png",
+      "diffPx": 0
+    },
+    {
+      "engine": "webkit",
+      "kind": "phone",
+      "width": 360,
+      "sample": "P1_W1_C1",
+      "top": 21,
+      "bottom": 80,
+      "innerH": 844,
+      "scrollY": 588,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "webkit",
+      "kind": "phone",
+      "width": 360,
+      "sample": "P3_W2_C3",
+      "top": 20,
+      "bottom": 80,
+      "innerH": 844,
+      "scrollY": 611,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "webkit",
+      "kind": "phone",
+      "width": 390,
+      "sample": "P1_W1_C1",
+      "top": 20,
+      "bottom": 84,
+      "innerH": 664,
+      "scrollY": 508,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "webkit",
+      "kind": "phone",
+      "width": 390,
+      "sample": "P3_W2_C3",
+      "top": 20,
+      "bottom": 84,
+      "innerH": 664,
+      "scrollY": 531,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "webkit",
+      "kind": "phone",
+      "width": 430,
+      "sample": "P1_W1_C1",
+      "top": 20,
+      "bottom": 91,
+      "innerH": 844,
+      "scrollY": 508,
+      "resultsTop": 0,
+      "visible": true
+    },
+    {
+      "engine": "webkit",
+      "kind": "phone",
+      "width": 430,
+      "sample": "P3_W2_C3",
+      "top": 20,
+      "bottom": 91,
+      "innerH": 844,
+      "scrollY": 508,
+      "resultsTop": 0,
+      "visible": true
+    }
+  ],
+  "failures": []
+}

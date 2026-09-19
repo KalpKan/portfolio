@@ -1145,3 +1145,83 @@ _Entries begin below, oldest first._
 - **Fix:** the extension was used only for the load path (resources before a click, buttons, console); every moving part ran in headless real Chrome with `--use-angle=metal` on the live URL (`scripts/e2e-corpus.mjs`, `scripts/e2e-demo.mjs`, `docs/reports/evidence/pushups-r1-ux-checks.mjs`, `pushups-r1-stage-shots.mjs`), and widths/schemes were emulated there.
 - **Prevention:** for camera/video features, go straight to the headless-GPU harnesses; keep the extension for what needs Kalp's session.
 - **Reported by:** Phase 5 TEST agent (pushups, round 1)
+
+### 2026-09-19: microtubules, Safari applied the ICC profile of Mac-exported PNGs and moved the Otsu threshold (Phase 5 FIX agent, round 1; report D1)
+
+- **Date:** 2026-09-19, 01:30 UTC (found by TEST r1 on 2026-09-18, fixed today)
+- **Affected:** `KalpKan/Microtubule-Quantification` `web/src/main.ts` (now `web/src/worker.ts` + `web/src/decode.ts`), every Mac-exported PNG (Preview, ImageJ on macOS, screenshots carry `iCCP kCGColorSpaceGenericRGB`, gamma 1.8)
+- **Symptom:** Playwright WebKit 2359 on the three whole-well fixtures: 13.47 / 3.85 / 4.77 % with thresholds 30 / 45 / 34; Python and Chrome 13.1362 / 2.8791 / 3.9149 with 24 / 42 / 30. The 36 ImageJ crops (gAMA + cHRM only) matched.
+- **Root cause:** WebKit ignores `createImageBitmap(..., { colorSpaceConversion: "none" })` and converts the stored samples from the embedded profile to sRGB before `getImageData`; Python's `cv2.imread` never reads colour metadata. Reproduced on the unchanged `e56190d` build with `docs/reports/evidence/microtubules-r1-corpus.js` in WebKit before touching code.
+- **Fix:** `web/src/decode.ts` `stripColorMetadata()` rewrites the bytes before decoding: PNG chunks `iCCP`, `gAMA`, `cHRM`, `sRGB`, `cICP`, `mDCv`, `cLLi` are dropped (IHDR/IDAT/IEND untouched; `tests/decode.test.ts` proves pngjs decodes the stripped file to the identical pixels), JPEG `APP2 ICC_PROFILE` segments are dropped and EXIF kept (Python applies orientation). WebKit now gives 13.14 / 2.88 / 3.91 with thresholds 24 / 42 / 30 on the local build and on the live site; 57/57 images, 0 threshold or pixel-count mismatches. Commit `efe7f76`.
+- **Prevention:** `npm run test:browser` (`web/scripts/browser-check.cjs`) runs the whole corpus through the real file input in Chromium **and WebKit** and fails on any lossless mismatch; verification.md row "Safari engine gives the Python number". Any future image app on the platform that must match a Python/OpenCV number should strip colour metadata the same way rather than trust `colorSpaceConversion: "none"`.
+- **Reported by:** Phase 5 FIX agent (microtubules, round 1)
+
+### 2026-09-19: microtubules, a 24 MP photo blocked the page 5.5 s at 453 MB with two 24 MP canvases (Phase 5 FIX agent, round 1; report D2, D7)
+
+- **Date:** 2026-09-19, 01:30 UTC
+- **Affected:** `web/src/main.ts` (decode + `analyze()` + `paint()` all on the main thread), `web/src/opencv-loader.ts` (11 MB `opencv.js` parsed on the main thread at load)
+- **Symptom:** real Chrome 151: 12 MP blocked 2,126 ms / 259 MB, 24 MP blocked 5,500 ms / 453 MB, `#input-canvas` and `#overlay-canvas` at 6000 × 4000; Lighthouse mobile swung 0.61–0.97 because `opencv.js` was parsed on the main thread.
+- **Root cause:** everything ran synchronously on the main thread with four full-resolution RGBA buffers alive at once; `cv.split` on a CV_8UC4 Mat kept a 96 MB copy plus four planes in wasm, and Emscripten's heap never shrinks.
+- **Fix:** `web/src/worker.ts`: the worker fetches `/opencv.js` with download progress and runs it via `importScripts(blobURL)` (classic worker; Vite `worker.format: "iife"`) or indirect `eval` in `vite dev` (module worker), sniffs the format, refuses > 30 MP from the header before decoding (message states the limit), decodes with `createImageBitmap` once and reads pixels in ≤ 4 MP bands through a small `OffscreenCanvas`, runs `analyze()` with `overlay: "in-place"` at full resolution, and hands the page two ≤ 2 MP `ImageBitmap`s (transferred). `pipeline.ts` now splits the green/blue planes in JS and frees each Mat as soon as the next step no longer needs it. Result: 24 MP wall 1.25–1.4 s, longest main-thread gap 19–49 ms, main-thread heap 6 MB, worker wasm heap 128 MB (512 MB before the early-free refactor), staged status text ("Reading 24.0 MP… / Finding the nucleus and microtubules… / Painting…"); Lighthouse 0.97 / 0.97 / 0.99. Older Safari without `OffscreenCanvas` in workers falls back to decoding on the page (`analyze-decoded` message).
+- **Prevention:** verification.md rows "Huge image stays responsive" (asserted by `ONLY=huge npm run test:browser`: gap < 1 s, canvases ≤ 2 MP, wall ≤ 15 s) and "Lighthouse performance" (three runs). For any browser-ML/CV app on the platform: decode and compute in a worker, keep display canvases small, and let the wasm heap hold single-channel data only.
+- **Reported by:** Phase 5 FIX agent (microtubules, round 1)
+
+### 2026-09-19: microtubules, a wrong file showed "could not be decoded" over the previous image's result (Phase 5 FIX agent, round 1; report D3)
+
+- **Date:** 2026-09-19, 01:30 UTC
+- **Affected:** `web/src/main.ts` catch block, `web/index.html` `accept="image/*"`, README format line
+- **Symptom:** `not-an-image.txt`, `renamed-text.png`, `truncated.png`, `document.pdf`, `empty.png`, `cell.tiff` → `Could not analyse that image: The source image could not be decoded.` (WebKit wording differed), `#results` still showing `21.18 %` / `68 × 47 px` from the previous sample; the raw `InvalidStateError` in the console.
+- **Root cause:** the browser decoder's exception was printed verbatim and `#results` was never touched on failure; the extension/MIME type was the only hint the page had.
+- **Fix:** the worker sniffs magic bytes (`sniffFormat`: png/jpeg/webp/bmp/gif accepted; tiff/heic/pdf/empty/unknown refused before decoding; a supported signature that still fails to decode is "looks damaged or truncated") and the message reads "`<name>` is a PDF, not an image and could not be read as an image. This tool reads PNG, JPEG, WebP, BMP and GIF; convert TIFF or HEIC to PNG first." The page dims the result card while busy (`.stale`, `aria-busy`) and hides it on any failure; `#file-input` `accept` lists the five types plus extensions (the camera input keeps `image/*` so the capture attribute works); the page states the formats and the 30 MP limit under the buttons. Same wording in Chromium and WebKit for all six fixtures.
+- **Prevention:** `ONLY=files npm run test:browser` asserts the file name, the phrase, the format list and `hidden=true` for every non-image fixture and that a sample works afterwards.
+- **Reported by:** Phase 5 FIX agent (microtubules, round 1)
+
+### 2026-09-19: microtubules, the number came with no definition, no reference range and no warning on grayscale/flat inputs (Phase 5 FIX agent, round 1; report D4)
+
+- **Date:** 2026-09-19, 01:30 UTC
+- **Affected:** `web/index.html`, `web/src/pipeline.ts` (`AnalysisResult` lacked `nucleusPixels` / `channelsIdentical`)
+- **Symptom:** `cell-grayscale.png` and the green-only camera JPEG reported `0.00 %` as a valid result, `all-green.png` / `one-pixel.png` `100.00 %` with threshold 0, `all-black.png` `0.00 %` threshold 0; nothing explained the denominator, the Otsu threshold or the pixel counts.
+- **Root cause:** feature never built; the pipeline returned nothing the page could warn with.
+- **Fix:** `analyze()` returns `nucleusPixels` (count of the step-2 mask) and `channelsIdentical` (`cv.absdiff(green, blue)` has no non-zero pixel). `web/src/interpret.ts` `buildWarnings()` produces amber callouts for identical channels, nucleus > 90 %, threshold 0, 100 % and 0 %; the page shows the definition sentence, a "Nucleus removed" tile, a "What these numbers mean" disclosure (open on wide screens) and "Is that high or low?" with 27.9 ± 4.6 / 17.2 ± 2.6 / 30.7 ± 9.5 % and the same-microscope caveat; the `TIME` tile is gone (time goes in the status line when ≥ 100 ms). Note: three of the 36 real cells (`P1_W2_C1-3`, DMSO controls) are 0.0 % in Python's own CSV, so their "0 %" warning is correct, not a false positive; `tests/interpret.test.ts` encodes that.
+- **Prevention:** `tests/interpret.test.ts` (warnings on every degenerate fixture, none on the 33 non-zero cells and the whole-well PNGs) and the browser corpus asserts `WARN` exactly on the degenerate rows.
+- **Reported by:** Phase 5 FIX agent (microtubules, round 1)
+
+### 2026-09-19: microtubules, no download of the overlay/mask and no copy (Phase 5 FIX agent, round 1; report D5)
+
+- **Date:** 2026-09-19, 01:30 UTC
+- **Affected:** `web/index.html`, `web/src/main.ts` (discarded `result.mask`)
+- **Symptom:** the only way to keep a result was a screenshot.
+- **Root cause:** feature never built.
+- **Fix:** `web/src/export.ts` (`overlayFromMask`, `maskToRGBA`, `exportFileName`) + worker `export` message: the worker keeps the last file's bytes and mask, re-decodes on demand, paints the full-resolution overlay or the 0/255 mask into an `OffscreenCanvas` and `convertToBlob("image/png")`; the page saves `<name>_overlay.png` / `<name>_mask.png` (older Safari: RGBA comes back and the page encodes with `canvas.toBlob`). "Copy result" writes `<name>: <percent>% (threshold N, X/Y px)`. `tests/export.test.ts` proves the RGBA equals `Results/*_overlay.png` and `*_mask.png` for the three samples; the browser check downloads all six files in Chromium and WebKit and diffs them with pngjs: 0 px, local and live.
+- **Prevention:** `ONLY=downloads npm run test:browser`.
+- **Reported by:** Phase 5 FIX agent (microtubules, round 1)
+
+### 2026-09-19: microtubules, on a phone the result sat at the bottom edge of the viewport and nothing scrolled (Phase 5 FIX agent, round 1; report D6)
+
+- **Date:** 2026-09-19, 01:30 UTC
+- **Affected:** `web/src/main.ts` (`results.hidden = false` with no scroll or focus move), `web/index.html` lede and sample row
+- **Symptom:** at 390 × 844 the `34.71 %` glyphs occupied y = 600–665 px; input/overlay panels started at ≈ 830 px; `window.scrollY` stayed 0.
+- **Root cause:** no `scrollIntoView`; five-line lede plus a wrapped sample row pushed the card down.
+- **Fix:** after every successful run the card is scrolled into view (`block: "start"` when its top is below half the viewport, `nearest` when only its bottom is cut off; `auto` under `prefers-reduced-motion`) and focused (`tabindex="-1"`, `preventScroll`) so screen readers land on it; the lede is two lines; below 520 px the three samples stay on one horizontally scrolling row. Result: `results top 0`, percent at y = 19–84 of 664 at 360/390/430 in both engines.
+- **Prevention:** `ONLY=phone npm run test:browser` asserts `results top ≤ 40` and `visible=true` for two samples at three widths, plus no horizontal overflow and ≥ 44 px visible buttons.
+- **Reported by:** Phase 5 FIX agent (microtubules, round 1)
+
+### 2026-09-19: microtubules fix round found three gotchas of its own: a transferred ImageBitmap closed in `finally`, `importScripts` throwing in a module worker, and Playwright WebKit's offline mode failing blob decodes (Phase 5 FIX agent, round 1; tooling)
+
+- **Date:** 2026-09-19, 01:00–02:00 UTC
+- **Affected:** `web/src/worker.ts`; the WebKit offline check
+- **Symptom:** (1) every sample failed with `Failed to execute 'postMessage' on 'DedicatedWorkerGlobalScope': An ImageBitmap is detached and could not be cloned` and, because the harness's "done" regex also matched `^Could not`, the corpus loop moved on silently. (2) In `vite dev` the status read `OpenCV failed to load: ... Module scripts don't support importScripts()`. (3) In Playwright WebKit with `context.setOffline(true)`, even a local `File` upload failed with `The I/O read operation failed` / `Failed to load resource: WebKit encountered an internal error`, and a cached sample with "looks damaged or truncated".
+- **Root cause:** (1) `displayBitmap()` returned a bitmap made from `ImageData` at scale 1 and then closed it in its `finally`. (2) In a module worker `typeof importScripts === "function"` is true but the call throws a `TypeError`, so a `typeof` feature test is wrong. (3) WebKit routes blob: loads (including `createImageBitmap(Blob)`) through the network process, which Playwright's offline emulation fails wholesale; Safari with the network off does not behave like that.
+- **Fix:** (1) return before the `try/finally` when the bitmap is handed over; (2) `try { importScripts(url) } catch (TypeError) { (0, eval)(source) }`; (3) samples are prefetched as `ArrayBuffer`s (the worker wraps them in a Blob only for the decoder) so at least the network never matters, and the offline row in verification.md is proven in Chromium only, with the WebKit limitation stated.
+- **Prevention:** the browser check asserts `Done` on every corpus row (a `Could not` row is a failure, never a skip); the `vite dev` path is smoke-tested by hand after touching the worker loader (`docs/reports/evidence/microtubules-fix1-dev.cjs`); never treat a Playwright-WebKit offline failure on a blob read as a product bug without a Chromium counter-check.
+- **Reported by:** Phase 5 FIX agent (microtubules, round 1)
+
+### 2026-09-19: Vercel CLI deploy of microtubules refused (`api-deployments-free-per-day`) while the push-triggered build for the same commit went through (Phase 5 FIX agent, microtubules round 1)
+
+- **Date:** 2026-09-19, 02:05 UTC
+- **Affected:** `KalpKan/Microtubule-Quantification` `efe7f76`; team `kks-projects-2edcb11a`
+- **Symptom:** `npx vercel --prod --yes --scope kks-projects-2edcb11a` → `Resource is limited - try again in 24 hours (more than 100, code: "api-deployments-free-per-day")` about 90 s after `git push`. `npx vercel ls microtubules` at the same moment listed a 29 s-old `● Ready Production` deployment `microtubules-n6ezmi2ak…`; the v13 deployments API shows `githubCommitSha efe7f76…` for it and it is aliased to `microtubules.kalpkan.com`, `microtubules.vercel.app`.
+- **Root cause:** the team-wide 100/day Hobby cap is enforced per request and refusals are intermittent (as the 2026-09-18 23:20 UTC entry says); the GitHub-integration deployment was accepted and the CLI one, seconds later, was not. The CLI deploy was redundant anyway: the project auto-deploys from `main`.
+- **Fix:** none needed; verified the live bundle (`assets/index-sVFWsrWw.js`, `assets/worker-DlK08iyk.js`, `#mp-limit`, "Download overlay") and re-ran the browser checks and Lighthouse against the live host. The follow-up push `52aa5c0` (harness-only) also auto-deployed.
+- **Prevention:** after a push, check `npx vercel ls <project>` (and the API's `githubCommitSha`) **before** running a CLI deploy; only fall back to `scripts/vercel-redeploy-when-quota-frees.sh` when the git-triggered deployment is missing or errored. Avoid pushing docs-only changes under `web/` (every push there costs a deployment).
+- **Reported by:** Phase 5 FIX agent (microtubules, round 1)
