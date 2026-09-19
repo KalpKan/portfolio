@@ -1475,3 +1475,79 @@ _Entries begin below, oldest first._
 - **Fix:** none possible at $0 without waiting. The fix was verified on a production-shaped local stack instead (`docs/reports/evidence/plantit-fix1-local-stack.js`: the CRA build with gzip and SPA fallback + the real Express app with an in-memory Firestore and the real Pl@ntNet key), browser checks at 1440/390 px (`plantit-fix1-verify.mjs`), Lighthouse (`plantit-fix1-lighthouse.mjs`) and the full corpus (`plantit-fix1-corpus-localharness-after-2026-09-19.txt`, 7/7 bars). The retry loop was stopped before the agent returned (machine hygiene: no process outlives the session).
 - **Prevention:** **any agent after 19:20 UTC 2026-09-19** runs `bash ~/projects/portfolio/scripts/vercel-redeploy-when-quota-frees.sh ~/projects/plantit plantit.kalpkan.com 20 10` (HEAD `fad7516` or later), then the live checks in `verification.md` (corpus with `--only`, `vercel logs | grep -c sk-`, Lighthouse). Before a CLI deploy, count the window with the paginated deployments API (the snippet is in this entry's root cause) instead of retrying blind: if it is above 100 the retry loop is a waste. Longer term: batch hub docs pushes (the hub burned 73 of the 100 slots).
 - **Reported by:** Phase 5 FIX agent (plantit, round 1)
+
+### 2026-09-19: emotes, a real fist never counted as "fingers folded" so most thumbs-ups scored nothing, and a raised elbow vetoed the rest (Phase 5 FIX agent, emotes round 1; report D1, blocker)
+
+- **Date:** found by TEST r1 2026-09-19, fixed in `KalpKan/emote-detector-web` `4e25a95`
+- **Affected:** https://emotes.kalpkan.com (rules unchanged since `0b0753a`)
+- **Symptom:** thumbs-up recall 41 % on the 17 clear photos (7 hits); thumbs_up-04 / -17 fired Goblin Muscle; through the live fake camera the "misses" clip fired 0 of 3 thumbs-ups.
+- **Root cause:** `scoreThumbStrict` measured "folded" as `tip.y - pip.y` in fractions of the FRAME (0.02–0.14), a Python-era constant tuned on one webcam; real fists put the tips level with the knuckles (−0.02…+0.03 in the fixtures), so the strict rule returned 0 on every real hand, and the loose rule that remained was zeroed by `engine.ts` whenever the flex rule scored ≥ 0.4, which any bent elbow did.
+- **Fix:** `src/gestures/thumbsUp.ts` rewritten with cues relative to the hand's own size: `folded` (curl angle at the middle knuckle ≤ 70°, or the tip closer to the wrist than the knuckle), `up`, `upright`, `clear` (thumb above the folded tips; hand over the face = 0); score = weakest cue. The flex veto now only applies when the flex is genuinely above the line and not clearly weaker than the thumbs-up (a thumb beside the cheek with the elbow out of frame, thumbs_up-04 through the live pipeline, stays a thumbs-up).
+- **Prevention:** the corpus gate (`npm run test:corpus`) is green and in CI; thumbs-up now 100 % / 100 % on stills and clips. Any rule constant must be relative to a body measure (hand size, shoulder width, face height), never a frame fraction; the unit tests include real-landmark stills (`tests/rules.test.ts` loads the corpus) so a regression on a real hand fails a unit test, not only the gate.
+- **Reported by:** Phase 5 FIX agent (emotes, round 1)
+
+### 2026-09-19: emotes, the flex rule fired on any bent raised arm: hands over the eyes, a dab, a stretch, a thumb beside the face (Phase 5 FIX agent, emotes round 1; report D2, blocker)
+
+- **Date:** found by TEST r1 2026-09-19, fixed in `4e25a95`
+- **Symptom:** flex precision 35 % on stills (24 false: 11/15 cover-eyes, 11/15 dab, stretching yawns, thumbs_up-04/-17); 10 flex firings in the hard-negative minute; cover_eyes-02, dab-01 and yawn-08 each fired Goblin Muscle on the live site.
+- **Root cause:** `scoreArmFlex` blended elbow angle, wrist-above-shoulder and wrist-near-nose 0.45 / 0.35 / 0.2 and let angle + height win alone; a hand on the face satisfies all three better than a flex does. Nothing asked whether the wrist was OUTSIDE the shoulder line or the elbow raised.
+- **Fix:** `src/gestures/flex.ts`: five cues in shoulder widths (`bend` 35–80°, `height` ≥ 0.2–0.4 above the shoulder, `beside` = wrist 0.08–0.25 outside the shoulder line measured away from the other shoulder, `level` = elbow within −0.5…+0.4 of shoulder height, `clear` = wrist ≥ 0.35–0.5 from the nose and outside the face box); score = weakest cue. Precision 100 % on stills and clips with recall still 100 % (13/13 incl. the profile and back views).
+- **Prevention:** hard-negative photos (cover-eyes, dab) are in the unit tests as real-landmark cases; the "weakest cue" design means a new cue can only make the rule stricter. Measure "outside" relative to the other shoulder, never in image x, so mirrored video and turned bodies keep working.
+- **Reported by:** Phase 5 FIX agent (emotes, round 1)
+
+### 2026-09-19: emotes, moderate yawns were missed, screams became yawns, a hand over the mouth became a thumbs-up (Phase 5 FIX agent, emotes round 1; report D3, major)
+
+- **Date:** found by TEST r1 2026-09-19, fixed in `4e25a95`
+- **Symptom:** yawn recall 56 %, all 3 screams → yawn 1.00 (angry-01 fired Princess Yawn live), 2 occluded yawns fired Thumbs Up.
+- **Root cause:** three hard gates in `scoreYawn` (`mouthOpenRatio > 0.55 && mouthHeightRatio > 0.2 && eyes < 0.25`, the last re-applied in the engine) on single-landmark measurements: real yawns sit at 0.41–0.82 / 0.11–0.22, the lid gap of a shut eye is smaller than one pixel of jitter, and `|Δy| / |Δx|` breaks on a tilted face (yawn-07 lying sideways). A scream with the eyes shut is the same mouth and eyes in one frame. The hand landmarker saw the hand over the mouth as an open hand with the thumb up and nothing vetoed a hand inside the face box.
+- **Fix:** `src/gestures/face.ts`: mouth gap = mean of five inner-lip pairs, eye ratio = five lid pairs per eye, brows = brow-to-lid distance, every gap a SIGNED projection on the face's forehead→chin axis (rotation-invariant; symmetric jitter averages out instead of folding into a positive offset, which `Math.abs` of a near-zero gap does). Score = `min(0.6·mouth + 0.4·eyes, eyes/0.6, 0.3 + 0.7·brows)`: talking (eyes open) and eyes-open screams are capped by `eyes`, the eyes-shut scream by `brows` (a scream knits the brows; a yawn relaxes them: 0.086–0.107 vs 0.116–0.196 of face height in the corpus). Thumbs-up and flex score 0 when the hand / wrist lies inside the face box. A yawn also needs 400 ms above the line in the engine (talking is short).
+- **Prevention:** stills yawn 100 % / 100 %, hard negatives 0/33, occluded yawns never a wrong emote; the brow cue is the only thing separating angry-01 from a yawn, so a future round that touches the face rule must re-run `npm run report -- --verbose | grep angry-01`.
+- **Reported by:** Phase 5 FIX agent (emotes, round 1)
+
+### 2026-09-19: emotes, dwell and cool-down were frame counts, so a held yawn re-fired every 2.3 s and a phone got a different detector (Phase 5 FIX agent, emotes round 1; report D4, major)
+
+- **Date:** found by TEST r1 2026-09-19, fixed in `4e25a95`
+- **Symptom:** a 10 s hold of yawn-12 at 25 fps with the corpus jitter fired 5 times; at 8 fps the dwell was 375 ms instead of 120; the first fire at 8 fps came 825–2075 ms after onset.
+- **Root cause:** `GestureEngine` counted `hit` / `miss` frames (dwell 3, cool-down 3) and three frames under 0.5 released the gesture, so one jittery dip re-armed it; nothing knew the pose never left, and nothing was in milliseconds.
+- **Fix:** `engine.update(input, nowMs)` keeps two clocks per gesture: `charge` (time ≥ 0.5, draining while < 0.35, holding in the band; ON_MS 150 for thumbs-up / flex, 400 for yawn) and `gone` (while active, time < 0.35 minus time back ≥ 0.5; OFF_MS 500). Intervals are credited to a side only if the previous frame was not on the opposite side, so an onset frame gets no credit for the time before it and band frames keep a run going. Twelve 10 s hold clips (three gestures × 25/12/8 fps, plus the smallest face at twice the jitter) are in the corpus gate: 12/12 fire exactly once, latest at 867 ms.
+- **Prevention:** `tests/engine.test.ts` drives the engine with timestamps at 40 and 125 ms steps; the page passes `performance.now()` (camera) or the demo's fixed 40 ms clock. Never count frames again.
+- **Reported by:** Phase 5 FIX agent (emotes, round 1)
+
+### 2026-09-19: emotes, no cue-level hint and copy that spoke in "frames" (Phase 5 FIX agent, emotes round 1; report D5, major)
+
+- **Date:** found by TEST r1 2026-09-19, fixed in `4e25a95`
+- **Symptom:** `#status` was set once and never changed; the three hints were static; "Hold a pose for about three frames" and "three frames in a row" in the copy.
+- **Root cause:** the rules returned a single number and threw away which cue failed.
+- **Fix:** every rule returns `{score, cues}`; the engine's result carries the cues and a `hint` = the weakest cue of the gesture whose other cues are all ≥ 0.5 (the score itself is the weakest cue, so it cannot say how close the rest is); `src/hints.ts` maps (gesture, cue) to one sentence; `main.ts` writes "Almost: …" under that meter (row class `almost`, pink) and "Almost a Thumbs Up: …" in the status, held ≥ 900 ms so it does not flicker. Copy now says 0.15 s / 0.4 s and explains the cues.
+- **Prevention:** `tests/hints.test.ts` checks every cue every rule can report has a sentence and none mentions frames.
+- **Reported by:** Phase 5 FIX agent (emotes, round 1)
+
+### 2026-09-19: emotes, a portrait phone stream was cropped to a 4:3 strip (Phase 5 FIX agent, emotes round 1; report D6, major)
+
+- **Date:** found by TEST r1 2026-09-19 (code review), fixed in `4e25a95`
+- **Root cause:** `.stage { aspect-ratio: 4 / 3 }` with `object-fit: cover` on video and canvas.
+- **Fix:** `main.ts` sets `stage.style.aspectRatio = "<videoWidth> / <videoHeight>"` when the canvas is sized to the stream (`stageAspect()` in `src/hints.ts`, unit-tested), `object-fit: contain`, `max-height: 70vh`, and the emote card's image is capped at `36cqh` of the stage (container query) so it cannot cover a portrait stage. Verified with Chrome's square fake stream at 390 px: `480 / 480`, nothing cropped (`docs/reports/evidence/emotes-fix1-ux-390-portrait-2026-09-19.jpg`). A real 3:4 stream cannot be produced headlessly (Chrome crop-and-scales its fake device to the 640 × 480 constraint); H11 (Kalp on his phone) remains the human check.
+- **Reported by:** Phase 5 FIX agent (emotes, round 1)
+
+### 2026-09-19: emotes corpus, two "clear positive" labels were wrong for the landmarkers, and the gate counted 42 clear photos where there were 39 (Phase 5 FIX agent, emotes round 1; report D7 + label review)
+
+- **Date:** 2026-09-19, `4e25a95`
+- **Symptom:** `tests/stills.test.ts` asserted 42 `ok` stills (index had 39); yawn-13 and thumbs_up-05 could not be made to fire by any rule that stayed clean on the negatives.
+- **Root cause:** the spec agent's count added the 3 partial yawns; yawn-13's photo shows the hand across the left half of the mouth (the mesh reads the inner-lip gap as 0.22 of the mouth width: not visible to the landmarker); thumbs_up-05's hand fills the frame out of focus with the wrist cut off, and the hand model returns a 21-point set 5 % of the frame wide (thumb tip "12 hand-lengths" above the wrist: garbage).
+- **Fix:** yawn-13 → `occluded`, thumbs_up-05 → `partial`, both re-checked against the photo and justified in the commit message as the spec requires; the repeat-thumbs_up clip uses thumbs_up-14; counts in the gate 37 ok / 9 occluded / 6 partial / 70 clips.
+- **Prevention:** a label change is only ever made with the photo open and the landmark evidence in the note; `labels.json` notes now carry that evidence.
+- **Reported by:** Phase 5 FIX agent (emotes, round 1)
+
+### 2026-09-19: emotes e2e harness counted MediaPipe's INFO line as a console error and the next loop's fire as a false trigger (Phase 5 FIX agent, emotes round 1; report D8, D9, minor)
+
+- **Fix (`scripts/e2e-camera.mjs`, `4e25a95`):** console messages matching `^(INFO:|[WI]\d{4} )` are ignored, every other console error is a problem (the harness now fails on real errors, S1 bar enforced); a second fire matching an already-matched event is dropped when it belongs to a different loop pass of the clip and is a false trigger when it is the same pass (a genuine re-fire while held). The round-1 `repeat` clip now says PASS with three Thumbs Up.
+- **Reported by:** Phase 5 FIX agent (emotes, round 1)
+
+### 2026-09-19: emotes FIX round 1 could not deploy: the team's rolling window is full (100 listed, 63 from the hub), Git and CLI deploys both rate-limited (Phase 5 FIX agent, emotes round 1)
+
+- **Date:** 2026-09-19, 03:00 UTC onwards
+- **Affected:** `KalpKan/emote-detector-web` `4e25a95` pushed to `main`; production still `9807a11` (bundle `index-CCXAWVGh.js`)
+- **Symptom:** GitHub commit status `Vercel: Deployment rate limited — retry in 24 hours`; `npx vercel --prod --yes` → `api-deployments-free-per-day`; `scripts/vercel-deploy-budget.sh` → 100 listed, oldest ages out 2026-09-19 19:19 UTC (the plantit entry above counted 112 by pagination at 02:29 UTC).
+- **Fix:** none possible at $0 without waiting. The fix was verified on the production build served by `vite preview` through the real pipeline (`docs/reports/evidence/emotes-fix1-e2e-local-2026-09-19.txt`: official clip PASS at 1000 and 390, hard / misses / repeat PASS) and CI on `4e25a95` is green (unit + corpus).
+- **Prevention:** **any agent after 19:20 UTC 2026-09-19** runs `bash ~/projects/portfolio/scripts/vercel-redeploy-when-quota-frees.sh ~/projects/emotes emotes.kalpkan.com 20 10` (HEAD `4e25a95` or later), then the live checks: `curl -s https://emotes.kalpkan.com | grep -o 'index-[A-Za-z0-9_-]*\.js'` must NOT be `index-CCXAWVGh.js`; `curl -sI https://emotes.kalpkan.com/assets/<that file> | grep -i cache-control` → `immutable` (D10); `GPU=1 npm run e2e -- https://emotes.kalpkan.com/` and `WIDTH=390` → PASS.
+- **Reported by:** Phase 5 FIX agent (emotes, round 1)

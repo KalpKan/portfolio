@@ -1,0 +1,15 @@
+# FIX r1 UX check, local build of 4e25a95, headless real Chrome 151 (Mac GPU), viewport 390 x 844, fake camera = round-1 "misses" clip
+copy mentions frames: only "frames per second" | scrollW [ 390, 390 ]
+statuses seen:
+  'Watching. Try a thumbs-up, a flex beside your head, or a big yawn.'
+  'Almost a Goblin Muscle: Bend the elbow more, so the forearm folds up towards the shoulder.'
+  'Almost a Thumbs Up: Fold the other four fingers into a fist.'
+hints seen (meter rows with class "almost"):
+  'Almost: Bend the elbow more, so the forearm folds up towards the shoulder.'
+  'Almost: Fold the other four fingers into a fist.'
+mute button: [ 'Mute', 'false' ]
+page errors: []
+# same harness with the round-1 portrait.mjpeg (Chrome delivers 480 x 480):
+stage aspect 480 / 480 video [ 480, 480 ] stage px 358
+page errors: []
+# demo at 1280 px: 6 fires in 17 s (Thumbs Up@2205 Goblin Muscle@4951 Princess Yawn@7567 Thumbs Up@10569 Goblin Muscle@13269 Princess Yawn@15915), stage aspect 640 / 480, errors []
