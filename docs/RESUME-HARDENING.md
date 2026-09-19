@@ -21,6 +21,10 @@ Per project: SPEC agent → (TEST+CRITIQUE → FIX) × up to N rounds → CODE R
 | Fixes | commits in the project repo (`~/projects/<slug>`), deployed to `https://<slug>.kalpkan.com` |
 | Incidents (root cause + prevention per defect) | `skills/portfolio-ops/incidents.md` |
 
+## Run 3 (merged, Opus, started 2026-09-18 20:40 EDT)
+- Run id: `wf_d66af2db-30c`; task id `w1e04hmvz`; same script as run 1; args = `run3_merged` in `docs/hardening-args.json`.
+- Resume: `Workflow({ scriptPath: <script>, resumeFromRunId: "wf_d66af2db-30c", args: <run3_merged> })`.
+
 ## Run 1 (started 2026-09-18 16:15 EDT)
 - Run id: `wf_b18077e2-674`; task id `w2dp8einj`
 - Script: `/Users/kalp/.claude/projects/-Users-kalp-projects-portfolio/6a491b3c-d386-4c83-9fec-6077672a40f8/workflows/scripts/portfolio-harden-wf_b18077e2-674.js`
