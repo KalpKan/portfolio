@@ -12,14 +12,14 @@ const flashcards: CaseStudy = {
   kicker: "iOS · Swift · Under construction",
   title: "FlashCards",
   lede:
-    "Under construction. Planned: a native iPhone flashcard app with sign-in, sets of cards, a flip-to-reveal study view and a home-screen widget, built as a first SwiftUI project.",
+    "Under construction, nothing to show yet. Planned: a native iPhone flashcard app with sign-in, sets of cards, a flip-to-reveal study view and a home-screen widget, my first SwiftUI project.",
   hero: {
     src: icon,
     alt: "The FlashCards app icon",
     caption: "App icon (the only artwork in the repository that can be shown yet).",
   },
   problem:
-    "Every flashcard app worth using is either a subscription or a web page pretending to be an app. Kalp wanted the basic loop, make a set, add cards, flip through them, on a phone, with the cards saved to an account so they survive a new device, and a widget so a card shows up on the home screen without opening anything. It was also the project used to learn SwiftUI, Firebase authentication and WidgetKit in one go, over three weeks in February 2025.",
+    "Every flashcard app worth using is either a subscription or a web page pretending to be an app. I wanted the basic loop, make a set, add cards, flip through them, on a phone, with the cards saved to an account so they survive a new device, and a widget so a card shows up on the home screen without opening anything. It was also the project I used to learn SwiftUI, Firebase authentication and WidgetKit in one go, over three weeks in February 2025. There is nothing to write up yet.",
   howItWorks: {
     intro:
       "The repository is organised the way a SwiftUI app usually is: models, view models, views, a persistence helper and a widget extension. Described from those file names only.",
@@ -66,9 +66,9 @@ const flashcards: CaseStudy = {
   // placeholder only, so this content stays a draft until he says otherwise.
   draft: true,
   status:
-    "Under construction: not much built yet · Repository private until a committed Firebase config file is removed · App Store: no",
+    "Under construction: nothing to show yet · Repository private until a committed Firebase config file is removed · App Store: no",
   wanted: [
-    "5 iPhone screenshots (sign-in, sets list, one set, study card, widget on the home screen)",
+    "nothing yet (Kalp, 2026-09-20: under construction); when it is ready, 5 iPhone screenshots (sign-in, sets list, one set, the study card, the widget on the home screen)",
     "decide H4: make the repo public after removing GoogleService-Info.plist from its history",
   ],
 };

@@ -5,17 +5,19 @@ import front from "@/public/images/projects/rc-car/front.webp";
 import driving from "@/public/images/projects/rc-car/driving.webp";
 import tennisBall from "@/public/images/projects/rc-car/tennis-ball.webp";
 
-// Written from KalpKan/Automatic-RC-Car (ps4_controller_integrated.cpp,
-// data_prep_scripts/, README_PS4_INTEGRATED.md, docs/project_plan_and_status.md
-// in the local clone) and the two build videos on Kalp's Mac, from which the
-// photos below are single frames. The videos themselves are not in the repo.
+// Kalp's own description (docs/content/project-descriptions.md) sets the
+// framing; the technical specifics are from KalpKan/Automatic-RC-Car
+// (ps4_controller_integrated.cpp, data_prep_scripts/, README_PS4_INTEGRATED.md,
+// docs/project_plan_and_status.md in the local clone) and the two build videos
+// on Kalp's Mac, from which the photos below are single frames. The videos
+// themselves are not in the repo.
 
 const rcCar: CaseStudy = {
   slug: "rc-car",
   kicker: "Robotics · C++ · 2025",
   title: "Automatic RC Car",
   lede:
-    "A 3D-printed car on a Raspberry Pi that you drive with a PS4 controller over Bluetooth, and that can also chase a tennis ball on its own using a camera and a colour filter.",
+    "A small RC car we built around a Raspberry Pi: drive it with a PS4 controller, or switch it to self-driving and it follows any green tennis ball you throw, using the computer-vision model loaded on the Pi.",
   hero: {
     src: tennisBall,
     alt: "The RC car on a hardwood floor, turning toward a yellow-green tennis ball a few centimetres ahead of its camera",
@@ -23,16 +25,16 @@ const rcCar: CaseStudy = {
     position: "50% 62%",
   },
   problem:
-    "Most hobby RC cars are a radio and a motor. The goal here was a car whose every layer Kalp built or wrote: the chassis and gear train in CAD and on a 3D printer, the motor and steering wiring on a Raspberry Pi, a controller stack in C++ that reads a DualShock 4 the way the Linux kernel exposes it, and a vision loop simple enough to run on a Pi Zero 2W without a neural network. The finishing test was not a lap time; it was whether the car could find and follow a tennis ball on a hardwood floor with the controller set down.",
+    "This is one of my hardware projects. Most hobby RC cars are a radio and a motor; I wanted one where every layer was ours: the chassis and gear train in CAD and on a 3D printer, the motor and steering wiring on a Raspberry Pi, a controller stack in C++ that reads a PS4 DualShock 4 the way the Linux kernel exposes it, and a computer-vision model that detects tennis balls, loaded onto the Pi so the car can drive itself. The finishing test was not a lap time. It was whether I could put the controller down, throw a green tennis ball across a hardwood floor, and watch the car go after it.",
   howItWorks: {
     intro:
-      "Two control paths share one drivetrain. In manual mode a C++ program turns PS4 stick and button events into throttle and steering; in autonomous mode an OpenCV loop finds the biggest green object in the Pi camera frame and steers toward it.",
+      "Two control paths share one drivetrain. In manual mode a C++ program turns PS4 stick and button events into throttle and steering; in self-driving mode the vision loop on the Pi finds the tennis ball in the camera frame and steers toward it.",
     diagram: "rc-car",
     steps: [
       {
         title: "Chassis and drivetrain",
         body:
-          "The body, the Raspberry Pi mount (three revisions), the N20 motor mounts and 14-tooth spur gears were modelled and printed at home; the wheels were designed in Inventor. The print files sit next to the code on Kalp's machine, not in the repo.",
+          "The body, the Raspberry Pi mount (three revisions), the N20 motor mounts and 14-tooth spur gears were modelled and printed at home; the wheels were designed in Inventor. The print files sit next to the code on my machine, not in the repo.",
       },
       {
         title: "Controller input",
@@ -40,19 +42,19 @@ const rcCar: CaseStudy = {
           "ps4_controller_integrated.cpp runs two threads: one reads button presses straight from the Linux input device (/dev/input/event*, so Triangle, Cross, L1, R2 and the rest arrive as kernel events), the other polls the analog sticks through SDL2 at 20 Hz with a 0.1 dead-zone, mapping left-stick Y to throttle and right-stick X to steering. RAII cleanup, a Ctrl-C handler and a four-level debug log keep it usable on a headless Pi.",
       },
       {
-        title: "Seeing green",
+        title: "Finding the tennis ball",
         body:
-          "The autonomous path converts each frame to HSV, keeps the band from yellow-green to blue-green (H 25–45, S and V above 120), blurs, opens the mask twice and dilates once to kill speckle, then takes the bounding box of the largest contour and reports how much of the frame it covers. The thresholds were tuned with sliders on a live webcam, then checked against a sorted image set.",
+          "The detector on the Pi keys on the ball's colour. Each camera frame is converted to HSV, the band from yellow-green to blue-green is kept (H 25–45, S and V above 120), the mask is blurred, opened twice and dilated once to kill speckle, and the bounding box of the largest blob left is the ball; how much of the frame it covers says how close it is. The thresholds were tuned with sliders on a live webcam, then checked against a sorted image set.",
       },
       {
-        title: "Data, and why the repo was 943 MB",
+        title: "Training data, and why the repo was 943 MB",
         body:
-          "To tune the filter, two open image sets (sports balls, fruit and vegetables) were sorted into green and non-green folders by the same HSV rule, resized to 320×240 and annotated with the largest green box: 64,273 images. They were committed by mistake, untracked in the last commit, and a pull request now documents the git filter-repo rewrite that will shrink the clone from 943 MB to a few hundred kilobytes.",
+          "To build the ball detector, two open image sets (sports balls, fruit and vegetables) were sorted into green and non-green folders, resized to 320×240, annotated with a YOLO-style box around the largest green region and split into train and validation sets: 64,273 images. They were committed by mistake, untracked in the last commit, and a pull request now documents the git filter-repo rewrite that will shrink the clone from 943 MB to a few hundred kilobytes.",
       },
       {
-        title: "What is not finished",
+        title: "What is in the repo and what is on the bench",
         body:
-          "The steering-command mapping (ball x-offset to steering angle) and the Pi Zero 2W port live in the build video and on the bench, not as committed code; the repo's plan lists them as the next steps. The car drives and follows the ball; the software that does it is not yet in one clean program.",
+          "The controller program, the colour-detection scripts and the dataset tooling are committed. The steering-command mapping (ball x-offset to steering angle) and the version running on the car live in the build video and on the bench, not as committed code; the repo's plan lists them as the next steps. The car drives on the controller and follows the ball; the software that does it is not yet in one clean program.",
       },
     ],
   },
@@ -77,7 +79,7 @@ const rcCar: CaseStudy = {
       {
         src: driving,
         alt: "A hand holding a white PS4 controller in the foreground while the car sits on the floor ahead",
-        caption: "Manual mode over Bluetooth with a DualShock 4.",
+        caption: "Manual mode: a PS4 DualShock 4 over Bluetooth.",
       },
     ],
   },
@@ -89,22 +91,24 @@ const rcCar: CaseStudy = {
     aspect: "9/16",
   },
   tech: [
+    "Raspberry Pi",
+    "PS4 DualShock 4 (Bluetooth)",
     "C++17",
     "CMake",
     "SDL2",
     "Linux evdev",
-    "Raspberry Pi",
     "Pi Camera",
     "OpenCV (Python)",
+    "Computer vision",
     "3D printing",
     "Autodesk Inventor",
   ],
   repo: "https://github.com/KalpKan/Automatic-RC-Car",
   status:
-    "Working prototype: drives on a controller and follows a tennis ball · Repo history purge open as a pull request · Not a product",
+    "Working prototype: drives on a PS4 controller and follows a green tennis ball on its own · Repo history purge open as a pull request · Not a product",
   wanted: [
-    "upload Videos/Car Video.mp4 (100 s) and Videos/Autonomous Car Video.mp4 (10 s) to YouTube as unlisted and send the links",
-    "optional: 2 still photos taken on a phone (the frames above are pulled from video and are soft)",
+    "the two clips already on the Mac, Videos/Car Video.mp4 (100 s) and Videos/Autonomous Car Video.mp4 (10 s), uploaded to YouTube as unlisted; send the links",
+    "optional: 2 phone photos of the car (the frames on the page are pulled from video and are soft), one with the controller in shot",
   ],
 };
 
