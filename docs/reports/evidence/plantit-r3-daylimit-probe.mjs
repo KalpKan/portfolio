@@ -1,0 +1,45 @@
+// Production probe at the day limit: the 50th call = the mug (expect 422, nothing saved); the 51st = aloe through the browser (expect demo: plantnet_daily_limit, "Demo result").
+import fs from 'node:fs'; import path from 'node:path';
+import { chromium } from 'playwright';
+import { initializeApp, cert } from 'firebase-admin/app'; import { getAuth } from 'firebase-admin/auth';
+import axios from 'axios'; import FormData from 'form-data';
+const BASE = 'https://plantit.kalpkan.com'; const UID = 'round3-limit'; const API_KEY = 'AIzaSyCL08dLFchZWMR5YbxNarVgmQoPWZIMQUE';
+const FIX = '/Users/kalp/projects/plantit/tests/fixtures/plants'; const OUT = path.resolve('out-prod'); fs.mkdirSync(OUT + '/shots', { recursive: true });
+const SA = JSON.parse(fs.readFileSync(`${process.env.HOME}/.config/portfolio-ops/plantit-firebase-sa.json`, 'utf8'));
+const fbApp = initializeApp({ credential: cert(SA) });
+const custom = await getAuth(fbApp).createCustomToken(UID);
+const r = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${API_KEY}`, { token: custom, returnSecureToken: true });
+const s = { idToken: r.data.idToken, refreshToken: r.data.refreshToken, expiresIn: Number(r.data.expiresIn) };
+const api = axios.create({ baseURL: BASE, headers: { Authorization: `Bearer ${s.idToken}` }, validateStatus: () => true, timeout: 60000 });
+const out = { ranAt: new Date().toISOString() };
+out.healthBefore = (await axios.get(`${BASE}/api/health`)).data.spend;
+const before = (await api.get('/api/plants')).data.length;
+const fd = new FormData(); fd.append('image', fs.createReadStream(`${FIX}/not-a-plant-mug.jpg`), { filename: 'mug.jpg', contentType: 'image/jpeg' });
+const t0 = Date.now(); const m = await api.post('/api/identify', fd, { headers: fd.getHeaders() });
+out.mug = { status: m.status, ms: Date.now() - t0, body: m.data, plantsBefore: before, plantsAfter: (await api.get('/api/plants')).data.length };
+out.healthAfterMug = (await axios.get(`${BASE}/api/health`)).data.spend;
+console.log('mug', JSON.stringify(out.mug), JSON.stringify(out.healthAfterMug));
+// 51st through the browser
+const browser = await chromium.launch({ headless: true });
+const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: 'dark' });
+const page = await ctx.newPage(); const cons = [];
+page.on('console', (mm) => { if (mm.type() === 'error' || mm.type() === 'warning') cons.push(mm.text().slice(0, 200)); }); page.on('pageerror', (e) => cons.push('pageerror ' + e.message));
+await page.goto(`${BASE}/login`, { waitUntil: 'domcontentloaded' });
+await page.evaluate(async ({ uid, apiKey, idToken, refreshToken, expiresIn }) => {
+  const rec = { uid, email: `${uid}@example.test`, emailVerified: false, isAnonymous: false, providerData: [], stsTokenManager: { refreshToken, accessToken: idToken, expirationTime: Date.now() + expiresIn * 1000 - 60000 }, createdAt: String(Date.now()), lastLoginAt: String(Date.now()), apiKey, appName: '[DEFAULT]' };
+  await new Promise((resolve, reject) => { const req = indexedDB.open('firebaseLocalStorageDb', 1); req.onupgradeneeded = () => { const db = req.result; if (!db.objectStoreNames.contains('firebaseLocalStorage')) db.createObjectStore('firebaseLocalStorage', { keyPath: 'fbase_key' }); }; req.onerror = () => reject(req.error); req.onsuccess = () => { const db = req.result; const tx = db.transaction('firebaseLocalStorage', 'readwrite'); tx.objectStore('firebaseLocalStorage').put({ fbase_key: `firebase:authUser:${apiKey}:[DEFAULT]`, value: rec }); tx.oncomplete = () => { db.close(); resolve(); }; tx.onerror = () => reject(tx.error); }; });
+}, { uid: UID, apiKey: API_KEY, ...s });
+await page.goto(`${BASE}/add-plant`, { waitUntil: 'networkidle' });
+await page.setInputFiles('[data-testid="file-input"]', `${FIX}/aloe-vera.jpg`); await page.waitForTimeout(400);
+const respP = page.waitForResponse((x) => x.url().includes('/api/identify'), { timeout: 60000 });
+const t1 = Date.now(); await page.locator('[data-testid="identify"]').click(); const resp = await respP; const body = await resp.json().catch(() => null);
+await page.waitForURL('**/plant-details', { timeout: 30000 }).catch(() => null); await page.waitForTimeout(800);
+out.aloeAtLimit = { status: resp.status(), ms: Date.now() - t1, demo: body?.demo, reason: body?.reason, top1: body?.candidates?.[0]?.species?.scientificNameWithoutAuthor, score: body?.candidates?.[0]?.score, savedPlantId: body?.savedPlant?.id, url: page.url(), alerts: await page.locator('.MuiAlert-root').allTextContents(), demoNotice: await page.locator('[data-testid="demo-notice"]').allTextContents(), chips: await page.locator('.MuiChip-label').allTextContents() };
+await page.screenshot({ path: `${OUT}/shots/desktop-results-daylimit-demo.jpg`, type: 'jpeg', quality: 70 });
+await page.goto(`${BASE}/plants`, { waitUntil: 'networkidle' }); await page.waitForTimeout(1200);
+out.plantsAtLimit = { cards: await page.locator('[data-testid="plant-card"]').count(), demoChips: await page.locator('[data-testid="plant-card"] .MuiChip-label', { hasText: 'Demo result' }).count(), cardText: await page.locator('[data-testid="plant-card"]').first().innerText() };
+await page.screenshot({ path: `${OUT}/shots/desktop-plants-daylimit-demo.jpg`, type: 'jpeg', quality: 70 });
+out.console = cons; out.healthAfter = (await axios.get(`${BASE}/api/health`)).data.spend;
+await browser.close();
+const left = await api.get('/api/plants'); for (const p of left.data || []) await api.delete(`/api/plants/${p.id}`); out.cleanup = (left.data || []).length;
+fs.writeFileSync(`${OUT}/daylimit-probe.json`, JSON.stringify(out, null, 2)); console.log(JSON.stringify(out, null, 1).slice(0, 3000)); process.exit(0);

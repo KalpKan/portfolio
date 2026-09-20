@@ -1,0 +1,12 @@
+{
+  "phone": {
+    "alerts": [
+      "That image is too large. Please use one under 4 MB."
+    ],
+    "identifyEnabled": false,
+    "identifyRequests": 0,
+    "fileBytes": 8994284,
+    "accept": "image/*,.jpeg,.jpg,.png,.webp",
+    "capture": null
+  }
+}

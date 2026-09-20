@@ -1,0 +1,65 @@
+{
+  "ranAt": "2026-09-19T21:41:15.594Z",
+  "healthBefore": {
+    "plantnet": {
+      "service": "plantnet",
+      "day": "2026-09-19",
+      "count": 49,
+      "limit": 50
+    }
+  },
+  "mug": {
+    "status": 422,
+    "ms": 1080,
+    "body": {
+      "error": "This does not look like a plant. Try a closer photo of the leaves or flowers, in good light.",
+      "notAPlant": true,
+      "reason": "plantnet_species_not_found"
+    },
+    "plantsBefore": 0,
+    "plantsAfter": 0
+  },
+  "healthAfterMug": {
+    "plantnet": {
+      "service": "plantnet",
+      "day": "2026-09-19",
+      "count": 50,
+      "limit": 50
+    }
+  },
+  "aloeAtLimit": {
+    "status": 200,
+    "ms": 2029,
+    "demo": true,
+    "reason": "plantnet_daily_limit",
+    "top1": "Epipremnum aureum",
+    "score": 0.89,
+    "savedPlantId": "vVQqHUwrEc2HUkE7woyx",
+    "url": "https://plantit.kalpkan.com/plant-details",
+    "alerts": [
+      "Saved to your collection. Open \"My Plants\" to see its soil moisture and water it.",
+      "Demo result. Today's Pl@ntNet identification budget is used up, so the species comes from a bundled list of common houseplants."
+    ],
+    "demoNotice": [
+      "Demo result. Today's Pl@ntNet identification budget is used up, so the species comes from a bundled list of common houseplants."
+    ],
+    "chips": [
+      "Demo result"
+    ]
+  },
+  "plantsAtLimit": {
+    "cards": 1,
+    "demoChips": 1,
+    "cardText": "Epipremnum aureum\n\nGolden pothos\n\nFamily: Araceae\n\n42% soil water · moist enough\n\nSimulated sensor\nDemo result\nAdded: September 19, 2026"
+  },
+  "console": [],
+  "healthAfter": {
+    "plantnet": {
+      "service": "plantnet",
+      "day": "2026-09-19",
+      "count": 50,
+      "limit": 50
+    }
+  },
+  "cleanup": 1
+}

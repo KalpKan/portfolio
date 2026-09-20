@@ -1,0 +1,102 @@
+{
+ "login": [
+  {
+   "url": "https://plantit.kalpkan.com/login",
+   "finalUrl": "https://plantit.kalpkan.com/login",
+   "performance": 0.97,
+   "accessibility": 1,
+   "bestPractices": 1,
+   "fcp": "0.8\u00a0s",
+   "lcp": "1.7\u00a0s",
+   "tbt": "180\u00a0ms",
+   "cls": "0",
+   "lcpElement": "<p class=\"MuiTypography-root MuiTypography-body1 css-1irq11r\">",
+   "unusedJs": "Est savings of 64\u00a0KiB",
+   "mainThread": "0.6\u00a0s",
+   "a11yFails": []
+  },
+  {
+   "url": "https://plantit.kalpkan.com/login",
+   "finalUrl": "https://plantit.kalpkan.com/login",
+   "performance": 0.99,
+   "accessibility": 1,
+   "bestPractices": 1,
+   "fcp": "0.8\u00a0s",
+   "lcp": "1.7\u00a0s",
+   "tbt": "80\u00a0ms",
+   "cls": "0",
+   "lcpElement": "<p class=\"MuiTypography-root MuiTypography-body1 css-1irq11r\">",
+   "unusedJs": "Est savings of 64\u00a0KiB",
+   "mainThread": "0.3\u00a0s",
+   "a11yFails": []
+  },
+  {
+   "url": "https://plantit.kalpkan.com/login",
+   "finalUrl": "https://plantit.kalpkan.com/login",
+   "performance": 0.99,
+   "accessibility": 1,
+   "bestPractices": 1,
+   "fcp": "0.8\u00a0s",
+   "lcp": "1.7\u00a0s",
+   "tbt": "120\u00a0ms",
+   "cls": "0",
+   "lcpElement": "<p class=\"MuiTypography-root MuiTypography-body1 css-1irq11r\">",
+   "unusedJs": "Est savings of 64\u00a0KiB",
+   "mainThread": "0.4\u00a0s",
+   "a11yFails": []
+  }
+ ],
+ "plants": [
+  {
+   "url": "https://plantit.kalpkan.com/plants",
+   "finalUrl": "https://plantit.kalpkan.com/plants",
+   "performance": 0.92,
+   "accessibility": 0.98,
+   "bestPractices": 1,
+   "fcp": "0.9\u00a0s",
+   "lcp": "3.1\u00a0s",
+   "tbt": "170\u00a0ms",
+   "cls": "0",
+   "lcpElement": "<img src=\"https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-\u2026\" alt=\"Aloe vera\" width=\"400\" height=\"200\" fetchpriority=\"high\" loading=\"ea",
+   "unusedJs": "Est savings of 53\u00a0KiB",
+   "mainThread": "0.7\u00a0s",
+   "a11yFails": [
+    "heading-order"
+   ]
+  },
+  {
+   "url": "https://plantit.kalpkan.com/plants",
+   "finalUrl": "https://plantit.kalpkan.com/plants",
+   "performance": 0.92,
+   "accessibility": 0.98,
+   "bestPractices": 1,
+   "fcp": "0.8\u00a0s",
+   "lcp": "3.0\u00a0s",
+   "tbt": "190\u00a0ms",
+   "cls": "0",
+   "lcpElement": "<img src=\"https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-\u2026\" alt=\"Aloe vera\" width=\"400\" height=\"200\" fetchpriority=\"high\" loading=\"ea",
+   "unusedJs": "Est savings of 53\u00a0KiB",
+   "mainThread": "0.7\u00a0s",
+   "a11yFails": [
+    "heading-order"
+   ]
+  },
+  {
+   "url": "https://plantit.kalpkan.com/plants",
+   "finalUrl": "https://plantit.kalpkan.com/plants",
+   "performance": 0.94,
+   "accessibility": 0.98,
+   "bestPractices": 1,
+   "fcp": "0.8\u00a0s",
+   "lcp": "2.9\u00a0s",
+   "tbt": "120\u00a0ms",
+   "cls": "0",
+   "lcpElement": "<img src=\"https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/plantit-\u2026\" alt=\"Monstera deliciosa\" width=\"400\" height=\"200\" loading=\"lazy\" decoding",
+   "unusedJs": "Est savings of 53\u00a0KiB",
+   "mainThread": "0.6\u00a0s",
+   "a11yFails": [
+    "heading-order"
+   ]
+  }
+ ]
+}

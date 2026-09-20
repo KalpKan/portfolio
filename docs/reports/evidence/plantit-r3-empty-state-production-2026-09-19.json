@@ -1,0 +1,25 @@
+{
+  "desktop": {
+    "loginBg": "rgb(16, 17, 18)",
+    "loginText": "Plant It Your personal plant identification and care assistant Sign in with Google Sign in to start identifying and managing your plants",
+    "home": "Plant It Home My Plants Add Plant Logout Welcome to Plant It Your personal plant identification and care assistant. Upload a photo to identify a plant, get care instructions, and keep an eye on its soil moisture. No hardware needed: every plant gets a simulated sensor you can water; a real ESP8266 takes over when you connect one. Identify a New Plant Upload a photo of a plant to identify its species and get care recommendations. Add New Plant View Your Plants See all the plants you've identified and their care instructions. View Plants How It Works 1. Upload Take a clear photo of your plant and upload it to our system. 2. Identify Our AI will analyze the image and identify the plant species.",
+    "emptyPlants": "Plant It Home My Plants Add Plant Logout My Plants No plants yet Identify your first plant from a photo. No hardware needed: every plant gets a simulated moisture sensor you can water. Add a plant",
+    "emptyButtons": [
+      "Home",
+      "My Plants",
+      "Add Plant",
+      "Logout",
+      "Add a plant"
+    ]
+  },
+  "phone": {
+    "loginBg": "rgb(16, 17, 18)",
+    "loginText": "Plant It Your personal plant identification and care assistant Sign in with Google Sign in to start identifying and managing your plants",
+    "home": "Plant It Welcome to Plant It Your personal plant identification and care assistant. Upload a photo to identify a plant, get care instructions, and keep an eye on its soil moisture. No hardware needed: every plant gets a simulated sensor you can water; a real ESP8266 takes over when you connect one. Identify a New Plant Upload a photo of a plant to identify its species and get care recommendations. Add New Plant View Your Plants See all the plants you've identified and their care instructions. View Plants How It Works 1. Upload Take a clear photo of your plant and upload it to our system. 2. Identify Our AI will analyze the image and identify the plant species. 3. Care and water Get care inst",
+    "emptyPlants": "Plant It My Plants No plants yet Identify your first plant from a photo. No hardware needed: every plant gets a simulated moisture sensor you can water. Add a plant",
+    "emptyButtons": [
+      "",
+      "Add a plant"
+    ]
+  }
+}
