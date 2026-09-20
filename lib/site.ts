@@ -31,3 +31,14 @@ export const SITE = {
 
 export type Contact = { email: string; github: string; linkedin: string };
 export type NowPlaying = { title: string; artist: string };
+
+/** The subset of SITE the KalpOS components read (tests pass their own). */
+export type SiteConfig = {
+  name: string;
+  note: string;
+  tagline: string;
+  resumeUrl: string;
+  photo: string;
+  nowPlaying: NowPlaying;
+  contact: Contact;
+};

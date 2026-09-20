@@ -14,6 +14,7 @@ const tile = (over: Partial<Tile> = {}): Tile => ({
   healthUrl: "https://a/api/health",
   tags: [],
   archived: false,
+  showcase: false,
   ...over,
 });
 

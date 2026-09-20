@@ -27,6 +27,6 @@ export function formatMenubarClock(d: Date): { date: string; time: string } {
   };
 }
 
-export const CLOCK_IDS = { lockDate: "kos-lock-date", lockTime: "kos-lock-time", menubar: "kos-clock" } as const;
+export const CLOCK_IDS = { lockDate: "kos-lock-date", lockTime: "kos-lock-time", menubar: "kos-clock", phone: "kos-phone-clock" } as const;
 
-export const CLOCK_SCRIPT = `(function(){try{var d=new Date(),D=${JSON.stringify(DAYS)},M=${JSON.stringify(MONTHS)},p=function(n){return String(n).padStart(2,"0")},t=p(d.getHours())+":"+p(d.getMinutes()),s=function(i,v){var n=document.getElementById(i);if(n)n.textContent=v};s("${CLOCK_IDS.lockDate}",D[d.getDay()]+", "+M[d.getMonth()]+" "+d.getDate());s("${CLOCK_IDS.lockTime}",t);s("${CLOCK_IDS.menubar}",D[d.getDay()].slice(0,3)+" "+d.getDate()+" "+M[d.getMonth()].slice(0,3)+"\\u2002\\u2002"+t)}catch(e){}})()`;
+export const CLOCK_SCRIPT = `(function(){try{var d=new Date(),D=${JSON.stringify(DAYS)},M=${JSON.stringify(MONTHS)},p=function(n){return String(n).padStart(2,"0")},t=p(d.getHours())+":"+p(d.getMinutes()),s=function(i,v){var n=document.getElementById(i);if(n)n.textContent=v};s("${CLOCK_IDS.lockDate}",D[d.getDay()]+", "+M[d.getMonth()]+" "+d.getDate());s("${CLOCK_IDS.lockTime}",t);s("${CLOCK_IDS.menubar}",D[d.getDay()].slice(0,3)+" "+d.getDate()+" "+M[d.getMonth()].slice(0,3)+"\\u2002\\u2002"+t);s("${CLOCK_IDS.phone}",t)}catch(e){}})()`;

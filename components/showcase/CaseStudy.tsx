@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { CaseStudy as CaseStudyT } from "@/content/case-study";
 import { isPlaceholder } from "@/content/case-study";
 import { Diagram } from "./diagrams";
@@ -9,13 +8,14 @@ import { ScreenCarousel } from "./ScreenCarousel";
 import { VideoEmbed } from "./VideoEmbed";
 
 /**
- * The case-study page body (docs/hosting-plan.md §6 "Showcase pages"):
- * hero, one-paragraph problem, how it works with a diagram, photo gallery,
- * app-screen carousel, video, tech list, repo link, status line.
+ * The case-study body (docs/hosting-plan.md §6 "Showcase pages"): hero,
+ * one-paragraph problem, how it works with a diagram, photo gallery, app
+ * screen carousel, video, tech list, repo link, status line.
  *
- * Layout mirrors the hub board: below lg the sections stack; at lg each
- * section is a two-column row, its mono label in the 17rem column the pad
- * map uses on the home page, content in the rest.
+ * Since KalpOS it renders inside a desk window (components/kalpos/windows/
+ * CaseStudyWindow.tsx) and on the phone as a full-height sheet, so it owns
+ * no page chrome: no <main>, no back link, no footer. Sections stack with a
+ * small uppercase label above each, in the desk's system type.
  */
 
 function Section({
@@ -28,17 +28,11 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section
-      aria-labelledby={`${id}-head`}
-      className="grid gap-4 border-t border-rule-soft pt-6 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-14 lg:pt-8"
-    >
-      <h2
-        id={`${id}-head`}
-        className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-2 tabular lg:pt-1"
-      >
+    <section aria-labelledby={`${id}-head`} className="border-t border-rule-soft pt-5">
+      <h2 id={`${id}-head`} className="kos-label tabular">
         {label}
       </h2>
-      <div className="min-w-0">{children}</div>
+      <div className="mt-3 min-w-0">{children}</div>
     </section>
   );
 }
@@ -57,22 +51,12 @@ export default function CaseStudy({
 }) {
   const hero = study.hero;
   return (
-    <main className="mx-auto w-full max-w-[72rem] flex-1 px-4 pb-16 pt-10 md:px-8 md:pt-16">
-      <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-3">
-        <Link href="/" className="-my-3 inline-flex min-h-10 items-center hover:text-ink hover:underline">
-          &larr; back to the array
-        </Link>
-      </p>
-
-      <header className="border-b border-rule pb-8 md:pb-10">
-        <h1 className="display mt-6 text-[2.25rem] leading-[0.98] md:text-[3.5rem]">
-          {study.title}
-        </h1>
-        <p className="mt-4 max-w-[52ch] text-[1.125rem] leading-snug text-ink-2 md:text-[1.375rem]">
-          {study.lede}
-        </p>
-        {/* The same meta line a channel row carries on the hub: status word, then the kicker facts. */}
-        <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[12px] text-ink-3 tabular">
+    <article className="kos-case">
+      <header className="pb-6">
+        <h1 className="display mt-2 text-[26px] leading-[1.1]">{study.title}</h1>
+        <p className="mt-3 max-w-[60ch] text-[15px] leading-snug text-ink-2">{study.lede}</p>
+        {/* The meta line: status word, then the kicker facts. */}
+        <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] text-ink-3 tabular">
           <span className="text-ink-2">{underConstruction ? "under construction" : "case study"}</span>
           {study.kicker.split(" · ").map((t) => (
             <span key={t} className="before:mr-2 before:content-['·']">
@@ -82,47 +66,31 @@ export default function CaseStudy({
         </p>
       </header>
 
-      <div className="pt-8 md:pt-10">
+      <div className="overflow-hidden rounded-[10px]">
         {isPlaceholder(hero) ? (
           <PlaceholderBlock placeholder={hero} />
         ) : (
-          <Figure
-            item={hero}
-            aspect="16/9"
-            sizes="(min-width: 1152px) 72rem, 100vw"
-            priority
-          />
+          <Figure item={hero} aspect="16/9" sizes="(min-width: 800px) 760px, 100vw" priority />
         )}
       </div>
 
-      <div className="mt-10 flex flex-col gap-10 md:mt-12 md:gap-12">
+      <div className="mt-8 flex flex-col gap-8">
         <Section id="problem" label="Problem">
-          <p className="max-w-[60ch] text-[1.05rem] leading-relaxed text-ink">
-            {study.problem}
-          </p>
+          <p className="max-w-[62ch] text-[14.5px] leading-relaxed text-ink">{study.problem}</p>
         </Section>
 
         <Section id="how" label="How it works">
-          <p className="max-w-[60ch] text-[0.95rem] leading-relaxed text-ink-2">
-            {study.howItWorks.intro}
-          </p>
-          <div className="mt-6">
+          <p className="max-w-[62ch] text-[13.5px] leading-relaxed text-ink-2">{study.howItWorks.intro}</p>
+          <div className="mt-5">
             <Diagram id={study.howItWorks.diagram} />
           </div>
-          <ol className="mt-6 divide-y divide-rule-soft border-t border-rule-soft">
+          <ol className="mt-5 divide-y divide-rule-soft border-t border-rule-soft">
             {study.howItWorks.steps.map((s, i) => (
-              <li
-                key={s.title}
-                className="grid grid-cols-[3.25rem_minmax(0,1fr)] gap-x-3 py-4"
-              >
-                <span className="pt-1 font-mono text-[12px] leading-none text-ink-2 tabular">
-                  {siteId(i)}
-                </span>
+              <li key={s.title} className="grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 py-3.5">
+                <span className="pt-1 font-mono text-[11px] leading-none text-ink-2 tabular">{siteId(i)}</span>
                 <div className="min-w-0">
-                  <h3 className="display text-[1.25rem] leading-tight">{s.title}</h3>
-                  <p className="mt-1 max-w-[60ch] text-[0.95rem] leading-relaxed text-ink-2">
-                    {s.body}
-                  </p>
+                  <h3 className="display text-[15px] leading-tight">{s.title}</h3>
+                  <p className="mt-1 max-w-[62ch] text-[13.5px] leading-relaxed text-ink-2">{s.body}</p>
                 </div>
               </li>
             ))}
@@ -148,7 +116,7 @@ export default function CaseStudy({
         )}
 
         <Section id="tech" label="Built with">
-          <ul className="flex flex-wrap gap-x-2 gap-y-1 font-mono text-[12px] text-ink-2 tabular">
+          <ul className="flex flex-wrap gap-x-2 gap-y-1 font-mono text-[11px] text-ink-2 tabular">
             {study.tech.map((t, i) => (
               <li key={t} className={i ? "before:mr-2 before:content-['·'] before:text-ink-3" : ""}>
                 {t}
@@ -158,9 +126,7 @@ export default function CaseStudy({
         </Section>
 
         <Section id="status" label="Status">
-          <p className="max-w-[60ch] font-mono text-[12px] leading-relaxed text-ink-2">
-            {study.status}
-          </p>
+          <p className="max-w-[62ch] font-mono text-[11.5px] leading-relaxed text-ink-2">{study.status}</p>
           {study.repo && (
             <p className="mt-4">
               <RepoLink slug={study.slug} href={study.repo} />
@@ -168,14 +134,6 @@ export default function CaseStudy({
           )}
         </Section>
       </div>
-
-      <footer className="mt-16 border-t border-rule pt-6 text-[12px] leading-relaxed text-ink-3 md:mt-20">
-        <p>
-          <Link href="/" className="-my-3 inline-flex min-h-10 items-center hover:text-ink hover:underline">
-            every project, on one sheet &rarr;
-          </Link>
-        </p>
-      </footer>
-    </main>
+    </article>
   );
 }
