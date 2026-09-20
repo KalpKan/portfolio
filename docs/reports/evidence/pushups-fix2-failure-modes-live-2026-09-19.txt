@@ -1,0 +1,9 @@
+model path under test: /models/form-v3/model.json
+  "status": "Could not start: form classifier at /models/form-v3/model.json expects 36 inputs, this code computes 24 (stale cached model?). Reload the page and try again.",
+ "errorCount": 0
+stale-then-fresh {
+  "status": "Clip finished: 3 good of 4. Play it again or start your camera.",
+ "errorCount": 0
+loop-throws {
+  "status": "Something went wrong: injected loop failure. Reload the page and try again.",
+ "errorCount": 0

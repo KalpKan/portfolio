@@ -1,0 +1,12 @@
+
+ RUN  v5.0.1 /Users/kalp/projects/pushups
+
+
+ Test Files  7 passed (7)
+      Tests  117 passed | 2 expected fail (119)
+   Start at  18:14:01
+   Duration  4.26s (tests 79%, import 13%, transform 8%)
+
+    Isolate  7 workers spawned · ~86ms startup each (spawn + environment, per file)
+             at least ~518ms faster with isolate: false — reuses workers across files instead of one per file
+

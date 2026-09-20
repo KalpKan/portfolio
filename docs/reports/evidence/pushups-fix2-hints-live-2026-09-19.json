@@ -1,0 +1,206 @@
+{
+  "black": {
+    "final": {
+      "good": "0",
+      "total": "0",
+      "form": "paused",
+      "fps": "30 fps"
+    },
+    "timeline": [
+      {
+        "text": "Too dark: turn a light on or uncover the camera",
+        "firstMs": 763,
+        "lastMs": 4017,
+        "frames": 98
+      }
+    ],
+    "errors": []
+  },
+  "two-people": {
+    "final": {
+      "good": "0",
+      "total": "0",
+      "form": "paused",
+      "fps": "30 fps"
+    },
+    "timeline": [
+      {
+        "text": "Bad form: hips too high",
+        "firstMs": 83,
+        "lastMs": 115,
+        "frames": 2
+      },
+      {
+        "text": "Bad form: keep your body straight",
+        "firstMs": 164,
+        "lastMs": 722,
+        "frames": 18
+      },
+      {
+        "text": "Good form",
+        "firstMs": 756,
+        "lastMs": 824,
+        "frames": 3
+      },
+      {
+        "text": "Counting paused",
+        "firstMs": 854,
+        "lastMs": 7020,
+        "frames": 186
+      },
+      {
+        "text": "Only one person in the frame, please",
+        "firstMs": 854,
+        "lastMs": 7020,
+        "frames": 186
+      }
+    ],
+    "errors": []
+  },
+  "cropped-right": {
+    "final": {
+      "good": "0",
+      "total": "0",
+      "form": "paused",
+      "fps": "30 fps"
+    },
+    "timeline": [
+      {
+        "text": "Step back so your whole body is visible",
+        "firstMs": 767,
+        "lastMs": 6007,
+        "frames": 158
+      }
+    ],
+    "errors": []
+  },
+  "frontal": {
+    "final": {
+      "good": "0",
+      "total": "0",
+      "form": "paused",
+      "fps": "30 fps"
+    },
+    "timeline": [
+      {
+        "text": "Counting paused",
+        "firstMs": 756,
+        "lastMs": 6023,
+        "frames": 159
+      },
+      {
+        "text": "Feet out of frame: move the camera back",
+        "firstMs": 756,
+        "lastMs": 6023,
+        "frames": 159
+      }
+    ],
+    "errors": []
+  },
+  "IMG_1512": {
+    "final": {
+      "good": "5",
+      "total": "6",
+      "form": "no pose",
+      "fps": "29 fps"
+    },
+    "timeline": [
+      {
+        "text": "Good form",
+        "firstMs": 70,
+        "lastMs": 30464,
+        "frames": 877
+      },
+      {
+        "text": "Rep 1: good",
+        "firstMs": 4963,
+        "lastMs": 6453,
+        "frames": 46
+      },
+      {
+        "text": "Rep 2: good",
+        "firstMs": 9131,
+        "lastMs": 10596,
+        "frames": 45
+      },
+      {
+        "text": "Rep 3: good",
+        "firstMs": 13674,
+        "lastMs": 15173,
+        "frames": 46
+      },
+      {
+        "text": "Rep 4: good",
+        "firstMs": 22091,
+        "lastMs": 23563,
+        "frames": 45
+      },
+      {
+        "text": "Bad form: hips too high",
+        "firstMs": 23471,
+        "lastMs": 34747,
+        "frames": 141
+      },
+      {
+        "text": "Go lower: that dip was too shallow to count",
+        "firstMs": 27330,
+        "lastMs": 28797,
+        "frames": 45
+      },
+      {
+        "text": "Bad form: knees down",
+        "firstMs": 28704,
+        "lastMs": 28775,
+        "frames": 2
+      },
+      {
+        "text": "Rep 5: good",
+        "firstMs": 29725,
+        "lastMs": 31196,
+        "frames": 45
+      },
+      {
+        "text": "Rep 6: hips too high",
+        "firstMs": 33157,
+        "lastMs": 34622,
+        "frames": 44
+      }
+    ],
+    "errors": []
+  },
+  "crop0.88": {
+    "final": {
+      "good": "1",
+      "total": "1",
+      "form": "paused",
+      "fps": "30 fps"
+    },
+    "timeline": [
+      {
+        "text": "Good form",
+        "firstMs": 75,
+        "lastMs": 1627,
+        "frames": 45
+      },
+      {
+        "text": "Head out of frame: move the camera back or tilt it up",
+        "firstMs": 761,
+        "lastMs": 6031,
+        "frames": 154
+      },
+      {
+        "text": "Rep 1: good",
+        "firstMs": 1391,
+        "lastMs": 2882,
+        "frames": 43
+      },
+      {
+        "text": "Counting paused",
+        "firstMs": 1660,
+        "lastMs": 6031,
+        "frames": 128
+      }
+    ],
+    "errors": []
+  }
+}

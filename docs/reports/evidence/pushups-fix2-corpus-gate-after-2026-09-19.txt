@@ -1,0 +1,43 @@
+stdout | tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bottom verdicts match the high-confidence labels
+[python] bottom verdicts: 65/67 high-confidence reps match
+  demo 6.2s label bad got good
+  IMG_1513 5.7s label bad got good
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bottom verdicts match the high-confidence labels 1083ms
+demo             ok   total 4 (want 4)  good 4 (want 2-3)  events 1.2g 2.2g 4.4g 7.1g
+test_video3      ok   total 5 (want 5)  good 3 (want 2-4)  events 1.2g 2.2g 4.4g 7.1b(keep your body straight) 10.3b(keep your body straight)
+test_video       ok   total 4 (want 4)  good 2 (want 2-2)  events 4.2b(hips sagging) 10.4b(keep your body straight) 13.9g 15.4g
+test_video_2     ok   total 4 (want 4)  good 2 (want 0-2)  events 3.3g 9.5b(keep your body straight) 16.7b(knees down) 22.3g
+test_video_4     ok   total 5 (want 5)  good 4 (want 4-4)  events 2.2g 3.8g 5.4g 7.0g 11.0b(keep your body straight)
+good_IMG_4378    ok   total 8 (want 8)  good 8 (want 8-8)  events 1.4g 3.3g 5.3g 7.3g 9.3g 11.3g 13.1g 15.0g
+good_IMG_4409    ok   total 5 (want 5)  good 5 (want 5-5)  events 2.5g 4.3g 6.2g 7.9g 9.9g
+bad_IMG_4456     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.3b(keep your body straight) 2.7b(keep your body straight) 4.0b(keep your body straight) 5.7b(keep your body straight)
+bad_IMG_4470     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.5b(hips sagging) 2.6b(hips sagging) 4.3b(hips sagging) 6.0b(hips sagging)
+bad_IMG_4451     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.7b(keep your body straight) 3.3b(keep your body straight) 5.1b(keep your body straight) 6.9b(keep your body straight)
+IMG_1305         ok   total 5 (want 6)  good 5 (want 6-6)  events 3.0g 4.1g 5.6g 6.8g 8.0g
+IMG_1359         ok   total 9 (want 9)  good 8 (want 9-9)  events 1.6g 7.6g 8.7g 9.7g 11.7g 14.1b(hips too high) 15.7g 16.8g 17.9g
+IMG_1360         ok   total 6 (want 6)  good 6 (want 6-6)  events 2.6g 4.3g 6.0g 7.7g 10.6g 12.2g
+IMG_1512         ok   total 6 (want 6)  good 5 (want 4-4)  events 5.0g 9.2g 13.7g 22.1g 29.8g 33.2b(hips too high)
+IMG_1513         ok   total 1 (want 1)  good 1 (want 0-0)  events 6.7g
+stdout | tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bottom verdicts match the high-confidence labels
+[browser] bottom verdicts: 65/67 high-confidence reps match
+  demo 6.2s label bad got good
+  IMG_1513 5.7s label bad got good
+demo             ok   total 4 (want 4)  good 4 (want 2-3)  events 1.2g 2.2g 4.4g 7.1g
+test_video3      ok   total 5 (want 5)  good 3 (want 2-4)  events 1.2g 2.2g 4.3g 7.1b(keep your body straight) 10.3b(keep your body straight)
+test_video       ok   total 4 (want 4)  good 2 (want 2-2)  events 4.2b(hips sagging) 10.4b(keep your body straight) 13.9g 15.4g
+test_video_2     ok   total 4 (want 4)  good 2 (want 0-2)  events 3.3g 9.6b(keep your body straight) 16.6b(knees down) 22.4g
+test_video_4     ok   total 5 (want 5)  good 4 (want 4-4)  events 2.2g 3.8g 5.4g 7.0g 11.0b(keep your body straight)
+good_IMG_4378    ok   total 8 (want 8)  good 8 (want 8-8)  events 1.4g 3.3g 5.3g 7.3g 9.3g 11.3g 13.1g 15.1g
+good_IMG_4409    ok   total 5 (want 5)  good 5 (want 5-5)  events 2.5g 4.3g 6.1g 8.0g 9.9g
+bad_IMG_4456     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.3b(keep your body straight) 2.7b(keep your body straight) 4.0b(keep your body straight) 5.7b(keep your body straight)
+bad_IMG_4470     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.5b(keep your body straight) 2.6b(keep your body straight) 4.3b(keep your body straight) 6.0b(hips sagging)
+bad_IMG_4451     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.7b(keep your body straight) 3.3b(keep your body straight) 5.1b(keep your body straight) 6.9b(keep your body straight)
+IMG_1305         ok   total 5 (want 6)  good 5 (want 6-6)  events 2.9g 4.1g 5.6g 6.8g 8.0g
+IMG_1359         ok   total 9 (want 9)  good 8 (want 9-9)  events 1.6g 7.6g 8.6g 9.7g 11.7g 14.1b(hips too high) 15.7g 16.8g 17.9g
+IMG_1360         ok   total 6 (want 6)  good 6 (want 6-6)  events 2.6g 4.3g 6.0g 7.7g 10.6g 12.2g
+IMG_1512         ok   total 6 (want 6)  good 5 (want 4-4)  events 5.0g 9.1g 13.7g 22.1g 29.7g 33.1b(hips too high)
+IMG_1513         ok   total 1 (want 1)  good 1 (want 0-0)  events 6.7g
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bottom verdicts match the high-confidence labels 923ms
+      Tests  88 passed (88)
+ Test Files  8 passed (8)
+      Tests  139 passed (139)
