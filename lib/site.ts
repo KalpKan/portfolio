@@ -1,11 +1,11 @@
 /** One song per line; `tag` shows as a small pill ("unreleased"). */
-export type Track = { title: string; artist: string; tag?: string };
+export type Track = { title: string; artist: string; tag?: string; /** Official single artwork under public/images/music (Apple Music artwork, displayed for identification; unreleased tracks keep the generated cover). */ cover?: string };
 
 /** The songs Kalp has on repeat, in the order the desk plays them. */
 export const PLAYLIST: readonly Track[] = [
-  { title: "Suffer", artist: "Bex" },
-  { title: "These Words", artist: "Badger & Natasha Bedingfield" },
-  { title: "Choosin' Texas", artist: "Drake & Don Toliver", tag: "unreleased" },
+  { title: "Suffer", artist: "BEX", cover: "/images/music/suffer.jpg" },
+  { title: "These Words", artist: "Badger & Natasha Bedingfield", cover: "/images/music/these-words.jpg" },
+  { title: "Sleep", artist: "The Kid LAROI", cover: "/images/music/sleep.jpg" },
 ];
 
 /**

@@ -18,7 +18,7 @@ describe("NowPlaying widget (card 2c)", () => {
     expect(card).not.toBeNull();
     expect(card.querySelector(".kos-label")?.textContent).toBe("Now playing");
     expect(card.querySelector(".title")?.textContent).toBe("Suffer");
-    expect(card.querySelector(".artist")?.textContent).toBe("Bex");
+    expect(card.querySelector(".artist")?.textContent).toBe("BEX");
     expect(card.querySelector("header i")).not.toBeNull();
     expect(card.querySelector(".bar i")).not.toBeNull();
     expect(card.style.getPropertyValue("--p")).toBe("0.0000");

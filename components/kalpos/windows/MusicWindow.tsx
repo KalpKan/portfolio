@@ -63,9 +63,14 @@ export default function MusicWindow({ playlist, title = "On repeat" }: { playlis
   return (
     <div className="kos-body kos-music" onKeyDown={onKeyDown}>
       <div className="kos-music-side">
-        <div className="kos-cover" style={{ background: cover.background }} role="img" aria-label={`Cover for ${current.title}: generated art`}>
-          <span aria-hidden>{cover.initials}</span>
-        </div>
+        {current.cover ? (
+          // eslint-disable-next-line @next/next/no-img-element -- static square art, no optimisation needed
+          <img className="kos-cover kos-cover--art" src={current.cover} alt={`Cover art for ${current.title} by ${current.artist}`} width={180} height={180} loading="lazy" decoding="async" />
+        ) : (
+          <div className="kos-cover" style={{ background: cover.background }} role="img" aria-label={`Cover for ${current.title}: generated art`}>
+            <span aria-hidden>{cover.initials}</span>
+          </div>
+        )}
         <div className="kos-music-progress" aria-hidden>
           <div className="bar">
             <i style={{ width: `${(progress * 100).toFixed(2)}%` }} />

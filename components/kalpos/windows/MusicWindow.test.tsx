@@ -20,7 +20,7 @@ const rows = (c: Element) => [...c.querySelectorAll<HTMLButtonElement>("button.k
 const current = (c: Element) => rows(c).findIndex((r) => r.getAttribute("aria-current") === "true");
 
 describe("MusicWindow (the Music app)", () => {
-  it("lists the three songs with the index, title, artist, the unreleased tag and a — duration; row 1 is current", () => {
+  it("lists the three songs with the index, title, artist and a — duration; row 1 is current", () => {
     const { container, unmount } = render(<MusicWindow playlist={PLAYLIST} title="On repeat" />);
     expect(container.querySelector(".kos-label")?.textContent).toBe("On repeat");
     const r = rows(container);
@@ -29,7 +29,7 @@ describe("MusicWindow (the Music app)", () => {
     expect(r[1].textContent).toContain("Badger & Natasha Bedingfield");
     expect(r[1].querySelector(".n")?.textContent).toBe("2");
     expect(r[1].querySelector(".d")?.textContent).toBe("—");
-    expect(r[2].querySelector(".kos-tag")?.textContent).toBe("unreleased");
+    expect(r[2].querySelector(".kos-tag")).toBeNull();
     expect(r[0].querySelector(".kos-tag")).toBeNull();
     expect(current(container)).toBe(0);
     expect(r[0].querySelector(".n")?.textContent).toBe("♪");
@@ -37,13 +37,19 @@ describe("MusicWindow (the Music app)", () => {
     unmount();
   });
 
-  it("draws a generated cover (gradient + initials), never an <img>", () => {
+  it("shows the real single artwork when a track has a cover, and the generated gradient + initials when it does not", () => {
     const { container, unmount } = render(<MusicWindow playlist={PLAYLIST} />);
-    const cover = container.querySelector<HTMLElement>(".kos-cover")!;
-    expect(container.querySelector("img")).toBeNull();
-    expect(cover.style.background).toContain("linear-gradient");
-    expect(cover.textContent).toBe("S");
+    const art = container.querySelector<HTMLImageElement>("img.kos-cover--art")!;
+    expect(art).not.toBeNull();
+    expect(art.getAttribute("src")).toBe("/images/music/suffer.jpg");
+    expect(art.getAttribute("alt")).toContain("Suffer");
     unmount();
+    const noArt = render(<MusicWindow playlist={[{ title: "Choosin' Texas", artist: "Drake & Don Toliver", tag: "unreleased" }]} />);
+    const cover = noArt.container.querySelector<HTMLElement>(".kos-cover")!;
+    expect(noArt.container.querySelector("img")).toBeNull();
+    expect(cover.style.background).toContain("linear-gradient");
+    expect(cover.textContent).toBe("CT");
+    noArt.unmount();
   });
 
   it("the transport moves the current song, wraps, and reports the index to analytics", () => {
@@ -52,7 +58,7 @@ describe("MusicWindow (the Music app)", () => {
     const prev = container.querySelector('button[aria-label="Previous song"]')!;
     click(next);
     expect(current(container)).toBe(1);
-    expect(container.querySelector(".kos-cover")?.textContent).toBe("TW");
+    expect(container.querySelector<HTMLImageElement>("img.kos-cover--art")?.getAttribute("src")).toBe("/images/music/these-words.jpg");
     expect(track).toHaveBeenLastCalledWith("music_track_selected", { index: 1 });
     click(next);
     click(next);

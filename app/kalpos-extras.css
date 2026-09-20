@@ -600,3 +600,7 @@ button.kos-now[data-paused="true"] .bar i {
     transition: none;
   }
 }
+
+/* Real single artwork (Track.cover); the generated gradient stays for tracks without one. */
+.kos-cover--art { object-fit: cover; display: block; }
+.kos-cover--art::after { content: none; }

@@ -3,9 +3,9 @@ import { coverFor, ended, formatMs, hashString, initialPlayer, initialsOf, playe
 import { PLAYLIST, SITE, playlistOf } from "./site";
 
 describe("site playlist", () => {
-  it("has the three songs, in order, with the unreleased tag on the third", () => {
-    expect(PLAYLIST.map((t) => t.title)).toEqual(["Suffer", "These Words", "Choosin' Texas"]);
-    expect(PLAYLIST[2].tag).toBe("unreleased");
+  it("has the three songs, in order, each with cover art", () => {
+    expect(PLAYLIST.map((t) => t.title)).toEqual(["Suffer", "These Words", "Sleep"]);
+    expect(PLAYLIST.every((t) => t.cover?.startsWith("/images/music/"))).toBe(true);
     expect(PLAYLIST[0].tag).toBeUndefined();
   });
 
