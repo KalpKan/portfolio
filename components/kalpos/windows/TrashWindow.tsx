@@ -1,15 +1,4 @@
-const SCRAPPED = [
-  {
-    name: "token-gamble-coinflip",
-    line: "A coin-flip game that wagered API tokens. Fun for an afternoon, not a product.",
-    href: "https://github.com/KalpKan/token-gamble-coinflip",
-  },
-  {
-    name: "token-coinflip",
-    line: "The first cut of the same idea, before the gamble mechanic.",
-    href: "https://github.com/KalpKan/token-coinflip",
-  },
-];
+import { SCRAPPED } from "@/lib/scrapped";
 
 /** Not mocked; "opening it shows scrapped ideas" (2e): the two archived coinflip repos. */
 export default function TrashWindow() {

@@ -36,7 +36,7 @@ describe("Phone sheet (card 1e)", () => {
     expect(container.querySelector(".kos-phone-name")?.textContent).toBe("Kalp Kansara");
     expect(container.querySelector(".kos-phone-line")?.textContent).toBe("Tap a folder. 12 projects, checking for live signals…");
     const folders = [...container.querySelectorAll(".kos-phone-grid button")].map((b) => b.textContent?.trim());
-    expect(folders).toEqual(["12Projects", "Hobbies", "About", "@Contact", "Trash"]);
+    expect(folders).toEqual(["12Projects", "Hobbies", "About", "@Contact", ">_Terminal", "Trash"]);
     expect(container.querySelector(".kos-phone-note")?.textContent).toContain("measure something real");
     unmount();
   });

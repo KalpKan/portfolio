@@ -1,18 +1,19 @@
 "use client";
 
-import { EnvelopeSimple, FilePdf, Folders, Image as ImageIcon, MusicNotes, Note, TerminalWindow, Trash } from "@phosphor-icons/react";
+import { EnvelopeSimple, FilePdf, Folders, Image as ImageIcon, MusicNotes, Note, TerminalWindow } from "@phosphor-icons/react";
 import { useState } from "react";
 import type { WindowId, WindowsState } from "@/lib/windows";
 import { isOpen } from "@/lib/windows";
 import type { Rect } from "@/lib/windows";
-import { rectOf } from "./DeskIcons";
+import { rectOf, TrashGlyph } from "./DeskIcons";
 
 type DockTile = { key: string; label: string; window?: WindowId; href?: string; icon: React.ReactNode };
 
 /**
  * Card 2c's dock: Finder (Projects), Notes (About me), Mail (Contact), Music
  * (Now playing), Photos (Hobbies), Terminal (the health log), PDF (Résumé,
- * hidden while empty), a separator, Trash. A running dot marks an open
+ * hidden while empty), a separator, Trash (the desk's own drawing, small;
+ * DeskIcons.tsx). A running dot marks an open
  * window; hover magnifies 1.18 with neighbours 1.08 and the label above
  * (2e, CSS); launching bounces once.
  */
@@ -35,7 +36,7 @@ export default function Dock({
     { key: "terminal", label: "Terminal", window: "terminal", icon: <TerminalWindow weight="duotone" /> },
     ...(resumeUrl ? [{ key: "pdf", label: "Résumé", href: resumeUrl, icon: <FilePdf weight="duotone" /> }] : []),
   ];
-  const trash: DockTile = { key: "trash", label: "Trash", window: "trash", icon: <Trash weight="duotone" /> };
+  const trash: DockTile = { key: "trash", label: "Trash", window: "trash", icon: <TrashGlyph size="dock" /> };
 
   const render = (t: DockTile) => {
     const cls = `kos-dock-item kos-dock-item--${t.key}`;

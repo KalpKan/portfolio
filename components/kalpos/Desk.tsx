@@ -116,7 +116,14 @@ export default function Desk({
       case "music":
         return <MusicWindow nowPlaying={site.nowPlaying} />;
       case "terminal":
-        return <TerminalWindow lines={tiles.filter((t) => t.kind === "live").map((t) => ({ slug: t.slug, signal: signals[t.slug] ?? "none" }))} />;
+        return (
+          <TerminalWindow
+            tiles={tiles}
+            signals={signals}
+            onOpenCase={(slug) => openCase(slug)}
+            onClose={() => dispatch({ type: "close", id: "terminal" })}
+          />
+        );
       default: {
         const slug = id.slice(5);
         const tile = tiles.find((t) => t.slug === slug);
