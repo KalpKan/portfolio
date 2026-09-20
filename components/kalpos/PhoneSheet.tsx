@@ -44,6 +44,7 @@ export default function PhoneSheet({
   signals,
   site,
   onOpenCase,
+  onCloseCase,
   checkedAt,
   initialCase,
   caseBodies = {},
@@ -52,6 +53,7 @@ export default function PhoneSheet({
   signals: Record<string, Signal>;
   site: SiteConfig;
   onOpenCase: (slug: string) => void;
+  onCloseCase?: () => void;
   checkedAt: Date | null;
   initialCase?: string;
   caseBodies?: Record<string, React.ReactNode>;
@@ -59,11 +61,13 @@ export default function PhoneSheet({
   const [sheet, setSheet] = useState<SheetId>(initialCase ? `case:${initialCase}` : "projects");
   const [level, setLevel] = useState<Level>(initialCase ? "full" : "peek");
   const [dragY, setDragY] = useState<number | null>(null);
-  const [now, setNow] = useState<Date | null>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
+  const clockEl = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const tick = () => setNow(new Date());
+    const tick = () => {
+      if (clockEl.current) clockEl.current.textContent = formatLockTime(new Date());
+    };
     tick();
     const t = setInterval(tick, 15_000);
     return () => clearInterval(t);
@@ -87,12 +91,13 @@ export default function PhoneSheet({
   );
   const close = useCallback(() => {
     // The Projects sheet is the desk's main content on a phone: it peeks back rather than vanishing.
+    if (sheet.startsWith("case:")) onCloseCase?.();
     if (sheet === "projects") setLevel("peek");
     else {
       setSheet("projects");
       setLevel("peek");
     }
-  }, [sheet]);
+  }, [sheet, onCloseCase]);
 
   const drag = useDrag({
     onMove: (_dx, dy) => setDragY(dy),
@@ -190,8 +195,8 @@ export default function PhoneSheet({
               ↓
             </a>
           ) : null}
-          <span id={CLOCK_IDS.phone} className="kos-clock" suppressHydrationWarning>
-            {now ? formatLockTime(now) : " "}
+          <span ref={clockEl} id={CLOCK_IDS.phone} className="kos-clock" suppressHydrationWarning>
+            {"\u00a0"}
           </span>
         </span>
       </header>

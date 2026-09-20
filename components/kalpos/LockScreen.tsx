@@ -25,12 +25,20 @@ export default function LockScreen({
   pulsing?: boolean;
 }) {
   const [pw, setPw] = useState("");
-  const [now, setNow] = useState<Date | null>(null);
   const input = useRef<HTMLInputElement>(null);
+  const dateEl = useRef<HTMLSpanElement>(null);
+  const timeEl = useRef<HTMLTimeElement>(null);
   const inputId = useId();
 
+  // The clock is written straight into the DOM (never through React state):
+  // CLOCK_SCRIPT filled it before the first paint, and re-rendering the text
+  // node after hydration would make the browser's largest paint happen twice.
   useEffect(() => {
-    const tick = () => setNow(new Date());
+    const tick = () => {
+      const d = new Date();
+      if (dateEl.current) dateEl.current.textContent = formatLockDate(d);
+      if (timeEl.current) timeEl.current.textContent = formatLockTime(d);
+    };
     tick();
     const t = setInterval(tick, 15_000);
     return () => clearInterval(t);
@@ -51,11 +59,11 @@ export default function LockScreen({
       </div>
 
       <div className="kos-lock-clock">
-        <span id={CLOCK_IDS.lockDate} className="kos-lock-date" suppressHydrationWarning>
-          {now ? formatLockDate(now) : " "}
+        <span ref={dateEl} id={CLOCK_IDS.lockDate} className="kos-lock-date" suppressHydrationWarning>
+          {"\u00a0"}
         </span>
-        <time id={CLOCK_IDS.lockTime} className="kos-lock-time" suppressHydrationWarning>
-          {now ? formatLockTime(now) : " "}
+        <time ref={timeEl} id={CLOCK_IDS.lockTime} className="kos-lock-time" suppressHydrationWarning>
+          {"\u00a0"}
         </time>
         <InlineScript html={CLOCK_SCRIPT} />
       </div>

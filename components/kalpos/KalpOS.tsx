@@ -153,6 +153,9 @@ export default function KalpOS({
             site={site}
             checkedAt={checkedAt}
             onOpenCase={(slug) => onOpenWindow(`case:${slug}`)}
+            onCloseCase={() => {
+              if (location.pathname.startsWith("/projects/")) history.replaceState(null, "", "/");
+            }}
             initialCase={initialWindow?.startsWith("case:") ? initialWindow.slice(5) : undefined}
             caseBodies={caseBodies}
           />

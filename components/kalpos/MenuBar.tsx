@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { CLOCK_IDS, formatMenubarClock } from "@/lib/clock";
 
 const MENUS = ["File", "Edit", "View", "Go", "Window"];
@@ -14,14 +14,16 @@ const MENUS = ["File", "Edit", "View", "Go", "Window"];
  * (LockScreen renders that script; here the effect keeps it current).
  */
 export default function MenuBar({ resumeUrl, activeTitle }: { resumeUrl: string; activeTitle?: string }) {
-  const [now, setNow] = useState<Date | null>(null);
+  const clockEl = useRef<HTMLSpanElement>(null);
   useEffect(() => {
-    const tick = () => setNow(new Date());
+    const tick = () => {
+      const c = formatMenubarClock(new Date());
+      if (clockEl.current) clockEl.current.textContent = `${c.date}\u2002\u2002${c.time}`;
+    };
     tick();
     const t = setInterval(tick, 15_000);
     return () => clearInterval(t);
   }, []);
-  const clock = now ? formatMenubarClock(now) : null;
   return (
     <header className="kos-menubar" aria-label="Menu bar">
       <b>KalpOS</b>
@@ -39,8 +41,8 @@ export default function MenuBar({ resumeUrl, activeTitle }: { resumeUrl: string;
         ) : null}
         <span className="kos-wifi" aria-hidden><i /><i /><i /><i /></span>
         <span className="kos-battery" aria-hidden><span><i /></span><i /></span>
-        <span id={CLOCK_IDS.menubar} className="kos-clock" suppressHydrationWarning>
-          {clock ? `${clock.date}  ${clock.time}` : " "}
+        <span ref={clockEl} id={CLOCK_IDS.menubar} className="kos-clock" suppressHydrationWarning>
+          {"\u00a0"}
         </span>
       </span>
     </header>

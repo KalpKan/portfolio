@@ -90,14 +90,15 @@ export default function Window({
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  // The server cannot know the viewport, so the first render is a placeholder
-  // and the layout effect below places the window before the first paint.
-  const [pos, setPos] = useState({ x: 24, y: 86 });
-  const [placed, setPlaced] = useState(false);
+  // The server cannot know the viewport, so the first render places the
+  // window with CSS (clamp around the centre); the layout effect below reads
+  // the resulting rect into numbers so dragging can take over. No hidden
+  // frame: a deep-linked case study is visible from the first paint.
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   const [zoomed, setZoomed] = useState(false);
   const [anim, setAnim] = useState<"open" | "close" | "place" | null>(null);
   const [dragging, setDragging] = useState(false);
-  const base = useRef(pos);
+  const base = useRef({ x: 24, y: 86 });
   const raf = useRef(0);
   const leaving = useRef(false);
 
@@ -105,15 +106,8 @@ export default function Window({
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const vw = window.innerWidth;
-    const w = Math.min(width, vw - 24);
-    const step = (cascade % 6) * 28;
-    const x = Math.min(Math.max(24, Math.round((vw - w) / 2)) + step, Math.max(24, vw - w - 12));
-    // Move the element now so the FLIP measurement below sees the final rect.
-    el.style.left = `${x}px`;
-    el.style.top = `${86 + step}px`;
-    setPos({ x, y: 86 + step });
-    setPlaced(true);
+    const placedRect = el.getBoundingClientRect();
+    setPos({ x: Math.round(placedRect.left), y: Math.round(placedRect.top) });
     if (reducedMotion() || !origin || typeof el.getBoundingClientRect !== "function") {
       setAnim("place");
       return;
@@ -189,7 +183,7 @@ export default function Window({
 
   const drag = useDrag({
     onStart: () => {
-      base.current = pos;
+      base.current = pos ?? { x: ref.current?.offsetLeft ?? 24, y: ref.current?.offsetTop ?? 86 };
       cancelAnimationFrame(raf.current);
       onFocus();
     },
@@ -258,9 +252,18 @@ export default function Window({
   };
 
   const ctx: Ctx = { focused, close, minimize, zoom, drag };
+  const step = (cascade % 6) * 28;
   const style: React.CSSProperties = zoomed
     ? { left: 12, top: 44, width: "calc(100vw - 24px)", height: "calc(100vh - 140px)", zIndex: z }
-    : { left: pos.x, top: pos.y, width, height, zIndex: z, visibility: placed ? undefined : "hidden" };
+    : pos
+      ? { left: pos.x, top: pos.y, width, height, zIndex: z }
+      : {
+          left: `clamp(24px, calc(50% - ${width / 2}px + ${step}px), calc(100vw - ${width}px - 12px))`,
+          top: 86 + step,
+          width,
+          height,
+          zIndex: z,
+        };
 
   return (
     <WindowCtx.Provider value={ctx}>
