@@ -24,7 +24,7 @@
   height: 30px;
   filter: drop-shadow(0 1px 1px rgba(45, 43, 43, 0.2));
 }
-/* 2e: the rim lifts on hover (220 ms, the one spring). */
+/* 2e: the rim lifts on hover (220 ms, the one spring), and while another icon is held over it (data-lid="up", lib/swat.ts). */
 .kos-bin-lid {
   transform-origin: 8px 11px;
   transition: transform 220ms var(--kos-ease);
@@ -34,6 +34,118 @@
 .kos-dock-item:hover .kos-bin-lid,
 .kos-dock-item:focus-visible .kos-bin-lid {
   transform: translateY(-3px) rotate(-4deg);
+}
+.kos-icon[data-lid="up"] .kos-bin-lid,
+.kos-dock-item[data-lid="up"] .kos-bin-lid {
+  transform: translateY(-7px) rotate(-12deg);
+}
+
+/* ------------------------------------------------------ the trash swat */
+
+/* Held over the trash: the icon crumples (rotate ±6°, scale .85, the paper
+   filter from TrashSwat.tsx) over 240 ms. Off it, the same 240 ms back. */
+.kos-icon[data-state="crumple"] {
+  animation: kos-crumple 240ms var(--kos-ease) both;
+  filter: url(#kos-crumple);
+  transition: filter 240ms ease;
+}
+@keyframes kos-crumple {
+  0% { transform: rotate(0deg) scale(1); }
+  45% { transform: rotate(-6deg) scale(0.92); }
+  100% { transform: rotate(6deg) scale(0.85); }
+}
+/* Dropped in: the sink and the flight are Web Animations on the element
+   (Desk.tsx), so the CSS only keeps the element out of the way between them. */
+.kos-icon[data-state="sink"],
+.kos-icon[data-state="hidden"] {
+  opacity: 0;
+  pointer-events: none;
+}
+.kos-icon[data-state="sink"] {
+  filter: url(#kos-crumple);
+}
+.kos-icon[data-state="fly"] {
+  z-index: 30;
+  pointer-events: none;
+}
+/* Reduced motion: it simply reappears at home over 200 ms. */
+.kos-icon[data-state="return"] {
+  animation: kos-return 200ms ease both;
+}
+@keyframes kos-return {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* The hand rises out of a slot clipped at the basket's rim, pops (260 ms,
+   overshoot on the spring), flicks (the swat), then withdraws (200 ms). */
+.kos-hand-slot {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 31;
+}
+.kos-hand {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 48px;
+  height: 63px;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 2px 3px rgba(45, 43, 43, 0.25));
+}
+.kos-hand[data-hand="out"] {
+  animation:
+    kos-hand-out 260ms var(--kos-ease) both,
+    kos-hand-swat 180ms var(--kos-ease) 260ms both;
+}
+.kos-hand[data-hand="in"] {
+  animation: kos-hand-in 200ms var(--kos-ease) both;
+}
+@keyframes kos-hand-out {
+  from { transform: translateY(100%) rotate(0deg); }
+  70% { transform: translateY(-6%) rotate(-8deg); }
+  to { transform: translateY(0) rotate(-4deg); }
+}
+@keyframes kos-hand-swat {
+  from { transform: translateY(0) rotate(-4deg); }
+  40% { transform: translateY(-4%) rotate(-30deg); }
+  to { transform: translateY(0) rotate(12deg); }
+}
+@keyframes kos-hand-in {
+  from { transform: translateY(0) rotate(12deg); }
+  to { transform: translateY(100%) rotate(0deg); }
+}
+
+/* One line under the trash for 1.6 s: the dock's frost, 12 px. */
+.kos-toast {
+  position: absolute;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(248, 244, 244, 0.72);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 6px 18px rgba(45, 43, 43, 0.16);
+  font: 500 12px var(--font-system);
+  color: #201e1d;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 31;
+  animation: kos-toast 1600ms ease both;
+}
+@keyframes kos-toast {
+  0% { opacity: 0; transform: translate(-50%, 4px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.kos-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 .kos-dock-item--trash .kos-bin {
   font-size: 0;
@@ -187,6 +299,16 @@
 @media (prefers-reduced-motion: reduce) {
   .kos-bin-lid {
     transition: none;
+  }
+  .kos-icon[data-state="crumple"] {
+    animation: none;
+    filter: none;
+  }
+  .kos-hand[data-hand] {
+    animation: kos-return 200ms ease both;
+  }
+  .kos-toast {
+    animation: none;
   }
   .kos-shell-field:focus-within .kos-shell-caret {
     animation: none;

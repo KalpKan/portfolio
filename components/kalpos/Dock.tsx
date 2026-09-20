@@ -21,10 +21,13 @@ export default function Dock({
   windows,
   onOpen,
   resumeUrl,
+  trashLid = false,
 }: {
   windows: WindowsState;
   onOpen: (id: WindowId, origin?: Rect) => void;
   resumeUrl: string;
+  /** An icon is held over the dock's Trash: its lid lifts (lib/swat.ts). */
+  trashLid?: boolean;
 }) {
   const [bouncing, setBouncing] = useState<string | null>(null);
   const tiles: DockTile[] = [
@@ -57,6 +60,7 @@ export default function Dock({
         className={cls}
         aria-label={t.label}
         data-window={t.window}
+        data-lid={t.key === "trash" && trashLid ? "up" : undefined}
         data-bounce={bouncing === t.key ? "true" : undefined}
         onAnimationEnd={() => setBouncing((b) => (b === t.key ? null : b))}
         onClick={(e) => {

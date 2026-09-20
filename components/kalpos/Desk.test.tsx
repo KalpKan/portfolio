@@ -9,6 +9,7 @@ import { loadProjects } from "@/lib/projects";
 import { tilesFor } from "@/lib/tiles";
 import { initialSignals } from "@/lib/signal";
 import { EMPTY_WINDOWS } from "@/lib/windows";
+import { track } from "@/lib/track";
 
 beforeAll(() => {
   (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -221,6 +222,128 @@ describe("Desk icons move anywhere (2026-09-20)", () => {
     expect(icon(container, "Hobbies").style.left).toBe("170px");
     fire(document.body, "keydown", { key: "1", metaKey: true, altKey: true });
     expect(icon(container, "Hobbies").style.left).toBe("148px");
+    unmount();
+  });
+});
+
+describe("Drag an icon into the Trash: crumple, sink, the hand swats it back (2026-09-20)", () => {
+  beforeAll(installPointerCapture);
+  const icon = (c: Element, label: string) => [...c.querySelectorAll<HTMLButtonElement>("button.kos-icon")].find((b) => b.textContent?.includes(label))!;
+  const pointer = (type: string, x: number, y: number) => new MouseEvent(type, { bubbles: true, button: 0, clientX: x, clientY: y, ...({ pointerId: 1 } as object) });
+  const rect = (el: Element, r: { x: number; y: number; w: number; h: number }) => {
+    (el as HTMLElement).getBoundingClientRect = () => ({ left: r.x, top: r.y, width: r.w, height: r.h, right: r.x + r.w, bottom: r.y + r.h, x: r.x, y: r.y, toJSON() {} }) as DOMRect;
+  };
+  const setup = (over: Partial<React.ComponentProps<typeof Desk>> = {}) => {
+    localStorage.clear();
+    (track as ReturnType<typeof vi.fn>).mockClear();
+    const m = mount(over);
+    // jsdom has no layout: give the two trash rects their desk geometry
+    rect(icon(m.container, "Trash"), { x: 148, y: 284, w: 96, h: 89 });
+    rect(m.container.querySelector(".kos-dock-item--trash")!, { x: 700, y: 730, w: 54, h: 54 });
+    return m;
+  };
+  const dragTo = (el: Element, x: number, y: number) =>
+    act(() => {
+      el.dispatchEvent(pointer("pointerdown", 200, 100));
+      el.dispatchEvent(pointer("pointermove", x, y));
+    });
+  const release = (el: Element, x: number, y: number) => act(() => { el.dispatchEvent(pointer("pointerup", x, y)); });
+
+  it("holding Hobbies over the desk Trash lifts its lid and crumples the folder; moving off restores both", () => {
+    const { container, unmount } = setup();
+    const hob = icon(container, "Hobbies");
+    const bin = icon(container, "Trash");
+    dragTo(hob, 190, 320);
+    expect(hob.getAttribute("data-state")).toBe("crumple");
+    expect(bin.getAttribute("data-lid")).toBe("up");
+    expect(container.querySelector(".kos-dock-item--trash")?.getAttribute("data-lid")).toBeNull();
+    act(() => { hob.dispatchEvent(pointer("pointermove", 500, 320)); });
+    expect(hob.getAttribute("data-state")).toBeNull();
+    expect(bin.getAttribute("data-lid")).toBeNull();
+    release(hob, 500, 320);
+    // a normal drop: it moved
+    expect(JSON.parse(localStorage.getItem("kalpos:icons")!).hobbies).not.toEqual({ c: 5, r: 0 });
+    expect(track).not.toHaveBeenCalledWith("trash_swat", expect.anything());
+    unmount();
+  });
+
+  it("dropping it in: sinks, the hand pops out of the basket and swats it back to its old cell, toast for 1.6 s, trash_swat {icon}", () => {
+    vi.useFakeTimers();
+    const { container, unmount } = setup();
+    const hob = icon(container, "Hobbies");
+    dragTo(hob, 190, 320);
+    release(hob, 190, 320);
+    const desk = container.querySelector(".kos-desk")!;
+    expect(desk.getAttribute("data-swat")).toBe("dropped");
+    expect(hob.getAttribute("data-state")).toBe("sink");
+    expect(track).toHaveBeenCalledWith("trash_swat", { icon: "hobbies" });
+    // never moved: the cell is still the old one, nothing persisted
+    expect(hob.style.left).toBe("148px");
+    expect(localStorage.getItem("kalpos:icons")).toBeNull();
+    act(() => { vi.advanceTimersByTime(200); });
+    expect(desk.getAttribute("data-swat")).toBe("swatted");
+    const hand = container.querySelector(".kos-hand")!;
+    expect(hand).not.toBeNull();
+    expect(hand.getAttribute("data-hand")).toBe("out");
+    expect(hand.querySelector("svg")).not.toBeNull(); // a drawn hand, not an emoji
+    expect(hand.textContent).not.toMatch(/[\u{1F44B}\u{270B}\u{1F590}]/u);
+    expect(container.querySelector(".kos-toast")?.textContent).toBe("Nice try — everything on this desk shipped.");
+    act(() => { vi.advanceTimersByTime(260); });
+    expect(hob.getAttribute("data-state")).toBe("fly");
+    act(() => { vi.advanceTimersByTime(520); });
+    expect(desk.getAttribute("data-swat")).toBe("home");
+    expect(hand.getAttribute("data-hand")).toBe("in");
+    expect(hob.getAttribute("data-state")).toBeNull();
+    act(() => { vi.advanceTimersByTime(200); });
+    expect(desk.getAttribute("data-swat")).toBeNull();
+    expect(container.querySelector(".kos-hand")).toBeNull();
+    expect(icon(container, "Trash").getAttribute("data-lid")).toBeNull();
+    expect(container.querySelector(".kos-toast")).not.toBeNull();
+    act(() => { vi.advanceTimersByTime(1600); });
+    expect(container.querySelector(".kos-toast")).toBeNull();
+    vi.useRealTimers();
+    unmount();
+  });
+
+  it("the dock's Trash tile is a target too; the Trash itself cannot be thrown away", () => {
+    vi.useFakeTimers();
+    const { container, unmount } = setup();
+    const about = icon(container, "About me");
+    dragTo(about, 720, 750);
+    expect(container.querySelector(".kos-dock-item--trash")?.getAttribute("data-lid")).toBe("up");
+    release(about, 720, 750);
+    expect(container.querySelector(".kos-desk")?.getAttribute("data-swat")).toBe("dropped");
+    // React flushes a phase's dispatch at the end of each act, so the clock steps through the beats
+    for (let i = 0; i < 20; i++) act(() => { vi.advanceTimersByTime(100); });
+    expect(container.querySelector(".kos-desk")?.getAttribute("data-swat")).toBeNull();
+    const trash = icon(container, "Trash");
+    dragTo(trash, 720, 750);
+    release(trash, 720, 750);
+    expect(container.querySelector(".kos-desk")?.getAttribute("data-swat")).toBeNull();
+    expect(track).toHaveBeenCalledTimes(1);
+    vi.useRealTimers();
+    unmount();
+  });
+
+  it("reduced motion: the icon just comes back with a fade, the hand still appears briefly", () => {
+    vi.useFakeTimers();
+    const mm = window.matchMedia;
+    window.matchMedia = ((q: string) => ({ matches: q.includes("reduced-motion"), addEventListener() {}, removeEventListener() {} })) as unknown as typeof window.matchMedia;
+    const { container, unmount } = setup();
+    const hob = icon(container, "Hobbies");
+    dragTo(hob, 190, 320);
+    release(hob, 190, 320);
+    act(() => { vi.advanceTimersByTime(0); });
+    expect(container.querySelector(".kos-desk")?.getAttribute("data-swat")).toBe("swatted");
+    expect(container.querySelector(".kos-hand")).not.toBeNull();
+    expect(hob.getAttribute("data-state")).toBe("return");
+    act(() => { vi.advanceTimersByTime(460); });
+    expect(container.querySelector(".kos-desk")?.getAttribute("data-swat")).toBe("home");
+    act(() => { vi.advanceTimersByTime(200); });
+    expect(container.querySelector(".kos-hand")).toBeNull();
+    expect(hob.style.left).toBe("148px");
+    window.matchMedia = mm;
+    vi.useRealTimers();
     unmount();
   });
 });

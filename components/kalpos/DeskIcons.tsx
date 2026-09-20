@@ -171,6 +171,8 @@ export function DeskIcon({
   onDragEnd,
   onArrow,
   state,
+  iconId,
+  lid = false,
 }: {
   label: string;
   onOpen: (origin?: Rect) => void;
@@ -187,8 +189,12 @@ export function DeskIcon({
   /** The pointer let go (before onDrop) or the drag was cancelled. */
   onDragEnd?: () => void;
   onArrow?: (dir: Dir) => void;
-  /** Extra data-state on the button (the Trash's crumple / swat beats). */
+  /** Extra data-state on the button (the Trash swat's crumple / sink / fly / return beats). */
   state?: string;
+  /** data-icon, so the desk can find the element for the swat's flight. */
+  iconId?: string;
+  /** The Trash: its lid lifts while another icon is held over it. */
+  lid?: boolean;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
   const [delta, setDelta] = useState<{ x: number; y: number } | null>(null);
@@ -241,6 +247,8 @@ export function DeskIcon({
       data-dragging={delta ? "true" : undefined}
       data-dip={dip ? "true" : undefined}
       data-state={state}
+      data-icon={iconId}
+      data-lid={lid ? "up" : undefined}
       onClick={open}
       onKeyDown={onKeyDown}
       {...(draggable && pos ? drag : {})}
