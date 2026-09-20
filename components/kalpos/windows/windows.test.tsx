@@ -76,11 +76,11 @@ describe("the small windows", () => {
     unmount();
   });
 
-  it("Music shows the track or 'Nothing playing'", () => {
-    const a = render(<MusicWindow nowPlaying={{ title: "", artist: "" }} />);
+  it("Music shows the songs or 'Nothing playing' (the app itself is MusicWindow.test.tsx)", () => {
+    const a = render(<MusicWindow playlist={[]} />);
     expect(a.container.textContent).toContain("Nothing playing right now");
     a.unmount();
-    const b = render(<MusicWindow nowPlaying={{ title: "Bloom", artist: "Radiohead" }} />);
+    const b = render(<MusicWindow playlist={[{ title: "Bloom", artist: "Radiohead" }]} />);
     expect(b.container.textContent).toContain("Bloom");
     expect(b.container.textContent).toContain("Radiohead");
     b.unmount();
