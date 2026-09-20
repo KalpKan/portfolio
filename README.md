@@ -15,12 +15,13 @@ iOS work gets a case-study page here.
 |---|---|
 | `projects.json` | The registry. Every card on the site comes from this file. |
 | `lib/projects.ts` | Reads and validates `projects.json` (it refuses to build if an entry is malformed). |
-| `app/page.tsx`, `components/` | The home page: hero, the site map and project list, footer. |
+| `app/page.tsx`, `components/kalpos/` | The home page is **KalpOS**: a lock screen (type anything, Enter) over a desk with folders, widgets, a dock and draggable windows. `KalpOS.tsx` is the root; `Desk.tsx`, `Window.tsx`, `windows/ProjectsWindow.tsx` and `PhoneSheet.tsx` (below 768 px) are the parts; `app/kalpos.css` holds every value copied from the design mock (`docs/design/`). `DESIGN.md` describes the system. |
+| `lib/tiles.ts`, `lib/signal.ts`, `lib/windows.ts`, `lib/visitor.ts`, `lib/clock.ts` | Pure logic under the desk: registry → tiles and filter counts, health check → tile mark, the window manager, the returning-visitor flag (localStorage skips the lock), the two clocks. All tested. |
 | `app/api/health/route.ts` | `GET /api/health` returns `{ ok: true, service: "hub", time }`. Uptime monitors ping this. |
 | `app/api/status/[slug]/route.ts` | Checks one project's own health URL (3 s timeout, `lib/health.ts`) so the page can show a live mark. |
-| `app/opengraph-image.tsx` | The picture shown when the link is shared (iMessage, LinkedIn, Slack): the array plus the name, generated from `projects.json` at build time. |
-| `lib/site.ts` | Your name, the site URL and the contact links (email / GitHub / LinkedIn). Empty contact values show nothing. |
-| `app/projects/[slug]/page.tsx` | The case-study page for a showcase project (`/projects/unpark` and so on). Shows the full page as soon as its content file has no `draft: true` (the registry status only changes the meta line and whether the home-page row links to it); a short placeholder page while the content is a draft. See "How to add a case study". |
+| `app/opengraph-image.tsx` | The picture shown when the link is shared (iMessage, LinkedIn, Slack): a small KalpOS desk with the name and the registry counts, generated from `projects.json` at build time. |
+| `lib/site.ts` | Your name, the note on the desk, the one-line identity, the résumé link, the "now playing" track, a photo path and the contact links (email / GitHub / LinkedIn). Every empty value hides its element: no Résumé pill, no Now-playing widget, no contact rows until you fill them in. |
+| `app/projects/[slug]/page.tsx` | The deep link to a case study (`/projects/unpark` and so on): it opens the desk with that case study already in a window, rendered on the server so shared links and crawlers see the content. Shows the full case study as soon as its content file has no `draft: true` (the registry status only changes the meta line and whether the Projects window opens it as a case study); a short placeholder while the content is a draft. See "How to add a case study". |
 | `content/projects/<slug>.ts` | The words and pictures of one case study (see "How to add a case study"). `content/case-study.ts` is the shape every file follows. |
 | `components/showcase/` | The case-study template: hero, problem, how-it-works diagram, photos, app screens, video, tech, status. |
 | `public/images/projects/<slug>/` | Case-study images, WebP only, 300 KB or less each (a test enforces it). Videos are never put here. |
@@ -91,21 +92,24 @@ it fails, is in `skills/portfolio-ops/runbooks.md` under "Deploy the hub to Verc
 1. Open `projects.json`.
 2. Copy an existing entry and change the fields:
    - `slug`: short, lowercase, hyphens only. Used in the URL for case-study pages.
-   - `name`, `tagline`: what shows on the card.
+   - `name`, `tagline`: what shows on the tile (the tagline is its tooltip and is searchable).
    - `type`: `"app"` (it is deployed somewhere and has a `url`) or `"showcase"`
-     (hardware or iOS work; it gets a page on this site instead). A showcase
-     entry must **not** have `url` or `healthUrl` at all; the checks reject it.
+     (hardware or iOS work; it gets a case study inside a window instead). A
+     showcase entry must **not** have `url` or `healthUrl` at all; the checks
+     reject it.
    - `status`: `"live"`, `"demo"`, `"coming"`, or `"archived"`. For a showcase,
-     `"coming"` means its case-study page is not written yet (the row says
-     "case study soon" and links to the repo); `"live"` means the page exists.
+     `"coming"` means its case study is not written yet (a dashed "Coming"
+     tile); `"live"` means the tile opens the case study in a window.
    - `url`: the deployed address. Required unless the status is `"coming"`.
      It must open for anyone, without logging in, before you set the status to
      `"live"`; a row that is `"coming"` links to the repo, not to the `url`.
    - `repo`: the GitHub link, or `null` if the code is not on GitHub.
-   - `healthUrl`: the app's `/api/health` address, or `null`. When set, the row
-     shows a live mark only while that address answers with `{"ok": true}`,
-     and UptimeRobot can monitor it.
-   - `tags`: a few words about the stack.
+   - `healthUrl`: the app's `/api/health` address, or `null`. When set, the
+     tile turns cyan and draws its trace only while that address answers with
+     `{"ok": true}`, and UptimeRobot can monitor it.
+   - `tags`: a few words about the stack. A hardware word (`Hardware`, `KiCad`,
+     `PCB`, `Raspberry Pi`, `Robotics`, `ESP8266`, `MPU6050`, `LTspice`,
+     `Arduino`) puts the tile under the "Hardware" filter.
    - `hero`: leave `null` for now.
 3. Run `npm test`. If the entry is malformed it tells you which field.
 4. Commit and push. Vercel redeploys on its own.
@@ -122,10 +126,10 @@ other.
 
 1. **Registry.** In `projects.json` add (or find) the entry with
    `"type": "showcase"`. Leave `"status": "coming"` until the page is written;
-   the row then links to the repo and says "case study soon". The status only
-   controls the home-page row and the wording of the page's meta line; what
-   stops an unfinished page from being published is `draft: true` in the
-   content file (step 2), not the status.
+   the tile is then dashed and says "Coming". The status only controls the
+   tile and the wording of the case study's meta line; what stops an
+   unfinished page from being published is `draft: true` in the content file
+   (step 2), not the status.
 2. **Content.** Copy `content/projects/unpark.ts` to
    `content/projects/<slug>.ts` (the file name must equal the `slug`), put
    `draft: true` in it while you are writing (a draft renders only the short

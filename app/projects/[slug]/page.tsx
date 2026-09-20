@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import KalpOS from "@/components/kalpos/KalpOS";
+import { CasePlaceholder } from "@/components/kalpos/windows/CaseStudyBody";
 import CaseStudy from "@/components/showcase/CaseStudy";
 import { getCaseStudy } from "@/content/projects";
 import { isPlaceholder } from "@/content/case-study";
 import { loadProjects } from "@/lib/projects";
 
-// /projects/<slug>: the case-study page for a showcase entry. A showcase whose
-// content file is a draft (or has no content file) renders the short
-// placeholder, so nothing unfinished is ever published. A showcase whose
-// registry status is still "coming" but whose content is not a draft is
-// published as "under construction" (DIY EEG, 2026-09-18); the hub row only
-// links here once the status is "live" (lib/projects.ts rowFor()).
+// /projects/<slug>: the deep link to a case study. It opens the desk with that
+// window already open (no lock screen), with the case-study body rendered on
+// the server so shared links, crawlers and OG cards keep working.
+//
+// Publishing rule (unchanged since T4.1): a showcase whose content file is a
+// draft (or missing) renders the short placeholder, so nothing unfinished is
+// ever published. A showcase whose registry status is still "coming" but
+// whose content is not a draft is published as "under construction" (DIY EEG,
+// 2026-09-18); the desk tile only opens it as a case study once the status is
+// "live" (lib/tiles.ts), but the deep link always works.
 
 export function generateStaticParams() {
   return loadProjects().map((p) => ({ slug: p.slug }));
@@ -59,38 +64,13 @@ export default async function ProjectPage({
   const found = publishable(slug);
   if (!found) notFound();
   const { p, study, underConstruction } = found;
+  const projects = loadProjects();
 
-  if (study) return <CaseStudy study={study} underConstruction={underConstruction} />;
-
-  return (
-    <main className="mx-auto w-full max-w-[72rem] flex-1 px-4 pb-16 pt-10 md:px-8 md:pt-16">
-      <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-3">
-        <Link href="/" className="hover:text-ink hover:underline">
-          &larr; back to the array
-        </Link>
-      </p>
-      <h1 className="display mt-6 text-[2.25rem] leading-[0.98] md:text-[3.5rem]">
-        {p.name}
-      </h1>
-      <p className="mt-4 max-w-[52ch] text-[1.05rem] leading-snug text-ink-2">
-        {p.tagline}
-      </p>
-      <p className="mt-8 max-w-[52ch] border-t border-rule pt-6 text-[0.95rem] leading-relaxed text-ink-2">
-        Case study coming soon. Photos, screenshots and a walkthrough of how it
-        works will live here.
-      </p>
-      {p.repo && (
-        <p className="mt-4 font-mono text-[12px]">
-          <a
-            href={p.repo}
-            target="_blank"
-            rel="noreferrer"
-            className="hover:underline"
-          >
-            source repository &rarr;
-          </a>
-        </p>
-      )}
-    </main>
+  const body = study ? (
+    <CaseStudy study={study} underConstruction={underConstruction} />
+  ) : (
+    <CasePlaceholder name={p.name} tagline={p.tagline} repo={p.repo} />
   );
+
+  return <KalpOS projects={projects} skipLock initialWindow={`case:${slug}`} initialBody={body} />;
 }

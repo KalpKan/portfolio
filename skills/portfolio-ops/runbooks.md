@@ -101,20 +101,18 @@ Use this whenever a new app or showcase should appear on the hub. This is delibe
    ```bash
    git add projects.json && git commit -m "feat(registry): add <slug>" && git push
    ```
-5. Verify: open https://kalpkan.com, confirm the new row appears and, for an `app` with a `healthUrl`, its pad fills within a few seconds (`curl -s https://kalpkan.com/api/status/<slug>` prints `"ok":true`). The share card regenerates on the same deploy (`curl -sI https://kalpkan.com/opengraph-image | head -1` → `HTTP/2 200`). Then add an UptimeRobot monitor on the same `healthUrl` (runbook "Add an UptimeRobot monitor"): every live app gets a liveness monitor, and a database-backed app's monitor must hit the DB-touching route so it doubles as the keep-alive.
+5. Verify: open https://kalpkan.com, unlock (type anything, Enter), open the Projects folder and confirm the new tile appears; for an `app` with a `healthUrl` the tile turns cyan and draws its trace within a few seconds (`curl -s https://kalpkan.com/api/status/<slug>` prints `"ok":true`). The share card regenerates on the same deploy (`curl -sI https://kalpkan.com/opengraph-image | head -1` → `HTTP/2 200`). Then add an UptimeRobot monitor on the same `healthUrl` (runbook "Add an UptimeRobot monitor"): every live app gets a liveness monitor, and a database-backed app's monitor must hit the DB-touching route so it doubles as the keep-alive.
 6. Add the new host to the system map table in `SKILL.md` and, if it has env vars, their names to `settings-map.md`.
 
-**How a row renders (`kind`, derived in `lib/projects.ts` `rowFor()`, one source of truth since the 2026-09-18 polish batch):**
+**How a project renders on the desk (since T6 KalpOS, 2026-09-20; `lib/tiles.ts` `tileFor()` on top of `lib/projects.ts` `projectKind()`):**
 
-| `kind` | When | Mark | Status word | Verb / where the row links |
+| Tile `kind` | When | Tile (Projects window, card 2d) | Status word | Click |
 |---|---|---|---|---|
-| `live` | `type: app`, `status: live` or `demo` | measured: filled + trace when the health check returns `ok: true`, hollow when it fails, flat quiet when there is no `healthUrl` | `live` / `demo` (+ `health-checked` / `health check failed` / `checking`) | `open` → `url` (new tab) |
-| `archived` | `type: app`, `status: archived` | struck square | `archived` | `open` → `url` |
-| `coming` | `type: app`, `status: coming` (any `url` is ignored) | dashed hollow | `coming` | `repo` → `repo`; no link at all when `repo` is `null` |
-| `showcase-soon` | `type: showcase`, `status: coming` | square with triangle | `case study soon` | `repo` → `repo` |
-| `showcase` | `type: showcase`, `status: live`/`demo`/`archived` | square with triangle | `case study` | `read` → `/projects/<slug>` on the hub (`next/link`) |
+| `live` | `type: app`, `status: live`, `demo` or `archived` | measured: cyan `#0088b0` with the spike trace drawn once when the browser's `/api/status/<slug>` check returns `ok: true`; grey with ○ while checking; grey with — when the check failed; grey "Live" when there is no `healthUrl` | `Live signal` / `Checking…` / `No signal` / `Live` / `Archived` | opens `url` in a new tab (`project_card_clicked`) |
+| `case` | `type: showcase`, `status: live`/`demo`/`archived` | grey with ▲ | `Case study` | opens the case study **inside a window** (`window_opened {slug: "case:<slug>"}`) and swaps the URL to `/projects/<slug>` |
+| `coming` | `type: app` with `status: coming`, or `type: showcase` with `status: coming` | dashed `1.5px #bab6b6` outline, name at `.6` | `Coming` | the repo in a new tab when there is one; otherwise inert |
 
-The count line above the array ("N live · N coming · N case studies", plus "N archived" when any) is computed from these kinds, so it always sums to the number of entries.
+The sidebar filters count from these tiles: **All** = every entry, **Live signal** = `kind: live`, **Hardware** = any tag in `lib/tiles.ts` `HARDWARE_TAGS` (`hardware`, `kicad`, `pcb`, `raspberry pi`, `robotics`, `esp8266`, `mpu6050`, `ltspice`, `arduino`, case-insensitive), **Case studies** = every `type: showcase` entry (written or not), **Coming** = `kind: coming`. The header "N items, M live" and the phone line "N projects, M with a live signal right now" (M measured) come from the same functions, so they always sum to the registry. The Projects folder badge is the entry count. On a phone (≤ 768 px) the same tiles are rows in the bottom sheet.
 
 **Schema details as shipped in T0.1 (`lib/projects.ts`):**
 - `slug` must be lowercase kebab-case and unique; the loader throws on duplicates, so `npm test` and `npm run build` both fail loudly on a bad entry.

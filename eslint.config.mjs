@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Evidence copies of other repos' tests and scripts, kept for the reports; not hub source.
+    "docs/**",
   ]),
 ]);
 
