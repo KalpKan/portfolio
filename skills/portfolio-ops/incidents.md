@@ -2551,4 +2551,10 @@ _Entries begin below, oldest first._
 - **Fix:** `e7dc960` (`**/node_modules/**`, `**/.next/**`, `.worktrees/**` in vitest) and `99f8b70` (`.worktrees/**` in eslint)
 - **Prevention:** the verification row for the test suite states the expected file count (24) so a jump is noticed; `git worktree` checkouts belong under `.worktrees/` (already ignored by git)
 - **Reported by:** T6 fix agent
+## 2026-09-20 16:13 UTC: hub production build Canceled after the T6.1 merge (docs-only tip commit)
+
+- **Symptom:** `git push origin kalpos-extras:main` (fast-forward `8f02749..7722b01`, six commits with code) produced production deployment `portfolio-dxl76nj88` with status **Canceled**; kalpkan.com kept serving the old build.
+- **Cause:** the hub's `vercel.json` `ignoreCommand` diffs `HEAD^ HEAD` only, and the tip commit of the push (`7722b01`, "status: correct the T6.1 test counts") touched STATUS.md alone, so the step said "nothing to build" even though the push as a whole changed code.
+- **Fix:** `npx vercel@latest --prod --scope kks-projects-2edcb11a --yes` from the worktree → `portfolio-g9349f8p8` (`dpl_7tQSyHRt53U61W4EEuw5ZxNDUJFQ`) Ready at 16:15 UTC; verified by `curl` (`kos-bin--desk` in the HTML) and in Chrome. Budget was 59/100 for the day, so the extra record was harmless.
+- **Prevention:** when merging a branch whose last commit is docs-only, either put the docs commit first and a code commit last, or go straight to the forced `--prod` (runbook "Hub: ignored build step"). The Canceled record still counts toward the 100/day cap.
 

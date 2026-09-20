@@ -1,4 +1,6 @@
 import { describe, it, expect, beforeAll } from "vitest";
+import { act } from "react";
+import { fixtureVfs } from "@/lib/vfs.fixture";
 import { render } from "@/test/render";
 import AboutWindow from "./AboutWindow";
 import ContactWindow from "./ContactWindow";
@@ -84,21 +86,13 @@ describe("the small windows", () => {
     b.unmount();
   });
 
-  it("Terminal prints one GET line per health check with its answer", () => {
+  it("Terminal is its own component (TerminalWindow.test.tsx); it mounts with a labelled input and a log", async () => {
     const { container, unmount } = render(
-      <TerminalWindow
-        lines={[
-          { slug: "promptflip", signal: "ok" },
-          { slug: "plato", signal: "down" },
-          { slug: "emotes", signal: "checking" },
-        ]}
-      />,
+      <TerminalWindow tiles={[]} signals={{}} onOpenCase={() => {}} onClose={() => {}} loadRoot={async () => fixtureVfs()} />,
     );
-    const text = container.textContent!;
-    expect(text).toContain("GET /api/status/promptflip");
-    expect(text).toContain("ok");
-    expect(text).toContain("no signal");
-    expect(text).toContain("…");
+    await act(async () => {});
+    expect(container.querySelector('input[aria-label="Terminal command"]')).not.toBeNull();
+    expect(container.querySelector('[role="log"]')!.textContent).toContain("Welcome to KalpOS");
     unmount();
   });
 });

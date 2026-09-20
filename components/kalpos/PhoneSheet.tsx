@@ -14,18 +14,20 @@ import CaseStudyWindow from "./windows/CaseStudyWindow";
 import ContactWindow from "./windows/ContactWindow";
 import HobbiesWindow from "./windows/HobbiesWindow";
 import MusicWindow from "./windows/MusicWindow";
+import TerminalWindow from "./windows/TerminalWindow";
 import TrashWindow from "./windows/TrashWindow";
 
 /*
  * Card 1e restyled with the turn-2 chrome: the desk folds to one sheet on a
  * phone (≤ 768 px). Compact frosted top bar (■ KalpOS · résumé ↓ · time),
- * name + one line, the 2×3 folder grid with the tinted 2c icons, the yellow
+ * name + one line, the 3-column folder grid with the tinted 2c icons (plus a
+ * Terminal tile, since the phone has no dock), the yellow
  * note, and the Projects bottom sheet (drag handle, "Projects · 12 items ·
  * 7 live", close) listing one row per tile. Other folders open as
  * full-height sheets, never floating windows.
  */
 
-type SheetId = "projects" | "hobbies" | "about" | "contact" | "music" | "trash" | `case:${string}`;
+type SheetId = "projects" | "hobbies" | "about" | "contact" | "music" | "trash" | "terminal" | `case:${string}`;
 type Level = "peek" | "full" | "closed";
 
 const PEEK_PX = 230;
@@ -37,6 +39,7 @@ const TITLES: Record<string, string> = {
   contact: "Contact",
   music: "Now playing",
   trash: "Trash",
+  terminal: "Terminal",
 };
 
 export default function PhoneSheet({
@@ -175,6 +178,8 @@ export default function PhoneSheet({
         return <MusicWindow nowPlaying={site.nowPlaying} />;
       case "trash":
         return <TrashWindow />;
+      case "terminal":
+        return <TerminalWindow tiles={tiles} signals={signals} onOpenCase={(slug) => openSheet(`case:${slug}`)} onClose={close} />;
       default: {
         const tile = tiles.find((t) => t.slug === sheet.slice(5));
         return tile ? <CaseStudyWindow tile={tile} body={caseBodies[tile.slug]} /> : null;
@@ -213,6 +218,7 @@ export default function PhoneSheet({
           {site.nowPlaying?.title ? (
             <li><DeskIcon label="Music" draggable={false} onOpen={() => openSheet("music")}><AppGlyph kind="music" /></DeskIcon></li>
           ) : null}
+          <li><DeskIcon label="Terminal" draggable={false} onOpen={() => openSheet("terminal")}><AppGlyph kind="terminal" /></DeskIcon></li>
           <li><DeskIcon label="Trash" quiet draggable={false} onOpen={() => openSheet("trash")}><TrashGlyph /></DeskIcon></li>
         </ul>
         <div className="kos-phone-note">{site.note}</div>
