@@ -14,7 +14,7 @@
         "Supabase",
         "Realtime"
       ],
-      "hero": null
+      "hero": "/images/projects/promptflip/hero.webp"
     },
     {
       "slug": "basketball",
@@ -30,7 +30,7 @@
         "Supabase",
         "Turborepo"
       ],
-      "hero": null
+      "hero": "/images/projects/basketball/hero.webp"
     },
     {
       "slug": "plato",
@@ -46,7 +46,7 @@
         "Python",
         "Neon Postgres"
       ],
-      "hero": null
+      "hero": "/images/projects/plato/hero.webp"
     },
     {
       "slug": "plantit",
@@ -63,7 +63,7 @@
         "ESP8266",
         "Computer vision"
       ],
-      "hero": null,
+      "hero": "/images/projects/plantit/hero.webp",
       "url": "https://plantit.kalpkan.com"
     },
     {
@@ -113,7 +113,7 @@
         "TypeScript",
         "Microscopy"
       ],
-      "hero": null
+      "hero": "/images/projects/microtubules/hero.webp"
     },
     {
       "slug": "unpark",

@@ -30,8 +30,9 @@ iOS work gets a case-study page here.
 | `app/projects/[slug]/page.tsx` | The deep link to a case study (`/projects/unpark` and so on): it opens the desk with that case study already in a window, rendered on the server so shared links and crawlers see the content. Shows the full case study as soon as its content file has no `draft: true` (the registry status only changes the meta line and whether the Projects window opens it as a case study); a short placeholder while the content is a draft. See "How to add a case study". |
 | `content/projects/<slug>.ts` | The words and pictures of one case study (see "How to add a case study"). `content/case-study.ts` is the shape every file follows. |
 | `components/showcase/` | The case-study template: hero, problem, how-it-works diagram, photos, app screens, video, tech, status. |
-| `public/images/projects/<slug>/` | Case-study images, WebP only, 300 KB or less each (a test enforces it). Videos are never put here. |
+| `public/images/projects/<slug>/` | Case-study images and each live app's `hero.webp` (the Quick Look screenshot), WebP only, 300 KB or less each (a test enforces it). Videos are never put here. |
 | `scripts/media-to-webp.mjs`, `scripts/video-poster.py` | Turn a photo (or one frame of a video) into a WebP that fits the rule above. |
+| `components/kalpos/windows/QuickLook.tsx`, `scripts/app-screenshots.mjs` | **Quick Look** in the Projects window: press Space on a tile (or click its ⓘ) for a frosted panel with a real screenshot of the app in use, its tagline, tags and an Open / Read button. The script takes those screenshots from the live apps (see "How to refresh the app screenshots"). |
 | `docs/` | Hosting plan and phase plans. |
 | `skills/portfolio-ops/` | The living ops skill: runbooks, settings map, incidents, verification commands. |
 | `.github/workflows/ci.yml` | On every push: install, lint, test, build. |
@@ -116,7 +117,9 @@ it fails, is in `skills/portfolio-ops/runbooks.md` under "Deploy the hub to Verc
    - `tags`: a few words about the stack. A hardware word (`Hardware`, `KiCad`,
      `PCB`, `Raspberry Pi`, `Robotics`, `ESP8266`, `MPU6050`, `LTspice`,
      `Arduino`) puts the tile under the "Hardware" filter.
-   - `hero`: leave `null` for now.
+   - `hero`: `"/images/projects/<slug>/hero.webp"` once the app has a
+     screenshot (see "How to refresh the app screenshots"), otherwise `null`;
+     Quick Look then shows the tile's own art instead of a picture.
 3. Run `npm test`. If the entry is malformed it tells you which field.
 4. Commit and push. Vercel redeploys on its own.
 
@@ -184,3 +187,31 @@ other.
      linked.
    So removing `draft: true` publishes the page even before the status flips;
    keep the draft flag on until the words are ready to be read.
+
+## How to refresh the app screenshots
+
+Quick Look (Space on a tile in the Projects window) shows one real screenshot
+of each live app in use: `public/images/projects/<slug>/hero.webp`, pointed to
+by the `hero` field in `projects.json`. The originals are under
+`docs/images/apps/<slug>/`. Redo them whenever an app's look changes:
+
+```bash
+cd ~/projects/portfolio
+# the flip stage needs promptflip's own preview page, so start its dev server first (optional):
+(cd ~/projects/promptflip && npm run dev) &
+node scripts/app-screenshots.mjs            # all five apps; or: node scripts/app-screenshots.mjs plato hoops
+node scripts/app-screenshots.mjs --hero     # only rebuild the webp files from the originals
+npm test && git add docs/images/apps public/images/projects && git commit -m "app screenshots refreshed"
+```
+
+The script drives a headless Chrome at 1440×900 (2×) through each app's real
+flow: it uploads a course outline to Plato and waits for the review page,
+opens the Shot Map on hoops, runs the "Untreated" sample cell on
+microtubules, and takes PromptFlip's lobby plus its flip stage. Nobody is
+signed in: Plant It is captured at its login screen on purpose, and the flip
+stage comes from promptflip's dev-only preview page (the real one needs two
+signed-in players). It borrows Playwright from `~/projects/promptflip`
+(`PLAYWRIGHT_ROOT` to point elsewhere) and reads a corpus PDF from
+`~/projects/plato-corpus/pdfs` (`PLATO_PDF` to use another). The hero for a
+slug is the frame named in `HERO_FRAME` at the top of the script; change that
+line to pick a different moment.
