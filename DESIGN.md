@@ -1,248 +1,235 @@
 ---
-name: Kalp Kansara — projects
-description: A microelectrode-array channel map of shipped projects; live is a measured signal, not a claim.
+name: KalpOS
+description: A desk, not a page. A black lock screen unlocks into frosted chrome, tinted folders and rounded windows; every number is copied from Kalp's Claude Design mock and "live" is still a measured signal.
 colors:
-  sheet: "#f1f3f6"
-  sheet-raised: "#ffffff"
-  ink: "#15171d"
-  ink-2: "#4d5261"
-  ink-3: "#62677a"
-  rule: "#c3c7cf"
-  rule-soft: "#d9dde4"
-  pad: "#e1e4ea"
-  signal: "#1d3fd6"
-  signal-ink: "#ffffff"
-  signal-soft: "#d9defb"
-  quiet: "#8b909c"
-  sheet-dark: "#0e1014"
-  sheet-raised-dark: "#14171d"
-  ink-dark: "#e9eae4"
-  ink-2-dark: "#aab0bd"
-  ink-3-dark: "#7c8291"
-  rule-dark: "#2c303a"
-  rule-soft-dark: "#1f232b"
-  pad-dark: "#1b1f27"
-  signal-dark: "#7e97ff"
-  signal-ink-dark: "#0b1030"
-  signal-soft-dark: "#1f2a5a"
-  quiet-dark: "#5d626e"
+  paper: "#f3f2f2"
+  paper-raised: "#f8f4f4"
+  ink: "#201e1d"
+  ink-2: "#605d5d"
+  ink-3: "#8a8686"
+  rule: "#d7d3d3"
+  rule-soft: "#e4e1e1"
+  pad: "#eae7e7"
+  cyan: "#0088b0"
+  teal: "#006786"
+  magenta: "#d6006c"
+  note: "#f6e7ae"
+  black: "#000000"
+  frost: "rgba(248,244,244,0.72)"
+  frost-dock: "rgba(248,244,244,0.62)"
+  frost-sidebar: "rgba(234,233,233,0.7)"
+  frost-edge: "rgba(255,255,255,0.65)"
+  light-close: "#ff5f57"
+  light-min: "#febc2e"
+  light-zoom: "#28c840"
+  light-off: "#d7d3d3"
 typography:
-  display:
-    fontFamily: "Bricolage Grotesque, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "2.75rem / 4.5rem (md)"
+  chrome:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "13px"
     fontWeight: 400
-    lineHeight: 0.95
-    letterSpacing: "-0.03em"
-    fontVariation: "'opsz' 96, 'wdth' 92"
-  headline:
-    fontFamily: "Bricolage Grotesque, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.25rem / 1.5rem (md)"
+    lineHeight: 1.2
+  brand:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "13px"
+    fontWeight: 600
+    lineHeight: 1.2
+  lock-clock:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "128px"
+    fontWeight: 500
+    lineHeight: 1.1
+    letterSpacing: "-0.035em"
+  lock-date:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "21px"
+    fontWeight: 500
+    lineHeight: 1.2
+  tile-name:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "13.5px"
+    fontWeight: 600
+    lineHeight: 1.2
+  tile-status:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "11px"
     fontWeight: 400
-    lineHeight: 1.25
-    letterSpacing: "-0.03em"
-    fontVariation: "'opsz' 96, 'wdth' 92"
-  lede:
-    fontFamily: "Bricolage Grotesque, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.125rem / 1.375rem (md)"
+    lineHeight: 1.2
+  widget-label:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "10.5px"
     fontWeight: 400
-    lineHeight: 1.375
+    lineHeight: 1.2
+    letterSpacing: "0.06em"
+  note-body:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "15px"
+    fontWeight: 400
+    lineHeight: 1.45
+  window-title:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "13px"
+    fontWeight: 600
+    lineHeight: 1.2
   body:
-    fontFamily: "Bricolage Grotesque, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "0.95rem"
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif"
+    fontSize: "13.5px"
     fontWeight: 400
-    lineHeight: 1.625
-  label:
+    lineHeight: 1.55
+  mono:
     fontFamily: "Geist Mono, ui-monospace, SF Mono, Menlo, monospace"
     fontSize: "11px"
     fontWeight: 400
-    lineHeight: 1
-    letterSpacing: "0.12em"
-  meta:
-    fontFamily: "Geist Mono, ui-monospace, SF Mono, Menlo, monospace"
-    fontSize: "12px"
-    fontWeight: 400
-    lineHeight: 1
-    letterSpacing: "0em"
-  caption:
-    fontFamily: "Bricolage Grotesque, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "12px"
-    fontWeight: 400
-    lineHeight: 1.625
+    lineHeight: 1.5
 rounded:
-  none: "0px"
-  ring: "2px"
+  window: "12px"
+  widget: "18px"
+  dock: "22px"
+  dock-tile: "14px"
+  tile: "10px"
+  filter: "7px"
+  pill: "999px"
+  lock-pill: "18px"
 spacing:
-  hair: "1px"
+  grid: "22px"
   xs: "4px"
   sm: "8px"
   md: "12px"
-  gutter: "16px"
-  lg: "24px"
-  xl: "32px"
-  2xl: "40px"
-  3xl: "56px"
-  4xl: "64px"
+  lg: "18px"
+  xl: "26px"
 components:
-  pad:
+  menubar:
+    backgroundColor: "{colors.frost}"
+    textColor: "{colors.ink}"
+    typography: "{typography.chrome}"
+    padding: "0 18px"
+  dock:
+    backgroundColor: "{colors.frost-dock}"
+    rounded: "{rounded.dock}"
+    padding: "9px"
+  window-focused:
+    backgroundColor: "{colors.paper-raised}"
+    rounded: "{rounded.window}"
+  window-behind:
+    backgroundColor: "rgba(248,244,244,0.9)"
+    rounded: "{rounded.window}"
+  sidebar:
+    backgroundColor: "{colors.frost-sidebar}"
+    padding: "12px 12px 14px"
+  tile-live:
+    backgroundColor: "{colors.cyan}"
+    textColor: "#ffffff"
+    rounded: "{rounded.tile}"
+  tile-grey:
     backgroundColor: "{colors.pad}"
+    rounded: "{rounded.tile}"
+  note:
+    backgroundColor: "{colors.note}"
     textColor: "{colors.ink}"
-    typography: "{typography.label}"
-    rounded: "{rounded.none}"
-    padding: "8px"
-  pad-active:
-    backgroundColor: "{colors.signal-soft}"
-    textColor: "{colors.ink}"
-  pad-lit:
-    backgroundColor: "{colors.signal}"
-    textColor: "{colors.signal-ink}"
-  channel-row:
-    backgroundColor: "transparent"
-    textColor: "{colors.ink}"
-    typography: "{typography.headline}"
-    rounded: "{rounded.none}"
-    padding: "16px 12px"
-  channel-row-active:
-    backgroundColor: "{colors.sheet-raised}"
-    textColor: "{colors.ink}"
-  column-head:
-    backgroundColor: "transparent"
-    textColor: "{colors.ink-2}"
-    typography: "{typography.label}"
-    padding: "0 0 8px"
-  quiet-link:
-    backgroundColor: "transparent"
-    textColor: "{colors.ink-3}"
-    typography: "{typography.caption}"
-  quiet-link-hover:
-    backgroundColor: "transparent"
-    textColor: "{colors.ink}"
+    typography: "{typography.note-body}"
+    rounded: "{rounded.widget}"
+    padding: "18px 20px"
+  resume-pill:
+    backgroundColor: "{colors.cyan}"
+    textColor: "#ffffff"
+    rounded: "{rounded.pill}"
+    padding: "3px 10px"
+  lock-pill:
+    backgroundColor: "rgba(255,255,255,0.14)"
+    textColor: "#f3f2f2"
+    rounded: "{rounded.lock-pill}"
+    padding: "0 7px 0 16px"
 ---
 
-# Design System: Kalp Kansara — projects
+# Design System: KalpOS
 
 ## Overview
 
-**Creative North Star: "The Channel-Map Sheet"**
+**Creative North Star: "A desk you unlock"**
 
-The site is the bench sheet a neuro lab prints after an impedance test: every project is one recording site on a microelectrode array, and "live" is a signal the page measured a moment ago, not a word someone typed. Light mode is that sheet under room light (cool paper, blue-cast ink); dark mode is the same sheet on the bench monitor with the ink logic inverted. Nothing is decorated. Hairline rules, a pad grid, mono site IDs and a single grotesque carry the whole page.
+The hub is an operating system, not a page. A black lock screen shows the visitor's own time over a very large clock, Kalp's avatar and a frosted password pill; typing anything and pressing Enter blurs the lock away while the desk breathes in behind it. The desk is paper (`#f3f2f2`) with a 22 px dot grid, a frosted menubar, two tinted folders, a document, an @ tile, a trash can, a yellow note, a photo frame and a frosted dock. Folders open rounded windows that can be dragged, stacked, minimised into the dock and closed with Esc. Below 768 px the desk folds into one sheet with a bottom "Projects" drawer.
 
-Density is editorial-instrument: one array map, one ruled channel list, both sharing the same site IDs so the map reads as a map, not a pattern. The one accent (signal cobalt) is spent only on sites returning a live health check. Every other state (coming, archived, case study, no signal, quiet) is a drawn mark at one stroke weight, never a colour. Motion is a single authored gesture: a live pad draws its spike trace once; everything else brightens in place.
+The source of truth is Kalp's Claude Design project (`docs/design/KalpOS-Mockups.dc.html`, cards 3c, 3b, 2a, 2c, 2d, 2e, 1e). Every colour, radius, blur, shadow, size and timing in `app/kalpos.css` is copied from those cards; where the mock does not cover a surface (About, Contact, Hobbies, Trash, Music, Terminal, a case study inside a window) the same tokens are reused with nothing new invented.
 
 **Key Characteristics:**
-- Printout ground: flat sheet, hairline rules, no cards, no shadows, no radius.
-- One accent, measured: signal cobalt appears only where a health check returned ok.
-- State is a mark, never a hue (filled+trace, dashed, struck, reference triangle, flat quiet).
-- Two faces: Bricolage Grotesque (opsz 96, wdth 92) for names; Geist Mono for IDs, labels, counts.
-- Phone-first: 16px gutters, no horizontal scroll, dark mode from `prefers-color-scheme`.
+- Black is the only dark surface (lock + boot). The desk has no dark mode.
+- Chrome is the system sans (SF Pro on Apple devices); Geist Mono only where card 1e uses it (phone top bar and sheet meta) and in the Terminal window.
+- Frost everywhere chrome floats: `backdrop-filter: blur(20px) saturate(1.4)` on the menubar, widgets and window sidebar; `blur(24px)` on the dock.
+- "Live" is still measured: a project tile turns cyan and draws its spike trace only when the hub's `/api/status/<slug>` proxy answers `ok: true`.
+- One motion curve for geometry, `cubic-bezier(.2,.8,.2,1)`; opacity and blur use a plain ease.
 
 ## Colors
 
-A cool paper sheet with blue-cast ink and one cobalt accent; dark mode swaps the sheet for a bench monitor and lifts the accent to a lighter periwinkle so it stays legible on near-black.
+### Surfaces
+- **Paper** (`#f3f2f2`): the desk ground and the phone sheet ground.
+- **Paper Raised** (`#f8f4f4`): a focused window, the phone bottom sheet, the dock's PDF tile gradient end.
+- **Black** (`#000`): the lock screen and the boot backdrop; nothing else.
+- **Frost** (`rgba(248,244,244,.72)` + `blur(20px) saturate(1.4)`, edge `rgba(255,255,255,.65)`): menubar and the NOW PLAYING widget. The dock is `rgba(248,244,244,.62)` + `blur(24px)` with a `rgba(255,255,255,.75)` edge. The window sidebar is `rgba(234,233,233,.7)` + `blur(20px)`.
+- **Note** (`#f6e7ae`): the yellow NOTE widget and the phone note; also the Notes dock tile gradient (`#fff6d6 → #f6e7ae`).
 
-### Primary
-- **Signal Cobalt** (`signal`, light `#1d3fd6` / dark `#7e97ff`): fill of a live pad, the "signal" word in a channel row, the inset backlight on an active row, `::selection` and the focus ring. Appears only on measured live signal or on focus.
-- **Signal Ink** (`signal-ink`, `#ffffff` / `#0b1030`): the trace and site ID drawn on top of a lit pad.
-- **Signal Soft** (`signal-soft`, `#d9defb` / `#1f2a5a`): the backlight tint of a pad whose channel row is hovered or focused. Never used as a text colour.
+### Ink
+- **Ink** (`#201e1d`): every label; menubar items at `.72` opacity; sidebar labels at `.5`.
+- **Ink 2 / Ink 3** (`#605d5d` / `#8a8686`): case-study prose and meta inside windows (the legacy `ink-2`/`ink-3` tokens the showcase components use).
+- **Rule / Rule Soft / Pad** (`#d7d3d3` / `#e4e1e1` / `#eae7e7`): unfocused traffic lights, About-me document lines, phone row tiles, the grey project tile.
 
-### Neutral
-- **Sheet** (`sheet`, `#f1f3f6` / `#0e1014`): page ground, pad gap colour on the grid, the browser theme colour.
-- **Sheet Raised** (`sheet-raised`, `#ffffff` / `#14171d`): the active channel row lifts to this; the only "surface" in the system.
-- **Ink** (`ink`, `#15171d` / `#e9eae4`): names, display headline, lede, hover colour of quiet links.
-- **Ink 2** (`ink-2`, `#4d5261` / `#aab0bd`): taglines, bio, column heads, row IDs and status word.
-- **Ink 3** (`ink-3`, `#62677a` / `#7c8291`): sheet metadata line, footer, tag leads, quiet links at rest.
-- **Rule** (`rule`, `#c3c7cf` / `#2c303a`): section borders under headers and column heads; scrollbar thumb.
-- **Rule Soft** (`rule-soft`, `#d9dde4` / `#1f232b`): row dividers and the 1px grid between pads.
-- **Pad** (`pad`, `#e1e4ea` / `#1b1f27`): resting fill of an unlit pad.
-- **Quiet** (`quiet`, `#8b909c` / `#5d626e`): the flat filled mark for a site that is checking or has no health URL.
+### Accents
+- **Cyan** (`#0088b0`): a live tile, the Résumé pill, the Contact tile, the NOW PLAYING progress bar, focus rings. Spent only on measured signal and primary actions.
+- **Teal** (`#006786`): the "Live signal" status word, links inside windows, the Projects folder tab, the phone "close" / "↓".
+- **Magenta** (`#d6006c`): the Now-playing tile and dot; the Hobbies folder is `#aa0b56 / #8e0f4a / #ff90b1→#ff458e→#d82071`.
+- **Traffic lights**: `#ff5f57`, `#febc2e`, `#28c840` on the focused window; all three `#d7d3d3` behind.
 
 ### Named Rules
-**The Measured Accent Rule.** Signal cobalt is spent only on a site whose health check returned ok, on the "signal" word next to it, and on the row backlight and focus ring. Static status (live, demo, coming, archived) never gets the accent.
+**The Measured Accent Rule.** Cyan on a project tile means its health check returned `ok: true` a moment ago (browser check of `/api/status/<slug>`, once per load). Checking, no signal, case studies and coming tiles are grey or dashed with a drawn mark.
 
-**The Mark-Not-Hue Rule.** Every non-live state is drawn: hollow square (down), dashed hollow (coming), struck (archived), square with reference triangle (case study), flat quiet fill (checking). No green, red, amber or grey dots.
+**The Frost Rule.** Anything that floats over the desk (menubar, dock, widgets, window sidebar) is frosted paper, never opaque white and never a drop-shadowed card without blur.
 
 ## Typography
 
-**Display Font:** Bricolage Grotesque (variable, `opsz` and `wdth` axes loaded; fallback ui-sans-serif, system-ui)
-**Body Font:** Bricolage Grotesque (same face, default axes)
-**Label/Mono Font:** Geist Mono (fallback ui-monospace, SF Mono, Menlo)
-
-**Character:** A compact, slightly condensed grotesque for names, set tight at the display optical size; a plain mono for everything the sheet "measured" (IDs, counts, dates, status words, tags). Weight is 400 everywhere; hierarchy comes from size, width and face, not boldness.
+**Chrome font:** the system stack (`-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif`), as the mock renders it.
+**Mono:** Geist Mono 400 (self-hosted latin subset, `app/fonts/GeistMono-400-latin.woff2`).
 
 ### Hierarchy
-- **Display** (400, `2.75rem` → `4.5rem` at md, line-height 0.95, `-0.03em`, `opsz 96 / wdth 92`, `text-wrap: balance`): the name on the hub; the project name on a case-study page (`2.25rem` → `3.5rem`, 0.98).
-- **Headline** (400, `1.25rem` → `1.5rem` at md, leading-tight, same `.display` axes): a project name in its channel row.
-- **Lede** (400, `1.125rem` → `1.375rem`, leading-snug, max 34ch): the one-line instruction under the name.
-- **Body** (400, `0.95rem`, leading-snug for taglines / leading-relaxed for prose, max 52–60ch): taglines, bio, case-study prose.
-- **Label** (mono 400, `11px`, `0.12em`, uppercase, tabular-nums): column heads, the array count, the "updated" stamp, the back link.
-- **Meta** (mono 400, `12px`, no tracking, tabular-nums): lower-case site IDs, status words, health words, tag leads, destination verbs and repo/contact links. On a compact pad (phone strip) the ID drops to `10px`; nothing else on the sheet is smaller than 12px.
-- **Caption** (400, `12px`, leading-relaxed): pad-map legend and footer; mono 12px for repo links.
+- **Lock clock** 500 / 128 px / 1.1 / `-0.035em` (96 px below 480 px). **Lock date** 500 / 21 px at `.92`. Name 400 / 14 px. Pill placeholder 13 px at `.6`; caption 12 px at `rgba(255,255,255,.55)`.
+- **Menubar** 13 px; brand 600; items `.72`; clock 12.5 px tabular; Résumé pill 12 px.
+- **Desk labels** 13 px under each icon (Trash at `.65`); folder badge 10 px white `.8`.
+- **Widgets**: label 10.5 px `.06em` uppercase `.55`; note body 15/1.45; NOW PLAYING title 600 14, artist 12 `.6`; photo caption 10 px italic `#605d5d`.
+- **Window**: title 600 13 px centred (`.5`, `.85` when focused); sidebar REGISTRY label 10.5 px; filter rows 13 px; header "Projects" 600 14 + count 12 `.5`; search 12 px; tile name 600 13.5/1.2; tile status 11 px (`#006786` for Live signal, `.55` otherwise); footer hint 11.5 `.5`; sidebar foot 11/1.5 `.5`.
+- **Window bodies** (About, Contact, Trash, Music): 13.5/1.55, h2 600 20 px. **Terminal**: Geist Mono 12/1.8 on `#201e1d`.
+- **Case study in a window**: title 600 26/1.1, lede 15, prose 14.5/1.6, section labels the 10.5 px uppercase label, meta and tech in Geist Mono 11 px.
+- **Phone**: top bar Geist Mono 11 px with the 600 12 px brand; name 600 26/1.1; line 13/1.45 `.65`; folder labels 12 px; note 14/1.5; sheet title 600 16 with Geist Mono 10.5 meta and 11 px "close"; rows 600 14 + Geist Mono 10 status + 12 arrow `.45`.
 
 ### Named Rules
-**The Two Faces Rule.** Anything measured or indexed (site ID, count, date, status, tag, destination word) is Geist Mono with `tabular-nums`. Anything named or described is Bricolage Grotesque. No third face, no weights above 400.
+**The System Face Rule.** No display webfont. The chrome is whatever the visitor's system draws menus in; only the mono is shipped.
 
 ## Layout
 
-One centred column, `max-w-[72rem]`, with `px-4` (16px) gutters on phones and `px-8` (32px) from md. Top padding 40px → 64px; bottom 64px. The hub is header, board, footer stacked; the header closes with a 1px `rule` and 32px → 40px of padding.
+The desk is `position: fixed; inset: 0`; it never scrolls (windows scroll inside). Menubar 32 px. Icons at `left 38 / top 64` in a `repeat(2, 96px)` grid with `26px 22px` gaps; each icon is a 96 px-wide button (folder 70×56, document 50×62, app tile 58×58, trash 48×56). Widgets at `right 48 / top 64` in a `150px 150px` grid with 16 px gaps (note spans both). Dock centred at `bottom 16`, 54 px tiles, 10 px gaps, 9 px padding, one 1 px separator before Trash.
 
-The board is a single column below lg (gap 32px → 40px at md) and a two-column grid at lg: a `17rem` pad map that sticks at `top-6`, then the channel list filling the rest, column gap 56px. Below lg the pad map is a **12-wide strip**: on phones the pads are whatever twelfth of the gutter width remains (24–32px, `p-1`, 10px ID, 8px mark, 8px trace), and from sm the section is capped at `max-w-[37rem]` so the pads stop at 48px (`p-2`, 11px ID, 12px mark, 12px trace). At lg the strip becomes the 4-column map (pads about 67px, 24px trace). Pads are always separated by 1px of `rule-soft` (gap-px on a `rule-soft` background, 1px inner padding). The legend under the map is one truncated caption line on phones (`filled = live signal · dashed = coming · triangle = case study`, full text in `title` and referenced by `aria-describedby`) and the full three-sentence legend from sm. The array header ("Array" + count line) stacks into two lines at lg because the count line is nearly as wide as the map column. Each channel row is a three-column grid (`3.25rem` ID column, fluid name column, auto destination column), `gap-x-3`, `py-4` → `py-5`, and bleeds `-mx-3` so its active fill runs edge to edge of the list.
+Windows: Projects 760 px wide with a 184 px sidebar (`12px 12px 14px` padding) and a 3-column tile grid (`padding 18; gap 18px 16px`, tiles 4:3); other windows 420–560 px with a 38 px title bar. The first window opens at `top 86`, centred; each further window steps 28 px down and right. Windows never run under the dock (`max-height: 100dvh − 202px`); their bodies scroll.
 
-Rhythm is a 4px base with the steps actually used: 4, 8, 12, 16, 24, 32, 40, 56, 64. No horizontal scroll: `html { overflow-x: hidden }`, `body { overflow-x: clip }`, and every fluid column is `minmax(0, 1fr)`.
+Phone (≤ 768 px): 30 px frosted top bar; content padded 20 px; 3-column folder grid (`gap 22px 12px`); the note rotated −1°; the Projects sheet peeks 230 px up from the bottom and expands to `top 30px`; other sheets are full height.
+
+The dot grid is 22 px (`radial-gradient(rgba(32,30,29,.18) 1.1px, transparent 1.3px)`), 20 px at `.20` on the phone; desk icons snap to it when dragged.
 
 ## Elevation & Depth
 
-No shadows. The sheet is flat; depth is tonal and one step deep. An active channel row rises from `sheet` to `sheet-raised` and gains a 2px inset signal edge on its left (`box-shadow: inset 2px 0 0 0 var(--signal)`), which is a drawn rule, not a drop shadow. A row reached from its pad (`#site-<slug>`) keeps the same raised fill and edge via `:target`. Pads brighten (pad → signal-soft → signal) rather than lift. Focus is a 2px `ring` outline offset 3px; inside a row the outline is inset by 2px so it never causes overflow.
-
-### Named Rules
-**The Brighten, Don't Move Rule.** Hover, focus and live state change colour over 300ms and nothing else. No translate, no scale, no shadow growth. The only animated geometry is the spike trace drawing once (1.6s, `cubic-bezier(0.16, 1, 0.3, 1)`), disabled under `prefers-reduced-motion`.
+Depth is frost plus three shadows: **sm** `0 1px 2px rgba(45,43,43,.14)` (icons, dock tiles, tiles), **md** `0 3px 10px rgba(45,43,43,.12–.16)` + `0 0 0 1px rgba(32,30,29,.08)` (widgets, an unfocused window), **lg** `0 12px 32px rgba(45,43,43,.22)` + `0 0 0 1px rgba(32,30,29,.1)` (the focused window, the dock at `.2`). Folders use `drop-shadow(0 2px 3px rgba(45,43,43,.25))`. Focus lifts a window from md to lg in 180 ms while its traffic lights fill from grey and its frost brightens to `#f8f4f4`.
 
 ## Shapes
 
-Square everywhere. Pads are `aspect-square` with 0 radius; rows and section borders are 1px hairlines; the only radius in the system is the 2px on the `:focus-visible` outline. Marks are 16-unit SVG squares at 12px (in the pad) or 14px (in the row) with a single 1.25 stroke, `vectorEffect: non-scaling-stroke`, round joins and caps. The destination arrow shares that stroke. Links underline at 1px with `text-underline-offset: 0.18em`.
+Rounded, in a small family: windows 12, widgets 18, dock 22 with 14 px tiles, project tiles 10, filter rows 7, the search field 7, the Résumé pill 999, the lock pill 18. Folder tabs are `7px 10px 0 0`, bodies `0 8px 10px 10px`, fronts `4px 4px 10px 10px`. Marks stay drawn: the spike trace (`M2 14h9l3-8 5 14 4-10 3 4h8l3-6 4 10 3-4h18`, white 1.6 stroke at the bottom of a live tile), ○ 10 px `#9b9797` (checking), — (no signal), ▲ `#444141` (case study), a `1.5px dashed #bab6b6` outline (coming).
 
-## Components
+## Motion
 
-### Pad (Site Map cell)
-- **Shape:** square, 0 radius, `p-2`, ID top-left in mono 11px, mark bottom-right at 12px.
-- **Rest:** `pad` background, `ink` text.
-- **Active (row hovered/focused):** `signal-soft` background; text stays `ink`.
-- **Lit (health ok):** `signal` background, `signal-ink` text, the 64×24 spike trace path drawn once via `.trace`.
-- **Focus:** global 2px `ring` outline, offset 3px. Transition `colors 300ms`.
+One curve for geometry, `cubic-bezier(.2,.8,.2,1)`; opacity and blur `ease`.
 
-### Channel Row
-- **Shape:** three-column grid, `-mx-3 px-3 py-4 md:py-5`, `rule-soft` divider, `scroll-mt-6` anchor.
-- **Columns:** mono 12px ID + 14px mark (ink-2); headline name with a stretched pseudo-link (an external `<a>` or a `next/link`; plain text when the row has nowhere to go yet), tagline (ink-2, 0.95rem), then a mono 12px meta line (status word in ink-2, the health word `health-checked` in `signal` when ok / `health check failed` / `checking`, tags led by middle dots in ink-3); destination verb + arrow (`open` / `repo` / `read`, or an em dash when there is no destination), optional "repo" link.
-- **One kind per row:** mark, status word, verb and href all derive from `rowFor()` in `lib/projects.ts` (`live`, `archived`, `coming`, `showcase-soon`, `showcase`). A "coming" row never says "open"; a case study that is not written yet says "case study soon" and links to its repo.
-- **Hit areas:** the whole row is the link; the small "repo" link, the footer links and the contact links are drawn at 12px but padded to a 40px-tall target with negative margins so the visual rhythm does not change.
-- **Active:** `sheet-raised` background plus the inset 2px signal edge; both sides of the board set `active` for each other.
-- **Focus:** row outline 2px `signal`, inset 2px, via `has-[a:focus-visible]`.
+- **Typing** (3b): each character pops in a dot, `scale .3→1`, 160 ms.
+- **Unlock** (3c/3b/2a): the pill pulses once (400 ms, `box-shadow 0 0 0 3px rgba(255,255,255,.35)`); the clock lifts 30 px; the lock goes to `opacity 0; blur(14px); scale(1.05)` over `.6s / .7s / .8s` while the desk comes from `opacity 0; blur(10px); scale(1.06)` over `.7s / .8s / .9s`; then the menubar drops in from −10 px (300 ms delay), icons and widgets pop 40 ms apart from 420 ms, the dock rises 24 px last (560 ms). A returning visitor (localStorage) or a deep link gets a 400 ms crossfade instead.
+- **Open a window** (2e): the icon dips to `.94` for 90 ms; the frame grows from the icon's rect in 380 ms; content fades in over 120 ms behind it. Close is the 320 ms reverse; minimise runs it toward the dock.
+- **Drag**: 1:1 with the pointer; on release the window coasts with its throw velocity (capped at 2.5 px/ms) and settles inside the desk; icons snap to the 22 px dots.
+- **Focus**: 180 ms. **Dock**: hovered tile 1.18, neighbours 1.08, label above, 160 ms; a launch bounces once. **Trash**: lid lifts 220 ms on hover. **Live tile**: trace draws once in 1.6 s (`cubic-bezier(.16,1,.3,1)`) when the check answers ok.
+- **Reduced motion**: boot is a 400 ms crossfade, windows appear in place, the dock does not magnify, the trace is pre-drawn, dots and pulses are static.
 
-### Column Head / Sheet Metadata
-- **Style:** mono 11px uppercase `0.12em` in ink-2 (column heads) or ink-3 (the "updated <date>" stamp), `tabular-nums`, closed by a 1px `rule` and `pb-2`. Used above the pad map ("Array" + "N live · N coming · N case studies", computed from the registry, one line below lg and two lines at lg) and the channel list ("Site / Project / Go").
+## Accessibility
 
-### Site Marks
-- Six drawn states at one stroke (1.25): filled square with trace (live, `signal`), hollow square (down), dashed hollow (coming), struck square (archived), square with filled triangle (case study), flat `quiet` fill (checking / no health URL). Colour inherits `currentColor` except live (`signal`) and quiet (`quiet`).
-
-### Quiet Links
-- **Style:** inherit size from context (12px footer, 11px mono back link), `ink-3` at rest, `ink` + underline on hover, always a 40px-tall target. External links open in a new tab with `rel="noreferrer"`. There are no buttons, inputs or chips in the system.
-
-### Contact Row
-- **Style:** a mono 12px line of quiet links (email, `github.com/<handle>`, LinkedIn) under the bio, `ink-2` at rest. Rendered by `components/ContactRow.tsx` from `lib/site.ts`; renders nothing while every value is empty.
-
-### Share Card
-- `app/opengraph-image.tsx` (1200×630): the light sheet, the display name at 108px, the lede, then the 12-pad strip with the same marks and the count line, drawn with Bricolage Grotesque and Geist Mono fetched at build (bundled fallback offline). A pad is filled when the registry says `live`, since a build cannot measure a signal.
-
-## Do's and Don'ts
-
-### Do:
-- **Do** keep 16px gutters on phones (`px-4`) and 32px from md; every fluid grid column is `minmax(0, 1fr)`.
-- **Do** ship both themes: every colour is a paired `--token` in `globals.css`, switched by `prefers-color-scheme` and overridable with `data-theme`.
-- **Do** set anything measured (IDs, counts, dates, status, tags) in Geist Mono with `tabular-nums`; names and prose in Bricolage Grotesque.
-- **Do** apply `.display` (opsz 96, wdth 92, -0.03em) to any name-sized heading, and only there.
-- **Do** express a new state as a new drawn mark at stroke 1.25 inside the 16-unit square.
-
-### Don't:
-- **Don't** use signal cobalt for anything that is not a measured live signal, a focus ring, or the active-row edge.
-- **Don't** add status colours (green/red/amber dots) or a second accent.
-- **Don't** add shadows, radii, gradients, or cards; the sheet is flat and square.
-- **Don't** animate position or size; only colour transitions (300ms) and the one-shot trace draw.
-- **Don't** use weights above 400 or a third typeface.
+A "Skip to the desk" link is first in the DOM. Every icon, dock tile, filter and tile is a `<button>` or `<a>`; a live tile is a real link (new tab, `rel=noreferrer`). Windows are `role="dialog"` with `aria-label`, take focus when opened, wrap Tab inside themselves and close on Esc (Esc on the desk closes the top window). The lock's password field has a label; on touch devices one tap of the empty pill unlocks and the caption says so. Text never drops below 10 px and only the Geist Mono meta uses that size.
