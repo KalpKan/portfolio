@@ -19,10 +19,13 @@ export default function LockScreen({
   onUnlock,
   name,
   pulsing = false,
+  active = true,
 }: {
   onUnlock: () => void;
   name: string;
   pulsing?: boolean;
+  /** False while the boot still covers the lock; once true the field takes the keyboard (not on touch). */
+  active?: boolean;
 }) {
   const [pw, setPw] = useState("");
   const input = useRef<HTMLInputElement>(null);
@@ -47,6 +50,14 @@ export default function LockScreen({
     const t = setInterval(tick, 15_000);
     return () => clearInterval(t);
   }, []);
+
+  // "Type anything, then Enter": the field takes the keyboard as soon as the
+  // lock is interactive. Not on a coarse pointer, where focus would pop the
+  // on-screen keyboard over a screen that unlocks with one tap.
+  useEffect(() => {
+    if (!active || window.matchMedia?.("(pointer: coarse)").matches) return;
+    input.current?.focus({ preventScroll: true });
+  }, [active]);
 
   const initials = name
     .split(/\s+/)

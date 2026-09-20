@@ -43,3 +43,27 @@ describe("LockScreen (card 3c)", () => {
     unmount();
   });
 });
+
+describe("LockScreen focus (\"type anything, then Enter\")", () => {
+  const mm = (coarse: boolean) =>
+    ((q: string) => ({
+      matches: coarse && q.includes("coarse"), media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, onchange: null, dispatchEvent: () => false,
+    })) as typeof window.matchMedia;
+
+  it("takes the keyboard once it is active (after the boot), not while the boot still covers it", () => {
+    window.matchMedia = mm(false);
+    const { container, rerender, unmount } = render(<LockScreen onUnlock={() => {}} name="K" active={false} />);
+    const input = container.querySelector<HTMLInputElement>("input[type=password]")!;
+    expect(document.activeElement).not.toBe(input);
+    rerender(<LockScreen onUnlock={() => {}} name="K" active />);
+    expect(document.activeElement).toBe(input);
+    unmount();
+  });
+
+  it("leaves the field alone on a touch device (a tap of the pill unlocks; no keyboard pops up)", () => {
+    window.matchMedia = mm(true);
+    const { container, unmount } = render(<LockScreen onUnlock={() => {}} name="K" active />);
+    expect(document.activeElement).not.toBe(container.querySelector("input[type=password]"));
+    unmount();
+  });
+});

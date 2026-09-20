@@ -90,3 +90,38 @@ describe("Desk (card 2c)", () => {
     unmount();
   });
 });
+
+describe("Desk icon double-click", () => {
+  it("dispatches one open for two clicks inside 400 ms, and a second open once 400 ms have passed", () => {
+    vi.useFakeTimers();
+    const { container, dispatch, unmount } = mount();
+    const about = [...container.querySelectorAll("button.kos-icon")].find((b) => b.textContent?.includes("About me"))!;
+    click(about);
+    vi.advanceTimersByTime(150);
+    click(about);
+    expect(dispatch.mock.calls.filter(([a]) => a.type === "open").length).toBe(1);
+    vi.advanceTimersByTime(400);
+    click(about);
+    expect(dispatch.mock.calls.filter(([a]) => a.type === "open").length).toBe(2);
+    vi.useRealTimers();
+    unmount();
+  });
+});
+
+describe("menubar mute toggle (startup chime)", () => {
+  it("sits in the right cluster, flips aria-pressed and persists kalpos:mute", () => {
+    localStorage.clear();
+    const { container, unmount } = mount();
+    const btn = container.querySelector<HTMLButtonElement>(".kos-menubar-right .kos-mute")!;
+    expect(btn).not.toBeNull();
+    expect(btn.getAttribute("aria-pressed")).toBe("false");
+    expect(btn.getAttribute("aria-label")).toMatch(/mute/i);
+    click(btn);
+    expect(btn.getAttribute("aria-pressed")).toBe("true");
+    expect(localStorage.getItem("kalpos:mute")).toBe("1");
+    click(btn);
+    expect(btn.getAttribute("aria-pressed")).toBe("false");
+    expect(localStorage.getItem("kalpos:mute")).toBeNull();
+    unmount();
+  });
+});
