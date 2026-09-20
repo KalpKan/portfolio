@@ -2,7 +2,7 @@ import type { CaseStudy } from "@/content/case-study";
 import type { Project } from "./projects";
 import { projectKind } from "./projects";
 import type { Scrapped } from "./scrapped";
-import type { SiteConfig } from "./site";
+import type { SiteConfig, Track } from "./site";
 
 /*
  * The terminal's read-only virtual filesystem (Terminal window, T6.1).
@@ -10,7 +10,7 @@ import type { SiteConfig } from "./site";
  * Everything in it is derived from the real data at render time, never typed
  * in by hand: one folder per registry entry under /projects (so adding a
  * project to projects.json adds a folder), the case studies as plain text,
- * the site note under /about, the Trash's scrapped repos under /trash, and a
+ * the site note (and the playlist as music.md) under /about, the Trash's scrapped repos under /trash, and a
  * few /etc files. The home directory is the root: `~` and `/` are the same
  * place, so `cd projects` works from the prompt and `/projects/<slug>` is
  * also `~/projects/<slug>`.
@@ -70,10 +70,16 @@ export function caseStudyText(c: CaseStudy): string {
   return out.join("\n");
 }
 
+/** The playlist (lib/site.ts) as a numbered list; tags in brackets. */
+export function playlistText(playlist: readonly Track[], title: string): string {
+  const rows = playlist.map((t, i) => `${i + 1}. ${t.title} — ${t.artist}${t.tag ? ` [${t.tag}]` : ""}`);
+  return [`# ${title}`, "", ...rows, "", "Visual only: the desk's Music app plays nothing, it just keeps the list."].join("\n");
+}
+
 export interface VfsInput {
   projects: Project[];
   caseStudies: Record<string, CaseStudy>;
-  site: Pick<SiteConfig, "name" | "note" | "tagline">;
+  site: Pick<SiteConfig, "name" | "note" | "tagline"> & Partial<Pick<SiteConfig, "playlist" | "musicTitle">>;
   scrapped: readonly Scrapped[];
   /** Overrides the build-time hostname in /etc/hostname (tests). */
   hostname?: string;
@@ -99,11 +105,12 @@ export function buildVfs({ projects, caseStudies, site, scrapped, hostname = "ka
     "Type `help` to see what this shell can do. Everything here is read-only.",
   ].join("\n");
 
+  const about: Record<string, VNode> = { "README.md": file(`# ${site.name}\n\n${site.tagline}\n\n${site.note}`) };
+  if (site.playlist?.length) about["music.md"] = file(playlistText(site.playlist, site.musicTitle ?? "On repeat"));
+
   return dir({
     projects: dir(projectDirs),
-    about: dir({
-      "README.md": file(`# ${site.name}\n\n${site.tagline}\n\n${site.note}`),
-    }),
+    about: dir(about),
     hobbies: dir(),
     trash: dir(trash),
     etc: dir({

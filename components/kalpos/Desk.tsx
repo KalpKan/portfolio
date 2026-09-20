@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { Signal } from "@/lib/signal";
-import type { SiteConfig } from "@/lib/site";
+import { playlistOf, type SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
 import type { Rect, WindowId, WindowsAction, WindowsState } from "@/lib/windows";
 import { topWindow } from "@/lib/windows";
@@ -33,7 +33,7 @@ const WIDTH: Record<string, number> = {
   contact: 520,
   hobbies: 460,
   trash: 520,
-  music: 420,
+  music: 520,
   terminal: 560,
   case: 760,
 };
@@ -44,7 +44,7 @@ const TITLES: Record<string, string> = {
   contact: "Contact",
   hobbies: "Hobbies",
   trash: "Trash",
-  music: "Now playing",
+  music: "Music",
   terminal: "Terminal",
 };
 
@@ -95,7 +95,8 @@ export default function Desk({
   );
   const openCase = useCallback((slug: string, origin?: Rect) => open(`case:${slug}`, origin), [open]);
   const top = topWindow(windows);
-  const playing = !!site.nowPlaying.title;
+  const playlist = playlistOf(site);
+  const playing = playlist.length > 0;
 
   // Esc anywhere on the desk (outside a window, which handles its own) closes the top window.
   const [closeReq, setCloseReq] = useState<{ id: WindowId | null; n: number }>({ id: null, n: 0 });
@@ -122,7 +123,7 @@ export default function Desk({
       case "trash":
         return <TrashWindow />;
       case "music":
-        return <MusicWindow nowPlaying={site.nowPlaying} />;
+        return <MusicWindow playlist={playlist} title={site.musicTitle} />;
       case "terminal":
         return (
           <TerminalWindow
@@ -178,7 +179,7 @@ export default function Desk({
         </DeskIcon>
       </div>
 
-      <Widgets site={site} />
+      <Widgets site={site} onOpenMusic={(o) => open("music", o)} />
 
       <div className="kos-windows">
         {windows.windows.map((w, i) =>
@@ -204,7 +205,7 @@ export default function Desk({
         )}
       </div>
 
-      <Dock windows={windows} onOpen={open} resumeUrl={site.resumeUrl} />
+      <Dock windows={windows} onOpen={open} resumeUrl={site.resumeUrl} hasMusic={playing} />
     </div>
   );
 }

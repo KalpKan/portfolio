@@ -70,6 +70,7 @@ describe("Desk (card 2c)", () => {
     const { container, unmount } = mount({ site: { ...site, nowPlaying: { title: "Bloom", artist: "Radiohead" } } });
     expect(container.querySelector(".kos-now")?.textContent).toContain("Bloom");
     expect([...container.querySelectorAll("button.kos-icon")].some((b) => b.textContent?.includes("Now playing"))).toBe(true);
+    expect(container.querySelector(".kos-dock-item--music")).not.toBeNull();
     unmount();
   });
 
@@ -80,11 +81,12 @@ describe("Desk (card 2c)", () => {
     unmount();
   });
 
-  it("has the dock with seven tiles (no PDF while resumeUrl is empty) and a running dot for an open window", () => {
+  it("has the dock with six tiles (no PDF while resumeUrl is empty, no Music while the playlist is empty) and a running dot for an open window", () => {
     const { container, unmount } = mount({
       windows: { windows: [{ id: "about", z: 1, minimized: false }], nextZ: 2 },
     });
-    expect(container.querySelectorAll(".kos-dock-item").length).toBe(7);
+    expect(container.querySelectorAll(".kos-dock-item").length).toBe(6);
+    expect(container.querySelector(".kos-dock-item--music")).toBeNull();
     expect(container.querySelector(".kos-dock-item--notes .kos-dock-dot")).not.toBeNull();
     expect(container.querySelector(".kos-dock-item--finder .kos-dock-dot")).toBeNull();
     unmount();

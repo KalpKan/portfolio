@@ -41,7 +41,16 @@ export function fixtureVfs(): VDir {
   return buildVfs({
     projects,
     caseStudies: { unpark, eeg },
-    site: { name: "Kalp Kansara", note: "Everything shipped.", tagline: "Western University." },
+    site: {
+      name: "Kalp Kansara",
+      note: "Everything shipped.",
+      tagline: "Western University.",
+      musicTitle: "On repeat",
+      playlist: [
+        { title: "Suffer", artist: "Bex" },
+        { title: "Choosin' Texas", artist: "Drake & Don Toliver", tag: "unreleased" },
+      ],
+    },
     scrapped: [{ name: "token-coinflip", line: "The first cut.", href: "https://github.com/KalpKan/token-coinflip" }],
     hostname: "kalpkan.com",
   });

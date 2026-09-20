@@ -41,6 +41,9 @@ describe("buildVfs", () => {
     expect(listDir(root)).toEqual(["about", "etc", "hobbies", "projects", "trash"]);
     expect(listDir(root, true)).toEqual([".secret", "about", "etc", "hobbies", "projects", "trash"]);
     expect((getNode(root, "/about/README.md") as { content: string }).content).toContain("Western University.");
+    expect(listDir(getNode(root, "/about") as VDir)).toEqual(["README.md", "music.md"]);
+    const music = (getNode(root, "/about/music.md") as { content: string }).content;
+    expect(music.split("\n").slice(0, 4)).toEqual(["# On repeat", "", "1. Suffer — Bex", "2. Choosin' Texas — Drake & Don Toliver [unreleased]"]);
     expect(listDir(getNode(root, "/hobbies") as VDir)).toEqual([]);
     expect(listDir(getNode(root, "/trash") as VDir)).toEqual(["token-coinflip.md"]);
     expect((getNode(root, "/etc/hostname") as { content: string }).content).toBe("kalpkan.com\n");

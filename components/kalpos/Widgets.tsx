@@ -1,12 +1,14 @@
-import type { SiteConfig } from "@/lib/site";
+import { playlistOf, type SiteConfig } from "@/lib/site";
+import type { Rect } from "@/lib/windows";
+import NowPlaying from "./NowPlaying";
 
 /**
  * Card 2c's widgets: the yellow NOTE (SITE.note), the photo frame (SITE.photo
  * or the striped "photo of Kalp" placeholder) and the frosted NOW PLAYING
- * card, which hides while SITE.nowPlaying has no title.
+ * card (NowPlaying.tsx), which hides while SITE.playlist is empty.
  */
-export default function Widgets({ site }: { site: SiteConfig }) {
-  const playing = !!site.nowPlaying.title;
+export default function Widgets({ site, onOpenMusic }: { site: SiteConfig; onOpenMusic?: (origin?: Rect) => void }) {
+  const playlist = playlistOf(site);
   return (
     <aside className="kos-widgets" aria-label="Widgets">
       <div className="kos-note" style={{ ["--i" as string]: 6 }}>
@@ -23,21 +25,7 @@ export default function Widgets({ site }: { site: SiteConfig }) {
           )}
         </div>
       </div>
-      {playing ? (
-        <div className="kos-now" style={{ ["--i" as string]: 8 }}>
-          <header>
-            <span className="kos-label">Now playing</span>
-            <i aria-hidden />
-          </header>
-          <div>
-            <p className="title">{site.nowPlaying.title}</p>
-            <p className="artist">{site.nowPlaying.artist}</p>
-          </div>
-          <div className="bar" aria-hidden>
-            <i />
-          </div>
-        </div>
-      ) : null}
+      {playlist.length ? <NowPlaying playlist={playlist} onOpen={onOpenMusic} index={8} /> : null}
     </aside>
   );
 }
