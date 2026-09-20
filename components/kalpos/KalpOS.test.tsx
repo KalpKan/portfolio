@@ -51,7 +51,22 @@ function fakeAudio(state: "running" | "suspended") {
 
 const flush = () => act(async () => { await vi.advanceTimersByTimeAsync(0); });
 
-describe("KalpOS boot → lock → desk (cards 2a, 3b, 3c)", () => {
+/** The power button: a fresh visit waits for a gesture; the key press starts the boot (and the chime inside it). */
+function pressPower(made?: { gestured: boolean }) {
+  if (made) made.gestured = true;
+  fire(document.body, "keydown", { key: "k" });
+}
+
+/** From a fresh render to the lock: power on, 2.1 s of boot, 250 ms hold, 600 ms exit. */
+async function toLock(container: Element, made?: { gestured: boolean }) {
+  await flush();
+  pressPower(made);
+  await flush();
+  act(() => { vi.advanceTimersByTime(2100 + 250 + 600); });
+  expect(container.querySelector(".kos")!.getAttribute("data-stage")).toBe("lock");
+}
+
+describe("KalpOS power screen → boot → lock → desk (a Mac starts from its power button)", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     _resetChimeForTests();
@@ -62,55 +77,155 @@ describe("KalpOS boot → lock → desk (cards 2a, 3b, 3c)", () => {
     vi.useRealTimers();
   });
 
-  it("a plain visit shows the boot (mark + hairline) over a hidden lock; the hairline is the health round; the lock appears once every check answered and 900 ms passed", async () => {
+  it("a plain visit shows pure black with a drawn power glyph and 'press any key to start'; nothing moves until a gesture", async () => {
     const { container, unmount } = render(<KalpOS projects={projects} />);
     const root = container.querySelector(".kos")!;
+    const boot = container.querySelector(".kos-boot")!;
     expect(root.getAttribute("data-stage")).toBe("boot");
-    expect(container.querySelector(".kos-boot-mark")?.textContent).toBe("KK");
+    expect(boot.getAttribute("data-power")).toBe("off");
+    expect(boot.querySelector("svg.kos-power")).not.toBeNull();
+    expect(boot.querySelector(".kos-power-caption")?.textContent).toBe("press any key to start");
+    expect(container.querySelector(".kos-boot-mark")).toBeNull();
+    expect(container.querySelector(".kos-boot-bar")).toBeNull();
     expect(container.querySelector(".kos-lock")).not.toBeNull();
-    const fill = container.querySelector<HTMLElement>(".kos-boot-line i")!;
-    // Hydrated: the registry step is done, seven health checks are not.
-    expect(fill.style.transform).toBe("scaleX(0.125)");
+    // The health round already ran; the boot still waits.
     await flush();
-    expect(fill.style.transform).toBe("scaleX(1)");
-    act(() => { vi.advanceTimersByTime(800); });
+    act(() => { vi.advanceTimersByTime(10_000); });
     expect(root.getAttribute("data-stage")).toBe("boot");
+    expect(boot.getAttribute("data-power")).toBe("off");
     expect(root.getAttribute("data-leaving")).toBeNull();
-    act(() => { vi.advanceTimersByTime(100); });
+    expect(root.getAttribute("data-chime")).toBeNull();
+    // A lone modifier, Escape, or a browser chord (⌘L) is not the power button.
+    fire(document.body, "keydown", { key: "Shift" });
+    fire(document.body, "keydown", { key: "Escape" });
+    fire(document.body, "keydown", { key: "l", metaKey: true });
+    expect(boot.getAttribute("data-power")).toBe("off");
+    unmount();
+  });
+
+  it("on a coarse pointer the caption says 'tap to start'", () => {
+    const desktopMedia = window.matchMedia;
+    window.matchMedia = ((q: string) => ({
+      matches: q.includes("pointer: coarse"), media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, onchange: null, dispatchEvent: () => false,
+    })) as typeof window.matchMedia;
+    const { container, unmount } = render(<KalpOS projects={projects} />);
+    expect(container.querySelector(".kos-power-caption")?.textContent).toBe("tap to start");
+    window.matchMedia = desktopMedia;
+    unmount();
+  });
+
+  it("a key press starts the boot: the logo fades in, the bar appears 700 ms later and glides to 100 % on the real health round, holds 250 ms, then 600 ms to the lock", async () => {
+    const { container, unmount } = render(<KalpOS projects={projects} />);
+    const root = container.querySelector(".kos")!;
+    await flush();
+    pressPower();
+    const boot = container.querySelector(".kos-boot")!;
+    expect(boot.getAttribute("data-power")).toBe("on");
+    expect(boot.querySelector("svg.kos-power")).toBeNull();
+    expect(container.querySelector(".kos-boot-mark")?.textContent).toBe("KK");
+    const fill = container.querySelector<HTMLElement>(".kos-boot-bar i")!;
+    // Logo (400 ms) then the bar 300 ms later: the fill stays at 0 until the bar is shown.
+    expect(fill.style.transform).toBe("scaleX(0)");
+    act(() => { vi.advanceTimersByTime(699); });
+    expect(fill.style.transform).toBe("scaleX(0)");
+    expect(boot.getAttribute("data-bar")).toBeNull();
+    act(() => { vi.advanceTimersByTime(1); });
+    expect(boot.getAttribute("data-bar")).toBe("shown");
+    // Everything answered before the bar showed: one glide to 100 % that lasts the bar's 1.4 s minimum.
+    expect(fill.style.transform).toBe("scaleX(1)");
+    expect(fill.style.transitionDuration).toBe("1400ms");
+    act(() => { vi.advanceTimersByTime(1399); });
+    expect(root.getAttribute("data-leaving")).toBeNull();
+    act(() => { vi.advanceTimersByTime(1); });
+    // 2100 ms: the bar is full; hold 250 ms before leaving.
+    expect(root.getAttribute("data-leaving")).toBeNull();
+    act(() => { vi.advanceTimersByTime(249); });
+    expect(root.getAttribute("data-leaving")).toBeNull();
+    act(() => { vi.advanceTimersByTime(1); });
     expect(root.getAttribute("data-leaving")).toBe("true");
-    act(() => { vi.advanceTimersByTime(600); });
+    expect(root.getAttribute("data-stage")).toBe("boot");
+    act(() => { vi.advanceTimersByTime(599); });
+    expect(root.getAttribute("data-stage")).toBe("boot");
+    act(() => { vi.advanceTimersByTime(1); });
     expect(root.getAttribute("data-stage")).toBe("lock");
     expect(container.querySelector(".kos-boot")).toBeNull();
     expect(container.querySelector(".kos-lock")).not.toBeNull();
     unmount();
   });
 
-  it("a slow health endpoint cannot hold the boot past 3 s", () => {
-    vi.stubGlobal("fetch", vi.fn(() => new Promise(() => {})));
+  it("a click or a tap is the power button too", async () => {
     const { container, unmount } = render(<KalpOS projects={projects} />);
+    fire(container.querySelector(".kos-boot")!, "click");
+    expect(container.querySelector(".kos-boot")!.getAttribute("data-power")).toBe("on");
+    unmount();
+    const second = render(<KalpOS projects={projects} />);
+    fire(second.container.querySelector(".kos-boot")!, "touchend");
+    expect(second.container.querySelector(".kos-boot")!.getAttribute("data-power")).toBe("on");
+    second.unmount();
+  });
+
+  it("the bar advances on real progress, step by step, and never moves backwards", async () => {
+    // Every health check answers only when the test says so.
+    const pending: Array<() => void> = [];
+    vi.stubGlobal("fetch", vi.fn(() => new Promise<Response>((resolve) => pending.push(() => resolve(new Response(JSON.stringify({ ok: true })))))));
+    const { container, unmount } = render(<KalpOS projects={projects} />);
+    pressPower();
+    const fill = container.querySelector<HTMLElement>(".kos-boot-bar i")!;
+    act(() => { vi.advanceTimersByTime(700); });
+    // The registry step only (1 of 8).
+    expect(fill.style.transform).toBe("scaleX(0.125)");
+    expect(fill.style.transitionDuration).toBe("400ms");
+    const seen = [0.125];
+    const answer = async () => {
+      pending.shift()!();
+      await flush();
+      seen.push(Number(fill.style.transform.replace(/scaleX\((.*)\)/, "$1")));
+    };
+    await answer();
+    await answer();
+    expect(seen).toEqual([0.125, 0.25, 0.375]);
+    act(() => { vi.advanceTimersByTime(300); });
+    while (pending.length) await answer();
+    expect(seen.at(-1)).toBe(1);
+    for (let i = 1; i < seen.length; i++) expect(seen[i]).toBeGreaterThanOrEqual(seen[i - 1]);
+    // The last step is the 1.4 s glide, and the boot ends with it: 1000 + 1400, then the 250 ms hold.
+    expect(fill.style.transitionDuration).toBe("1400ms");
     const root = container.querySelector(".kos")!;
-    act(() => { vi.advanceTimersByTime(2900); });
+    act(() => { vi.advanceTimersByTime(1400 + 249); });
     expect(root.getAttribute("data-leaving")).toBeNull();
-    act(() => { vi.advanceTimersByTime(100); });
+    act(() => { vi.advanceTimersByTime(1); });
     expect(root.getAttribute("data-leaving")).toBe("true");
-    expect(container.querySelector<HTMLElement>(".kos-boot-line i")!.style.transform).toBe("scaleX(1)");
     unmount();
     vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ ok: true }))));
   });
 
-  it("a returning visitor boots and locks again: the old localStorage flag means nothing", () => {
+  it("a slow health endpoint cannot hold the boot past 4 s after the power button; the bar is drawn full as it leaves", () => {
+    vi.stubGlobal("fetch", vi.fn(() => new Promise(() => {})));
+    const { container, unmount } = render(<KalpOS projects={projects} />);
+    const root = container.querySelector(".kos")!;
+    act(() => { vi.advanceTimersByTime(5000); });
+    pressPower();
+    act(() => { vi.advanceTimersByTime(3999); });
+    expect(root.getAttribute("data-leaving")).toBeNull();
+    act(() => { vi.advanceTimersByTime(1 + 250); });
+    expect(root.getAttribute("data-leaving")).toBe("true");
+    expect(container.querySelector<HTMLElement>(".kos-boot-bar i")!.style.transform).toBe("scaleX(1)");
+    unmount();
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ ok: true }))));
+  });
+
+  it("a returning visitor sees the power screen again: the old localStorage flag means nothing", () => {
     localStorage.setItem("kalpos:visited", "1");
     const { container, unmount } = render(<KalpOS projects={projects} />);
     expect(container.querySelector(".kos")!.getAttribute("data-stage")).toBe("boot");
+    expect(container.querySelector(".kos-boot")!.getAttribute("data-power")).toBe("off");
     unmount();
   });
 
   it("unlocks on Enter: pulse 400 ms, unlocking 900 ms, desk", async () => {
     const { container, unmount } = render(<KalpOS projects={projects} />);
     const root = container.querySelector(".kos")!;
-    await flush();
-    act(() => { vi.advanceTimersByTime(1500); });
-    expect(root.getAttribute("data-stage")).toBe("lock");
+    await toLock(container);
     fire(container.querySelector("input[type=password]")!, "keydown", { key: "Enter" });
     expect(root.getAttribute("data-stage")).toBe("lock");
     act(() => { vi.advanceTimersByTime(400); });
@@ -123,46 +238,63 @@ describe("KalpOS boot → lock → desk (cards 2a, 3b, 3c)", () => {
     unmount();
   });
 
-  it("with reduced motion the boot ends at once and crossfades to the lock in 400 ms", () => {
+  it("with reduced motion: the power screen, then the logo and the full bar held for 800 ms, then a 400 ms crossfade to the lock", async () => {
     window.matchMedia = ((q: string) => ({
       matches: q.includes("reduced-motion"),
       media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, onchange: null, dispatchEvent: () => false,
     })) as typeof window.matchMedia;
+    vi.stubGlobal("fetch", vi.fn(() => new Promise(() => {})));
     const { container, unmount } = render(<KalpOS projects={projects} />);
     const root = container.querySelector(".kos")!;
     expect(root.getAttribute("data-stage")).toBe("boot");
+    expect(container.querySelector(".kos-boot")!.getAttribute("data-power")).toBe("off");
+    pressPower();
+    const boot = container.querySelector(".kos-boot")!;
+    expect(boot.getAttribute("data-bar")).toBe("shown");
+    // Static: the bar is full at once, even with every check still pending.
+    expect(container.querySelector<HTMLElement>(".kos-boot-bar i")!.style.transform).toBe("scaleX(1)");
+    act(() => { vi.advanceTimersByTime(799); });
+    expect(root.getAttribute("data-leaving")).toBeNull();
+    act(() => { vi.advanceTimersByTime(1); });
     expect(root.getAttribute("data-leaving")).toBe("true");
-    act(() => { vi.advanceTimersByTime(400); });
+    act(() => { vi.advanceTimersByTime(399); });
+    expect(root.getAttribute("data-stage")).toBe("boot");
+    act(() => { vi.advanceTimersByTime(1); });
     expect(root.getAttribute("data-stage")).toBe("lock");
     unmount();
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ ok: true }))));
     window.matchMedia = ((q: string) => ({
       matches: false, media: q, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, onchange: null, dispatchEvent: () => false,
     })) as typeof window.matchMedia;
   });
 
-  it("?desk (the pre-paint attribute) skips boot and lock with a crossfade", () => {
+  it("?desk (the pre-paint attribute) skips the power screen, boot and lock with a crossfade", () => {
     document.documentElement.setAttribute("data-kos-boot", "desk");
     const { container, unmount } = render(<KalpOS projects={projects} />);
     const root = container.querySelector(".kos")!;
     expect(root.getAttribute("data-stage")).toBe("desk");
     expect(root.getAttribute("data-boot")).toBe("crossfade");
     expect(container.querySelector(".kos-boot")).toBeNull();
+    // A key press on the desk is not a power button.
+    fire(document.body, "keydown", { key: "k" });
+    expect(root.getAttribute("data-stage")).toBe("desk");
     unmount();
   });
 
-  it("a deep link renders the desk with the case-study window open, no boot, no lock", () => {
+  it("a deep link renders the desk with the case-study window open, no power screen, no boot, no lock", () => {
     const { container, unmount } = render(
       <KalpOS projects={projects} skipLock initialWindow="case:rc-car" initialBody={<p id="deep">body</p>} />,
     );
     expect(container.querySelector(".kos")!.getAttribute("data-stage")).toBe("desk");
     expect(container.querySelector(".kos-boot")).toBeNull();
+    expect(container.querySelector(".kos-power")).toBeNull();
     expect(container.querySelector(".kos-lock")).toBeNull();
     expect(container.querySelector('[role="dialog"] #deep')).not.toBeNull();
     unmount();
   });
 });
 
-describe("the startup chime", () => {
+describe("the startup chime (at boot, inside the power-button gesture)", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     _resetChimeForTests();
@@ -173,47 +305,57 @@ describe("the startup chime", () => {
     vi.useRealTimers();
   });
 
-  async function toLock(container: Element) {
-    await flush();
-    act(() => { vi.advanceTimersByTime(1500); });
-    expect(container.querySelector(".kos")!.getAttribute("data-stage")).toBe("lock");
-  }
+  const chimes = () => (track as ReturnType<typeof vi.fn>).mock.calls.filter(([e]) => e === "chime_played").length;
 
-  it("plays on the unlock gesture, 400 ms later (with the blur-out), and reports chime_played {at: unlock}", async () => {
+  it("plays immediately in the key press (the context is created and resumed inside the gesture), exactly once per boot, and reports chime_played {at: boot}", async () => {
     const made = fakeAudio("suspended");
     const { container, unmount } = render(<KalpOS projects={projects} />);
-    await toLock(container);
+    await flush();
+    expect(made.started.length).toBe(0);
     expect(track).not.toHaveBeenCalledWith("chime_played", expect.anything());
-    made.gestured = true;
-    fire(container.querySelector("input[type=password]")!, "keydown", { key: "Enter" });
+    // The gesture: audio is allowed from now on (the browser's rule), and the boot starts.
+    pressPower(made);
     await flush();
-    expect(made.started[0]).toBeCloseTo(1.4, 3);
-    expect(track).toHaveBeenCalledWith("chime_played", { at: "unlock" });
-    expect(container.querySelector(".kos")!.getAttribute("data-chime")).toBe("unlock");
-    unmount();
-  });
-
-  it("plays at the boot mark when the tab already allows audio, and then not again on unlock", async () => {
-    const made = fakeAudio("running");
-    const { container, unmount } = render(<KalpOS projects={projects} />);
-    await flush();
-    expect(made.started.length).toBeGreaterThan(0);
+    expect(made.started.length).toBe(4);
+    expect(made.started[0]).toBeCloseTo(1, 3);
     expect(track).toHaveBeenCalledWith("chime_played", { at: "boot" });
     expect(container.querySelector(".kos")!.getAttribute("data-chime")).toBe("boot");
-    await toLock(container);
+    // More keys, the boot itself, and the unlock add nothing.
+    fire(document.body, "keydown", { key: "j" });
+    fire(document.body, "click");
+    act(() => { vi.advanceTimersByTime(2100 + 250 + 600); });
+    expect(container.querySelector(".kos")!.getAttribute("data-stage")).toBe("lock");
     fire(container.querySelector("input[type=password]")!, "keydown", { key: "Enter" });
     await flush();
-    expect((track as ReturnType<typeof vi.fn>).mock.calls.filter(([e]) => e === "chime_played").length).toBe(1);
+    act(() => { vi.advanceTimersByTime(1300); });
+    expect(container.querySelector(".kos")!.getAttribute("data-stage")).toBe("desk");
+    expect(made.started.length).toBe(4);
+    expect(chimes()).toBe(1);
+    expect((track as ReturnType<typeof vi.fn>).mock.calls.some(([, p]) => (p as { at?: string })?.at === "unlock")).toBe(false);
     unmount();
   });
 
-  it("stays silent when muted", async () => {
+  it("when the browser still refuses audio the boot proceeds silently and nothing throws", async () => {
+    const made = fakeAudio("suspended");
+    const { container, unmount } = render(<KalpOS projects={projects} />);
+    await flush();
+    // made.gestured stays false: resume() leaves the context suspended, as a strict policy would.
+    fire(document.body, "keydown", { key: "k" });
+    await flush();
+    expect(made.started.length).toBe(0);
+    expect(container.querySelector(".kos-boot")!.getAttribute("data-power")).toBe("on");
+    expect(container.querySelector(".kos")!.getAttribute("data-chime")).toBeNull();
+    act(() => { vi.advanceTimersByTime(2100 + 250 + 600); });
+    expect(container.querySelector(".kos")!.getAttribute("data-stage")).toBe("lock");
+    expect(chimes()).toBe(0);
+    unmount();
+  });
+
+  it("stays silent when muted; the boot still runs from the gesture", async () => {
     const made = fakeAudio("running");
     setMuted(true);
     const { container, unmount } = render(<KalpOS projects={projects} />);
-    await toLock(container);
-    fire(container.querySelector("input[type=password]")!, "keydown", { key: "Enter" });
-    await flush();
+    await toLock(container, made);
     expect(made.started.length).toBe(0);
     expect(track).not.toHaveBeenCalledWith("chime_played", expect.anything());
     expect(container.querySelector(".kos")!.getAttribute("data-chime")).toBeNull();
@@ -240,9 +382,7 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal
   const icon = (c: Element, label: string) => [...c.querySelectorAll("button.kos-icon")].find((b) => b.textContent?.includes(label))!;
 
   async function toDesk(container: Element) {
-    await flush();
-    act(() => { vi.advanceTimersByTime(1500); });
-    expect(stageOf(container)).toBe("lock");
+    await toLock(container);
     fire(container.querySelector("input[type=password]")!, "keydown", { key: "Enter" });
     act(() => { vi.advanceTimersByTime(1300); });
     expect(stageOf(container)).toBe("desk");
@@ -274,7 +414,7 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal
     unmount();
   });
 
-  it("Restart…: a confirm sheet (Cancel keeps the desk); Restart fades to black 300 ms, then the boot replays from the mark with the health round, the chime sounds again, lock, unlock, desk", async () => {
+  it("Restart…: a confirm sheet (Cancel keeps the desk); Restart fades to black 300 ms, then the boot replays with no power screen (the click was the gesture), the chime sounds at once, the bar runs the health round again, lock, unlock, desk", async () => {
     const { container, unmount } = render(<KalpOS projects={projects} />);
     await toDesk(container);
     click(icon(container, "Projects"));
@@ -303,16 +443,22 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal
     const root = container.querySelector(".kos")!;
     expect(root.getAttribute("data-stage")).toBe("boot");
     expect(container.querySelector(".kos-restart")).toBeNull();
+    // No power screen: the Restart click was the gesture, so the logo is up and the chime sounds now.
+    expect(container.querySelector(".kos-boot")!.getAttribute("data-power")).toBe("on");
+    expect(container.querySelector(".kos-power")).toBeNull();
     expect(container.querySelector(".kos-boot-mark")?.textContent).toBe("KK");
     expect(container.querySelectorAll('[role="dialog"]').length).toBe(0);
     expect(root.getAttribute("data-boot")).toBeNull();
-    // The health round runs again: the hairline starts over.
-    expect(container.querySelector<HTMLElement>(".kos-boot-line i")!.style.transform).toBe("scaleX(0.125)");
     await flush();
-    expect(container.querySelector<HTMLElement>(".kos-boot-line i")!.style.transform).toBe("scaleX(1)");
     expect(chimes()).toBe(2);
     expect(root.getAttribute("data-chime")).toBe("boot");
-    act(() => { vi.advanceTimersByTime(900); });
+    // The health round runs again: the bar starts over once it is shown (700 ms).
+    const fill = container.querySelector<HTMLElement>(".kos-boot-bar i")!;
+    expect(fill.style.transform).toBe("scaleX(0)");
+    act(() => { vi.advanceTimersByTime(700); });
+    expect(fill.style.transform).toBe("scaleX(1)");
+    expect(fill.style.transitionDuration).toBe("1400ms");
+    act(() => { vi.advanceTimersByTime(1400 + 250); });
     expect(root.getAttribute("data-leaving")).toBe("true");
     act(() => { vi.advanceTimersByTime(600); });
     expect(root.getAttribute("data-stage")).toBe("lock");
@@ -326,9 +472,6 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal
 
   it("⌘L locks; ⌃⌘R opens the restart sheet and Esc cancels it; neither does anything off the desk", async () => {
     const { container, unmount } = render(<KalpOS projects={projects} />);
-    await flush();
-    fire(document.body, "keydown", { key: "l", metaKey: true });
-    expect(stageOf(container)).toBe("boot");
     await toDesk(container);
     fire(document.body, "keydown", { key: "r", metaKey: true, ctrlKey: true });
     expect(container.querySelector('[role="alertdialog"]')).not.toBeNull();
@@ -361,7 +504,7 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal
     act(() => { vi.advanceTimersByTime(300); });
     expect(document.documentElement.getAttribute("data-kos-boot")).toBeNull();
     expect(stageOf(container)).toBe("boot");
-    expect(container.querySelector(".kos-boot")).not.toBeNull();
+    expect(container.querySelector(".kos-boot")!.getAttribute("data-power")).toBe("on");
     unmount();
   });
 

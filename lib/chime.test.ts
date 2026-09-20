@@ -104,15 +104,24 @@ describe("scheduleChime (an original startup chord, never a recording)", () => {
 });
 
 describe("playChime", () => {
-  it("plays once the context is running, reports chime_played with where it played, and never twice per page", async () => {
+  it("plays once the context is running, reports chime_played {at: boot}, and never twice per boot", async () => {
     const ctx = fakeContext("suspended", "running");
     const played = vi.fn();
-    expect(await playChime("unlock", { factory: () => ctx as never, onPlayed: played })).toBe(true);
+    expect(await playChime("boot", { factory: () => ctx as never, onPlayed: played })).toBe(true);
     expect(ctx.resumed).toBe(1);
     expect(ctx.oscs.length).toBe(CHIME.voices.length);
-    expect(played).toHaveBeenCalledWith("chime_played", { at: "unlock" });
-    expect(await playChime("unlock", { factory: () => ctx as never, onPlayed: played })).toBe(false);
+    expect(played).toHaveBeenCalledWith("chime_played", { at: "boot" });
+    expect(await playChime("boot", { factory: () => ctx as never, onPlayed: played })).toBe(false);
     expect(played).toHaveBeenCalledTimes(1);
+  });
+
+  it("creates the context and calls resume() synchronously (inside the gesture that called it), before any await", () => {
+    const ctx = fakeContext("suspended", "running");
+    let made = 0;
+    const p = playChime("boot", { factory: () => { made += 1; return ctx as never; }, onPlayed: () => {} });
+    expect(made).toBe(1);
+    expect(ctx.resumed).toBe(1);
+    return p;
   });
 
   it("rearmChime (a restart) lets it play once more on the same page, on the same context", async () => {
@@ -126,10 +135,13 @@ describe("playChime", () => {
     expect(played).toHaveBeenCalledTimes(2);
   });
 
-  it("schedules at the requested delay (the unlock beat is 400 ms after the gesture)", async () => {
+  it("plays at once by default (the power-button gesture), or at a requested delay", async () => {
     const ctx = fakeContext();
-    await playChime("unlock", { factory: () => ctx as never, onPlayed: () => {}, delayS: 0.4 });
-    expect(ctx.oscs[0].started).toBeCloseTo(2.4, 3);
+    await playChime("boot", { factory: () => ctx as never, onPlayed: () => {} });
+    expect(ctx.oscs[0].started).toBeCloseTo(2, 3);
+    rearmChime();
+    await playChime("boot", { factory: () => ctx as never, onPlayed: () => {}, delayS: 0.4 });
+    expect(ctx.oscs[4].started).toBeCloseTo(2.4, 3);
   });
 
   it("is silent, resolves false and does not throw when the context cannot start without a gesture", async () => {
@@ -145,7 +157,7 @@ describe("playChime", () => {
   it("does nothing while muted", async () => {
     setMuted(true);
     const ctx = fakeContext();
-    expect(await playChime("unlock", { factory: () => ctx as never, onPlayed: () => {} })).toBe(false);
+    expect(await playChime("boot", { factory: () => ctx as never, onPlayed: () => {} })).toBe(false);
     expect(ctx.oscs.length).toBe(0);
   });
 });

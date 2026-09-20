@@ -1,13 +1,27 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore } from "react";
-import { BOOT_EXIT_MS, BOOT_MAX_MS, BOOT_MIN_MS, bootDone, bootProgress } from "@/lib/boot";
+import {
+  BOOT_BAR_DELAY_MS,
+  BOOT_BAR_MIN_MS,
+  BOOT_EXIT_MS,
+  BOOT_HOLD_MS,
+  BOOT_LOGO_MS,
+  BOOT_MAX_MS,
+  BOOT_REDUCED_HOLD_MS,
+  BOOT_STEP_MS,
+  bootDone,
+  bootFill,
+  bootProgress,
+  fillDuration,
+  startsBoot,
+} from "@/lib/boot";
 import { playChime, rearmChime } from "@/lib/chime";
 import { MS, reducedMotion } from "@/lib/motion";
 import type { Project } from "@/lib/projects";
 import { checksDone, initialSignals, runHealthChecks, type Signal } from "@/lib/signal";
 import { SITE, type SiteConfig } from "@/lib/site";
-import { tilesFor } from "@/lib/tiles";
+import { tilesFor, type Tile } from "@/lib/tiles";
 import { track } from "@/lib/track";
 import { EMPTY_WINDOWS, windowsReducer, type WindowId, type WindowsState } from "@/lib/windows";
 import BootScreen from "./BootScreen";
@@ -21,12 +35,16 @@ import RestartSheet from "./RestartSheet";
  * the deep-link skip, the phone/desk switch, the window reducer, the one
  * health round the desk runs on load, and the startup chime.
  *
- * Boot (card 2a, then 3b/3c): the KK mark resolves from blur on black while
- * the hairline fills with the health round (lib/boot.ts: at least 900 ms,
- * at most 3 s), then the boot layer fades and the lock fades in under it
- * (BOOT_EXIT_MS). On Enter the pill pulses for 400 ms, the chime sounds,
- * the lock blurs out while the desk scales 1.06→1 (900 ms, CSS), the
- * menubar drops in, icons pop 40 ms apart and the dock rises last.
+ * Boot (macOS idiom, 2026-09-20; lib/boot.ts has the timings): a fresh
+ * visit is a power screen (black, a faint ⏻, "press any key to start")
+ * until a key, click or tap: inside that gesture the chime plays (browsers
+ * start audio only there) and the boot begins: the KK mark fades in white,
+ * a thin bar appears 700 ms in and fills with the health round (at least
+ * 1.4 s visible, the whole boot at most 4 s), holds 250 ms full, then the
+ * layer fades and the lock fades in under it (BOOT_EXIT_MS). On Enter the
+ * pill pulses for 400 ms, the lock blurs out while the desk scales 1.06→1
+ * (900 ms, CSS), the menubar drops in, icons pop 40 ms apart and the dock
+ * rises last. No chime at unlock: it sounded at the boot.
  *
  * Every plain visit to "/" boots and locks (2026-09-20: no localStorage
  * skip). A deep link (skipLock) or ?desk (the pre-paint script in
@@ -64,6 +82,21 @@ function usePhone(): boolean {
 
 const noSubscribe = () => () => {};
 
+const COARSE_QUERY = "(pointer: coarse)";
+
+/** A touch device: the power screen says "tap to start". */
+function useCoarsePointer(): boolean {
+  return useSyncExternalStore(
+    (cb) => {
+      const mq = window.matchMedia?.(COARSE_QUERY);
+      mq?.addEventListener?.("change", cb);
+      return () => mq?.removeEventListener?.("change", cb);
+    },
+    () => !!window.matchMedia?.(COARSE_QUERY).matches,
+    () => false,
+  );
+}
+
 /** The pre-paint script's verdict (app/layout.tsx): "desk" for a deep link or ?desk. */
 function useBootAttr(): string | null {
   return useSyncExternalStore(
@@ -73,7 +106,17 @@ function useBootAttr(): string | null {
   );
 }
 
-type Health = { signals: Record<string, Signal>; checkedAt: Date | null };
+type Health = {
+  signals: Record<string, Signal>;
+  checkedAt: Date | null;
+  /** The boot bar's readiness (lib/boot.ts bootProgress), kept monotone here so the bar never moves backwards. */
+  ready: number;
+};
+
+function freshHealth(tiles: Tile[]): Health {
+  const signals = initialSignals(tiles);
+  return { signals, checkedAt: null, ready: bootProgress(signals, true) };
+}
 
 function initialWindows(initialWindow?: WindowId): WindowsState {
   return initialWindow ? windowsReducer(EMPTY_WINDOWS, { type: "open", id: initialWindow }) : EMPTY_WINDOWS;
@@ -98,11 +141,21 @@ export default function KalpOS({
   const [stageState, setStage] = useState<Stage>(skipLock ? "desk" : "boot");
   const [bootState, setBoot] = useState<"animate" | "crossfade" | null>(skipLock ? "crossfade" : null);
   const [leaving, setLeaving] = useState(false);
-  /** Where the chime sounded this page load (data-chime, so a check can see it). */
-  const [chimed, setChimed] = useState<"boot" | "unlock" | null>(null);
+  /** The power screen: a fresh visit waits for a gesture; a Restart already had one. */
+  const [power, setPower] = useState<"off" | "on">("off");
+  /** performance.now() at the power button (null until then); every boot timing counts from it. */
+  const [bootAt, setBootAt] = useState<number | null>(null);
+  /** Set once the boot has decided to end (the hold, then leaving): later readiness no longer counts. */
+  const bootEnding = useRef(false);
+  /** performance.now() when the bar's glide to 100 % began (null until readiness is complete and the bar is shown). */
+  const fullAt = useRef<number | null>(null);
+  /** The bar shows BOOT_LOGO_MS + BOOT_BAR_DELAY_MS after the power button (at once under reduced motion). */
+  const [barShownAfterLogo, setBarShown] = useState(false);
+  /** Set once the chime sounded this boot (data-chime, so a check can see it). */
+  const [chimed, setChimed] = useState<"boot" | null>(null);
   const [pulsing, setPulsing] = useState(false);
   const [windows, dispatch] = useReducer(windowsReducer, initialWindow, initialWindows);
-  const [health, setHealth] = useState<Health>(() => ({ signals: initialSignals(tiles), checkedAt: null }));
+  const [health, setHealth] = useState<Health>(() => freshHealth(tiles));
   /** The "Restart KalpOS?" sheet. */
   const [confirm, setConfirm] = useState(false);
   /** Bumped by a restart: a new health round, a fresh lock screen. */
@@ -111,6 +164,7 @@ export default function KalpOS({
   const [session, setSession] = useState(0);
   const timers = useRef<number[]>([]);
   const phone = usePhone();
+  const coarse = useCoarsePointer();
 
   // ?desk: the pre-paint script already shows the desk; agree with it.
   const straightToDesk = useBootAttr() === "desk" && stageState === "boot";
@@ -123,55 +177,89 @@ export default function KalpOS({
       runHealthChecks(tiles, (slug, sig) =>
         setHealth((h) => {
           const signals = { ...h.signals, [slug]: sig };
-          return { signals, checkedAt: h.checkedAt ?? (checksDone(signals) ? new Date() : null) };
+          return { signals, checkedAt: h.checkedAt ?? (checksDone(signals) ? new Date() : null), ready: bootFill(h.ready, bootProgress(signals, true)) };
         }),
       ),
     [tiles, bootId],
   );
-  const { signals, checkedAt } = health;
+  const { signals, checkedAt, ready } = health;
 
   useEffect(() => {
     const t = timers.current;
     return () => t.forEach(clearTimeout);
   }, []);
 
-  // The boot: the hairline is the health round; it ends once everything answered
-  // and BOOT_MIN_MS passed, or at BOOT_MAX_MS, then the layer leaves over BOOT_EXIT_MS.
-  const bootStart = useRef(0);
-  const progress = bootProgress(signals, true);
+  // The power button (a fresh visit): the first key, click or tap starts the boot,
+  // and the chime plays inside that gesture, which is the only place a browser lets
+  // audio start. Listened for on the document in the capture phase so nothing under
+  // the layer sees it first; never prevented (⌘L, ⌘R stay the browser's); ignored
+  // once the boot is running.
   useEffect(() => {
-    if (stage !== "boot" || leaving) return;
-    const reduced = reducedMotion();
-    if (!bootStart.current) {
-      bootStart.current = performance.now();
-      // The chime at the boot mark, when a prior gesture in this tab lets audio start.
+    if (stage !== "boot" || power !== "off") return;
+    let fired = false;
+    const onGesture = (e: Event) => {
+      if (fired || !startsBoot(e as KeyboardEvent)) return;
+      fired = true;
       void playChime("boot").then((ok) => ok && setChimed("boot"));
-    }
-    const elapsed = performance.now() - bootStart.current;
-    const done = () => {
-      setLeaving(true);
-      timers.current.push(
-        window.setTimeout(() => {
-          setStage("lock");
-          setLeaving(false);
-        }, reduced ? MS.crossfade : BOOT_EXIT_MS),
-      );
+      setBootAt(performance.now());
+      setPower("on");
     };
-    if (bootDone({ elapsed, progress, reduced })) {
+    const types = ["keydown", "mousedown", "touchend", "pointerup", "click"];
+    types.forEach((t) => document.addEventListener(t, onGesture, true));
+    return () => types.forEach((t) => document.removeEventListener(t, onGesture, true));
+  }, [stage, power]);
+
+  // The boot proper, from the power button: the bar is the health round (`ready`,
+  // monotone). Once readiness is complete and the bar is shown, the fill glides to
+  // 100 % over BOOT_BAR_MIN_MS and the boot ends with that glide (so never before
+  // BOOT_MIN_MS), or at BOOT_MAX_MS regardless; then it holds BOOT_HOLD_MS full and the
+  // layer leaves over BOOT_EXIT_MS. Reduced motion: the logo and the full bar sit for
+  // BOOT_REDUCED_HOLD_MS, then a crossfade.
+  const reduced = stage === "boot" && power === "on" && reducedMotion();
+  const barShown = reduced || barShownAfterLogo;
+  const fill = reduced ? 1 : barShown ? ready : 0;
+  const fillMs = leaving ? BOOT_STEP_MS : fillDuration(fill);
+  useEffect(() => {
+    if (stage !== "boot" || power !== "on" || bootAt === null || leaving || bootEnding.current) return;
+    const now = performance.now();
+    const elapsed = now - bootAt;
+    // The glide starts when readiness completes, or when the bar is shown if that is later.
+    if (ready >= 1 && fullAt.current === null) fullAt.current = Math.max(now, bootAt + BOOT_LOGO_MS + BOOT_BAR_DELAY_MS);
+    const fullFor = fullAt.current === null ? null : now - fullAt.current;
+    const done = () => {
+      bootEnding.current = true;
+      const leave = () => {
+        setLeaving(true);
+        timers.current.push(
+          window.setTimeout(() => {
+            setStage("lock");
+            setLeaving(false);
+          }, reduced ? MS.crossfade : BOOT_EXIT_MS),
+        );
+      };
+      if (reduced) leave();
+      else timers.current.push(window.setTimeout(leave, BOOT_HOLD_MS));
+    };
+    if (bootDone({ elapsed, fullFor, reduced })) {
       done();
       return;
     }
-    const wait = progress >= 1 ? BOOT_MIN_MS - elapsed : BOOT_MAX_MS - elapsed;
+    const wait = reduced ? BOOT_REDUCED_HOLD_MS - elapsed : Math.min(BOOT_MAX_MS - elapsed, fullFor === null ? Infinity : BOOT_BAR_MIN_MS - fullFor);
     const t = window.setTimeout(done, Math.max(0, wait));
     return () => clearTimeout(t);
-  }, [stage, leaving, progress]);
+  }, [stage, power, bootAt, leaving, ready, reduced]);
+
+  // The bar appears after the logo (under reduced motion it is derived: shown at once, full).
+  useEffect(() => {
+    if (stage !== "boot" || power !== "on" || bootAt === null || reduced) return;
+    const t = window.setTimeout(() => setBarShown(true), Math.max(0, bootAt + BOOT_LOGO_MS + BOOT_BAR_DELAY_MS - performance.now()));
+    return () => clearTimeout(t);
+  }, [stage, power, reduced, bootAt]);
 
   const unlock = useCallback(() => {
     if (stage !== "lock" || pulsing) return;
     setPulsing(true);
     const reduced = reducedMotion();
-    // Started inside the gesture (browsers gate audio on one), sounding with the blur-out.
-    void playChime("unlock", { delayS: MS.pulse / 1000 }).then((ok) => ok && setChimed("unlock"));
     timers.current.push(
       window.setTimeout(() => {
         setStage("unlocking");
@@ -210,7 +298,7 @@ export default function KalpOS({
     );
   }, [stage, clearDesk]);
 
-  /** Restart: fade to black, then boot again from the mark as if the page had just loaded. */
+  /** Restart: fade to black, then boot again from the logo (no power screen: this click was the gesture). */
   const restart = useCallback(() => {
     if (stage !== "desk") return;
     setConfirm(false);
@@ -219,13 +307,19 @@ export default function KalpOS({
     timers.current.push(
       window.setTimeout(() => {
         clearDesk();
-        bootStart.current = 0;
-        rearmChime();
+        bootEnding.current = false;
+        fullAt.current = null;
         setChimed(null);
+        setPower("on");
+        setBarShown(false);
         setPulsing(false);
         setLeaving(false);
         setBoot(null);
-        setHealth({ signals: initialSignals(tiles), checkedAt: null });
+        setHealth(freshHealth(tiles));
+        // No power screen: the Restart click (or the terminal's Enter) was the gesture, so the chime sounds now.
+        setBootAt(performance.now());
+        rearmChime();
+        void playChime("boot").then((ok) => ok && setChimed("boot"));
         setBootId((n) => n + 1);
         setStage("boot");
       }, MS.restart),
@@ -323,7 +417,9 @@ export default function KalpOS({
       {stage === "desk" || stage === "restarting" ? null : (
         <LockScreen key={bootId} onUnlock={unlock} name={site.name} pulsing={pulsing} active={stage === "lock"} />
       )}
-      {stage === "boot" ? <BootScreen mark={initials} progress={leaving ? 1 : progress} leaving={leaving} /> : null}
+      {stage === "boot" ? (
+        <BootScreen mark={initials} power={power} barShown={barShown} fill={leaving ? 1 : fill} fillMs={fillMs} caption={coarse ? "tap to start" : "press any key to start"} leaving={leaving} />
+      ) : null}
       {stage === "restarting" ? <div className="kos-restart" aria-hidden /> : null}
     </div>
   );
