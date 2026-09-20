@@ -222,7 +222,7 @@ export default function KalpOS({
           onOpenWindow={onOpenWindow}
         />
       )}
-      {stage === "desk" ? null : <LockScreen onUnlock={unlock} name={site.name} pulsing={pulsing} />}
+      {stage === "desk" ? null : <LockScreen onUnlock={unlock} name={site.name} pulsing={pulsing} active={stage === "lock"} />}
       {stage === "boot" ? <BootScreen mark={initials} progress={leaving ? 1 : progress} leaving={leaving} /> : null}
     </div>
   );
