@@ -1,0 +1,7 @@
+$ node docs/reports/evidence/kalpos-lights-engines.mjs https://kalpkan.com "live (old useDrag)"
+live (old useDrag)       chromium  open=1 afterRed=1 afterYellow=1 FAIL errors=0
+live (old useDrag)       webkit    open=1 afterRed=1 afterYellow=1 FAIL errors=0
+$ node docs/reports/evidence/kalpos-lights-engines.mjs http://localhost:3999 "fixed (local build)"
+fixed (local build)      chromium  open=1 afterRed=0 afterYellow=0 PASS errors=0
+fixed (local build)      webkit    open=1 afterRed=0 afterYellow=0 PASS errors=0
+(held click = mouse down, 90 ms, mouse up on the light; 2026-09-20 12:50 UTC, live = T6.1 build 5b2d338 with the pre-fix useDrag)
