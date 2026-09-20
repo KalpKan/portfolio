@@ -1,14 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { toPx, type IconId } from "@/lib/icons";
 import type { Signal } from "@/lib/signal";
 import type { SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
 import type { Rect, WindowId, WindowsAction, WindowsState } from "@/lib/windows";
+import { track } from "@/lib/track";
 import { topWindow } from "@/lib/windows";
 import { AppGlyph, DeskIcon, DocGlyph, FolderGlyph, TrashGlyph } from "./DeskIcons";
 import Dock from "./Dock";
 import MenuBar from "./MenuBar";
+import { useIconLayout } from "./useIconLayout";
 import Widgets from "./Widgets";
 import Window from "./Window";
 import AboutWindow from "./windows/AboutWindow";
@@ -21,10 +24,12 @@ import TerminalWindow from "./windows/TerminalWindow";
 import TrashWindow from "./windows/TrashWindow";
 
 /*
- * Card 2c, the desk: frosted menubar, dotted ground, the icon grid at
- * top-left, the widgets at top-right, the dock at the bottom, and the
- * windows layer in between. Window state lives in the parent (lib/windows.ts
- * reducer); this component only renders it and dispatches.
+ * Card 2c, the desk: frosted menubar, dotted ground, the icons (the card's
+ * two-column grid by default, but each one can be dragged anywhere on the
+ * desk and snaps to the dots: useIconLayout / lib/icons.ts, persisted in
+ * localStorage), the widgets at top-right (fixed), the dock at the bottom,
+ * and the windows layer in between. Window state lives in the parent
+ * (lib/windows.ts reducer); this component only renders it and dispatches.
  */
 
 const WIDTH: Record<string, number> = {
@@ -97,6 +102,31 @@ export default function Desk({
   const top = topWindow(windows);
   const playing = !!site.nowPlaying.title;
 
+  const present: IconId[] = playing ? ["projects", "hobbies", "about", "contact", "music", "trash"] : ["projects", "hobbies", "about", "contact", "trash"];
+  const icons = useIconLayout(present);
+  const cleanUp = useCallback(() => {
+    track("menu_action", { item: "cleanup" });
+    icons.cleanUp();
+  }, [icons]);
+
+  // ⌥⌘1 is Clean Up (the KalpOS menu's own shortcut).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey && e.altKey && !e.ctrlKey && !e.shiftKey && (e.key === "1" || e.code === "Digit1")) {
+        e.preventDefault();
+        cleanUp();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [cleanUp]);
+
+  const iconProps = (id: IconId) => ({
+    pos: toPx(icons.layout[id]),
+    onDrop: (px: { x: number; y: number }) => icons.drop(id, px),
+    onArrow: (dir: Parameters<typeof icons.arrow>[1]) => icons.arrow(id, dir),
+  });
+
   // Esc anywhere on the desk (outside a window, which handles its own) closes the top window.
   const [closeReq, setCloseReq] = useState<{ id: WindowId | null; n: number }>({ id: null, n: 0 });
   useEffect(() => {
@@ -153,27 +183,28 @@ export default function Desk({
         onAbout={() => open("about")}
         onLock={onLock}
         onRestart={onRestart}
+        onCleanUp={cleanUp}
       />
 
       <div className="kos-icons" id="kos-main" tabIndex={-1} aria-label="Desktop">
-        <DeskIcon label="Projects" index={0} onOpen={(o) => open("projects", o)}>
+        <DeskIcon label="Projects" index={0} onOpen={(o) => open("projects", o)} {...iconProps("projects")}>
           <FolderGlyph tint="projects" badge={String(tiles.length).padStart(2, "0")} />
         </DeskIcon>
-        <DeskIcon label="Hobbies" index={1} onOpen={(o) => open("hobbies", o)}>
+        <DeskIcon label="Hobbies" index={1} onOpen={(o) => open("hobbies", o)} {...iconProps("hobbies")}>
           <FolderGlyph tint="hobbies" />
         </DeskIcon>
-        <DeskIcon label="About me" index={2} onOpen={(o) => open("about", o)}>
+        <DeskIcon label="About me" index={2} onOpen={(o) => open("about", o)} {...iconProps("about")}>
           <DocGlyph />
         </DeskIcon>
-        <DeskIcon label="Contact" index={3} onOpen={(o) => open("contact", o)}>
+        <DeskIcon label="Contact" index={3} onOpen={(o) => open("contact", o)} {...iconProps("contact")}>
           <AppGlyph kind="contact" />
         </DeskIcon>
         {playing ? (
-          <DeskIcon label="Now playing" index={4} onOpen={(o) => open("music", o)}>
+          <DeskIcon label="Now playing" index={4} onOpen={(o) => open("music", o)} {...iconProps("music")}>
             <AppGlyph kind="music" />
           </DeskIcon>
         ) : null}
-        <DeskIcon label="Trash" index={5} quiet onOpen={(o) => open("trash", o)}>
+        <DeskIcon label="Trash" index={5} quiet onOpen={(o) => open("trash", o)} {...iconProps("trash")}>
           <TrashGlyph />
         </DeskIcon>
       </div>

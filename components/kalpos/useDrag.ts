@@ -32,7 +32,8 @@ export function useDrag({
   threshold = 4,
 }: {
   onStart?: () => void;
-  onMove: (dx: number, dy: number) => void;
+  /** Movement since pointerdown, plus the pointer's current client position (for hit-testing while dragging). */
+  onMove: (dx: number, dy: number, at: { x: number; y: number }) => void;
   onEnd: (end: DragEnd) => void;
   threshold?: number;
 }) {
@@ -79,7 +80,7 @@ export function useDrag({
       s.lastX = e.clientX;
       s.lastY = e.clientY;
       s.lastT = e.timeStamp;
-      onMove(dx, dy);
+      onMove(dx, dy, { x: e.clientX, y: e.clientY });
     },
     [onMove, threshold],
   );

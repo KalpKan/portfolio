@@ -30,12 +30,15 @@ export default function MenuBar({
   onAbout = () => {},
   onLock = () => {},
   onRestart = () => {},
+  onCleanUp,
 }: {
   resumeUrl: string;
   activeTitle?: string;
   onAbout?: () => void;
   onLock?: () => void;
   onRestart?: () => void;
+  /** Clean Up (⌥⌘1): the desk's icons back to the card 2c grid. Absent on the phone. */
+  onCleanUp?: () => void;
 }) {
   const clockEl = useRef<HTMLSpanElement>(null);
   const muted = useMuted();
@@ -51,7 +54,7 @@ export default function MenuBar({
   }, []);
   return (
     <header className="kos-menubar" aria-label="Menu bar">
-      <KalpOSMenu onAbout={onAbout} onLock={onLock} onRestart={onRestart} />
+      <KalpOSMenu onAbout={onAbout} onLock={onLock} onRestart={onRestart} onCleanUp={onCleanUp} />
       {activeTitle ? <b style={{ opacity: 0.9 }}>{activeTitle}</b> : null}
       {(activeTitle ? MENUS_FOCUSED : MENUS).map((m) => (
         <span key={m} className="kos-menu-item" aria-hidden>

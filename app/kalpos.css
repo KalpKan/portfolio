@@ -405,13 +405,17 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 
 /* ----------------------------------------------------------------- icons */
 
+/* Each icon is placed absolutely by Desk (lib/icons.ts cells of the 22 px dot
+   grid, the card's two-column grid by default; a drag moves it anywhere). */
 .kos-icons {
   position: absolute;
-  left: 38px;
-  top: 64px;
-  display: grid;
-  grid-template-columns: repeat(2, 96px);
-  gap: 26px 22px;
+  inset: 0;
+  pointer-events: none;
+}
+.kos-icons > .kos-icon {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 1;
 }
 .kos-icon {
   position: relative;
@@ -821,7 +825,8 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 }
 .kos[data-boot="animate"] .kos-icon,
 .kos[data-boot="animate"] .kos-widgets > * {
-  animation: kos-pop 420ms var(--kos-ease) both;
+  /* backwards, not both: a filled transform would override the icon's own (dip, drag, crumple) for the rest of the session */
+  animation: kos-pop 420ms var(--kos-ease) backwards;
   animation-delay: calc(420ms + var(--i, 0) * 40ms);
 }
 .kos[data-boot="animate"] .kos-dock {

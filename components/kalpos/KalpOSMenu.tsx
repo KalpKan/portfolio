@@ -10,8 +10,9 @@ import { track } from "@/lib/track";
  * phone's top bar) is a real menu button. Its dropdown is the dock's frost
  * (card 2c: rgba(248,244,244,.62) blur(24px) saturate(1.4), radius 12, a
  * 1 px white .75 edge, the lg shadow) with 13 px rows: About KalpOS, a
- * separator, Lock Screen (⌃⌘Q), Restart… (⌃⌘R), a separator, and the chime
- * toggle that mirrors the speaker in the menubar's right cluster.
+ * separator, Clean Up (⌥⌘1, desk only: the icons back to their grid), Lock
+ * Screen (⌃⌘Q), Restart… (⌃⌘R), a separator, and the chime toggle that
+ * mirrors the speaker in the menubar's right cluster.
  *
  * The dropdown is portalled next to the bar, not inside it: a bar with its
  * own backdrop-filter is a "backdrop root", so a frosted child would only
@@ -26,7 +27,7 @@ import { track } from "@/lib/track";
  * returns to the button. PostHog: menu_action {item}.
  */
 
-export type MenuItem = "about" | "lock" | "restart" | "mute";
+export type MenuItem = "about" | "cleanup" | "lock" | "restart" | "mute";
 
 function useMuted(): boolean {
   return useSyncExternalStore(subscribeMute, isMuted, () => false);
@@ -36,11 +37,14 @@ export default function KalpOSMenu({
   onAbout,
   onLock,
   onRestart,
+  onCleanUp,
   className = "kos-brand",
 }: {
   onAbout: () => void;
   onLock: () => void;
   onRestart: () => void;
+  /** Desk only (the phone grid does not move). */
+  onCleanUp?: () => void;
   className?: string;
 }) {
   /** Open = placed: the host element and the offset under the button (see the note above). */
@@ -151,6 +155,7 @@ export default function KalpOSMenu({
     >
       {row("about", "About KalpOS", onAbout)}
       <i role="separator" className="kos-menu-sep" />
+      {onCleanUp ? row("cleanup", "Clean Up", onCleanUp, "⌥⌘1") : null}
       {row("lock", "Lock Screen", onLock, "⌃⌘Q")}
       {row("restart", "Restart…", onRestart, "⌃⌘R")}
       <i role="separator" className="kos-menu-sep" />
