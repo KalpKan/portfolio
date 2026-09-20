@@ -28,6 +28,13 @@ export interface Tile {
   archived: boolean;
   /** True for a registry `type: "showcase"` entry (written or not): the "Case studies" filter. */
   showcase: boolean;
+  /**
+   * Registry `hero`: a screenshot under public/images/projects/<slug>/ that the
+   * Projects window's Quick Look shows for an app (scripts/app-screenshots.mjs
+   * makes them). A case study's hero lives in its content file instead, so
+   * this stays null for showcases; null also means "no picture yet".
+   */
+  hero?: string | null;
 }
 
 export const HARDWARE_TAGS = new Set(
@@ -56,6 +63,7 @@ export function tileFor(p: Project): Tile {
     repo: p.repo,
     tags: p.tags,
     showcase: p.type === "showcase",
+    hero: p.hero ?? null,
   };
   switch (kind) {
     case "live":
