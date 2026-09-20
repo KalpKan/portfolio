@@ -1,0 +1,296 @@
+{
+  "flip-bad_IMG_4456": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/flip-bad_IMG_4456.mjpeg",
+    "final": {
+      "good": "4",
+      "total": "4",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "1.3s good",
+      "2.7s good",
+      "4.1s good",
+      "5.7s good"
+    ],
+    "fpsAvg": 28,
+    "fpsMin": 26,
+    "frames": 258,
+    "timeline": [
+      "1275-2662 ms (40f) Rep 1: good",
+      "2706-4041 ms (38f) Rep 2: good",
+      "4079-5564 ms (42f) Rep 3: good",
+      "5693-7174 ms (45f) Rep 4: good",
+      "7035-9128 ms (64f) Too dark: turn a light on or uncover the camera",
+      "75-6305 ms (172f) Good form"
+    ],
+    "errors": []
+  },
+  "flip-bad_IMG_4470": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/flip-bad_IMG_4470.mjpeg",
+    "final": {
+      "good": "3",
+      "total": "4",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "1.5s good",
+      "2.7s good",
+      "4.3s good",
+      "6.0s bad:hips sagging"
+    ],
+    "fpsAvg": 28,
+    "fpsMin": 25,
+    "frames": 277,
+    "timeline": [
+      "1485-2622 ms (29f) Rep 1: good",
+      "2668-4123 ms (39f) Rep 2: good",
+      "4347-5827 ms (41f) Rep 3: good",
+      "4495-6742 ms (29f) Bad form: hips sagging",
+      "6033-7526 ms (44f) Rep 4: hips sagging",
+      "7139-7710 ms (17f) Bad form: hips too high",
+      "81-7105 ms (158f) Good form",
+      "8471-10139 ms (51f) Too dark: turn a light on or uncover the camera"
+    ],
+    "errors": []
+  },
+  "flip-bad_IMG_4451": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/flip-bad_IMG_4451.mjpeg",
+    "final": {
+      "good": "4",
+      "total": "4",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "1.7s good",
+      "3.3s good",
+      "5.1s good",
+      "6.9s good"
+    ],
+    "fpsAvg": 28,
+    "fpsMin": 26,
+    "frames": 282,
+    "timeline": [
+      "1717-3200 ms (42f) Rep 1: good",
+      "3320-4748 ms (40f) Rep 2: good",
+      "5110-6599 ms (42f) Rep 3: good",
+      "6864-8343 ms (43f) Rep 4: good",
+      "8513-10141 ms (50f) Too dark: turn a light on or uncover the camera",
+      "87-7781 ms (210f) Good form"
+    ],
+    "errors": []
+  },
+  "flip-test_video": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/flip-test_video.mjpeg",
+    "final": {
+      "good": "3",
+      "total": "4",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "4.2s bad:hips sagging",
+      "10.4s good",
+      "14.0s good",
+      "15.4s good"
+    ],
+    "fpsAvg": 29,
+    "fpsMin": 26,
+    "frames": 553,
+    "timeline": [
+      "10440-11912 ms (42f) Rep 2: good",
+      "1249-16825 ms (386f) Head out of frame: move the camera back or tilt it up",
+      "13962-15359 ms (40f) Rep 3: good",
+      "15396-16865 ms (43f) Rep 4: good",
+      "16865-19371 ms (77f) Too dark: turn a light on or uncover the camera",
+      "1867-5311 ms (102f) Bad form: hips sagging",
+      "4203-5676 ms (45f) Rep 1: hips sagging",
+      "73-16825 ms (375f) Good form"
+    ],
+    "errors": []
+  },
+  "flip-demo": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/flip-demo.mjpeg",
+    "final": {
+      "good": "4",
+      "total": "4",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "1.2s good",
+      "2.2s good",
+      "4.4s good",
+      "7.1s good"
+    ],
+    "fpsAvg": 28,
+    "fpsMin": 25,
+    "frames": 318,
+    "timeline": [
+      "1189-2149 ms (27f) Rep 1: good",
+      "2187-3678 ms (40f) Rep 2: good",
+      "4369-5849 ms (42f) Rep 3: good",
+      "7119-8592 ms (45f) Rep 4: good",
+      "81-8423 ms (234f) Good form",
+      "9159-11193 ms (62f) Too dark: turn a light on or uncover the camera"
+    ],
+    "errors": []
+  },
+  "flip-good_IMG_4409": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/flip-good_IMG_4409.mjpeg",
+    "final": {
+      "good": "5",
+      "total": "5",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "2.5s good",
+      "4.3s good",
+      "6.1s good",
+      "7.9s good",
+      "9.9s good"
+    ],
+    "fpsAvg": 28,
+    "fpsMin": 26,
+    "frames": 368,
+    "timeline": [
+      "11094-13199 ms (64f) Too dark: turn a light on or uncover the camera",
+      "2458-3931 ms (41f) Rep 1: good",
+      "4322-5816 ms (43f) Rep 2: good",
+      "6137-7603 ms (41f) Rep 3: good",
+      "69-10369 ms (282f) Good form",
+      "7933-9398 ms (42f) Rep 4: good",
+      "9949-11396 ms (44f) Rep 5: good"
+    ],
+    "errors": []
+  },
+  "43-good_IMG_4409": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/43-good_IMG_4409.mjpeg",
+    "final": {
+      "good": "5",
+      "total": "5",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "2.5s good",
+      "4.3s good",
+      "6.1s good",
+      "7.9s good",
+      "9.9s good"
+    ],
+    "fpsAvg": 30,
+    "fpsMin": 28,
+    "frames": 392,
+    "timeline": [
+      "11101-13196 ms (64f) Too dark: turn a light on or uncover the camera",
+      "1478-9860 ms (13f) Bad form: keep your body straight",
+      "2478-3944 ms (45f) Rep 1: good",
+      "4312-5795 ms (45f) Rep 2: good",
+      "6109-7592 ms (45f) Rep 3: good",
+      "78-10355 ms (294f) Good form",
+      "7915-9394 ms (44f) Rep 4: good",
+      "9935-11406 ms (46f) Rep 5: good"
+    ],
+    "errors": []
+  },
+  "43-bad_IMG_4456": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/43-bad_IMG_4456.mjpeg",
+    "final": {
+      "good": "0",
+      "total": "4",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "1.3s bad:keep your body straight",
+      "2.7s bad:keep your body straight",
+      "4.0s bad:keep your body straight",
+      "5.7s bad:keep your body straight"
+    ],
+    "fpsAvg": 30,
+    "fpsMin": 30,
+    "frames": 272,
+    "timeline": [
+      "1257-2621 ms (42f) Rep 1: keep your body straight",
+      "2656-3987 ms (41f) Rep 2: keep your body straight",
+      "354-5155 ms (17f) Good form",
+      "4022-5487 ms (45f) Rep 3: keep your body straight",
+      "5688-7165 ms (46f) Rep 4: keep your body straight",
+      "7041-9105 ms (63f) Too dark: turn a light on or uncover the camera",
+      "71-6286 ms (171f) Bad form: keep your body straight"
+    ],
+    "errors": []
+  },
+  "far-good_IMG_4409": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/far-good_IMG_4409.mjpeg",
+    "final": {
+      "good": "5",
+      "total": "5",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "2.5s good",
+      "4.3s good",
+      "6.1s good",
+      "7.9s good",
+      "9.9s good"
+    ],
+    "fpsAvg": 30,
+    "fpsMin": 30,
+    "frames": 392,
+    "timeline": [
+      "109-10340 ms (298f) Good form",
+      "11096-13101 ms (61f) Too dark: turn a light on or uncover the camera",
+      "2449-3948 ms (46f) Rep 1: good",
+      "4318-5806 ms (46f) Rep 2: good",
+      "6114-7604 ms (46f) Rep 3: good",
+      "74-461 ms (12f) Bad form: keep your body straight",
+      "7917-9379 ms (45f) Rep 4: good",
+      "9907-11380 ms (45f) Rep 5: good"
+    ],
+    "errors": []
+  },
+  "far-bad_IMG_4456": {
+    "file": "/private/tmp/claude-501/-Users-kalp/6a491b3c-d386-4c83-9fec-6077672a40f8/scratchpad/r3/cams/far-bad_IMG_4456.mjpeg",
+    "final": {
+      "good": "0",
+      "total": "4",
+      "form": "paused",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    },
+    "events": [
+      "1.3s bad:keep your body straight",
+      "2.7s bad:keep your body straight",
+      "4.0s bad:keep your body straight",
+      "5.6s bad:keep your body straight"
+    ],
+    "fpsAvg": 30,
+    "fpsMin": 29,
+    "frames": 271,
+    "timeline": [
+      "1240-2605 ms (42f) Rep 1: keep your body straight",
+      "2640-3972 ms (41f) Rep 2: keep your body straight",
+      "370-505 ms (5f) Good form",
+      "4006-5501 ms (46f) Rep 3: keep your body straight",
+      "5606-7063 ms (45f) Rep 4: keep your body straight",
+      "64-6271 ms (182f) Bad form: keep your body straight",
+      "7030-9063 ms (62f) Too dark: turn a light on or uncover the camera"
+    ],
+    "errors": []
+  }
+}

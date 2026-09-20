@@ -1,0 +1,39 @@
+IMG_1305: 5 attempts / 5 good  fps 26 (min 22)  events: 0.8s partial, 3.0s good, 4.1s good, 5.6s good, 6.8s good, 8.0s good
+   110-8153 ms (200f) Good form
+   1325-8542 ms (11f) Bad form: keep your body straight
+   2998-4055 ms (28f) Rep 1: good
+   4099-5499 ms (37f) Rep 2: good
+   5558-6772 ms (33f) Rep 3: good
+   6813-7962 ms (31f) Rep 4: good
+   8000-9460 ms (41f) Rep 5: good
+   818-2288 ms (37f) Go lower: that dip was too shallow to count
+   8588-8588 ms (1f) Bad form: hips too high
+   9334-11094 ms (54f) Too dark: turn a light on or uncover the camera
+demo: 4 attempts / 4 good  fps 26 (min 23)  events: 1.2s good, 2.2s good, 4.3s good, 7.1s good
+   1165-2106 ms (25f) Rep 1: good
+   119-8435 ms (104f) Bad form: keep your body straight
+   2157-3617 ms (37f) Rep 2: good
+   4321-5809 ms (42f) Rep 3: good
+   573-7071 ms (108f) Good form
+   7132-8603 ms (40f) Rep 4: good
+   9163-11239 ms (63f) Too dark: turn a light on or uncover the camera
+bad_IMG_4456: 4 attempts / 0 good  fps 25 (min 22)  events: 1.3s bad:keep your body straight, 2.7s bad:keep your body straight, 4.0s bad:keep your body straight, 5.7s bad:keep your body straight
+   117-6290 ms (120f) Bad form: keep your body straight
+   1250-2600 ms (34f) Rep 1: keep your body straight
+   2657-3986 ms (33f) Rep 2: keep your body straight
+   311-5185 ms (31f) Good form
+   4044-5520 ms (38f) Rep 3: keep your body straight
+   5683-7158 ms (44f) Rep 4: keep your body straight
+   7028-9125 ms (64f) Too dark: turn a light on or uncover the camera
+test_video_2: 4 attempts / 2 good  fps 27 (min 24)  events: 3.3s good, 9.6s bad:keep your body straight, 16.6s bad:knees down, 22.3s good
+   10319-11270 ms (28f) Bad form: hips too high
+   11519-19404 ms (218f) Bad form: knees down
+   130-23387 ms (194f) Bad form: keep your body straight
+   16589-18049 ms (42f) Rep 3: knees down
+   1749-23338 ms (251f) Head out of frame: move the camera back or tilt it up
+   22322-23770 ms (40f) Rep 4: good
+   24130-26476 ms (70f) Too dark: turn a light on or uncover the camera
+   26409-26476 ms (2f) Counting paused
+   286-23100 ms (180f) Good form
+   3345-4812 ms (36f) Rep 1: good
+   9629-11084 ms (41f) Rep 2: keep your body straight

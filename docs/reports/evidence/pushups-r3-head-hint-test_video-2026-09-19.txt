@@ -1,0 +1,19 @@
+test_video: 4 attempts / 2 good  fps 29 (min 26)  events: 4.2s bad:hips sagging, 10.4s bad:keep your body straight, 13.9s good, 15.4s good
+   1031-16808 ms (409f) Head out of frame: move the camera back or tilt it up
+   10407-11876 ms (45f) Rep 2: keep your body straight
+   13907-15345 ms (44f) Rep 3: good
+   15396-16861 ms (46f) Rep 4: good
+   16841-19235 ms (73f) Too dark: turn a light on or uncover the camera
+   2113-5175 ms (89f) Bad form: hips sagging
+   4179-5674 ms (46f) Rep 1: hips sagging
+   6111-16808 ms (192f) Good form
+   83-16682 ms (212f) Bad form: keep your body straight
+good_IMG_4409: 5 attempts / 5 good  fps 30 (min 29)  events: 2.5s good, 4.3s good, 6.1s good, 7.9s good, 9.9s good
+   11061-13097 ms (62f) Too dark: turn a light on or uncover the camera
+   2476-3938 ms (45f) Rep 1: good
+   4308-5763 ms (45f) Rep 2: good
+   6108-7604 ms (46f) Rep 3: good
+   65-10339 ms (308f) Good form
+   6605-6605 ms (1f) Bad form: keep your body straight
+   7910-9372 ms (45f) Rep 4: good
+   9917-11354 ms (45f) Rep 5: good

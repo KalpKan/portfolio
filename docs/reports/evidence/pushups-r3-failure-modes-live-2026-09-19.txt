@@ -1,0 +1,56 @@
+model path under test: /models/form-v3/model.json
+stale-v1-model {
+ "st": {
+  "status": "Could not start: form classifier at /models/form-v3/model.json expects 36 inputs, this code computes 24 (stale cached model?). Reload the page and try again.",
+  "good": "0",
+  "total": "0",
+  "form": "–",
+  "fps": "–",
+  "stopHidden": true,
+  "stageLive": false,
+  "startDisabled": false
+ },
+ "modelRequests": [
+  "/models/form-v3/model.json cache=-",
+  "/models/form-v3/group1-shard1of1.bin cache=-",
+  "/models/form-v3/model.json cache=-",
+  "/models/form-v3/group1-shard1of1.bin cache=-"
+ ],
+ "errors": [],
+ "errorCount": 0
+}
+stale-then-fresh {
+ "st": {
+  "status": "Clip finished: 3 good of 4. Play it again or start your camera.",
+  "good": "3",
+  "total": "4",
+  "form": "bad: keep your body straight",
+  "fps": "28 fps",
+  "stopHidden": true,
+  "stageLive": true,
+  "startDisabled": false
+ },
+ "modelRequests": [
+  "/models/form-v3/model.json n=1",
+  "/models/form-v3/group1-shard1of1.bin n=2",
+  "/models/form-v3/model.json n=3",
+  "/models/form-v3/group1-shard1of1.bin n=4"
+ ],
+ "errors": [],
+ "errorCount": 0
+}
+loop-throws {
+ "st": {
+  "status": "Something went wrong: injected loop failure. Reload the page and try again.",
+  "good": "1",
+  "total": "1",
+  "form": "–",
+  "fps": "–",
+  "stopHidden": true,
+  "stageLive": false,
+  "startDisabled": false
+ },
+ "modelRequests": [],
+ "errors": [],
+ "errorCount": 0
+}

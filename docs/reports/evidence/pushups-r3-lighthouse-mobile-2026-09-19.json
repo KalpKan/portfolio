@@ -1,0 +1,13 @@
+{
+ "url": "https://pushups.kalpkan.com/",
+ "scores": {
+  "performance": 1,
+  "accessibility": 1,
+  "best-practices": 1
+ },
+ "FCP": "1.3\u00a0s",
+ "LCP": "1.3\u00a0s",
+ "TBT": "70\u00a0ms",
+ "CLS": "0",
+ "lighthouseVersion": "12.8.2"
+}

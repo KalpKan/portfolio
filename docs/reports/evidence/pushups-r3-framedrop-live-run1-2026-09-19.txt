@@ -1,0 +1,15 @@
+IMG_1305        30fps 5/5 ggggg  | 20fps 5/5 ggggg  | 15fps 5/5 ggggg  | 10fps 5/5 ggggg
+IMG_1359        30fps 9/8 gggggbggg  | 20fps 9/8 gggggbggg  | 15fps 9/8 gggggbggg  | 10fps 9/8 gggggbggg
+IMG_1360        30fps 6/6 gggggg  | 20fps 6/6 gggggg  | 15fps 6/6 gggggg  | 10fps 6/6 gggggg
+IMG_1512        30fps 6/5 gggggb  | 20fps 6/5 gggggb  | 15fps 6/5 gggggb  | 10fps 6/5 gggggb
+IMG_1513        30fps 1/1 g  | 20fps 1/1 g  | 15fps 1/1 g  | 10fps 1/1 g
+bad_IMG_4451    30fps 4/0 bbbb  | 20fps 4/0 bbbb  | 15fps 4/0 bbbb  | 10fps 4/0 bbbb
+bad_IMG_4456    30fps 4/0 bbbb  | 20fps 4/0 bbbb  | 15fps 4/0 bbbb  | 10fps 4/1 bbbg
+bad_IMG_4470    30fps 4/0 bbbb  | 20fps 4/1 bbgb  | 15fps 4/0 bbbb  | 10fps 4/1 bbgb
+demo            30fps 4/4 gggg  | 20fps 4/4 gggg  | 15fps 4/4 gggg  | 10fps 4/3 gggb
+good_IMG_4378   30fps 8/8 gggggggg  | 20fps 8/8 gggggggg  | 15fps 8/8 gggggggg  | 10fps 8/8 gggggggg
+good_IMG_4409   30fps 5/5 ggggg  | 20fps 5/5 ggggg  | 15fps 5/5 ggggg  | 10fps 5/5 ggggg
+test_video      30fps 4/2 bbgg  | 20fps 4/2 bbgg  | 15fps 4/2 bbgg  | 10fps 4/2 bbgg
+test_video3     30fps 5/3 gggbb  | 20fps 5/3 gggbb  | 15fps 5/4 ggggb  | 10fps 5/3 gggbb
+test_video_2    30fps 4/2 gbbg  | 20fps 4/2 gbbg  | 15fps 4/2 gbbg  | 10fps 4/2 gbbg
+test_video_4    30fps 5/4 ggggb  | 20fps 5/4 ggggb  | 15fps 5/4 ggggb  | 10fps 5/4 ggggb

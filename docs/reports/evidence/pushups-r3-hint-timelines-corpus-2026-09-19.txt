@@ -1,0 +1,135 @@
+demo: 4 attempts / 4 good  fps 30 (min 29)  events: 1.2s good, 2.2s good, 4.3s good, 7.1s good
+   101-8424 ms (113f) Bad form: keep your body straight
+   1152-2134 ms (30f) Rep 1: good
+   2164-3650 ms (46f) Rep 2: good
+   4305-5783 ms (45f) Rep 3: good
+   582-7086 ms (135f) Good form
+   7086-8569 ms (45f) Rep 4: good
+   9165-11136 ms (60f) Too dark: turn a light on or uncover the camera
+test_video3: 5 attempts / 3 good  fps 30 (min 30)  events: 1.2s good, 2.2s good, 4.3s good, 7.1s bad:keep your body straight, 10.3s bad:keep your body straight
+   10252-11719 ms (45f) Rep 5: keep your body straight
+   1145-2117 ms (30f) Rep 1: good
+   11656-13479 ms (56f) Bad form: knees down
+   14234-16169 ms (59f) Too dark: turn a light on or uncover the camera
+   2157-3617 ms (45f) Rep 2: good
+   4319-5783 ms (45f) Rep 3: good
+   619-9919 ms (137f) Good form
+   7087-8545 ms (45f) Rep 4: keep your body straight
+   79-11617 ms (208f) Bad form: keep your body straight
+test_video_2: 4 attempts / 2 good  fps 30 (min 30)  events: 3.3s good, 9.6s bad:keep your body straight, 16.6s bad:knees down, 22.3s good
+   10304-11238 ms (29f) Bad form: hips too high
+   11504-19406 ms (238f) Bad form: knees down
+   16576-18039 ms (45f) Rep 3: knees down
+   1707-23306 ms (283f) Head out of frame: move the camera back or tilt it up
+   22308-23766 ms (45f) Rep 4: good
+   24094-26267 ms (66f) Too dark: turn a light on or uncover the camera
+   271-22840 ms (202f) Good form
+   3310-4773 ms (45f) Rep 1: good
+   65-23373 ms (232f) Bad form: keep your body straight
+   9577-11039 ms (45f) Rep 2: keep your body straight
+test_video_4: 5 attempts / 4 good  fps 29 (min 27)  events: 2.2s good, 3.8s good, 5.4s good, 7.0s good, 11.0s bad:keep your body straight
+   10956-12440 ms (42f) Rep 5: keep your body straight
+   12223-12588 ms (11f) Bad form: knees down
+   13312-15275 ms (59f) Too dark: turn a light on or uncover the camera
+   2185-3652 ms (45f) Rep 1: good
+   3790-5280 ms (44f) Rep 2: good
+   5357-6820 ms (45f) Rep 3: good
+   683-12196 ms (170f) Good form
+   6954-8420 ms (45f) Rep 4: good
+   81-12098 ms (186f) Bad form: keep your body straight
+good_IMG_4378: 8 attempts / 8 good  fps 27 (min 20)  events: 1.4s good, 3.3s good, 5.3s good, 7.4s good, 9.4s good, 11.3s good, 13.1s good, 15.1s good
+   11322-12801 ms (41f) Rep 6: good
+   13144-14644 ms (43f) Rep 7: good
+   1344-4040 ms (72f) Head out of frame: move the camera back or tilt it up
+   1436-2898 ms (38f) Rep 1: good
+   15107-16562 ms (44f) Rep 8: good
+   16946-19562 ms (78f) Too dark: turn a light on or uncover the camera
+   19234-19562 ms (10f) Counting paused
+   3335-4787 ms (41f) Rep 2: good
+   3709-16186 ms (92f) Bad form: keep your body straight
+   5355-6841 ms (42f) Rep 3: good
+   7401-8891 ms (41f) Rep 4: good
+   91-15308 ms (331f) Good form
+   9387-10863 ms (32f) Rep 5: good
+bad_IMG_4456: 4 attempts / 0 good  fps 26 (min 24)  events: 1.3s bad:keep your body straight, 2.7s bad:keep your body straight, 4.0s bad:keep your body straight, 5.7s bad:keep your body straight
+   1286-2617 ms (36f) Rep 1: keep your body straight
+   2648-3984 ms (34f) Rep 2: keep your body straight
+   388-5237 ms (33f) Good form
+   4021-5498 ms (40f) Rep 3: keep your body straight
+   5699-7164 ms (43f) Rep 4: keep your body straight
+   70-6304 ms (128f) Bad form: keep your body straight
+   7031-9132 ms (64f) Too dark: turn a light on or uncover the camera
+bad_IMG_4470: 4 attempts / 0 good  fps 29 (min 26)  events: 1.5s bad:keep your body straight, 2.6s bad:keep your body straight, 4.3s bad:keep your body straight, 6.0s bad:hips sagging
+   1133-1133 ms (1f) Good form
+   1471-2577 ms (33f) Rep 1: keep your body straight
+   2610-4081 ms (43f) Rep 2: keep your body straight
+   3824-3889 ms (3f) Bad form: knees down
+   3911-6604 ms (30f) Bad form: hips sagging
+   4293-5782 ms (46f) Rep 3: keep your body straight
+   5974-7457 ms (45f) Rep 4: hips sagging
+   7059-7732 ms (21f) Bad form: hips too high
+   8468-10112 ms (50f) Too dark: turn a light on or uncover the camera
+   93-7024 ms (167f) Bad form: keep your body straight
+bad_IMG_4451: 4 attempts / 0 good  fps 28 (min 24)  events: 1.7s bad:keep your body straight, 3.3s bad:keep your body straight, 5.1s bad:keep your body straight, 6.9s bad:keep your body straight
+   1688-3183 ms (39f) Rep 1: keep your body straight
+   3256-4726 ms (42f) Rep 2: keep your body straight
+   5131-6623 ms (44f) Rep 3: keep your body straight
+   6892-8370 ms (42f) Rep 4: keep your body straight
+   75-7747 ms (211f) Bad form: keep your body straight
+   8471-10136 ms (51f) Too dark: turn a light on or uncover the camera
+IMG_1305: 5 attempts / 5 good  fps 30 (min 27)  events: 0.8s partial, 2.9s good, 4.1s good, 5.6s good, 6.8s good, 8.0s good
+   2925-4039 ms (35f) Rep 1: good
+   4078-5510 ms (44f) Rep 2: good
+   5547-6755 ms (37f) Rep 3: good
+   6806-7939 ms (36f) Rep 4: good
+   79-8173 ms (242f) Good form
+   7977-9448 ms (45f) Rep 5: good
+   816-2309 ms (46f) Go lower: that dip was too shallow to count
+   8209-8541 ms (11f) Bad form: keep your body straight
+   8576-8576 ms (1f) Bad form: hips too high
+   9311-11101 ms (55f) Too dark: turn a light on or uncover the camera
+IMG_1359: 9 attempts / 8 good  fps 30 (min 29)  events: 1.6s good, 7.6s good, 8.6s good, 9.7s good, 11.7s good, 14.1s bad:hips too high, 15.7s good, 16.8s good, 17.9s good
+   11655-13119 ms (45f) Rep 5: good
+   13057-14019 ms (30f) Bad form: hips too high
+   14092-15554 ms (45f) Rep 6: hips too high
+   15688-16777 ms (34f) Rep 7: good
+   1625-3087 ms (45f) Rep 1: good
+   16812-17851 ms (32f) Rep 8: good
+   17890-19370 ms (45f) Rep 9: good
+   19242-21243 ms (61f) Too dark: turn a light on or uncover the camera
+   2524-11254 ms (169f) Head out of frame: move the camera back or tilt it up
+   5458-6093 ms (20f) Bad form: knees down
+   7591-8577 ms (31f) Rep 2: good
+   79-18486 ms (502f) Good form
+   8621-9657 ms (32f) Rep 3: good
+   9695-11188 ms (46f) Rep 4: good
+IMG_1360: 6 attempts / 6 good  fps 30 (min 29)  events: 2.6s good, 4.3s good, 6.0s good, 7.7s good, 9.0s partial, 10.6s good, 12.2s good
+   10632-12110 ms (46f) Rep 5: good
+   12142-13596 ms (45f) Rep 6: good
+   12822-13510 ms (22f) Bad form: knees down
+   14037-16196 ms (66f) Too dark: turn a light on or uncover the camera
+   2591-4078 ms (46f) Rep 1: good
+   4313-5782 ms (45f) Rep 2: good
+   6025-7521 ms (46f) Rep 3: good
+   7689-8921 ms (38f) Rep 4: good
+   78-12790 ms (347f) Good form
+   8179-9311 ms (35f) Bad form: hips sagging
+   8955-10419 ms (45f) Go lower: that dip was too shallow to count
+IMG_1512: 6 attempts / 5 good  fps 30 (min 28)  events: 5.0s good, 9.1s good, 13.7s good, 22.1s good, 27.3s partial, 29.7s good, 33.1s bad:hips too high
+   13644-15137 ms (46f) Rep 3: good
+   22079-23552 ms (45f) Rep 4: good
+   23441-34700 ms (149f) Bad form: hips too high
+   27305-28783 ms (45f) Go lower: that dip was too shallow to count
+   28742-28742 ms (1f) Bad form: knees down
+   29721-31176 ms (45f) Rep 5: good
+   33121-34618 ms (46f) Rep 6: hips too high
+   35431-37361 ms (59f) Too dark: turn a light on or uncover the camera
+   4937-6411 ms (45f) Rep 1: good
+   68-30442 ms (881f) Good form
+   9109-10575 ms (45f) Rep 2: good
+IMG_1513: 1 attempts / 1 good  fps 30 (min 30)  events: 6.7s good
+   11105-11139 ms (2f) Counting paused
+   6708-8159 ms (45f) Rep 1: good
+   72-7459 ms (223f) Good form
+   7484-8070 ms (19f) Bad form: knees down
+   8816-11139 ms (71f) Too dark: turn a light on or uncover the camera

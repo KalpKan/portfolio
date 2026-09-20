@@ -1,0 +1,693 @@
+{
+  "layout": [
+    {
+      "scheme": "dark",
+      "w": 360,
+      "scrollW": 360,
+      "innerW": 360,
+      "innerH": 844,
+      "cls": 0,
+      "start": {
+        "top": 340,
+        "height": 50
+      },
+      "demo": {
+        "top": 400,
+        "height": 50
+      },
+      "status": {
+        "top": 462,
+        "height": 24
+      },
+      "stage": {
+        "top": 498,
+        "height": 246
+      },
+      "notesTop": 931,
+      "ledeTop": 104,
+      "ledeText": "Phone or laptop on the floor, side-on, whole body in frame, one person. Do pushups and the",
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "dark",
+      "w": 390,
+      "scrollW": 390,
+      "innerW": 390,
+      "innerH": 844,
+      "cls": 0,
+      "start": {
+        "top": 297,
+        "height": 50
+      },
+      "demo": {
+        "top": 357,
+        "height": 50
+      },
+      "status": {
+        "top": 419,
+        "height": 24
+      },
+      "stage": {
+        "top": 455,
+        "height": 269
+      },
+      "notesTop": 910,
+      "ledeTop": 85,
+      "ledeText": "Phone or laptop on the floor, side-on, whole body in frame, one person. Do pushups and the",
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "dark",
+      "w": 430,
+      "scrollW": 430,
+      "innerW": 430,
+      "innerH": 844,
+      "cls": 0,
+      "start": {
+        "top": 297,
+        "height": 50
+      },
+      "demo": {
+        "top": 357,
+        "height": 50
+      },
+      "status": {
+        "top": 419,
+        "height": 24
+      },
+      "stage": {
+        "top": 455,
+        "height": 299
+      },
+      "notesTop": 940,
+      "ledeTop": 85,
+      "ledeText": "Phone or laptop on the floor, side-on, whole body in frame, one person. Do pushups and the",
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "dark",
+      "w": 1280,
+      "scrollW": 1280,
+      "innerW": 1280,
+      "innerH": 800,
+      "cls": 0,
+      "start": {
+        "top": 239,
+        "height": 50
+      },
+      "demo": {
+        "top": 239,
+        "height": 50
+      },
+      "status": {
+        "top": 301,
+        "height": 24
+      },
+      "stage": {
+        "top": 337,
+        "height": 636
+      },
+      "notesTop": 1084,
+      "ledeTop": 99,
+      "ledeText": "Phone or laptop on the floor, side-on, whole body in frame, one person. Do pushups and the",
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "light",
+      "w": 360,
+      "scrollW": 360,
+      "innerW": 360,
+      "innerH": 844,
+      "cls": 0,
+      "start": {
+        "top": 340,
+        "height": 50
+      },
+      "demo": {
+        "top": 400,
+        "height": 50
+      },
+      "status": {
+        "top": 462,
+        "height": 24
+      },
+      "stage": {
+        "top": 498,
+        "height": 246
+      },
+      "notesTop": 931,
+      "ledeTop": 104,
+      "ledeText": "Phone or laptop on the floor, side-on, whole body in frame, one person. Do pushups and the",
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "light",
+      "w": 390,
+      "scrollW": 390,
+      "innerW": 390,
+      "innerH": 844,
+      "cls": 0,
+      "start": {
+        "top": 297,
+        "height": 50
+      },
+      "demo": {
+        "top": 357,
+        "height": 50
+      },
+      "status": {
+        "top": 419,
+        "height": 24
+      },
+      "stage": {
+        "top": 455,
+        "height": 269
+      },
+      "notesTop": 910,
+      "ledeTop": 85,
+      "ledeText": "Phone or laptop on the floor, side-on, whole body in frame, one person. Do pushups and the",
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "light",
+      "w": 430,
+      "scrollW": 430,
+      "innerW": 430,
+      "innerH": 844,
+      "cls": 0,
+      "start": {
+        "top": 297,
+        "height": 50
+      },
+      "demo": {
+        "top": 357,
+        "height": 50
+      },
+      "status": {
+        "top": 419,
+        "height": 24
+      },
+      "stage": {
+        "top": 455,
+        "height": 299
+      },
+      "notesTop": 940,
+      "ledeTop": 85,
+      "ledeText": "Phone or laptop on the floor, side-on, whole body in frame, one person. Do pushups and the",
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    },
+    {
+      "scheme": "light",
+      "w": 1280,
+      "scrollW": 1280,
+      "innerW": 1280,
+      "innerH": 800,
+      "cls": 0,
+      "start": {
+        "top": 239,
+        "height": 50
+      },
+      "demo": {
+        "top": 239,
+        "height": 50
+      },
+      "status": {
+        "top": 301,
+        "height": 24
+      },
+      "stage": {
+        "top": 337,
+        "height": 636
+      },
+      "notesTop": 1084,
+      "ledeTop": 99,
+      "ledeText": "Phone or laptop on the floor, side-on, whole body in frame, one person. Do pushups and the",
+      "bg": "rgb(15, 17, 22)",
+      "fg": "rgb(242, 243, 245)",
+      "heavy": []
+    }
+  ],
+  "hints": {
+    "black": {
+      "final": {
+        "good": "0",
+        "total": "0",
+        "form": "paused",
+        "fps": "30 fps",
+        "status": "Get into pushup position side-on to the camera, whole body in frame."
+      },
+      "timeline": [
+        {
+          "text": "Too dark: turn a light on or uncover the camera",
+          "firstMs": 746,
+          "lastMs": 4007,
+          "frames": 99
+        }
+      ],
+      "hintFramesTotal": 99,
+      "framesTotal": 120,
+      "errors": []
+    },
+    "two-people": {
+      "final": {
+        "good": "0",
+        "total": "0",
+        "form": "paused",
+        "fps": "30 fps",
+        "status": "Get into pushup position side-on to the camera, whole body in frame."
+      },
+      "timeline": [
+        {
+          "text": "Bad form: hips too high",
+          "firstMs": 65,
+          "lastMs": 96,
+          "frames": 2
+        },
+        {
+          "text": "Bad form: keep your body straight",
+          "firstMs": 132,
+          "lastMs": 799,
+          "frames": 19
+        },
+        {
+          "text": "Good form",
+          "firstMs": 706,
+          "lastMs": 775,
+          "frames": 3
+        },
+        {
+          "text": "Counting paused",
+          "firstMs": 842,
+          "lastMs": 6020,
+          "frames": 156
+        },
+        {
+          "text": "Only one person in the frame, please",
+          "firstMs": 842,
+          "lastMs": 6020,
+          "frames": 156
+        }
+      ],
+      "hintFramesTotal": 312,
+      "framesTotal": 180,
+      "errors": []
+    },
+    "cropped-right": {
+      "final": {
+        "good": "0",
+        "total": "0",
+        "form": "paused",
+        "fps": "30 fps",
+        "status": "Get into pushup position side-on to the camera, whole body in frame."
+      },
+      "timeline": [
+        {
+          "text": "Step back so your whole body is visible",
+          "firstMs": 761,
+          "lastMs": 5992,
+          "frames": 158
+        }
+      ],
+      "hintFramesTotal": 158,
+      "framesTotal": 180,
+      "errors": []
+    },
+    "frontal": {
+      "final": {
+        "good": "0",
+        "total": "0",
+        "form": "paused",
+        "fps": "29 fps",
+        "status": "Get into pushup position side-on to the camera, whole body in frame."
+      },
+      "timeline": [
+        {
+          "text": "Counting paused",
+          "firstMs": 788,
+          "lastMs": 6028,
+          "frames": 155
+        },
+        {
+          "text": "Feet out of frame: move the camera back",
+          "firstMs": 788,
+          "lastMs": 6028,
+          "frames": 155
+        }
+      ],
+      "hintFramesTotal": 310,
+      "framesTotal": 177,
+      "errors": []
+    },
+    "IMG_1359": {
+      "final": {
+        "good": "8",
+        "total": "9",
+        "form": "no pose",
+        "fps": "29 fps",
+        "status": "Get into pushup position side-on to the camera, whole body in frame."
+      },
+      "timeline": [
+        {
+          "text": "Good form",
+          "firstMs": 127,
+          "lastMs": 18507,
+          "frames": 465
+        },
+        {
+          "text": "Rep 1: good",
+          "firstMs": 1659,
+          "lastMs": 3113,
+          "frames": 42
+        },
+        {
+          "text": "Head out of frame: move the camera back or tilt it up",
+          "firstMs": 2541,
+          "lastMs": 11250,
+          "frames": 160
+        },
+        {
+          "text": "Bad form: knees down",
+          "firstMs": 5468,
+          "lastMs": 6095,
+          "frames": 18
+        },
+        {
+          "text": "Rep 2: good",
+          "firstMs": 7615,
+          "lastMs": 8627,
+          "frames": 27
+        },
+        {
+          "text": "Rep 3: good",
+          "firstMs": 8661,
+          "lastMs": 9675,
+          "frames": 31
+        },
+        {
+          "text": "Rep 4: good",
+          "firstMs": 9713,
+          "lastMs": 11182,
+          "frames": 43
+        },
+        {
+          "text": "Rep 5: good",
+          "firstMs": 11651,
+          "lastMs": 13118,
+          "frames": 45
+        },
+        {
+          "text": "Bad form: hips too high",
+          "firstMs": 13056,
+          "lastMs": 14017,
+          "frames": 30
+        },
+        {
+          "text": "Rep 6: hips too high",
+          "firstMs": 14103,
+          "lastMs": 15586,
+          "frames": 43
+        },
+        {
+          "text": "Rep 7: good",
+          "firstMs": 15726,
+          "lastMs": 16811,
+          "frames": 29
+        },
+        {
+          "text": "Rep 8: good",
+          "firstMs": 16845,
+          "lastMs": 17868,
+          "frames": 30
+        },
+        {
+          "text": "Rep 9: good",
+          "firstMs": 17903,
+          "lastMs": 19012,
+          "frames": 35
+        }
+      ],
+      "hintFramesTotal": 160,
+      "framesTotal": 529,
+      "errors": []
+    },
+    "IMG_1305": {
+      "final": {
+        "good": "5",
+        "total": "5",
+        "form": "no pose",
+        "fps": "28 fps",
+        "status": "Get into pushup position side-on to the camera, whole body in frame."
+      },
+      "timeline": [
+        {
+          "text": "Good form",
+          "firstMs": 74,
+          "lastMs": 8185,
+          "frames": 233
+        },
+        {
+          "text": "Go lower: that dip was too shallow to count",
+          "firstMs": 838,
+          "lastMs": 2324,
+          "frames": 43
+        },
+        {
+          "text": "Bad form: keep your body straight",
+          "firstMs": 1339,
+          "lastMs": 8552,
+          "frames": 13
+        },
+        {
+          "text": "Rep 1: good",
+          "firstMs": 2943,
+          "lastMs": 4074,
+          "frames": 33
+        },
+        {
+          "text": "Rep 2: good",
+          "firstMs": 4112,
+          "lastMs": 5532,
+          "frames": 44
+        },
+        {
+          "text": "Rep 3: good",
+          "firstMs": 5566,
+          "lastMs": 6765,
+          "frames": 37
+        },
+        {
+          "text": "Rep 4: good",
+          "firstMs": 6802,
+          "lastMs": 7957,
+          "frames": 34
+        },
+        {
+          "text": "Rep 5: good",
+          "firstMs": 7986,
+          "lastMs": 9005,
+          "frames": 32
+        },
+        {
+          "text": "Bad form: hips too high",
+          "firstMs": 8585,
+          "lastMs": 8585,
+          "frames": 1
+        }
+      ],
+      "hintFramesTotal": 0,
+      "framesTotal": 260,
+      "errors": []
+    },
+    "IMG_1512": {
+      "final": {
+        "good": "5",
+        "total": "6",
+        "form": "no pose",
+        "fps": "30 fps",
+        "status": "Get into pushup position side-on to the camera, whole body in frame."
+      },
+      "timeline": [
+        {
+          "text": "Good form",
+          "firstMs": 81,
+          "lastMs": 30450,
+          "frames": 821
+        },
+        {
+          "text": "Rep 1: good",
+          "firstMs": 4965,
+          "lastMs": 6441,
+          "frames": 41
+        },
+        {
+          "text": "Rep 2: good",
+          "firstMs": 9150,
+          "lastMs": 10641,
+          "frames": 43
+        },
+        {
+          "text": "Rep 3: good",
+          "firstMs": 13650,
+          "lastMs": 15130,
+          "frames": 42
+        },
+        {
+          "text": "Rep 4: good",
+          "firstMs": 22100,
+          "lastMs": 23575,
+          "frames": 41
+        },
+        {
+          "text": "Bad form: hips too high",
+          "firstMs": 23434,
+          "lastMs": 34710,
+          "frames": 149
+        },
+        {
+          "text": "Go lower: that dip was too shallow to count",
+          "firstMs": 27309,
+          "lastMs": 28807,
+          "frames": 46
+        },
+        {
+          "text": "Bad form: knees down",
+          "firstMs": 28677,
+          "lastMs": 28742,
+          "frames": 2
+        },
+        {
+          "text": "Rep 5: good",
+          "firstMs": 29721,
+          "lastMs": 31210,
+          "frames": 46
+        },
+        {
+          "text": "Rep 6: hips too high",
+          "firstMs": 33119,
+          "lastMs": 34577,
+          "frames": 45
+        }
+      ],
+      "hintFramesTotal": 0,
+      "framesTotal": 989,
+      "errors": []
+    }
+  },
+  "portrait": {
+    "innerW": 390,
+    "innerH": 844,
+    "scrollW": 390,
+    "scrollY": 515,
+    "canvasPx": [
+      360,
+      480
+    ],
+    "canvas": {
+      "top": 24,
+      "bottom": 462,
+      "width": 358,
+      "height": 439
+    },
+    "stage": {
+      "top": 24,
+      "bottom": 462,
+      "width": 358,
+      "height": 439
+    },
+    "stats": {
+      "top": 476,
+      "bottom": 621,
+      "width": 358,
+      "height": 145
+    },
+    "statsLast": {
+      "top": 553,
+      "bottom": 621,
+      "width": 175,
+      "height": 68
+    },
+    "good": "1",
+    "total": "1",
+    "fps": "30 fps",
+    "form": "good",
+    "end": {
+      "good": "5",
+      "total": "5",
+      "form": "good",
+      "fps": "30 fps",
+      "status": "Get into pushup position side-on to the camera, whole body in frame."
+    }
+  },
+  "beforeStop": {
+    "good": "2",
+    "total": "2",
+    "form": "good",
+    "fps": "30 fps",
+    "status": "Get into pushup position side-on to the camera, whole body in frame."
+  },
+  "stop": {
+    "status": "Stopped: 2 good reps of 2 attempts.",
+    "trackStates": [
+      "ended"
+    ],
+    "srcObject": null,
+    "stopHidden": true,
+    "stageLive": true,
+    "startDisabled": false,
+    "good": "2",
+    "total": "2",
+    "form": "–",
+    "fps": "–"
+  },
+  "restart": {
+    "good": "0",
+    "total": "0",
+    "form": "good",
+    "fps": "31 fps",
+    "status": "Get into pushup position side-on to the camera, whole body in frame."
+  },
+  "doubleStart": {
+    "good": "0",
+    "total": "0",
+    "form": "good",
+    "fps": "31 fps",
+    "status": "Get into pushup position side-on to the camera, whole body in frame."
+  },
+  "hosts": [
+    "pushups.kalpkan.com"
+  ],
+  "requestsAfterLoad": [
+    "POST /ingest/i/v0/e/",
+    "POST /ingest/i/v0/e/ (1465 B)",
+    "POST /ingest/s/ (12526 B)",
+    "POST /ingest/i/v0/e/",
+    "POST /ingest/i/v0/e/",
+    "POST /ingest/s/ (14585 B)",
+    "POST /ingest/i/v0/e/ (1372 B)",
+    "POST /ingest/i/v0/e/",
+    "POST /ingest/i/v0/e/ (2029 B)",
+    "POST /ingest/s/ (6488 B)",
+    "POST /ingest/i/v0/e/"
+  ],
+  "errors": [],
+  "deny": {
+    "status": "Camera permission was refused. You can still watch the demo clip.",
+    "demoDisabled": false,
+    "startDisabled": false,
+    "stageLive": false
+  }
+}

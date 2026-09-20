@@ -1,0 +1,44 @@
+black: final {"good":"0","total":"0","form":"paused","fps":"30 fps"}
+  758-4017 ms (99f) Too dark: turn a light on or uncover the camera
+two-people: final {"good":"0","total":"0","form":"paused","fps":"27 fps"}
+  80-80 ms (1f) Bad form: hips too high
+  135-616 ms (14f) Bad form: keep your body straight
+  655-802 ms (5f) Good form
+  838-7018 ms (166f) Counting paused
+  838-7018 ms (166f) Only one person in the frame, please
+cropped-right: final {"good":"0","total":"0","form":"paused","fps":"30 fps"}
+  745-5993 ms (159f) Step back so your whole body is visible
+frontal: final {"good":"0","total":"0","form":"paused","fps":"27 fps"}
+  750-6024 ms (151f) Counting paused
+  750-6024 ms (151f) Feet out of frame: move the camera back
+portrait: final {"good":"4","total":"4","form":"good","fps":"27 fps"}
+  88-8012 ms (215f) Good form
+  2455-3932 ms (38f) Rep 1: good
+  4346-5820 ms (43f) Rep 2: good
+  6118-7592 ms (41f) Rep 3: good
+  7937-8012 ms (3f) Rep 4: good
+IMG_1359: final {"good":"8","total":"9","form":"no pose","fps":"30 fps"}
+  87-18490 ms (488f) Good form
+  1633-3120 ms (44f) Rep 1: good
+  2498-11232 ms (165f) Head out of frame: move the camera back or tilt it up
+  5456-6090 ms (20f) Bad form: knees down
+  7585-8586 ms (30f) Rep 2: good
+  8624-9649 ms (32f) Rep 3: good
+  9677-11151 ms (45f) Rep 4: good
+  11662-13141 ms (44f) Rep 5: good
+  13040-14020 ms (30f) Bad form: hips too high
+  14086-15557 ms (45f) Rep 6: hips too high
+  15696-16797 ms (33f) Rep 7: good
+  16831-17860 ms (32f) Rep 8: good
+  17891-18994 ms (35f) Rep 9: good
+IMG_1512: final {"good":"5","total":"6","form":"no pose","fps":"27 fps"}
+  84-30471 ms (852f) Good form
+  4954-6423 ms (45f) Rep 1: good
+  9123-10588 ms (45f) Rep 2: good
+  13665-15133 ms (42f) Rep 3: good
+  22097-23570 ms (43f) Rep 4: good
+  23471-34746 ms (139f) Bad form: hips too high
+  27363-28830 ms (41f) Go lower: that dip was too shallow to count
+  28718-28787 ms (2f) Bad form: knees down
+  29742-31236 ms (42f) Rep 5: good
+  33163-34643 ms (42f) Rep 6: hips too high

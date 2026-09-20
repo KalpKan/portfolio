@@ -1,0 +1,219 @@
+
+ RUN  v5.0.1 /Users/kalp/projects/pushups
+
+stderr | tests/corpus.test.ts
+
+============================
+Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dramatically, install our node backend, visit https://github.com/tensorflow/tfjs-node for more details. 
+============================
+
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > has a trace for every clip 1ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > demo: total 4±1, good 2-3±1 113ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > demo: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 128ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video3: total 5±1, good 2-4±1 76ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video3: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 191ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video3: no rep inside the not-rep windows 76ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video: total 4±1, good 2-2±1 101ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 262ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video: no rep inside the not-rep windows 97ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video_2: total 4±1, good 0-2±1 133ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video_2: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 309ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video_2: no rep inside the not-rep windows 129ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video_4: total 5±1, good 4-4±1 67ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video_4: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 166ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video_4: no rep inside the not-rep windows 72ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > good_IMG_4378: total 8±1, good 8-8±1 87ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > good_IMG_4378: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 332ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > good_IMG_4409: total 5±1, good 5-5±1 55ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > good_IMG_4409: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 139ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bad_IMG_4456: total 4±1, good 0-0±1 34ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bad_IMG_4456: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 86ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bad_IMG_4470: total 4±1, good 0-0±1 43ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bad_IMG_4470: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 112ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bad_IMG_4470: no rep inside the not-rep windows 62ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bad_IMG_4451: total 4±1, good 0-0±1 44ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bad_IMG_4451: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 108ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1305: total 6±1, good 6-6±1 133ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1305: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 165ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1305: no rep inside the not-rep windows 72ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1359: total 9±1, good 9-9±1 105ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1359: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 236ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1359: no rep inside the not-rep windows 93ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1360: total 6±1, good 6-6±1 69ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1360: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 171ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1360: no rep inside the not-rep windows 70ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1512: total 6±1, good 4-4±1 179ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1512: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 463ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1512: no rep inside the not-rep windows 183ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1513: total 1±1, good 0-0±1 41ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1513: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 102ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > IMG_1513: no rep inside the not-rep windows 41ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > test_video_2: the knee pushup at 15.9 s is an attempt graded 'knees down' (D3) 117ms
+stdout | tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bottom verdicts match the high-confidence labels
+[python] bottom verdicts: 65/67 high-confidence reps match
+  demo 6.2s label bad got good
+  IMG_1513 5.7s label bad got good
+
+stdout | tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > prints the corpus table
+
+[python] tracker corpus (15 clips):
+demo             ok   total 4 (want 4)  good 4 (want 2-3)  events 1.2g 2.2g 4.4g 7.1g
+test_video3      ok   total 5 (want 5)  good 3 (want 2-4)  events 1.2g 2.2g 4.4g 7.1b(keep your body straight) 10.3b(keep your body straight)
+test_video       ok   total 4 (want 4)  good 2 (want 2-2)  events 4.2b(hips sagging) 10.4b(keep your body straight) 13.9g 15.4g
+test_video_2     ok   total 4 (want 4)  good 2 (want 0-2)  events 3.3g 9.5b(keep your body straight) 16.7b(knees down) 22.3g
+test_video_4     ok   total 5 (want 5)  good 4 (want 4-4)  events 2.2g 3.8g 5.4g 7.0g 11.0b(keep your body straight)
+good_IMG_4378    ok   total 8 (want 8)  good 8 (want 8-8)  events 1.4g 3.3g 5.3g 7.3g 9.3g 11.3g 13.1g 15.0g
+good_IMG_4409    ok   total 5 (want 5)  good 5 (want 5-5)  events 2.5g 4.3g 6.2g 7.9g 9.9g
+bad_IMG_4456     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.3b(keep your body straight) 2.7b(keep your body straight) 4.0b(keep your body straight) 5.7b(keep your body straight)
+bad_IMG_4470     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.5b(hips sagging) 2.6b(hips sagging) 4.3b(hips sagging) 6.0b(hips sagging)
+bad_IMG_4451     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.7b(keep your body straight) 3.3b(keep your body straight) 5.1b(keep your body straight) 6.9b(keep your body straight)
+IMG_1305         ok   total 5 (want 6)  good 5 (want 6-6)  events 3.0g 4.1g 5.6g 6.8g 8.0g
+IMG_1359         ok   total 9 (want 9)  good 8 (want 9-9)  events 1.6g 7.6g 8.7g 9.7g 11.7g 14.1b(hips too high) 15.7g 16.8g 17.9g
+IMG_1360         ok   total 6 (want 6)  good 6 (want 6-6)  events 2.6g 4.3g 6.0g 7.7g 10.6g 12.2g
+IMG_1512         ok   total 6 (want 6)  good 5 (want 4-4)  events 5.0g 9.2g 13.7g 22.1g 29.8g 33.2b(hips too high)
+IMG_1513         ok   total 1 (want 1)  good 1 (want 0-0)  events 6.7g
+
+
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > bottom verdicts match the high-confidence labels 1138ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (python landmark traces) > prints the corpus table 0ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > has a trace for every clip 0ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > demo: total 4±1, good 2-3±1 47ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > demo: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 120ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video3: total 5±1, good 2-4±1 73ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video3: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 419ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video3: no rep inside the not-rep windows 188ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video: total 4±1, good 2-2±1 356ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 505ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video: no rep inside the not-rep windows 126ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video_2: total 4±1, good 0-2±1 232ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video_2: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 491ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video_2: no rep inside the not-rep windows 147ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video_4: total 5±1, good 4-4±1 75ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video_4: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 311ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video_4: no rep inside the not-rep windows 136ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > good_IMG_4378: total 8±1, good 8-8±1 178ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > good_IMG_4378: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 284ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > good_IMG_4409: total 5±1, good 5-5±1 61ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > good_IMG_4409: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 144ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bad_IMG_4456: total 4±1, good 0-0±1 38ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bad_IMG_4456: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 103ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bad_IMG_4470: total 4±1, good 0-0±1 52ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bad_IMG_4470: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 117ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bad_IMG_4470: no rep inside the not-rep windows 36ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bad_IMG_4451: total 4±1, good 0-0±1 48ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bad_IMG_4451: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 105ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1305: total 6±1, good 6-6±1 46ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1305: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 122ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1305: no rep inside the not-rep windows 45ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1359: total 9±1, good 9-9±1 144ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1359: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 444ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1359: no rep inside the not-rep windows 109ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1360: total 6±1, good 6-6±1 81ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1360: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 371ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1360: no rep inside the not-rep windows 102ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1512: total 6±1, good 4-4±1 369ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1512: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 845ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1512: no rep inside the not-rep windows 206ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1513: total 1±1, good 0-0±1 46ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1513: same attempts at 30, 20, 15 and 10 fps; only classifier coin-flips may change verdict 122ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > IMG_1513: no rep inside the not-rep windows 50ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > test_video_2: the knee pushup at 15.9 s is an attempt graded 'knees down' (D3) 150ms
+stdout | tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bottom verdicts match the high-confidence labels
+[browser] bottom verdicts: 65/67 high-confidence reps match
+  demo 6.2s label bad got good
+  IMG_1513 5.7s label bad got good
+
+stdout | tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > prints the corpus table
+
+[browser] tracker corpus (15 clips):
+demo             ok   total 4 (want 4)  good 4 (want 2-3)  events 1.2g 2.2g 4.4g 7.1g
+test_video3      ok   total 5 (want 5)  good 3 (want 2-4)  events 1.2g 2.2g 4.3g 7.1b(keep your body straight) 10.3b(keep your body straight)
+test_video       ok   total 4 (want 4)  good 2 (want 2-2)  events 4.2b(hips sagging) 10.4b(keep your body straight) 13.9g 15.4g
+test_video_2     ok   total 4 (want 4)  good 2 (want 0-2)  events 3.3g 9.6b(keep your body straight) 16.6b(knees down) 22.4g
+test_video_4     ok   total 5 (want 5)  good 4 (want 4-4)  events 2.2g 3.8g 5.4g 7.0g 11.0b(keep your body straight)
+good_IMG_4378    ok   total 8 (want 8)  good 8 (want 8-8)  events 1.4g 3.3g 5.3g 7.3g 9.3g 11.3g 13.1g 15.1g
+good_IMG_4409    ok   total 5 (want 5)  good 5 (want 5-5)  events 2.5g 4.3g 6.1g 8.0g 9.9g
+bad_IMG_4456     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.3b(keep your body straight) 2.7b(keep your body straight) 4.0b(keep your body straight) 5.7b(keep your body straight)
+bad_IMG_4470     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.5b(keep your body straight) 2.6b(keep your body straight) 4.3b(keep your body straight) 6.0b(hips sagging)
+bad_IMG_4451     ok   total 4 (want 4)  good 0 (want 0-0)  events 1.7b(keep your body straight) 3.3b(keep your body straight) 5.1b(keep your body straight) 6.9b(keep your body straight)
+IMG_1305         ok   total 5 (want 6)  good 5 (want 6-6)  events 2.9g 4.1g 5.6g 6.8g 8.0g
+IMG_1359         ok   total 9 (want 9)  good 8 (want 9-9)  events 1.6g 7.6g 8.6g 9.7g 11.7g 14.1b(hips too high) 15.7g 16.8g 17.9g
+IMG_1360         ok   total 6 (want 6)  good 6 (want 6-6)  events 2.6g 4.3g 6.0g 7.7g 10.6g 12.2g
+IMG_1512         ok   total 6 (want 6)  good 5 (want 4-4)  events 5.0g 9.1g 13.7g 22.1g 29.7g 33.1b(hips too high)
+IMG_1513         ok   total 1 (want 1)  good 1 (want 0-0)  events 6.7g
+
+
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > bottom verdicts match the high-confidence labels 1218ms
+ ✓ tests/corpus.test.ts > tracker vs hand-labelled ground truth (browser landmark traces) > prints the corpus table 1ms
+stderr | tests/classifier.test.ts > classifier v3 (TF.js port of scripts/form_v3.h5) > reproduces the Keras probabilities on the held-out fixture within 1e-4
+
+============================
+Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dramatically, install our node backend, visit https://github.com/tensorflow/tfjs-node for more details. 
+============================
+
+stdout | tests/classifier.test.ts > classifier v3 (TF.js port of scripts/form_v3.h5) > reproduces the Keras probabilities on the held-out fixture within 1e-4
+classifier: 60 frames compared, max |tfjs - keras| = 1.19e-7
+
+ ✓ tests/classifier.test.ts > classifier v3 (TF.js port of scripts/form_v3.h5) > scaler constants have 24 entries and scale() standardises 2ms
+ ✓ tests/classifier.test.ts > classifier v3 (TF.js port of scripts/form_v3.h5) > reproduces the Keras probabilities on the held-out fixture within 1e-4 86ms
+ ✓ tests/classifier.test.ts > classifier v3 (TF.js port of scripts/form_v3.h5) > separates the held-out good and bad frames well above chance 30ms
+ ✓ tests/features.test.ts > features > uses the 12 MediaPipe landmarks in the Python order (wrists, elbows, shoulders, hips, knees, ankles) 2ms
+ ✓ tests/features.test.ts > features > reproduces the Python feature vector and shoulder height from the full 33-point pose 31ms
+ ✓ tests/features.test.ts > features > throws on a pose with fewer than 29 points 1ms
+ ✓ tests/form.test.ts > form rules > calls the pike in IMG_1512 'hips too high' at the top and the bottom 5ms
+ ✓ tests/form.test.ts > form rules > calls kneeling in test_video_2 'knees down' and not plank-like 3ms
+ ✓ tests/form.test.ts > form rules > a knee-pushup position (body horizontal, knees on the floor) is an eligible kneeling top 3ms
+ ✓ tests/form.test.ts > form rules > calls the sag in bad_IMG_4470 'hips sagging' 1ms
+ ✓ tests/form.test.ts > form rules > finds no fault in a clean plank (IMG_1305 top, good_IMG_4378 bottom) 3ms
+ ✓ tests/form.test.ts > form rules > standing (test_video3 13.4 s) is not plank-like 1ms
+ ✓ tests/form.test.ts > form rules > trusts the classifier only in the training orientation (feet left of the shoulders) and with a probability 7ms
+stderr | tests/classifierUrl.test.ts > createClassifier refuses a model whose input width is not INPUTS > rejects a 36-input (v1) model with a message naming both widths
+
+============================
+Hi, looks like you are running TensorFlow.js in Node.js. To speed things up dramatically, install our node backend, visit https://github.com/tensorflow/tfjs-node for more details. 
+============================
+
+ ✓ tests/classifierUrl.test.ts > form classifier URL (D1: versioned against the immutable cache) > is versioned and the version is not the one that shipped the 36-input model 1ms
+ ✓ tests/classifierUrl.test.ts > form classifier URL (D1: versioned against the immutable cache) > points at model files that exist in public/ and carry INPUTS inputs 1ms
+ ✓ tests/classifierUrl.test.ts > form classifier URL (D1: versioned against the immutable cache) > the old unversioned path is gone (a stale browser must never find a file there) 0ms
+ ✓ tests/classifierUrl.test.ts > createClassifier refuses a model whose input width is not INPUTS > rejects a 36-input (v1) model with a message naming both widths 9ms
+ ✓ tests/classifierUrl.test.ts > createClassifier refuses a model whose input width is not INPUTS > accepts a model with INPUTS inputs 6ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > counts every rep of a clean set, including the first, as good 2ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > gives the same count at 30, 15 and 10 fps for fast reps (0.7 s) 1ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > does not count a partial dip (a third of the range) but reports it as a partial 1ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > does not count a rise that starts at the bottom (no top seen first) 0ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > ignores frames that are not plank-like for the top (standing up before and after) 0ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > does not turn a drop onto the knees (non-plank frames) into a rep 0ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > counts a knee pushup (kneeling top, knees down throughout) as an attempt graded 'knees down' 0ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > does not count a plank top that bottoms out on the knees (dropping to the knees to rest) 0ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > judges each end on the majority of its frames, not a single one 1ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > ignores single-frame landmark spikes at the top and at the bottom 0ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > reports the reason of a bad rep 0ms
+ ✓ tests/repCounter.test.ts > createRepCounter (time-based, body-scaled) > scales the minimum depth with the body: a rep of 0.35 torso counts, 0.15 torso does not 0ms
+ ✓ tests/hints.test.ts > placementHint > says nothing for a clean side-on plank 2ms
+ ✓ tests/hints.test.ts > placementHint > asks for light when there is no pose and the frame is dark 0ms
+ ✓ tests/hints.test.ts > placementHint > asks to step back when there is no pose in a lit frame 0ms
+ ✓ tests/hints.test.ts > placementHint > says the head is out of frame 0ms
+ ✓ tests/hints.test.ts > placementHint > says the feet are out of frame 0ms
+ ✓ tests/hints.test.ts > placementHint > asks for one person when two poses of comparable size are found apart 0ms
+ ✓ tests/hints.test.ts > placementHint > ignores a phantom second pose inside the first body (D6: IMG_1512 lying flat gave a 0.15-0.5x torso inside the same box) 0ms
+ ✓ tests/hints.test.ts > placementHint > says the head is out of frame when an ear is past the edge even though the nose was guessed inside (D4) 0ms
+ ✓ tests/hints.test.ts > placementHint > asks to turn side-on for a frontal pose (shoulders wide apart, short body line) 0ms
+ ✓ tests/hints.test.ts > createHintDebouncer (hysteresis, D4) > shows a hint after 700 ms of any problem, even when the problem's text keeps changing 1ms
+ ✓ tests/hints.test.ts > createHintDebouncer (hysteresis, D4) > shows nothing for a problem shorter than 700 ms 0ms
+ ✓ tests/hints.test.ts > createHintDebouncer (hysteresis, D4) > keeps the hint through short clean blips and clears it after 700 ms of clean frames 0ms
+ ✓ tests/hints.test.ts > createHintDebouncer (hysteresis, D4) > switches the text at once when the problem changes while a hint is up 0ms
+ ✓ tests/hints.test.ts > pausesCounting (D4/D5: which placement problems stop the counter) > pauses for no pose, darkness, two people and a frontal view 0ms
+ ✓ tests/hints.test.ts > pausesCounting (D4/D5: which placement problems stop the counter) > keeps counting when the head is only just past the edge (Kalp's clips dip the nose to x 1.03 at every bottom) but pauses when it is well outside or invisible 0ms
+ ✓ tests/hints.test.ts > pausesCounting (D4/D5: which placement problems stop the counter) > pauses when both feet are invisible (a frontal upper body) but not when they merely touch the edge 0ms
+ ✓ tests/hints.test.ts > pausesCounting (D4/D5: which placement problems stop the counter) > does not pause a clean plank 0ms
+ ✓ tests/formFeatures.test.ts > formFeatures > good_IMG_4378 at 2.8s matches the Python trainer 5ms
+ ✓ tests/formFeatures.test.ts > formFeatures > IMG_1512 at 32.6s matches the Python trainer 0ms
+ ✓ tests/formFeatures.test.ts > formFeatures > bad_IMG_4456 at 2.2s matches the Python trainer 1ms
+ ✓ tests/formFeatures.test.ts > formFeatures > is mirror-invariant: flipping the frame horizontally gives the same features 0ms
+
+ Test Files  8 passed (8)
+      Tests  139 passed (139)
+   Start at  20:06:36
+   Duration  16.96s (tests 95%, import 4%, transform 1%)
+

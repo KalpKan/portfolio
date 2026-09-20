@@ -1,0 +1,8 @@
+portrait: 5 attempts / 5 good  fps 29 (min 26)  events: 2.5s good, 4.3s good, 6.1s good, 7.9s good, 9.9s good
+   2470-3957 ms (42f) Rep 1: good
+   4328-5795 ms (43f) Rep 2: good
+   6115-7610 ms (42f) Rep 3: good
+   7933-9413 ms (46f) Rep 4: good
+   9384-10283 ms (5f) Bad form: keep your body straight
+   98-12261 ms (344f) Good form
+   9909-11402 ms (46f) Rep 5: good
