@@ -2349,3 +2349,161 @@ _Entries begin below, oldest first._
 - **Fix:** copy the script into `~/projects/pushups/scripts/` (puppeteer-core) or into the scratchpad folder that holds `node_modules/playwright` before running; the verification rows now say so and use the copy-then-delete form
 - **Prevention:** every verification row that runs an evidence script names where to copy it first; a future round could move the reusable runners into `scripts/` of the app repo
 - **Reported by:** Phase 5 TEST agent (pushups round 4)
+
+### 2026-09-19: pushups FIX round 1 could not deploy: 113 deployments in the team's rolling 24 h window (74 from the hub) until 19:19 UTC (Phase 5 FIX agent, pushups round 1)
+
+- **Date:** 2026-09-19 03:00 UTC
+- **Affected:** `KalpKan/pushup-tracker-web` (production stays `4f0708e` until redeployed)
+- **Symptom:** the paginated `GET /v6/deployments?teamId=…&since=<now-24h>` count was **113** at 03:01 UTC (portfolio 74, microtubules 9, plantit 9, hoops 7, pushups 6, plato 5, promptflip 2, emotes 1); the window drops below 100 at **2026-09-19 19:19:31 UTC**. Same cause as the plantit entry above; no deploy attempt was made (each refused attempt is noise in the log).
+- **Fix:** none possible at $0 without waiting. Verified on the production build served locally (`npm run build && npx vite preview --port 4177`, the same `dist/` Vercel serves): fake-camera corpus ×3, demo ×3, Lighthouse, phone widths (numbers in `verification.md` and the STATUS row).
+- **Prevention:** **any agent after 19:20 UTC 2026-09-19** runs `bash ~/projects/portfolio/scripts/vercel-redeploy-when-quota-frees.sh ~/projects/pushups pushups.kalpkan.com 20 10`, then the live rows in `verification.md` (corpus ×3, demo ×3 on `https://pushups.kalpkan.com/`). Batch hub docs pushes.
+- **Reported by:** Phase 5 FIX agent (pushups, round 1)
+
+### 2026-09-19: emotes, a thumbs-up beside the head fires Goblin Muscle 8 times in 13 through the real pipeline while the corpus says 100 % (Phase 5 TEST agent, emotes round 2; report D1, blocker)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `KalpKan/emote-detector-web` `4e25a95` (the FIX r1 rules; not yet on production)
+- **Symptom:** `thumbs_up-04` (thumb up next to the cheek, elbow bent, the spec's S2 "beside my face") repeated four times in a fake-camera clip, three runs on the production build served locally: Goblin Muscle ×8, Thumbs Up ×5. `npm run report` scores the same photo `thumbs_up 1.00 flex 0.43`, so the corpus gate is green.
+- **Root cause:** the corpus holds IMAGE-mode landmarks (steady); the page runs the models in VIDEO mode, where the lite pose model's wrist/shoulder estimate on a static frame jitters enough that the flex `height` cue (`flex.ts:62`, wrist 0.2–0.4 shoulder-widths above the shoulder) reads 0.2, 0.9, 0.5, 1.0 … on consecutive 100 ms samples (`docs/reports/evidence/emotes-r2-video-mode-cues-thumbs_up-04-2026-09-19.txt`). `fuseScores` (`engine.ts:88-93`) resolves flex-vs-thumbs-up per frame with a hard veto (flex ≥ 0.5 zeroes the thumbs-up unless it leads by 0.25; 1.0 − 0.85 = 0.15), *before* the time-based engine, so the fused pair flips {flex 0.85, thumbs 0} ↔ {flex 0, thumbs 1.0} every frame and the two charge clocks race; whichever fills first fires and the 2 s gate swallows the other.
+- **Fix:** none yet (TEST round). Suggested: resolve the conflict on ~300 ms-smoothed scores, prefer a hand-model thumbs-up with every cue ≥ 0.9 over a flex whose weakest cue is < 0.9, and steady the flex height cue (elbow→wrist angle instead of a 0.2-wide band).
+- **Prevention:** the corpus needs VIDEO-mode fixtures: `emotes-r2-video-landmarks.py` dumps per-frame landmarks from an MJPEG clip with the site's own `.task` models in VIDEO mode; add such a dump for thumbs_up-04 (and one negative) to `tests/clips.test.ts` so the gate sees the jitter the page sees. The rule: a 100 % corpus number measured on IMAGE-mode landmarks says nothing about a per-frame veto; test any conflict rule on video.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes, a gesture done within ~1.5 s of the previous one never plays: the 2 s EmoteGate swallows the engine's one-shot edge (Phase 5 TEST agent, emotes round 2; report D2, major)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `KalpKan/emote-detector-web` `4e25a95` (and every earlier version)
+- **Symptom:** thumbs-up 1.2 s → flex 1.2 s → yawn 1.5 s with no rest through the real pipeline fires Thumbs Up and Princess Yawn and misses the flex, at 1000 and 390 px; offline, gaps of 0/300/600 ms between gestures drop the middle one, 1000 ms and up keep it.
+- **Root cause:** `main.ts:163-166` calls `gate.tryFire(result.fired, now)` on the one frame where the engine reports the edge; `EmoteGate.tryFire` (`emotes.ts:61-65`, `COOLDOWN_MS = 2000`) returns null inside the cooldown and the edge is consumed. The engine then holds the gesture `active` and cannot re-fire until it is released for 500 ms and re-held, which a natural sequence never does.
+- **Fix:** none yet. Suggested: keep a refused edge pending and fire it when the cooldown ends if the gesture is still active, or let a *different* gesture bypass the cooldown (it exists to stop one gesture spamming), or drop the cooldown to ≈ 700 ms now that the engine guarantees one fire per hold.
+- **Prevention:** a 0.6 s-gap sequence clip in `tests/clips.test.ts` (`runClip` uses the same gate); the `fast` clip from `emotes-r2-build-e2e-clips.py` in `verification.md`.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes, the new hint line flickers between two gestures every ~80 ms (Phase 5 TEST agent, emotes round 2; report D3, major)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `KalpKan/emote-detector-web` `4e25a95`
+- **Symptom:** on the thumb-beside-the-head segment `#status` alternated "Almost a Goblin Muscle: Raise the fist higher…" / "Almost a Thumbs Up: Fold the other four fingers…" eight times in 640 ms (`emotes-r2-hint-flicker-2026-09-19.txt`).
+- **Root cause:** `main.ts:123-127` (`updateHint`) holds a hint for `HINT_HOLD_MS` only when the next candidate is the same gesture or null; a candidate for another gesture replaces it at once, and `weakestCue` follows the per-frame flip of D1.
+- **Fix:** none yet. Suggested: hold the shown hint for the full 900 ms whatever the next candidate's gesture, and derive the candidate from smoothed scores.
+- **Prevention:** `emotes-r2-hint-recorder.mjs` (every `#status` change with a timestamp) is in `verification.md`; the bar is no two "Almost" lines closer than 900 ms.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes, a rule set tuned to 100 % on 95 IMAGE-mode landmark sets loses yawn recall on mirrored or smaller copies of the same photos (Phase 5 TEST agent, emotes round 2; report D6, minor, and a method note)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `KalpKan/emote-detector-web` `4e25a95`; the Phase 5 method for every corpus-tuned app
+- **Symptom:** re-extracting all 95 photos with the site's own models after mirroring, letterboxing into a 480 × 640 portrait frame at 78 %, and shrinking to 60 % keeps precision at 100 % for all three gestures (0 of 132 negative sets fire) but yawn recall falls to 5/8, 6/8, 5/8 and flex to 10/13 on the two small sets. The clearest yawn (`yawn-19`, mouth 0.97) scores 0 on the small copies because the eye cue reads the lids as open (EAR 0.19–0.21 instead of −0.02).
+- **Root cause:** the rules were tuned on the same 95 landmark sets they are gated on; margins on the eye and brow cues are one landmark-jitter wide (yawn-17's brows 0.109 on a 0.10–0.125 ramp). Nothing in the gate measures invariance.
+- **Fix:** none yet (through the real pipeline a 55 %-size reel still fired 6/6 at both widths, so this is a risk with data, not a failed bar).
+- **Prevention:** keep the three variant sets as a held-out gate (`emotes-r2-make-variants.py` + `scripts/extract_still_landmarks.py --src … --out …` + `emotes-r2-variant-eval.ts`, all in `docs/reports/evidence/`, rebuilt from the Desktop photos, never committed) and report their numbers next to `npm run report`; for any app whose rules are tuned on a corpus, the TEST agent builds a transform-based held-out set before believing a 100 %.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes e2e judge still reports "late" for an event already in progress when the models become ready (Phase 5 TEST agent, emotes round 2; report D7, minor, tooling)
+
+- **Date:** 2026-09-19 17:00 UTC
+- **Affected:** `scripts/e2e-camera.mjs` in `KalpKan/emote-detector-web`
+- **Symptom:** three spurious FAILs this round (`mirror` at 390: "thumbs_up late: 1622 ms", `far` at 390: 1956 ms, `tu17x4`: 2072 ms), each with "models ready" 1.5–2.1 s into the first event and the same event firing 199–241 ms after onset on the next pass.
+- **Root cause:** FIX r1 (D9) stopped counting the next pass's fire as a false trigger but still matches the first fire to the event and measures latency from the event's `startMs`, not from the moment detection began.
+- **Fix:** none yet. Suggested: when the clip position at "Watching" falls inside an event, judge that event on its next pass only.
+- **Prevention:** rows in `verification.md` say that a `late` on the first event with the models ready mid-event is the harness; anything else is the app.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: emotes TEST round 2 could not test the fix on production: the team's deployment window was still full, so the live site is round 1's code (Phase 5 TEST agent, emotes round 2; report D4)
+
+- **Date:** 2026-09-19 03:08 UTC (checked again at 17:00 UTC)
+- **Affected:** https://emotes.kalpkan.com (serves `index-CCXAWVGh.js` = `9807a11`)
+- **Symptom:** `GET /v6/deployments?teamId=…&since=<now-24h>` returned 100 at 03:08 UTC, oldest ageing out 19:20 UTC; the bundle hash on the live page is unchanged since round 1, so every round-1 detection defect is still what a visitor gets.
+- **Fix:** the fixed code was tested on the production build served locally (`vite preview`), which is the same `dist/` Vercel serves; the live checks (S1, S9, S10, Lighthouse 0.89, console, network) were run on the live site as it is. Deploy after 19:20 UTC with `scripts/vercel-redeploy-when-quota-frees.sh ~/projects/emotes emotes.kalpkan.com 20 10`, ideally with the D1–D3 fixes in the same deploy.
+- **Prevention:** the report separates "in `4e25a95`" from "on production" per defect, so nobody reads a local PASS as a live one; the hub's docs pushes are what fill the window (63–74 of the 100), so batch them.
+- **Reported by:** Phase 5 TEST agent (emotes, round 2)
+
+### 2026-09-19: Plato's extraction cache is keyed on the PDF hash alone, so a deploy that fixes the parser changes nothing for any outline parsed before it (Phase 5 TEST agent, plato round 2; report D13, major)
+
+- **Date:** 2026-09-19 20:48 UTC (one minute after `0b69edd` went live)
+- **Affected:** https://plato.kalpkan.com `/upload` → `/review`; Neon table `extraction_cache` (`src/cache.py:106`, `src/supabase_cache.py`)
+- **Symptom:** uploading `FHS Course Outline 2000.pdf` without "Re-read the PDF" showed the banner "This outline was parsed before; showing the saved result" above the round-1 extraction (term Jan 08 – Apr 30, "6 Need a date", "Physical Activity Tracker 11", the lecture offered again as a lab); the scanned and blank edge PDFs still landed on the old blank review page instead of the new "no text layer" message. Every PDF ever uploaded (all 42 corpus files, the edge files) behaved this way.
+- **Root cause:** the cache row carries no parser version; `lookup_extraction(pdf_hash)` returns whatever the parser of the day wrote, forever.
+- **Fix:** none in code yet. The audit force-refreshed the 42 corpus entries (20:50–20:56 UTC) so the corpus rows are current; any other previously uploaded outline is still stale until re-read.
+- **Prevention:** `verification.md` row "cache is versioned (D13)"; the fixer adds a `PARSER_VERSION` to the cache key (or a hash of `src/outline/*.py`) and a test that an old-version row is a miss. Until then every parser deploy must be followed by a force-refresh of the corpus, and the report must say which cache state was tested.
+- **Reported by:** Phase 5 TEST agent (plato, round 2)
+
+### 2026-09-19: Plato expands "quiz every Friday from X to Y" into every Friday and invents two quiz dates the outline does not list (Phase 5 TEST agent, plato round 2; report D15, blocker for S4/S5)
+
+- **Date:** 2026-09-19 20:53 UTC
+- **Affected:** Biochem 3381A live download (`docs/reports/evidence/plato-r2-biochem3381a-live-2026-09-19.ics`); any outline with a recurring rule plus an explicit date list
+- **Symptom:** 9 `Biochem 3381A: Quizzes (n of 9) due` events at 23:59, including Oct 3 and Oct 24, 2025; the outline lists "September 12, 19, 26; October 10, 17, 31; and November 14" (7 quizzes, "between 1-10 pm").
+- **Root cause:** the recurring-rule sentence ("Each Friday of a lecture week, starting Sept 12 and ending November 14") wins over the explicit list on page 9 and is expanded over every weekday between the anchors; the time window is not parsed.
+- **Fix:** none yet (suggested in the report: prefer an explicit date list for the same assessment; cap the expansion by the stated count; read "1-10 pm" as the due time).
+- **Prevention:** `verification.md` row "listed quiz dates, not every Friday (D15)"; the corpus scorer only checks that recurring dates fall inside the window, so it did not catch this: the fixer should make `score.py` compare the extracted `dates` list against the ground truth's when one is given.
+- **Reported by:** Phase 5 TEST agent (plato, round 2)
+
+### 2026-09-19: Plato's "lab report due 24 h after each lab" rule never becomes calendar events, even with the lab slot chosen (Phase 5 TEST agent, plato round 2; report D16, major)
+
+- **Date:** 2026-09-19 21:05 UTC
+- **Affected:** ECE 2240A (50 % "Labs" row), ANATCELL 3309 (two 10 % "Lab Assignments" rows), any outline with a relative rule
+- **Symptom:** with a Monday lab added on the review page the download has the `ECE 2240A Lab` series but no lab-report event; without a lab the row shows only "Relative rule: …" and a "Review" badge, never "add your lab slot first".
+- **Root cause:** `src/outline/pipeline.py:132` sets `due_rule` but never `rule_anchor`, so `RuleResolver.resolve_rule` (`src/rule_resolver.py:56`) gives up at once; and `build_calendar` (`src/app.py:191`) never calls `generate_per_occurrence_assessments`, so even a resolved rule would yield one event, not one per lab.
+- **Fix:** none yet (suggested in the report).
+- **Prevention:** `verification.md` row "per-lab rule expands once a lab slot exists (D16)"; the unit tests cover `RuleResolver` in isolation but not the pipeline → resolver → `.ics` path, so a flow test with a rule row and a chosen lab is the guard.
+- **Reported by:** Phase 5 TEST agent (plato, round 2)
+
+### 2026-09-19: Plato's 100 % corpus score did not generalise: three unlabelled outlines with bullet-prose dates and "Tuesdays 9:30-11:30 am" slots score 0 (Phase 5 TEST agent, plato round 2; report D14, blocker for the bar)
+
+- **Date:** 2026-09-19 21:20 UTC
+- **Affected:** `KalpKan/Plato` parser (`src/outline/assessments.py`, `src/outline/schedule.py`); the corpus gate
+- **Symptom:** the gate passed on the 15 labelled files (dates 36/36, slots 15/15), but screening the 27 unlabelled outlines by hand found CS 2209A (seven dated assignments/quizzes folded into two undated group rows, 0/2 lecture slots), CS 4411 (five dated items marked "No due date in the outline", 0/2 slots) and MOS 2181A (per-section exam dates, eight chapter deadlines and three sections with rooms, all missed). With those three labelled (committed to `tests/corpus/ground_truth/`) the pooled score is slots 68 %, assessments 91 % R, weights 96 %, dates 88 %, titles 94 %, and the gate fails on five metrics.
+- **Root cause:** the parser reads tables and "Title … weight … date" lines, not the "- Name: … (deadline: <date> …)" bullet form, weekday plurals with two slots in one sentence, or "Section 001: <day>, <time>, <room>" lines. Both labelled sets were chosen non-randomly (the fixer's five "worst after the fix", this round's three "visibly failing"), so neither bounds a random outline.
+- **Fix:** none yet (patterns listed in the report). The three ground-truth files make the gate fail until they are handled, which is the point.
+- **Prevention:** `verification.md` row "Corpus gate on 18 labelled files"; before the bar is declared met, label 5–10 outlines chosen at random from the manifest (`labelled: false`), not by looking at the parser output.
+- **Reported by:** Phase 5 TEST agent (plato, round 2)
+
+### 2026-09-19: 11 incidents.md entries were missing from `e84543b` to `4baa66c`: the pushups FIX-r1 record rewrote the file from a stale copy (Phase 5 FIX agent, pushups round 5; blocker in the round-4 critique)
+
+- **Date:** 2026-09-19 (found by the round-4 critique of pushups; restored 2026-09-20 04:30 UTC)
+- **Affected:** `skills/portfolio-ops/incidents.md` in `KalpKan/portfolio` (and its installed mirror `~/.claude/skills/portfolio-ops/`) from commit `e84543b` (pushups FIX round 1 record) through `4baa66c`
+- **Symptom:** eleven whole entries were absent at HEAD: the six emotes TEST round-2 entries (thumbs-up beside the head fires Goblin Muscle 8/13; a gesture within 1.5 s never plays; hint line flickers every 80 ms; IMAGE-mode rule set loses yawn recall on mirrored copies; e2e judge reports "late"; round 2 could not test on production), the four Plato TEST round-2 entries (extraction cache keyed on the PDF hash; "quiz every Friday" expansion invents dates; "lab report due 24 h after each lab" never becomes events; 100 % corpus score did not generalise) and the pushups "113 deployments in the rolling 24 h window" entry, which had been overwritten in place by the `ignoreCommand` entry instead of being corrected by a new appended entry. `git show e84543b^:skills/portfolio-ops/incidents.md | grep '^### '` listed 11 headings the current file lacked; `git log -S` showed them added in `94e0ee3` and removed only in `e84543b` (`-113 +25` lines in that hunk)
+- **Root cause:** the pushups FIX-r1 agent wrote the whole `incidents.md` from the copy it had read before other agents' commits landed (its `git pull --rebase --autostash` rebased cleanly because the file was replaced wholesale, so no conflict surfaced), then staged the entire file instead of only its own hunks. That violates the append-only rule and the "stage only your own hunks" rule at once, and `install-ops-skill.sh` mirrored the loss into `~/.claude/skills/`
+- **Fix:** the 11 entries were extracted verbatim from `e84543b^` (old lines 1735–1842, from the "113 deployments" heading through the fourth Plato round-2 entry) and appended to the end of the file in their original order, nothing else edited or reordered; `install-ops-skill.sh` re-run. The `ignoreCommand` entry that replaced the "113 deployments" entry in place stays where it is (it is a real incident of its own); the restored entry now follows it chronologically out of order, which the append-only rule accepts
+- **Prevention:** append with `cat >>` (or an Edit anchored at the end of the file) only, never rewrite `incidents.md` from a copy held in memory; before committing, `git diff --stat skills/portfolio-ops/incidents.md` must show **0 deletions** (`git diff --numstat` second column `0`), and a heading count that only goes up (`git show HEAD:skills/portfolio-ops/incidents.md | grep -c '^### '` vs the working copy). To correct an earlier entry, append a new one that references it
+- **Reported by:** Phase 5 FIX agent (pushups, round 5)
+
+### 2026-09-20: pushups, the placement hint and the counting pause were judged on whichever body MediaPipe listed first, not on the body the counter tracked (Phase 5 FIX agent, pushups round 5; round-4 critique major)
+
+- **Date:** 2026-09-20 04:20 UTC
+- **Affected:** `KalpKan/pushup-tracker-web` `src/session.ts` from `634fdc4` (FIX r2, the pause gate) to `b622fa3`
+- **Symptom:** `pickPose()` tracks the biggest body, but `placementHint()` / `pausesCounting()` in `hints.ts` read `poses[0]` as the visitor (`const [p, ...rest] = input.poses`). With a bystander far from the camera listed first (0.3x torso, so not a "second person"), a cut-off head on the bystander showed "Head out of frame" and paused the visitor's count. Not reproduced on the corpus (single-person clips); shown by the new `tests/hints.test.ts` case "documents the raw behaviour" (`placementHint` → `HINTS.head`, `pausesCounting` → `true` for `[bystander, plank]`)
+- **Root cause:** `session.ts` built `hintInput` from `poses` as returned by MediaPipe instead of from the picked pose; two callers agreed on "the first pose is the main body" without either enforcing it
+- **Fix:** `08f222a`: `hints.mainFirst(poses, main)` returns the list with the picked pose first (same array when it already leads or there is no pick); `session.ts` passes `mainFirst(poses, landmarks)` to both helpers. Three tests with the bigger body second in the array
+- **Prevention:** any pure helper that reads `poses[0]` as "the visitor" is fed through `mainFirst`; a multi-body fixture (bystander first) lives in `tests/hints.test.ts`
+- **Reported by:** Phase 5 FIX agent (pushups, round 5), from the round-4 critique
+
+### 2026-09-20: pushups, a found-but-invisible body wrote no `?trace` row, so replayed traces had fewer frames than the page analysed (Phase 5 FIX agent, pushups round 5; round-4 critique major)
+
+- **Date:** 2026-09-20 04:20 UTC
+- **Affected:** `KalpKan/pushup-tracker-web` `src/session.ts` `?trace` recorder (`0dbdc48` to `b622fa3`); every browser trace set recorded by `scripts/e2e-corpus.mjs` with `TRACE_DIR`
+- **Symptom:** the recorder pushed a blank row only for `!landmarks || paused`; a frame whose pose was found but failed `visible()` (mean shoulder/hip visibility < 0.5) and was not paused fell through both branches and left no row. A replay through `tests/corpus.test.ts` then silently had fewer frames than the page analysed, and the fps/gap diagnostics in the FIX evidence logs undercounted those gaps
+- **Root cause:** the analysed branch and the blank-row branch were written against different conditions (`landmarks && visible(landmarks) && !paused` vs `!landmarks || paused`); the `visible` term was missing from the second
+- **Fix:** `08f222a`: `const seen = landmarks != null && visible(landmarks)` computed once; analysed when `seen && !paused`, blank row when `!seen || paused`, so every frame leaves exactly one row
+- **Prevention:** the two branches now share one variable; the runbook "Deploy a browser-ML app (MediaPipe) to Vercel" says the trace recorder must cover every path through the frame loop. The three committed trace sets were recorded before this fix and may lack such rows; the next TEST round's `TRACE_DIR` recordings will be complete
+- **Reported by:** Phase 5 FIX agent (pushups, round 5), from the round-4 critique
+
+### 2026-09-20: pushups, `repCounter.process()` ended with dead code that made `state().phase` never say "ascending" during a rise, contradicting the Phase type's doc (Phase 5 FIX agent, pushups round 5; round-4 critique major)
+
+- **Date:** 2026-09-20 04:20 UTC
+- **Affected:** `KalpKan/pushup-tracker-web` `src/repCounter.ts` (`0dbdc48` to `b622fa3`); no counting impact (nothing consumes `phase` but tests)
+- **Symptom:** `phase = rise > 0.1 * depth ? "ascending" : "bottom"; if (phase === "ascending") phase = "bottom";` always yielded "bottom", while the `Phase` union and comment promised "ascending" during the rise
+- **Root cause:** FIX r1 first set "ascending" on the way up, found that the next sample then entered the top branch and ended the rep early, and neutralised it with the second line instead of removing the first; the behaviour was right and the code lied about it
+- **Fix:** `08f222a`: the two lines are one `phase = "bottom"` with a comment saying why; the `Phase` doc now states each value's meaning ("ascending" is reported only on the sample that counted the rep, the next one is a "top"); `tests/repCounter.test.ts` "state().phase" locks that contract (it passed before and after, the defect was the code's honesty)
+- **Prevention:** a test on `state().phase` per sample; when a state assignment is immediately overridden, delete it rather than override it
+- **Reported by:** Phase 5 FIX agent (pushups, round 5), from the round-4 critique
+
+### 2026-09-20: pushups, the classifier-experiment scripts still pointed at files deleted with the classifier (`src/classifier.ts`, `src/formFeatures.ts`, `tests/classifier.test.ts`, `public/models/form-v*/`, `MODEL_URL`) and wrote into `src/` and `tests/fixtures/` by default (Phase 5 FIX agent, pushups round 5; round-4 critique major)
+
+- **Date:** 2026-09-20 04:20 UTC
+- **Affected:** `KalpKan/pushup-tracker-web` `scripts/train_form_model.py`, `scripts/form_features.py`, `scripts/eval_form_model.py`, `.gitignore`, README "Repeating the classifier experiment" (`b622fa3`)
+- **Symptom:** an agent following the README was sent to files that no longer exist; `train_form_model.py` wrote `src/scaler.ts` unless `NO_TS=1` and `tests/fixtures/form_v4_probs.json` always, and `eval_form_model.py` fell back to reading `src/scaler.ts`
+- **Root cause:** FIX r3 removed the classifier from the page and left the training pipeline "for the record" without updating its docstrings or its default output paths
+- **Fix:** `08f222a`: docstrings say the scripts are experiment-only and that the browser port and the port-fidelity test were removed; every output goes next to `OUT=` (`OUT.h5`, `_scaler.json`, `_probs.json`, `_report.json`; the TypeScript scaler only with `TS_OUT=<path>`); `eval_form_model.py` reads `<model>_scaler.json` by default; `.gitignore` covers `scripts/form_v*_probs.json`; README updated (no `NO_TS`)
+- **Prevention:** when a feature is removed, grep the whole repo (`scripts/`, `.gitignore`, README) for its file names in the same commit; kept-for-the-record scripts write only under an explicit output path
+- **Reported by:** Phase 5 FIX agent (pushups, round 5), from the round-4 critique
