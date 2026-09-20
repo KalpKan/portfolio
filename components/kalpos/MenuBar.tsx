@@ -18,7 +18,8 @@ export default function MenuBar({ resumeUrl, activeTitle }: { resumeUrl: string;
   useEffect(() => {
     const tick = () => {
       const c = formatMenubarClock(new Date());
-      if (clockEl.current) clockEl.current.textContent = `${c.date}\u2002\u2002${c.time}`;
+      const text = `${c.date}\u2002\u2002${c.time}`;
+      if (clockEl.current && clockEl.current.textContent !== text) clockEl.current.textContent = text;
     };
     tick();
     const t = setInterval(tick, 15_000);
