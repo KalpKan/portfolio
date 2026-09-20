@@ -4,7 +4,7 @@ import "./globals.css";
 import "./kalpos.css";
 import PostHogProvider from "@/components/PostHogProvider";
 import { SITE } from "@/lib/site";
-import { VISITED_KEY } from "@/lib/visitor";
+import { BOOT_SCRIPT } from "@/lib/boot";
 
 // KalpOS chrome uses the system sans (-apple-system / SF Pro), as the mock
 // does; Geist Mono is the one self-hosted web font, used where card 1e uses
@@ -50,12 +50,10 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// Runs before the first paint: a returning visitor (lib/visitor.ts) gets the
-// desk straight away with no flash of the lock screen. The React root reads
-// the same attribute after hydration (Next guide "preventing flash before
-// hydration").
-const BOOT_SCRIPT = `(function(){try{if(localStorage.getItem(${JSON.stringify(VISITED_KEY)})==="1")document.documentElement.setAttribute("data-kos-boot","desk")}catch(e){}})()`;
-
+// Runs before the first paint (lib/boot.ts): a deep link or ?desk gets the
+// desk straight away with no flash of the boot or the lock. The React root
+// reads the same attribute after hydration (Next guide "preventing flash
+// before hydration"). A plain visit always boots and locks.
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${mono.variable} h-full antialiased`} suppressHydrationWarning>

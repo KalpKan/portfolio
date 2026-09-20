@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Evidence copies of other repos' tests and scripts, kept for the reports; not hub source.
     "docs/**",
+    // Other agents' git worktrees (each a full checkout with its own node_modules).
+    ".worktrees/**",
   ]),
 ]);
 

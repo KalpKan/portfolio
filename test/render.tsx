@@ -54,19 +54,22 @@ export function setValue(input: HTMLInputElement, value: string) {
  * click to the nearest common ancestor of the mousedown and mouseup targets.
  */
 let captured: Element | null = null;
+const setCaptured = (el: Element | null) => {
+  captured = el;
+};
 export function installPointerCapture() {
   const proto = Element.prototype as Element & {
     setPointerCapture: (id: number) => void;
     releasePointerCapture: (id: number) => void;
     hasPointerCapture: (id: number) => boolean;
   };
-  proto.setPointerCapture = function () {
-    captured = this;
+  proto.setPointerCapture = function (this: Element) {
+    setCaptured(this);
   };
-  proto.releasePointerCapture = function () {
+  proto.releasePointerCapture = function (this: Element) {
     if (captured === this) captured = null;
   };
-  proto.hasPointerCapture = function () {
+  proto.hasPointerCapture = function (this: Element) {
     return captured === this;
   };
 }

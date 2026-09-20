@@ -107,3 +107,21 @@ describe("Desk icon double-click", () => {
     unmount();
   });
 });
+
+describe("menubar mute toggle (startup chime)", () => {
+  it("sits in the right cluster, flips aria-pressed and persists kalpos:mute", () => {
+    localStorage.clear();
+    const { container, unmount } = mount();
+    const btn = container.querySelector<HTMLButtonElement>(".kos-menubar-right .kos-mute")!;
+    expect(btn).not.toBeNull();
+    expect(btn.getAttribute("aria-pressed")).toBe("false");
+    expect(btn.getAttribute("aria-label")).toMatch(/mute/i);
+    click(btn);
+    expect(btn.getAttribute("aria-pressed")).toBe("true");
+    expect(localStorage.getItem("kalpos:mute")).toBe("1");
+    click(btn);
+    expect(btn.getAttribute("aria-pressed")).toBe("false");
+    expect(localStorage.getItem("kalpos:mute")).toBeNull();
+    unmount();
+  });
+});

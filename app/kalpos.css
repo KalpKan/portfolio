@@ -74,7 +74,7 @@
   filter: blur(0);
   transform: scale(1);
 }
-/* A returning visitor never sees the lock: the pre-paint script sets this on <html>. */
+/* A deep link or ?desk never sees the boot or the lock: the pre-paint script sets this on <html>. */
 html[data-kos-boot="desk"] .kos .kos-desk {
   visibility: visible;
   opacity: 1;
@@ -156,6 +156,24 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 }
 
 /* Wifi bars and the battery, drawn in CSS as on the cards (color = currentColor). */
+.kos-mute {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.kos-mute:hover {
+  opacity: 1;
+}
+.kos-mute:focus-visible {
+  outline: 2px solid #0088b0;
+  outline-offset: 1px;
+}
 .kos-wifi {
   display: flex;
   align-items: flex-end;
@@ -662,6 +680,88 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 @keyframes kos-dockin {
   from { opacity: 0; transform: translate(-50%, 24px); }
   to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ------------------------------------------------------------------ boot */
+
+/* 2a: on #0b0b0c the mark resolves from a 16 px blur (600 ms) with one
+   hairline under it; the fill is real readiness (lib/boot.ts). The mark's
+   entrance is a CSS animation so it plays from the first paint. On leaving
+   the mark blurs out (8 px, .94) and the layer fades over BOOT_EXIT_MS while
+   the lock fades in under it. */
+.kos-boot {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  background: #0b0b0c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.kos-boot-mark {
+  font: 600 96px/1 var(--font-system);
+  letter-spacing: -0.02em;
+  color: #f3f2f2;
+  animation: kos-mark-in 600ms var(--kos-ease) both;
+  transition:
+    opacity 0.6s ease,
+    filter 0.6s ease,
+    transform 0.6s var(--kos-ease);
+}
+@keyframes kos-mark-in {
+  from { opacity: 0; filter: blur(16px); transform: scale(1.1); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+.kos-boot-line {
+  width: 180px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(243, 242, 242, 0.14);
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+.kos-boot-line i {
+  display: block;
+  height: 100%;
+  background: #f3f2f2;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.kos-boot[data-leaving="true"] {
+  opacity: 0;
+}
+/* An animation, not a transition: the entrance's forward fill would outrank plain declarations. */
+.kos-boot[data-leaving="true"] .kos-boot-mark {
+  animation: kos-mark-out 600ms var(--kos-ease) both;
+}
+@keyframes kos-mark-out {
+  from { opacity: 1; filter: blur(0); transform: scale(1); }
+  to { opacity: 0; filter: blur(8px); transform: scale(0.94); }
+}
+.kos-boot[data-leaving="true"] .kos-boot-line {
+  opacity: 0;
+}
+/* Under the boot the lock is not painted; it fades in as the boot leaves (3c). */
+.kos[data-stage="boot"]:not([data-leaving]) .kos-lock {
+  visibility: hidden;
+}
+.kos[data-stage="boot"][data-leaving="true"] .kos-lock-status,
+.kos[data-stage="boot"][data-leaving="true"] .kos-lock-clock,
+.kos[data-stage="boot"][data-leaving="true"] .kos-lock-user {
+  animation: kos-fade-in 600ms ease both;
+}
+@keyframes kos-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* A deep link or ?desk: the pre-paint script hides the boot with the lock. */
+html[data-kos-boot="desk"] .kos-boot {
+  display: none;
 }
 
 /* ------------------------------------------------------------------ lock */
@@ -1558,10 +1658,22 @@ html[data-kos-boot="desk"] .kos-lock {
 @media (prefers-reduced-motion: reduce) {
   .kos-desk,
   .kos-lock,
-  .kos-lock-clock {
+  .kos-lock-clock,
+  .kos-boot,
+  .kos-boot-mark {
     transition: opacity 0.4s ease !important;
     filter: none !important;
     transform: none !important;
+  }
+  .kos-boot-mark,
+  .kos-boot[data-leaving="true"] .kos-boot-mark,
+  .kos[data-stage="boot"][data-leaving="true"] .kos-lock-status,
+  .kos[data-stage="boot"][data-leaving="true"] .kos-lock-clock,
+  .kos[data-stage="boot"][data-leaving="true"] .kos-lock-user {
+    animation: none !important;
+  }
+  .kos-boot-line i {
+    transition: none !important;
   }
   .kos[data-boot="animate"] .kos-menubar,
   .kos[data-boot="animate"] .kos-icon,
