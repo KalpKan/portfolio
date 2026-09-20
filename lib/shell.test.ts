@@ -100,7 +100,7 @@ describe("ls", () => {
 
   it("takes a path, relative or absolute, and errors on a missing one", () => {
     expect(text(runLine(ctx, INITIAL_STATE, "ls projects").lines)).toBe("eeg  later  promptflip  unpark");
-    expect(text(runLine(ctx, { cwd: "/projects/eeg", history: [] }, "ls ../unpark").lines)).toBe("README.md  case-study.md");
+    expect(text(runLine(ctx, { ...INITIAL_STATE, cwd: "/projects/eeg" }, "ls ../unpark").lines)).toBe("README.md  case-study.md");
     expect(text(runLine(ctx, INITIAL_STATE, "ls /etc").lines)).toBe("hostname  motd");
     expect(text(runLine(ctx, INITIAL_STATE, "ls nope").lines)).toBe("ls: nope: No such file or directory");
   });
@@ -180,7 +180,7 @@ describe("open, status, clear, exit", () => {
     expect(text(runLine(ctx, INITIAL_STATE, "open nope").lines)).toBe("open: no project named nope");
     expect(text(runLine(ctx, INITIAL_STATE, "open").lines)).toBe("open: which project? (ls projects)");
     // A path to the project's folder works too.
-    expect(runLine(ctx, { cwd: "/projects", history: [] }, "open ./promptflip/").effects[0]).toMatchObject({ slug: "promptflip" });
+    expect(runLine(ctx, { ...INITIAL_STATE, cwd: "/projects" }, "open ./promptflip/").effects[0]).toMatchObject({ slug: "promptflip" });
   });
 
   it("status asks the component to run the round; clear and exit are effects", () => {
@@ -222,7 +222,7 @@ describe("Tab completion", () => {
     expect(complete(ctx, INITIAL_STATE, "cd pro")).toEqual({ input: "cd projects/", candidates: [] });
     expect(complete(ctx, INITIAL_STATE, "cat projects/promptflip/R")).toEqual({ input: "cat projects/promptflip/README.md ", candidates: [] });
     expect(complete(ctx, INITIAL_STATE, "ls projects/")).toEqual({ input: "ls projects/", candidates: ["eeg/", "later/", "promptflip/", "unpark/"] });
-    expect(complete(ctx, { cwd: "/projects", history: [] }, "cat unpark/")).toEqual({ input: "cat unpark/", candidates: ["README.md", "case-study.md"] });
+    expect(complete(ctx, { ...INITIAL_STATE, cwd: "/projects" }, "cat unpark/")).toEqual({ input: "cat unpark/", candidates: ["README.md", "case-study.md"] });
     expect(complete(ctx, INITIAL_STATE, "cd ../pr")).toEqual({ input: "cd ../projects/", candidates: [] });
     expect(complete(ctx, INITIAL_STATE, "cd ~/e")).toEqual({ input: "cd ~/etc/", candidates: [] });
   });

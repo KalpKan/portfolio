@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { complete, INITIAL_STATE, promptFor, runLine, type Effect, type Line, type ShellState } from "@/lib/shell";
+import type { Chunk } from "@/lib/fake-claude";
+import { complete, historyFor, INITIAL_STATE, promptFor, runLine, type Effect, type Line, type ShellState } from "@/lib/shell";
 import { hasCheck, runHealthChecks, type Signal } from "@/lib/signal";
 import type { Tile } from "@/lib/tiles";
 import { track } from "@/lib/track";
@@ -18,6 +19,11 @@ import { getNode, type VDir } from "@/lib/vfs";
  * the bottom, and a click anywhere on the surface focuses the input. The
  * block caret is drawn (the native caret is hidden) and follows the input's
  * selection, so ← → still work.
+ *
+ * `claude` switches the shell into a fake Claude Code session
+ * (lib/fake-claude.ts): the prompt becomes `>` with a left rule, replies
+ * play as timed chunks (300–600 ms), Esc interrupts one, Ctrl+C or /exit
+ * returns to zsh. Nothing leaves the browser.
  */
 
 type Row = { id: number; spans: Line };
@@ -51,6 +57,7 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const cancelStatus = useRef<(() => void) | null>(null);
+  const replyTimers = useRef<number[]>([]);
 
   const append = useCallback((lines: Line[]) => {
     if (lines.length) setRows((r) => [...r, ...lines.map(row)]);
@@ -66,13 +73,50 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
       const lines: Line[] = [[{ text: `Last login: ${new Date().toDateString()} on ttys000`, tone: "dim" }]];
       if (motd?.type === "file") for (const l of motd.content.trimEnd().split("\n")) lines.push([{ text: l }]);
       append(lines);
-      inputRef.current?.focus({ preventScroll: true });
     });
     return () => {
       alive = false;
       cancelStatus.current?.();
+      replyTimers.current.forEach(clearTimeout);
     };
   }, [loadRoot, append]);
+
+  // Play a fake-Claude reply chunk by chunk; `stopReply` is Esc.
+  const play = useCallback(
+    (chunks: Chunk[]) => {
+      replyTimers.current.forEach(clearTimeout);
+      replyTimers.current = [];
+      setBusy(true);
+      let at = 0;
+      chunks.forEach((c, i) => {
+        at += c.delay;
+        replyTimers.current.push(
+          window.setTimeout(() => {
+            append(c.lines);
+            if (i === chunks.length - 1) {
+              setBusy(false);
+              replyTimers.current = [];
+              inputRef.current?.focus({ preventScroll: true });
+            }
+          }, at),
+        );
+      });
+    },
+    [append],
+  );
+  const stopReply = useCallback(() => {
+    if (replyTimers.current.length === 0) return false;
+    replyTimers.current.forEach(clearTimeout);
+    replyTimers.current = [];
+    setBusy(false);
+    append([[{ text: "  ⎿  Interrupted · What should Claude do instead?", tone: "dim" }]]);
+    return true;
+  }, [append]);
+
+  // The input is disabled until the filesystem exists; take focus once it is enabled.
+  useEffect(() => {
+    if (root) inputRef.current?.focus({ preventScroll: true });
+  }, [root]);
 
   // Pin the scroll to the newest line.
   useEffect(() => {
@@ -131,10 +175,13 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
           case "status":
             runStatus();
             break;
+          case "reply":
+            play(e.chunks);
+            break;
         }
       }
     },
-    [onClose, onOpenCase, runStatus],
+    [onClose, onOpenCase, runStatus, play],
   );
 
   const submit = useCallback(() => {
@@ -161,7 +208,7 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
       submit();
     } else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
       e.preventDefault();
-      const h = shell.history;
+      const h = historyFor(shell);
       if (h.length === 0) return;
       let idx = histIdx.current;
       if (e.key === "ArrowUp") {
@@ -193,7 +240,8 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
       }
       requestAnimationFrame(() => el.setSelectionRange(c.input.length, c.input.length));
     } else if (e.key === "Escape") {
-      // The window's own Esc closes it; let it through.
+      // Esc interrupts a playing reply; otherwise the window's own Esc closes it.
+      if (stopReply()) e.stopPropagation();
     } else if (e.ctrlKey && (e.key === "l" || e.key === "L")) {
       e.preventDefault();
       setRows([]);
@@ -201,8 +249,12 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
       e.preventDefault();
       cancelStatus.current?.();
       cancelStatus.current = null;
+      replyTimers.current.forEach(clearTimeout);
+      replyTimers.current = [];
       setBusy(false);
       append([[{ text: `${promptFor(shell)} `, tone: "dim" }, { text: `${input}^C` }]]);
+      // In the Claude session Ctrl+C is the way home.
+      if (shell.mode === "claude") setShell((sh) => ({ ...sh, mode: "zsh" }));
       setInput("");
       setCaret(0);
     } else if (e.ctrlKey && (e.key === "u" || e.key === "U")) {
@@ -235,8 +287,8 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
           </div>
         ))}
       </div>
-      <label className="kos-shell-prompt" data-busy={busy ? "true" : undefined}>
-        <span className="kos-shell-dim">{prompt} </span>
+      <label className="kos-shell-prompt" data-busy={busy ? "true" : undefined} data-mode={shell.mode}>
+        <span className={shell.mode === "claude" ? "kos-shell-ok" : "kos-shell-dim"}>{prompt} </span>
         <span className="kos-shell-field">
           <span className="kos-shell-mirror" aria-hidden>
             {input.slice(0, caret)}
@@ -266,6 +318,11 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
           />
         </span>
       </label>
+      {shell.mode === "claude" ? (
+        <div className="kos-shell-hint" aria-hidden>
+          {busy ? "esc to interrupt" : "? for shortcuts"}
+        </div>
+      ) : null}
     </div>
   );
 }

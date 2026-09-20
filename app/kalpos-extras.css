@@ -162,6 +162,19 @@
   cursor: progress;
 }
 
+/* The fake Claude Code session: `>` prompt behind a thin left rule, the
+   hint line under it, tool lines in cyan (`⏺`) and results dimmed (`⎿`). */
+.kos-shell-prompt[data-mode="claude"] {
+  margin-top: 6px;
+  padding: 4px 0 4px 10px;
+  border-left: 1px solid rgba(243, 242, 242, 0.35);
+}
+.kos-shell-hint {
+  padding-left: 11px;
+  font-size: 11px;
+  opacity: 0.45;
+}
+
 /* In the phone sheet the terminal fills the sheet body edge to edge. */
 .kos-sheet-body .kos-shell {
   height: auto;

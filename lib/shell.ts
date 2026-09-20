@@ -1,3 +1,4 @@
+import { claudeLine, completeClaude, welcome, type Chunk } from "./fake-claude";
 import { checksDone, hasCheck, okCount, type Signal } from "./signal";
 import type { Tile } from "./tiles";
 import { basename, countTree, displayPath, getNode, HOME, KK_ART, listDir, resolvePath, treeLines, type VDir, type VNode } from "./vfs";
@@ -18,7 +19,9 @@ export type Effect =
   | { type: "open"; slug: string; href: string; external: boolean }
   | { type: "status" }
   | { type: "clear" }
-  | { type: "exit" };
+  | { type: "exit" }
+  /** A fake-Claude reply to play with its typing rhythm (lib/fake-claude.ts). */
+  | { type: "reply"; chunks: Chunk[] };
 
 export interface ShellContext {
   root: VDir;
@@ -26,11 +29,19 @@ export interface ShellContext {
   signals: Record<string, Signal>;
   hostname?: string;
   now?: () => Date;
+  /** For the fake Claude's canned replies; tests seed it. */
+  random?: () => number;
 }
+
+/** `zsh` is the shell; `claude` is the fake Claude Code session started by `claude`. */
+export type Mode = "zsh" | "claude";
 
 export interface ShellState {
   cwd: string;
+  mode: Mode;
+  /** zsh history; the Claude session keeps its own. */
   history: string[];
+  claudeHistory: string[];
 }
 
 export interface ShellResult {
@@ -41,7 +52,7 @@ export interface ShellResult {
   name: string | null;
 }
 
-export const INITIAL_STATE: ShellState = { cwd: HOME, history: [] };
+export const INITIAL_STATE: ShellState = { cwd: HOME, mode: "zsh", history: [], claudeHistory: [] };
 
 export const USER = "kalp";
 export const HOST = "kalpos";
@@ -64,6 +75,7 @@ export const COMMANDS = [
   "status",
   "neofetch",
   "history",
+  "claude",
   "clear",
   "exit",
 ] as const;
@@ -82,11 +94,18 @@ const HELP: [string, string][] = [
   ["status", "run the health round: GET /api/status/<slug> for every live app"],
   ["neofetch", "the desk's stats"],
   ["history", "what you typed"],
+  ["claude", "start a Claude Code session (a fake one)"],
   ["clear / exit", "wipe the screen / close the window"],
 ];
 
 export function promptFor(state: ShellState): string {
+  if (state.mode === "claude") return ">";
   return `${USER}@${HOST} ${displayPath(state.cwd)} %`;
+}
+
+/** The history the ↑/↓ keys walk in the current mode. */
+export function historyFor(state: ShellState): string[] {
+  return state.mode === "claude" ? state.claudeHistory : state.history;
 }
 
 const out = (text: string, tone?: Tone): Line => [{ text, tone }];
@@ -216,8 +235,21 @@ function formatDate(d: Date): string {
   return `${days[d.getDay()]} ${months[d.getMonth()]} ${two(d.getDate())} ${two(d.getHours())}:${two(d.getMinutes())}:${two(d.getSeconds())} ${d.getFullYear()}`;
 }
 
+function runClaudeLine(ctx: ShellContext, state: ShellState, trimmed: string): ShellResult {
+  const claudeHistory = trimmed ? [...state.claudeHistory, trimmed] : state.claudeHistory;
+  const r = claudeLine({ tiles: ctx.tiles, root: ctx.root, random: ctx.random }, trimmed);
+  const effects: Effect[] = [];
+  if (r.status) effects.push({ type: "status" });
+  if (r.clear) effects.push({ type: "clear" });
+  if (r.chunks.length) effects.push({ type: "reply", chunks: r.chunks });
+  const next: ShellState = { ...state, claudeHistory, mode: r.exit ? "zsh" : "claude" };
+  // Only the `claude` command itself is tracked; what is typed inside the session is not.
+  return { state: next, lines: r.lines, effects, name: null };
+}
+
 export function runLine(ctx: ShellContext, state: ShellState, input: string): ShellResult {
   const trimmed = input.trim();
+  if (state.mode === "claude") return runClaudeLine(ctx, state, trimmed);
   const history = trimmed ? [...state.history, trimmed] : state.history;
   let cwd = state.cwd;
   const lines: Line[] = [];
@@ -226,6 +258,7 @@ export function runLine(ctx: ShellContext, state: ShellState, input: string): Sh
   const name = tokens[0] ?? null;
   const args = tokens.slice(1);
   const { flags, rest } = flagsAndArgs(args);
+  let mode: Mode = "zsh";
 
   switch (name) {
     case null:
@@ -371,6 +404,10 @@ export function runLine(ctx: ShellContext, state: ShellState, input: string): Sh
     case "history":
       history.forEach((h, i) => lines.push([{ text: `${String(i + 1).padStart(4)}  `, tone: "dim" }, { text: h }]));
       break;
+    case "claude":
+      lines.push(...welcome());
+      mode = "claude";
+      break;
     case "clear":
       effects.push({ type: "clear" });
       break;
@@ -391,7 +428,7 @@ export function runLine(ctx: ShellContext, state: ShellState, input: string): Sh
       lines.push(err(`zsh: command not found: ${name}`));
   }
 
-  return { state: { cwd, history }, lines, effects, name };
+  return { state: { ...state, cwd, history, mode }, lines, effects, name };
 }
 
 function commonPrefix(items: string[]): string {
@@ -412,6 +449,7 @@ export interface Completion {
 
 /** Tab completion of the command word, a project slug after `open`, or a path. */
 export function complete(ctx: ShellContext, state: ShellState, input: string): Completion {
+  if (state.mode === "claude") return completeClaude(input);
   const endsWithSpace = /\s$/.test(input);
   const tokens = tokenize(input);
   const last = endsWithSpace ? "" : (tokens[tokens.length - 1] ?? "");

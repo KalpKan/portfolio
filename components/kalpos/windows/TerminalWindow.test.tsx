@@ -177,4 +177,77 @@ describe("TerminalWindow", () => {
     expect(mirror.querySelector(".kos-shell-caret")!.textContent).toBe("h");
     t.unmount();
   });
+
+  describe("the fake Claude session", () => {
+    it("`claude` shows the welcome box, the > prompt and the hint; only the command word is tracked", async () => {
+      const t = await mount();
+      await t.type("claude");
+      expect(t.log()).toContain("Welcome to Claude Code!");
+      const prompt = t.container.querySelector(".kos-shell-prompt")!;
+      expect(prompt.getAttribute("data-mode")).toBe("claude");
+      expect(prompt.textContent).toContain(">");
+      expect(t.container.querySelector(".kos-shell-hint")!.textContent).toBe("? for shortcuts");
+      expect(track).toHaveBeenCalledWith("terminal_command", { name: "claude" });
+      vi.mocked(track).mockClear();
+      await t.type("/cost");
+      expect(t.log()).toContain("Total cost: $0.00");
+      expect(track).not.toHaveBeenCalled();
+      t.unmount();
+    });
+
+    it("free text plays a reply chunk by chunk with the CLI rhythm; Esc interrupts it", async () => {
+      vi.useFakeTimers();
+      const t = await mount();
+      await t.type("claude");
+      await t.type("what projects are here");
+      expect(t.log()).not.toContain("Read(projects.json)");
+      expect(t.container.querySelector(".kos-shell-hint")!.textContent).toBe("esc to interrupt");
+      act(() => {
+        vi.advanceTimersByTime(600);
+      });
+      expect(t.log()).toContain("⏺ Read(projects.json)");
+      expect(t.log()).toContain("⎿  Read 2 projects");
+      expect(t.log()).not.toContain("2 projects:");
+      // Esc while the second chunk is pending: interrupted, and the window must not close.
+      let escaped = false;
+      const onEsc = (e: KeyboardEvent) => {
+        if (e.key === "Escape") escaped = true;
+      };
+      document.body.addEventListener("keydown", onEsc);
+      fire(t.input, "keydown", { key: "Escape" });
+      document.body.removeEventListener("keydown", onEsc);
+      expect(escaped).toBe(false);
+      expect(t.log()).toContain("Interrupted");
+      act(() => {
+        vi.advanceTimersByTime(2000);
+      });
+      expect(t.log()).not.toContain("2 projects:");
+      // Idle Esc goes through to the window (it closes it).
+      let idle = false;
+      const onIdle = (e: KeyboardEvent) => {
+        if (e.key === "Escape") idle = true;
+      };
+      document.body.addEventListener("keydown", onIdle);
+      fire(t.input, "keydown", { key: "Escape" });
+      document.body.removeEventListener("keydown", onIdle);
+      expect(idle).toBe(true);
+      vi.useRealTimers();
+      t.unmount();
+    });
+
+    it("/exit and Ctrl+C return to zsh", async () => {
+      const t = await mount();
+      await t.type("claude");
+      await t.type("/exit");
+      expect(t.log()).toContain("Bye!");
+      expect(t.container.querySelector(".kos-shell-prompt")!.getAttribute("data-mode")).toBe("zsh");
+      expect(t.container.querySelector(".kos-shell-hint")).toBeNull();
+      await t.type("claude");
+      fire(t.input, "keydown", { key: "c", ctrlKey: true });
+      expect(t.container.querySelector(".kos-shell-prompt")!.getAttribute("data-mode")).toBe("zsh");
+      await t.type("pwd");
+      expect(t.log()).toContain("kalp@kalpos ~ % pwd");
+      t.unmount();
+    });
+  });
 });

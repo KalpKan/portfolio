@@ -101,7 +101,7 @@ export function TrashGlyph({
           <stop offset="1" stopColor="#232326" />
         </radialGradient>
         <pattern id={id("mesh")} width="3.2" height="3.2" patternUnits="userSpaceOnUse" patternTransform="translate(0.4 0.6)">
-          <circle cx="1.6" cy="1.6" r="0.72" fill="#2c2c30" fillOpacity="0.5" />
+          <circle cx="1.6" cy="1.6" r="0.66" fill="#2c2c30" fillOpacity="0.42" />
         </pattern>
         <clipPath id={id("clip")}>
           <path d={body} />
