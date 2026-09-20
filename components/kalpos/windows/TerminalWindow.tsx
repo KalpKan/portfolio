@@ -113,9 +113,12 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
     return true;
   }, [append]);
 
-  // The input is disabled until the filesystem exists; take focus once it is enabled.
+  // The input is disabled until the filesystem exists; take focus once it is
+  // enabled, a beat after the host (window or phone sheet) has focused itself.
   useEffect(() => {
-    if (root) inputRef.current?.focus({ preventScroll: true });
+    if (!root) return;
+    const t = setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 80);
+    return () => clearTimeout(t);
   }, [root]);
 
   // Pin the scroll to the newest line.
