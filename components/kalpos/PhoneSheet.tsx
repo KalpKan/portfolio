@@ -66,7 +66,8 @@ export default function PhoneSheet({
 
   useEffect(() => {
     const tick = () => {
-      if (clockEl.current) clockEl.current.textContent = formatLockTime(new Date());
+      const text = formatLockTime(new Date());
+      if (clockEl.current && clockEl.current.textContent !== text) clockEl.current.textContent = text;
     };
     tick();
     const t = setInterval(tick, 15_000);

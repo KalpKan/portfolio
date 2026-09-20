@@ -34,10 +34,14 @@ export default function LockScreen({
   // CLOCK_SCRIPT filled it before the first paint, and re-rendering the text
   // node after hydration would make the browser's largest paint happen twice.
   useEffect(() => {
+    // Only touch a node whose text actually changed: replacing the text node
+    // with an identical string would be a fresh paint of the largest element.
     const tick = () => {
       const d = new Date();
-      if (dateEl.current) dateEl.current.textContent = formatLockDate(d);
-      if (timeEl.current) timeEl.current.textContent = formatLockTime(d);
+      const date = formatLockDate(d);
+      const time = formatLockTime(d);
+      if (dateEl.current && dateEl.current.textContent !== date) dateEl.current.textContent = date;
+      if (timeEl.current && timeEl.current.textContent !== time) timeEl.current.textContent = time;
     };
     tick();
     const t = setInterval(tick, 15_000);

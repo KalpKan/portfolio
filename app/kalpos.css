@@ -47,7 +47,11 @@
 
 /* ------------------------------------------------------------------ desk */
 
-/* 3c: the desk sits under the lock from the first paint and breathes in on unlock. */
+/* 3c: the desk sits under the lock from the first paint and breathes in on unlock.
+   While locked it is not painted at all (visibility): a full-screen blurred
+   layer with frosted children is expensive to rasterise and nobody can see it,
+   and the transition still starts from blur(10px) / scale(1.06) the moment it
+   becomes visible. */
 .kos-desk {
   position: absolute;
   inset: 0;
@@ -60,14 +64,19 @@
     filter 0.8s ease,
     transform 0.9s var(--kos-ease);
 }
+.kos[data-stage="lock"] .kos-desk {
+  visibility: hidden;
+}
 .kos[data-stage="unlocking"] .kos-desk,
 .kos[data-stage="desk"] .kos-desk {
+  visibility: visible;
   opacity: 1;
   filter: blur(0);
   transform: scale(1);
 }
 /* A returning visitor never sees the lock: the pre-paint script sets this on <html>. */
-html[data-kos-boot="desk"] .kos-desk {
+html[data-kos-boot="desk"] .kos .kos-desk {
+  visibility: visible;
   opacity: 1;
   filter: blur(0);
   transform: scale(1);
