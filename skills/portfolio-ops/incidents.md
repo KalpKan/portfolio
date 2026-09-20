@@ -2551,6 +2551,37 @@ _Entries begin below, oldest first._
 - **Fix:** `e7dc960` (`**/node_modules/**`, `**/.next/**`, `.worktrees/**` in vitest) and `99f8b70` (`.worktrees/**` in eslint)
 - **Prevention:** the verification row for the test suite states the expected file count (24) so a jump is noticed; `git worktree` checkouts belong under `.worktrees/` (already ignored by git)
 - **Reported by:** T6 fix agent
+### 2026-09-20: hub, closing a window "goes to the folder, minimises, then closes": the close and minimise beats never animated, the frame teleported to the origin rect and sat there (T6.3 worker)
+
+- **Date:** 2026-09-20 22:40 UTC (present since T6 went live)
+- **Affected:** `KalpKan/portfolio` `app/kalpos.css` (`.kos-window[data-anim="close"]`), `components/kalpos/Window.tsx`, production `kalpkan.com`
+- **Symptom:** Kalp: "the closing tabs and windows animation is a little weird and buggy: it goes to the folders, minimizes, and then closes." Recorded on the live site with a held click on the red light (`docs/reports/evidence/kalpos-close-check.mjs`): at +110 ms `data-anim` flips to `close`, `getAnimations()` still lists the **same** `kos-win-open@finished` object, no `animationstart` fires, and the computed transform snaps in one frame to `matrix(0.18, 0, 0, 0.47, -422, 87)` (the icon's rect), holds there for 320 ms, then the frame unmounts. Minimise did the same toward the dock (`matrix(0.10, …, 233, 624)`)
+- **What was tried:** the hypothesis list (reversed FLIP, reducer unmounting mid-animation, a second exit animation) was checked against the timeline before touching code: only one animation object ever existed and the unmount came exactly at the `MS.close` timer, so the reducer was innocent
+- **Root cause:** `[data-anim="open"]` and `[data-anim="close"]` both used `animation-name: kos-win-open` (the close as `320ms … reverse both`). CSS Animations only create a new animation when the *name* changes; changing duration and direction on the same name edits the existing, already-finished animation in place, and with `fill-mode: both` a finished reversed animation holds its `from` keyframe, i.e. the origin rect, so the frame jumped there instantly and stayed until the timer unmounted it
+- **Fix:** `c8eb670`: close is its own 160 ms in-place beat (`kos-win-close`: `scale(1 → .96)`, `opacity 1 → 0`), minimise its own 320 ms travel into the window's dock tile (`kos-win-min`, target `.kos-dock-item[data-window]`), `MS.winClose` / `MS.minimize` in `lib/motion.ts`; a running open animation is cancelled first (`el.getAnimations().forEach(a => a.cancel())`) and a leaving frame ignores further close / minimise; phone sheets slide to `100%` before the Projects sheet peeks back. Verified: local production build `kalpos-close-check.mjs` `PASS ×9` (dialog removed 159 ms after the release, exactly one `kos-win-close`; minimise one `kos-win-min`, frame left at 321 ms); the live build `FAIL ×5`
+- **Prevention:** `components/kalpos/WindowAnim.test.tsx` reads `app/kalpos.css` and fails if open / close / minimise share an animation-name or the close travels; the frame's state machine is unit-tested (one dispatch per close, cancel of a running open, minimise target, reduced motion); `kalpos-close-check.mjs` is the live proof (verification row "KalpOS window close / minimise beats"). Rule for the codebase: **every animated beat gets its own `@keyframes` name; never play a beat as another one reversed**
+- **Reported by:** Kalp (via the coordinator), reproduced by the T6.3 worker
+
+### 2026-09-20: hub, dragging a desk icon silently did nothing after an animated unlock (the boot's `kos-pop` fill overrode the inline transform) (T6.3 worker)
+
+- **Date:** 2026-09-20 22:50 UTC (present since T6 went live; found while building the free icon layout)
+- **Affected:** `KalpKan/portfolio` `app/kalpos.css` (`.kos[data-boot="animate"] .kos-icon { animation: kos-pop … both }`), `components/kalpos/DeskIcons.tsx`, production `kalpkan.com`
+- **Symptom:** on the live site after Enter on the lock screen, dragging Hobbies 400 px set the inline `transform: translate(396px, 198px)` but the computed transform stayed `matrix(1, 0, 0, 1, 0, 0)`; on a `?desk` page (crossfade boot, no `kos-pop`) the same drag worked
+- **Root cause:** the boot pop animation on every icon used `animation-fill-mode: both`; a filled animation's `transform` outranks inline styles for the rest of the session, so the translate-based drag (and the 90 ms dip) could never be seen after an animated unlock
+- **Fix:** `3b9623a`: icons are positioned with `left/top` (the free layout, `lib/icons.ts`), never a transform, and the boot pop is `backwards`, not `both` (its end state equals the natural state), so later transforms (the Trash swat's crumple, the dip) apply
+- **Prevention:** rule for the codebase: **never `fill-mode: both` on an element whose transform is set by JS or by a later state**; `Desk.test.tsx` asserts drag results on `style.left/top`
+- **Reported by:** the T6.3 worker (Playwright on kalpkan.com after a real unlock)
+
+### 2026-09-20: hub, a fast first drag move lost the desk icon (capture on the threshold came too late) (T6.3 worker)
+
+- **Date:** 2026-09-20 23:05 UTC (found on the local production build, never live)
+- **Affected:** `components/kalpos/useDrag.ts` as used by `DeskIcons.tsx`
+- **Symptom:** Playwright drags with 100 px steps did not move the icon (`stored null`), while 25 px steps and the arrow keys worked; a document probe showed `pointerdown` on the folder, then the first `pointermove` and the `pointerup` on `.kos-sheen`
+- **Root cause:** `useDrag` captures the pointer only in `onPointerMove` once the 4 px threshold is crossed (the traffic-lights fix, incident above); an icon is 96 px wide, so a first move that already left it never reached the element, no capture, no drag. A fast real flick can do the same
+- **Fix:** `f26f64b`: `useDrag({ capture: "down" })` for desk icons, whose button is both the handle and the only click target (the retargeting concern applies to buttons *inside* a handle); the click the browser sends after a release is swallowed once (300 ms guard) so a drag never opens the window. The window title bars keep the threshold capture
+- **Prevention:** `Desk.test.tsx` "captures the pointer on pointerdown so a first move that leaves the icon still drags it" (and the post-drag click test); when scripting drags, use coarse steps once on purpose
+- **Reported by:** the T6.3 worker
+
 ## 2026-09-20 16:13 UTC: hub production build Canceled after the T6.1 merge (docs-only tip commit)
 
 - **Symptom:** `git push origin kalpos-extras:main` (fast-forward `8f02749..7722b01`, six commits with code) produced production deployment `portfolio-dxl76nj88` with status **Canceled**; kalpkan.com kept serving the old build.
