@@ -56,6 +56,7 @@ export default function Dock({
         type="button"
         className={cls}
         aria-label={t.label}
+        data-window={t.window}
         data-bounce={bouncing === t.key ? "true" : undefined}
         onAnimationEnd={() => setBouncing((b) => (b === t.key ? null : b))}
         onClick={(e) => {

@@ -1,4 +1,6 @@
-import { describe, it, expect, vi, beforeAll } from "vitest";
+import { afterEach, beforeEach, describe, it, expect, vi, beforeAll } from "vitest";
+import { act } from "react";
+import { MS } from "@/lib/motion";
 
 // Analytics is a lazy import that would outlive the test environment; stub it.
 vi.mock("@/lib/track", () => ({ track: vi.fn() }));
@@ -88,5 +90,39 @@ describe("Phone sheet (card 1e)", () => {
     expect(container.querySelector('.kos-sheet[role="dialog"]')?.getAttribute("aria-label")).toBe("Hobbies");
     expect(container.textContent).toContain("Nothing filed yet");
     unmount();
+  });
+
+  describe("closing a sheet is a plain slide-down (2026-09-20)", () => {
+    beforeEach(() => vi.useFakeTimers());
+    afterEach(() => vi.useRealTimers());
+
+    it("Hobbies → close: the sheet keeps its title and slides to 100% first, then the Projects sheet peeks back", () => {
+      const { container, unmount } = mount();
+      click([...container.querySelectorAll(".kos-phone-grid button")].find((b) => b.textContent?.includes("Hobbies"))!);
+      const sheet = container.querySelector<HTMLElement>(".kos-sheet")!;
+      expect(sheet.style.getPropertyValue("--sheet-y")).toBe("30px");
+      click(sheet.querySelector(".kos-sheet-close")!);
+      // still Hobbies, now off the bottom: no content swap mid-slide
+      expect(sheet.getAttribute("aria-label")).toBe("Hobbies");
+      expect(sheet.style.getPropertyValue("--sheet-y")).toBe("100%");
+      act(() => { vi.advanceTimersByTime(MS.sheet + 1); });
+      expect(sheet.getAttribute("aria-label")).toBe("Projects");
+      expect(sheet.style.getPropertyValue("--sheet-y")).toContain("calc(100% - ");
+      unmount();
+    });
+
+    it("Escape on a case sheet does the same and tells the desk once", () => {
+      const onCloseCase = vi.fn();
+      const { container, unmount } = mount({ initialCase: "unpark", onCloseCase });
+      const sheet = container.querySelector<HTMLElement>(".kos-sheet")!;
+      expect(sheet.getAttribute("aria-label")).toContain("UnPark");
+      act(() => { sheet.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true })); });
+      act(() => { sheet.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true })); });
+      expect(sheet.style.getPropertyValue("--sheet-y")).toBe("100%");
+      act(() => { vi.advanceTimersByTime(MS.sheet + 1); });
+      expect(onCloseCase).toHaveBeenCalledTimes(1);
+      expect(sheet.getAttribute("aria-label")).toBe("Projects");
+      unmount();
+    });
   });
 });

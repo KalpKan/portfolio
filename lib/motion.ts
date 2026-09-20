@@ -22,9 +22,15 @@ export const MS = {
   menu: 140,
   /** Menubar drops in, dock rises last, icons pop 40 ms apart (2a/2e). */
   iconStagger: 40,
+  /** A window grows from its icon or tile (FLIP). */
   open: 380,
-  close: 320,
+  /** Close is in place, like macOS: scale 1 → .96, opacity 1 → 0, then the unmount. */
+  winClose: 160,
+  /** Minimise travels into the window's own dock tile (its own keyframes: never the open ones reversed). */
+  minimize: 320,
   focus: 180,
+  /** The phone sheet slides (CSS transition on --sheet-y); a close slides it off first, then the Projects sheet peeks back. */
+  sheet: 380,
   dock: 160,
   trace: 1600,
   trash: 220,
