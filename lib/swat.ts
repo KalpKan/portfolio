@@ -1,3 +1,4 @@
+import { audioContext } from "./chime";
 import type { IconId } from "./icons";
 import type { Rect } from "./windows";
 
@@ -194,19 +195,16 @@ export function scheduleSwat(ctx: SwatContextLike, at: number = ctx.currentTime)
   return { endsAt: at + SWAT_S };
 }
 
-let ctx: SwatContextLike | null = null;
-
+/** The chime's shared context (lib/chime.ts): one AudioContext per page, never a second one. */
 function defaultFactory(): SwatContextLike | null {
-  if (typeof window === "undefined") return null;
-  const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-  return Ctor ? (new Ctor() as unknown as SwatContextLike) : null;
+  return audioContext() as unknown as SwatContextLike | null;
 }
 
 /** Play the whoosh now (inside or right after a gesture). Silent when muted or when audio cannot start; never throws. */
 export async function playSwat({ muted, factory = defaultFactory }: { muted: boolean; factory?: () => SwatContextLike | null }): Promise<boolean> {
   if (muted) return false;
   try {
-    ctx ??= factory();
+    const ctx = factory();
     if (!ctx) return false;
     if (ctx.state !== "running") await ctx.resume();
     if (ctx.state !== "running") return false;

@@ -210,13 +210,13 @@ export default function Desk({
     if (phase === "swatted") {
       timers.push(
         window.setTimeout(() => {
-          // The flight first: creating the AudioContext for the whoosh is synchronous and can take a frame or two.
           if (!reduced && bin && home) {
             const from = { x: bin.x + bin.w / 2 - 48 - home.x, y: bin.y + bin.h * 0.25 - 40 - home.y };
             animate(arcFrames(from, { x: 0, y: 0 }), SWAT_MS.fly);
             setFlying(true);
           }
-          void playSwat({ muted: isMuted() });
+          // The whoosh a frame later: opening an AudioContext (when the boot chime has not already) is a synchronous stall.
+          timers.push(window.setTimeout(() => void playSwat({ muted: isMuted() }), 32));
         }, SWAT_MS.hand),
       );
     }
