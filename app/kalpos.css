@@ -357,7 +357,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   position: absolute;
   inset: 0;
   z-index: 70;
-  background: #0b0b0c;
+  background: #000;
   animation: kos-fade-in 300ms ease both;
 }
 .kos-wifi {
@@ -848,69 +848,96 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 
 /* ------------------------------------------------------------------ boot */
 
-/* 2a: on #0b0b0c the mark resolves from a 16 px blur (600 ms) with one
-   hairline under it; the fill is real readiness (lib/boot.ts). The mark's
-   entrance is a CSS animation so it plays from the first paint. On leaving
-   the mark blurs out (8 px, .94) and the layer fades over BOOT_EXIT_MS while
-   the lock fades in under it. */
+/* The macOS idiom (2026-09-20, replacing card 2a's blur-resolve at Kalp's
+   request): pure black. First the power screen: a faint drawn ⏻ centred with
+   "press any key to start" 40 px under it; the layer swallows the click. Then,
+   from the power button: the KK mark as a solid white silhouette centred 35 %
+   from the top fades in over 400 ms; a 22 vw × 5 px rounded bar at 62 % appears
+   300 ms after that; its fill advances left → right on real readiness
+   (lib/boot.ts, one transition per step on cubic-bezier(.4,0,.2,1), the last
+   one lasting to the boot's minimum), holds 250 ms full, then the whole layer
+   fades over 600 ms while the lock's date and clock fade up under it. */
 .kos-boot {
   position: absolute;
   inset: 0;
   z-index: 60;
-  background: #0b0b0c;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 34px;
+  background: #000;
   pointer-events: none;
   transition: opacity 0.6s ease;
 }
+.kos-boot[data-power="off"] {
+  pointer-events: auto;
+  cursor: pointer;
+}
+.kos-power-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  color: rgba(243, 242, 242, 0.35);
+}
+.kos-power {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+.kos-power-caption {
+  margin: 0;
+  font: 400 12px/1 var(--font-system);
+  letter-spacing: 0.01em;
+  color: rgba(243, 242, 242, 0.45);
+  white-space: nowrap;
+}
 .kos-boot-mark {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font: 600 96px/1 var(--font-system);
   letter-spacing: -0.02em;
   color: #f3f2f2;
-  animation: kos-mark-in 600ms var(--kos-ease) both;
-  transition:
-    opacity 0.6s ease,
-    filter 0.6s ease,
-    transform 0.6s var(--kos-ease);
+  animation: kos-logo-in 400ms ease both;
 }
-@keyframes kos-mark-in {
-  from { opacity: 0; filter: blur(16px); transform: scale(1.1); }
-  to { opacity: 1; filter: blur(0); transform: scale(1); }
+@keyframes kos-logo-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-.kos-boot-line {
-  width: 180px;
-  height: 2px;
-  border-radius: 2px;
-  background: rgba(243, 242, 242, 0.14);
+.kos-boot-bar {
+  position: absolute;
+  top: 62%;
+  left: 50%;
+  width: 22vw;
+  min-width: 160px;
+  max-width: 320px;
+  height: 5px;
+  transform: translate(-50%, -50%);
+  border-radius: 3px;
+  background: rgba(243, 242, 242, 0.18);
   overflow: hidden;
-  transition: opacity 0.3s ease;
+  opacity: 0;
 }
-.kos-boot-line i {
+.kos-boot[data-bar="shown"] .kos-boot-bar {
+  animation: kos-fade-in 300ms ease both;
+  opacity: 1;
+}
+.kos-boot-bar i {
   display: block;
   height: 100%;
+  border-radius: 3px;
   background: #f3f2f2;
   transform-origin: left;
   transform: scaleX(0);
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* The duration is inline per step (BootScreen.tsx); only the curve lives here. */
+  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .kos-boot[data-leaving="true"] {
   opacity: 0;
 }
-/* An animation, not a transition: the entrance's forward fill would outrank plain declarations. */
-.kos-boot[data-leaving="true"] .kos-boot-mark {
-  animation: kos-mark-out 600ms var(--kos-ease) both;
-}
-@keyframes kos-mark-out {
-  from { opacity: 1; filter: blur(0); transform: scale(1); }
-  to { opacity: 0; filter: blur(8px); transform: scale(0.94); }
-}
-.kos-boot[data-leaving="true"] .kos-boot-line {
-  opacity: 0;
-}
-/* Under the boot the lock is not painted; it fades in as the boot leaves (3c). */
+/* Under the boot the lock is not painted; it fades in as the boot leaves (black stays black). */
 .kos[data-stage="boot"]:not([data-leaving]) .kos-lock {
   visibility: hidden;
 }
@@ -1858,20 +1885,20 @@ html[data-kos-boot="desk"] .kos-lock {
   .kos-desk,
   .kos-lock,
   .kos-lock-clock,
-  .kos-boot,
-  .kos-boot-mark {
+  .kos-boot {
     transition: opacity 0.4s ease !important;
     filter: none !important;
     transform: none !important;
   }
+  /* Boot: the logo and the full bar, static, for 800 ms (KalpOS.tsx), then the 400 ms crossfade above. */
   .kos-boot-mark,
-  .kos-boot[data-leaving="true"] .kos-boot-mark,
+  .kos-boot[data-bar="shown"] .kos-boot-bar,
   .kos[data-stage="boot"][data-leaving="true"] .kos-lock-status,
   .kos[data-stage="boot"][data-leaving="true"] .kos-lock-clock,
   .kos[data-stage="boot"][data-leaving="true"] .kos-lock-user {
     animation: none !important;
   }
-  .kos-boot-line i {
+  .kos-boot-bar i {
     transition: none !important;
   }
   .kos[data-boot="animate"] .kos-menubar,

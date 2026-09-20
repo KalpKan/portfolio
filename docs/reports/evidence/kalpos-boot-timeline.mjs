@@ -10,15 +10,19 @@ const page = await ctx.newPage();
 const errors = [];
 page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 page.on('pageerror', e => errors.push(String(e)));
+// 2026-09-20: the boot starts from the power screen (a key press), like a Mac from its power button.
+await page.goto(base + '/?t=' + Date.now(), { waitUntil: 'load' });
+await page.waitForSelector('.kos-boot[data-power="off"]');
+await page.screenshot({ path: `${out}/${reduced ? 'reduced-' : ''}power-screen.png` });
+await page.keyboard.press('k');
 const t0 = Date.now();
-await page.goto(base + '/?t=' + t0, { waitUntil: 'commit' });
 const samples = []; let last = ''; let shots = 0;
-const marks = { '250': 'boot-mark', '750': 'boot-hairline', '1300': 'boot-crossfade', '2600': 'lock' };
+const marks = { '150': 'boot-logo', '900': 'boot-bar-shown', '1800': 'boot-bar-filling', '2200': 'boot-bar-full', '2600': 'boot-fade', '3200': 'lock' };
 for (let i = 0; i < 120; i++) {
   const s = await page.evaluate(() => {
-    const k = document.querySelector('.kos'); const fill = document.querySelector('.kos-boot-line i'); const mark = document.querySelector('.kos-boot-mark');
+    const k = document.querySelector('.kos'); const boot = document.querySelector('.kos-boot'); const fill = document.querySelector('.kos-boot-bar i'); const mark = document.querySelector('.kos-boot-mark');
     const cs = (el) => getComputedStyle(el);
-    return `${k?.getAttribute('data-stage')}|lv=${k?.getAttribute('data-leaving')}|fill=${fill ? cs(fill).transform.split(',')[0].replace('matrix(', '') : '-'}|mark=${mark ? Number(cs(mark).opacity).toFixed(2) + '/' + cs(mark).filter : '-'}|layer=${document.querySelector('.kos-boot') ? Number(cs(document.querySelector('.kos-boot')).opacity).toFixed(2) : '-'}|lock=${document.querySelector('.kos-lock') ? cs(document.querySelector('.kos-lock')).visibility : '-'}|clock=${document.querySelector('.kos-lock-clock') ? Number(cs(document.querySelector('.kos-lock-clock')).opacity).toFixed(2) : '-'}`;
+    return `${k?.getAttribute('data-stage')}|pw=${boot?.getAttribute('data-power')}|bar=${boot?.getAttribute('data-bar')}|lv=${k?.getAttribute('data-leaving')}|chime=${k?.getAttribute('data-chime')}|fill=${fill ? cs(fill).transform.split(',')[0].replace('matrix(', '') : '-'}|mark=${mark ? Number(cs(mark).opacity).toFixed(2) : '-'}|layer=${boot ? Number(cs(boot).opacity).toFixed(2) : '-'}|lock=${document.querySelector('.kos-lock') ? cs(document.querySelector('.kos-lock')).visibility : '-'}|clock=${document.querySelector('.kos-lock-clock') ? Number(cs(document.querySelector('.kos-lock-clock')).opacity).toFixed(2) : '-'}`;
   }).catch(e => 'err ' + e.message.slice(0, 40));
   const t = Date.now() - t0;
   if (s !== last) { samples.push(`${t}ms ${s}`); last = s; }
