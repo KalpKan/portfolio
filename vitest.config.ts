@@ -7,7 +7,9 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     include: ["**/*.test.{ts,tsx}"],
-    exclude: ["node_modules", ".next"],
+    // docs/reports/evidence holds test files copied from other repos as evidence;
+    // they import modules that do not exist here and are not hub tests.
+    exclude: ["node_modules", ".next", "docs/**"],
   },
   resolve: {
     alias: { "@": path.resolve(__dirname) },
