@@ -1,0 +1,9 @@
+PASS close: dialog removed 159 ms after the release (≤ 250)
+PASS close: exactly one animation ran: ["kos-win-close"]
+PASS close: exactly one data-anim set: ["close"]
+PASS close: no dialog left
+PASS minimise: exactly one animation ran: ["kos-win-min"]
+PASS minimise: exactly one data-anim set: ["min"]
+PASS minimise: frame left 321 ms after the release (320 ms travel)
+PASS minimise: the Notes tile shows the running dot
+PASS no page errors: []

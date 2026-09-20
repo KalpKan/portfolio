@@ -1,0 +1,19 @@
+after drag { x: 1204, y: 262, w: 96, h: 83 } stored {"projects":{"c":0,"r":0},"hobbies":{"c":53,"r":9},"about":{"c":0,"r":5},"contact":{"c":5,"r":5},"music":{"c":0,"r":10},"trash":{"c":5,"r":10}}
+after reload { x: 1204, y: 262, w: 96, h: 83 }
+after ArrowLeft { x: 1182, y: 262, w: 96, h: 83 }
+after ArrowDown { x: 1182, y: 284, w: 96, h: 83 }
+dropped on Projects → { x: 148, y: 64, w: 96, h: 83 } projects { x: 38, y: 64, w: 96, h: 83 }
+  'Clean Up⌥⌘1',
+  'Lock Screen⌃⌘Q',
+  'Restart…⌃⌘R',
+after Clean Up { x: 148, y: 64, w: 96, h: 83 } { x: 148, y: 284, w: 96, h: 83 }
+over trash: state crumple lid up filter url("#kos-crumple") transform matrix(0.845344, 0.0888492, -0.0888492, 0.845344, 0, 0)
+7ms swat=dropped|icon=sink|hand=-|toast=-|anims=running|lid=1
+231ms swat=swatted|icon=hidden|hand=out|toast=yes|anims=finished|lid=1
+483ms swat=swatted|icon=fly|hand=out|toast=yes|anims=running|lid=1
+1014ms swat=home|icon=undefined|hand=in|toast=yes|anims=|lid=1
+1249ms swat=undefined|icon=undefined|hand=-|toast=yes|anims=|lid=0
+1823ms swat=undefined|icon=undefined|hand=-|toast=-|anims=|lid=0
+after ⌘L stage desk
+after ⌃⌘Q stage lock active Password
+errors []
