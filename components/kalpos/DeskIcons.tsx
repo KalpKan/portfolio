@@ -200,8 +200,14 @@ export function DeskIcon({
   const [delta, setDelta] = useState<{ x: number; y: number } | null>(null);
   const [dip, setDip] = useState(false);
   const lastOpen = useRef(0);
+  /** The click the browser sends after a drag's release is not an open. */
+  const dragged = useRef(false);
 
   const open = useCallback(() => {
+    if (dragged.current) {
+      dragged.current = false;
+      return;
+    }
     const now = Date.now();
     if (now - lastOpen.current < DOUBLE_CLICK_MS) return;
     lastOpen.current = now;
@@ -212,6 +218,8 @@ export function DeskIcon({
   }, [onOpen]);
 
   const drag = useDrag({
+    // The icon is its own only click target, so it may hold the pointer from the press (a fast flick still drags).
+    capture: "down",
     onMove: (dx, dy, at) => {
       setDelta({ x: dx, y: dy });
       onDragMove?.(at);
@@ -219,6 +227,9 @@ export function DeskIcon({
     onEnd: ({ dx, dy, click }) => {
       setDelta(null);
       if (click) return;
+      dragged.current = true;
+      // A pointer that sends no click after the release (some touch paths) must not swallow the next tap.
+      setTimeout(() => (dragged.current = false), 300);
       onDragEnd?.();
       if (pos) onDrop?.({ x: pos.x + dx, y: pos.y + dy });
     },

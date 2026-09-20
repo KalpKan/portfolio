@@ -18,24 +18,31 @@ export interface DragEnd {
  * throw velocity on release. Mouse, touch and pen through pointer events;
  * capture keeps the drag alive when the pointer leaves the element.
  *
- * The pointer is captured only once the drag threshold is crossed, never on
- * pointerdown. Capturing on pointerdown retargets pointerup, mouseup and the
- * click to the handle (Chrome applies the pending capture before the next
- * pointer event, and a click goes to the common ancestor of its mousedown and
- * mouseup targets), so a held click on a <button> inside the handle, the
+ * By default the pointer is captured only once the drag threshold is crossed,
+ * never on pointerdown. Capturing on pointerdown retargets pointerup, mouseup
+ * and the click to the handle (Chrome applies the pending capture before the
+ * next pointer event, and a click goes to the common ancestor of its mousedown
+ * and mouseup targets), so a held click on a <button> inside the handle, the
  * window's traffic lights, never reached the button (incidents.md, 2026-09-20).
+ * `capture: "down"` opts into capturing on pointerdown for a handle that is
+ * itself the only click target (a desk icon): without it a fast first move
+ * that leaves the element before any pointermove arrives never starts the
+ * drag (found with 100 px Playwright steps, 2026-09-20).
  */
 export function useDrag({
   onStart,
   onMove,
   onEnd,
   threshold = 4,
+  capture = "threshold",
 }: {
   onStart?: () => void;
   /** Movement since pointerdown, plus the pointer's current client position (for hit-testing while dragging). */
   onMove: (dx: number, dy: number, at: { x: number; y: number }) => void;
   onEnd: (end: DragEnd) => void;
   threshold?: number;
+  /** When the pointer is captured: once the threshold is crossed (default) or on the press itself. */
+  capture?: "threshold" | "down";
 }) {
   const state = useRef<{
     id: number;
@@ -47,15 +54,24 @@ export function useDrag({
     vx: number;
     vy: number;
     moved: boolean;
+    captured: boolean;
   } | null>(null);
 
   const onPointerDown = useCallback(
     (e: React.PointerEvent<HTMLElement>) => {
       if (e.button !== 0) return;
-      state.current = { id: e.pointerId, x0: e.clientX, y0: e.clientY, lastX: e.clientX, lastY: e.clientY, lastT: e.timeStamp, vx: 0, vy: 0, moved: false };
+      state.current = { id: e.pointerId, x0: e.clientX, y0: e.clientY, lastX: e.clientX, lastY: e.clientY, lastT: e.timeStamp, vx: 0, vy: 0, moved: false, captured: false };
+      if (capture === "down") {
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+          state.current.captured = true;
+        } catch {
+          // jsdom / unsupported
+        }
+      }
       onStart?.();
     },
-    [onStart],
+    [onStart, capture],
   );
 
   const onPointerMove = useCallback(
@@ -65,9 +81,10 @@ export function useDrag({
       const dx = e.clientX - s.x0;
       const dy = e.clientY - s.y0;
       if (!s.moved && Math.hypot(dx, dy) < threshold) return;
-      if (!s.moved) {
+      if (!s.moved && !s.captured) {
         try {
           e.currentTarget.setPointerCapture(e.pointerId);
+          s.captured = true;
         } catch {
           // jsdom / unsupported: the drag still works while the pointer stays over the element
         }
@@ -90,7 +107,7 @@ export function useDrag({
       const s = state.current;
       if (!s || e.pointerId !== s.id) return;
       state.current = null;
-      if (s.moved) {
+      if (s.captured) {
         try {
           e.currentTarget.releasePointerCapture(e.pointerId);
         } catch {

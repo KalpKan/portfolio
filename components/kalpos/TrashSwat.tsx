@@ -30,32 +30,25 @@ export function CrumpleFilter() {
   );
 }
 
-/** An open palm, fingers up, with a cuff. 64 × 84 viewBox; the wrist runs off the bottom. */
+/** An open palm, fingers up and spread, a thumb out to the left, a cuff. 64 × 84 viewBox; the wrist runs off the bottom. */
 export function HandGlyph() {
+  const skin = { fill: "#f4e2d0", stroke: "#b98f74", strokeWidth: 1.8, strokeLinejoin: "round" as const, strokeLinecap: "round" as const };
   return (
-    <svg viewBox="0 0 64 84" width="48" height="63" aria-hidden focusable="false">
+    <svg viewBox="0 0 64 84" width="52" height="68" aria-hidden focusable="false">
       {/* cuff */}
-      <rect x="14" y="66" width="36" height="18" rx="4" fill="#0088b0" />
-      <rect x="14" y="66" width="36" height="5" rx="2" fill="#ffffff" fillOpacity="0.55" />
-      {/* wrist + palm */}
-      <path
-        d="M20 70 L20 44 C20 36 24 32 30 32 L44 32 C50 32 54 36 54 44 L54 58 C54 66 48 71 40 71 Z"
-        fill="#f4e6d8"
-        stroke="#c9a88e"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      {/* four fingers */}
-      <rect x="21" y="8" width="8" height="30" rx="4" fill="#f4e6d8" stroke="#c9a88e" strokeWidth="1.6" />
-      <rect x="30" y="2" width="8" height="36" rx="4" fill="#f4e6d8" stroke="#c9a88e" strokeWidth="1.6" />
-      <rect x="39" y="5" width="8" height="33" rx="4" fill="#f4e6d8" stroke="#c9a88e" strokeWidth="1.6" />
-      <rect x="47.5" y="14" width="7.5" height="26" rx="3.75" fill="#f4e6d8" stroke="#c9a88e" strokeWidth="1.6" />
-      {/* thumb, out to the left */}
-      <path d="M21 46 C14 44 8 48 8 54 C8 59 12 62 18 62 L22 62" fill="#f4e6d8" stroke="#c9a88e" strokeWidth="1.6" strokeLinejoin="round" />
-      {/* palm creases */}
-      <path d="M27 50 C31 56 39 58 47 54 M25 58 C30 61 36 62 42 61" fill="none" stroke="#d9b9a1" strokeWidth="1.2" strokeLinecap="round" />
-      {/* the palm's front edge over the finger roots */}
-      <path d="M21 38 C28 42 44 42 54 40" fill="none" stroke="#c9a88e" strokeWidth="1.2" strokeLinecap="round" />
+      <rect x="15" y="67" width="34" height="17" rx="4" fill="#0088b0" />
+      <rect x="15" y="67" width="34" height="5" rx="2" fill="#ffffff" fillOpacity="0.55" />
+      {/* fingers (drawn first: the palm covers their roots) */}
+      <path d="M19 40 L19 12 A4.5 4.5 0 0 1 28 12 L28 40 Z" {...skin} />
+      <path d="M29.5 38 L29.5 6 A4.5 4.5 0 0 1 38.5 6 L38.5 38 Z" {...skin} />
+      <path d="M40 40 L40 10 A4.5 4.5 0 0 1 49 10 L49 40 Z" {...skin} />
+      <path d="M50 44 L50 20 A4 4 0 0 1 58 20 L58 44 Z" {...skin} />
+      {/* thumb, out to the left and a little up */}
+      <path d="M21 50 C13 46 5 48 4 55 C3 61 9 65 17 64 L22 63" {...skin} />
+      {/* palm + wrist */}
+      <path d="M19 38 C19 34 22 32 27 32 L52 32 C56 32 58 36 58 44 L58 58 C58 66 52 71 43 71 L22 71 C20 71 19 69 19 66 Z" {...skin} />
+      {/* creases */}
+      <path d="M27 48 C33 54 43 56 52 52 M26 58 C32 62 40 63 47 61" fill="none" stroke="#d3ad92" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -71,7 +64,7 @@ export function TrashSwat({ phase, bin, toast }: { phase: SwatPhase; bin: Rect |
       {showHand ? (
         <div
           className="kos-hand-slot"
-          style={{ left: bin.x + bin.w / 2 - 24, top: bin.y + bin.h * 0.2 - 70, width: 48, height: 70 }}
+          style={{ left: bin.x + bin.w / 2 - 26, top: bin.y + bin.h * 0.2 - 74, width: 52, height: 74 }}
           aria-hidden
         >
           <div className="kos-hand" data-hand={phase === "swatted" ? "out" : "in"}>

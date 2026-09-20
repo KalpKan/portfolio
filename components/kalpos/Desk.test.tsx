@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeAll } from "vitest";
 // Analytics is a lazy import that would outlive the test environment; stub it.
 vi.mock("@/lib/track", () => ({ track: vi.fn() }));
 import { act } from "react";
-import { click, fire, installPointerCapture, render } from "@/test/render";
+import { capturedElement, click, fire, installPointerCapture, render } from "@/test/render";
 import Desk from "./Desk";
 import { loadProjects } from "@/lib/projects";
 import { tilesFor } from "@/lib/tiles";
@@ -344,6 +344,29 @@ describe("Drag an icon into the Trash: crumple, sink, the hand swats it back (20
     expect(hob.style.left).toBe("148px");
     window.matchMedia = mm;
     vi.useRealTimers();
+    unmount();
+  });
+});
+
+describe("Desk icon drag survives a fast first move (capture on pointerdown)", () => {
+  beforeAll(installPointerCapture);
+  it("captures the pointer on pointerdown so a first move that leaves the icon still drags it", () => {
+    localStorage.clear();
+    const { container, dispatch, unmount } = mount();
+    const hob = [...container.querySelectorAll<HTMLButtonElement>("button.kos-icon")].find((b) => b.textContent?.includes("Hobbies"))!;
+    const p = (type: string, x: number, y: number) => new MouseEvent(type, { bubbles: true, button: 0, clientX: x, clientY: y, ...({ pointerId: 1 } as object) });
+    act(() => { hob.dispatchEvent(p("pointerdown", 200, 100)); });
+    expect(capturedElement()).toBe(hob);
+    act(() => {
+      (capturedElement() ?? hob).dispatchEvent(p("pointermove", 400, 100));
+      (capturedElement() ?? hob).dispatchEvent(p("pointerup", 400, 100));
+    });
+    expect(hob.style.left).toBe("346px"); // 148 + 200 → cell 14 → 346
+    // the click the browser sends after the release must not open the window; a plain click still does
+    act(() => { hob.dispatchEvent(new MouseEvent("click", { bubbles: true })); });
+    expect(dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: "open" }));
+    act(() => { hob.dispatchEvent(new MouseEvent("click", { bubbles: true })); });
+    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "open", id: "hobbies" }));
     unmount();
   });
 });
