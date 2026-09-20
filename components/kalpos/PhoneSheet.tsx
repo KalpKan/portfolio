@@ -210,7 +210,9 @@ export default function PhoneSheet({
           <li><DeskIcon label="Hobbies" draggable={false} onOpen={() => openSheet("hobbies")}><FolderGlyph tint="hobbies" /></DeskIcon></li>
           <li><DeskIcon label="About" draggable={false} onOpen={() => openSheet("about")}><DocGlyph /></DeskIcon></li>
           <li><DeskIcon label="Contact" draggable={false} onOpen={() => openSheet("contact")}><AppGlyph kind="contact" /></DeskIcon></li>
-          <li><DeskIcon label="Music" draggable={false} onOpen={() => openSheet("music")}><AppGlyph kind="music" /></DeskIcon></li>
+          {site.nowPlaying?.title ? (
+            <li><DeskIcon label="Music" draggable={false} onOpen={() => openSheet("music")}><AppGlyph kind="music" /></DeskIcon></li>
+          ) : null}
           <li><DeskIcon label="Trash" quiet draggable={false} onOpen={() => openSheet("trash")}><TrashGlyph /></DeskIcon></li>
         </ul>
         <div className="kos-phone-note">{site.note}</div>

@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { CLOCK_IDS, formatMenubarClock } from "@/lib/clock";
 
 const MENUS = ["File", "Edit", "View", "Go", "Window"];
+/** Card 2d: with a window focused the bar reads "KalpOS · Projects · File · View · Go". */
+const MENUS_FOCUSED = ["File", "View", "Go"];
 
 /**
  * Card 2c's menubar: brand, the five menu words, and on the right the
@@ -29,7 +31,7 @@ export default function MenuBar({ resumeUrl, activeTitle }: { resumeUrl: string;
     <header className="kos-menubar" aria-label="Menu bar">
       <b>KalpOS</b>
       {activeTitle ? <b style={{ opacity: 0.9 }}>{activeTitle}</b> : null}
-      {MENUS.map((m) => (
+      {(activeTitle ? MENUS_FOCUSED : MENUS).map((m) => (
         <span key={m} className="kos-menu-item" aria-hidden>
           {m}
         </span>

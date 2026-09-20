@@ -917,11 +917,9 @@ html[data-kos-boot="desk"] .kos-lock {
 @keyframes kos-win-open {
   from {
     transform: translate(var(--from-x, 0px), var(--from-y, 0px)) scale(var(--from-sx, 0.2), var(--from-sy, 0.2));
-    opacity: 0.4;
   }
   to {
     transform: translate(0, 0) scale(1, 1);
-    opacity: 1;
   }
 }
 @keyframes kos-win-place {
