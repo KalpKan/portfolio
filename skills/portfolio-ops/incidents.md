@@ -2507,3 +2507,11 @@ _Entries begin below, oldest first._
 - **Fix:** `08f222a`: docstrings say the scripts are experiment-only and that the browser port and the port-fidelity test were removed; every output goes next to `OUT=` (`OUT.h5`, `_scaler.json`, `_probs.json`, `_report.json`; the TypeScript scaler only with `TS_OUT=<path>`); `eval_form_model.py` reads `<model>_scaler.json` by default; `.gitignore` covers `scripts/form_v*_probs.json`; README updated (no `NO_TS`)
 - **Prevention:** when a feature is removed, grep the whole repo (`scripts/`, `.gitignore`, README) for its file names in the same commit; kept-for-the-record scripts write only under an explicit output path
 - **Reported by:** Phase 5 FIX agent (pushups, round 5), from the round-4 critique
+
+## 2026-09-20 16:13 UTC: hub production build Canceled after the T6.1 merge (docs-only tip commit)
+
+- **Symptom:** `git push origin kalpos-extras:main` (fast-forward `8f02749..7722b01`, six commits with code) produced production deployment `portfolio-dxl76nj88` with status **Canceled**; kalpkan.com kept serving the old build.
+- **Cause:** the hub's `vercel.json` `ignoreCommand` diffs `HEAD^ HEAD` only, and the tip commit of the push (`7722b01`, "status: correct the T6.1 test counts") touched STATUS.md alone, so the step said "nothing to build" even though the push as a whole changed code.
+- **Fix:** `npx vercel@latest --prod --scope kks-projects-2edcb11a --yes` from the worktree → `portfolio-g9349f8p8` (`dpl_7tQSyHRt53U61W4EEuw5ZxNDUJFQ`) Ready at 16:15 UTC; verified by `curl` (`kos-bin--desk` in the HTML) and in Chrome. Budget was 59/100 for the day, so the extra record was harmless.
+- **Prevention:** when merging a branch whose last commit is docs-only, either put the docs commit first and a code commit last, or go straight to the forced `--prod` (runbook "Hub: ignored build step"). The Canceled record still counts toward the 100/day cap.
+
