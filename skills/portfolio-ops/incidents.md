@@ -2240,3 +2240,43 @@ _Entries begin below, oldest first._
 - **Fix:** not applied. Suggested: nose or ≥ 3 head landmarks beyond `x > 1.0` / invisible, and clear the hint on a counted rep; add `test_video` / `test_video_2` to `e2e-hints.mjs` with "no hint longer than 2 s".
 - **Prevention:** every hint rule change is run over all 15 corpus clips for hint duration, not only over the synthetic cameras that motivated it (`verification.md` row "No placement hint on a clean set-up"; `pushups-r3-cam.mjs` prints the durations).
 - **Reported by:** Phase 5 TEST agent (pushups, round 3)
+
+### 2026-09-20: emotes, two clear flexes never fire through the live pipeline when the preceding frames show hands on a desk: the lite pose tracker stays lost for the whole hold and the page has no re-seed (Phase 5 TEST agent, emotes round 4; report D1, major; not fixed)
+
+- **Date:** 2026-09-20 (live `d80120d` = FIX round 3, fake camera at 1000 and 390 px; found because round 4 was the first to vary the rest photo, every earlier reel rested on the no-hands `angry-04`)
+- **Affected:** `src/landmarkers.ts:69-74` (one `PoseLandmarker`, lite, VIDEO mode, no recovery path), `src/gestures/flex.ts` (`height` / `bend` from the pose wrist and elbow only), `src/gestures/engine.ts` (a missing pose is `flex 0`; nothing re-seeds)
+- **Symptom:** `a10-flex` (angry-10 "talking with hands at a desk" → flex-04 → angry-10 → flex-06 …) fires Goblin Muscle 1/4 at 1000 px and 0/4 at 390 px, `a10-flex-fade` (0.4 s crossfade) 1/4; `a04-flex` (same flexes after the no-hands rest) 4/4, 4/4 and 4/4 at 12.4 fps; `all-flex` misses exactly its two events after angry-10 at both widths → live flex recall 11/13 (85 %, bar 90 %)
+- **Root cause:** the `?trace` shows the pose absent on every other frame and, when present, identical wrong cues (`bend 0.33 height 0.18 beside 0.47`) for 2.5 s on a static frame; in Python, VIDEO-mode detection on the same 640 × 480 frame puts the right wrist 0.25 shoulder-widths above the shoulder after five angry-04 frames but 0.11–0.15 (alternating with none) after five angry-10 frames, IMAGE mode 0.07, the full-resolution fixture 0.30. The pose landmarker's output on a frame depends on its tracking ROI from the previous frames, the lite model reads these two arms as marginal at 640 × 480 (they are also the misses in the held-out portrait / far sets, flex recall 77 %), and nothing in the page notices a tracker that alternates present / absent
+- **Fix (for the FIX agent):** re-seed the pose when the hand model sees a hand and the pose gap stays > 0.3 (or the pose is absent) for ~300 ms (an IMAGE-mode `detect()` on that frame with a second landmarker, or a runningMode round-trip); take the wrist from the hand model when a fist is within 0.3 shoulder widths of a pose wrist; gate `a10-flex` / `a04-flex` / `all-flex` as VIDEO-mode reels; measure the `full` pose model on the throttled harness before considering it
+- **Prevention:** every fake-camera reel set must vary the *rest* frames as well as the gesture frames (a face with no hands, hands on a desk, hands at the sides); "recall 100 %" on a corpus whose clips all start from the same frame proves nothing about the tracker's state. The round-4 builder alternates rests in `all-*` and `other-rest`
+- **Reported by:** Phase 5 TEST agent (emotes, round 4)
+
+### 2026-09-20: emotes, at 55 % scale the flex whose other hand reads as a thumbs-up plays Thumbs Up (3/15) or nothing (6/15): the round-3 wait cap expires while the far pose never settles (Phase 5 TEST agent, emotes round 4; report D2, major; not fixed)
+
+- **Date:** 2026-09-20 (live `d80120d`)
+- **Affected:** `src/gestures/engine.ts:105-116` (`POSE_STALE_GAP`, `POSE_JUMP`, `THUMB_WAIT_MAX_MS = 500`, "a pose that never agrees fires anyway"), `src/gestures/flex.ts:66-79` (cues in shoulder widths)
+- **Symptom:** `flex09-far`, `flex09-far2`, `flex09-far-fade` (flex-09 shrunk to 55 %, the round-2 `^` recipe): Thumbs Up 3, Goblin Muscle 6, nothing 6 over 15 passes at 1000 and 390 px; the far thumbs_up-04 in the same reels 3/3 and the round-2 `far` reel (flex-14^, flex-04^) 2/2, so it is this arm at this scale, not distance alone. Full-scale `flex09x3` is Goblin Muscle 3/3 in five runs, mirrored 3/3 ×2 (round-3 D1 fixed)
+- **Root cause:** trace: hand cues all 1.0 from the first frame; the pose gap swings 0.09–0.57 every frame around the ~50 px fist, `beside` 0.0 and `level` flipping, so the flex is undecided on every frame; after 500 ms the cap lets the thumbs-up fire. In another run the pose is steady but reads the small arm as hanging (`bend / height / level` 0) and the hand's `folded` is 0, so nothing fires
+- **Fix (for the FIX agent):** when the wait cap expires with the flex still undecided, fire nothing and re-arm instead of firing the thumbs-up; treat a `up = 1` fist whose wrist the pose puts above the shoulder as a flex candidate even with `beside` 0; hint "come closer" from the shoulder width; gate the far flex-09 as a VIDEO-mode reel
+- **Prevention:** every conflict-rule fix gets re-run on the far (55 %) and mirrored variants of the photo that motivated it before it is called fixed; the round-2 `far` reel was not enough because it did not contain the contested photo
+- **Reported by:** Phase 5 TEST agent (emotes, round 4)
+
+### 2026-09-20: emotes, a thumbs-up that turns into a flex with the fist kept up (or a flex into a thumbs-up) plays only the first emote: the "one fist, one emote" takeover has no time limit (Phase 5 TEST agent, emotes round 4; report D3, major; not fixed)
+
+- **Date:** 2026-09-20 (live `d80120d`)
+- **Affected:** `src/gestures/engine.ts:330-336` (`takeover = twin active && smoothed twin ≥ 0.5` → no edge, written in FIX r2 for the first ~400 ms of one hold)
+- **Symptom:** `takeover` reel (flex-09 2.5 s → thumbs_up-04 2.5 s; thumbs_up-07 2.5 s → flex-09 2.5 s; thumbs_up-04 2.5 s → flex-14 2.5 s): the second emote of the first two pairs never plays at 1000 or 390 px (4 of 6 events), the third pair (a fist that folds the thumb) plays both; `morph` (the hand drops between gestures) 7/7 ×4
+- **Root cause:** the takeover fires whenever the twin is still active, however long it has been held; 2.5 s into a held thumbs-up the visitor raises the arm, the hand model still says thumb-up (it is), the flex wins the ratio rule and the takeover swallows it
+- **Fix (for the FIX agent):** limit the takeover to twins that became active within ~600 ms of each other (`activeSince`) or whose emote has not played yet; after that a newly active gesture fires (the 0.7 s cross-emote gap already prevents a double); gate `takeover` as a VIDEO-mode reel with six events
+- **Prevention:** any rule that suppresses an edge needs a reel where the suppressed gesture is the *intended* one after a long hold, not only the short-hold case it was written for
+- **Reported by:** Phase 5 TEST agent (emotes, round 4)
+
+### 2026-09-20: emotes, on a 627 px-tall laptop window nothing clickable is in the first viewport, and the fake-camera judge counts a fire on an event's last frame as a false trigger (Phase 5 TEST agent, emotes round 4; report D9 minor, D11 tooling; claude-in-chrome degraded a third time)
+
+- **Date:** 2026-09-20
+- **Affected:** `src/style.css:78` (`.stage { max-height: 70vh }` under a ~196 px masthead, buttons below the stage); `scripts/e2e-camera.mjs:81` and `docs/reports/evidence/emotes-r3-e2e-harness.mjs` (`inEvent` requires `f.ms <= ev.endMs`); the shared claude-in-chrome window
+- **Symptom:** at 1512 × 627 (the viewport Kalp's Chrome had during the audit) Start camera sits at y 649 and the status at y 708, below the fold; at 1440 × 800 the buttons end at y 777. Throttled run: models ready at clip position 4,390 ms inside a 2,000–4,500 ms event, Thumbs Up at 4,501 ms → `false trigger` (two re-runs PASS). claude-in-chrome: tab hidden (`visibilityState hidden`), `resize_window` "success" with the viewport unchanged, demo throttled to 1 Hz, the same as rounds 1–3
+- **Root cause:** 70 vh + 196 px > 100 vh below ~660 px of height; a one-frame boundary in the judge; other agents' tabs in the same Chrome window
+- **Fix:** `max-height: min(70vh, 100vh - 320px)` or buttons above the stage; extend the judge's event window by one frame or 400 ms at the end as it already does at the start; for browser passes use headless Chrome at the wanted viewport (as every round has had to)
+- **Prevention:** the r4 UX probe (`emotes-r4-ux-puppeteer.mjs`) prints `startBelowFold` at 1512 × 627 and 1440 × 800 and is in `verification.md`
+- **Reported by:** Phase 5 TEST agent (emotes, round 4)

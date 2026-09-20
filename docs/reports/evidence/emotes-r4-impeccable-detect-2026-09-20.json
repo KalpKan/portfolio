@@ -1,0 +1,33 @@
+[
+  {
+    "antipattern": "broken-image",
+    "name": "Broken or placeholder image",
+    "description": "<img> tags with empty src, missing src, or placeholder values ship as broken-image boxes. Use real images, generated assets, or remove the tag.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/kalp/projects/emotes/index.html",
+    "line": 0,
+    "snippet": "<img> with no src attribute"
+  },
+  {
+    "antipattern": "all-caps-body",
+    "name": "All-caps body text",
+    "description": "Long passages in uppercase are hard to read. We recognize words by shape (ascenders and descenders), which all-caps removes. Reserve uppercase for short labels and headings.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/Users/kalp/projects/emotes/index.html",
+    "line": 0,
+    "snippet": "text-transform: uppercase on 31 chars of body text"
+  },
+  {
+    "antipattern": "gpt-thin-border-wide-shadow",
+    "name": "Hairline border with wide shadow",
+    "description": "A hairline border paired with a wide, diffuse shadow is a recurring generated-UI signature. Commit to one — a defined edge or a soft elevation — rather than both at once.",
+    "severity": "advisory",
+    "category": "slop",
+    "file": "/Users/kalp/projects/emotes/index.html",
+    "line": 0,
+    "snippet": "1px border + 30px shadow blur",
+    "advisory": true
+  }
+]

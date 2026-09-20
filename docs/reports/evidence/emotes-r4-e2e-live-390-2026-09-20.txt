@@ -1,0 +1,175 @@
+=== official width=390 throttle=0 browser=chrome 00:41:59Z
+clip e2e-three-gestures.mjpeg (15500 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1689 ms after the stream started (clip position 1689 ms)
+pipeline: 19.9 fps (frame gap median 50 p95 56 max 72 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2294 Goblin Muscle@6828 Princess Yawn@11620
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 294 328 620
+PASS: every gesture fired once within 1 s, nothing else fired
+=== all-flex width=390 throttle=0 browser=chrome 00:42:45Z
+clip e2e-all-flex.mjpeg (60500 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1951 ms after the stream started (clip position 1951 ms)
+pipeline: 19.8 fps (frame gap median 50 p95 61 max 120 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@2310 Goblin Muscle@6735 Goblin Muscle@11575 Goblin Muscle@20456 Goblin Muscle@29221 Goblin Muscle@33738 Goblin Muscle@38440 Goblin Muscle@42752 Goblin Muscle@48055 Goblin Muscle@51772 Goblin Muscle@56387
+status changes after ready: 12, "Almost" swaps under 900 ms: 0
+latencies: 310 235 575 456 221 238 440 252 1055 272 387
+FAIL: missed flex (15500-18000 ms); missed flex (24500-27000 ms); flex late: 1055 ms after onset
+(exit 1)
+=== all-thumbs width=390 throttle=0 browser=chrome 00:43:51Z
+clip e2e-all-thumbs.mjpeg (74000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2733 ms after the stream started (clip position 2733 ms)
+pipeline: 19.8 fps (frame gap median 50 p95 59 max 83 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2778 Thumbs Up@6959 Thumbs Up@11283 Thumbs Up@16058 Thumbs Up@20267 Thumbs Up@24769 Thumbs Up@29289 Thumbs Up@33935 Thumbs Up@38286 Thumbs Up@42838 Thumbs Up@47280 Thumbs Up@51768 Thumbs Up@56279 Thumbs Up@61131 Thumbs Up@65332 Thumbs Up@70046 Thumbs Up@2280
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 45 459 283 558 267 269 289 435 286 338 280 268 279 631 332 546
+PASS: every gesture fired once within 1 s, nothing else fired
+=== all-yawn width=390 throttle=0 browser=chrome 00:45:10Z
+clip e2e-all-yawn.mjpeg (38000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1784 ms after the stream started (clip position 1784 ms)
+pipeline: 19.9 fps (frame gap median 50 p95 56 max 117 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Princess Yawn@2571 Princess Yawn@7045 Princess Yawn@11444 Princess Yawn@16310 Princess Yawn@20462 Princess Yawn@29725 Princess Yawn@34120
+status changes after ready: 22, "Almost" swaps under 900 ms: 0
+latencies: 571 545 444 810 462 725 620
+FAIL: missed yawn (24500-27000 ms)
+(exit 1)
+=== all-hard width=390 throttle=0 browser=chrome 00:45:57Z
+clip e2e-all-hard.mjpeg (100000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2164 ms after the stream started (clip position 2164 ms)
+pipeline: 19.7 fps (frame gap median 50 p95 61 max 133 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): none
+status changes after ready: 42, "Almost" swaps under 900 ms: 0
+latencies: 
+PASS: every gesture fired once within 1 s, nothing else fired
+=== morph width=390 throttle=0 browser=chrome 00:47:43Z
+clip e2e-morph.mjpeg (14500 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1653 ms after the stream started (clip position 1653 ms)
+pipeline: 19.7 fps (frame gap median 50 p95 61 max 94 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@2330 Thumbs Up@3895 Princess Yawn@5640 Goblin Muscle@6738 Princess Yawn@8598 Thumbs Up@9762 Goblin Muscle@11879
+status changes after ready: 5, "Almost" swaps under 900 ms: 0
+latencies: 330 395 640 238 598 262 879
+PASS: every gesture fired once within 1 s, nothing else fired
+=== takeover width=390 throttle=0 browser=chrome 00:48:03Z
+clip e2e-takeover.mjpeg (23000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1883 ms after the stream started (clip position 1883 ms)
+pipeline: 19.9 fps (frame gap median 50 p95 58 max 73 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@2312 Thumbs Up@9260 Thumbs Up@16517 Goblin Muscle@18642
+status changes after ready: 6, "Almost" swaps under 900 ms: 0
+latencies: 312 260 517 142
+FAIL: missed thumbs_up (4500-7000 ms); missed flex (11500-14000 ms)
+(exit 1)
+=== flex09x3 width=390 throttle=0 browser=chrome 00:48:49Z
+clip e2e-flex09x3.mjpeg (14500 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2008 ms after the stream started (clip position 2008 ms)
+pipeline: 19.9 fps (frame gap median 50 p95 57 max 85 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@2610 Goblin Muscle@6916 Goblin Muscle@11416
+status changes after ready: 8, "Almost" swaps under 900 ms: 0
+latencies: 602 416 416
+PASS: every gesture fired once within 1 s, nothing else fired
+=== tu04x4 width=390 throttle=0 browser=chrome 00:49:35Z
+clip e2e-tu04x4.mjpeg (19000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1811 ms after the stream started (clip position 1811 ms)
+pipeline: 19.7 fps (frame gap median 50 p95 63 max 102 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2613 Thumbs Up@7159 Thumbs Up@11610 Thumbs Up@16113
+status changes after ready: 9, "Almost" swaps under 900 ms: 0
+latencies: 613 659 610 613
+PASS: every gesture fired once within 1 s, nothing else fired
+=== fast width=390 throttle=0 browser=chrome 00:50:22Z
+clip e2e-fast.mjpeg (7900 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2105 ms after the stream started (clip position 2105 ms)
+pipeline: 20.1 fps (frame gap median 50 p95 56 max 68 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2362 Goblin Muscle@3414 Princess Yawn@5000
+status changes after ready: 0, "Almost" swaps under 900 ms: 0
+latencies: 257 214 600
+PASS: every gesture fired once within 1 s, nothing else fired
+=== hard width=390 throttle=0 browser=chrome 00:50:35Z
+clip e2e-hard.mjpeg (24500 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1888 ms after the stream started (clip position 1888 ms)
+pipeline: 19.8 fps (frame gap median 50 p95 58 max 120 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): none
+status changes after ready: 11, "Almost" swaps under 900 ms: 0
+latencies: 
+PASS: every gesture fired once within 1 s, nothing else fired
+=== hard2 width=390 throttle=0 browser=chrome 00:51:21Z
+clip e2e-hard2.mjpeg (29000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2002 ms after the stream started (clip position 2002 ms)
+pipeline: 19.9 fps (frame gap median 50 p95 58 max 108 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): none
+status changes after ready: 12, "Almost" swaps under 900 ms: 0
+latencies: 
+PASS: every gesture fired once within 1 s, nothing else fired
+=== short-hold width=390 throttle=0 browser=chrome 00:52:07Z
+clip e2e-short-hold.mjpeg (15799 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1736 ms after the stream started (clip position 1736 ms)
+pipeline: 19.9 fps (frame gap median 50 p95 57 max 108 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2318 Goblin Muscle@5120 Princess Yawn@8259 Thumbs Up@10852 Goblin Muscle@13409
+status changes after ready: 2, "Almost" swaps under 900 ms: 0
+latencies: 318 320 659 252 209
+PASS: every gesture fired once within 1 s, nothing else fired
+=== rest08-thumb width=390 throttle=0 browser=chrome 00:52:53Z
+clip e2e-rest08-thumb.mjpeg (9400 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2126 ms after the stream started (clip position 2126 ms)
+pipeline: 20.0 fps (frame gap median 50 p95 58 max 68 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2379 Thumbs Up@4427 Thumbs Up@6476 Thumbs Up@1756
+status changes after ready: 0, "Almost" swaps under 900 ms: 0
+latencies: 253 627 376
+PASS: every gesture fired once within 1 s, nothing else fired
+=== rest08-flex width=390 throttle=0 browser=chrome 00:53:07Z
+clip e2e-rest08-flex.mjpeg (9400 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2513 ms after the stream started (clip position 2513 ms)
+pipeline: 19.9 fps (frame gap median 50 p95 58 max 78 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@2573 Goblin Muscle@4615 Goblin Muscle@6614 Goblin Muscle@1813
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 60 815 514
+PASS: every gesture fired once within 1 s, nothing else fired
+=== quick-thumb width=390 throttle=0 browser=chrome 00:53:23Z
+clip e2e-quick-thumb.mjpeg (8799 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2567 ms after the stream started (clip position 2567 ms)
+pipeline: 17.7 fps (frame gap median 57 p95 67 max 82 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2617 Thumbs Up@1860
+status changes after ready: 0, "Almost" swaps under 900 ms: 0
+latencies: 50
+FAIL: missed thumbs_up (3600-5100 ms); missed thumbs_up (5699-7199 ms)
+(exit 1)
+=== quick-flex width=390 throttle=0 browser=chrome 00:53:37Z
+clip e2e-quick-flex.mjpeg (8799 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2296 ms after the stream started (clip position 2296 ms)
+pipeline: 17.4 fps (frame gap median 57 p95 68 max 85 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@2508 Goblin Muscle@4578 Goblin Muscle@6619 Goblin Muscle@1870
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 212 978 920
+PASS: every gesture fired once within 1 s, nothing else fired
+=== quick-yawn width=390 throttle=0 browser=chrome 00:53:50Z
+clip e2e-quick-yawn.mjpeg (8799 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1809 ms after the stream started (clip position 1809 ms)
+pipeline: 18.8 fps (frame gap median 53 p95 65 max 110 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Princess Yawn@1995 Princess Yawn@4211 Princess Yawn@6324
+status changes after ready: 6, "Almost" swaps under 900 ms: 0
+latencies: 186 611 625
+PASS: every gesture fired once within 1 s, nothing else fired
+=== portrait width=390 throttle=0 browser=chrome 00:54:04Z
+clip e2e-portrait.mjpeg (15500 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1787 ms after the stream started (clip position 1787 ms)
+pipeline: 19.0 fps (frame gap median 52 p95 64 max 85 ms); stream 480x480, stage aspect "480 / 480" 358x358, scrollWidth 390/390
+fires (clip position): Thumbs Up@2350 Goblin Muscle@6851 Princess Yawn@11648
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 350 351 648
+PASS: every gesture fired once within 1 s, nothing else fired
+=== flex09-far2 width=390 throttle=0 browser=chrome 00:54:48Z
+clip e2e-flex09-far2.mjpeg (19000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1965 ms after the stream started (clip position 1965 ms)
+pipeline: 17.7 fps (frame gap median 57 p95 70 max 90 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@15855
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 355
+FAIL: missed flex (2000-4500 ms); missed flex (6500-9000 ms); missed flex (11000-13500 ms)
+(exit 1)
+=== a10-flex width=390 throttle=0 browser=chrome 00:55:35Z
+clip e2e-a10-flex.mjpeg (19000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1827 ms after the stream started (clip position 1827 ms)
+pipeline: 18.0 fps (frame gap median 55 p95 78 max 155 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): none
+status changes after ready: 7, "Almost" swaps under 900 ms: 0
+latencies: 
+FAIL: missed flex (2000-4500 ms); missed flex (6500-9000 ms); missed flex (11000-13500 ms); missed flex (15500-18000 ms)
+(exit 1)
+=== a04-flex width=390 throttle=0 browser=chrome 00:56:20Z
+clip e2e-a04-flex.mjpeg (19000 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1943 ms after the stream started (clip position 1943 ms)
+pipeline: 18.2 fps (frame gap median 54 p95 69 max 93 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@2311 Goblin Muscle@7153 Goblin Muscle@11265 Goblin Muscle@16278
+status changes after ready: 4, "Almost" swaps under 900 ms: 0
+latencies: 311 653 265 778
+PASS: every gesture fired once within 1 s, nothing else fired
+=== flex09-mirror width=390 throttle=0 browser=chrome 00:57:06Z
+clip e2e-flex09-mirror.mjpeg (14500 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 1831 ms after the stream started (clip position 1831 ms)
+pipeline: 17.3 fps (frame gap median 58 p95 68 max 133 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Goblin Muscle@2302 Goblin Muscle@6986 Goblin Muscle@11394
+status changes after ready: 8, "Almost" swaps under 900 ms: 0
+latencies: 302 486 394
+PASS: every gesture fired once within 1 s, nothing else fired
+=== other-rest width=390 throttle=0 browser=chrome 00:57:25Z
+clip e2e-other-rest.mjpeg (24500 ms), url https://emotes.kalpkan.com/, width 390, throttle none, browser chrome; models ready 2046 ms after the stream started (clip position 2046 ms)
+pipeline: 17.8 fps (frame gap median 57 p95 69 max 87 ms); stream 640x480, stage aspect "" 358x269, scrollWidth 390/390
+fires (clip position): Thumbs Up@2321 Goblin Muscle@6803 Princess Yawn@11576 Goblin Muscle@16087 Thumbs Up@20584
+status changes after ready: 8, "Almost" swaps under 900 ms: 0
+latencies: 275 303 576 587 584
+PASS: every gesture fired once within 1 s, nothing else fired
+=== done 00:58:13Z

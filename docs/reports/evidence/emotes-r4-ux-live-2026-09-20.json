@@ -1,0 +1,666 @@
+{
+ "1512x627-dark": {
+  "layout": {
+   "vw": 1512,
+   "vh": 627,
+   "scrollW": 1512,
+   "docH": 2115,
+   "stage": {
+    "top": 196,
+    "bottom": 635,
+    "h": 439,
+    "w": 688,
+    "left": 412
+   },
+   "startCam": {
+    "top": 649,
+    "bottom": 700,
+    "h": 51,
+    "w": 136,
+    "left": 412
+   },
+   "demo": {
+    "top": 649,
+    "bottom": 700,
+    "h": 51,
+    "w": 117,
+    "left": 558
+   },
+   "mute": {
+    "top": 649,
+    "bottom": 700,
+    "h": 51,
+    "w": 77,
+    "left": 769
+   },
+   "status": {
+    "top": 708,
+    "bottom": 732,
+    "h": 25,
+    "w": 688,
+    "left": 412
+   },
+   "meters": {
+    "top": 756,
+    "bottom": 785,
+    "h": 29,
+    "w": 688,
+    "left": 412
+   },
+   "emoteCard": {
+    "top": 0,
+    "bottom": 0,
+    "h": 0,
+    "w": 0,
+    "left": 0
+   },
+   "startBelowFold": true,
+   "statusBelowFold": true,
+   "colorScheme": "dark",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "buttonsRows": 1,
+   "popAnim": "none",
+   "transitionFill": "0.12s"
+  },
+  "errors": []
+ },
+ "1440x800-dark": {
+  "layout": {
+   "vw": 1440,
+   "vh": 800,
+   "scrollW": 1440,
+   "docH": 2192,
+   "stage": {
+    "top": 196,
+    "bottom": 712,
+    "h": 516,
+    "w": 688,
+    "left": 376
+   },
+   "startCam": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 136,
+    "left": 376
+   },
+   "demo": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 117,
+    "left": 522
+   },
+   "mute": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 77,
+    "left": 733
+   },
+   "status": {
+    "top": 785,
+    "bottom": 810,
+    "h": 25,
+    "w": 688,
+    "left": 376
+   },
+   "meters": {
+    "top": 834,
+    "bottom": 862,
+    "h": 29,
+    "w": 688,
+    "left": 376
+   },
+   "emoteCard": {
+    "top": 0,
+    "bottom": 0,
+    "h": 0,
+    "w": 0,
+    "left": 0
+   },
+   "startBelowFold": false,
+   "statusBelowFold": false,
+   "colorScheme": "dark",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "buttonsRows": 1,
+   "popAnim": "none",
+   "transitionFill": "0.12s"
+  },
+  "errors": []
+ },
+ "1280x900-dark": {
+  "layout": {
+   "vw": 1280,
+   "vh": 900,
+   "scrollW": 1280,
+   "docH": 2192,
+   "stage": {
+    "top": 196,
+    "bottom": 712,
+    "h": 516,
+    "w": 688,
+    "left": 296
+   },
+   "startCam": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 136,
+    "left": 296
+   },
+   "demo": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 117,
+    "left": 442
+   },
+   "mute": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 77,
+    "left": 653
+   },
+   "status": {
+    "top": 785,
+    "bottom": 810,
+    "h": 25,
+    "w": 688,
+    "left": 296
+   },
+   "meters": {
+    "top": 834,
+    "bottom": 862,
+    "h": 29,
+    "w": 688,
+    "left": 296
+   },
+   "emoteCard": {
+    "top": 0,
+    "bottom": 0,
+    "h": 0,
+    "w": 0,
+    "left": 0
+   },
+   "startBelowFold": false,
+   "statusBelowFold": false,
+   "colorScheme": "dark",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "buttonsRows": 1,
+   "popAnim": "none",
+   "transitionFill": "0.12s"
+  },
+  "errors": []
+ },
+ "1280x900-light": {
+  "layout": {
+   "vw": 1280,
+   "vh": 900,
+   "scrollW": 1280,
+   "docH": 2192,
+   "stage": {
+    "top": 196,
+    "bottom": 712,
+    "h": 516,
+    "w": 688,
+    "left": 296
+   },
+   "startCam": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 136,
+    "left": 296
+   },
+   "demo": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 117,
+    "left": 442
+   },
+   "mute": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 77,
+    "left": 653
+   },
+   "status": {
+    "top": 785,
+    "bottom": 810,
+    "h": 25,
+    "w": 688,
+    "left": 296
+   },
+   "meters": {
+    "top": 834,
+    "bottom": 862,
+    "h": 29,
+    "w": 688,
+    "left": 296
+   },
+   "emoteCard": {
+    "top": 0,
+    "bottom": 0,
+    "h": 0,
+    "w": 0,
+    "left": 0
+   },
+   "startBelowFold": false,
+   "statusBelowFold": false,
+   "colorScheme": "dark",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "buttonsRows": 1,
+   "popAnim": "none",
+   "transitionFill": "0.12s"
+  },
+  "errors": []
+ },
+ "1920x1080-dark": {
+  "layout": {
+   "vw": 1920,
+   "vh": 1080,
+   "scrollW": 1920,
+   "docH": 2192,
+   "stage": {
+    "top": 196,
+    "bottom": 712,
+    "h": 516,
+    "w": 688,
+    "left": 616
+   },
+   "startCam": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 136,
+    "left": 616
+   },
+   "demo": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 117,
+    "left": 762
+   },
+   "mute": {
+    "top": 726,
+    "bottom": 777,
+    "h": 51,
+    "w": 77,
+    "left": 973
+   },
+   "status": {
+    "top": 785,
+    "bottom": 810,
+    "h": 25,
+    "w": 688,
+    "left": 616
+   },
+   "meters": {
+    "top": 834,
+    "bottom": 862,
+    "h": 29,
+    "w": 688,
+    "left": 616
+   },
+   "emoteCard": {
+    "top": 0,
+    "bottom": 0,
+    "h": 0,
+    "w": 0,
+    "left": 0
+   },
+   "startBelowFold": false,
+   "statusBelowFold": false,
+   "colorScheme": "dark",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "buttonsRows": 1,
+   "popAnim": "none",
+   "transitionFill": "0.12s"
+  },
+  "errors": []
+ },
+ "430x932-dark": {
+  "layout": {
+   "vw": 430,
+   "vh": 932,
+   "scrollW": 430,
+   "docH": 2631,
+   "stage": {
+    "top": 233,
+    "bottom": 532,
+    "h": 299,
+    "w": 398,
+    "left": 16
+   },
+   "startCam": {
+    "top": 546,
+    "bottom": 597,
+    "h": 51,
+    "w": 136,
+    "left": 16
+   },
+   "demo": {
+    "top": 546,
+    "bottom": 597,
+    "h": 51,
+    "w": 117,
+    "left": 162
+   },
+   "mute": {
+    "top": 607,
+    "bottom": 657,
+    "h": 51,
+    "w": 77,
+    "left": 16
+   },
+   "status": {
+    "top": 665,
+    "bottom": 715,
+    "h": 50,
+    "w": 398,
+    "left": 16
+   },
+   "meters": {
+    "top": 739,
+    "bottom": 767,
+    "h": 29,
+    "w": 398,
+    "left": 16
+   },
+   "emoteCard": {
+    "top": 0,
+    "bottom": 0,
+    "h": 0,
+    "w": 0,
+    "left": 0
+   },
+   "startBelowFold": false,
+   "statusBelowFold": false,
+   "colorScheme": "dark",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "buttonsRows": 2,
+   "popAnim": "none",
+   "transitionFill": "0.12s"
+  },
+  "errors": []
+ },
+ "390x844-dark": {
+  "layout": {
+   "vw": 390,
+   "vh": 844,
+   "scrollW": 390,
+   "docH": 2775,
+   "stage": {
+    "top": 233,
+    "bottom": 502,
+    "h": 269,
+    "w": 358,
+    "left": 16
+   },
+   "startCam": {
+    "top": 516,
+    "bottom": 567,
+    "h": 51,
+    "w": 136,
+    "left": 16
+   },
+   "demo": {
+    "top": 516,
+    "bottom": 567,
+    "h": 51,
+    "w": 117,
+    "left": 162
+   },
+   "mute": {
+    "top": 577,
+    "bottom": 627,
+    "h": 51,
+    "w": 77,
+    "left": 16
+   },
+   "status": {
+    "top": 635,
+    "bottom": 685,
+    "h": 50,
+    "w": 358,
+    "left": 16
+   },
+   "meters": {
+    "top": 709,
+    "bottom": 737,
+    "h": 29,
+    "w": 358,
+    "left": 16
+   },
+   "emoteCard": {
+    "top": 0,
+    "bottom": 0,
+    "h": 0,
+    "w": 0,
+    "left": 0
+   },
+   "startBelowFold": false,
+   "statusBelowFold": false,
+   "colorScheme": "dark",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "buttonsRows": 2,
+   "popAnim": "none",
+   "transitionFill": "0.12s"
+  },
+  "errors": []
+ },
+ "390x844-light": {
+  "layout": {
+   "vw": 390,
+   "vh": 844,
+   "scrollW": 390,
+   "docH": 2775,
+   "stage": {
+    "top": 233,
+    "bottom": 502,
+    "h": 269,
+    "w": 358,
+    "left": 16
+   },
+   "startCam": {
+    "top": 516,
+    "bottom": 567,
+    "h": 51,
+    "w": 136,
+    "left": 16
+   },
+   "demo": {
+    "top": 516,
+    "bottom": 567,
+    "h": 51,
+    "w": 117,
+    "left": 162
+   },
+   "mute": {
+    "top": 577,
+    "bottom": 627,
+    "h": 51,
+    "w": 77,
+    "left": 16
+   },
+   "status": {
+    "top": 635,
+    "bottom": 685,
+    "h": 50,
+    "w": 358,
+    "left": 16
+   },
+   "meters": {
+    "top": 709,
+    "bottom": 737,
+    "h": 29,
+    "w": 358,
+    "left": 16
+   },
+   "emoteCard": {
+    "top": 0,
+    "bottom": 0,
+    "h": 0,
+    "w": 0,
+    "left": 0
+   },
+   "startBelowFold": false,
+   "statusBelowFold": false,
+   "colorScheme": "dark",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "buttonsRows": 2,
+   "popAnim": "none",
+   "transitionFill": "0.12s"
+  },
+  "errors": []
+ },
+ "360x740-dark": {
+  "layout": {
+   "vw": 360,
+   "vh": 740,
+   "scrollW": 360,
+   "docH": 2976,
+   "stage": {
+    "top": 258,
+    "bottom": 504,
+    "h": 246,
+    "w": 328,
+    "left": 16
+   },
+   "startCam": {
+    "top": 518,
+    "bottom": 569,
+    "h": 51,
+    "w": 136,
+    "left": 16
+   },
+   "demo": {
+    "top": 518,
+    "bottom": 569,
+    "h": 51,
+    "w": 117,
+    "left": 162
+   },
+   "mute": {
+    "top": 579,
+    "bottom": 630,
+    "h": 51,
+    "w": 77,
+    "left": 100
+   },
+   "status": {
+    "top": 638,
+    "bottom": 687,
+    "h": 50,
+    "w": 328,
+    "left": 16
+   },
+   "meters": {
+    "top": 711,
+    "bottom": 740,
+    "h": 29,
+    "w": 328,
+    "left": 16
+   },
+   "emoteCard": {
+    "top": 0,
+    "bottom": 0,
+    "h": 0,
+    "w": 0,
+    "left": 0
+   },
+   "startBelowFold": false,
+   "statusBelowFold": false,
+   "colorScheme": "dark",
+   "bodyBg": "rgb(18, 11, 31)",
+   "bodyColor": "rgb(243, 237, 255)",
+   "buttonsRows": 2,
+   "popAnim": "none",
+   "transitionFill": "0.12s"
+  },
+  "errors": []
+ },
+ "reducedMotionDemo": {
+  "fires": [
+   {
+    "n": "Thumbs Up",
+    "at": 2334,
+    "anim": "pop",
+    "dur": "0.35s"
+   },
+   {
+    "n": "Goblin Muscle",
+    "at": 5049,
+    "anim": "pop",
+    "dur": "0.35s"
+   },
+   {
+    "n": "Princess Yawn",
+    "at": 7735,
+    "anim": "pop",
+    "dur": "0.35s"
+   }
+  ],
+  "plays": [
+   {
+    "src": "thumbs_up.mp3",
+    "at": 2333,
+    "muted": false,
+    "vol": 1
+   },
+   {
+    "src": "goblin_muscle.mp3",
+    "at": 5048,
+    "muted": false,
+    "vol": 1
+   },
+   {
+    "src": "princess_yawn.mp3",
+    "at": 7734,
+    "muted": false,
+    "vol": 1
+   }
+  ],
+  "muteLabel": "Mute",
+  "pressed": "false"
+ },
+ "afterMute": {
+  "fires": 5,
+  "plays": [
+   {
+    "src": "thumbs_up.mp3",
+    "at": 2333,
+    "muted": false,
+    "vol": 1
+   },
+   {
+    "src": "goblin_muscle.mp3",
+    "at": 5048,
+    "muted": false,
+    "vol": 1
+   },
+   {
+    "src": "princess_yawn.mp3",
+    "at": 7734,
+    "muted": false,
+    "vol": 1
+   }
+  ],
+  "muteLabel": "Unmute",
+  "pressed": "true",
+  "stored": "emotes.muted"
+ }
+}
