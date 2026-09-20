@@ -3,7 +3,7 @@
     {
       "slug": "promptflip",
       "name": "promptflip",
-      "tagline": "Two prompts walk in, one gets answered.",
+      "tagline": "A fun way to versus my friends: two prompts, two OpenRouter keys, and a provably fair coin flip decides whose prompt gets answered and whose key pays.",
       "type": "app",
       "status": "live",
       "url": "https://promptflip.kalpkan.com",
@@ -19,7 +19,7 @@
     {
       "slug": "basketball",
       "name": "Basketball Stat Tracker",
-      "tagline": "Shot-by-shot basketball analytics dashboard (the iOS capture app is still a stub).",
+      "tagline": "Counts makes, misses and streaks from the mini hoop in my room.",
       "type": "app",
       "status": "live",
       "url": "https://hoops.kalpkan.com",
@@ -35,7 +35,7 @@
     {
       "slug": "plato",
       "name": "Plato",
-      "tagline": "Turns course-outline PDFs into a structured study plan.",
+      "tagline": "Give it your course outlines and it pulls every assignment and deadline into one calendar file, because I was tired of doing that by hand every semester.",
       "type": "app",
       "status": "live",
       "url": "https://plato.kalpkan.com",
@@ -51,7 +51,7 @@
     {
       "slug": "plantit",
       "name": "Plant It",
-      "tagline": "Identifies your plant from a photo, writes its care guide, and tracks soil moisture (simulated sensor, or a real ESP8266).",
+      "tagline": "Yash and I built a plant waterer that identifies your plant from a photo, looks up its care, and waters each plant to its own soil-moisture level.",
       "type": "app",
       "status": "live",
       "repo": "https://github.com/KalpKan/PlantWater",
@@ -60,7 +60,8 @@
         "React",
         "Express",
         "Firebase",
-        "ESP8266"
+        "ESP8266",
+        "Computer vision"
       ],
       "hero": null,
       "url": "https://plantit.kalpkan.com"
@@ -68,7 +69,7 @@
     {
       "slug": "pushups",
       "name": "Pushup Form Tracker",
-      "tagline": "Counts reps and grades your form from the webcam, all in the browser.",
+      "tagline": "My first AI project: Yash and I gathered our own pushup data, trained a model on it, and now the webcam counts your reps and grades your form in the browser.",
       "type": "app",
       "status": "live",
       "url": "https://pushups.kalpkan.com",
@@ -84,7 +85,7 @@
     {
       "slug": "emotes",
       "name": "Emote Detector",
-      "tagline": "Face, hand and pose landmarks mapped to Clash Royale emotes in real time.",
+      "tagline": "I love Clash Royale and wanted to do more computer vision, so your webcam gestures fire Clash Royale emotes, sound included.",
       "type": "app",
       "status": "live",
       "url": "https://emotes.kalpkan.com",
@@ -93,14 +94,15 @@
       "tags": [
         "MediaPipe",
         "Browser ML",
-        "Canvas"
+        "Canvas",
+        "Computer vision"
       ],
       "hero": null
     },
     {
       "slug": "microtubules",
       "name": "Microtubule Quantification",
-      "tagline": "Measures how much of a cell is microtubule, from a microscopy image, entirely in your browser.",
+      "tagline": "Nobody could point me to an industry-standard way to quantify microtubules from immunofluorescence images for a class project, so I built one that runs in your browser.",
       "type": "app",
       "status": "live",
       "url": "https://microtubules.kalpkan.com",
@@ -116,7 +118,7 @@
     {
       "slug": "unpark",
       "name": "UnPark \u2014 Parkinson's freeze detection",
-      "tagline": "Codename Antifreeze: a wearable that catches freezing of gait before the fall.",
+      "tagline": "Built for a competition: a haptic ankle device that catches freezing-of-gait episodes in Parkinson's with an accelerometer and logs them straight to your phone.",
       "type": "showcase",
       "status": "live",
       "repo": "https://github.com/KalpKan/UnPark",
@@ -124,28 +126,33 @@
         "SwiftUI",
         "Raspberry Pi",
         "MPU6050",
-        "Firebase"
+        "Firebase",
+        "Haptics",
+        "Accelerometer"
       ],
       "hero": null
     },
     {
       "slug": "rc-car",
       "name": "Automatic RC Car",
-      "tagline": "A 3D-printed, Pi-driven RC car: PS4 controller in C++, and a camera that chases a tennis ball.",
+      "tagline": "A small RC car we built: drive it with a PS4 controller, or switch it to self-driving and it follows any green tennis ball you throw, using a vision model on its Raspberry Pi.",
       "type": "showcase",
       "status": "live",
       "repo": "https://github.com/KalpKan/Automatic-RC-Car",
       "tags": [
         "C++",
         "CMake",
-        "Robotics"
+        "Robotics",
+        "Raspberry Pi",
+        "Computer vision",
+        "PS4 controller"
       ],
       "hero": null
     },
     {
       "slug": "flashcards",
       "name": "FlashCards",
-      "tagline": "Under construction: spaced-repetition flashcards for iOS.",
+      "tagline": "Under construction: an iPhone flashcard app, nothing to show yet.",
       "type": "showcase",
       "status": "coming",
       "repo": null,
@@ -159,21 +166,23 @@
     {
       "slug": "porsche-pcb-keychain",
       "name": "Porsche PCB keychain",
-      "tagline": "A 12 \u00d7 37 mm USB-C board with a basketball player cut through it and three LEDs behind the cut, designed in KiCad as a birthday gift.",
+      "tagline": "One of my first PCB designs, made for Yash's birthday: a keychain-sized board with a Porsche cut through it, USB-C, and three LEDs underneath so the Porsche glows when you plug it into your phone.",
       "type": "showcase",
       "status": "live",
       "repo": null,
       "tags": [
         "KiCad",
         "PCB",
-        "Hardware"
+        "Hardware",
+        "USB-C",
+        "LEDs"
       ],
       "hero": null
     },
     {
       "slug": "eeg",
       "name": "DIY EEG",
-      "tagline": "Under construction: a home-built EEG front end, schematic in KiCad, simulated in LTspice.",
+      "tagline": "Under construction: a home-built EEG front end; the schematic and LTspice simulation are done, the board and firmware are next.",
       "type": "showcase",
       "status": "coming",
       "repo": null,

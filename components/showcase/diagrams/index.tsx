@@ -35,11 +35,11 @@ export const DIAGRAMS: Record<DiagramId, FlowData> = {
     edges: ["AppState", "cards"],
   },
   "porsche-pcb-keychain": {
-    title: "Porsche PCB keychain: a USB-C plug supplies 5 V, three LEDs light the player cut through the board",
+    title: "Porsche PCB keychain: a USB-C plug takes 5 V from the phone, three LEDs on the underside light the Porsche cut through the board",
     nodes: [
       { id: "usb", title: "USB-C plug", sub: ["Molex 105444, 2.0", "CC1/CC2: 5.1 kΩ to GND", "D+/D−: no connect"] },
-      { id: "led", title: "Three LEDs (back)", sub: ["0603, 220 Ω each", "along the cut-out edge"] },
-      { id: "art", title: "Cut-out (Edge.Cuts)", sub: ["player: ~1,700-pt polygon", "ball: 3.5 mm circle", "12 × 37 mm board"] },
+      { id: "led", title: "Three LEDs (underside)", sub: ["0603, 220 Ω each", "along the cut-out edge"] },
+      { id: "art", title: "Porsche cut-out", sub: ["Edge.Cuts: ~1,700 points", "keychain hole: 3.5 mm", "12 × 37 mm board"] },
     ],
     edges: ["VBUS 5 V", "lights"],
   },
