@@ -14,7 +14,7 @@ const eeg: CaseStudy = {
   kicker: "Neurotech hardware · KiCad + LTspice · 2026",
   title: "DIY EEG",
   lede:
-    "A single-channel EEG amplifier built from an AD620, two filters and an op-amp gain stage, feeding a 16-bit ADC on a Raspberry Pi: simulated in LTspice, drawn in KiCad, not yet on a board.",
+    "Under construction: a single-channel EEG amplifier I am building from an AD620, two filters and an op-amp gain stage, feeding a 16-bit ADC on a Raspberry Pi. The schematic is drawn in KiCad and simulated in LTspice; the board and the firmware are next.",
   hero: {
     src: schematic,
     tone: "document",
@@ -22,7 +22,7 @@ const eeg: CaseStudy = {
     caption: "The full schematic as it stands (August 2026). Left to right: batteries and electrodes, AD620, filters, TL084, ADC, Raspberry Pi.",
   },
   problem:
-    "Scalp EEG is tens of microvolts riding on tens of millivolts of electrode offset and a volt or more of mains pickup, so the interesting part of the signal is about a million times smaller than the junk around it. Commercial front ends hide that behind a chip like the ADS1299; the point here is the opposite: a two-electrode amplifier chain assembled from parts you can buy for a few dollars each and understand stage by stage, safe because it runs on two 9 V batteries and never touches mains, and good enough to see alpha waves (8 to 12 Hz) appear when the wearer closes their eyes. The plan calls it a learning project and not a medical device, and sets the success test as toggling an LED from eyes-open to eyes-closed on a budget of $200 to $300 CAD.",
+    "Scalp EEG is tens of microvolts riding on tens of millivolts of electrode offset and a volt or more of mains pickup, so the interesting part of the signal is about a million times smaller than the junk around it. Commercial front ends hide that behind a chip like the ADS1299; I wanted the opposite: a two-electrode amplifier chain assembled from parts you can buy for a few dollars each and understand stage by stage, safe because it runs on two 9 V batteries and never touches mains, and good enough to see alpha waves (8 to 12 Hz) appear when I close my eyes. My plan calls it a learning project and not a medical device, and sets the success test as toggling an LED from eyes-open to eyes-closed on a budget of $200 to $300 CAD.",
   howItWorks: {
     intro:
       "One channel, five stages. The numbers below are the ones in the schematic and in the LTspice netlist, which models the same chain with a 50 µV, 10 Hz alpha wave on top of a 20 mV electrode offset and checks that the ADC input lands at 1.65 V plus or minus about 24 mV.",
@@ -79,11 +79,11 @@ const eeg: CaseStudy = {
   ],
   repo: null,
   status:
-    "Under construction · Schematic and LTspice simulation done (August 2026) · Board layout, parts and Pi software not started",
+    "Under construction · Schematic and LTspice simulation done (August 2026) · Board layout and firmware planned, parts not ordered",
   wanted: [
-    "an LTspice plot of V(ain0) and V(ad_out) from EEG_Simulation.cir (File > Export as PNG, or a screenshot)",
-    "a photo of the breadboard once the parts arrive",
-    "the project-plan PDF, if it can be shared publicly (currently only on the Mac)",
+    "1 screenshot: the LTspice plot of V(ain0) and V(ad_out) from EEG_Simulation.cir (run it, then a screenshot or File > Export as PNG)",
+    "1 photo of the breadboard once the parts arrive",
+    "yes/no: may the 17-page project-plan PDF go public (it is only on the Mac)",
   ],
 };
 

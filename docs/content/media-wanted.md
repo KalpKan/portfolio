@@ -1,0 +1,19 @@
+# Media wanted from Kalp (2026-09-20)
+
+One row per project. Drop files in `~/projects/portfolio/media-inbox/<slug>/` (git-ignored; iPhone HEIC and screen recordings are fine, Claude converts) and tell Claude, or send YouTube links for video. The case-study rows mirror each content file's `wanted` list (`content/projects/<slug>.ts`); the app rows fill the tile heroes on the desk; the desk row fills the photo widget and the Résumé pill (`lib/site.ts`). Nothing below blocks anything: every page already shows a labelled placeholder where a file is missing.
+
+| slug | what to send | why |
+|---|---|---|
+| unpark | 2 photos: the device strapped on an ankle, and the bare Pi + MPU6050 on the bench · 3 iPhone screenshots: dashboard, episode list, analytics/insights · one 30–60 s video: walk, stop, feel the buzz, watch the phone log it (unlisted YouTube) · optional: a competition photo or slide, and the competition's name | the page's hero, gallery, phone carousel and video are all placeholders; the competition name would go in the kicker |
+| rc-car | `Videos/Car Video.mp4` (100 s) and `Videos/Autonomous Car Video.mp4` (10 s) from `~/Desktop/Out and About/Sidequest/Automatic-RC-Car/`, uploaded to YouTube as unlisted; send the two links · optional: 2 phone photos of the car, one with the PS4 controller in shot | the video block is a placeholder; the gallery photos are soft frames pulled from the videos |
+| porsche-pcb-keychain | 1 photo of the board plugged into a phone with the Porsche glowing (dim room) · 1 photo of the underside showing the three LEDs, and one on the keychain · one line: which LED colour(s), and whether Yash has it | the page only has KiCad renders; a lit photo becomes the hero, the colour goes in the text |
+| eeg | 1 screenshot of the LTspice plot of `V(ain0)` and `V(ad_out)` from `EEG_Simulation.cir` · 1 breadboard photo once parts arrive · yes/no: may the 17-page plan PDF go public | the gallery is a placeholder for exactly these two images; the PDF would be linked from the status line |
+| flashcards | nothing yet (under construction, your words 2026-09-20); later: 5 iPhone screenshots (sign-in, sets list, one set, the study card, the widget) · decide H4 (make the repo public after removing `GoogleService-Info.plist` from its history) | the page stays the short placeholder until you say otherwise |
+| promptflip | 1 screenshot of a live coin flip (both prompts in, the flip deciding), or a 10 s screen recording of one round | the desk tile has no hero image (`hero: null`) |
+| basketball | 1 screenshot of the hoops dashboard with real makes/misses/streak numbers, or a 5 s clip of a shot registering | tile hero; a real-data screen shows what "counts makes and misses" means |
+| plato | 1 screenshot: outlines uploaded and the calendar file downloaded, or a screenshot of the resulting events in your calendar app | tile hero; the calendar view is the payoff |
+| plantit | 1 photo of the physical waterer on a plant (with the ESP8266 if visible) · 1 screenshot of a plant identified with its care numbers | tile hero; it is the only app with hardware, so a photo beats a screen |
+| pushups | 1 screenshot of the skeleton overlay mid-rep with the counter and a form verdict visible, or a 10 s screen recording of 3 reps | tile hero; the overlay is the whole demo |
+| emotes | 1 screenshot or 5 s screen recording of a gesture firing an emote (flex, yawn or thumbs-up) | tile hero |
+| microtubules | 1 screenshot of a sample cell analysed with the percentage result visible | tile hero |
+| desk | 1 photo of you for the photo widget (square-ish crop works best) · your résumé as a PDF (goes at `public/`, shows the Résumé pill and the PDF dock tile) · optional: email / GitHub handle / LinkedIn URL for the contact row | `lib/site.ts` `photo`, `resumeUrl`, `contact` are empty, so the widget shows a striped placeholder and the pill is hidden (STATUS.md H18) |
