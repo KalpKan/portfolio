@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Signal } from "@/lib/signal";
 import type { SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
@@ -54,18 +54,7 @@ export function windowTitle(id: WindowId, tiles: Tile[]): string {
 }
 
 function widthFor(id: WindowId): number {
-  const w = WIDTH[id.startsWith("case:") ? "case" : id];
-  if (typeof window === "undefined") return w;
-  return Math.min(w, window.innerWidth - 24);
-}
-
-/** 2d places the Projects window at left 150 / top 86 in a 1040 desk; later windows cascade by 28 px. */
-function positionFor(id: WindowId, index: number): { x: number; y: number } {
-  const w = widthFor(id);
-  const vw = typeof window === "undefined" ? 1040 : window.innerWidth;
-  const x = Math.max(24, Math.round((vw - w) / 2)) + (index % 6) * 28;
-  const y = 86 + (index % 6) * 28;
-  return { x: Math.min(x, Math.max(24, vw - w - 12)), y };
+  return WIDTH[id.startsWith("case:") ? "case" : id];
 }
 
 export default function Desk({
@@ -99,6 +88,18 @@ export default function Desk({
   const openCase = useCallback((slug: string, origin?: Rect) => open(`case:${slug}`, origin), [open]);
   const top = topWindow(windows);
   const playing = !!site.nowPlaying.title;
+
+  // Esc anywhere on the desk (outside a window, which handles its own) closes the top window.
+  const [closeReq, setCloseReq] = useState<{ id: WindowId | null; n: number }>({ id: null, n: 0 });
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || !top) return;
+      if ((e.target as Element | null)?.closest?.('[role="dialog"]')) return;
+      setCloseReq((c) => ({ id: top, n: c.n + 1 }));
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [top]);
 
   const body = (id: WindowId): React.ReactNode => {
     switch (id) {
@@ -167,7 +168,8 @@ export default function Desk({
               z={w.z}
               origin={w.origin}
               width={widthFor(w.id)}
-              defaultPos={positionFor(w.id, i)}
+              cascade={i}
+              closeRequest={closeReq.id === w.id ? closeReq.n : 0}
               chrome={w.id === "projects" ? "sidebar" : "titlebar"}
               onClose={() => dispatch({ type: "close", id: w.id })}
               onFocus={() => dispatch({ type: "focus", id: w.id })}

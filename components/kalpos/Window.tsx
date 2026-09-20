@@ -65,7 +65,8 @@ export default function Window({
   onMinimize,
   width,
   height,
-  defaultPos,
+  cascade = 0,
+  closeRequest = 0,
   chrome = "titlebar",
   className = "",
   children,
@@ -80,13 +81,19 @@ export default function Window({
   onMinimize: () => void;
   width: number;
   height?: number;
-  defaultPos?: { x: number; y: number };
+  /** Nth open window: 2d places the first at top 86, centred; later ones step 28 px down and right. */
+  cascade?: number;
+  /** Bumped by the parent when Esc is pressed outside the window: close with the usual animation. */
+  closeRequest?: number;
   chrome?: "titlebar" | "sidebar";
   className?: string;
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState(() => defaultPos ?? { x: 24, y: 60 });
+  // The server cannot know the viewport, so the first render is a placeholder
+  // and the layout effect below places the window before the first paint.
+  const [pos, setPos] = useState({ x: 24, y: 86 });
+  const [placed, setPlaced] = useState(false);
   const [zoomed, setZoomed] = useState(false);
   const [anim, setAnim] = useState<"open" | "close" | "place" | null>(null);
   const [dragging, setDragging] = useState(false);
@@ -94,10 +101,19 @@ export default function Window({
   const raf = useRef(0);
   const leaving = useRef(false);
 
-  // Open: FLIP from the origin rect (the icon or tile) to the window's own rect.
+  // Place, then open: FLIP from the origin rect (the icon or tile) to the window's own rect.
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const vw = window.innerWidth;
+    const w = Math.min(width, vw - 24);
+    const step = (cascade % 6) * 28;
+    const x = Math.min(Math.max(24, Math.round((vw - w) / 2)) + step, Math.max(24, vw - w - 12));
+    // Move the element now so the FLIP measurement below sees the final rect.
+    el.style.left = `${x}px`;
+    el.style.top = `${86 + step}px`;
+    setPos({ x, y: 86 + step });
+    setPlaced(true);
     if (reducedMotion() || !origin || typeof el.getBoundingClientRect !== "function") {
       setAnim("place");
       return;
@@ -154,6 +170,13 @@ export default function Window({
   );
 
   const close = useCallback(() => leave(undefined, onClose), [leave, onClose]);
+  const lastRequest = useRef(closeRequest);
+  useEffect(() => {
+    if (closeRequest !== lastRequest.current) {
+      lastRequest.current = closeRequest;
+      close();
+    }
+  }, [closeRequest, close]);
   const minimize = useCallback(() => {
     const dock = typeof document !== "undefined" ? document.querySelector(".kos-dock") : null;
     const r = dock?.getBoundingClientRect();
@@ -185,10 +208,12 @@ export default function Window({
         const w = ref.current?.offsetWidth ?? width;
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        return { minX: 12 - w + 80, maxX: vw - 80, minY: 34, maxY: vh - 60 };
+        return { minX: 160 - w, maxX: vw - 160, minY: 34, maxY: vh - 120 };
       };
-      let velX = reducedMotion() ? 0 : vx;
-      let velY = reducedMotion() ? 0 : vy;
+      // A throw faster than 2.5 px/ms is a synthetic jump, not a hand; cap it.
+      const cap = (v: number) => Math.max(-2.5, Math.min(2.5, v));
+      let velX = reducedMotion() ? 0 : cap(vx);
+      let velY = reducedMotion() ? 0 : cap(vy);
       let last = performance.now();
       const step = (now: number) => {
         const dt = Math.min(32, now - last);
@@ -235,7 +260,7 @@ export default function Window({
   const ctx: Ctx = { focused, close, minimize, zoom, drag };
   const style: React.CSSProperties = zoomed
     ? { left: 12, top: 44, width: "calc(100vw - 24px)", height: "calc(100vh - 140px)", zIndex: z }
-    : { left: pos.x, top: pos.y, width, height, zIndex: z };
+    : { left: pos.x, top: pos.y, width, height, zIndex: z, visibility: placed ? undefined : "hidden" };
 
   return (
     <WindowCtx.Provider value={ctx}>

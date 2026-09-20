@@ -15,6 +15,7 @@ describe("LockScreen (card 3c)", () => {
     expect(container.textContent).toContain("Kalp Kansara");
     expect(container.textContent).toContain("Enter Password");
     expect(container.textContent).toContain("It's a portfolio — type anything, then Enter");
+    expect(container.textContent).toContain("tap to unlock");
     expect(container.querySelector("input[type=password]")?.getAttribute("aria-label")).toBe("Password");
     unmount();
   });

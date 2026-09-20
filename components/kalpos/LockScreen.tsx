@@ -65,12 +65,12 @@ export default function LockScreen({
           {initials}
         </div>
         <span className="kos-lock-name">{name}</span>
-        {/* The pill is a real button on top of the field: on a phone one tap unlocks. */}
+        {/* On a touch device one tap of the empty pill unlocks (spec: the pill is a button). */}
         <div
           className="kos-pw"
           data-pulse={pulsing ? "true" : undefined}
-          onClick={(e) => {
-            if (e.target === e.currentTarget && !pw) onUnlock();
+          onClick={() => {
+            if (!pw && window.matchMedia?.("(pointer: coarse)").matches) onUnlock();
           }}
         >
           <input
@@ -110,7 +110,8 @@ export default function LockScreen({
           style={{ background: "none", border: 0, padding: 0, cursor: "pointer" }}
           onClick={onUnlock}
         >
-          It&#39;s a portfolio — type anything, then Enter
+          <span className="kos-caption-type">It&#39;s a portfolio — type anything, then Enter</span>
+          <span className="kos-caption-tap">It&#39;s a portfolio — tap to unlock</span>
         </button>
       </div>
     </div>

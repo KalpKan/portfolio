@@ -835,6 +835,27 @@ html[data-kos-boot="desk"] .kos-lock {
   color: rgba(255, 255, 255, 0.55);
   margin-top: 6px;
 }
+.kos-caption-tap {
+  display: none;
+}
+@media (pointer: coarse) {
+  .kos-caption-type {
+    display: none;
+  }
+  .kos-caption-tap {
+    display: inline;
+  }
+}
+/* Phone restyle of the lock: the 128 px clock would fill a 390 px screen edge to edge. */
+@media (max-width: 480px) {
+  .kos-lock-time {
+    font-size: 96px;
+    min-height: 106px;
+  }
+  .kos-lock-clock {
+    top: 64px;
+  }
+}
 
 /* --------------------------------------------------------------- windows */
 
@@ -856,13 +877,18 @@ html[data-kos-boot="desk"] .kos-lock {
   display: flex;
   flex-direction: column;
   max-width: calc(100vw - 24px);
-  max-height: calc(100vh - 110px);
-  max-height: calc(100dvh - 110px);
+  /* Never under the dock: the desk top (86 px) plus the dock's band (116 px). */
+  max-height: calc(100vh - 202px);
+  max-height: calc(100dvh - 202px);
   transition:
     box-shadow 180ms ease,
     background 180ms ease;
   transform-origin: 0 0;
   will-change: transform;
+}
+.kos-window:focus-visible {
+  /* The frame's focus state is its chrome (coloured lights, lg shadow), not a ring. */
+  outline: none;
 }
 .kos-window[data-focused="true"] {
   background: #f8f4f4;
@@ -962,6 +988,7 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-window--sidebar .kos-window-content {
   display: grid;
   grid-template-columns: 184px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   overflow: hidden;
 }
 
@@ -1039,6 +1066,15 @@ html[data-kos-boot="desk"] .kos-lock {
   gap: 12px;
   padding: 0 16px;
   border-bottom: 1px solid rgba(32, 30, 29, 0.08);
+  /* Also the window's drag handle (2d has no title bar). */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.kos-sidebar > div:first-child {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .kos-nav-stubs {
   display: flex;
@@ -1080,6 +1116,9 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-search:focus-visible {
   outline-offset: 0;
 }
+.kos-grid > li {
+  min-width: 0;
+}
 .kos-grid {
   padding: 18px;
   display: grid;
@@ -1111,6 +1150,8 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-tile {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  width: 100%;
   gap: 8px;
   padding: 0;
   border: 0;
@@ -1390,6 +1431,8 @@ html[data-kos-boot="desk"] .kos-lock {
 }
 .kos-phone-grid .kos-icon {
   width: 100%;
+  height: 88px;
+  justify-content: flex-end;
   font-size: 12px;
   gap: 8px;
 }

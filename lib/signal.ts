@@ -53,6 +53,11 @@ type Fetcher = (url: string, init?: RequestInit) => Promise<Response>;
  * Ask the hub's status proxy for every live tile that has a health url and
  * report each answer as it lands. Returns a cancel function; after cancel no
  * further report is made (React strict-mode double mounts and unmounts).
+ *
+ * No AbortController: a fetch wrapper on the page (posthog-js session
+ * replay records network calls) turns an aborted request into an unhandled
+ * rejection, so a slow answer is simply ignored after `timeoutMs` instead.
+ * The proxy itself gives up on the upstream after 3 s (lib/health.ts).
  */
 export function runHealthChecks(
   tiles: Tile[],
@@ -60,24 +65,24 @@ export function runHealthChecks(
   { fetcher = fetch, timeoutMs = BROWSER_HEALTH_TIMEOUT_MS }: { fetcher?: Fetcher; timeoutMs?: number } = {},
 ): () => void {
   let cancelled = false;
-  const controllers: AbortController[] = [];
-  const report = (slug: string, s: Signal) => {
-    if (!cancelled) onSignal(slug, s);
-  };
+  const timers: ReturnType<typeof setTimeout>[] = [];
   for (const t of tiles) {
     if (!hasCheck(t)) continue;
-    const c = new AbortController();
-    controllers.push(c);
-    const timer = setTimeout(() => c.abort(), timeoutMs);
-    fetcher(`/api/status/${t.slug}`, { signal: c.signal })
+    let settled = false;
+    const report = (s: Signal) => {
+      if (settled || cancelled) return;
+      settled = true;
+      onSignal(t.slug, s);
+    };
+    timers.push(setTimeout(() => report("down"), timeoutMs));
+    fetcher(`/api/status/${t.slug}`, { headers: { accept: "application/json" } })
       .then((r) => (r.ok ? r.json() : null))
-      .then((body: unknown) => report(t.slug, signalFromBody(body)))
-      .catch(() => report(t.slug, "down"))
-      .finally(() => clearTimeout(timer));
+      .then((body: unknown) => report(signalFromBody(body)))
+      .catch(() => report("down"));
   }
   return () => {
     cancelled = true;
-    controllers.forEach((c) => c.abort());
+    timers.forEach(clearTimeout);
   };
 }
 
