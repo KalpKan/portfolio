@@ -88,6 +88,8 @@ export default function KalpOS({
   const [stageState, setStage] = useState<Stage>(skipLock ? "desk" : "boot");
   const [bootState, setBoot] = useState<"animate" | "crossfade" | null>(skipLock ? "crossfade" : null);
   const [leaving, setLeaving] = useState(false);
+  /** Where the chime sounded this page load (data-chime, so a check can see it). */
+  const [chimed, setChimed] = useState<"boot" | "unlock" | null>(null);
   const [pulsing, setPulsing] = useState(false);
   const [windows, dispatch] = useReducer(windowsReducer, initialWindow, initialWindows);
   const [health, setHealth] = useState<Health>(() => ({ signals: initialSignals(tiles), checkedAt: null }));
@@ -127,7 +129,7 @@ export default function KalpOS({
     if (!bootStart.current) {
       bootStart.current = performance.now();
       // The chime at the boot mark, when a prior gesture in this tab lets audio start.
-      void playChime("boot");
+      void playChime("boot").then((ok) => ok && setChimed("boot"));
     }
     const elapsed = performance.now() - bootStart.current;
     const done = () => {
@@ -153,7 +155,7 @@ export default function KalpOS({
     setPulsing(true);
     const reduced = reducedMotion();
     // Started inside the gesture (browsers gate audio on one), sounding with the blur-out.
-    void playChime("unlock", { delayS: MS.pulse / 1000 });
+    void playChime("unlock", { delayS: MS.pulse / 1000 }).then((ok) => ok && setChimed("unlock"));
     timers.current.push(
       window.setTimeout(() => {
         setStage("unlocking");
@@ -189,7 +191,7 @@ export default function KalpOS({
     .toUpperCase();
 
   return (
-    <div className="kos" data-stage={stage} data-boot={boot ?? undefined} data-leaving={leaving ? "true" : undefined}>
+    <div className="kos" data-stage={stage} data-boot={boot ?? undefined} data-leaving={leaving ? "true" : undefined} data-chime={chimed ?? undefined}>
       <a className="kos-skip" href="#kos-main">
         Skip to the desk
       </a>

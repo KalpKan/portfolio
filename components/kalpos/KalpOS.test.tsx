@@ -189,6 +189,7 @@ describe("the startup chime", () => {
     await flush();
     expect(made.started[0]).toBeCloseTo(1.4, 3);
     expect(track).toHaveBeenCalledWith("chime_played", { at: "unlock" });
+    expect(container.querySelector(".kos")!.getAttribute("data-chime")).toBe("unlock");
     unmount();
   });
 
@@ -198,6 +199,7 @@ describe("the startup chime", () => {
     await flush();
     expect(made.started.length).toBeGreaterThan(0);
     expect(track).toHaveBeenCalledWith("chime_played", { at: "boot" });
+    expect(container.querySelector(".kos")!.getAttribute("data-chime")).toBe("boot");
     await toLock(container);
     fire(container.querySelector("input[type=password]")!, "keydown", { key: "Enter" });
     await flush();
@@ -214,6 +216,7 @@ describe("the startup chime", () => {
     await flush();
     expect(made.started.length).toBe(0);
     expect(track).not.toHaveBeenCalledWith("chime_played", expect.anything());
+    expect(container.querySelector(".kos")!.getAttribute("data-chime")).toBeNull();
     unmount();
   });
 });
