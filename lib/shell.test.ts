@@ -86,7 +86,7 @@ describe("the prompt and the plain commands", () => {
 
   it("help lists every command", () => {
     const r = runLine(ctx, INITIAL_STATE, "help");
-    for (const c of ["ls", "cd", "cat", "tree", "open", "status", "neofetch", "exit"]) expect(text(r.lines)).toContain(c);
+    for (const c of ["ls", "cd", "cat", "tree", "open", "status", "neofetch", "exit", "reboot", "lock", "logout"]) expect(text(r.lines)).toContain(c);
   });
 });
 
@@ -193,6 +193,20 @@ describe("open, status, clear, exit", () => {
     expect(text(e.lines)).toBe("logout");
   });
 
+  it("reboot / restart ask the desk to reboot after printing Restarting…; lock / logout ask for the lock screen", () => {
+    for (const cmd of ["reboot", "restart"]) {
+      const r = runLine(ctx, INITIAL_STATE, cmd);
+      expect(r.effects).toEqual([{ type: "restart" }]);
+      expect(text(r.lines)).toBe("Restarting…");
+      expect(r.name).toBe(cmd);
+    }
+    for (const cmd of ["lock", "logout"]) {
+      const r = runLine(ctx, INITIAL_STATE, cmd);
+      expect(r.effects).toEqual([{ type: "lock" }]);
+      expect(r.name).toBe(cmd);
+    }
+  });
+
   it("neofetch prints the mark and the measured stats", () => {
     const out = text(runLine(ctx, INITIAL_STATE, "neofetch").lines);
     expect(out).toContain("kalp@kalpos");
@@ -214,6 +228,8 @@ describe("open, status, clear, exit", () => {
 describe("Tab completion", () => {
   it("completes a command word, adding a space when unique", () => {
     expect(complete(ctx, INITIAL_STATE, "neo")).toEqual({ input: "neofetch ", candidates: [] });
+    expect(complete(ctx, INITIAL_STATE, "reb")).toEqual({ input: "reboot ", candidates: [] });
+    expect(complete(ctx, INITIAL_STATE, "lo")).toEqual({ input: "lo", candidates: ["lock", "logout"] });
     expect(complete(ctx, INITIAL_STATE, "")).toMatchObject({ input: "" });
     expect(complete(ctx, INITIAL_STATE, "").candidates.length).toBeGreaterThan(10);
   });

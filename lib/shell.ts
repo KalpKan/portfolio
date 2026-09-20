@@ -20,6 +20,10 @@ export type Effect =
   | { type: "status" }
   | { type: "clear" }
   | { type: "exit" }
+  /** `lock` / `logout`: the desk shows the lock screen (KalpOS.tsx). */
+  | { type: "lock" }
+  /** `reboot` / `restart`: the desk reboots through the full boot sequence, no confirm. */
+  | { type: "restart" }
   /** A fake-Claude reply to play with its typing rhythm (lib/fake-claude.ts). */
   | { type: "reply"; chunks: Chunk[] };
 
@@ -78,6 +82,10 @@ export const COMMANDS = [
   "claude",
   "clear",
   "exit",
+  "lock",
+  "logout",
+  "reboot",
+  "restart",
 ] as const;
 
 const HELP: [string, string][] = [
@@ -96,6 +104,8 @@ const HELP: [string, string][] = [
   ["history", "what you typed"],
   ["claude", "start a Claude Code session (a fake one)"],
   ["clear / exit", "wipe the screen / close the window"],
+  ["lock / logout", "show the lock screen"],
+  ["reboot / restart", "reboot KalpOS: the boot, the chime, the lock"],
 ];
 
 export function promptFor(state: ShellState): string {
@@ -414,6 +424,15 @@ export function runLine(ctx: ShellContext, state: ShellState, input: string): Sh
     case "exit":
       lines.push(out("logout", "dim"));
       effects.push({ type: "exit" });
+      break;
+    case "lock":
+    case "logout":
+      effects.push({ type: "lock" });
+      break;
+    case "reboot":
+    case "restart":
+      lines.push(out("Restarting…", "dim"));
+      effects.push({ type: "restart" });
       break;
     case "sudo":
       lines.push(err(`${USER} is not in the sudoers file. This incident will be reported.`));

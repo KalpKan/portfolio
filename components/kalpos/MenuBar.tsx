@@ -4,13 +4,15 @@ import { SpeakerHigh, SpeakerSlash } from "@phosphor-icons/react";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { isMuted, setMuted, subscribeMute } from "@/lib/chime";
 import { CLOCK_IDS, formatMenubarClock } from "@/lib/clock";
+import KalpOSMenu from "./KalpOSMenu";
 
 const MENUS = ["File", "Edit", "View", "Go", "Window"];
 /** Card 2d: with a window focused the bar reads "KalpOS · Projects · File · View · Go". */
 const MENUS_FOCUSED = ["File", "View", "Go"];
 
 /**
- * Card 2c's menubar: brand, the five menu words, and on the right the
+ * Card 2c's menubar: the brand (a real menu button, KalpOSMenu.tsx: About,
+ * Lock Screen, Restart…, the chime toggle), the five menu words, and on the right the
  * Résumé pill (hidden while lib/site.ts has no resumeUrl), the startup-chime
  * mute toggle (lib/chime.ts, persisted as kalpos:mute), wifi, battery and
  * the live clock "Sat 20 Sep  11:42". The visits count in the mock is
@@ -22,7 +24,19 @@ function useMuted(): boolean {
   return useSyncExternalStore(subscribeMute, isMuted, () => false);
 }
 
-export default function MenuBar({ resumeUrl, activeTitle }: { resumeUrl: string; activeTitle?: string }) {
+export default function MenuBar({
+  resumeUrl,
+  activeTitle,
+  onAbout = () => {},
+  onLock = () => {},
+  onRestart = () => {},
+}: {
+  resumeUrl: string;
+  activeTitle?: string;
+  onAbout?: () => void;
+  onLock?: () => void;
+  onRestart?: () => void;
+}) {
   const clockEl = useRef<HTMLSpanElement>(null);
   const muted = useMuted();
   useEffect(() => {
@@ -37,7 +51,7 @@ export default function MenuBar({ resumeUrl, activeTitle }: { resumeUrl: string;
   }, []);
   return (
     <header className="kos-menubar" aria-label="Menu bar">
-      <b>KalpOS</b>
+      <KalpOSMenu onAbout={onAbout} onLock={onLock} onRestart={onRestart} />
       {activeTitle ? <b style={{ opacity: 0.9 }}>{activeTitle}</b> : null}
       {(activeTitle ? MENUS_FOCUSED : MENUS).map((m) => (
         <span key={m} className="kos-menu-item" aria-hidden>

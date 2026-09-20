@@ -66,6 +66,9 @@ export default function Desk({
   checkedAt,
   caseBodies = {},
   onOpenWindow,
+  onLock,
+  onRestart,
+  onReboot,
 }: {
   tiles: Tile[];
   signals: Record<string, Signal>;
@@ -77,6 +80,11 @@ export default function Desk({
   caseBodies?: Record<string, React.ReactNode>;
   /** Hook for analytics / URL sync; the dispatch itself happens here. */
   onOpenWindow?: (id: WindowId) => void;
+  /** The KalpOS menu's Lock Screen (also the terminal's `lock`). */
+  onLock?: () => void;
+  /** The KalpOS menu's Restart… (asks first) and the terminal's `reboot` (does not). */
+  onRestart?: () => void;
+  onReboot?: () => void;
 }) {
   const open = useCallback(
     (id: WindowId, origin?: Rect) => {
@@ -122,6 +130,8 @@ export default function Desk({
             signals={signals}
             onOpenCase={(slug) => openCase(slug)}
             onClose={() => dispatch({ type: "close", id: "terminal" })}
+            onLock={onLock}
+            onRestart={onReboot}
           />
         );
       default: {
@@ -137,7 +147,13 @@ export default function Desk({
     <div className="kos-desk">
       <div className="kos-dots" aria-hidden />
       <div className="kos-sheen" aria-hidden />
-      <MenuBar resumeUrl={site.resumeUrl} activeTitle={top ? windowTitle(top, tiles) : undefined} />
+      <MenuBar
+        resumeUrl={site.resumeUrl}
+        activeTitle={top ? windowTitle(top, tiles) : undefined}
+        onAbout={() => open("about")}
+        onLock={onLock}
+        onRestart={onRestart}
+      />
 
       <div className="kos-icons" id="kos-main" tabIndex={-1} aria-label="Desktop">
         <DeskIcon label="Projects" index={0} onOpen={(o) => open("projects", o)}>

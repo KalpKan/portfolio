@@ -47,4 +47,14 @@ describe("windowsReducer", () => {
     const s = windowsReducer(EMPTY_WINDOWS, { type: "open", id: "projects" });
     expect(windowsReducer(s, { type: "close", id: "trash" })).toBe(s);
   });
+
+  it("closeAll (lock / restart) empties the desk, minimised windows included, and is a no-op on an empty desk", () => {
+    let s = windowsReducer(EMPTY_WINDOWS, { type: "open", id: "projects" });
+    s = windowsReducer(s, { type: "open", id: "about" });
+    s = windowsReducer(s, { type: "minimize", id: "projects" });
+    s = windowsReducer(s, { type: "closeAll" });
+    expect(s.windows).toEqual([]);
+    expect(topWindow(s)).toBeNull();
+    expect(windowsReducer(EMPTY_WINDOWS, { type: "closeAll" })).toBe(EMPTY_WINDOWS);
+  });
 });

@@ -60,6 +60,26 @@ describe("Phone sheet (card 1e)", () => {
     unmount();
   });
 
+  it("the ■ KalpOS in the top bar is the KalpOS menu: About opens the About sheet, Lock Screen and Restart… reach the desk", () => {
+    const onLock = vi.fn();
+    const onRestart = vi.fn();
+    const { container, unmount } = mount({ onLock, onRestart });
+    const brand = container.querySelector<HTMLButtonElement>('.kos-phone-bar button[aria-haspopup="menu"]')!;
+    expect(brand.textContent).toBe("KalpOS");
+    click(brand);
+    const row = (label: string) => [...container.querySelectorAll<HTMLElement>('[role="menuitem"]')].find((i) => i.textContent?.includes(label))!;
+    click(row("About KalpOS"));
+    expect(container.querySelector('.kos-sheet[role="dialog"]')?.getAttribute("aria-label")).toBe("About");
+    click(brand);
+    click(row("Lock Screen"));
+    expect(onLock).toHaveBeenCalledTimes(1);
+    click(brand);
+    click(row("Restart…"));
+    expect(onRestart).toHaveBeenCalledTimes(1);
+    expect(container.querySelector('[role="menu"]')).toBeNull();
+    unmount();
+  });
+
   it("a case-study row asks to open the case sheet; Hobbies opens a full-height sheet", () => {
     const { container, onOpenCase, unmount } = mount();
     click([...container.querySelectorAll(".kos-sheet .kos-row")].find((r) => r.textContent?.includes("UnPark"))!);
