@@ -1,0 +1,26 @@
+flip-bad_IMG_4451: 4 attempts / 1 good  fps 30 (min 29)  events: 1.7s bad:dropped to the floor, 3.3s good, 5.1s bad:dropped to the floor, 6.9s bad:dropped to the floor
+   1671-3163 ms (46f) Rep 1: dropped to the floor
+   3242-4737 ms (46f) Rep 2: good
+   5065-6536 ms (45f) Rep 3: dropped to the floor
+   6824-8278 ms (45f) Rep 4: dropped to the floor
+   70-7736 ms (230f) Good form
+   8493-10089 ms (49f) Too dark: turn a light on or uncover the camera
+flip-IMG_1513: 2 attempts / 1 good  fps 30 (min 28)  events: 0.7s partial, 3.5s bad:dropped to the floor, 3.9s partial, 6.5s good
+   11111-11137 ms (2f) Counting paused
+   3448-3871 ms (14f) Rep 1: dropped to the floor
+   6445-7939 ms (46f) Rep 2: good
+   709-5406 ms (92f) Go lower: that dip was too shallow to count
+   71-7410 ms (220f) Good form
+   7435-8074 ms (20f) Bad form: knees down
+   8837-11137 ms (70f) Too dark: turn a light on or uncover the camera
+IMG_1512: 6 attempts / 5 good  fps 30 (min 29)  events: 5.0s good, 9.1s good, 13.7s good, 22.1s good, 27.3s partial, 29.7s good, 33.1s bad:hips too high
+   13663-15115 ms (45f) Rep 3: good
+   22093-23589 ms (46f) Rep 4: good
+   23456-34708 ms (148f) Bad form: hips too high
+   27312-28814 ms (46f) Go lower: that dip was too shallow to count
+   29724-31182 ms (45f) Rep 5: good
+   33108-34579 ms (44f) Rep 6: hips too high
+   35473-37398 ms (59f) Too dark: turn a light on or uncover the camera
+   4949-6417 ms (45f) Rep 1: good
+   72-30453 ms (883f) Good form
+   9128-10613 ms (46f) Rep 2: good

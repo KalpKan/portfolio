@@ -1,0 +1,19 @@
+IMG_1305: 5 attempts / 5 good  fps 11 (min 7)  events: 0.9s partial, 3.0s good, 4.1s good, 5.6s good, 6.8s good, 8.0s good
+   11498-11753 ms (3f) Counting paused
+   11626-11753 ms (2f) Feet out of frame: move the camera back
+   250-8299 ms (78f) Good form
+   2912-3846 ms (10f) Rep 1: good
+   4003-5308 ms (13f) Rep 2: good
+   5425-6557 ms (13f) Rep 3: good
+   6696-7784 ms (12f) Rep 4: good
+   725-2136 ms (15f) Go lower: that dip was too shallow to count
+   7908-9338 ms (21f) Rep 5: good
+   8404-8404 ms (1f) Bad form: hips too high
+   9218-11498 ms (39f) Too dark: turn a light on or uncover the camera
+demo: 4 attempts / 4 good  fps 11 (min 8)  events: 1.2s good, 2.2s good, 4.4s good, 7.1s good
+   1122-2034 ms (10f) Rep 1: good
+   2170-3577 ms (15f) Rep 2: good
+   251-8300 ms (80f) Good form
+   4281-5682 ms (15f) Rep 3: good
+   7017-8386 ms (15f) Rep 4: good
+   9110-10672 ms (27f) Too dark: turn a light on or uncover the camera

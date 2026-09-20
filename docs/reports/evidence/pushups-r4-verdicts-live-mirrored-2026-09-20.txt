@@ -1,0 +1,43 @@
+demo            total 4 (want 4) good 4 (want 2-3) first-event 1.20856 (label bottom 0.8) partials [] not-rep-violations []
+    r1@0.8 g/h -> good; r2@1.8 g/h -> good; r3@3.5 g/m -> good; r4@6.2 b/h -> good
+test_video3     total 5 (want 5) good 4 (want 2-4) first-event 1.208212 (label bottom 0.8) partials [] not-rep-violations []
+    r1@0.8 g/h -> good; r2@1.8 g/h -> good; r3@3.5 g/m -> bad:dropped to the floor; r4@6.2 b/h -> good; r5@9.8 g/m -> good
+test_video      total 4 (want 4) good 3 (want 2-2) first-event 4.239025 (label bottom 3.5) partials [] not-rep-violations []
+    r1@3.5 b/h -> bad:hips sagging; r2@9.5 b/h -> good; r3@13.5 g/h -> good; r4@15.0 g/h -> good
+test_video_2    total 4 (want 4) good 2 (want 0-2) first-event 3.342552 (label bottom 2.5) partials [] not-rep-violations []
+    r1@2.5 g/m -> good; r2@8.5 b/h -> bad:dropped to the floor; r3@15.9 b/h -> bad:knees down; r4@21.5 g/m -> good
+test_video_4    total 5 (want 5) good 5 (want 4-4) first-event 2.210175 (label bottom 1.7) partials [] not-rep-violations []
+    r1@1.7 g/h -> good; r2@3.4 g/h -> good; r3@4.9 g/h -> good; r4@6.5 g/h -> good; r5@10.0 b/h -> good
+good_IMG_4378   total 8 (want 8) good 8 (want 8-8) first-event 1.370364 (label bottom 1.0) partials [] not-rep-violations []
+    r1@1.0 g/h -> good; r2@2.8 g/h -> good; r3@4.8 g/h -> good; r4@6.9 g/h -> good; r5@8.8 g/h -> good; r6@10.7 g/h -> good; r7@12.7 g/h -> good; r8@14.6 g/h -> good
+good_IMG_4409   total 5 (want 5) good 5 (want 5-5) first-event 2.476311 (label bottom 2.0) partials [] not-rep-violations []
+    r1@2.0 g/h -> good; r2@3.9 g/h -> good; r3@5.7 g/h -> good; r4@7.5 g/h -> good; r5@9.5 g/h -> good
+bad_IMG_4456    total 4 (want 4) good 4 (want 0-0) first-event 1.271277 (label bottom 0.8) partials [] not-rep-violations []
+    r1@0.8 b/h -> good; r2@2.2 b/h -> good; r3@3.6 b/h -> good; r4@5.1 b/h -> good
+bad_IMG_4470    total 4 (want 4) good 0 (want 0-0) first-event 1.479423 (label bottom 0.9) partials [] not-rep-violations []
+    r1@0.9 b/h -> bad:hips sagging; r2@2.2 b/h -> bad:hips sagging; r3@3.8 b/h -> bad:hips sagging; r4@5.5 b/h -> bad:hips sagging
+bad_IMG_4451    total 4 (want 4) good 1 (want 0-0) first-event 1.710779 (label bottom 1.3) partials [] not-rep-violations []
+    r1@1.3 b/h -> bad:dropped to the floor; r2@2.8 b/h -> good; r3@4.6 b/h -> bad:dropped to the floor; r4@6.4 b/h -> bad:dropped to the floor
+IMG_1305        total 5 (want 6) good 5 (want 6-6) first-event 2.911229 (label bottom 0.7) partials [0.9] not-rep-violations []
+    r1@0.7 g/h -> None; r2@2.6 g/h -> good; r3@3.6 g/h -> good; r4@5.1 g/h -> good; r5@6.5 g/h -> good; r6@7.6 g/h -> good
+IMG_1359        total 9 (want 9) good 8 (want 9-9) first-event 1.645235 (label bottom 1.1) partials [] not-rep-violations []
+    r1@1.1 g/h -> good; r2@7.3 g/h -> good; r3@8.3 g/h -> good; r4@9.3 g/h -> good; r5@11.2 g/h -> good; r6@13.6 g/m -> bad:hips too high; r7@15.4 g/h -> good; r8@16.4 g/h -> good; r9@17.5 g/h -> good
+IMG_1360        total 6 (want 6) good 6 (want 6-6) first-event 2.637329 (label bottom 2.0) partials [9.0] not-rep-violations []
+    r1@2.0 g/h -> good; r2@3.7 g/h -> good; r3@5.4 g/h -> good; r4@7.1 g/h -> good; r5@10.0 g/h -> good; r6@11.5 g/h -> good
+IMG_1512        total 6 (want 6) good 5 (want 4-4) first-event 4.97843 (label bottom 4.0) partials [27.3] not-rep-violations []
+    r1@4.0 g/h -> good; r2@8.0 g/h -> good; r3@13.0 g/h -> good; r4@21.3 g/h -> good; r5@28.8 b/m -> good; r6@32.6 b/h -> bad:hips too high
+IMG_1513        total 2 (want 1) good 1 (want 0-0) first-event 3.46928 (label bottom 5.7) partials [0.7, 3.9] not-rep-violations []
+    r1@5.7 b/h -> good
+
+high-confidence verdicts: 57/68
+  MISS demo 6.2s label bad got good
+  MISS test_video3 6.2s label bad got good
+  MISS test_video 9.5s label bad got good
+  MISS test_video_4 10.0s label bad got good
+  MISS bad_IMG_4456 0.8s label bad got good
+  MISS bad_IMG_4456 2.2s label bad got good
+  MISS bad_IMG_4456 3.6s label bad got good
+  MISS bad_IMG_4456 5.1s label bad got good
+  MISS bad_IMG_4451 2.8s label bad got good
+  MISS IMG_1305 0.7s label good got None
+  MISS IMG_1513 5.7s label bad got good

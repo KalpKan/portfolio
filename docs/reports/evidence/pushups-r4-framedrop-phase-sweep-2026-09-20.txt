@@ -1,0 +1,5 @@
+python    IMG_1305       30fps 5/5  differs: 7.5fps/p0=4/4
+mirrored  demo           30fps 4/4  differs: 15fps/p0=4/3 10fps/p2=4/3 7.5fps/p0=4/3 7.5fps/p2=4/3
+mirrored  test_video3    30fps 5/4  differs: 10fps/p2=5/5
+mirrored  bad_IMG_4451   30fps 4/1  differs: 20fps/p2=4/2 15fps/p0=4/2 10fps/p1=4/4 7.5fps/p0=4/2 7.5fps/p1=4/3
+mirrored  IMG_1513       30fps 2/1  differs: 20fps/p1=1/1 15fps/p0=1/1 10fps/p0=1/1 10fps/p1=1/1 10fps/p2=1/1 7.5fps/p0=1/1 7.5fps/p1=1/1 7.5fps/p2=1/1

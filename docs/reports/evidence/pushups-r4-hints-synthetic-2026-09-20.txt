@@ -1,0 +1,42 @@
+black: final {"good":"0","total":"0","form":"paused","fps":"30 fps"}
+  765-4011 ms (99f) Too dark: turn a light on or uncover the camera
+two-people: final {"good":"0","total":"0","form":"paused","fps":"30 fps"}
+  58-134 ms (3f) Bad form: hips too high
+  160-810 ms (21f) Good form
+  849-7005 ms (186f) Counting paused
+  849-7005 ms (186f) Only one person in the frame, please
+cropped-right: final {"good":"0","total":"0","form":"paused","fps":"30 fps"}
+  746-6013 ms (159f) Step back so your whole body is visible
+frontal: final {"good":"0","total":"0","form":"paused","fps":"30 fps"}
+  773-6009 ms (158f) Counting paused
+  773-6009 ms (158f) Feet out of frame: move the camera back
+portrait: final {"good":"4","total":"4","form":"good","fps":"30 fps"}
+  69-8011 ms (240f) Good form
+  2448-3937 ms (46f) Rep 1: good
+  4311-5806 ms (46f) Rep 2: good
+  6113-7606 ms (46f) Rep 3: good
+  7911-8011 ms (4f) Rep 4: good
+IMG_1359: final {"good":"8","total":"9","form":"no pose","fps":"30 fps"}
+  72-18486 ms (502f) Good form
+  1622-3120 ms (46f) Rep 1: good
+  3021-6288 ms (99f) Head out of frame: move the camera back or tilt it up
+  5454-6086 ms (20f) Bad form: knees down
+  7590-8572 ms (31f) Rep 2: good
+  8614-9647 ms (32f) Rep 3: good
+  9688-11179 ms (46f) Rep 4: good
+  11643-13120 ms (45f) Rep 5: good
+  13052-14009 ms (30f) Bad form: hips too high
+  14086-15552 ms (45f) Rep 6: hips too high
+  15681-16785 ms (32f) Rep 7: good
+  16821-17853 ms (32f) Rep 8: good
+  17887-19016 ms (35f) Rep 9: good
+IMG_1512: final {"good":"5","total":"6","form":"no pose","fps":"30 fps"}
+  66-30456 ms (882f) Good form
+  4950-6423 ms (45f) Rep 1: good
+  9123-10581 ms (45f) Rep 2: good
+  13659-15114 ms (45f) Rep 3: good
+  22074-23556 ms (45f) Rep 4: good
+  23458-34712 ms (149f) Bad form: hips too high
+  27322-28786 ms (44f) Go lower: that dip was too shallow to count
+  29725-31222 ms (46f) Rep 5: good
+  33122-34621 ms (46f) Rep 6: hips too high

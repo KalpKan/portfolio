@@ -1,0 +1,16 @@
+demo: 3 attempts / 3 good  fps 6 (min 3)  events: 2.3s good, 4.4s good, 7.2s good
+   11124-11124 ms (1f) Counting paused
+   1919-3309 ms (8f) Rep 1: good
+   4075-5332 ms (8f) Rep 2: good
+   621-7985 ms (40f) Good form
+   6794-8165 ms (9f) Rep 3: good
+   8826-11124 ms (22f) Too dark: turn a light on or uncover the camera
+IMG_1305: 5 attempts / 5 good  fps 6 (min 3)  events: 3.0s good, 4.2s good, 5.6s good, 6.8s good, 8.1s good
+   2771-3687 ms (6f) Rep 1: good
+   3978-5205 ms (6f) Rep 2: good
+   507-8234 ms (38f) Good form
+   5493-6373 ms (6f) Rep 3: good
+   6597-7633 ms (6f) Rep 4: good
+   7466-8234 ms (5f) Feet out of frame: move the camera back
+   7842-9151 ms (11f) Rep 5: good
+   8404-11048 ms (25f) Too dark: turn a light on or uncover the camera

@@ -1,0 +1,58 @@
+=== run 1 02:37:17Z
+demo             PASS  total 4 (want 4±1)  good 4 (want 2-3±1)  fps avg 30 min 29
+test_video3      PASS  total 5 (want 5±1)  good 5 (want 2-4±1)  fps avg 30 min 30
+test_video       PASS  total 4 (want 4±1)  good 3 (want 2-2±1)  fps avg 30 min 29
+test_video_2     PASS  total 4 (want 4±1)  good 2 (want 0-2±1)  fps avg 30 min 29
+test_video_4     PASS  total 5 (want 5±1)  good 5 (want 4-4±1)  fps avg 30 min 29
+good_IMG_4378    PASS  total 8 (want 8±1)  good 8 (want 8-8±1)  fps avg 30 min 30
+good_IMG_4409    PASS  total 5 (want 5±1)  good 5 (want 5-5±1)  fps avg 30 min 29
+bad_IMG_4456     FAIL  total 4 (want 4±1)  good 4 (want 0-0±1)  fps avg 30 min 30
+bad_IMG_4470     PASS  total 4 (want 4±1)  good 0 (want 0-0±1)  fps avg 30 min 30
+bad_IMG_4451     PASS  total 4 (want 4±1)  good 0 (want 0-0±1)  fps avg 30 min 29
+IMG_1305         PASS  total 5 (want 6±1)  good 5 (want 6-6±1)  fps avg 30 min 29
+IMG_1359         PASS  total 9 (want 9±1)  good 8 (want 9-9±1)  fps avg 30 min 25
+IMG_1360         PASS  total 6 (want 6±1)  good 6 (want 6-6±1)  fps avg 30 min 30
+IMG_1512         PASS  total 6 (want 6±1)  good 5 (want 4-4±1)  fps avg 30 min 27
+IMG_1513         PASS  total 1 (want 1±1)  good 1 (want 0-0±1)  fps avg 30 min 29
+
+14/15 clips within tolerance (https://pushups.kalpkan.com/, GPU)
+written /Users/kalp/projects/pushups/tests/fixtures/results/2026-09-20T02-41-58-881Z.json
+=== run 2 02:41:58Z
+demo             PASS  total 4 (want 4±1)  good 4 (want 2-3±1)  fps avg 30 min 29
+test_video3      PASS  total 5 (want 5±1)  good 5 (want 2-4±1)  fps avg 30 min 30
+test_video       PASS  total 4 (want 4±1)  good 3 (want 2-2±1)  fps avg 30 min 25
+test_video_2     PASS  total 4 (want 4±1)  good 2 (want 0-2±1)  fps avg 30 min 29
+test_video_4     PASS  total 5 (want 5±1)  good 5 (want 4-4±1)  fps avg 30 min 30
+good_IMG_4378    PASS  total 8 (want 8±1)  good 8 (want 8-8±1)  fps avg 30 min 29
+good_IMG_4409    PASS  total 5 (want 5±1)  good 5 (want 5-5±1)  fps avg 30 min 30
+bad_IMG_4456     FAIL  total 4 (want 4±1)  good 4 (want 0-0±1)  fps avg 30 min 29
+bad_IMG_4470     PASS  total 4 (want 4±1)  good 0 (want 0-0±1)  fps avg 30 min 29
+bad_IMG_4451     PASS  total 4 (want 4±1)  good 0 (want 0-0±1)  fps avg 30 min 30
+IMG_1305         PASS  total 5 (want 6±1)  good 5 (want 6-6±1)  fps avg 30 min 30
+IMG_1359         PASS  total 9 (want 9±1)  good 8 (want 9-9±1)  fps avg 30 min 29
+IMG_1360         PASS  total 6 (want 6±1)  good 6 (want 6-6±1)  fps avg 30 min 30
+IMG_1512         PASS  total 6 (want 6±1)  good 5 (want 4-4±1)  fps avg 30 min 29
+IMG_1513         PASS  total 1 (want 1±1)  good 1 (want 0-0±1)  fps avg 30 min 30
+
+14/15 clips within tolerance (https://pushups.kalpkan.com/, GPU)
+written /Users/kalp/projects/pushups/tests/fixtures/results/2026-09-20T02-46-41-332Z.json
+=== run 3 02:46:41Z
+demo             PASS  total 4 (want 4±1)  good 4 (want 2-3±1)  fps avg 30 min 29
+test_video3      PASS  total 5 (want 5±1)  good 5 (want 2-4±1)  fps avg 30 min 30
+test_video       PASS  total 4 (want 4±1)  good 3 (want 2-2±1)  fps avg 30 min 30
+test_video_2     PASS  total 4 (want 4±1)  good 2 (want 0-2±1)  fps avg 30 min 26
+test_video_4     PASS  total 5 (want 5±1)  good 5 (want 4-4±1)  fps avg 30 min 30
+good_IMG_4378    PASS  total 8 (want 8±1)  good 8 (want 8-8±1)  fps avg 30 min 29
+good_IMG_4409    PASS  total 5 (want 5±1)  good 5 (want 5-5±1)  fps avg 30 min 29
+bad_IMG_4456     FAIL  total 4 (want 4±1)  good 4 (want 0-0±1)  fps avg 30 min 30
+bad_IMG_4470     PASS  total 4 (want 4±1)  good 0 (want 0-0±1)  fps avg 30 min 30
+bad_IMG_4451     PASS  total 4 (want 4±1)  good 0 (want 0-0±1)  fps avg 30 min 29
+IMG_1305         PASS  total 5 (want 6±1)  good 5 (want 6-6±1)  fps avg 30 min 30
+IMG_1359         PASS  total 9 (want 9±1)  good 8 (want 9-9±1)  fps avg 30 min 30
+IMG_1360         PASS  total 6 (want 6±1)  good 6 (want 6-6±1)  fps avg 30 min 29
+IMG_1512         PASS  total 6 (want 6±1)  good 5 (want 4-4±1)  fps avg 30 min 28
+IMG_1513         PASS  total 1 (want 1±1)  good 1 (want 0-0±1)  fps avg 30 min 29
+
+14/15 clips within tolerance (https://pushups.kalpkan.com/, GPU)
+written /Users/kalp/projects/pushups/tests/fixtures/results/2026-09-20T02-51-26-583Z.json
+done

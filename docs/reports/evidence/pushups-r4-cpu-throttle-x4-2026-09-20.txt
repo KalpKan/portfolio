@@ -1,0 +1,27 @@
+IMG_1305: 5 attempts / 5 good  fps 28 (min 25)  events: 0.8s partial, 2.9s good, 4.1s good, 5.6s good, 6.8s good, 8.0s good
+   105-8544 ms (237f) Good form
+   2919-4044 ms (34f) Rep 1: good
+   4094-5530 ms (39f) Rep 2: good
+   5567-6743 ms (34f) Rep 3: good
+   6788-7941 ms (35f) Rep 4: good
+   7985-9470 ms (45f) Rep 5: good
+   832-2310 ms (42f) Go lower: that dip was too shallow to count
+   8579-8579 ms (1f) Bad form: hips too high
+   9336-11170 ms (56f) Too dark: turn a light on or uncover the camera
+demo: 4 attempts / 4 good  fps 29 (min 26)  events: 1.2s good, 2.2s good, 4.3s good, 7.1s good
+   103-8409 ms (236f) Good form
+   1155-2110 ms (28f) Rep 1: good
+   2152-3641 ms (45f) Rep 2: good
+   4316-5765 ms (41f) Rep 3: good
+   7080-8519 ms (44f) Rep 4: good
+   9155-11165 ms (60f) Too dark: turn a light on or uncover the camera
+bad_IMG_4470: 4 attempts / 0 good  fps 27 (min 24)  events: 1.5s bad:hips sagging, 2.6s bad:hips sagging, 4.3s bad:hips sagging, 6.0s bad:hips sagging
+   1473-2530 ms (29f) Rep 1: hips sagging
+   2583-4071 ms (41f) Rep 2: hips sagging
+   2623-6742 ms (58f) Bad form: hips sagging
+   3877-3908 ms (2f) Bad form: knees down
+   4280-5759 ms (40f) Rep 3: hips sagging
+   5984-7471 ms (38f) Rep 4: hips sagging
+   7108-7707 ms (17f) Bad form: hips too high
+   8428-10237 ms (55f) Too dark: turn a light on or uncover the camera
+   93-7059 ms (121f) Good form

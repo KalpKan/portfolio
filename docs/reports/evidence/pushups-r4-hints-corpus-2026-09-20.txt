@@ -1,0 +1,25 @@
+test_video: final {"good":"0","total":"1","form":"good","fps":"30 fps"}
+  65-6006 ms (79f) Good form
+  1940-5271 ms (100f) Bad form: hips sagging
+  4176-5674 ms (46f) Rep 1: hips sagging
+test_video_2: final {"good":"1","total":"1","form":"good","fps":"30 fps"}
+  70-6022 ms (180f) Good form
+  3323-4820 ms (46f) Rep 1: good
+good_IMG_4378: final {"good":"3","total":"3","form":"good","fps":"30 fps"}
+  67-6010 ms (180f) Good form
+  1345-2844 ms (46f) Rep 1: good
+  3245-4735 ms (46f) Rep 2: good
+  5277-6010 ms (23f) Rep 3: good
+bad_IMG_4456: final {"good":"4","total":"4","form":"good","fps":"30 fps"}
+  70-6020 ms (179f) Good form
+  1256-2621 ms (42f) Rep 1: good
+  2654-3989 ms (41f) Rep 2: good
+  4022-5513 ms (45f) Rep 3: good
+  5689-6020 ms (11f) Rep 4: good
+IMG_1360: final {"good":"3","total":"3","form":"good","fps":"30 fps"}
+  67-6008 ms (180f) Good form
+  2574-4041 ms (45f) Rep 1: good
+  4308-5805 ms (46f) Rep 2: good
+  6008-6008 ms (1f) Rep 3: good
+IMG_1513: final {"good":"0","total":"0","form":"good","fps":"30 fps"}
+  73-6022 ms (180f) Good form

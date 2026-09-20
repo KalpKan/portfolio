@@ -2320,3 +2320,32 @@ _Entries begin below, oldest first._
 - **Fix:** probe the SOURCE `.mp4` for the duration (`ffmpeg -i clip.mp4` header, `Duration: hh:mm:ss.ss`) and stop the page at duration + 0.3 s; `scripts/make-mjpeg.mjs` already appends 3 s of black for the corpus harness for the same reason
 - **Prevention:** any fake-camera recorder states where its clip length comes from; check the first recording's frame count against duration × fps before batch-running
 - **Reported by:** FIX agent (pushups round 3)
+
+### 2026-09-20: pushups, with the classifier gone the geometry lets 9 of 21 labelled bad reps through as "good", a whole bad-form clip scores 4/4 clean and the demo contradicts its own caption (Phase 5 TEST agent, pushups round 4; report r4 D1/D4 blocker + major)
+
+- **Date:** 2026-09-20
+- **Affected:** live `b622fa3` (FIX r3), `src/form.ts` rules + `src/repCounter.ts:239-253` (top and bottom windows only), `index.html:64` demo caption
+- **Symptom:** `bad_IMG_4456` 4 attempts / 4 good with a green skeleton and "Rep N: good" on every run in both facings; the demo, `test_video3`, `test_video`, `test_video_4` worm ascents and `IMG_1513`'s pike graded good; live per-rep verdicts 58/68 (57/68 mirrored); "Clip finished: 4 good of 4" under a caption saying 2–3 are clean
+- **Root cause:** nothing judges the ascent, which is where a worm shows; `bad_IMG_4456`'s bottom-window means (elbows −0.35…−0.39 torso, chest 0.32–0.36 above the hands, max ascent hip deviation 0.07–0.11) sit inside the clean range of the other bodies; re-measured this round on all 84 labelled reps (`pushups-r4-ascent-features-2026-09-20.txt`): the hip-lag ratio and the ascent hip deviation overlap between the worm reps (0.40–0.62, 0.07–0.14) and clean reps of `IMG_1359`/`IMG_1512`/`IMG_1360` (0.43–0.53, 0.09–0.15), so the fixer's "indistinguishable" claim holds for the measures on the 12-landmark vector; the head (thrown up in every `bad_IMG_4456` bottom) is discarded by `features.ts` before any rule sees it
+- **Fix:** not fixed by this round (TEST). Suggested: an ascent window with a rigid-body angle rule at fixed shoulder-rise fractions and a nose-above-shoulders cue (pass landmark 0 through); failing that, say "no fault seen" instead of "good" and pick a demo clip the rules grade correctly
+- **Prevention:** the corpus gate marks the miss `it.fails` so CI is green while spec S3 fails (report r4 D6); a spec-bar test that prints the S3 table and fails under `PUSHUPS_SPEC_BAR=1` would keep the number that decides "consumer-grade" in the repo. Disclosure on the page is necessary, not sufficient
+- **Reported by:** Phase 5 TEST agent (pushups round 4)
+
+### 2026-09-20: pushups, for a visitor facing the other way the good count of a collapse clip swings 1→4 with the phase of dropped frames, and a shoulder wobble becomes a phantom "dropped to the floor" attempt (Phase 5 TEST agent, pushups round 4; report r4 D2/D3 majors)
+
+- **Date:** 2026-09-20
+- **Affected:** `src/form.ts:72` `COLLAPSE_ELBOW_AHEAD = -0.09` on the mirrored landmarks; `src/repCounter.ts:75` `MIN_DEPTH` with no minimum duration; `tests/corpus.test.ts:66-72` `FPS_TOLERANCE`
+- **Symptom:** mirrored `bad_IMG_4451` replayed with every 3rd / 2nd / 2-of-3 frames dropped at each phase: 4/1 at 30 fps, 4/2, 4/3 and **4/4** depending on which frames survive (the committed test drops one phase only and allows ±1); mirrored `IMG_1513` live: `3.5s bad:dropped to the floor` from a 3.3 s shoulder wobble in a plank → 2 attempts (truth 1), "Go lower" on screen for 4.7 s
+- **Root cause:** the collapse rule is a single threshold on a bottom-window mean that the mirrored landmarks put at −0.12…−0.07, i.e. within the landmark noise of −0.09; the counter opens a descent on any 0.25-torso dip regardless of how long it lasts; the partial flash is re-armed by each partial event
+- **Fix:** not fixed by this round (TEST). Suggested: a dead band on the collapse rule with a time-weighted bottom mean, a minimum descent duration before a dip can count, a cap on re-armed flashes; then run the frame-drop replay at every phase (`pushups-r4-phase.test.ts`) and delete `FPS_TOLERANCE`
+- **Prevention:** a "count does not depend on frame rate" test must drop frames at every phase, not one; a threshold needs a margin wider than the landmark noise between sources (the r3 prevention rule, now with a case where it was not applied)
+- **Reported by:** Phase 5 TEST agent (pushups round 4)
+
+### 2026-09-20: pushups TEST tooling, evidence scripts under `docs/reports/evidence/` cannot import `puppeteer-core` / `playwright` (Phase 5 TEST agent, pushups round 4; harness, not the app)
+
+- **Date:** 2026-09-20
+- **Affected:** `pushups-r2-ux-checks.mjs`, `pushups-r3-cam.mjs`, `pushups-r3-demo-trace.mjs`, `pushups-r3-playwright.mjs` when run from their evidence path
+- **Symptom:** `ERR_MODULE_NOT_FOUND: Cannot find package 'puppeteer-core' imported from …/docs/reports/evidence/pushups-r3-demo-trace.mjs` (ESM resolves bare imports from the script's own directory, not the cwd); the first chained run of this round lost 25 minutes of GPU time to it
+- **Fix:** copy the script into `~/projects/pushups/scripts/` (puppeteer-core) or into the scratchpad folder that holds `node_modules/playwright` before running; the verification rows now say so and use the copy-then-delete form
+- **Prevention:** every verification row that runs an evidence script names where to copy it first; a future round could move the reusable runners into `scripts/` of the app repo
+- **Reported by:** Phase 5 TEST agent (pushups round 4)

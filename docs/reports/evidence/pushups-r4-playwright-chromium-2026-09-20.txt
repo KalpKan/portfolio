@@ -1,0 +1,5 @@
+demo            PASS total 4 (want 4) good 4 (want 2-3) fps 30 min 29 cold-start 1203 ms events 1.2s good, 2.2s good, 4.3s good, 7.1s good
+IMG_1305        PASS total 5 (want 6) good 5 (want 6-6) fps 30 min 30 cold-start 1227 ms events 0.8s partial, 2.9s good, 4.1s good, 5.6s good, 6.8s good, 8.0s good
+bad_IMG_4470    PASS total 4 (want 4) good 0 (want 0-0) fps 30 min 29 cold-start 2333 ms events 1.5s bad:hips sagging, 2.6s bad:hips sagging, 4.3s bad:hips sagging, 6.0s bad:hips sagging
+test_video_2    PASS total 4 (want 4) good 2 (want 0-2) fps 30 min 30 cold-start 1396 ms events 3.3s good, 9.6s bad:dropped to the floor, 16.6s bad:knees down, 22.3s good
+good_IMG_4409   PASS total 5 (want 5) good 5 (want 5-5) fps 30 min 29 cold-start 1199 ms events 2.5s good, 4.3s good, 6.1s good, 7.9s good, 9.9s good
