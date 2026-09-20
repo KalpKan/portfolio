@@ -405,13 +405,17 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 
 /* ----------------------------------------------------------------- icons */
 
+/* Each icon is placed absolutely by Desk (lib/icons.ts cells of the 22 px dot
+   grid, the card's two-column grid by default; a drag moves it anywhere). */
 .kos-icons {
   position: absolute;
-  left: 38px;
-  top: 64px;
-  display: grid;
-  grid-template-columns: repeat(2, 96px);
-  gap: 26px 22px;
+  inset: 0;
+  pointer-events: none;
+}
+.kos-icons > .kos-icon {
+  position: absolute;
+  pointer-events: auto;
+  z-index: 1;
 }
 .kos-icon {
   position: relative;
@@ -821,7 +825,8 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 }
 .kos[data-boot="animate"] .kos-icon,
 .kos[data-boot="animate"] .kos-widgets > * {
-  animation: kos-pop 420ms var(--kos-ease) both;
+  /* backwards, not both: a filled transform would override the icon's own (dip, drag, crumple) for the rest of the session */
+  animation: kos-pop 420ms var(--kos-ease) backwards;
   animation-delay: calc(420ms + var(--i, 0) * 40ms);
 }
 .kos[data-boot="animate"] .kos-dock {
@@ -1204,7 +1209,13 @@ html[data-kos-boot="desk"] .kos-lock {
   animation: kos-win-open 380ms var(--kos-ease) both;
 }
 .kos-window[data-anim="close"] {
-  animation: kos-win-open 320ms var(--kos-ease) reverse both;
+  /* In place, like macOS. Its own keyframes: a name shared with the open beat is never restarted. */
+  animation: kos-win-close 160ms var(--kos-ease) both;
+  pointer-events: none;
+}
+.kos-window[data-anim="min"] {
+  animation: kos-win-min 320ms var(--kos-ease) both;
+  pointer-events: none;
 }
 .kos-window[data-anim="place"] {
   animation: kos-win-place 200ms ease both;
@@ -1215,6 +1226,20 @@ html[data-kos-boot="desk"] .kos-lock {
   }
   to {
     transform: translate(0, 0) scale(1, 1);
+  }
+}
+@keyframes kos-win-close {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.96); opacity: 0; }
+}
+@keyframes kos-win-min {
+  from {
+    transform: translate(0, 0) scale(1, 1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(var(--from-x, 0px), var(--from-y, 0px)) scale(var(--from-sx, 0.1), var(--from-sy, 0.1));
+    opacity: 0.4;
   }
 }
 @keyframes kos-win-place {

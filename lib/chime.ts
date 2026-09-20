@@ -102,6 +102,17 @@ function defaultFactory(): ContextLike | null {
 let ctx: ContextLike | null = null;
 let played = false;
 
+/**
+ * The page's one AudioContext, created on first use (the boot chime, inside
+ * the power-button gesture) and shared with every other sound (the Trash
+ * swat's whoosh): opening a second context is a synchronous ~300 ms stall on
+ * macOS, which delayed the swat's flight by a frame or two (2026-09-20).
+ */
+export function audioContext(): ContextLike | null {
+  ctx ??= defaultFactory();
+  return ctx;
+}
+
 /** A Restart (KalpOS menu, `reboot`) is a new boot: the chime may sound once more. The mute setting is untouched. */
 export function rearmChime(): void {
   played = false;

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CLOCK_IDS, formatLockTime } from "@/lib/clock";
+import { MS, reducedMotion } from "@/lib/motion";
 import type { Signal } from "@/lib/signal";
 import { checksDone, okCount, statusWord } from "@/lib/signal";
 import { playlistOf, type SiteConfig } from "@/lib/site";
@@ -91,8 +92,16 @@ export default function PhoneSheet({
     ? `Tap a folder. ${tiles.length} projects, ${okCount(signals)} with a live signal right now.`
     : `Tap a folder. ${tiles.length} projects, checking for live signals…`;
 
+  /** A sheet closes with a plain slide-down (2026-09-20): off the bottom first, then the Projects sheet peeks back, so nothing swaps mid-slide. */
+  const closing = useRef<number | null>(null);
+  useEffect(() => () => { if (closing.current !== null) clearTimeout(closing.current); }, []);
+
   const openSheet = useCallback(
     (id: SheetId) => {
+      if (closing.current !== null) {
+        clearTimeout(closing.current);
+        closing.current = null;
+      }
       setSheet(id);
       setLevel("full");
       track("window_opened", { slug: id });
@@ -103,12 +112,20 @@ export default function PhoneSheet({
   );
   const close = useCallback(() => {
     // The Projects sheet is the desk's main content on a phone: it peeks back rather than vanishing.
-    if (sheet.startsWith("case:")) onCloseCase?.();
-    if (sheet === "projects") setLevel("peek");
-    else {
+    if (sheet === "projects") {
+      setLevel("peek");
+      return;
+    }
+    if (closing.current !== null) return;
+    const wasCase = sheet.startsWith("case:");
+    const settle = () => {
+      closing.current = null;
+      if (wasCase) onCloseCase?.();
       setSheet("projects");
       setLevel("peek");
-    }
+    };
+    setLevel("closed");
+    closing.current = window.setTimeout(settle, reducedMotion() ? 0 : MS.sheet);
   }, [sheet, onCloseCase]);
 
   const drag = useDrag({

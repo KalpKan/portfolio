@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useId, useRef, useState } from "react";
+import type { Dir } from "@/lib/icons";
 import { SCRAPPED } from "@/lib/scrapped";
 import "@/app/kalpos-extras.css";
 import type { Rect } from "@/lib/windows";
@@ -11,8 +12,15 @@ import { useDrag } from "./useDrag";
  * tinted folders (Projects with its count badge, Hobbies), the About me
  * document, the @ Contact tile, the ♪ Now playing tile and the mesh Trash
  * basket. Each is a <button>; a click (or Enter/Space) opens the
- * matching window from the icon's own rect, a drag moves it and, on
- * release, snaps it to the 22 px dot grid (2e: "icons snap to the dots").
+ * matching window from the icon's own rect. On the desk each icon sits at
+ * an absolute `pos` (lib/icons.ts cells, owned by Desk through
+ * useIconLayout): a drag moves it 1:1 anywhere on the desk and the release
+ * hands the top-left to `onDrop`, which snaps it to the 22 px dot grid (2e:
+ * "icons snap to the dots"), off the menubar, the dock and the other icons;
+ * arrow keys hand `onArrow` one cell. `onDragMove` reports the pointer while
+ * the hand holds it (the Trash hit-test). Positions are left/top, never a
+ * transform: the boot's kos-pop fill holds the icon's transform after an
+ * animated unlock, which silently defeated the first translate-based drag.
  * Windows open on a single click (spec), so the second click of a
  * double-click (inside DOUBLE_CLICK_MS) is ignored rather than re-sent.
  * The Trash is the one drawing that is an SVG (TrashGlyph below); its CSS
@@ -157,6 +165,14 @@ export function DeskIcon({
   quiet = false,
   draggable = true,
   index = 0,
+  pos,
+  onDrop,
+  onDragMove,
+  onDragEnd,
+  onArrow,
+  state,
+  iconId,
+  lid = false,
 }: {
   label: string;
   onOpen: (origin?: Rect) => void;
@@ -164,15 +180,34 @@ export function DeskIcon({
   quiet?: boolean;
   draggable?: boolean;
   index?: number;
+  /** Absolute top-left on the desk (px). Without it the icon flows in its parent (the phone grid). */
+  pos?: { x: number; y: number };
+  /** The release: the icon's unsnapped top-left. */
+  onDrop?: (px: { x: number; y: number }) => void;
+  /** Every move while held: the pointer's client position. */
+  onDragMove?: (at: { x: number; y: number }) => void;
+  /** The pointer let go (before onDrop) or the drag was cancelled. */
+  onDragEnd?: () => void;
+  onArrow?: (dir: Dir) => void;
+  /** Extra data-state on the button (the Trash swat's crumple / sink / fly / return beats). */
+  state?: string;
+  /** data-icon, so the desk can find the element for the swat's flight. */
+  iconId?: string;
+  /** The Trash: its lid lifts while another icon is held over it. */
+  lid?: boolean;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
+  const [delta, setDelta] = useState<{ x: number; y: number } | null>(null);
   const [dip, setDip] = useState(false);
-  const base = useRef({ x: 0, y: 0 });
   const lastOpen = useRef(0);
+  /** The click the browser sends after a drag's release is not an open. */
+  const dragged = useRef(false);
 
   const open = useCallback(() => {
+    if (dragged.current) {
+      dragged.current = false;
+      return;
+    }
     const now = Date.now();
     if (now - lastOpen.current < DOUBLE_CLICK_MS) return;
     lastOpen.current = now;
@@ -183,36 +218,51 @@ export function DeskIcon({
   }, [onOpen]);
 
   const drag = useDrag({
-    onStart: () => {
-      base.current = pos;
-    },
-    onMove: (dx, dy) => {
-      setDragging(true);
-      setPos({ x: base.current.x + dx, y: base.current.y + dy });
+    // The icon is its own only click target, so it may hold the pointer from the press (a fast flick still drags).
+    capture: "down",
+    onMove: (dx, dy, at) => {
+      setDelta({ x: dx, y: dy });
+      onDragMove?.(at);
     },
     onEnd: ({ dx, dy, click }) => {
-      setDragging(false);
-      if (click) {
-        setPos(base.current);
-        return;
-      }
-      setPos({
-        x: Math.round((base.current.x + dx) / GRID) * GRID,
-        y: Math.round((base.current.y + dy) / GRID) * GRID,
-      });
+      setDelta(null);
+      if (click) return;
+      dragged.current = true;
+      // A pointer that sends no click after the release (some touch paths) must not swallow the next tap.
+      setTimeout(() => (dragged.current = false), 300);
+      onDragEnd?.();
+      if (pos) onDrop?.({ x: pos.x + dx, y: pos.y + dy });
     },
   });
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (!onArrow || e.metaKey || e.ctrlKey || e.altKey) return;
+    const dir: Dir | null = e.key === "ArrowUp" ? "up" : e.key === "ArrowDown" ? "down" : e.key === "ArrowLeft" ? "left" : e.key === "ArrowRight" ? "right" : null;
+    if (!dir) return;
+    e.preventDefault();
+    onArrow(dir);
+  };
+
+  const style: React.CSSProperties = { ["--i" as string]: index };
+  if (pos) {
+    style.left = pos.x + (delta?.x ?? 0);
+    style.top = pos.y + (delta?.y ?? 0);
+  }
 
   return (
     <button
       ref={ref}
       type="button"
       className={`kos-icon${quiet ? " kos-icon--quiet" : ""}`}
-      style={{ transform: pos.x || pos.y ? `translate(${pos.x}px, ${pos.y}px)` : undefined, ["--i" as string]: index }}
-      data-dragging={dragging ? "true" : undefined}
+      style={style}
+      data-dragging={delta ? "true" : undefined}
       data-dip={dip ? "true" : undefined}
+      data-state={state}
+      data-icon={iconId}
+      data-lid={lid ? "up" : undefined}
       onClick={open}
-      {...(draggable ? drag : {})}
+      onKeyDown={onKeyDown}
+      {...(draggable && pos ? drag : {})}
     >
       {children}
       <span>{label}</span>

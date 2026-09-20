@@ -45,7 +45,7 @@ describe("the KalpOS menu (the brand word in the menubar)", () => {
     expect(m.menu()).not.toBeNull();
     expect(m.items().map((i) => i.querySelector(".kos-menu-label")?.textContent)).toEqual(["About KalpOS", "Lock Screen", "Restart…", "Mute chime"]);
     expect(m.menu()!.querySelectorAll('[role="separator"]').length).toBe(2);
-    expect(m.item("Lock Screen").querySelector(".kos-menu-kbd")?.textContent).toBe("⌘L");
+    expect(m.item("Lock Screen").querySelector(".kos-menu-kbd")?.textContent).toBe("⌃⌘Q");
     expect(m.item("Restart…").querySelector(".kos-menu-kbd")?.textContent).toBe("⌃⌘R");
     expect(document.activeElement).toBe(m.items()[0]);
     m.unmount();

@@ -14,9 +14,19 @@ import { useDrag } from "./useDrag";
  * and the main header through useWindowDrag()).
  *
  * Motion (2e): open grows from the origin rect in 380 ms, content fades in
- * 120 ms behind the frame; close is the 320 ms reverse; minimise runs the
- * reverse toward the dock; focus is 180 ms (CSS). Drag is 1:1 and coasts
- * with the release velocity. Reduced motion: appear and vanish in place.
+ * 120 ms behind the frame; close is in place (scale 1 → .96, opacity 1 → 0,
+ * 160 ms, like macOS); minimise travels into the window's own dock tile over
+ * 320 ms; focus is 180 ms (CSS). Drag is 1:1 and coasts with the release
+ * velocity. Reduced motion: appear and vanish in place.
+ *
+ * Each beat has its own keyframes (kos-win-open / kos-win-close / kos-win-min)
+ * and data-anim runs open → close | min exactly once. CSS restarts an
+ * animation only when its NAME changes: the first version played the close as
+ * `kos-win-open … reverse`, which merely edited the finished open animation,
+ * whose fill then jumped the frame to the origin rect for 320 ms before the
+ * unmount ("goes to the folder, minimises, then closes"; incidents.md
+ * 2026-09-20). A running open animation is cancelled before a close, and a
+ * leaving window ignores every further close / minimise.
  *
  * Accessibility: role=dialog with aria-label, Esc closes the focused window,
  * Tab wraps inside the window, the dialog itself takes focus when it opens.
@@ -96,7 +106,7 @@ export default function Window({
   // frame: a deep-linked case study is visible from the first paint.
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   const [zoomed, setZoomed] = useState(false);
-  const [anim, setAnim] = useState<"open" | "close" | "place" | null>(null);
+  const [anim, setAnim] = useState<"open" | "close" | "min" | "place" | null>(null);
   const [dragging, setDragging] = useState(false);
   const base = useRef({ x: 24, y: 86 });
   const raf = useRef(0);
@@ -134,36 +144,40 @@ export default function Window({
 
   useEffect(() => () => cancelAnimationFrame(raf.current), []);
 
-  const leave = useCallback(
-    (toward: Rect | undefined, done: () => void) => {
-      if (leaving.current) return;
-      leaving.current = true;
-      const finish = () => {
-        leaving.current = false;
-        done();
-      };
-      const el = ref.current;
-      if (reducedMotion() || !el || typeof el.getBoundingClientRect !== "function") {
-        finish();
-        return;
-      }
-      const r = el.getBoundingClientRect();
-      const t = toward ?? origin;
-      if (t && r.width && r.height) {
-        el.style.setProperty("--from-x", `${t.x - r.left}px`);
-        el.style.setProperty("--from-y", `${t.y - r.top}px`);
-        el.style.setProperty("--from-sx", `${Math.max(0.05, t.w / r.width)}`);
-        el.style.setProperty("--from-sy", `${Math.max(0.05, t.h / r.height)}`);
-        setAnim("close");
-        setTimeout(finish, MS.close);
-      } else {
-        finish();
-      }
-    },
-    [origin],
-  );
+  /** One exit per window: the first close or minimise wins; the rest are ignored until it is done. */
+  const leave = useCallback((run: (el: HTMLElement) => number | null, done: () => void) => {
+    if (leaving.current) return;
+    leaving.current = true;
+    const finish = () => {
+      leaving.current = false;
+      done();
+    };
+    const el = ref.current;
+    if (reducedMotion() || !el || typeof el.getBoundingClientRect !== "function") {
+      finish();
+      return;
+    }
+    const r = el.getBoundingClientRect();
+    if (!r.width || !r.height) {
+      finish();
+      return;
+    }
+    // Whatever is still playing (the open FLIP, a place fade) is cancelled so only this beat runs.
+    el.getAnimations?.().forEach((a) => a.cancel());
+    const ms = run(el);
+    if (ms === null) finish();
+    else setTimeout(finish, ms);
+  }, []);
 
-  const close = useCallback(() => leave(undefined, onClose), [leave, onClose]);
+  /** Close: in place, scale 1 → .96 and opacity 1 → 0 over MS.winClose, then the unmount. */
+  const close = useCallback(
+    () =>
+      leave(() => {
+        setAnim("close");
+        return MS.winClose;
+      }, onClose),
+    [leave, onClose],
+  );
   const lastRequest = useRef(closeRequest);
   useEffect(() => {
     if (closeRequest !== lastRequest.current) {
@@ -171,14 +185,32 @@ export default function Window({
       close();
     }
   }, [closeRequest, close]);
-  const minimize = useCallback(() => {
-    const dock = typeof document !== "undefined" ? document.querySelector(".kos-dock") : null;
-    const r = dock?.getBoundingClientRect();
-    leave(r ? { x: r.left + r.width / 2 - 27, y: r.top, w: 54, h: 54 } : undefined, () => {
-      setAnim(null);
-      onMinimize();
-    });
-  }, [leave, onMinimize]);
+
+  /** Minimise: the frame travels into its own dock tile (data-window), or the dock's centre when it has none. */
+  const minimize = useCallback(
+    () =>
+      leave(
+        (el) => {
+          const key = id.startsWith("case:") ? "projects" : id;
+          const tile = document.querySelector(`.kos-dock-item[data-window="${key}"]`) ?? document.querySelector(".kos-dock");
+          const t = tile?.getBoundingClientRect();
+          const r = el.getBoundingClientRect();
+          if (!t || !r.width || !r.height) return null;
+          const target = tile?.classList.contains("kos-dock-item") ? t : { left: t.left + t.width / 2 - 27, top: t.top, width: 54, height: 54 };
+          el.style.setProperty("--from-x", `${target.left - r.left}px`);
+          el.style.setProperty("--from-y", `${target.top - r.top}px`);
+          el.style.setProperty("--from-sx", `${Math.max(0.05, target.width / r.width)}`);
+          el.style.setProperty("--from-sy", `${Math.max(0.05, target.height / r.height)}`);
+          setAnim("min");
+          return MS.minimize;
+        },
+        () => {
+          setAnim(null);
+          onMinimize();
+        },
+      ),
+    [leave, id, onMinimize],
+  );
   const zoom = useCallback(() => setZoomed((v) => !v), []);
 
   const drag = useDrag({
