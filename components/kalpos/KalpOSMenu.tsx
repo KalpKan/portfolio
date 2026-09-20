@@ -10,7 +10,7 @@ import { track } from "@/lib/track";
  * phone's top bar) is a real menu button. Its dropdown is the dock's frost
  * (card 2c: rgba(248,244,244,.62) blur(24px) saturate(1.4), radius 12, a
  * 1 px white .75 edge, the lg shadow) with 13 px rows: About KalpOS, a
- * separator, Lock Screen (⌘L), Restart… (⌃⌘R), a separator, and the chime
+ * separator, Lock Screen (⌃⌘Q), Restart… (⌃⌘R), a separator, and the chime
  * toggle that mirrors the speaker in the menubar's right cluster.
  *
  * The dropdown is portalled next to the bar, not inside it: a bar with its
@@ -151,7 +151,7 @@ export default function KalpOSMenu({
     >
       {row("about", "About KalpOS", onAbout)}
       <i role="separator" className="kos-menu-sep" />
-      {row("lock", "Lock Screen", onLock, "⌘L")}
+      {row("lock", "Lock Screen", onLock, "⌃⌘Q")}
       {row("restart", "Restart…", onRestart, "⌃⌘R")}
       <i role="separator" className="kos-menu-sep" />
       {row("mute", muted ? "Unmute chime" : "Mute chime", () => setMuted(!muted))}

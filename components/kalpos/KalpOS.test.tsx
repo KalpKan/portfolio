@@ -221,7 +221,7 @@ describe("the startup chime", () => {
   });
 });
 
-describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal)", () => {
+describe("Lock Screen and Restart (the KalpOS menu, ⌃⌘Q / ⌃⌘R, the terminal)", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     _resetChimeForTests();
@@ -324,10 +324,10 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal
     unmount();
   });
 
-  it("⌘L locks; ⌃⌘R opens the restart sheet and Esc cancels it; neither does anything off the desk", async () => {
+  it("⌃⌘Q locks (the real macOS shortcut); ⌃⌘R opens the restart sheet and Esc cancels it; neither does anything off the desk", async () => {
     const { container, unmount } = render(<KalpOS projects={projects} />);
     await flush();
-    fire(document.body, "keydown", { key: "l", metaKey: true });
+    fire(document.body, "keydown", { key: "q", metaKey: true, ctrlKey: true });
     expect(stageOf(container)).toBe("boot");
     await toDesk(container);
     fire(document.body, "keydown", { key: "r", metaKey: true, ctrlKey: true });
@@ -335,12 +335,27 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal
     fire(document.activeElement!, "keydown", { key: "Escape" });
     expect(container.querySelector('[role="alertdialog"]')).toBeNull();
     expect(stageOf(container)).toBe("desk");
-    fire(document.body, "keydown", { key: "l", metaKey: true });
+    const q = fire(document.body, "keydown", { key: "q", metaKey: true, ctrlKey: true });
+    expect(q.defaultPrevented).toBe(true);
+    expect(track).toHaveBeenCalledWith("menu_action", { item: "lock" });
     expect(stageOf(container)).toBe("locking");
     act(() => { vi.advanceTimersByTime(320); });
     expect(stageOf(container)).toBe("lock");
-    fire(document.body, "keydown", { key: "l", metaKey: true });
+    fire(document.body, "keydown", { key: "q", metaKey: true, ctrlKey: true });
     expect(stageOf(container)).toBe("lock");
+    unmount();
+  });
+
+  it("⌘L is the browser's address-bar shortcut (Kalp, 2026-09-20): never intercepted, never locks; ⌘Q alone does nothing either", async () => {
+    const { container, unmount } = render(<KalpOS projects={projects} />);
+    await toDesk(container);
+    const l = fire(document.body, "keydown", { key: "l", metaKey: true });
+    expect(l.defaultPrevented).toBe(false);
+    expect(stageOf(container)).toBe("desk");
+    const q = fire(document.body, "keydown", { key: "q", metaKey: true });
+    expect(q.defaultPrevented).toBe(false);
+    expect(stageOf(container)).toBe("desk");
+    expect(track).not.toHaveBeenCalledWith("menu_action", { item: "lock" });
     unmount();
   });
 
@@ -348,7 +363,7 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal
     document.documentElement.setAttribute("data-kos-boot", "desk");
     const { container, unmount } = render(<KalpOS projects={projects} />);
     expect(stageOf(container)).toBe("desk");
-    fire(document.body, "keydown", { key: "l", metaKey: true });
+    fire(document.body, "keydown", { key: "q", metaKey: true, ctrlKey: true });
     expect(document.documentElement.getAttribute("data-kos-boot")).toBeNull();
     expect(stageOf(container)).toBe("locking");
     act(() => { vi.advanceTimersByTime(320); });
@@ -368,7 +383,7 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌘L / ⌃⌘R, the terminal
   it("a deep link's case window closes on lock and the URL goes back to /", () => {
     history.replaceState(null, "", "/projects/rc-car");
     const { container, unmount } = render(<KalpOS projects={projects} skipLock initialWindow="case:rc-car" initialBody={<p>b</p>} />);
-    fire(document.body, "keydown", { key: "l", metaKey: true });
+    fire(document.body, "keydown", { key: "q", metaKey: true, ctrlKey: true });
     act(() => { vi.advanceTimersByTime(320); });
     expect(stageOf(container)).toBe("lock");
     expect(container.querySelectorAll('[role="dialog"]').length).toBe(0);

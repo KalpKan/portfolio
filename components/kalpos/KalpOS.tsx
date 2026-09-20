@@ -34,7 +34,7 @@ import RestartSheet from "./RestartSheet";
  * a 400 ms crossfade. Reduced motion: the boot is a 400 ms crossfade to the
  * lock, the unlock a 400 ms crossfade to the desk.
  *
- * Two ways back (the KalpOS menu, ⌘L / ⌃⌘R, the terminal's lock / reboot):
+ * Two ways back (the KalpOS menu, ⌃⌘Q / ⌃⌘R, the terminal's lock / reboot):
  * "locking" runs the unlock in reverse (the desk blurs out and scales to
  * 1.06 over 320 ms while the lock fades in), then clears the windows and
  * shows the lock with the field focused; no chime, it is the same boot.
@@ -236,17 +236,19 @@ export default function KalpOS({
     if (stage === "desk") setConfirm(true);
   }, [stage]);
 
-  // ⌘L locks, ⌃⌘R asks to restart: the menu's own shortcuts, so they count as the menu.
+  // ⌃⌘Q locks (macOS's own lock shortcut), ⌃⌘R asks to restart: the menu's own
+  // shortcuts, so they count as the menu. Nothing on ⌘ alone: ⌘L is the
+  // browser's address bar (Kalp, 2026-09-20), so it is never intercepted.
   useEffect(() => {
     if (stage !== "desk") return;
     const onKey = (e: KeyboardEvent) => {
-      if (!e.metaKey || e.altKey) return;
+      if (!e.metaKey || !e.ctrlKey || e.altKey || e.shiftKey) return;
       const k = e.key.toLowerCase();
-      if (k === "l" && !e.ctrlKey && !e.shiftKey) {
+      if (k === "q") {
         e.preventDefault();
         track("menu_action", { item: "lock" });
         lockScreen();
-      } else if (k === "r" && e.ctrlKey && !confirm) {
+      } else if (k === "r" && !confirm) {
         e.preventDefault();
         track("menu_action", { item: "restart" });
         setConfirm(true);
