@@ -1,9 +1,9 @@
 /*
-  KalpOS extras (T6.1): the Trash drawing and the interactive Terminal.
-  Kept apart from app/kalpos.css, which carries the mock's values verbatim;
-  these two surfaces are not on a card, so their numbers are chosen to sit
-  with the desk's tokens (DESIGN.md "Trash" and "Terminal"). Imported by
-  components/kalpos/DeskIcons.tsx.
+  KalpOS extras (T6.1, T6.7): the Trash drawing, the interactive Terminal and
+  the Music app. Kept apart from app/kalpos.css, which carries the mock's
+  values verbatim; these surfaces are not on a card, so their numbers are
+  chosen to sit with the desk's tokens (DESIGN.md "Trash", "Terminal" and
+  "Music"). Imported by components/kalpos/DeskIcons.tsx.
 */
 
 /* ------------------------------------------------------------- trash */
@@ -296,6 +296,282 @@
   font-size: 13px;
 }
 
+/* ------------------------------------------------------------- music */
+
+/* The NOW PLAYING widget (card 2c's 150 px frosted card, values in
+   app/kalpos.css) is a button now: same frame, left-aligned text, no
+   button chrome. The dot pulses while playing; the line walks the fake
+   3:20 loop from --p (0–1), eased over the 250 ms between store ticks. */
+button.kos-now {
+  width: 100%;
+  min-height: 150px;
+  margin: 0;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  cursor: default;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: box-shadow 180ms var(--kos-ease), transform 180ms var(--kos-ease);
+}
+button.kos-now:hover {
+  box-shadow: 0 6px 16px rgba(45, 43, 43, 0.16), 0 0 0 1px rgba(32, 30, 29, 0.08);
+}
+button.kos-now:active {
+  transform: scale(0.985);
+}
+button.kos-now:focus-visible {
+  outline: 2px solid #0088b0;
+  outline-offset: 2px;
+}
+.kos-now header i {
+  animation: kos-now-pulse 1.6s ease-in-out infinite;
+}
+.kos-now[data-paused="true"] header i {
+  animation: none;
+  background: #9b9797;
+}
+@keyframes kos-now-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.72);
+    opacity: 0.55;
+  }
+}
+button.kos-now .bar i {
+  width: calc(var(--p, 0) * 100%);
+  transition: width 260ms linear;
+}
+button.kos-now[data-paused="true"] .bar i {
+  transition: none;
+}
+
+/* The Music window: 520 px frame; a 180 px generated cover on the left
+   with the progress line and the transport under it, the list on the right. */
+.kos-music {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 20px;
+  padding-bottom: 18px;
+}
+.kos-music-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.kos-cover {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(45, 43, 43, 0.16), 0 0 0 1px rgba(32, 30, 29, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.kos-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 20% 0%, rgba(255, 255, 255, 0.22), transparent 55%);
+  pointer-events: none;
+}
+.kos-cover span {
+  position: relative;
+  font: 600 64px/1 var(--font-system);
+  letter-spacing: -0.04em;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+.kos-music-progress .bar {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(32, 30, 29, 0.12);
+  overflow: hidden;
+}
+.kos-music-progress .bar i {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: #0088b0;
+  transition: width 260ms linear;
+}
+.kos-music-progress .times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font: 400 10px var(--font-mono);
+  letter-spacing: 0.04em;
+  opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+}
+.kos-transport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.kos-transport button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #201e1d;
+  background: rgba(32, 30, 29, 0.07);
+  cursor: default;
+  transition: background 160ms var(--kos-ease), transform 160ms var(--kos-ease);
+}
+.kos-transport button:hover {
+  background: rgba(32, 30, 29, 0.13);
+}
+.kos-transport button:active {
+  transform: scale(0.94);
+}
+.kos-transport button:focus-visible {
+  outline: 2px solid #0088b0;
+  outline-offset: 2px;
+}
+.kos-transport button.play {
+  width: 42px;
+  height: 42px;
+  font-size: 20px;
+  color: #f8f4f4;
+  background: #201e1d;
+}
+.kos-transport button.play:hover {
+  background: #444141;
+}
+.kos-music-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.kos-music-main .kos-label {
+  margin-bottom: 8px;
+}
+.kos-tracks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.kos-track {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+  transition: background 160ms var(--kos-ease);
+}
+.kos-track:hover {
+  background: rgba(32, 30, 29, 0.06);
+}
+.kos-track:focus-visible {
+  outline: 2px solid #0088b0;
+  outline-offset: -2px;
+}
+.kos-track[aria-current="true"] {
+  background: rgba(0, 136, 176, 0.12);
+}
+.kos-track .n {
+  font: 400 11px var(--font-mono);
+  opacity: 0.55;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.kos-track[aria-current="true"] .n {
+  color: #006786;
+  opacity: 1;
+}
+.kos-track .who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.kos-track .t {
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kos-track .a {
+  font-size: 12px;
+  line-height: 1.3;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kos-track .d {
+  font: 400 11px var(--font-mono);
+  opacity: 0.45;
+}
+.kos-tag {
+  font: 400 10px var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(32, 30, 29, 0.28);
+  opacity: 0.75;
+  white-space: nowrap;
+}
+.kos-music .kos-music-foot {
+  margin: auto 0 0;
+  padding-top: 14px;
+  font: 400 10.5px var(--font-system);
+  letter-spacing: 0.02em;
+  opacity: 0.45;
+}
+
+/* The phone sheet: one column, the cover and transport centred, the list under. */
+.kos-sheet-body .kos-music {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  padding-bottom: 8px;
+}
+.kos-sheet-body .kos-music-side {
+  align-items: center;
+}
+.kos-sheet-body .kos-music-progress {
+  width: 100%;
+  max-width: 320px;
+}
+.kos-sheet-body .kos-cover {
+  width: 200px;
+  height: 200px;
+}
+.kos-sheet-body .kos-cover span {
+  font-size: 72px;
+}
+.kos-sheet-body .kos-track {
+  padding: 12px 10px;
+}
+.kos-sheet-body .kos-music .kos-music-foot {
+  padding-top: 18px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .kos-bin-lid {
     transition: none;
@@ -312,5 +588,15 @@
   }
   .kos-shell-field:focus-within .kos-shell-caret {
     animation: none;
+  }
+  .kos-now header i {
+    animation: none;
+  }
+  .kos-now .bar i,
+  .kos-music-progress .bar i,
+  button.kos-now,
+  .kos-transport button,
+  .kos-track {
+    transition: none;
   }
 }

@@ -6,7 +6,7 @@ import { toPx, type IconId } from "@/lib/icons";
 import { EASE, reducedMotion } from "@/lib/motion";
 import { arcFrames, hitIndex, IDLE_SWAT, playSwat, SWAT_MS, swatReducer, swatTimeline, type Bin } from "@/lib/swat";
 import type { Signal } from "@/lib/signal";
-import type { SiteConfig } from "@/lib/site";
+import { playlistOf, type SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
 import type { Rect, WindowId, WindowsAction, WindowsState } from "@/lib/windows";
 import { track } from "@/lib/track";
@@ -42,7 +42,7 @@ const WIDTH: Record<string, number> = {
   contact: 520,
   hobbies: 460,
   trash: 520,
-  music: 420,
+  music: 520,
   terminal: 560,
   case: 760,
 };
@@ -53,7 +53,7 @@ const TITLES: Record<string, string> = {
   contact: "Contact",
   hobbies: "Hobbies",
   trash: "Trash",
-  music: "Now playing",
+  music: "Music",
   terminal: "Terminal",
 };
 
@@ -104,7 +104,8 @@ export default function Desk({
   );
   const openCase = useCallback((slug: string, origin?: Rect) => open(`case:${slug}`, origin), [open]);
   const top = topWindow(windows);
-  const playing = !!site.nowPlaying.title;
+  const playlist = playlistOf(site);
+  const playing = playlist.length > 0;
 
   const present: IconId[] = playing ? ["projects", "hobbies", "about", "contact", "music", "trash"] : ["projects", "hobbies", "about", "contact", "trash"];
   const icons = useIconLayout(present);
@@ -289,7 +290,7 @@ export default function Desk({
       case "trash":
         return <TrashWindow />;
       case "music":
-        return <MusicWindow nowPlaying={site.nowPlaying} />;
+        return <MusicWindow playlist={playlist} title={site.musicTitle} />;
       case "terminal":
         return (
           <TerminalWindow
@@ -348,7 +349,7 @@ export default function Desk({
       </div>
       <TrashSwat phase={swat.phase} bin={swat.bin} toast={toast} />
 
-      <Widgets site={site} />
+      <Widgets site={site} onOpenMusic={(o) => open("music", o)} />
 
       <div className="kos-windows">
         {windows.windows.map((w, i) =>
@@ -374,7 +375,7 @@ export default function Desk({
         )}
       </div>
 
-      <Dock windows={windows} onOpen={open} resumeUrl={site.resumeUrl} trashLid={busy && swat.where === "dock"} />
+      <Dock windows={windows} onOpen={open} resumeUrl={site.resumeUrl} hasMusic={playing} trashLid={busy && swat.where === "dock"} />
     </div>
   );
 }

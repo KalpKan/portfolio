@@ -11,8 +11,8 @@ type DockTile = { key: string; label: string; window?: WindowId; href?: string; 
 
 /**
  * Card 2c's dock: Finder (Projects), Notes (About me), Mail (Contact), Music
- * (Now playing), Photos (Hobbies), Terminal (the health log), PDF (Résumé,
- * hidden while empty), a separator, Trash (the desk's own drawing, small;
+ * (hidden while the playlist is empty), Photos (Hobbies), Terminal (the
+ * health log), PDF (Résumé, hidden while empty), a separator, Trash (the desk's own drawing, small;
  * DeskIcons.tsx). A running dot marks an open
  * window; hover magnifies 1.18 with neighbours 1.08 and the label above
  * (2e, CSS); launching bounces once.
@@ -22,19 +22,22 @@ export default function Dock({
   onOpen,
   resumeUrl,
   trashLid = false,
+  hasMusic = true,
 }: {
   windows: WindowsState;
   onOpen: (id: WindowId, origin?: Rect) => void;
   resumeUrl: string;
   /** An icon is held over the dock's Trash: its lid lifts (lib/swat.ts). */
   trashLid?: boolean;
+  /** False hides the Music tile (SITE.playlist empty). */
+  hasMusic?: boolean;
 }) {
   const [bouncing, setBouncing] = useState<string | null>(null);
   const tiles: DockTile[] = [
     { key: "finder", label: "Projects", window: "projects", icon: <Folders weight="duotone" /> },
     { key: "notes", label: "About me", window: "about", icon: <Note weight="duotone" /> },
     { key: "mail", label: "Contact", window: "contact", icon: <EnvelopeSimple weight="duotone" /> },
-    { key: "music", label: "Now playing", window: "music", icon: <MusicNotes weight="duotone" /> },
+    ...(hasMusic ? [{ key: "music", label: "Music", window: "music" as WindowId, icon: <MusicNotes weight="duotone" /> }] : []),
     { key: "photos", label: "Hobbies", window: "hobbies", icon: <ImageIcon weight="duotone" /> },
     { key: "terminal", label: "Terminal", window: "terminal", icon: <TerminalWindow weight="duotone" /> },
     ...(resumeUrl ? [{ key: "pdf", label: "Résumé", href: resumeUrl, icon: <FilePdf weight="duotone" /> }] : []),

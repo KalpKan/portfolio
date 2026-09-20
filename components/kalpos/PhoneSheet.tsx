@@ -5,7 +5,7 @@ import { CLOCK_IDS, formatLockTime } from "@/lib/clock";
 import { MS, reducedMotion } from "@/lib/motion";
 import type { Signal } from "@/lib/signal";
 import { checksDone, okCount, statusWord } from "@/lib/signal";
-import type { SiteConfig } from "@/lib/site";
+import { playlistOf, type SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
 import { track } from "@/lib/track";
 import { AppGlyph, DeskIcon, DocGlyph, FolderGlyph, TrashGlyph } from "./DeskIcons";
@@ -39,7 +39,7 @@ const TITLES: Record<string, string> = {
   hobbies: "Hobbies",
   about: "About",
   contact: "Contact",
-  music: "Now playing",
+  music: "Music",
   trash: "Trash",
   terminal: "Terminal",
 };
@@ -200,7 +200,7 @@ export default function PhoneSheet({
       case "contact":
         return <ContactWindow contact={site.contact} name={site.name} />;
       case "music":
-        return <MusicWindow nowPlaying={site.nowPlaying} />;
+        return <MusicWindow playlist={playlistOf(site)} title={site.musicTitle} />;
       case "trash":
         return <TrashWindow />;
       case "terminal":
@@ -240,7 +240,7 @@ export default function PhoneSheet({
           <li><DeskIcon label="Hobbies" draggable={false} onOpen={() => openSheet("hobbies")}><FolderGlyph tint="hobbies" /></DeskIcon></li>
           <li><DeskIcon label="About" draggable={false} onOpen={() => openSheet("about")}><DocGlyph /></DeskIcon></li>
           <li><DeskIcon label="Contact" draggable={false} onOpen={() => openSheet("contact")}><AppGlyph kind="contact" /></DeskIcon></li>
-          {site.nowPlaying?.title ? (
+          {playlistOf(site).length ? (
             <li><DeskIcon label="Music" draggable={false} onOpen={() => openSheet("music")}><AppGlyph kind="music" /></DeskIcon></li>
           ) : null}
           <li><DeskIcon label="Terminal" draggable={false} onOpen={() => openSheet("terminal")}><AppGlyph kind="terminal" /></DeskIcon></li>
