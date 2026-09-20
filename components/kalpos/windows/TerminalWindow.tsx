@@ -38,6 +38,10 @@ export type TerminalWindowProps = {
   onOpenCase: (slug: string) => void;
   /** `exit` closes the window. */
   onClose: () => void;
+  /** `lock` / `logout`: the desk shows the lock screen. */
+  onLock?: () => void;
+  /** `reboot` / `restart`: the desk reboots (after a beat, so "Restarting…" is seen). */
+  onRestart?: () => void;
   /** Injected in tests; defaults to the lazy import of the real data. */
   loadRoot?: () => Promise<VDir>;
   fetcher?: (url: string, init?: RequestInit) => Promise<Response>;
@@ -45,7 +49,7 @@ export type TerminalWindowProps = {
 
 const defaultLoad = () => import("@/lib/vfs-data").then((m) => m.buildKalpVfs());
 
-export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, loadRoot = defaultLoad, fetcher }: TerminalWindowProps) {
+export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, onLock, onRestart, loadRoot = defaultLoad, fetcher }: TerminalWindowProps) {
   const [root, setRoot] = useState<VDir | null>(null);
   const [shell, setShell] = useState<ShellState>(INITIAL_STATE);
   const [rows, setRows] = useState<Row[]>([]);
@@ -171,6 +175,12 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
           case "exit":
             setTimeout(onClose, 120);
             break;
+          case "lock":
+            if (onLock) setTimeout(onLock, 120);
+            break;
+          case "restart":
+            if (onRestart) setTimeout(onRestart, 400);
+            break;
           case "open":
             if (e.external) window.open(e.href, "_blank", "noopener,noreferrer");
             else onOpenCase(e.slug);
@@ -184,7 +194,7 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, lo
         }
       }
     },
-    [onClose, onOpenCase, runStatus, play],
+    [onClose, onLock, onRestart, onOpenCase, runStatus, play],
   );
 
   const submit = useCallback(() => {

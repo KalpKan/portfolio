@@ -38,11 +38,14 @@ export type WindowsAction =
   | { type: "close"; id: WindowId }
   | { type: "focus"; id: WindowId }
   | { type: "minimize"; id: WindowId }
-  | { type: "restore"; id: WindowId };
+  | { type: "restore"; id: WindowId }
+  /** Lock Screen / Restart: the desk is cleared; window state never survives them. */
+  | { type: "closeAll" };
 
 export const EMPTY_WINDOWS: WindowsState = { windows: [], nextZ: 1 };
 
 export function windowsReducer(state: WindowsState, action: WindowsAction): WindowsState {
+  if (action.type === "closeAll") return state.windows.length === 0 ? state : { ...state, windows: [] };
   const existing = state.windows.find((w) => w.id === action.id);
   switch (action.type) {
     case "open": {

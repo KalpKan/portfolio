@@ -14,6 +14,12 @@ export const MS = {
   unlock: 900,
   /** Returning visitor / reduced motion: a 400 ms crossfade to the desk. */
   crossfade: 400,
+  /** Lock Screen: the unlock in reverse, the desk blurs out and scales to 1.06 (CSS agrees). */
+  lock: 320,
+  /** Restart: fade to black, then the boot replays. */
+  restart: 300,
+  /** The KalpOS menu drops in. */
+  menu: 140,
   /** Menubar drops in, dock rises last, icons pop 40 ms apart (2a/2e). */
   iconStagger: 40,
   open: 380,

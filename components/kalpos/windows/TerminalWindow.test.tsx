@@ -141,6 +141,28 @@ describe("TerminalWindow", () => {
     t.unmount();
   });
 
+  it("reboot prints Restarting… and hands the reboot to the desk after a beat; lock hands over the lock screen", async () => {
+    vi.useFakeTimers();
+    const onRestart = vi.fn();
+    const onLock = vi.fn();
+    const t = await mount({ onRestart, onLock });
+    await t.type("reboot");
+    expect(t.log()).toContain("Restarting…");
+    expect(onRestart).not.toHaveBeenCalled();
+    act(() => {
+      vi.runAllTimers();
+    });
+    expect(onRestart).toHaveBeenCalledTimes(1);
+    await t.type("lock");
+    act(() => {
+      vi.runAllTimers();
+    });
+    expect(onLock).toHaveBeenCalledTimes(1);
+    expect(t.onClose).not.toHaveBeenCalled();
+    vi.useRealTimers();
+    t.unmount();
+  });
+
   it("open: a live app goes to a new tab, a case study opens its window", async () => {
     const t = await mount();
     const open = vi.spyOn(window, "open").mockImplementation(() => null);

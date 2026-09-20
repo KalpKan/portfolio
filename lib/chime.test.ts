@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { CHIME, CHIME_DURATION_S, MUTE_KEY, isMuted, playChime, scheduleChime, setMuted, subscribeMute, _resetChimeForTests } from "./chime";
+import { CHIME, CHIME_DURATION_S, MUTE_KEY, isMuted, playChime, rearmChime, scheduleChime, setMuted, subscribeMute, _resetChimeForTests } from "./chime";
 
 /* A fake AudioContext that records the graph and every gain ramp. */
 type Ramp = { kind: string; value: number; time: number };
@@ -113,6 +113,17 @@ describe("playChime", () => {
     expect(played).toHaveBeenCalledWith("chime_played", { at: "unlock" });
     expect(await playChime("unlock", { factory: () => ctx as never, onPlayed: played })).toBe(false);
     expect(played).toHaveBeenCalledTimes(1);
+  });
+
+  it("rearmChime (a restart) lets it play once more on the same page, on the same context", async () => {
+    const ctx = fakeContext("running", "running");
+    const played = vi.fn();
+    expect(await playChime("boot", { factory: () => ctx as never, onPlayed: played })).toBe(true);
+    expect(await playChime("boot", { factory: () => ctx as never, onPlayed: played })).toBe(false);
+    rearmChime();
+    expect(await playChime("boot", { factory: () => ctx as never, onPlayed: played })).toBe(true);
+    expect(ctx.oscs.length).toBe(CHIME.voices.length * 2);
+    expect(played).toHaveBeenCalledTimes(2);
   });
 
   it("schedules at the requested delay (the unlock beat is 400 ms after the gesture)", async () => {

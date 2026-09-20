@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore } from "react";
 import { BOOT_EXIT_MS, BOOT_MAX_MS, BOOT_MIN_MS, bootDone, bootProgress } from "@/lib/boot";
-import { playChime } from "@/lib/chime";
+import { playChime, rearmChime } from "@/lib/chime";
 import { MS, reducedMotion } from "@/lib/motion";
 import type { Project } from "@/lib/projects";
 import { checksDone, initialSignals, runHealthChecks, type Signal } from "@/lib/signal";
@@ -14,6 +14,7 @@ import BootScreen from "./BootScreen";
 import Desk from "./Desk";
 import LockScreen from "./LockScreen";
 import PhoneSheet from "./PhoneSheet";
+import RestartSheet from "./RestartSheet";
 
 /*
  * The KalpOS root. Owns the stage machine (boot → lock → unlocking → desk),
@@ -32,9 +33,18 @@ import PhoneSheet from "./PhoneSheet";
  * app/layout.tsx set data-kos-boot="desk" on <html>) starts on the desk with
  * a 400 ms crossfade. Reduced motion: the boot is a 400 ms crossfade to the
  * lock, the unlock a 400 ms crossfade to the desk.
+ *
+ * Two ways back (the KalpOS menu, ⌘L / ⌃⌘R, the terminal's lock / reboot):
+ * "locking" runs the unlock in reverse (the desk blurs out and scales to
+ * 1.06 over 320 ms while the lock fades in), then clears the windows and
+ * shows the lock with the field focused; no chime, it is the same boot.
+ * "restarting" fades to black over 300 ms, then resets everything the boot
+ * owns (windows, health round, chime, the pre-paint attribute) and sets the
+ * stage back to "boot", so the whole sequence replays exactly as a fresh
+ * visit without a page load (the session and analytics survive).
  */
 
-type Stage = "boot" | "lock" | "unlocking" | "desk";
+type Stage = "boot" | "lock" | "unlocking" | "desk" | "locking" | "restarting";
 
 const PHONE_QUERY = "(max-width: 768px)";
 
@@ -93,6 +103,12 @@ export default function KalpOS({
   const [pulsing, setPulsing] = useState(false);
   const [windows, dispatch] = useReducer(windowsReducer, initialWindow, initialWindows);
   const [health, setHealth] = useState<Health>(() => ({ signals: initialSignals(tiles), checkedAt: null }));
+  /** The "Restart KalpOS?" sheet. */
+  const [confirm, setConfirm] = useState(false);
+  /** Bumped by a restart: a new health round, a fresh lock screen. */
+  const [bootId, setBootId] = useState(0);
+  /** Bumped by a lock or a restart: the phone sheet remounts (its sheets are its windows). */
+  const [session, setSession] = useState(0);
   const timers = useRef<number[]>([]);
   const phone = usePhone();
 
@@ -101,7 +117,7 @@ export default function KalpOS({
   const stage: Stage = straightToDesk ? "desk" : stageState;
   const boot = straightToDesk ? "crossfade" : bootState;
 
-  // One health round per page load, started as soon as the desk exists (behind the lock).
+  // One health round per boot, started as soon as the desk exists (behind the lock).
   useEffect(
     () =>
       runHealthChecks(tiles, (slug, sig) =>
@@ -110,7 +126,7 @@ export default function KalpOS({
           return { signals, checkedAt: h.checkedAt ?? (checksDone(signals) ? new Date() : null) };
         }),
       ),
-    [tiles],
+    [tiles, bootId],
   );
   const { signals, checkedAt } = health;
 
@@ -166,6 +182,80 @@ export default function KalpOS({
     );
   }, [stage, pulsing]);
 
+  /** Lock Screen and Restart both clear the desk: windows, sheets, and a case study's URL. */
+  const clearDesk = useCallback(() => {
+    dispatch({ type: "closeAll" });
+    setSession((n) => n + 1);
+    if (typeof location !== "undefined" && location.pathname.startsWith("/projects/")) history.replaceState(null, "", "/");
+  }, []);
+
+  /** Lock Screen: the unlock in reverse, then the lock with the desk cleared (window state never survives it). */
+  const lockScreen = useCallback(() => {
+    if (stage !== "desk") return;
+    setConfirm(false);
+    setPulsing(false);
+    // A ?desk or deep-link page told the CSS to hide the lock and the boot before the first paint; that job is done.
+    document.documentElement.removeAttribute("data-kos-boot");
+    setStage("locking");
+    timers.current.push(
+      window.setTimeout(
+        () => {
+          clearDesk();
+          // Dropped so the chrome drop-in / icon pops replay on the next unlock (invisible now: the desk is hidden under the lock).
+          setBoot(null);
+          setStage("lock");
+        },
+        reducedMotion() ? MS.crossfade : MS.lock,
+      ),
+    );
+  }, [stage, clearDesk]);
+
+  /** Restart: fade to black, then boot again from the mark as if the page had just loaded. */
+  const restart = useCallback(() => {
+    if (stage !== "desk") return;
+    setConfirm(false);
+    document.documentElement.removeAttribute("data-kos-boot");
+    setStage("restarting");
+    timers.current.push(
+      window.setTimeout(() => {
+        clearDesk();
+        bootStart.current = 0;
+        rearmChime();
+        setChimed(null);
+        setPulsing(false);
+        setLeaving(false);
+        setBoot(null);
+        setHealth({ signals: initialSignals(tiles), checkedAt: null });
+        setBootId((n) => n + 1);
+        setStage("boot");
+      }, MS.restart),
+    );
+  }, [stage, tiles, clearDesk]);
+
+  const askRestart = useCallback(() => {
+    if (stage === "desk") setConfirm(true);
+  }, [stage]);
+
+  // ⌘L locks, ⌃⌘R asks to restart: the menu's own shortcuts, so they count as the menu.
+  useEffect(() => {
+    if (stage !== "desk") return;
+    const onKey = (e: KeyboardEvent) => {
+      if (!e.metaKey || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (k === "l" && !e.ctrlKey && !e.shiftKey) {
+        e.preventDefault();
+        track("menu_action", { item: "lock" });
+        lockScreen();
+      } else if (k === "r" && e.ctrlKey && !confirm) {
+        e.preventDefault();
+        track("menu_action", { item: "restart" });
+        setConfirm(true);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [stage, confirm, lockScreen]);
+
   // Opening a case study from the desk gives it its shareable URL; closing the last one restores "/".
   const onOpenWindow = useCallback((id: WindowId) => {
     track("window_opened", { slug: id });
@@ -198,6 +288,7 @@ export default function KalpOS({
       {phone ? (
         <div className="kos-desk">
           <PhoneSheet
+            key={session}
             tiles={tiles}
             signals={signals}
             site={site}
@@ -206,8 +297,11 @@ export default function KalpOS({
             onCloseCase={() => {
               if (location.pathname.startsWith("/projects/")) history.replaceState(null, "", "/");
             }}
-            initialCase={initialWindow?.startsWith("case:") ? initialWindow.slice(5) : undefined}
+            initialCase={session === 0 && initialWindow?.startsWith("case:") ? initialWindow.slice(5) : undefined}
             caseBodies={caseBodies}
+            onLock={lockScreen}
+            onRestart={askRestart}
+            onReboot={restart}
           />
         </div>
       ) : (
@@ -220,10 +314,17 @@ export default function KalpOS({
           checkedAt={checkedAt}
           caseBodies={caseBodies}
           onOpenWindow={onOpenWindow}
+          onLock={lockScreen}
+          onRestart={askRestart}
+          onReboot={restart}
         />
       )}
-      {stage === "desk" ? null : <LockScreen onUnlock={unlock} name={site.name} pulsing={pulsing} active={stage === "lock"} />}
+      {confirm && stage === "desk" ? <RestartSheet onCancel={() => setConfirm(false)} onRestart={restart} /> : null}
+      {stage === "desk" || stage === "restarting" ? null : (
+        <LockScreen key={bootId} onUnlock={unlock} name={site.name} pulsing={pulsing} active={stage === "lock"} />
+      )}
       {stage === "boot" ? <BootScreen mark={initials} progress={leaving ? 1 : progress} leaving={leaving} /> : null}
+      {stage === "restarting" ? <div className="kos-restart" aria-hidden /> : null}
     </div>
   );
 }

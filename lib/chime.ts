@@ -10,9 +10,11 @@ import { track } from "./track";
  *
  * Browsers block audio until the visitor has interacted with the page, so
  * playChime() never assumes it may play: it resumes the context, checks the
- * state and gives up quietly. It plays at most once per page load: at the
- * boot mark when a prior gesture in this tab lets the context run, otherwise
- * on the unlock gesture (KalpOS.tsx), timed with the desk breathing in.
+ * state and gives up quietly. It plays at most once per boot: at the boot
+ * mark when a prior gesture in this tab lets the context run, otherwise on
+ * the unlock gesture (KalpOS.tsx), timed with the desk breathing in. Locking
+ * and unlocking again is the same boot (no chime); a Restart is a new boot,
+ * so KalpOS.tsx calls rearmChime() before it.
  */
 
 export const MUTE_KEY = "kalpos:mute";
@@ -97,8 +99,13 @@ function defaultFactory(): ContextLike | null {
 let ctx: ContextLike | null = null;
 let played = false;
 
+/** A Restart (KalpOS menu, `reboot`) is a new boot: the chime may sound once more. The mute setting is untouched. */
+export function rearmChime(): void {
+  played = false;
+}
+
 /**
- * Try to play the chime once per page load. Resolves true when it was
+ * Try to play the chime once per boot. Resolves true when it was
  * scheduled; false (never a throw) when muted, already played, unsupported,
  * or the browser will not start audio without a gesture yet.
  */

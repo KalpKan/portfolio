@@ -8,6 +8,7 @@ import type { SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
 import { track } from "@/lib/track";
 import { AppGlyph, DeskIcon, DocGlyph, FolderGlyph, TrashGlyph } from "./DeskIcons";
+import KalpOSMenu from "./KalpOSMenu";
 import { useDrag } from "./useDrag";
 import AboutWindow from "./windows/AboutWindow";
 import CaseStudyWindow from "./windows/CaseStudyWindow";
@@ -51,6 +52,9 @@ export default function PhoneSheet({
   checkedAt,
   initialCase,
   caseBodies = {},
+  onLock = () => {},
+  onRestart = () => {},
+  onReboot = () => {},
 }: {
   tiles: Tile[];
   signals: Record<string, Signal>;
@@ -60,6 +64,10 @@ export default function PhoneSheet({
   checkedAt: Date | null;
   initialCase?: string;
   caseBodies?: Record<string, React.ReactNode>;
+  /** The KalpOS menu in the top bar: Lock Screen, Restart… (asks first); the terminal's `lock` and `reboot` (no confirm). */
+  onLock?: () => void;
+  onRestart?: () => void;
+  onReboot?: () => void;
 }) {
   const [sheet, setSheet] = useState<SheetId>(initialCase ? `case:${initialCase}` : "projects");
   const [level, setLevel] = useState<Level>(initialCase ? "full" : "peek");
@@ -179,7 +187,7 @@ export default function PhoneSheet({
       case "trash":
         return <TrashWindow />;
       case "terminal":
-        return <TerminalWindow tiles={tiles} signals={signals} onOpenCase={(slug) => openSheet(`case:${slug}`)} onClose={close} />;
+        return <TerminalWindow tiles={tiles} signals={signals} onOpenCase={(slug) => openSheet(`case:${slug}`)} onClose={close} onLock={onLock} onRestart={onReboot} />;
       default: {
         const tile = tiles.find((t) => t.slug === sheet.slice(5));
         return tile ? <CaseStudyWindow tile={tile} body={caseBodies[tile.slug]} /> : null;
@@ -193,7 +201,7 @@ export default function PhoneSheet({
       <header className="kos-phone-bar">
         <span>
           <i className="mark" aria-hidden />
-          <b>KalpOS</b>
+          <KalpOSMenu className="kos-brand kos-brand--phone" onAbout={() => openSheet("about")} onLock={onLock} onRestart={onRestart} />
         </span>
         <span>
           {site.resumeUrl ? (

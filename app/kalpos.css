@@ -86,6 +86,24 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   filter: none;
   transform: none;
 }
+/* Lock Screen: the unlock in reverse over 320 ms on the one curve (KalpOS.tsx MS.lock agrees). */
+.kos[data-stage="locking"] .kos-desk {
+  visibility: visible;
+  opacity: 0;
+  filter: blur(10px);
+  transform: scale(1.06);
+  transition:
+    opacity 0.32s ease,
+    filter 0.32s ease,
+    transform 0.32s var(--kos-ease);
+}
+/* Restart: the desk stays as it is while the black layer covers it. */
+.kos[data-stage="restarting"] .kos-desk {
+  visibility: visible;
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
 
 /* 2c: dotted ground, 22 px pitch, and the sheen. */
 .kos-dots {
@@ -173,6 +191,174 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 .kos-mute:focus-visible {
   outline: 2px solid #0088b0;
   outline-offset: 1px;
+}
+
+/* ----------------------------------------------------------- KalpOS menu */
+
+/* The brand word is a menu button (KalpOSMenu.tsx); open, it takes the row tint. */
+.kos-brand {
+  margin: 0 -7px;
+  padding: 3px 7px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  font: 600 13px var(--font-system);
+  cursor: default;
+}
+.kos-brand:hover,
+.kos-brand[data-open="true"] {
+  background: rgba(32, 30, 29, 0.09);
+}
+.kos-brand:focus-visible {
+  outline: 2px solid #0088b0;
+  outline-offset: 1px;
+}
+/* The dropdown is the dock's frost (2c): .62 paper, blur 24, radius 12, white .75 edge, lg shadow. */
+.kos-menu {
+  position: absolute;
+  left: 11px;
+  top: 40px;
+  min-width: 228px;
+  padding: 6px;
+  box-sizing: border-box;
+  background: rgba(248, 244, 244, 0.62);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  z-index: 60;
+  transform-origin: 12px 0;
+  animation: kos-menu-in 140ms var(--kos-ease) both;
+}
+@keyframes kos-menu-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.kos-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  color: #201e1d;
+  font: 400 13px/1.3 var(--font-system);
+  text-align: left;
+  cursor: default;
+  outline: none;
+}
+.kos-menu-row:hover,
+.kos-menu-row:focus-visible,
+.kos-menu-row:focus {
+  background: rgba(32, 30, 29, 0.09);
+}
+.kos-menu-label {
+  flex: 1;
+  white-space: nowrap;
+}
+.kos-menu-kbd {
+  opacity: 0.5;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.kos-menu-sep {
+  display: block;
+  height: 1px;
+  margin: 5px 8px;
+  background: rgba(32, 30, 29, 0.1);
+}
+
+/* "Restart KalpOS?": a window-idiom sheet (2d) over a light scrim; above the windows, under the lock. */
+.kos-alert-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(32, 30, 29, 0.18);
+  animation: kos-fade-in 180ms ease both;
+}
+.kos-alert {
+  width: 300px;
+  max-width: 100%;
+  padding: 22px 22px 18px;
+  box-sizing: border-box;
+  background: #f8f4f4;
+  border-radius: 12px;
+  box-shadow:
+    0 12px 32px rgba(45, 43, 43, 0.22),
+    0 0 0 1px rgba(32, 30, 29, 0.1);
+  text-align: center;
+  color: #201e1d;
+  animation: kos-alert-in 220ms var(--kos-ease) both;
+}
+@keyframes kos-alert-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+.kos-alert-mark {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 12px;
+  background: #0b0b0c;
+  color: #f3f2f2;
+  font: 600 18px/48px var(--font-system);
+  letter-spacing: -0.02em;
+}
+.kos-alert h2 {
+  margin: 0;
+  font: 600 15px/1.3 var(--font-system);
+}
+.kos-alert p {
+  margin: 4px 0 0;
+  font: 400 13px/1.45 var(--font-system);
+  color: #605d5d;
+}
+.kos-alert-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+.kos-alert-btn {
+  flex: 1;
+  min-height: 32px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: #eae7e7;
+  color: #201e1d;
+  font: 500 13px var(--font-system);
+  cursor: pointer;
+}
+.kos-alert-btn:hover {
+  background: #e4e1e1;
+}
+.kos-alert-btn--primary {
+  background: #0088b0;
+  color: #fff;
+}
+.kos-alert-btn--primary:hover {
+  background: #006786;
+}
+.kos-alert-btn:focus-visible {
+  outline: 2px solid #0088b0;
+  outline-offset: 2px;
+}
+
+/* Restart: black over everything for 300 ms (KalpOS.tsx MS.restart), then the boot layer takes over. */
+.kos-restart {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  background: #0b0b0c;
+  animation: kos-fade-in 300ms ease both;
 }
 .kos-wifi {
   display: flex;
@@ -762,6 +948,15 @@ html[data-kos-boot="desk"] .kos-lock {
   opacity: 0;
   pointer-events: none;
   transition: none;
+}
+/* Lock Screen: the lock comes back the way it left (blur 14, scale 1.05) over the blurring desk.
+   (A deep-link page dropped its data-kos-boot attribute when it locked, so the rules above do not apply.) */
+.kos[data-stage="locking"] .kos-lock {
+  animation: kos-lock-in 320ms var(--kos-ease) both;
+}
+@keyframes kos-lock-in {
+  from { opacity: 0; filter: blur(14px); transform: scale(1.05); }
+  to { opacity: 1; filter: blur(0); transform: scale(1); }
 }
 .kos-lock-status {
   position: absolute;
@@ -1462,6 +1657,26 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-phone-bar b {
   font: 600 12px var(--font-system);
 }
+.kos-brand--phone {
+  margin: 0 -6px;
+  padding: 2px 6px;
+  font: 600 12px var(--font-system);
+}
+.kos-phone .kos-menu {
+  min-width: 240px;
+  padding: 8px;
+}
+.kos-phone .kos-menu-row {
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+.kos-phone .kos-menu-kbd {
+  display: none;
+}
+.kos-phone .kos-menu-sep {
+  margin: 6px 8px;
+}
 .kos-phone-bar a {
   color: #006786;
   text-decoration: none;
@@ -1642,6 +1857,13 @@ html[data-kos-boot="desk"] .kos-lock {
   .kos-pw[data-pulse="true"],
   .kos-dock-item[data-bounce="true"] {
     animation: none !important;
+  }
+  .kos[data-stage="locking"] .kos-lock,
+  .kos-menu,
+  .kos-alert,
+  .kos-alert-scrim,
+  .kos-restart {
+    animation: kos-fade-in 400ms ease both !important;
   }
   .kos-window[data-anim] {
     animation: kos-win-place 1ms linear both !important;
