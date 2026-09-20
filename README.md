@@ -16,7 +16,7 @@ iOS work gets a case-study page here.
 | `projects.json` | The registry. Every card on the site comes from this file. |
 | `lib/projects.ts` | Reads and validates `projects.json` (it refuses to build if an entry is malformed). |
 | `app/page.tsx`, `components/kalpos/` | The home page is **KalpOS**: a lock screen (type anything, Enter) over a desk with folders, widgets, a dock and draggable windows. `KalpOS.tsx` is the root; `Desk.tsx`, `Window.tsx`, `windows/ProjectsWindow.tsx` and `PhoneSheet.tsx` (below 768 px) are the parts; `app/kalpos.css` holds every value copied from the design mock (`docs/design/`). `DESIGN.md` describes the system. |
-| `lib/tiles.ts`, `lib/signal.ts`, `lib/windows.ts`, `lib/visitor.ts`, `lib/clock.ts` | Pure logic under the desk: registry → tiles and filter counts, health check → tile mark, the window manager, the returning-visitor flag (localStorage skips the lock), the two clocks. All tested. |
+| `lib/tiles.ts`, `lib/signal.ts`, `lib/windows.ts`, `lib/boot.ts`, `lib/chime.ts`, `lib/clock.ts` | Pure logic under the desk: registry → tiles and filter counts, health check → tile mark, the window manager, the boot (readiness, timing, the deep-link policy and the pre-paint script), the startup chime (Web Audio) and its mute, the two clocks. All tested. |
 | `app/api/health/route.ts` | `GET /api/health` returns `{ ok: true, service: "hub", time }`. Uptime monitors ping this. |
 | `app/api/status/[slug]/route.ts` | Checks one project's own health URL (3 s timeout, `lib/health.ts`) so the page can show a live mark. |
 | `app/opengraph-image.tsx` | The picture shown when the link is shared (iMessage, LinkedIn, Slack): a small KalpOS desk with the name and the registry counts, generated from `projects.json` at build time. |

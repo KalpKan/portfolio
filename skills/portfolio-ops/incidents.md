@@ -2507,3 +2507,48 @@ _Entries begin below, oldest first._
 - **Fix:** `08f222a`: docstrings say the scripts are experiment-only and that the browser port and the port-fidelity test were removed; every output goes next to `OUT=` (`OUT.h5`, `_scaler.json`, `_probs.json`, `_report.json`; the TypeScript scaler only with `TS_OUT=<path>`); `eval_form_model.py` reads `<model>_scaler.json` by default; `.gitignore` covers `scripts/form_v*_probs.json`; README updated (no `NO_TS`)
 - **Prevention:** when a feature is removed, grep the whole repo (`scripts/`, `.gitignore`, README) for its file names in the same commit; kept-for-the-record scripts write only under an explicit output path
 - **Reported by:** Phase 5 FIX agent (pushups, round 5), from the round-4 critique
+
+### 2026-09-20: hub, the window traffic lights did nothing with a real mouse (close / minimise / zoom), while Esc and synthetic clicks worked (T6 fix agent)
+
+- **Date:** 2026-09-20 ~11:45 UTC (present since T6 went live, 09:20 UTC)
+- **Affected:** `KalpKan/portfolio` `components/kalpos/useDrag.ts` (used by `Window.tsx` title bars, the Projects sidebar handle, `DeskIcons.tsx`, `PhoneSheet.tsx`), production `kalpkan.com`
+- **Symptom:** a held click (mouse down, ~100 ms, up) on `.kos-light--close` / `--min` / `--zoom` left the window as it was; `document.elementFromPoint` returned the `<button>`, `button.click()` worked, Esc worked. A `document`-level probe on the live site showed `pointerdown` on `BUTTON.kos-light--close`, then `gotpointercapture` / `pointerup` / `mouseup` / `click` all on the handle `DIV` (the sidebar's `<div {...drag}>`); an instantaneous CDP click (down + up in one task) reached the button, which is why the earlier Chrome checks passed
+- **What was tried:** reproduced with `left_click` (passed, misleading) and `left_click_drag` to the same point (failed: `dialogs: 1`); instrumented `setPointerCapture` and every pointer/mouse/click event at the document capture phase
+- **Root cause:** `useDrag` called `el.setPointerCapture(pointerId)` on `pointerdown`. Per Pointer Events, the pending capture is processed before the next pointer event, so `pointerup` (and the compatibility `mouseup`) are retargeted to the capturing element; per UI Events the `click` goes to the nearest common ancestor of the mousedown and mouseup targets, i.e. the handle, never the button inside it
+- **Fix:** `e7dc960`: the pointer is captured only once the 4 px drag threshold is crossed (in `onPointerMove`), released only if it was captured; a click never captures. Same commit: the second click of a double-click on a desk icon is ignored (400 ms)
+- **Prevention:** `test/render.tsx` `realClick()` dispatches pointerdown → pointerup → click with pointer capture applied the way the browser applies it (a shimmed `setPointerCapture` + retargeting), and `Window.test.tsx` / `KalpOS.test.tsx` click every light, the dock tile and the icons through it (RED before the fix, GREEN after); `verification.md` row "Traffic lights with a real mouse (held click)" says to use a held click, never a bare `left_click`, when checking a button inside a drag handle. Rule for the codebase: never capture the pointer on `pointerdown` in a handle that contains buttons or links
+- **Reported by:** Kalp (via the coordinator), reproduced by the fix agent
+
+### 2026-09-20: hub, the lock screen was skipped forever after the first visit, so Kalp never saw it on his own computer (T6 fix agent)
+
+- **Date:** 2026-09-20 (policy since T6, 09:20 UTC)
+- **Affected:** `KalpKan/portfolio` `lib/visitor.ts`, `app/layout.tsx` pre-paint script, `components/kalpos/KalpOS.tsx`; production `kalpkan.com`
+- **Symptom:** after one unlock, every later visit to `kalpkan.com` opened straight on the desk (`html[data-kos-boot="desk"]` set by the pre-paint script from `localStorage["kalpos:visited"] === "1"`); the lock screen, the site's entry beat, was invisible to its owner and to anyone who had visited once
+- **What was tried:** n/a (a policy decision, not a defect in the code as specified)
+- **Root cause:** the spec's "returning visitors skip the lock" was implemented as written; Kalp wants the lock on every visit
+- **Fix:** `99f8b70`: `lib/visitor.ts` and its test deleted; the pre-paint script now lives in `lib/boot.ts` (`BOOT_SCRIPT`, tested by evaluating it against a fake `document` / `location` / `localStorage`), marks the desk only for `/projects/<slug>` and `?desk`, and removes the stale `kalpos:visited` key; `KalpOS.tsx` no longer writes it. Sequence per visit: boot → lock → desk
+- **Prevention:** `lib/boot.test.ts` "a plain visit to / never skips" and `KalpOS.test.tsx` "a returning visitor boots and locks again: the old localStorage flag means nothing"; `verification.md` row "Boot → lock → desk (every plain visit)" checks a reload; the plan's "As executed" 14 records the policy so a later agent does not reintroduce the skip from the spec
+- **Reported by:** Kalp (via the coordinator)
+
+### 2026-09-20: hub, "the animation before the lock screen doesn't work": the card 2a boot was never built (T6 fix agent)
+
+- **Date:** 2026-09-20 (missing since T6, 09:20 UTC)
+- **Affected:** `KalpKan/portfolio` `components/kalpos/KalpOS.tsx`, `app/kalpos.css`; production `kalpkan.com`
+- **Symptom:** the page opened directly on the lock screen; the design conversation's card 3b "Try next" ("combine 3a with the 2a KK boot before it") and card 2a (mark resolves from a 16 px blur, one hairline fills with real load progress, then the lock) had no implementation, and the spec table only listed 3c + 3b for the lock
+- **What was tried:** the first cut animated the mark's exit with a transition; the entrance animation's forward fill (`animation-fill-mode: both`) outranked the plain declarations, so the mark stayed sharp while the layer faded (seen in the headless timeline: `mark=1.00/blur(0px)` with `lv=true`); the exit became an animation of its own
+- **Root cause:** feature not built (the T6 plan's boot section covered the unlock only)
+- **Fix:** `99f8b70` (+ `ee753d5` data-chime, `3ab5304` lock focus): `components/kalpos/BootScreen.tsx` (mark + hairline, values copied from card 2a's markup: `#0b0b0c`, 600/96 px `-0.02em` `#f3f2f2`, `blur(16px) scale(1.1)` → 0 in 600 ms, hairline 180 × 2 px track `rgba(243,242,242,.14)` fill `#f3f2f2` `cubic-bezier(.4,0,.2,1)`, exit `blur(8px) scale(.94)`), `lib/boot.ts` (readiness = registry + each health check; ≥ 900 ms, ≤ 3 s; 600 ms exit while the lock fades in; reduced motion = 400 ms crossfade), stage machine `boot → lock → unlocking → desk` in `KalpOS.tsx`; the password field takes focus once the lock is interactive (not on touch). Deep links and `?desk` skip the boot (pre-paint `display: none`)
+- **Prevention:** `lib/boot.test.ts` (progress, min/max, reduced motion), `KalpOS.test.tsx` (hairline `scaleX(0.125)` → `scaleX(1)` with the seven checks, leaving at 900 ms, lock at 1500 ms, the 3 s cap, reduced motion); `docs/reports/evidence/kalpos-boot-timeline.mjs` samples the real page every 50 ms and screenshots the beats (`docs/images/kalpos/fixes/boot-*.png`); DESIGN.md "Motion → Boot" now carries the numbers; `verification.md` row "Boot → lock → desk"
+- **Reported by:** Kalp (via the coordinator)
+
+### 2026-09-20: hub, vitest and eslint collected another agent's `.worktrees/*/node_modules` (231 foreign test files, 27 failing; 96 lint errors) (T6 fix agent)
+
+- **Date:** 2026-09-20 11:40 UTC
+- **Affected:** `KalpKan/portfolio` `vitest.config.ts`, `eslint.config.mjs` on any checkout with a `.worktrees/` directory
+- **Symptom:** `npx vitest run` reported `27 failed | 226 passed (253 files)` and `npm run lint` 97 errors on a clean `main`, all under `.worktrees/kalpos-extras/node_modules/**` and its `docs/reports/evidence`
+- **What was tried:** listed the collected files with `vitest list --filesOnly`; 231 of 257 were under `.worktrees`
+- **Root cause:** both configs override the default ignore lists (`exclude: ["node_modules", ...]` in vitest matches only the top-level directory; eslint's `globalIgnores` listed only `.next`, `out`, `build`, `docs`), so a nested checkout's `node_modules` was scanned
+- **Fix:** `e7dc960` (`**/node_modules/**`, `**/.next/**`, `.worktrees/**` in vitest) and `99f8b70` (`.worktrees/**` in eslint)
+- **Prevention:** the verification row for the test suite states the expected file count (24) so a jump is noticed; `git worktree` checkouts belong under `.worktrees/` (already ignored by git)
+- **Reported by:** T6 fix agent
+
