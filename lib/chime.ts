@@ -9,12 +9,15 @@ import { track } from "./track";
  * and it cannot clip (the per-voice peaks sum to 1 before the master).
  *
  * Browsers block audio until the visitor has interacted with the page, so
- * playChime() never assumes it may play: it resumes the context, checks the
- * state and gives up quietly. It plays at most once per boot: at the boot
- * mark when a prior gesture in this tab lets the context run, otherwise on
- * the unlock gesture (KalpOS.tsx), timed with the desk breathing in. Locking
- * and unlocking again is the same boot (no chime); a Restart is a new boot,
- * so KalpOS.tsx calls rearmChime() before it.
+ * the boot starts from a gesture (the power screen, KalpOS.tsx) and
+ * playChime() is called inside that gesture: the context is created and
+ * resumed synchronously there, before any await, which is what the autoplay
+ * policy needs. It still never assumes it may play: it checks the state
+ * after resume() and gives up quietly (a strict policy, no Web Audio). It
+ * plays at most once per boot, at the boot. Locking and unlocking again is
+ * the same boot (no chime); a Restart is a new boot and already had its
+ * gesture, so KalpOS.tsx calls rearmChime() before it and the chime sounds
+ * at the boot mark with no power screen.
  */
 
 export const MUTE_KEY = "kalpos:mute";
@@ -107,10 +110,11 @@ export function rearmChime(): void {
 /**
  * Try to play the chime once per boot. Resolves true when it was
  * scheduled; false (never a throw) when muted, already played, unsupported,
- * or the browser will not start audio without a gesture yet.
+ * or the browser will not start audio without a gesture yet. Call it inside
+ * the gesture: everything up to the first await runs synchronously there.
  */
 export async function playChime(
-  at: "boot" | "unlock",
+  at: "boot" = "boot",
   {
     delayS = 0,
     muted = isMuted(),
