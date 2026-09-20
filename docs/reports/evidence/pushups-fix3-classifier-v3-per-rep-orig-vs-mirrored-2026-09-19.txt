@@ -1,0 +1,64 @@
+============================
+============================
+=== traces
+demo           orig trainOrient 1.00 got 4/4 ev 1.2g(0.91) 2.2g(0.92) 4.4g(0.53) 7.1g(0.53) | reps 0.8gh:p0.81/d-0.03 1.8gh:p0.79/d-0.06 3.5gm:p0.46/d0.00 6.2bh:p0.50/d0.02
+demo           MIR trainOrient 0.00 got 4/4 ev 1.2g 2.2g 4.4g 7.1g | reps 0.8gh:p0.04/d-0.03 1.8gh:p0.06/d-0.06 3.5gm:p0.04/d0.00 6.2bh:p0.00/d0.02
+test_video3    orig trainOrient 1.00 got 5/3 ev 1.2g(0.90) 2.2g(0.94) 4.4g(0.64) 7.1b(0.45) 10.3b(0.01) | reps 0.8gh:p0.80/d-0.02 1.8gh:p0.81/d-0.06 3.5gm:p0.67/d0.01 6.2bh:p0.47/d0.02 9.8gm:p0.01/d0.01
+test_video3    MIR trainOrient 0.00 got 5/5 ev 1.2g 2.2g 4.4g 7.1g 10.3g | reps 0.8gh:p0.03/d-0.02 1.8gh:p0.05/d-0.06 3.5gm:p0.06/d0.01 6.2bh:p0.00/d0.02 9.8gm:p0.14/d0.01
+test_video     orig trainOrient 1.00 got 4/2 ev 4.2b(0.00) 10.4b(0.38) 13.9g(0.71) 15.4g(0.70) | reps 3.5bh:p0.00/d0.20 9.5bh:p0.15/d0.13 13.5gh:p0.62/d0.11 15gh:p0.66/d0.12
+test_video     MIR trainOrient 0.00 got 4/3 ev 4.2b 10.4g 13.9g 15.4g | reps 3.5bh:p0.00/d0.20 9.5bh:p0.00/d0.13 13.5gh:p0.00/d0.11 15gh:p0.00/d0.12
+test_video_2   orig trainOrient 1.00 got 4/2 ev 3.3g(0.86) 9.5b(0.00) 16.7b(0.66) 22.3g(0.99) | reps 2.5gm:p0.92/d0.03 8.5bh:p0.00/d0.07 15.9bh:p0.52/d-0.38 21.5gm:p1.00/d-0.00
+test_video_2   MIR trainOrient 0.00 got 4/3 ev 3.3g 9.5g 16.7b 22.3g | reps 2.5gm:p0.01/d0.03 8.5bh:p0.00/d0.07 15.9bh:p0.06/d-0.38 21.5gm:p0.00/d-0.00
+test_video_4   orig trainOrient 1.00 got 5/4 ev 2.2g(0.92) 3.8g(0.80) 5.4g(0.84) 7.0g(0.81) 11.0b(0.00) | reps 1.7gh:p0.94/d0.01 3.4gh:p0.72/d0.03 4.9gh:p0.83/d0.05 6.5gh:p0.78/d0.04 10bh:p0.00/d0.11
+test_video_4   MIR trainOrient 0.00 got 5/5 ev 2.2g 3.8g 5.4g 7.0g 11.0g | reps 1.7gh:p0.02/d0.01 3.4gh:p0.01/d0.03 4.9gh:p0.01/d0.05 6.5gh:p0.01/d0.04 10bh:p0.00/d0.11
+good_IMG_4378  orig trainOrient 1.00 got 8/8 ev 1.4g(0.84) 3.3g(0.97) 5.3g(0.93) 7.3g(0.97) 9.3g(0.97) 11.3g(0.94) 13.1g(0.91) 15.0g(0.92) | reps 1gh:p0.86/d-0.04 2.8gh:p0.97/d-0.00 4.8gh:p0.93/d0.03 6.9gh:p0.98/d0.04 8.8gh:p0.97/d0.04 10.7gh:p0.94/d0.09 12.7gh:p0.93/d0.05 14.6gh:p0.88/d0.06
+good_IMG_4378  MIR trainOrient 0.00 got 8/8 ev 1.4g 3.3g 5.3g 7.3g 9.3g 11.3g 13.1g 15.0g | reps 1gh:p0.00/d-0.04 2.8gh:p0.00/d-0.00 4.8gh:p0.00/d0.03 6.9gh:p0.00/d0.04 8.8gh:p0.00/d0.04 10.7gh:p0.00/d0.09 12.7gh:p0.00/d0.05 14.6gh:p0.00/d0.06
+good_IMG_4409  orig trainOrient 1.00 got 5/5 ev 2.5g(0.95) 4.3g(0.97) 6.2g(0.95) 7.9g(0.96) 9.9g(0.74) | reps 2gh:p0.94/d-0.03 3.9gh:p0.97/d-0.03 5.7gh:p0.95/d-0.02 7.5gh:p0.96/d-0.02 9.5gh:p0.75/d0.01
+good_IMG_4409  MIR trainOrient 0.00 got 5/5 ev 2.5g 4.3g 6.2g 7.9g 9.9g | reps 2gh:p0.05/d-0.03 3.9gh:p0.04/d-0.03 5.7gh:p0.06/d-0.02 7.5gh:p0.03/d-0.02 9.5gh:p0.03/d0.01
+bad_IMG_4456   orig trainOrient 1.00 got 4/0 ev 1.3b(0.02) 2.7b(0.03) 4.0b(0.00) 5.7b(0.00) | reps 0.8bh:p0.04/d0.05 2.2bh:p0.03/d0.08 3.6bh:p0.01/d0.08 5.1bh:p0.01/d0.09
+bad_IMG_4456   MIR trainOrient 0.00 got 4/4 ev 1.3g 2.7g 4.0g 5.7g | reps 0.8bh:p0.00/d0.05 2.2bh:p0.00/d0.08 3.6bh:p0.00/d0.08 5.1bh:p0.00/d0.09
+bad_IMG_4470   orig trainOrient 1.00 got 4/0 ev 1.5b(0.00) 2.6b(0.00) 4.3b(0.00) 6.0b(0.00) | reps 0.9bh:p0.00/d0.16 2.2bh:p0.00/d0.17 3.8bh:p0.00/d0.21 5.5bh:p0.00/d0.24
+bad_IMG_4470   MIR trainOrient 0.00 got 4/0 ev 1.5b 2.6b 4.3b 6.0b | reps 0.9bh:p0.00/d0.16 2.2bh:p0.00/d0.17 3.8bh:p0.00/d0.21 5.5bh:p0.00/d0.24
+bad_IMG_4451   orig trainOrient 1.00 got 4/0 ev 1.7b(0.00) 3.3b(0.00) 5.1b(0.00) 6.9b(0.00) | reps 1.3bh:p0.00/d0.08 2.8bh:p0.00/d0.08 4.6bh:p0.00/d0.08 6.4bh:p0.00/d0.08
+bad_IMG_4451   MIR trainOrient 0.00 got 4/4 ev 1.7g 3.3g 5.1g 6.9g | reps 1.3bh:p0.07/d0.08 2.8bh:p0.05/d0.08 4.6bh:p0.03/d0.08 6.4bh:p0.01/d0.08
+IMG_1305       orig trainOrient 1.00 got 5/5 ev 3.0g(0.96) 4.1g(1.00) 5.6g(0.92) 6.8g(0.99) 8.0g(0.96) | reps 0.7gh:p0.99/d0.00 2.6gh:p0.94/d-0.01 3.6gh:p1.00/d-0.04 5.1gh:p0.94/d-0.01 6.5gh:p0.87/d0.03 7.6gh:p0.97/d0.02
+IMG_1305       MIR trainOrient 0.00 got 5/5 ev 3.0g 4.1g 5.6g 6.8g 8.0g | reps 0.7gh:p0.22/d0.00 2.6gh:p0.15/d-0.01 3.6gh:p0.18/d-0.04 5.1gh:p0.18/d-0.01 6.5gh:p0.10/d0.03 7.6gh:p0.18/d0.02
+IMG_1359       orig trainOrient 0.00 got 9/8 ev 1.6g 7.6g 8.7g 9.7g 11.7g 14.1b 15.7g 16.8g 17.9g | reps 1.1gh:p0.03/d-0.03 7.3gh:p0.05/d0.00 8.3gh:p0.12/d0.01 9.3gh:p0.07/d0.00 11.2gh:p0.13/d-0.03 13.6gm:p0.00/d-0.33 15.4gh:p0.11/d-0.02 16.4gh:p0.24/d0.04 17.5gh:p0.31/d0.05
+IMG_1359       MIR trainOrient 1.00 got 9/0 ev 1.6b(0.05) 7.6b(0.00) 8.7b(0.04) 9.7b(0.01) 11.7b(0.00) 14.1b(0.05) 15.7b(0.02) 16.8b(0.04) 17.9b(0.02) | reps 1.1gh:p0.06/d-0.03 7.3gh:p0.00/d0.00 8.3gh:p0.08/d0.01 9.3gh:p0.05/d0.00 11.2gh:p0.00/d-0.03 13.6gm:p0.05/d-0.33 15.4gh:p0.05/d-0.02 16.4gh:p0.06/d0.04 17.5gh:p0.02/d0.05
+IMG_1360       orig trainOrient 0.00 got 6/6 ev 2.6g 4.3g 6.0g 7.7g 10.6g 12.2g | reps 2gh:p0.30/d0.11 3.7gh:p0.40/d0.13 5.4gh:p0.29/d0.16 7.1gh:p0.42/d-0.18 10gh:p0.60/d0.07 11.5gh:p0.24/d0.15
+IMG_1360       MIR trainOrient 1.00 got 6/0 ev 2.6b(0.09) 4.3b(0.07) 6.0b(0.07) 7.7b(0.36) 10.6b(0.17) 12.2b(0.00) | reps 2gh:p0.10/d0.11 3.7gh:p0.08/d0.13 5.4gh:p0.07/d0.16 7.1gh:p0.42/d-0.18 10gh:p0.23/d0.07 11.5gh:p0.00/d0.15
+IMG_1512       orig trainOrient 0.00 got 6/5 ev 5.0g 9.2g 13.7g 22.1g 29.8g 33.2b | reps 4gh:p0.55/d0.06 8gh:p0.88/d0.06 13gh:p0.81/d0.04 21.3gh:p0.69/d0.04 28.8bm:p0.42/d0.08 32.6bh:p0.19/d-0.27
+IMG_1512       MIR trainOrient 1.00 got 6/0 ev 5.0b(0.17) 9.2b(0.25) 13.7b(0.28) 22.1b(0.23) 29.8b(0.00) 33.2b(0.01) | reps 4gh:p0.17/d0.06 8gh:p0.20/d0.06 13gh:p0.19/d0.04 21.3gh:p0.23/d0.04 28.8bm:p0.00/d0.08 32.6bh:p0.02/d-0.27
+IMG_1513       orig trainOrient 0.00 got 1/1 ev 6.7g | reps 5.7bh:p1.00/d0.09
+IMG_1513       MIR trainOrient 1.00 got 1/0 ev 6.7b(0.31) | reps 5.7bh:p0.38/d0.09
+=== traces-browser
+demo           orig trainOrient 1.00 got 4/4 ev 1.2g(0.58) 2.2g(0.75) 4.4g(0.53) 7.1g(0.55) | reps 0.8gh:p0.54/d-0.09 1.8gh:p0.70/d-0.11 3.5gm:p0.58/d-0.03 6.2bh:p0.51/d-0.00
+demo           MIR trainOrient 0.00 got 4/4 ev 1.2g 2.2g 4.4g 7.1g | reps 0.8gh:p0.11/d-0.09 1.8gh:p0.15/d-0.11 3.5gm:p0.25/d-0.03 6.2bh:p0.04/d-0.00
+test_video3    orig trainOrient 1.00 got 5/3 ev 1.2g(0.65) 2.2g(0.82) 4.3g(0.59) 7.1b(0.50) 10.3b(0.44) | reps 0.8gh:p0.58/d-0.08 1.8gh:p0.73/d-0.10 3.5gm:p0.66/d-0.02 6.2bh:p0.42/d-0.01 9.8gm:p0.44/d-0.10
+test_video3    MIR trainOrient 0.00 got 5/5 ev 1.2g 2.2g 4.3g 7.1g 10.3g | reps 0.8gh:p0.13/d-0.08 1.8gh:p0.25/d-0.10 3.5gm:p0.32/d-0.02 6.2bh:p0.06/d-0.01 9.8gm:p0.59/d-0.10
+test_video     orig trainOrient 1.00 got 4/2 ev 4.2b(0.00) 10.4b(0.37) 13.9g(0.60) 15.4g(0.70) | reps 3.5bh:p0.00/d0.23 9.5bh:p0.13/d0.12 13.5gh:p0.54/d0.08 15gh:p0.66/d0.09
+test_video     MIR trainOrient 0.00 got 4/3 ev 4.2b 10.4g 13.9g 15.4g | reps 3.5bh:p0.00/d0.23 9.5bh:p0.00/d0.12 13.5gh:p0.00/d0.08 15gh:p0.00/d0.09
+test_video_2   orig trainOrient 1.00 got 4/2 ev 3.3g(0.77) 9.6b(0.00) 16.6b(0.53) 22.4g(1.00) | reps 2.5gm:p0.72/d-0.03 8.5bh:p0.00/d0.07 15.9bh:p0.34/d-0.40 21.5gm:p1.00/d-0.03
+test_video_2   MIR trainOrient 0.00 got 4/3 ev 3.3g 9.6g 16.6b 22.4g | reps 2.5gm:p0.01/d-0.03 8.5bh:p0.01/d0.07 15.9bh:p0.02/d-0.40 21.5gm:p0.00/d-0.03
+test_video_4   orig trainOrient 1.00 got 5/4 ev 2.2g(0.98) 3.8g(0.94) 5.4g(0.99) 7.0g(0.95) 11.0b(0.01) | reps 1.7gh:p0.98/d-0.03 3.4gh:p0.92/d-0.01 4.9gh:p0.99/d0.01 6.5gh:p0.95/d0.01 10bh:p0.01/d0.12
+test_video_4   MIR trainOrient 0.00 got 5/5 ev 2.2g 3.8g 5.4g 7.0g 11.0g | reps 1.7gh:p0.02/d-0.03 3.4gh:p0.01/d-0.01 4.9gh:p0.00/d0.01 6.5gh:p0.01/d0.01 10bh:p0.00/d0.12
+good_IMG_4378  orig trainOrient 1.00 got 8/8 ev 1.4g(0.96) 3.3g(0.88) 5.3g(0.86) 7.3g(0.92) 9.3g(0.99) 11.3g(0.95) 13.1g(0.98) 15.1g(0.89) | reps 1gh:p0.97/d-0.09 2.8gh:p0.88/d-0.10 4.8gh:p0.84/d-0.07 6.9gh:p0.91/d-0.05 8.8gh:p1.00/d-0.04 10.7gh:p0.99/d-0.02 12.7gh:p0.97/d-0.03 14.6gh:p0.89/d-0.05
+good_IMG_4378  MIR trainOrient 0.00 got 8/8 ev 1.4g 3.3g 5.3g 7.3g 9.3g 11.3g 13.1g 15.1g | reps 1gh:p0.08/d-0.09 2.8gh:p0.10/d-0.10 4.8gh:p0.07/d-0.07 6.9gh:p0.05/d-0.05 8.8gh:p0.11/d-0.04 10.7gh:p0.09/d-0.02 12.7gh:p0.05/d-0.03 14.6gh:p0.04/d-0.05
+good_IMG_4409  orig trainOrient 1.00 got 5/5 ev 2.5g(0.87) 4.3g(0.96) 6.1g(0.93) 8.0g(0.93) 9.9g(0.85) | reps 2gh:p0.93/d-0.06 3.9gh:p0.95/d-0.09 5.7gh:p0.93/d-0.07 7.5gh:p0.92/d-0.06 9.5gh:p0.84/d-0.04
+good_IMG_4409  MIR trainOrient 0.00 got 5/5 ev 2.5g 4.3g 6.1g 8.0g 9.9g | reps 2gh:p0.04/d-0.06 3.9gh:p0.12/d-0.09 5.7gh:p0.09/d-0.07 7.5gh:p0.11/d-0.06 9.5gh:p0.03/d-0.04
+bad_IMG_4456   orig trainOrient 1.00 got 4/0 ev 1.3b(0.41) 2.7b(0.38) 4.0b(0.07) 5.7b(0.41) | reps 0.8bh:p0.45/d0.00 2.2bh:p0.37/d0.02 3.6bh:p0.07/d0.04 5.1bh:p0.53/d0.03
+bad_IMG_4456   MIR trainOrient 0.00 got 4/4 ev 1.3g 2.7g 4.0g 5.7g | reps 0.8bh:p0.05/d0.00 2.2bh:p0.04/d0.02 3.6bh:p0.01/d0.04 5.1bh:p0.13/d0.03
+bad_IMG_4470   orig trainOrient 1.00 got 4/0 ev 1.5b(0.20) 2.6b(0.11) 4.3b(0.41) 6.0b(0.16) | reps 0.9bh:p0.21/d0.12 2.2bh:p0.10/d0.14 3.8bh:p0.44/d0.19 5.5bh:p0.17/d0.14
+bad_IMG_4470   MIR trainOrient 0.00 got 4/3 ev 1.5g 2.6g 4.3g 6.0b | reps 0.9bh:p0.10/d0.12 2.2bh:p0.12/d0.14 3.8bh:p0.32/d0.19 5.5bh:p0.15/d0.14
+bad_IMG_4451   orig trainOrient 1.00 got 4/0 ev 1.7b(0.00) 3.3b(0.00) 5.1b(0.01) 6.9b(0.01) | reps 1.3bh:p0.00/d0.03 2.8bh:p0.00/d0.05 4.6bh:p0.01/d0.05 6.4bh:p0.01/d0.05
+bad_IMG_4451   MIR trainOrient 0.00 got 4/4 ev 1.7g 3.3g 5.1g 6.9g | reps 1.3bh:p0.17/d0.03 2.8bh:p0.13/d0.05 4.6bh:p0.06/d0.05 6.4bh:p0.03/d0.05
+IMG_1305       orig trainOrient 1.00 got 5/5 ev 2.9g(1.00) 4.1g(0.98) 5.6g(0.99) 6.8g(0.95) 8.0g(0.98) | reps 0.7gh:p0.99/d-0.00 2.6gh:p1.00/d-0.04 3.6gh:p0.98/d-0.06 5.1gh:p0.99/d-0.03 6.5gh:p0.95/d0.01 7.6gh:p0.94/d0.01
+IMG_1305       MIR trainOrient 0.00 got 5/5 ev 2.9g 4.1g 5.6g 6.8g 8.0g | reps 0.7gh:p0.39/d-0.00 2.6gh:p0.20/d-0.04 3.6gh:p0.19/d-0.06 5.1gh:p0.24/d-0.03 6.5gh:p0.16/d0.01 7.6gh:p0.18/d0.01
+IMG_1359       orig trainOrient 0.00 got 9/8 ev 1.6g 7.6g 8.6g 9.7g 11.7g 14.1b 15.7g 16.8g 17.9g | reps 1.1gh:p0.10/d-0.00 7.3gh:p0.23/d0.02 8.3gh:p0.36/d0.02 9.3gh:p0.35/d0.01 11.2gh:p0.14/d-0.03 13.6gm:p0.00/d-0.33 15.4gh:p0.19/d-0.01 16.4gh:p0.34/d0.04 17.5gh:p0.42/d0.06
+IMG_1359       MIR trainOrient 1.00 got 9/0 ev 1.6b(0.04) 7.6b(0.01) 8.6b(0.11) 9.7b(0.05) 11.7b(0.01) 14.1b(0.03) 15.7b(0.01) 16.8b(0.03) 17.9b(0.06) | reps 1.1gh:p0.04/d-0.00 7.3gh:p0.02/d0.02 8.3gh:p0.13/d0.02 9.3gh:p0.11/d0.01 11.2gh:p0.01/d-0.03 13.6gm:p0.04/d-0.33 15.4gh:p0.04/d-0.01 16.4gh:p0.10/d0.04 17.5gh:p0.06/d0.06
+IMG_1360       orig trainOrient 0.00 got 6/6 ev 2.6g 4.3g 6.0g 7.7g 10.6g 12.2g | reps 2gh:p0.43/d0.10 3.7gh:p0.36/d0.12 5.4gh:p0.56/d0.13 7.1gh:p0.59/d-0.17 10gh:p0.47/d0.09 11.5gh:p0.38/d0.12
+IMG_1360       MIR trainOrient 1.00 got 6/0 ev 2.6b(0.23) 4.3b(0.30) 6.0b(0.35) 7.7b(0.22) 10.6b(0.02) 12.2b(0.06) | reps 2gh:p0.26/d0.10 3.7gh:p0.38/d0.12 5.4gh:p0.35/d0.13 7.1gh:p0.29/d-0.17 10gh:p0.05/d0.09 11.5gh:p0.08/d0.12
+IMG_1512       orig trainOrient 0.00 got 6/5 ev 5.0g 9.1g 13.7g 22.1g 29.7g 33.1b | reps 4gh:p0.90/d-0.02 8gh:p0.61/d-0.03 13gh:p0.95/d0.01 21.3gh:p0.57/d-0.10 28.8bm:p0.46/d-0.27 32.6bh:p0.37/d-0.31
+IMG_1512       MIR trainOrient 1.00 got 6/4 ev 5.0g(0.66) 9.1g(0.74) 13.7g(0.75) 22.1g(0.75) 29.7b(0.09) 33.1b(0.01) | reps 4gh:p0.97/d-0.02 8gh:p0.88/d-0.03 13gh:p0.86/d0.01 21.3gh:p0.84/d-0.10 28.8bm:p0.15/d-0.27 32.6bh:p0.02/d-0.31
+IMG_1513       orig trainOrient 0.00 got 1/1 ev 6.7g | reps 5.7bh:p0.95/d0.02
+IMG_1513       MIR trainOrient 1.00 got 1/0 ev 6.7b(0.26) | reps 5.7bh:p0.24/d0.02

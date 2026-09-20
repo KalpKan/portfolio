@@ -1,0 +1,18 @@
+flip-demo        PASS  total 4 (want 4±1)  good 4 (want 2-3±1)  fps avg 29 min 26
+flip-test_video3 PASS  total 5 (want 5±1)  good 5 (want 2-4±1)  fps avg 29 min 27
+flip-test_video  PASS  total 4 (want 4±1)  good 3 (want 2-2±1)  fps avg 29 min 23
+flip-test_video_2 PASS  total 4 (want 4±1)  good 3 (want 0-2±1)  fps avg 30 min 29
+flip-test_video_4 PASS  total 5 (want 5±1)  good 5 (want 4-4±1)  fps avg 30 min 26
+flip-good_IMG_4378 PASS  total 8 (want 8±1)  good 8 (want 8-8±1)  fps avg 30 min 27
+flip-good_IMG_4409 PASS  total 5 (want 5±1)  good 5 (want 5-5±1)  fps avg 30 min 30
+flip-bad_IMG_4456 FAIL  total 4 (want 4±1)  good 4 (want 0-0±1)  fps avg 28 min 23
+flip-bad_IMG_4470 FAIL  total 4 (want 4±1)  good 3 (want 0-0±1)  fps avg 30 min 27
+flip-bad_IMG_4451 FAIL  total 4 (want 4±1)  good 4 (want 0-0±1)  fps avg 30 min 30
+flip-IMG_1305    PASS  total 5 (want 6±1)  good 5 (want 6-6±1)  fps avg 30 min 28
+flip-IMG_1359    FAIL  total 9 (want 9±1)  good 0 (want 9-9±1)  fps avg 29 min 24
+flip-IMG_1360    FAIL  total 6 (want 6±1)  good 0 (want 6-6±1)  fps avg 30 min 29
+flip-IMG_1512    PASS  total 6 (want 6±1)  good 4 (want 4-4±1)  fps avg 29 min 26
+flip-IMG_1513    PASS  total 2 (want 1±1)  good 1 (want 0-0±1)  fps avg 30 min 30
+
+10/15 clips within tolerance (http://localhost:4177/, GPU, mirrored)
+written /Users/kalp/projects/pushups/tests/fixtures/results/2026-09-20T00-58-03-625Z.json

@@ -1,0 +1,26 @@
+IMG_1359: final {"good":"8","total":"9","form":"no pose","fps":"30 fps"}
+  68-18484 ms (503f) Good form
+  1611-3089 ms (45f) Rep 1: good
+  3054-6283 ms (97f) Head out of frame: move the camera back or tilt it up
+  5444-6078 ms (20f) Bad form: knees down
+  7569-8587 ms (31f) Rep 2: good
+  8620-9654 ms (32f) Rep 3: good
+  9688-11182 ms (46f) Rep 4: good
+  11647-13109 ms (45f) Rep 5: good
+  13043-14012 ms (30f) Bad form: hips too high
+  14075-15553 ms (45f) Rep 6: hips too high
+  15684-16793 ms (34f) Rep 7: good
+  16817-17844 ms (32f) Rep 8: good
+  17880-19006 ms (35f) Rep 9: good
+test_video: final {"good":"0","total":"1","form":"good","fps":"30 fps"}
+  61-6008 ms (79f) Good form
+  1940-5272 ms (101f) Bad form: hips sagging
+  4176-5631 ms (45f) Rep 1: hips sagging
+test_video_2: final {"good":"1","total":"1","form":"good","fps":"30 fps"}
+  68-6006 ms (180f) Good form
+  3307-4776 ms (45f) Rep 1: good
+good_IMG_4378: final {"good":"3","total":"3","form":"good","fps":"30 fps"}
+  64-6009 ms (180f) Good form
+  1357-2848 ms (46f) Rep 1: good
+  3244-4740 ms (46f) Rep 2: good
+  5276-6009 ms (23f) Rep 3: good

@@ -1,0 +1,36 @@
+loop-throws {
+ "st": {
+  "status": "Something went wrong: injected loop failure. Reload the page and try again.",
+  "good": "1",
+  "total": "1",
+  "form": "–",
+  "fps": "–",
+  "stopHidden": true,
+  "stageLive": false,
+  "startDisabled": false
+ },
+ "requests": [],
+ "errors": [],
+ "errorCount": 0
+}
+pose-model-404 {
+ "st": {
+  "status": "Could not start: Failed to fetch model: /models/pose_landmarker_full.task (404). Reload the page and try again.",
+  "good": "0",
+  "total": "0",
+  "form": "–",
+  "fps": "–",
+  "stopHidden": true,
+  "stageLive": false,
+  "startDisabled": false
+ },
+ "requests": [
+  "/models/pose_landmarker_full.task",
+  "/models/pose_landmarker_full.task"
+ ],
+ "errors": [
+  "error: Failed to load resource: the server responded with a status of 404 (Not Found)"
+ ],
+ "errorCount": 2
+}
+LOCALDONE

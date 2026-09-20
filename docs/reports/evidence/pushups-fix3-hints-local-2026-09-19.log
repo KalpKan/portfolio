@@ -1,0 +1,41 @@
+black: tests/fixtures/clips/.mjpeg/black.mjpeg missing, skipped
+two-people: tests/fixtures/clips/.mjpeg/two-people.mjpeg missing, skipped
+cropped-right: tests/fixtures/clips/.mjpeg/cropped-right.mjpeg missing, skipped
+frontal: tests/fixtures/clips/.mjpeg/frontal.mjpeg missing, skipped
+portrait: tests/fixtures/clips/.mjpeg/portrait.mjpeg missing, skipped
+IMG_1359: final {"good":"8","total":"9","form":"no pose","fps":"30 fps"}
+  74-18471 ms (502f) Good form
+  1614-3074 ms (45f) Rep 1: good
+  3008-6279 ms (99f) Head out of frame: move the camera back or tilt it up
+  5445-6080 ms (20f) Bad form: knees down
+  7579-8579 ms (31f) Rep 2: good
+  8604-9658 ms (31f) Rep 3: good
+  9687-11174 ms (46f) Rep 4: good
+  11640-13106 ms (45f) Rep 5: good
+  13041-14006 ms (30f) Bad form: hips too high
+  14074-15570 ms (46f) Rep 6: hips too high
+  15674-16773 ms (33f) Rep 7: good
+  16805-17840 ms (32f) Rep 8: good
+  17873-18996 ms (35f) Rep 9: good
+IMG_1512: final {"good":"5","total":"6","form":"no pose","fps":"30 fps"}
+  71-30429 ms (881f) Good form
+  4942-6439 ms (46f) Rep 1: good
+  9102-10569 ms (45f) Rep 2: good
+  13636-15103 ms (45f) Rep 3: good
+  22070-23570 ms (46f) Rep 4: good
+  23438-34699 ms (149f) Bad form: hips too high
+  27305-28805 ms (46f) Go lower: that dip was too shallow to count
+  29701-31168 ms (45f) Rep 5: good
+  33101-34601 ms (46f) Rep 6: hips too high
+test_video: final {"good":"0","total":"1","form":"good","fps":"30 fps"}
+  72-6016 ms (79f) Good form
+  1956-5286 ms (101f) Bad form: hips sagging
+  4190-5658 ms (45f) Rep 1: hips sagging
+test_video_2: final {"good":"1","total":"1","form":"good","fps":"30 fps"}
+  82-6029 ms (178f) Good form
+  3332-4829 ms (46f) Rep 1: good
+good_IMG_4378: final {"good":"3","total":"3","form":"good","fps":"30 fps"}
+  71-6010 ms (180f) Good form
+  1359-2832 ms (45f) Rep 1: good
+  3259-4713 ms (45f) Rep 2: good
+  5289-6010 ms (23f) Rep 3: good

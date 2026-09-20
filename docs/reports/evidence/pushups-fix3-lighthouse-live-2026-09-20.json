@@ -1,0 +1,36 @@
+{
+ "finalUrl": "https://pushups.kalpkan.com/",
+ "fetchTime": "2026-09-20T02:32:51.785Z",
+ "lighthouseVersion": "12.8.2",
+ "categories": {
+  "performance": 1,
+  "accessibility": 1,
+  "best-practices": 1
+ },
+ "audits": {
+  "first-contentful-paint": {
+   "score": 1,
+   "displayValue": "0.9\u00a0s"
+  },
+  "largest-contentful-paint": {
+   "score": 1,
+   "displayValue": "0.9\u00a0s"
+  },
+  "total-blocking-time": {
+   "score": 0.99,
+   "displayValue": "80\u00a0ms"
+  },
+  "cumulative-layout-shift": {
+   "score": 1,
+   "displayValue": "0"
+  },
+  "speed-index": {
+   "score": 1,
+   "displayValue": "0.9\u00a0s"
+  },
+  "interactive": {
+   "score": 0.99,
+   "displayValue": "2.0\u00a0s"
+  }
+ }
+}
