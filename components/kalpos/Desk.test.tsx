@@ -90,3 +90,20 @@ describe("Desk (card 2c)", () => {
     unmount();
   });
 });
+
+describe("Desk icon double-click", () => {
+  it("dispatches one open for two clicks inside 400 ms, and a second open once 400 ms have passed", () => {
+    vi.useFakeTimers();
+    const { container, dispatch, unmount } = mount();
+    const about = [...container.querySelectorAll("button.kos-icon")].find((b) => b.textContent?.includes("About me"))!;
+    click(about);
+    vi.advanceTimersByTime(150);
+    click(about);
+    expect(dispatch.mock.calls.filter(([a]) => a.type === "open").length).toBe(1);
+    vi.advanceTimersByTime(400);
+    click(about);
+    expect(dispatch.mock.calls.filter(([a]) => a.type === "open").length).toBe(2);
+    vi.useRealTimers();
+    unmount();
+  });
+});

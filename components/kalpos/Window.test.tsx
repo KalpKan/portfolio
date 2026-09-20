@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeAll } from "vitest";
-import { click, fire, render } from "@/test/render";
+import { click, fire, installPointerCapture, realClick, render } from "@/test/render";
 import Window from "./Window";
 
 beforeAll(() => {
@@ -55,6 +55,56 @@ describe("Window frame (cards 2d/2e)", () => {
     const ev = fire(last, "keydown", { key: "Tab" });
     expect(ev.defaultPrevented).toBe(true);
     expect(document.activeElement?.classList.contains("kos-light--close")).toBe(true);
+    unmount();
+  });
+});
+
+describe("Window traffic lights with a real pointer (capture applied as Chrome applies it)", () => {
+  beforeAll(installPointerCapture);
+
+  it("a held click on the red light reaches the button and closes the window", () => {
+    const { container, onClose, unmount } = mount();
+    const hit = realClick(container.querySelector(".kos-light--close")!);
+    expect(hit?.classList.contains("kos-light--close")).toBe(true);
+    expect(onClose).toHaveBeenCalledTimes(1);
+    unmount();
+  });
+
+  it("a held click on the yellow light minimises", () => {
+    const { container, onMinimize, unmount } = mount();
+    realClick(container.querySelector(".kos-light--min")!);
+    expect(onMinimize).toHaveBeenCalledTimes(1);
+    unmount();
+  });
+
+  it("a held click on the green light zooms, and again restores", () => {
+    const { container, unmount } = mount();
+    const dlg = container.querySelector<HTMLElement>('[role="dialog"]')!;
+    realClick(container.querySelector(".kos-light--zoom")!);
+    expect(dlg.style.width).toBe("calc(100vw - 24px)");
+    realClick(container.querySelector(".kos-light--zoom")!);
+    expect(dlg.style.width).toBe("520px");
+    unmount();
+  });
+
+  it("dragging the title bar past the threshold captures the pointer and moves the window", () => {
+    const { container, unmount } = mount();
+    const bar = container.querySelector<HTMLElement>(".kos-window-titlebar")!;
+    const dlg = container.querySelector<HTMLElement>('[role="dialog"]')!;
+    // jsdom rects are 0 wide, so the desk clamp (lib: minX = 160 - width) floors x at 160.
+    realClick(bar, { move: 200 });
+    expect(dlg.style.left).toBe("200px");
+    unmount();
+  });
+
+  it("clicking an inner button of an unfocused window focuses the window and still fires the button", () => {
+    const { container, onFocus, unmount } = mount({ focused: false });
+    const inner = container.querySelector<HTMLButtonElement>("#first")!;
+    const clicks = vi.fn();
+    inner.addEventListener("click", clicks);
+    realClick(inner);
+    expect(onFocus).toHaveBeenCalled();
+    expect(clicks).toHaveBeenCalledTimes(1);
     unmount();
   });
 });

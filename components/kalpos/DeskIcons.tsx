@@ -11,9 +11,12 @@ import { useDrag } from "./useDrag";
  * with its lid. Each is a <button>; a click (or Enter/Space) opens the
  * matching window from the icon's own rect, a drag moves it and, on
  * release, snaps it to the 22 px dot grid (2e: "icons snap to the dots").
+ * Windows open on a single click (spec), so the second click of a
+ * double-click (inside DOUBLE_CLICK_MS) is ignored rather than re-sent.
  */
 
 export const GRID = 22;
+export const DOUBLE_CLICK_MS = 400;
 
 export function FolderGlyph({ tint, badge }: { tint: "projects" | "hobbies"; badge?: string }) {
   return (
@@ -81,8 +84,12 @@ export function DeskIcon({
   const [dragging, setDragging] = useState(false);
   const [dip, setDip] = useState(false);
   const base = useRef({ x: 0, y: 0 });
+  const lastOpen = useRef(0);
 
   const open = useCallback(() => {
+    const now = Date.now();
+    if (now - lastOpen.current < DOUBLE_CLICK_MS) return;
+    lastOpen.current = now;
     // 2e: the icon dips to .94 for 90 ms before the window grows out of it.
     setDip(true);
     setTimeout(() => setDip(false), 90);

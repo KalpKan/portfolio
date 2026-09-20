@@ -9,7 +9,7 @@ export default defineConfig({
     include: ["**/*.test.{ts,tsx}"],
     // docs/reports/evidence holds test files copied from other repos as evidence;
     // they import modules that do not exist here and are not hub tests.
-    exclude: ["node_modules", ".next", "docs/**"],
+    exclude: ["**/node_modules/**", "**/.next/**", "docs/**", ".worktrees/**"],
   },
   resolve: {
     alias: { "@": path.resolve(__dirname) },

@@ -44,3 +44,69 @@ export function setValue(input: HTMLInputElement, value: string) {
     input.dispatchEvent(new Event("input", { bubbles: true }));
   });
 }
+
+/*
+ * Pointer capture the way Chrome does it. jsdom has no setPointerCapture; the
+ * shim records which element captured the pointer so realClick() can retarget
+ * the later events exactly as a browser would: "process pending pointer
+ * capture" runs before the next pointer event, so pointerup (and the
+ * compatibility mouseup) go to the capturing element, and UI Events send the
+ * click to the nearest common ancestor of the mousedown and mouseup targets.
+ */
+let captured: Element | null = null;
+export function installPointerCapture() {
+  const proto = Element.prototype as Element & {
+    setPointerCapture: (id: number) => void;
+    releasePointerCapture: (id: number) => void;
+    hasPointerCapture: (id: number) => boolean;
+  };
+  proto.setPointerCapture = function () {
+    captured = this;
+  };
+  proto.releasePointerCapture = function () {
+    if (captured === this) captured = null;
+  };
+  proto.hasPointerCapture = function () {
+    return captured === this;
+  };
+}
+export function capturedElement(): Element | null {
+  return captured;
+}
+
+function commonAncestor(a: Element, b: Element): Element {
+  let n: Element | null = a;
+  while (n && !n.contains(b)) n = n.parentElement;
+  return n ?? a;
+}
+
+function pointer(type: string, init: Record<string, unknown> = {}) {
+  return new MouseEvent(type, { bubbles: true, cancelable: true, button: 0, ...init });
+}
+
+/**
+ * A real hand's click on `el`: pointerdown, an optional move of `move` px,
+ * pointerup, click, with pointer capture applied the way the browser applies
+ * it. Returns the element the click event actually reached.
+ */
+export function realClick(el: Element, { move = 0, x = 100, y = 100 }: { move?: number; x?: number; y?: number } = {}): Element | null {
+  captured = null;
+  let clickedOn: Element | null = null;
+  const seen = (e: Event) => {
+    clickedOn = e.target as Element;
+  };
+  document.addEventListener("click", seen, true);
+  act(() => {
+    el.dispatchEvent(pointer("pointerdown", { clientX: x, clientY: y, pointerId: 1, timeStamp: 0 }));
+    const dx = move;
+    if (dx) {
+      const moveTarget = captured ?? el;
+      moveTarget.dispatchEvent(pointer("pointermove", { clientX: x + dx, clientY: y, pointerId: 1 }));
+    }
+    const upTarget = captured ?? el;
+    upTarget.dispatchEvent(pointer("pointerup", { clientX: x + dx, clientY: y, pointerId: 1 }));
+    commonAncestor(el, upTarget).dispatchEvent(pointer("click", { clientX: x + dx, clientY: y }));
+  });
+  document.removeEventListener("click", seen, true);
+  return clickedOn;
+}
