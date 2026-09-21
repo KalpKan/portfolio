@@ -36,3 +36,12 @@ Decisions handed to worker agents while Kalp slept. One entry per question: UTC 
 - **Reversible by:** the single `DEFAULT_APPEARANCE` constant in `lib/appearance.ts`.
 
 ---
+
+## 2026-09-21 07:07 UTC — microtubules redesign: stray Vercel project `web`; deploy budget
+
+- **From:** `a4d8f9378e9e409c7` (microtubules redesigner, "Lab bench").
+- **Asked:** `npx vercel` run from `web/` created a stray project `web` (`prj_gAWZ3JcOb6cyl53grmQRe4gsjXhA`, web-nu-coral-58.vercel.app; no env, no domain, no data); `vercel project rm` was denied by the permission layer. (1) Should the supervisor delete it? (2) Still spend 1 preview + 1 production on `microtubules`?
+- **Decision:** (1) No. A deletion the worker's permission layer refused is not done by another agent (permission laundering), and deleting a Vercel project is a human checkpoint anyway. Goes to microtubules STATUS.md "Needs Kalp" with the runbook's is-this-the-live-one check and the exact `vercel project rm web` command; plus an `incidents.md` entry (cause: CLI run from `web/` while `.vercel/project.json` is at the repo root) and a runbook note. Harmless overnight. (2) Yes, 1 preview + 1 production on `microtubules`; the stray went to a disposable project and the preview is where review/verify happen. Report the stray as a one-line deviation.
+- **Reversible by:** Kalp deleting `web` in the Vercel dashboard; nothing depends on it.
+
+---
