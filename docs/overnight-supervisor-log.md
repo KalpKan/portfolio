@@ -27,3 +27,12 @@ Decisions handed to worker agents while Kalp slept. One entry per question: UTC 
 - **Reversible by:** a later Playwright port; assertions target the page's own DOM ids either way.
 
 ---
+
+## 2026-09-21 06:59 UTC — KalpOS dark mode (T6.10): default appearance
+
+- **From:** `af1d1317d7912d4e1` (KalpOS dark-mode worker, branch `kalpos-dark`).
+- **Asked:** With nothing in localStorage, should `DEFAULT_APPEARANCE` be "auto" (follow prefers-color-scheme) or "light"?
+- **Decision:** "light". The brief adds a capability; it does not change what visitors see. Kalp reviewed the light desk all week and has never seen the dark one, so switching the default for every dark-Mac visitor is an unreviewed public change to his site. Dark/Auto stay opt-in from a visible Appearance menu; STATUS.md gets a "Needs Kalp" line with a 1440 dark-desk screenshot and the reply "default auto" to flip it.
+- **Reversible by:** the single `DEFAULT_APPEARANCE` constant in `lib/appearance.ts`.
+
+---
