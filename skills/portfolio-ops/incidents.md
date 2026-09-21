@@ -2665,3 +2665,21 @@ _Entries begin below, oldest first._
 - **Fix:** `ignoreCommand` now diffs `"${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}" HEAD` — the platform-provided SHA of the commit last actually deployed, so the *whole* range since the last real deploy is checked, with the exact same path excludes; `${VAR:-HEAD^}` keeps the old behaviour when the variable is unset or empty (local runs). Verified locally against real repository history (see runbook "Hub: ignored build step"): `HEAD^ HEAD` on the current tip (a docs-only commit) reports no diff and would wrongly skip; diffing against an actual earlier `VERCEL_GIT_PREVIOUS_SHA` a few commits back correctly finds the code change and proceeds. Also verified that an unresolvable `VERCEL_GIT_PREVIOUS_SHA` (e.g. outside a shallow clone's history) makes `git diff` exit non-zero (fatal error, exit 128), which is the safe direction under `ignoreCommand`'s "exit 0 = skip, anything else = build" contract — an unknown previous SHA causes a deploy, never a silent skip.
 - **Prevention:** this closes the root cause behind the T4.1, T6.1 and T6.11/H19 workarounds; a docs-only tip commit on an otherwise code-carrying push should no longer cancel the deploy. The manual-forced-deploy workaround in "Hub: ignored build step" stays documented for the rare case (e.g. `VERCEL_GIT_PREVIOUS_SHA` unset on a non-Vercel run, or wanting to force a deploy for an otherwise genuinely docs-only push).
 - **Reported by:** the T6.10 dark-mode worker (`docs/RESUME.md`), fixed by the kalpos fixes batch
+
+## 2026-09-21 — plato: docs-only commits each cost a production deploy (no ignore step)
+
+**Symptom.** The plato redesign was budgeted 1 preview + 1 production. It ended at **5 production +
+3 preview** deployments for one change.
+
+**Cause.** `KalpKan/Plato` has **no Vercel ignore-build step**, unlike the hub repo. Every push to
+`main` rebuilds and redeploys production, so the four documentation-only commits (STATUS.md,
+RESUME.md, the session-log line) each burned a production build, and the Git integration also built
+a preview off each branch push on top of the one manual `npx vercel` preview.
+
+**Fix / prevention.** Add an `ignoreCommand` to `plato/vercel.json` so a commit touching only
+`docs/**`, `*.md` or `STATUS.md` exits 0 and is skipped, the way the hub repo already does. Not done
+during the redesign: it was outside that task and would itself have cost a deploy to land.
+
+**Wider lesson for the 100/day team limit.** When an app repo auto-deploys from `main` with no
+ignore step, budget one deploy per *push*, not per *change*, or batch the docs commits into the
+feature commit. Worth checking which of the other app repos are in the same position.
