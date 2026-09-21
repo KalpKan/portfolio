@@ -6,7 +6,7 @@ import { click, fire, render } from "@/test/render";
 import { PLAYLIST } from "@/lib/site";
 import { TRACK_MS } from "@/lib/player";
 import { resetPlayer } from "../usePlayer";
-import MusicWindow from "./MusicWindow";
+import MusicWindow, { isSpotifyTrackUrl } from "./MusicWindow";
 
 beforeAll(() => {
   (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -108,5 +108,60 @@ describe("MusicWindow (the Music app)", () => {
     expect(times).toEqual(["0:00", "3:20"]);
     expect(TRACK_MS).toBe(200_000);
     unmount();
+  });
+
+  it("double-clicking a row opens its Spotify URL in a new tab and reports the index to analytics; single click never does", () => {
+    const open = vi.spyOn(window, "open").mockImplementation(() => null);
+    const { container, unmount } = render(<MusicWindow playlist={PLAYLIST} />);
+    click(rows(container)[1]);
+    expect(open).not.toHaveBeenCalled();
+    fire(rows(container)[1], "dblclick");
+    expect(open).toHaveBeenCalledWith("https://open.spotify.com/track/7leW1Dmvs9A4oDh9i5Qwpz", "_blank", "noopener,noreferrer");
+    expect(track).toHaveBeenLastCalledWith("music_opened_spotify", { index: 1 });
+    open.mockRestore();
+    unmount();
+  });
+
+  it("Enter on a row that is already the current track opens Spotify; Enter on a different row selects it instead", () => {
+    const open = vi.spyOn(window, "open").mockImplementation(() => null);
+    const { container, unmount } = render(<MusicWindow playlist={PLAYLIST} />);
+    rows(container)[0].focus();
+    expect(current(container)).toBe(0);
+    fire(document.activeElement!, "keydown", { key: "Enter" });
+    expect(open).toHaveBeenCalledWith("https://open.spotify.com/track/1rp2VekrJkaJ71HEaQUwAx", "_blank", "noopener,noreferrer");
+    expect(track).toHaveBeenLastCalledWith("music_opened_spotify", { index: 0 });
+    open.mockClear();
+    fire(rows(container)[0], "keydown", { key: "ArrowDown" });
+    expect(document.activeElement).toBe(rows(container)[1]);
+    fire(document.activeElement!, "keydown", { key: "Enter" });
+    expect(open).not.toHaveBeenCalled();
+    expect(current(container)).toBe(1);
+    open.mockRestore();
+    unmount();
+  });
+
+  it("shows a small \"open ↗\" hint only on rows with a Spotify link, never a logo asset", () => {
+    const { container, unmount } = render(<MusicWindow playlist={PLAYLIST} />);
+    const hints = rows(container).map((r) => r.querySelector(".kos-open-hint")?.textContent ?? null);
+    expect(hints).toEqual(["open ↗", "open ↗", "open ↗"]);
+    expect(container.querySelector("img[src*='spotify' i], svg[class*='spotify' i]")).toBeNull();
+    unmount();
+    const noLink = render(<MusicWindow playlist={[{ title: "Choosin' Texas", artist: "Drake & Don Toliver", tag: "unreleased" }]} />);
+    expect(rows(noLink.container)[0].querySelector(".kos-open-hint")).toBeNull();
+    noLink.unmount();
+  });
+});
+
+describe("isSpotifyTrackUrl (the URL guard)", () => {
+  it("only ever allows a real https://open.spotify.com/track/... link", () => {
+    expect(isSpotifyTrackUrl("https://open.spotify.com/track/1rp2VekrJkaJ71HEaQUwAx")).toBe(true);
+    expect(isSpotifyTrackUrl(undefined)).toBe(false);
+    expect(isSpotifyTrackUrl("")).toBe(false);
+    expect(isSpotifyTrackUrl("http://open.spotify.com/track/1rp2VekrJkaJ71HEaQUwAx")).toBe(false);
+    expect(isSpotifyTrackUrl("https://evil.example.com/track/1rp2VekrJkaJ71HEaQUwAx")).toBe(false);
+    expect(isSpotifyTrackUrl("https://open.spotify.com/album/1rp2VekrJkaJ71HEaQUwAx")).toBe(false);
+    expect(isSpotifyTrackUrl("https://open.spotify.com.evil.com/track/abc")).toBe(false);
+    expect(isSpotifyTrackUrl("javascript:alert(1)")).toBe(false);
+    expect(isSpotifyTrackUrl("not a url")).toBe(false);
   });
 });

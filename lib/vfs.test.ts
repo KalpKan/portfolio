@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { buildVfs, caseStudyText, countTree, displayPath, getNode, listDir, resolvePath, treeLines, type VDir } from "./vfs";
+import { PLAYLIST } from "./site";
+import { buildVfs, caseStudyText, countTree, displayPath, getNode, listDir, playlistText, resolvePath, treeLines, type VDir } from "./vfs";
 import { fixtureVfs, unpark } from "./vfs.fixture";
 
 describe("buildVfs", () => {
@@ -66,6 +67,16 @@ describe("buildVfs", () => {
       "by Lieberman & Long",
       "https://openlibrary.org/isbn/9781946885111",
     ]);
+  });
+
+  it("lists each song's real Spotify link in /about/music.md (cat /about/music.md)", () => {
+    const text = playlistText(PLAYLIST, "On repeat");
+    const lines = text.split("\n");
+    expect(lines[0]).toBe("# On repeat");
+    expect(lines[2]).toBe("1. Suffer — BEX — https://open.spotify.com/track/1rp2VekrJkaJ71HEaQUwAx");
+    expect(lines[3]).toBe("2. These Words — Badger & Natasha Bedingfield — https://open.spotify.com/track/7leW1Dmvs9A4oDh9i5Qwpz");
+    expect(lines[4]).toBe("3. Sleep — The Kid LAROI — https://open.spotify.com/track/0eXJqGwphplL1PYYVMIMGj");
+    for (const t of PLAYLIST) expect(t.spotifyUrl).toMatch(/^https:\/\/open\.spotify\.com\/track\//);
   });
 
   it("derives one /hobbies/<slug>.md per site.hobbies entry", () => {

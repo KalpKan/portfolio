@@ -72,9 +72,9 @@ export function caseStudyText(c: CaseStudy): string {
   return out.join("\n");
 }
 
-/** The playlist (lib/site.ts) as a numbered list; tags in brackets. */
+/** The playlist (lib/site.ts) as a numbered list; tags in brackets, the Spotify link (when set) after a dash. */
 export function playlistText(playlist: readonly Track[], title: string): string {
-  const rows = playlist.map((t, i) => `${i + 1}. ${t.title} — ${t.artist}${t.tag ? ` [${t.tag}]` : ""}`);
+  const rows = playlist.map((t, i) => `${i + 1}. ${t.title} — ${t.artist}${t.tag ? ` [${t.tag}]` : ""}${t.spotifyUrl ? ` — ${t.spotifyUrl}` : ""}`);
   return [`# ${title}`, "", ...rows, "", "Visual only: the desk's Music app plays nothing, it just keeps the list."].join("\n");
 }
 

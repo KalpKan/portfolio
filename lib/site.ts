@@ -1,11 +1,19 @@
 /** One song per line; `tag` shows as a small pill ("unreleased"). */
-export type Track = { title: string; artist: string; tag?: string; /** Official single artwork under public/images/music (Apple Music artwork, displayed for identification; unreleased tracks keep the generated cover). */ cover?: string };
+export type Track = {
+  title: string;
+  artist: string;
+  tag?: string;
+  /** Official single artwork under public/images/music (Apple Music artwork, displayed for identification; unreleased tracks keep the generated cover). */
+  cover?: string;
+  /** Real Spotify track link (https://open.spotify.com/track/<id>), oEmbed-verified; a double-click or Enter-on-current opens it. Empty/missing hides the "open ↗" hint and refuses to open (URL guard in MusicWindow.tsx). */
+  spotifyUrl?: string;
+};
 
 /** The songs Kalp has on repeat, in the order the desk plays them. */
 export const PLAYLIST: readonly Track[] = [
-  { title: "Suffer", artist: "BEX", cover: "/images/music/suffer.jpg" },
-  { title: "These Words", artist: "Badger & Natasha Bedingfield", cover: "/images/music/these-words.jpg" },
-  { title: "Sleep", artist: "The Kid LAROI", cover: "/images/music/sleep.jpg" },
+  { title: "Suffer", artist: "BEX", cover: "/images/music/suffer.jpg", spotifyUrl: "https://open.spotify.com/track/1rp2VekrJkaJ71HEaQUwAx" },
+  { title: "These Words", artist: "Badger & Natasha Bedingfield", cover: "/images/music/these-words.jpg", spotifyUrl: "https://open.spotify.com/track/7leW1Dmvs9A4oDh9i5Qwpz" },
+  { title: "Sleep", artist: "The Kid LAROI", cover: "/images/music/sleep.jpg", spotifyUrl: "https://open.spotify.com/track/0eXJqGwphplL1PYYVMIMGj" },
 ];
 
 /**

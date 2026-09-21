@@ -527,6 +527,34 @@ button.kos-now[data-paused="true"] .bar i {
   font: 400 11px var(--font-mono);
   opacity: 0.45;
 }
+/* Swaps the "—" duration for a small "open ↗" hint on hover/focus, in place,
+   with no layout shift; only rendered at all when the song has a Spotify link. */
+.kos-track .d-wrap {
+  position: relative;
+  display: inline-flex;
+  min-width: 34px;
+  justify-content: flex-end;
+}
+.kos-track .kos-open-hint {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font: 400 11px var(--font-mono);
+  color: #0088b0;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms var(--kos-ease);
+}
+.kos-track:hover .d-wrap .d,
+.kos-track:focus-visible .d-wrap .d {
+  opacity: 0;
+}
+.kos-track:hover .d-wrap .kos-open-hint,
+.kos-track:focus-visible .d-wrap .kos-open-hint {
+  opacity: 1;
+}
 .kos-tag {
   font: 400 10px var(--font-mono);
   letter-spacing: 0.06em;
@@ -596,7 +624,8 @@ button.kos-now[data-paused="true"] .bar i {
   .kos-music-progress .bar i,
   button.kos-now,
   .kos-transport button,
-  .kos-track {
+  .kos-track,
+  .kos-open-hint {
     transition: none;
   }
 }
