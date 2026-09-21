@@ -45,3 +45,12 @@ Decisions handed to worker agents while Kalp slept. One entry per question: UTC 
 - **Reversible by:** Kalp deleting `web` in the Vercel dashboard; nothing depends on it.
 
 ---
+
+## 2026-09-21 07:25 UTC — microtubules: third deploy for the Lighthouse performance gate
+
+- **From:** `a4d8f9378e9e409c7` (microtubules redesigner).
+- **Asked:** Redesign is live (deploy 2 of 2); the browser gate passes in Chromium and WebKit, but Lighthouse performance is 0.85 (TBT 580 ms, posthog-js in the initial bundle). Fix ready and unit-tested: lazy-load posthog-js via idle callback with a 2.5 s cap and an event queue (initial JS 300 KB → 13 KB), same contract as plantit's "PostHog after content". Needs a third deploy over the 2-deploy budget; approve or record as an open defect?
+- **Decision:** Ship it, one extra production deploy, measured once. A stated gate outranks a budget line when the fix is targeted, tested and a proven pattern; that is one planned deploy, not a retry loop. Conditions: a real `setTimeout` fallback for Safari (no `requestIdleCallback` there); prove analytics from the outside afterwards (a `$pageview` from microtubules.kalpkan.com in PostHog 616829); if still < 0.90, record as an open defect and stop. Add the lazy-load pattern to the ops skill (analytics.md / static-Vite runbook).
+- **Reversible by:** reverting the one commit to `src/analytics.ts`.
+
+---
