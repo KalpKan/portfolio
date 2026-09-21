@@ -429,7 +429,12 @@ button.kos-now[data-paused="true"] .bar i {
   color: var(--ink);
   background: var(--tint-07);
   cursor: default;
-  transition: background-color 160ms var(--kos-ease), transform 160ms var(--kos-ease);
+  /* transform only: a persistent background-color transition here is the same
+     T6.10 stuck-colour bug as .kos-window (Chrome does not restart the
+     transition when only a custom property the colour references changes
+     under the element). The appearance switch itself still cross-fades via
+     `.kos-appearance-shift`. */
+  transition: transform 160ms var(--kos-ease);
 }
 .kos-transport button:hover {
   background: var(--tint-13);
@@ -481,7 +486,10 @@ button.kos-now[data-paused="true"] .bar i {
   font: inherit;
   text-align: left;
   cursor: default;
-  transition: background-color 160ms var(--kos-ease);
+  /* No persistent background-color transition: same T6.10 stuck-colour bug.
+     The appearance switch itself still cross-fades via
+     `.kos-appearance-shift`; only hover/current-row colour changes are now
+     instant. */
 }
 .kos-track:hover {
   background: var(--tint-06);
