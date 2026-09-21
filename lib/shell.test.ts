@@ -256,3 +256,35 @@ describe("Tab completion", () => {
     expect(complete(ctx, INITIAL_STATE, "open ")).toMatchObject({ candidates: ["promptflip", "unpark", "eeg", "later"] });
   });
 });
+
+describe("theme (T6.10)", () => {
+  it("reports the appearance it was given, and how to change it", () => {
+    const r = runLine({ ...ctx, appearance: "dark" }, INITIAL_STATE, "theme");
+    expect(text(r.lines)).toBe("appearance  dark\nusage: theme light | dark | auto");
+    expect(r.effects).toEqual([]);
+    // With no appearance in the context (SSR, a test) it says light, the default.
+    expect(text(runLine(ctx, INITIAL_STATE, "theme").lines).split("\n")[0]).toBe("appearance  light");
+  });
+
+  it("sets each of the three, as one effect the component performs", () => {
+    for (const value of ["light", "dark", "auto"] as const) {
+      const r = runLine(ctx, INITIAL_STATE, `theme ${value}`);
+      expect(r.effects).toEqual([{ type: "appearance", value }]);
+      expect(text(r.lines)).toBe(`appearance  ${value}`);
+    }
+  });
+
+  it("refuses anything else without changing the desk", () => {
+    const bad = runLine(ctx, INITIAL_STATE, "theme midnight");
+    expect(text(bad.lines)).toBe("theme: midnight: expected light, dark, auto");
+    expect(bad.effects).toEqual([]);
+    const many = runLine(ctx, INITIAL_STATE, "theme dark light");
+    expect(text(many.lines)).toBe("theme: too many arguments");
+    expect(many.effects).toEqual([]);
+  });
+
+  it("is in help and in Tab completion", () => {
+    expect(text(runLine(ctx, INITIAL_STATE, "help").lines)).toContain("theme [light|dark|auto]");
+    expect(complete(ctx, INITIAL_STATE, "the")).toEqual({ input: "theme ", candidates: [] });
+  });
+});

@@ -1,5 +1,6 @@
 import { act } from "react";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { APPEARANCE_KEY, readAppearance, _resetAppearanceForTests } from "@/lib/appearance";
 import { fire, render, setValue } from "@/test/render";
 import type { Tile } from "@/lib/tiles";
 import { fixtureVfs } from "@/lib/vfs.fixture";
@@ -13,6 +14,9 @@ beforeAll(() => {
 });
 beforeEach(() => {
   vi.mocked(track).mockClear();
+  localStorage.clear();
+  document.documentElement.removeAttribute("data-appearance");
+  _resetAppearanceForTests();
 });
 
 const tile = (t: Partial<Tile> & Pick<Tile, "slug" | "kind">): Tile => ({
@@ -271,5 +275,26 @@ describe("TerminalWindow", () => {
       expect(t.log()).toContain("kalp@kalpos ~ % pwd");
       t.unmount();
     });
+  });
+
+  it("`theme` reports the appearance and `theme dark` changes it for real", async () => {
+    const t = await mount();
+    await t.type("theme");
+    expect(t.log()).toContain("appearance  light");
+    expect(t.log()).toContain("usage: theme light | dark | auto");
+
+    await t.type("theme dark");
+    expect(readAppearance()).toBe("dark");
+    expect(localStorage.getItem(APPEARANCE_KEY)).toBe("dark");
+    expect(document.documentElement.getAttribute("data-appearance")).toBe("dark");
+
+    // And a bare `theme` now reports the new one, read from the same store.
+    await t.type("theme");
+    expect(t.log()).toContain("appearance  dark");
+
+    await t.type("theme nope");
+    expect(t.log()).toContain("theme: nope: expected light, dark, auto");
+    expect(readAppearance()).toBe("dark");
+    t.unmount();
   });
 });

@@ -4,6 +4,7 @@ import "./globals.css";
 import "./kalpos.css";
 import PostHogProvider from "@/components/PostHogProvider";
 import { SITE } from "@/lib/site";
+import { APPEARANCE_SCRIPT } from "@/lib/appearance";
 import { BOOT_SCRIPT } from "@/lib/boot";
 
 // KalpOS chrome uses the system sans (-apple-system / SF Pro), as the mock
@@ -50,14 +51,18 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// Runs before the first paint (lib/boot.ts): a deep link or ?desk gets the
-// desk straight away with no flash of the boot or the lock. The React root
-// reads the same attribute after hydration (Next guide "preventing flash
-// before hydration"). A plain visit always boots and locks.
+// Two scripts run before the first paint (Next guide "preventing flash
+// before hydration"), both guarded and both idempotent:
+//   lib/appearance.ts — <html data-appearance> and color-scheme from the
+//     stored choice, so a dark visitor never sees a white frame (T6.10);
+//   lib/boot.ts — a deep link or ?desk gets the desk straight away with no
+//     flash of the boot or the lock. A plain visit always boots and locks.
+// The React root reads the same attributes after hydration.
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${mono.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: APPEARANCE_SCRIPT }} />
         <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
       </head>
       <body className="min-h-full flex flex-col">

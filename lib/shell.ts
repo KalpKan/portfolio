@@ -1,3 +1,4 @@
+import { APPEARANCES, isAppearance, type Appearance } from "./appearance";
 import { claudeLine, completeClaude, welcome, type Chunk } from "./fake-claude";
 import { checksDone, hasCheck, okCount, type Signal } from "./signal";
 import type { Tile } from "./tiles";
@@ -24,6 +25,8 @@ export type Effect =
   | { type: "lock" }
   /** `reboot` / `restart`: the desk reboots through the full boot sequence, no confirm. */
   | { type: "restart" }
+  /** `theme light|dark|auto`: the same switch as the KalpOS menu's Appearance row. */
+  | { type: "appearance"; value: Appearance }
   /** A fake-Claude reply to play with its typing rhythm (lib/fake-claude.ts). */
   | { type: "reply"; chunks: Chunk[] };
 
@@ -33,6 +36,8 @@ export interface ShellContext {
   signals: Record<string, Signal>;
   hostname?: string;
   now?: () => Date;
+  /** The appearance the desk is set to, so bare `theme` can report it. */
+  appearance?: Appearance;
   /** For the fake Claude's canned replies; tests seed it. */
   random?: () => number;
 }
@@ -86,6 +91,7 @@ export const COMMANDS = [
   "logout",
   "reboot",
   "restart",
+  "theme",
 ] as const;
 
 const HELP: [string, string][] = [
@@ -106,6 +112,7 @@ const HELP: [string, string][] = [
   ["clear / exit", "wipe the screen / close the window"],
   ["lock / logout", "show the lock screen"],
   ["reboot / restart", "reboot KalpOS: the boot, the chime, the lock"],
+  ["theme [light|dark|auto]", "the desk's appearance (auto follows your machine)"],
 ];
 
 export function promptFor(state: ShellState): string {
@@ -434,6 +441,25 @@ export function runLine(ctx: ShellContext, state: ShellState, input: string): Sh
       lines.push(out("Restarting…", "dim"));
       effects.push({ type: "restart" });
       break;
+    case "theme": {
+      if (rest.length > 1) {
+        lines.push(err("theme: too many arguments"));
+        break;
+      }
+      const want = rest[0];
+      if (want === undefined) {
+        lines.push([{ text: "appearance  " , tone: "dim" }, { text: ctx.appearance ?? "light", tone: "ok" }]);
+        lines.push(out(`usage: theme ${APPEARANCES.join(" | ")}`, "dim"));
+        break;
+      }
+      if (!isAppearance(want)) {
+        lines.push(err(`theme: ${want}: expected ${APPEARANCES.join(", ")}`));
+        break;
+      }
+      lines.push([{ text: "appearance  " , tone: "dim" }, { text: want, tone: "ok" }]);
+      effects.push({ type: "appearance", value: want });
+      break;
+    }
     case "sudo":
       lines.push(err(`${USER} is not in the sudoers file. This incident will be reported.`));
       break;

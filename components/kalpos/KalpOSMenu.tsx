@@ -2,6 +2,15 @@
 
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
+import {
+  APPEARANCE_LABELS,
+  APPEARANCES,
+  DEFAULT_APPEARANCE,
+  readAppearance,
+  setAppearanceWithCrossfade,
+  subscribeAppearance,
+  type Appearance,
+} from "@/lib/appearance";
 import { isMuted, setMuted, subscribeMute } from "@/lib/chime";
 import { track } from "@/lib/track";
 
@@ -11,8 +20,14 @@ import { track } from "@/lib/track";
  * (card 2c: rgba(248,244,244,.62) blur(24px) saturate(1.4), radius 12, a
  * 1 px white .75 edge, the lg shadow) with 13 px rows: About KalpOS, a
  * separator, Clean Up (⌥⌘1, desk only: the icons back to their grid), Lock
- * Screen (⌃⌘Q), Restart… (⌃⌘R), a separator, and the chime toggle that
- * mirrors the speaker in the menubar's right cluster.
+ * Screen (⌃⌘Q), Restart… (⌃⌘R), a separator, Appearance ▸ and the chime
+ * toggle that mirrors the speaker in the menubar's right cluster.
+ *
+ * Appearance (T6.10) is a real submenu: the row carries aria-haspopup and
+ * opens a second role="menu" of three role="menuitemradio" rows (Light,
+ * Dark, Auto) with a ✓ on the chosen one, → / Enter to open, ← / Esc back.
+ * On the phone the submenu is not a flyout — there is no room beside a
+ * 240 px panel — so CSS lays it out indented under the row instead.
  *
  * The dropdown is portalled next to the bar, not inside it: a bar with its
  * own backdrop-filter is a "backdrop root", so a frosted child would only
@@ -27,10 +42,15 @@ import { track } from "@/lib/track";
  * returns to the button. PostHog: menu_action {item}.
  */
 
-export type MenuItem = "about" | "cleanup" | "lock" | "restart" | "mute";
+export type MenuItem = "about" | "cleanup" | "lock" | "restart" | "mute" | "appearance";
 
 function useMuted(): boolean {
   return useSyncExternalStore(subscribeMute, isMuted, () => false);
+}
+
+/** The stored choice (light / dark / auto), not what it resolves to. */
+function useAppearance(): Appearance {
+  return useSyncExternalStore(subscribeAppearance, readAppearance, () => DEFAULT_APPEARANCE);
 }
 
 export default function KalpOSMenu({
@@ -50,16 +70,33 @@ export default function KalpOSMenu({
   /** Open = placed: the host element and the offset under the button (see the note above). */
   const [place, setPlace] = useState<{ host: HTMLElement; left: number; top: number } | null>(null);
   const open = place !== null;
+  /** The Appearance submenu, open only while the menu itself is. */
+  const [sub, setSub] = useState(false);
   const muted = useMuted();
+  const appearance = useAppearance();
   const button = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLDivElement>(null);
+  const submenu = useRef<HTMLDivElement>(null);
+  const appearanceRow = useRef<HTMLButtonElement>(null);
   const menuId = useId();
+  const subId = useId();
 
   const items = useCallback(() => [...(menu.current?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? [])], []);
 
   const close = useCallback((refocus = true) => {
     setPlace(null);
+    setSub(false);
     if (refocus) button.current?.focus({ preventScroll: true });
+  }, []);
+
+  const subItems = useCallback(
+    () => [...(submenu.current?.querySelectorAll<HTMLElement>('[role="menuitemradio"]') ?? [])],
+    [],
+  );
+
+  const closeSub = useCallback((refocus = true) => {
+    setSub(false);
+    if (refocus) appearanceRow.current?.focus({ preventScroll: true });
   }, []);
 
   const openMenu = useCallback(() => {
@@ -77,6 +114,14 @@ export default function KalpOSMenu({
   useEffect(() => {
     if (open) items()[0]?.focus({ preventScroll: true });
   }, [open, items]);
+
+  // The submenu opens on the row that is already chosen, as a Mac's does.
+  useEffect(() => {
+    if (!sub) return;
+    const all = subItems();
+    const i = APPEARANCES.indexOf(appearance);
+    (all[i] ?? all[0])?.focus({ preventScroll: true });
+  }, [sub, subItems, appearance]);
 
   // A press anywhere outside the button or the menu closes it (no choice made).
   useEffect(() => {
@@ -96,6 +141,12 @@ export default function KalpOSMenu({
     action();
   };
 
+  const chooseAppearance = (value: Appearance) => {
+    close();
+    track("menu_action", { item: "appearance", value });
+    setAppearanceWithCrossfade(value);
+  };
+
   const onMenuKey = (e: React.KeyboardEvent) => {
     const all = items();
     const i = all.indexOf(document.activeElement as HTMLElement);
@@ -112,10 +163,43 @@ export default function KalpOSMenu({
         return go(0);
       case "End":
         return go(all.length - 1);
+      case "ArrowRight":
+        if (document.activeElement === appearanceRow.current) {
+          e.preventDefault();
+          setSub(true);
+        }
+        return;
       case "Escape":
         e.preventDefault();
         e.stopPropagation();
         return close();
+      case "Tab":
+        return close(false);
+    }
+  };
+
+  const onSubKey = (e: React.KeyboardEvent) => {
+    const all = subItems();
+    const i = all.indexOf(document.activeElement as HTMLElement);
+    const go = (n: number) => {
+      e.preventDefault();
+      e.stopPropagation();
+      all[(n + all.length) % all.length]?.focus({ preventScroll: true });
+    };
+    switch (e.key) {
+      case "ArrowDown":
+        return go(i + 1);
+      case "ArrowUp":
+        return go(i - 1);
+      case "Home":
+        return go(0);
+      case "End":
+        return go(all.length - 1);
+      case "ArrowLeft":
+      case "Escape":
+        e.preventDefault();
+        e.stopPropagation();
+        return closeSub();
       case "Tab":
         return close(false);
     }
@@ -158,6 +242,46 @@ export default function KalpOSMenu({
       {onCleanUp ? row("cleanup", "Clean Up", onCleanUp, "⌥⌘1") : null}
       {row("lock", "Lock Screen", onLock, "⌃⌘Q")}
       {row("restart", "Restart…", onRestart, "⌃⌘R")}
+      <i role="separator" className="kos-menu-sep" />
+      <div role="none" className="kos-menu-nest">
+        <button
+          ref={appearanceRow}
+          type="button"
+          role="menuitem"
+          className="kos-menu-row"
+          tabIndex={-1}
+          aria-haspopup="menu"
+          aria-expanded={sub}
+          aria-controls={sub ? subId : undefined}
+          data-open={sub ? "true" : undefined}
+          onClick={() => setSub((v) => !v)}
+        >
+          <span className="kos-menu-label">Appearance</span>
+          <span className="kos-menu-more" aria-hidden>
+            ▸
+          </span>
+        </button>
+        {sub ? (
+          <div ref={submenu} id={subId} role="menu" aria-label="Appearance" className="kos-submenu" onKeyDown={onSubKey}>
+            {APPEARANCES.map((value) => (
+              <button
+                key={value}
+                type="button"
+                role="menuitemradio"
+                aria-checked={appearance === value}
+                className="kos-menu-row"
+                tabIndex={-1}
+                onClick={() => chooseAppearance(value)}
+              >
+                <span className="kos-menu-check" aria-hidden>
+                  {appearance === value ? "✓" : ""}
+                </span>
+                <span className="kos-menu-label">{APPEARANCE_LABELS[value]}</span>
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </div>
       <i role="separator" className="kos-menu-sep" />
       {row("mute", muted ? "Unmute chime" : "Mute chime", () => setMuted(!muted))}
     </div>
