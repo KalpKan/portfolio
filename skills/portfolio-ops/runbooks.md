@@ -661,9 +661,21 @@ Run this at the end of every phase, and whenever several agents have worked conc
 10. **Record:** one `incidents.md` entry per class of drift found (root cause is almost always "the agent that changed reality did not update the row"), a STATUS.md task row + session-log line, then `bash scripts/install-ops-skill.sh`, `git pull --rebase --autostash`, commit only your files, push.
 
 
-## Hub: ignored build step (set 2026-09-18)
+## Hub: ignored build step (set 2026-09-18; deploy-skipped root cause fixed 2026-09-21, T6.12b)
 
-`vercel.json` in the hub has `"ignoreCommand": "git diff --quiet HEAD^ HEAD -- . \":(exclude)docs\" ... "`. A push that only touches docs/, skills/, STATUS.md, scripts/ or Markdown files is not deployed (the command exits 0 = skip). Why: Hobby allows 100 deployments per day per team and agent bursts hit that cap on 2026-09-18. To force a deploy after docs-only commits, run `npx vercel@latest --prod --scope kks-projects-2edcb11a` from the hub checkout. Remove the key from vercel.json to restore deploy-on-every-push. (The REST API route for this setting returned "Not authorized" for the CLI token, so the in-repo key is used.)
+`vercel.json` in the hub has an `ignoreCommand` that diffs the excluded docs/ops paths out and skips the deploy (exits 0) when nothing else changed. Why it exists at all: Hobby allows 100 deployments per day per team and agent bursts hit that cap on 2026-09-18.
+
+**2026-09-21 fix (T6.12b):** the command used to be `git diff --quiet HEAD^ HEAD -- . ...`, which only ever compares the tip commit to its immediate parent. A push whose *tip* commit is docs-only (e.g. a `STATUS.md` session-log commit) made that diff empty and cancelled the whole push's deploy, even when an earlier commit in the same push changed `app/` or another real path — this bit T4.1, T6.1 and T6.11 (see `incidents.md`). The command is now:
+
+```
+git diff --quiet "${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}" HEAD -- . ":(exclude)docs" ":(exclude)skills" ":(exclude)STATUS.md" ":(exclude)scripts" ":(exclude)*.md"
+```
+
+`VERCEL_GIT_PREVIOUS_SHA` is the commit Vercel last actually deployed for this project (set by the platform on every build); diffing against it instead of `HEAD^` means the *whole* range since the last real deploy is checked, not just the tip commit, so a docs-only tip commit can no longer mask real changes earlier in the same push. `${VAR:-HEAD^}` falls back to the old `HEAD^` behaviour whenever the variable is unset or empty (e.g. local runs, or a project where Vercel doesn't set it). Verified locally both ways (unset → `HEAD^` fallback; set to a real earlier commit → correctly finds the code change `HEAD^` alone would have missed).
+
+Because Vercel does a shallow clone, `VERCEL_GIT_PREVIOUS_SHA` can point at a commit the clone doesn't have; `git diff` then fails with a fatal error and a non-zero (128) exit rather than 0, which is the safe direction — `ignoreCommand`'s contract is "exit 0 = skip, anything else = build", so an error here always causes a deploy rather than silently skipping one. Confirmed locally with a bogus SHA.
+
+To force a deploy after a docs-only push regardless, run `npx vercel@latest --prod --scope kks-projects-2edcb11a` from the hub checkout, or make sure the push's last commit touches code (a `--no-ff` merge whose first-parent diff includes `app/` or `vercel.json` is enough). Remove the `ignoreCommand` key from `vercel.json` entirely to restore deploy-on-every-push. (The REST API route for this setting returned "Not authorized" for the CLI token, so the in-repo key is used.)
 
 
 ## Tune and re-verify the Plato outline parser against its corpus
