@@ -1,6 +1,6 @@
 # portfolio
 
-The hub for every project Kalp Kansara has shipped. One page, one URL, one
+The hub for every project Kalp Kansara has built. One page, one URL, one
 card per project. Live web apps link out to their own deployment; hardware and
 iOS work gets a case-study page here.
 
@@ -25,8 +25,10 @@ iOS work gets a case-study page here.
 | `app/api/health/route.ts` | `GET /api/health` returns `{ ok: true, service: "hub", time }`. Uptime monitors ping this. |
 | `app/api/status/[slug]/route.ts` | Checks one project's own health URL (3 s timeout, `lib/health.ts`) so the page can show a live mark. |
 | `app/opengraph-image.tsx` | The picture shown when the link is shared (iMessage, LinkedIn, Slack): a small KalpOS desk with the name and the registry counts, generated from `projects.json` at build time. |
-| `lib/site.ts` | Your name, the note on the desk, the one-line identity, the résumé link, **the songs on repeat** (`PLAYLIST`: one `{ title, artist, tag? }` per song; `tag: "unreleased"` shows as a small pill; `musicTitle` is the Music window's heading), the desk photo (`photo`, a square WebP) and the About-window portrait (`portrait`, 3:4) and the contact links (email / GitHub / LinkedIn). Every empty value hides its element: no Résumé pill, no NOW PLAYING widget / ♪ icon / dock Music tile while the playlist is empty, no contact rows until you fill them in. **To change the songs, edit `PLAYLIST` in `lib/site.ts` and push**: the widget, the Music window, the phone sheet and the terminal's `/about/music.md` all read it. |
+| `lib/site.ts` | Your name, the note on the desk, the one-line identity, the résumé link, **the songs on repeat** (`PLAYLIST`: one `{ title, artist, tag? }` per song; `tag: "unreleased"` shows as a small pill; `musicTitle` is the Music window's heading), the desk photo (`photo`, a square WebP), the About-window portrait (`portrait`, 3:4), **what you are reading** (`READING`: one `{ title, authors, cover, url }` per book, the first is the one on the desk), **your hobbies** (`HOBBIES`: one `{ slug, name, line }` each; `slug` picks the drawn glyph and names the terminal file) and the contact links (`contact`: email / GitHub / LinkedIn, each a handle or a full URL). Every empty value hides its element: no Résumé pill, no NOW PLAYING widget / ♪ icon / dock Music tile while the playlist is empty, no contact rows until you fill them in. **To change the songs, edit `PLAYLIST` in `lib/site.ts` and push**: the widget, the Music window, the phone sheet and the terminal's `/about/music.md` all read it. **To change your contact details, the book you are reading or your hobbies, edit `contact` / `READING` / `HOBBIES` in the same file** — see "How to change the contact details, the book or the hobbies" below. |
 | `components/kalpos/NowPlaying.tsx`, `components/kalpos/windows/MusicWindow.tsx`, `components/kalpos/usePlayer.ts`, `lib/player.ts` | The Music app. The NOW PLAYING widget shows the current song with a pulsing dot and a progress line that walks a fake 3:20 loop (no audio, ever); clicking it opens the Music window: a generated square cover (a two-tone gradient hashed from title + artist plus the song's initials, never a fetched image), the track list, ⏮ ▶︎/⏸ ⏭, ↑/↓ Enter Space. One shared player store keeps the widget and the window on the same song; the reducer is pure and tested. |
+| `components/kalpos/Reading.tsx`, `components/kalpos/windows/ReadingWindow.tsx` | **What Kalp is reading.** The frosted READING card under NOW PLAYING (cover thumbnail, title, authors) opens a small Reading window with the jacket at 180 px and a link out to the book. On a phone it is a row under the note. Covers are real jackets committed under `public/images/reading/`. |
+| `components/kalpos/HobbyGlyph.tsx`, `components/kalpos/windows/HobbiesWindow.tsx` | **Hobbies.** A two-column list, one row per entry in `HOBBIES`, each with its own original drawn mini-glyph (no emoji). The desk's Hobbies folder badge is the count. |
 | `app/projects/[slug]/page.tsx` | The deep link to a case study (`/projects/unpark` and so on): it opens the desk with that case study already in a window, rendered on the server so shared links and crawlers see the content. Shows the full case study as soon as its content file has no `draft: true` (the registry status only changes the meta line and whether the Projects window opens it as a case study); a short placeholder while the content is a draft. See "How to add a case study". |
 | `content/projects/<slug>.ts` | The words and pictures of one case study (see "How to add a case study"). `content/case-study.ts` is the shape every file follows. |
 | `components/showcase/` | The case-study template: hero, problem, how-it-works diagram, photos, app screens, video, tech, status. |
@@ -193,6 +195,63 @@ other.
      linked.
    So removing `draft: true` publishes the page even before the status flips;
    keep the draft flag on until the words are ready to be read.
+
+## How to change the contact details, the book or the hobbies
+
+All three live in `lib/site.ts`; nothing else has to change, and every empty
+value hides its element.
+
+**Contact.** Edit `SITE.contact`:
+
+```ts
+contact: {
+  email: "Kalpkansara123@gmail.com",
+  github: "https://github.com/KalpKan",              // a bare handle works too
+  linkedin: "https://www.linkedin.com/in/kalp-kansara123/",
+},
+```
+
+The Contact window (a mail-style To / GitHub / LinkedIn header), the About
+window's contact row, the phone's Contact sheet and the terminal's
+`cat /about/README.md` all read the same three values. The email becomes a
+`mailto:` link and the two off-site links get `rel="noreferrer"`. The address
+is deliberately shown in full, not obfuscated.
+
+**What you are reading.** Edit `READING` (the first entry is the one on the
+desk), then put the jacket in `public/images/reading/`:
+
+```bash
+# the real cover, from Open Library's cover API, by ISBN:
+curl -sL -o /tmp/cover.jpg "https://covers.openlibrary.org/b/isbn/9781946885111-L.jpg"
+# check it is a real jacket and not their 1x1 "no cover" placeholder (must be > 5 KB), then:
+node -e 'require("sharp")("/tmp/cover.jpg").resize({height:500,withoutEnlargement:true}).jpeg({quality:86,mozjpeg:true}).toFile("public/images/reading/<slug>.jpg")'
+```
+
+A test refuses a cover over 120 KB or under 5 KB. The READING widget, the
+Reading window, the phone row and the terminal's `/about/reading.md` all read
+`READING`; `url` is where "Look it up ↗" goes (the book's Open Library page).
+
+**Hobbies.** Edit `HOBBIES`: one `{ slug, name, line }` per hobby, `line` in
+your own voice and short (a test keeps it to one sentence). `slug` must be one
+of the ids `HobbyGlyphId` lists, because it picks the drawn mini-glyph in
+`components/kalpos/HobbyGlyph.tsx` and names the terminal's
+`/hobbies/<slug>.md`. **A new hobby needs a new drawing** in that file (add
+the id to `HobbyGlyphId`, then a `case` with the SVG paths): the desk never
+uses emoji. The Hobbies window, the phone sheet, the folder's count badge and
+the terminal folder all follow.
+
+## How to change the tab icon
+
+`app/icon.svg` is the favicon (a drawn MacBook on a transparent ground, so it
+reads on a light and a dark tab strip). After editing it, regenerate the iOS
+touch icon, which must be opaque:
+
+```bash
+node -e 'const sharp=require("sharp"),fs=require("fs");(async()=>{const a=await sharp(fs.readFileSync("app/icon.svg"),{density:342}).resize(152,152).png().toBuffer();await sharp({create:{width:180,height:180,channels:4,background:"#f3f2f2"}}).composite([{input:a,left:14,top:14}]).png().toFile("app/apple-icon.png");})()'
+```
+
+Check it at 16, 32 and 180 px before committing: at 16 px only the silhouette
+survives, so the shape has to carry it.
 
 ## How to refresh the app screenshots
 

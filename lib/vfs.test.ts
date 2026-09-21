@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { caseStudyText, countTree, displayPath, getNode, listDir, resolvePath, treeLines, type VDir } from "./vfs";
+import { buildVfs, caseStudyText, countTree, displayPath, getNode, listDir, resolvePath, treeLines, type VDir } from "./vfs";
 import { fixtureVfs, unpark } from "./vfs.fixture";
 
 describe("buildVfs", () => {
@@ -37,18 +37,52 @@ describe("buildVfs", () => {
     expect(text.split("\n")[0]).toBe("# UnPark, codename Antifreeze");
   });
 
-  it("has about, an empty hobbies, the trash, /etc and the hidden secret", () => {
+  it("has about, hobbies, the trash, /etc and the hidden secret", () => {
     expect(listDir(root)).toEqual(["about", "etc", "hobbies", "projects", "trash"]);
     expect(listDir(root, true)).toEqual([".secret", "about", "etc", "hobbies", "projects", "trash"]);
     expect((getNode(root, "/about/README.md") as { content: string }).content).toContain("Western University.");
-    expect(listDir(getNode(root, "/about") as VDir)).toEqual(["README.md", "music.md"]);
+    expect(listDir(getNode(root, "/about") as VDir)).toEqual(["README.md", "music.md", "reading.md"]);
     const music = (getNode(root, "/about/music.md") as { content: string }).content;
     expect(music.split("\n").slice(0, 4)).toEqual(["# On repeat", "", "1. Suffer — Bex", "2. Choosin' Texas — Drake & Don Toliver [unreleased]"]);
-    expect(listDir(getNode(root, "/hobbies") as VDir)).toEqual([]);
     expect(listDir(getNode(root, "/trash") as VDir)).toEqual(["token-coinflip.md"]);
     expect((getNode(root, "/etc/hostname") as { content: string }).content).toBe("kalpkan.com\n");
     expect((getNode(root, "/etc/motd") as { content: string }).content).toContain("4 projects on the desk, 1 live");
     expect((getNode(root, "/.secret") as { content: string }).content).toContain("you found it");
+  });
+
+  it("lists the contacts under the bio in /about/README.md, links not handles", () => {
+    const readme = (getNode(root, "/about/README.md") as { content: string }).content;
+    expect(readme).toContain("email    k@example.com");
+    expect(readme).toContain("github   https://github.com/KalpKan");
+    expect(readme).toContain("linkedin https://www.linkedin.com/in/kalp-kansara123/");
+  });
+
+  it("writes /about/reading.md from site.reading (title, authors, where to look it up)", () => {
+    const text = (getNode(root, "/about/reading.md") as { content: string }).content;
+    expect(text.split("\n").slice(0, 5)).toEqual([
+      "# Currently reading",
+      "",
+      "The Molecule of More",
+      "by Lieberman & Long",
+      "https://openlibrary.org/isbn/9781946885111",
+    ]);
+  });
+
+  it("derives one /hobbies/<slug>.md per site.hobbies entry", () => {
+    expect(listDir(getNode(root, "/hobbies") as VDir)).toEqual(["swimming.md", "tennis.md"]);
+    expect((getNode(root, "/hobbies/swimming.md") as { content: string }).content).toBe("# Swimming\n\nI love swimming.\n");
+  });
+
+  it("leaves /about and /hobbies bare when the site has no reading list, hobbies or contacts", () => {
+    const bare = buildVfs({
+      projects: [],
+      caseStudies: {},
+      site: { name: "K", note: "n", tagline: "t" },
+      scrapped: [],
+    });
+    expect(listDir(getNode(bare, "/about") as VDir)).toEqual(["README.md"]);
+    expect(listDir(getNode(bare, "/hobbies") as VDir)).toEqual([]);
+    expect((getNode(bare, "/about/README.md") as { content: string }).content).toBe("# K\n\nt\n\nn\n");
   });
 });
 

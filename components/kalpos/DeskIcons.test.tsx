@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { render } from "@/test/render";
-import { TrashGlyph } from "./DeskIcons";
+import { AppGlyph, MailGlyph, TrashGlyph } from "./DeskIcons";
 
 beforeAll(() => {
   (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
@@ -52,6 +52,34 @@ describe("TrashGlyph", () => {
     );
     const ids = [...container.querySelectorAll("linearGradient")].map((g) => g.id);
     expect(new Set(ids).size).toBe(ids.length);
+    unmount();
+  });
+});
+
+describe("MailGlyph (the Contact envelope)", () => {
+  it("draws the envelope, not the old @ character (snapshot)", () => {
+    const html = svgOf(<MailGlyph />);
+    expect(html).toContain("kos-mail--desk");
+    expect(html).toContain('width="32"');
+    expect(html).not.toContain("@");
+    expect(html).toMatchSnapshot();
+  });
+
+  it("the dock tile is the same drawing at the dock's size", () => {
+    const desk = svgOf(<MailGlyph />);
+    const dock = svgOf(<MailGlyph size="dock" />);
+    expect(dock).toContain("kos-mail--dock");
+    expect(dock).toContain('width="30"');
+    // Same paths, only the class and the px differ: one envelope, two sizes.
+    const paths = (s: string) => [...s.matchAll(/ d="([^"]+)"/g)].map((m) => m[1]);
+    expect(paths(dock)).toEqual(paths(desk));
+  });
+
+  it("the Contact desk tile holds the envelope on the card-2c cyan tile", () => {
+    const { container, unmount } = render(<AppGlyph kind="contact" />);
+    const tile = container.querySelector(".kos-app--contact")!;
+    expect(tile.querySelector("svg.kos-mail")).not.toBeNull();
+    expect(tile.textContent).toBe("");
     unmount();
   });
 });

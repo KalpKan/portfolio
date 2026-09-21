@@ -2,7 +2,8 @@ import type { CaseStudy } from "@/content/case-study";
 import type { Project } from "./projects";
 import { projectKind } from "./projects";
 import type { Scrapped } from "./scrapped";
-import type { SiteConfig, Track } from "./site";
+import { contactLinks } from "./contact";
+import type { Book, Hobby, SiteConfig, Track } from "./site";
 
 /*
  * The terminal's read-only virtual filesystem (Terminal window, T6.1).
@@ -77,10 +78,25 @@ export function playlistText(playlist: readonly Track[], title: string): string 
   return [`# ${title}`, "", ...rows, "", "Visual only: the desk's Music app plays nothing, it just keeps the list."].join("\n");
 }
 
+/** The reading list (lib/site.ts) as plain text; the first book is the current one. */
+export function readingText(reading: readonly Book[]): string {
+  const out: string[] = ["# Currently reading", ""];
+  reading.forEach((b, i) => {
+    if (i) out.push("");
+    out.push(b.title, `by ${b.authors}`, b.url);
+  });
+  return out.join("\n");
+}
+
+/** One hobby as its own .md file: the name, Kalp's line, nothing else. */
+export function hobbyText(h: Hobby): string {
+  return [`# ${h.name}`, "", h.line].join("\n");
+}
+
 export interface VfsInput {
   projects: Project[];
   caseStudies: Record<string, CaseStudy>;
-  site: Pick<SiteConfig, "name" | "note" | "tagline"> & Partial<Pick<SiteConfig, "playlist" | "musicTitle">>;
+  site: Pick<SiteConfig, "name" | "note" | "tagline"> & Partial<Pick<SiteConfig, "playlist" | "musicTitle" | "reading" | "hobbies" | "contact">>;
   scrapped: readonly Scrapped[];
   /** Overrides the build-time hostname in /etc/hostname (tests). */
   hostname?: string;
@@ -106,13 +122,23 @@ export function buildVfs({ projects, caseStudies, site, scrapped, hostname = "ka
     "Type `help` to see what this shell can do. Everything here is read-only.",
   ].join("\n");
 
-  const about: Record<string, VNode> = { "README.md": file(`# ${site.name}\n\n${site.tagline}\n\n${site.note}`) };
+  const readme = [`# ${site.name}`, "", site.tagline, "", site.note];
+  const contacts = site.contact ? contactLinks(site.contact) : [];
+  if (contacts.length) {
+    readme.push("");
+    for (const l of contacts) readme.push(`${l.kind.padEnd(8)} ${l.kind === "email" ? l.label : l.href}`);
+  }
+  const about: Record<string, VNode> = { "README.md": file(readme.join("\n")) };
   if (site.playlist?.length) about["music.md"] = file(playlistText(site.playlist, site.musicTitle ?? "On repeat"));
+  if (site.reading?.length) about["reading.md"] = file(readingText(site.reading));
+
+  const hobbies: Record<string, VNode> = {};
+  for (const h of site.hobbies ?? []) hobbies[`${h.slug}.md`] = file(hobbyText(h));
 
   return dir({
     projects: dir(projectDirs),
     about: dir(about),
-    hobbies: dir(),
+    hobbies: dir(hobbies),
     trash: dir(trash),
     etc: dir({
       motd: file(motd),

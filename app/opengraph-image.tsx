@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site";
 // name and the registry counts. Generated at build time from projects.json,
 // so a registry change updates the card on the next deploy.
 
-export const alt = "Kalp Kansara — KalpOS, a desk of every shipped project";
+export const alt = "Kalp Kansara — KalpOS, a desk of his projects";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

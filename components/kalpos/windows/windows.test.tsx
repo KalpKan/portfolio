@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { act } from "react";
+import { SITE } from "@/lib/site";
 import { fixtureVfs } from "@/lib/vfs.fixture";
 import { render } from "@/test/render";
 import AboutWindow from "./AboutWindow";
@@ -15,7 +16,7 @@ beforeAll(() => {
 
 const site = {
   name: "Kalp Kansara",
-  note: "Everything on this desk shipped.",
+  note: "Open a folder.",
   tagline: "Western University.",
   resumeUrl: "",
   photo: "",
@@ -28,7 +29,7 @@ describe("the small windows", () => {
     const { container, unmount } = render(<AboutWindow site={site} />);
     expect(container.textContent).toContain("Kalp Kansara");
     expect(container.textContent).toContain("Western University.");
-    expect(container.textContent).toContain("Everything on this desk shipped.");
+    expect(container.textContent).toContain("Open a folder.");
     expect(container.querySelector("a")).toBeNull();
     unmount();
   });
@@ -70,7 +71,34 @@ describe("the small windows", () => {
     unmount();
   });
 
-  it("Hobbies is the empty state", () => {
+  it("Contact shows Kalp's real email, GitHub and LinkedIn as clickable links (SITE, T6.9)", () => {
+    const { container, unmount } = render(<ContactWindow contact={SITE.contact} name={SITE.name} />);
+    const links = [...container.querySelectorAll("a")];
+    expect(links.map((a) => a.getAttribute("href"))).toEqual([
+      "mailto:Kalpkansara123@gmail.com",
+      "https://github.com/KalpKan",
+      "https://www.linkedin.com/in/kalp-kansara123/",
+    ]);
+    expect(links.map((a) => a.textContent)).toEqual(["Kalpkansara123@gmail.com", "github.com/KalpKan", "LinkedIn"]);
+    // The address is public on purpose; the two off-site links do not leak the referrer.
+    expect(links.slice(1).map((a) => a.getAttribute("rel"))).toEqual(["noreferrer", "noreferrer"]);
+    expect([...container.querySelectorAll("dt")].map((d) => d.textContent)).toEqual(["To", "GitHub", "LinkedIn"]);
+    unmount();
+  });
+
+  it("About shows the same three contacts in its row, with rel=noreferrer off-site", () => {
+    const { container, unmount } = render(<AboutWindow site={{ ...site, contact: SITE.contact }} />);
+    const links = [...container.querySelectorAll("a")];
+    expect(links.map((a) => a.getAttribute("href"))).toEqual([
+      "mailto:Kalpkansara123@gmail.com",
+      "https://github.com/KalpKan",
+      "https://www.linkedin.com/in/kalp-kansara123/",
+    ]);
+    expect(links.slice(1).every((a) => a.getAttribute("rel") === "noreferrer")).toBe(true);
+    unmount();
+  });
+
+  it("Hobbies is the empty state while nothing is filed", () => {
     const { container, unmount } = render(<HobbiesWindow />);
     expect(container.textContent).toContain("Nothing filed yet");
     unmount();

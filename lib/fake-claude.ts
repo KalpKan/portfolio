@@ -134,7 +134,7 @@ export function reply(ctx: ClaudeContext, input: string): Chunk[] {
     ];
   }
   if (/\b(deploy|ship|shipped|release|push to prod|production)\b/.test(q)) {
-    return [chunk(tool("Bash(vercel --prod)", "Everything on this desk already shipped.")), chunk([say("Nothing to deploy: every tile with a pulse is on kalpkan.com, on the free tier, at $0 plus the domain.")])];
+    return [chunk(tool("Bash(vercel --prod)", "No pending changes on main.")), chunk([say("Nothing to deploy: every tile with a pulse is on kalpkan.com, on the free tier, at $0 plus the domain.")])];
   }
   if (/\b(bug|bugs|fix|broken|error|crash|issue)\b/.test(q)) {
     return [chunk(tool('Grep("TODO")', "0 results — the humans keep saying that too")), chunk([say("No bugs found, which is what every bug says. If one of the live tiles is grey, `status` in zsh shows which check failed.")])];

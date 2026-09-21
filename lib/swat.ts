@@ -31,7 +31,7 @@ export const SWAT_MS = {
   fade: 200,
 } as const;
 
-export const SWAT_TOAST = "Nice try — everything on this desk shipped.";
+export const SWAT_TOAST = "Nice try — that one's staying.";
 
 /** Slop around a trash rect so a hand that lets go just beside the rim still counts. */
 const SLOP = 6;

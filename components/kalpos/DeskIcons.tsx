@@ -50,10 +50,32 @@ export function DocGlyph() {
   );
 }
 
+/**
+ * The Contact mark: an original envelope in the Mail idiom (not Apple's
+ * asset), drawn as paper rather than a glyph so it reads on the desk's flat
+ * cyan tile and on the dock's cyan-gradient one alike. A rounded sheet with a
+ * hairline ink edge, the opened flap as a V crease from the top corners, and
+ * the two side creases folding up from the bottom. `size="dock"` is the same
+ * drawing at the dock's 28 px; it replaced the "@" character (2026-09-21, "change
+ * the icon for the contact app").
+ */
+export function MailGlyph({ size = "desk" }: { size?: "desk" | "dock" }) {
+  const px = size === "dock" ? { width: 30, height: 21.7 } : { width: 32, height: 23.1 };
+  return (
+    <svg className={`kos-mail kos-mail--${size}`} viewBox="0 0 36 26" {...px} aria-hidden focusable="false">
+      <rect x="1" y="1" width="34" height="24" rx="3.4" fill="#fbfbfc" stroke="rgba(10,60,76,0.22)" strokeWidth="1" />
+      {/* the opened flap: both top corners down to the middle of the sheet */}
+      <path d="M2.2 3.1 L16.5 13.9 a2.5 2.5 0 0 0 3 0 L33.8 3.1" fill="none" stroke="#8fb6c4" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      {/* the side creases folding up from the bottom corners */}
+      <path d="M2.2 23.3 L13.4 14.5 M33.8 23.3 L22.6 14.5" fill="none" stroke="#d2e0e5" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function AppGlyph({ kind }: { kind: "contact" | "music" | "terminal" }) {
   return (
     <div className={`kos-app kos-app--${kind}`} aria-hidden>
-      {kind === "contact" ? "@" : kind === "music" ? "♪" : ">_"}
+      {kind === "contact" ? <MailGlyph /> : kind === "music" ? "♪" : ">_"}
     </div>
   );
 }

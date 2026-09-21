@@ -10,11 +10,13 @@ import type { Tile } from "@/lib/tiles";
 import { track } from "@/lib/track";
 import { AppGlyph, DeskIcon, DocGlyph, FolderGlyph, TrashGlyph } from "./DeskIcons";
 import KalpOSMenu from "./KalpOSMenu";
+import Reading from "./Reading";
 import { useDrag } from "./useDrag";
 import AboutWindow from "./windows/AboutWindow";
 import CaseStudyWindow from "./windows/CaseStudyWindow";
 import ContactWindow from "./windows/ContactWindow";
 import HobbiesWindow from "./windows/HobbiesWindow";
+import ReadingWindow from "./windows/ReadingWindow";
 import MusicWindow from "./windows/MusicWindow";
 import TerminalWindow from "./windows/TerminalWindow";
 import TrashWindow from "./windows/TrashWindow";
@@ -24,12 +26,13 @@ import TrashWindow from "./windows/TrashWindow";
  * phone (≤ 768 px). Compact frosted top bar (■ KalpOS · résumé ↓ · time),
  * name + one line, the 3-column folder grid with the tinted 2c icons (plus a
  * Terminal tile, since the phone has no dock), the yellow
- * note, and the Projects bottom sheet (drag handle, "Projects · 12 items ·
+ * note, the READING row (the same widget as the desk's, restyled for the
+ * phone), and the Projects bottom sheet (drag handle, "Projects · 12 items ·
  * 7 live", close) listing one row per tile. Other folders open as
  * full-height sheets, never floating windows.
  */
 
-type SheetId = "projects" | "hobbies" | "about" | "contact" | "music" | "trash" | "terminal" | `case:${string}`;
+type SheetId = "projects" | "hobbies" | "about" | "contact" | "music" | "reading" | "trash" | "terminal" | `case:${string}`;
 type Level = "peek" | "full" | "closed";
 
 const PEEK_PX = 230;
@@ -40,6 +43,7 @@ const TITLES: Record<string, string> = {
   about: "About",
   contact: "Contact",
   music: "Music",
+  reading: "Reading",
   trash: "Trash",
   terminal: "Terminal",
 };
@@ -194,7 +198,9 @@ export default function PhoneSheet({
           </ul>
         );
       case "hobbies":
-        return <HobbiesWindow />;
+        return <HobbiesWindow hobbies={site.hobbies} />;
+      case "reading":
+        return <ReadingWindow reading={site.reading} />;
       case "about":
         return <AboutWindow site={site} />;
       case "contact":
@@ -237,7 +243,7 @@ export default function PhoneSheet({
         <p className="kos-phone-line">{line}</p>
         <ul className="kos-phone-grid" aria-label="Folders">
           <li><DeskIcon label="Projects" draggable={false} onOpen={() => openSheet("projects")}><FolderGlyph tint="projects" badge={String(tiles.length).padStart(2, "0")} /></DeskIcon></li>
-          <li><DeskIcon label="Hobbies" draggable={false} onOpen={() => openSheet("hobbies")}><FolderGlyph tint="hobbies" /></DeskIcon></li>
+          <li><DeskIcon label="Hobbies" draggable={false} onOpen={() => openSheet("hobbies")}><FolderGlyph tint="hobbies" badge={site.hobbies?.length ? String(site.hobbies.length).padStart(2, "0") : undefined} /></DeskIcon></li>
           <li><DeskIcon label="About" draggable={false} onOpen={() => openSheet("about")}><DocGlyph /></DeskIcon></li>
           <li><DeskIcon label="Contact" draggable={false} onOpen={() => openSheet("contact")}><AppGlyph kind="contact" /></DeskIcon></li>
           {playlistOf(site).length ? (
@@ -247,6 +253,7 @@ export default function PhoneSheet({
           <li><DeskIcon label="Trash" quiet draggable={false} onOpen={() => openSheet("trash")}><TrashGlyph /></DeskIcon></li>
         </ul>
         <div className="kos-phone-note">{site.note}</div>
+        {site.reading?.length ? <Reading reading={site.reading} onOpen={() => openSheet("reading")} /> : null}
       </div>
 
       <div

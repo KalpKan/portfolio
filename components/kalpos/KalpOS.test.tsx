@@ -551,11 +551,18 @@ describe("Lock Screen and Restart (the KalpOS menu, ⌃⌘Q / ⌃⌘R, the termi
   });
 
   it("the terminal's `reboot` restarts the desk", async () => {
-    // The terminal's filesystem is a real dynamic import: let it land on real timers first.
+    // The terminal's filesystem is a real dynamic import: let it land on real
+    // timers first. A fixed sleep is a race (a loaded machine, or one more
+    // module in the vfs chunk, and the log is still empty: flaky ~2 runs in 3
+    // on 2026-09-21), so poll for the MOTD the import prints.
     vi.useRealTimers();
     const { container, unmount } = render(<KalpOS projects={projects} skipLock />);
     click(container.querySelector(".kos-dock-item--terminal")!);
-    await act(async () => { await new Promise((r) => setTimeout(r, 150)); });
+    for (let i = 0; i < 100; i++) {
+      await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
+      if (container.querySelector('[role="log"]')?.textContent?.includes("Welcome to KalpOS")) break;
+    }
+    expect(container.querySelector('[role="log"]')!.textContent).toContain("Welcome to KalpOS");
     vi.useFakeTimers();
     const input = container.querySelector<HTMLInputElement>('input[aria-label="Terminal command"]')!;
     setValue(input, "reboot");

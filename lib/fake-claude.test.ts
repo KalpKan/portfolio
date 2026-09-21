@@ -84,7 +84,7 @@ describe("scripted intents", () => {
     expect(text(chunks[1].lines)).toContain("fake one");
   });
   it("'deploy' runs the fake vercel; 'bug' greps TODO", () => {
-    expect(text(reply(ctx, "deploy it")[0].lines)).toBe("⏺ Bash(vercel --prod)\n  ⎿  Everything on this desk already shipped.");
+    expect(text(reply(ctx, "deploy it")[0].lines)).toBe("⏺ Bash(vercel --prod)\n  ⎿  No pending changes on main.");
     expect(text(reply(ctx, "fix the bug")[0].lines)).toBe('⏺ Grep("TODO")\n  ⎿  0 results — the humans keep saying that too');
   });
   it("'secret' is refused politely and never claims to run anything", () => {

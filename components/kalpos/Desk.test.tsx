@@ -63,7 +63,7 @@ describe("Desk (card 2c)", () => {
   it("draws the folders and icons as buttons, with the Projects badge = tile count, and hides Now playing while empty", () => {
     const { container, unmount } = mount();
     const icons = [...container.querySelectorAll("button.kos-icon")].map((b) => b.textContent?.trim());
-    expect(icons).toEqual(["12Projects", "Hobbies", "About me", "@Contact", "Trash"]);
+    expect(icons).toEqual(["12Projects", "Hobbies", "About me", "Contact", "Trash"]);
     expect(container.querySelector(".kos-now")).toBeNull();
     unmount();
   });
@@ -289,7 +289,7 @@ describe("Drag an icon into the Trash: crumple, sink, the hand swats it back (20
     expect(hand.getAttribute("data-hand")).toBe("out");
     expect(hand.querySelector("svg")).not.toBeNull(); // a drawn hand, not an emoji
     expect(hand.textContent).not.toMatch(/[\u{1F44B}\u{270B}\u{1F590}]/u);
-    expect(container.querySelector(".kos-toast")?.textContent).toBe("Nice try — everything on this desk shipped.");
+    expect(container.querySelector(".kos-toast")?.textContent).toBe("Nice try — that one's staying.");
     act(() => { vi.advanceTimersByTime(260); });
     expect(hob.getAttribute("data-state")).toBe("fly");
     act(() => { vi.advanceTimersByTime(520); });
@@ -369,6 +369,41 @@ describe("Desk icon drag survives a fast first move (capture on pointerdown)", (
     expect(dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: "open" }));
     act(() => { hob.dispatchEvent(new MouseEvent("click", { bubbles: true })); });
     expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "open", id: "hobbies" }));
+    unmount();
+  });
+});
+
+describe("Desk: the personal shelves (T6.9)", () => {
+  const reading = [{ title: "The Molecule of More", authors: "Lieberman & Long", cover: "/images/reading/molecule-of-more.jpg", url: "https://openlibrary.org/isbn/9781946885111" }];
+  const hobbies = [
+    { slug: "swimming" as const, name: "Swimming", line: "I love swimming." },
+    { slug: "tennis" as const, name: "Tennis", line: "And playing tennis." },
+  ];
+
+  it("shows the READING widget under NOW PLAYING and opens the Reading window from it", () => {
+    const { container, dispatch, unmount } = mount({
+      site: { ...site, reading, nowPlaying: { title: "Bloom", artist: "Radiohead" } },
+    });
+    const widgets = [...container.querySelectorAll(".kos-widgets > *")].map((n) => n.className);
+    expect(widgets).toEqual(["kos-note", "kos-photo", "kos-now", "kos-reading"]);
+    expect(container.querySelector(".kos-reading .title")?.textContent).toBe("The Molecule of More");
+    click(container.querySelector<HTMLButtonElement>("button.kos-reading")!);
+    expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "open", id: "reading" }));
+    unmount();
+  });
+
+  it("hides the READING widget while the reading list is empty", () => {
+    const { container, unmount } = mount();
+    expect(container.querySelector(".kos-reading")).toBeNull();
+    unmount();
+  });
+
+  it("badges the Hobbies folder with what its window shows, and nothing while empty", () => {
+    const bare = mount();
+    expect([...bare.container.querySelectorAll("button.kos-icon")][1].textContent?.trim()).toBe("Hobbies");
+    bare.unmount();
+    const { container, unmount } = mount({ site: { ...site, hobbies } });
+    expect([...container.querySelectorAll("button.kos-icon")][1].textContent?.trim()).toBe("02Hobbies");
     unmount();
   });
 });

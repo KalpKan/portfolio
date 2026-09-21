@@ -21,7 +21,7 @@ const mono = localFont({
 
 const TITLE = "Kalp Kansara — KalpOS";
 const DESCRIPTION =
-  "A desk of every project Kalp Kansara has shipped: live web apps with a measured health signal, browser-ML demos, and hardware and iOS case studies. Type anything to unlock.";
+  "The desk of Kalp Kansara: live web apps with a measured health signal, browser-ML demos, and hardware and iOS case studies. Type anything to unlock.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
