@@ -7,6 +7,7 @@ import path from "node:path";
 // §6). Videos are never committed at all.
 
 const root = path.resolve(__dirname, "..", "public", "images", "projects");
+const kalp = path.resolve(__dirname, "..", "public", "images", "kalp");
 const LIMIT = 300 * 1024;
 
 function walk(dir: string): string[] {
@@ -27,6 +28,15 @@ describe("showcase media", () => {
     for (const f of files) {
       expect(path.extname(f), f).toBe(".webp");
       expect(statSync(f).size, `${path.relative(root, f)} is over 300 KB`).toBeLessThanOrEqual(LIMIT);
+    }
+  });
+
+  it("the photos of Kalp (public/images/kalp) follow the same rule", () => {
+    const photos = walk(kalp).filter((f) => !f.endsWith(".DS_Store"));
+    expect(photos.length).toBeGreaterThan(0);
+    for (const f of photos) {
+      expect(path.extname(f), f).toBe(".webp");
+      expect(statSync(f).size, `${path.relative(kalp, f)} is over 300 KB`).toBeLessThanOrEqual(LIMIT);
     }
   });
 });

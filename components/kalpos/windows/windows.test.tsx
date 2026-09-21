@@ -33,6 +33,17 @@ describe("the small windows", () => {
     unmount();
   });
 
+  it("About shows the portrait beside the bio once set, with Kalp's name as alt, and nothing while empty", () => {
+    const empty = render(<AboutWindow site={site} />);
+    expect(empty.container.querySelector("img")).toBeNull();
+    empty.unmount();
+    const { container, unmount } = render(<AboutWindow site={{ ...site, portrait: "/images/kalp/about.webp" }} />);
+    const img = container.querySelector("img.kos-about-portrait")!;
+    expect(img.getAttribute("src")).toBe("/images/kalp/about.webp");
+    expect(img.getAttribute("alt")).toBe("Kalp Kansara");
+    unmount();
+  });
+
   it("About links the résumé and the contacts once set", () => {
     const { container, unmount } = render(
       <AboutWindow site={{ ...site, resumeUrl: "https://x/cv.pdf", contact: { email: "k@x.com", github: "", linkedin: "" } }} />,

@@ -4,6 +4,9 @@ import renderTop from "@/public/images/projects/porsche-pcb-keychain/render-top.
 import renderBottom from "@/public/images/projects/porsche-pcb-keychain/render-bottom.webp";
 import layout from "@/public/images/projects/porsche-pcb-keychain/layout.webp";
 import schematic from "@/public/images/projects/porsche-pcb-keychain/schematic.webp";
+import kicadLayout from "@/public/images/projects/porsche-pcb-keychain/kicad-layout.webp";
+import renderFront from "@/public/images/projects/porsche-pcb-keychain/render-front.webp";
+import renderBack from "@/public/images/projects/porsche-pcb-keychain/render-back.webp";
 
 // Kalp's own description (docs/content/project-descriptions.md, 2026-09-20)
 // sets the framing: a Porsche cut through the board, a keychain hole, three
@@ -17,7 +20,9 @@ import schematic from "@/public/images/projects/porsche-pcb-keychain/schematic.w
 // order (~/Desktop/Out and About/Sidequest/Yash Bday Gerber). The renders are
 // `kicad-cli pcb render` of the board file and `kicad-cli sch export svg` of
 // the schematic; the layout view is Kalp's own KiCad screenshot from
-// 2025-07-15. No photo of the physical board exists on disk yet.
+// 2025-07-15. The three `kicad-layout`, `render-front` and `render-back`
+// images are Kalp's own screenshots (2026-09-20) of the KiCad board editor
+// and 3D viewer. No photo of the physical board exists on disk yet.
 
 const porschePcbKeychain: CaseStudy = {
   slug: "porsche-pcb-keychain",
@@ -82,6 +87,21 @@ const porschePcbKeychain: CaseStudy = {
         tone: "document",
         alt: "KiCad schematic: a USB-C plug symbol with 5.1 kΩ resistors on CC and VCONN, VBUS feeding three LEDs each with a 220 Ω resistor to ground",
         caption: "The whole schematic, nine parts, on one sheet.",
+      },
+      {
+        src: kicadLayout,
+        alt: "Screenshot of the KiCad board editor: the board outline on a dark background with the cutout drawn in pale grey, three LED footprints along it and the USB-C pads and traces at the bottom end",
+        caption: "KiCad layout: the cutout, the three LED footprints and the USB-C traces",
+      },
+      {
+        src: renderFront,
+        alt: "Screenshot of KiCad's 3D viewer showing the top of the green board on a grid, with the cutout through it, the keychain hole at the top and the USB-C plug at the bottom",
+        caption: "3D render, top",
+      },
+      {
+        src: renderBack,
+        alt: "Screenshot of KiCad's 3D viewer showing the underside of the green board, the cutout, the small components beside it and the USB-C plug at the bottom",
+        caption: "3D render, bottom, USB-C plug",
       },
     ],
   },

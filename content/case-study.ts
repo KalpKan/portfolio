@@ -86,6 +86,12 @@ export type CaseStudy = {
   repo: string | null;
   /** The status line, e.g. "Hardware prototype · App Store: not yet". */
   status: string;
+  /**
+   * Documents appended to the status line as links, e.g. a pitch deck under
+   * public/docs/ (`{ label: "Pitch deck (PDF)", href: "/docs/x.pdf" }`).
+   * Local paths only; nothing here is a secret or a private file.
+   */
+  links?: { label: string; href: string }[];
   /** True while the page must not be published (registry stays "coming"). */
   draft?: boolean;
   /** What media Kalp should supply; mirrored in STATUS.md under H3. */

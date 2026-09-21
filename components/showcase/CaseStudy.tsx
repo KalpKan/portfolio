@@ -126,7 +126,17 @@ export default function CaseStudy({
         </Section>
 
         <Section id="status" label="Status">
-          <p className="max-w-[62ch] font-mono text-[11.5px] leading-relaxed text-ink-2">{study.status}</p>
+          <p className="max-w-[62ch] font-mono text-[11.5px] leading-relaxed text-ink-2">
+            {study.status}
+            {study.links?.map((l) => (
+              <span key={l.href}>
+                {" · "}
+                <a href={l.href} target="_blank" rel="noreferrer" className="text-teal hover:underline">
+                  {l.label}
+                </a>
+              </span>
+            ))}
+          </p>
           {study.repo && (
             <p className="mt-4">
               <RepoLink slug={study.slug} href={study.repo} />

@@ -17,8 +17,11 @@ export const PLAYLIST: readonly Track[] = [
  *  - tagline:   the one-line identity under the name (About window, phone).
  *  - resumeUrl: the menubar "Résumé ↓" pill, the dock PDF tile and the About
  *               link; all hidden while empty.
- *  - photo:     a path under /public for the photo frame; the striped
- *               "photo of Kalp" placeholder shows while empty.
+ *  - photo:     a path under /public for the desk photo frame (a 640×640 WebP,
+ *               public/images/kalp/desk.webp); the striped "photo of Kalp"
+ *               placeholder shows while empty.
+ *  - portrait:  a path under /public for the small portrait beside the bio in
+ *               the About window (a 3:4 WebP, 720 px tall); hidden while empty.
  *  - playlist:  the songs on repeat: the NOW PLAYING widget, the ♪ desk icon,
  *               the dock Music tile and the Music window; all hidden while
  *               the list is empty. One `{ title, artist, tag? }` per song; the
@@ -34,7 +37,8 @@ export const SITE = {
   note: "Hi — I'm Kalp. Western University, headed for physician-scientist work in neurotech. Everything on this desk shipped.",
   tagline: "Western University. I build things that measure something real.",
   resumeUrl: "",
-  photo: "",
+  photo: "/images/kalp/desk.webp",
+  portrait: "/images/kalp/about.webp",
   musicTitle: "On repeat",
   playlist: PLAYLIST,
   /** The first song of the playlist (empty strings while the list is empty). */
@@ -58,6 +62,8 @@ export type SiteConfig = {
   tagline: string;
   resumeUrl: string;
   photo: string;
+  /** Optional so older fixtures that only set photo still type-check. */
+  portrait?: string;
   nowPlaying: NowPlaying;
   /** Optional so older fixtures that only set nowPlaying still type-check. */
   playlist?: readonly Track[];

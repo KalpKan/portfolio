@@ -25,7 +25,7 @@ iOS work gets a case-study page here.
 | `app/api/health/route.ts` | `GET /api/health` returns `{ ok: true, service: "hub", time }`. Uptime monitors ping this. |
 | `app/api/status/[slug]/route.ts` | Checks one project's own health URL (3 s timeout, `lib/health.ts`) so the page can show a live mark. |
 | `app/opengraph-image.tsx` | The picture shown when the link is shared (iMessage, LinkedIn, Slack): a small KalpOS desk with the name and the registry counts, generated from `projects.json` at build time. |
-| `lib/site.ts` | Your name, the note on the desk, the one-line identity, the résumé link, **the songs on repeat** (`PLAYLIST`: one `{ title, artist, tag? }` per song; `tag: "unreleased"` shows as a small pill; `musicTitle` is the Music window's heading), a photo path and the contact links (email / GitHub / LinkedIn). Every empty value hides its element: no Résumé pill, no NOW PLAYING widget / ♪ icon / dock Music tile while the playlist is empty, no contact rows until you fill them in. **To change the songs, edit `PLAYLIST` in `lib/site.ts` and push**: the widget, the Music window, the phone sheet and the terminal's `/about/music.md` all read it. |
+| `lib/site.ts` | Your name, the note on the desk, the one-line identity, the résumé link, **the songs on repeat** (`PLAYLIST`: one `{ title, artist, tag? }` per song; `tag: "unreleased"` shows as a small pill; `musicTitle` is the Music window's heading), the desk photo (`photo`, a square WebP) and the About-window portrait (`portrait`, 3:4) and the contact links (email / GitHub / LinkedIn). Every empty value hides its element: no Résumé pill, no NOW PLAYING widget / ♪ icon / dock Music tile while the playlist is empty, no contact rows until you fill them in. **To change the songs, edit `PLAYLIST` in `lib/site.ts` and push**: the widget, the Music window, the phone sheet and the terminal's `/about/music.md` all read it. |
 | `components/kalpos/NowPlaying.tsx`, `components/kalpos/windows/MusicWindow.tsx`, `components/kalpos/usePlayer.ts`, `lib/player.ts` | The Music app. The NOW PLAYING widget shows the current song with a pulsing dot and a progress line that walks a fake 3:20 loop (no audio, ever); clicking it opens the Music window: a generated square cover (a two-tone gradient hashed from title + artist plus the song's initials, never a fetched image), the track list, ⏮ ▶︎/⏸ ⏭, ↑/↓ Enter Space. One shared player store keeps the widget and the window on the same song; the reducer is pure and tested. |
 | `app/projects/[slug]/page.tsx` | The deep link to a case study (`/projects/unpark` and so on): it opens the desk with that case study already in a window, rendered on the server so shared links and crawlers see the content. Shows the full case study as soon as its content file has no `draft: true` (the registry status only changes the meta line and whether the Projects window opens it as a case study); a short placeholder while the content is a draft. See "How to add a case study". |
 | `content/projects/<slug>.ts` | The words and pictures of one case study (see "How to add a case study"). `content/case-study.ts` is the shape every file follows. |
@@ -172,8 +172,14 @@ other.
    For a frame from a video: `~/projects/microtubules/.venv/bin/python scripts/video-poster.py video.mp4 12 frame.png`
    (12 = seconds into the video), then the converter. iPhone HEIC files: open
    in Preview, File → Export as PNG first.
-5. **Video.** Never commit the file. Upload it to YouTube as *Unlisted* and
-   set `video: { kind: "youtube", id: "<the id after v=>", title: "…" }`.
+5. **Video.** Never commit the file. Either upload it to YouTube as *Unlisted* and
+   set `video: { kind: "youtube", id: "<the id after v=>", title: "…" }`, or hand
+   Claude the file: it is compressed with ffmpeg and hosted in Supabase Storage
+   (public bucket `portfolio-media`, the RC car's driving video lives there) and
+   the page gets `video: { kind: "file", url, poster, title }` with a committed
+   WebP poster frame (ops runbook "Host a video for a case study"). A PDF such as
+   a pitch deck goes under `public/docs/` and is linked from the status line via
+   `links: [{ label: "Pitch deck (PDF)", href: "/docs/…" }]`.
 6. **Publish.** `npm test`, then remove `draft: true` from the content file
    and set the registry `status` to `"live"`, commit and push. The row on the
    home page switches to "case study" / "read" and `/projects/<slug>` shows the

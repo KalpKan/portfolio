@@ -1,4 +1,11 @@
 import type { CaseStudy } from "@/content/case-study";
+import enclosureRender from "@/public/images/projects/unpark/enclosure-render.webp";
+import demoPiPhone from "@/public/images/projects/unpark/demo-pi-phone.webp";
+import whiteboard from "@/public/images/projects/unpark/whiteboard.webp";
+import boxExploded from "@/public/images/projects/unpark/box-exploded.webp";
+import boxHalves from "@/public/images/projects/unpark/box-halves.webp";
+import appAnalytics from "@/public/images/projects/unpark/app-analytics.webp";
+import appRisk from "@/public/images/projects/unpark/app-risk.webp";
 
 // Kalp's own description (docs/content/project-descriptions.md) sets the
 // framing; the technical specifics are from KalpKan/UnPark (README,
@@ -6,24 +13,29 @@ import type { CaseStudy } from "@/content/case-study";
 // ViewModels/FreezeAnalyticsViewModel.swift, Views/SettingsView.swift,
 // Utilities/NotificationManager.swift). Numbers below are the constants in
 // that code, not estimates. The haptic cue lives on the device, not in the
-// committed code.
+// committed code. The team, the competition (MedSprint), the tagline, the box
+// contents and every image are from the team's pitch deck
+// (public/docs/unpark-medsprint-pitch.pdf, 12 slides, 2026-09-20): the
+// enclosure CAD renders, the whiteboard sketch, the demo frame and the two
+// iPad screenshots of the app were extracted from it at their embedded
+// resolution, so the demo frame and the first screenshot are soft.
 
 const unpark: CaseStudy = {
   slug: "unpark",
-  kicker: "Hardware · iOS · 2025",
+  kicker: "Hardware · iOS · MedSprint 2025",
   title: "UnPark, codename Antifreeze",
   lede:
-    "A haptic device worn on the ankle that catches freezing-of-gait episodes in Parkinson's with an accelerometer, logs each one to your phone on its own, and lets an AI model find the patterns in the background. Built for a competition.",
+    "A haptic device worn on the ankle that catches freezing-of-gait episodes in Parkinson's with an accelerometer, logs each one to your phone on its own, and lets an AI model find the patterns in the background. Built for the MedSprint competition with Yash Panchal and Ishpreet Bal. Detect. Log. Predict. Empower.",
   hero: {
-    kind: "placeholder",
-    label: "Device photo coming: Kalp will add",
-    aspect: "16/9",
+    src: enclosureRender,
+    alt: "CAD render of the UnPark ankle enclosure: a rounded light-grey box with a lid, two small slots on one side and a strap loop on top, on a pale blue background",
+    caption: "The ankle box, rendered from the CAD model: one enclosure for the accelerometer, the vibration motor, the battery pack and the Raspberry Pi 4.",
   },
   problem:
-    "I built this for a competition. It helps people with Parkinson's who get freezing-of-gait episodes: the moment you want to walk and your feet stay planted, which tends to happen in doorways, on turns and in crowds, and is the leading cause of falls in the disease. A clinic only sees a freeze if it happens in the room; at home nobody is counting. So the device is a haptic device worn on the ankle with an accelerometer that detects a freeze, and when it detects one it automatically logs it and sends it to your phone (auto-logging, no button to press). On the phone the data populates a dashboard, an AI model runs in the background deriving insights people never thought about, and you can export everything that was collected, so monitoring disease progression gets easier. UnPark is the repo's name; the app is called Antifreeze.",
+    "I built this for a competition. It helps people with Parkinson's who get freezing-of-gait episodes: the moment you want to walk and your feet stay planted, which tends to happen in doorways, on turns and in crowds, and is the leading cause of falls in the disease. A clinic only sees a freeze if it happens in the room; at home nobody is counting. So the device is a haptic device worn on the ankle with an accelerometer that detects a freeze, and when it detects one it automatically logs it and sends it to your phone (auto-logging, no button to press). On the phone the data populates a dashboard, an AI model runs in the background deriving insights people never thought about, and you can export everything that was collected, so monitoring disease progression gets easier. UnPark is the repo's name; the app is called Antifreeze. We built it as a team of three (Kalp Kansara, Yash Panchal, Ishpreet Bal) for the MedSprint competition, under the line \"Detect. Log. Predict. Empower.\"",
   howItWorks: {
     intro:
-      "Three parts, joined by Firebase: the ankle device, a Raspberry Pi with an MPU6050 accelerometer, runs the detector and writes each freeze to Firestore; a scheduled Cloud Function turns the last 30 days into insights in the background; the SwiftUI app listens to both and also takes live events straight from the device over Wi-Fi.",
+      "Three parts, joined by Firebase: the ankle device, a Raspberry Pi 4 with an MPU6050 accelerometer, a vibration motor for the haptic cue and a battery pack in one box, runs the detector and writes each freeze to Firestore (the cloud sync); a scheduled Cloud Function turns the last 30 days into AI insights in the background; the SwiftUI app listens to both, also takes live events straight from the device over Wi-Fi, and exports the record as CSV.",
     diagram: "unpark",
     steps: [
       {
@@ -54,16 +66,44 @@ const unpark: CaseStudy = {
     ],
   },
   gallery: {
-    kind: "placeholder",
-    label: "Photos coming: Kalp will add (the device on an ankle, and the bench setup)",
     aspect: "4/3",
-    count: 2,
+    items: [
+      {
+        src: demoPiPhone,
+        alt: "A soft frame from the demo: a laptop on a desk showing the app while the Raspberry Pi prototype sits on the floor below, tethered by a cable",
+        caption: "The demo from the pitch: the Raspberry Pi prototype syncing with the phone. A frame from the deck, so it is soft.",
+      },
+      {
+        src: whiteboard,
+        alt: "Whiteboard sketch of the first design: an ankle housing with a rod and a piezo sensor, notes on the Bluetooth link, the phone, and a list of parts",
+        caption: "The first whiteboard: a rod-mounted piezo sensor and Bluetooth. Both were dropped for the accelerometer and Firebase.",
+      },
+      {
+        src: boxExploded,
+        alt: "CAD render of the enclosure opened: the lid lifted off the base, showing the slots for the strap and the cable",
+        caption: "The box opened. Everything lives in one enclosure once the rod went and the accelerometer came in.",
+      },
+      {
+        src: boxHalves,
+        alt: "CAD render of the two long sides of the enclosure laid flat, each with a slot cut in it",
+        caption: "The two side walls, with the slots for the strap.",
+      },
+    ],
   },
   screens: {
-    kind: "placeholder",
-    label: "App screenshots coming: dashboard, episode list, analytics",
-    aspect: "9/19.5",
-    count: 3,
+    aspect: "4/3",
+    items: [
+      {
+        src: appAnalytics,
+        alt: "The Antifreeze app's Analytics tab on an iPad: bar charts of freeze episodes by time of day and by day of week, an activity analysis with horizontal bars, and the start of a risk prediction card",
+        caption: "Analytics: episodes by time of day, by weekday and by activity. From the walkthrough in the deck.",
+      },
+      {
+        src: appRisk,
+        alt: "The Analytics tab scrolled down: a Risk Prediction card reading 62 % current risk level based on 90 recorded episodes, risk factors turning and morning, and six insight lines about peak hours, Sundays and turning",
+        caption: "Risk prediction and the AI insights: 62 % based on 90 recorded episodes, turning and mornings as the risk factors.",
+      },
+    ],
   },
   video: {
     kind: "placeholder",
@@ -85,12 +125,13 @@ const unpark: CaseStudy = {
   ],
   repo: "https://github.com/KalpKan/UnPark",
   status:
-    "Hardware prototype built for a competition, tested on the bench with one sensor · App Store: not published (needs the Apple Developer Program) · Thresholds tuned by hand, not validated against clinical freezing",
+    "Hardware prototype built for the MedSprint competition, tested on the bench with one sensor · App Store: not published (needs the Apple Developer Program) · Thresholds tuned by hand, not validated against clinical freezing",
+  links: [{ label: "Pitch deck (PDF)", href: "/docs/unpark-medsprint-pitch.pdf" }],
   wanted: [
-    "2 photos: the device strapped on an ankle, and the bare Pi + MPU6050 on the bench",
-    "3 iPhone screenshots: the dashboard, the episode list, the analytics/insights screen",
-    "one 30–60 s video: walk, stop, feel the buzz, watch the phone log it (unlisted YouTube link is fine)",
-    "optional: a photo or slide from the competition, and its name",
+    "1 photo of the device strapped on an ankle (the hero is a CAD render until then)",
+    "1 sharp photo of the bare Pi + MPU6050 on the bench (the demo frame from the deck is soft)",
+    "2 iPhone screenshots: the dashboard and the episode list (the deck only has the analytics tab, on an iPad)",
+    "one 30–60 s video: walk, stop, feel the buzz, watch the phone log it (send the file or an unlisted YouTube link)",
   ],
 };
 
