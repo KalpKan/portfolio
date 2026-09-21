@@ -90,6 +90,22 @@ Each item is ticked only with a command, a URL check or a screenshot behind it; 
 7. ✅ Gates: lint clean, `Test Files 42 passed (42) / Tests 359 passed (359)`, `npm run build` clean.
 8. ✅ Live on https://kalpkan.com within the 2-deploy budget, with screenshots (session log).
 
+## T6.10 done-criteria — dark mode (overnight protocol, acknowledged 2026-09-21 03:05 UTC−4)
+
+Night protocol acknowledged 2026-09-21 03:05 UTC−4.
+
+Authorisation (Kalp, 2026-09-21): "implement a dark mode to the portfolio website". Each item is ticked only with a command, a URL check or a screenshot behind it.
+
+1. ⬜ Every light value in `app/kalpos.css` / `app/kalpos-extras.css` is a custom property on `:root`, overridden under `[data-appearance="dark"]` and under `(prefers-color-scheme: dark)` when `data-appearance="auto"`; no per-component hex left outside the token block except the intentionally-black boot/lock/power and the drawn-icon tints — `scripts/check-tokens.mjs` (committed) exits 0.
+2. ⬜ Dark appearance covers: near-black desk ground with the same 22 px dot grid at low alpha, dark frosted menubar + dock (same blur/saturate), dark window chrome / frames / sidebars with radii kept and shadows retuned, widgets (note muted yellow; photo / reading / now-playing dark), phone sheet. Boot / lock / power unchanged (already black).
+3. ⬜ "Appearance ▸ Light / Dark / Auto" row in the KalpOS menu and in the phone menu; persisted in `localStorage` `kalpos:appearance`; applied by a pre-paint script on `<html data-appearance>` so there is no flash; terminal `theme dark|light|auto`. PostHog `menu_action {item:"appearance", value}`.
+4. ⬜ Text contrast AA everywhere in dark (≥ 4.5:1 body, ≥ 3:1 large/UI) — measured, table in the task row.
+5. ⬜ OG image unchanged (`app/opengraph-image.tsx` untouched; byte-identical route output).
+6. ⬜ Tests: appearance state + persistence, pre-paint attribute, menu row, dark snapshots of key components — `npx vitest run --pool=forks --maxWorkers=1` all green; `npm run lint` and `npm run build` clean.
+7. ⬜ Verified live in Chrome at 1440 and 390 in dark, console clean, Lighthouse ≥ 0.90; screenshots in `docs/images/kalpos/dark/`.
+8. ⬜ Docs updated: `DESIGN.md` (dark tokens + appearance beat, superseding the earlier "no dark desk" decision), `README.md`, `docs/hosting-plan.md` decisions list, `skills/portfolio-ops/verification.md` row + `scripts/install-ops-skill.sh` run, this STATUS.md T6.10 row.
+9. ⬜ Live on https://kalpkan.com within the 1-extra-deploy budget.
+
 ## Tasks
 | ID | Phase | Task | Status | URL | Verified by | Date |
 |---|---|---|---|---|---|---|
