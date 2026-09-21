@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { contrast, css, flatten, parseColor, resolve, ruleFor, rules, stripComments, tokens, type Appearance } from "@/test/css-tokens";
+import { contrast, css, declarations, flatten, parseColor, resolve, ruleFor, rules, stripComments, tokens, type Appearance } from "@/test/css-tokens";
 
 /*
  * The appearance system as it is actually painted (T6.10).
@@ -268,6 +268,54 @@ describe("the dark desk keeps the shape of the light one", () => {
       expect(found.length, selector).toBeGreaterThan(0);
       for (const r of found) expect(r.body).not.toContain("var(--paper");
     }
+  });
+});
+
+/*
+ * Found on the live site the day dark mode shipped, and the reason this test
+ * exists: `.kos-window` transitioned the `background` SHORTHAND. Chrome does
+ * not re-resolve a shorthand transition when only an underlying custom
+ * property changes, so a window that was already open when the appearance
+ * was switched kept its light background for ever — `--paper-raised`
+ * computed to #2a2a2e on the element while its background-color stayed
+ * rgb(248,244,244), and clearing the transition snapped it to the right
+ * colour. Colours now change with no class or attribute change on the
+ * element, so the shorthand must never be transitioned again.
+ */
+describe("nothing transitions the `background` shorthand", () => {
+  /*
+   * The lock screen is the one place the shorthand is still allowed: it is
+   * black in both appearances, so none of its colours can change under an
+   * element and nothing can be pinned. Leaving it alone also keeps the brief's
+   * "boot / lock / power unchanged" literally true.
+   */
+  const EXEMPT = [".kos-pw"];
+
+  for (const [name, source] of [
+    ["app/kalpos.css", KALPOS],
+    ["app/kalpos-extras.css", EXTRAS],
+    ["app/globals.css", GLOBALS],
+  ] as [string, string][]) {
+    it(name, () => {
+      const offenders = rules(source)
+        .filter((r) => !EXEMPT.some((e) => r.selector.includes(e)))
+        .filter((r) => /transition(-property)?\s*:/.test(r.body))
+        .filter((r) =>
+          declarations(r.body).some(
+            ([prop, value]) =>
+              (prop === "transition" || prop === "transition-property") &&
+              value.split(",").some((part) => /(^|\s)background(\s|$)/.test(part.trim())),
+          ),
+        )
+        .map((r) => r.selector.replace(/\s+/g, " "));
+      expect(offenders).toEqual([]);
+    });
+  }
+
+  it("the window still cross-fades its background-color and its shadow on focus", () => {
+    const win = ruleFor(KALPOS, ".kos-window");
+    expect(win.transition).toContain("background-color 180ms ease");
+    expect(win.transition).toContain("box-shadow 180ms ease");
   });
 });
 
