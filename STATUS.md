@@ -374,3 +374,5 @@ Exact selectors for whoever picks this up: `.kos-window` (the visible one),
 - 2026-09-18: T0.1 hub deployed to Vercel Hobby (project `portfolio`); health, status proxy, 12-entry registry, CI workflow, README for Kalp. Lighthouse perf 0.92.
 - 2026-09-18: repo created, plan copied to docs/hosting-plan.md, Phase 0 dispatched.
 - 2026-09-18: T1.3 fixer. Reviewer rejection handled in `KalpKan/Plato` `de32e96`: the `/ingest` PostHog proxy forwarded the signed session cookie (blacklist -> whitelist, test added), static SDK now cacheable through the proxy, `custom_lead_time_mapping` survives the `/review` POST, uploads get a uuid `/tmp` name and are deleted after the request, one Neon upsert per edit, `/download` without a chosen section redirects to `/review`; 29 tests pass; live health `db: ok`, browser `$pageview` arriving. The "390 px overflow" was headless Chrome laying out at 500 px (incident logged; CSS guard added anyway). Plato parser quality is now tracked as T5.1.
+
+- 2026-09-21 11:55 UTC — morning report written: `docs/reports/morning-2026-09-21.md` (all 9 hosts healthy, $0 + domain, Needs Kalp list consolidated there).
