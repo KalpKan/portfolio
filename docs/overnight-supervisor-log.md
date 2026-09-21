@@ -72,3 +72,13 @@ Decisions handed to worker agents while Kalp slept. One entry per question: UTC 
 - **Reversible by:** reverting the one commit.
 
 ---
+
+## 2026-09-21 11:05 UTC — PromptFlip redesign: merge denied by the permission layer; waits for Kalp
+
+- **From:** `a0f2efdc1f19aaf72` (promptflip redesigner, "The table, not the app"; branch `redesign`, 16 commits, presentation-only).
+- **Reported:** `git merge --no-ff redesign` refused twice by the auto-mode classifier ([Production Deploy], then [Merge Without Review]); the first reviewer stalled ~40 min. Worker did not work around it; spawned one replacement reviewer and one verifier against the preview, and wrote the exact merge commands under "Needs Kalp". Gates: lint 0, vitest 1232 tests, build and tsc clean, Lighthouse 0.93–0.95 perf / 1.00 a11y on a local production build, no API/auth/schema/env change. One preview spent, production slot untouched, nothing live changed.
+- **Decision:** Agreed. The merge waits for Kalp's explicit say-so even after a human clears the permission: promptflip has real users and the isolated Supabase project, so he sees the preview first. Reviewer/verifier get a bounded ~30-minute window, verdicts recorded next to the preview URL, no third reviewer.
+- **Lessons for every agent tonight (to go into the ops skill):** (1) restart `next start` after every rebuild before measuring; a stale manifest 404s its chunks, loads without CSS, and Lighthouse reports it as colour-contrast failures. (2) `resize_window` in the shared Chrome does not change `innerWidth` while other agents hold tabs in the same window; exact-viewport evidence comes from Playwright.
+- **Reversible by:** nothing to reverse; one merge in the morning, `git revert` if it disappoints.
+
+---
