@@ -36,12 +36,13 @@ exception list lives in that test so adding one is a decision, not an accident.
 
 Four things that cost real time and are worth not rediscovering:
 
-1. **Never transition the `background` shorthand.** Chrome does not re-resolve a
-   shorthand transition when only an underlying custom property changes, so the
-   element stays pinned at its old colour — which is exactly how an open window
-   kept its light background after switching appearance. Transition
-   `background-color`. A test now enforces this; the lock screen's pill is the
-   one stated exemption, because the lock is black in both appearances.
+1. **Do not transition a property whose value comes from an appearance token.**
+   Chrome does not start a transition, and leaves the property at its old used
+   value, when the only thing that changed is a custom property referenced by a
+   transitioned property. A test now forbids the `background` *shorthand* (the
+   lock screen's pill is the one stated exemption, since the lock is black in
+   both appearances), but narrowing to `background-color` is **not** enough —
+   see the open item below.
 2. **`light-dark()` returns a colour**, so it cannot hold a whole `box-shadow` or
    a `filter`. Shadows are split: `--c-sh-lg` is the colour pair,
    `--sh-lg: 0 12px 32px var(--c-sh-lg)` the geometry shared by both. Do the
@@ -63,6 +64,36 @@ Four things that cost real time and are worth not rediscovering:
   change `DEFAULT_APPEARANCE` in `lib/appearance.ts` to `"auto"`, update the test
   that deliberately pins `"light"` (it will fail and tell you), close H20, and fix
   the one sentence in `README.md` and `DESIGN.md`. Nothing else depends on it.
+- **An already-open window keeps its old background when you switch appearance.**
+  The only thing still wrong with dark mode, and it is live. The desk, dots,
+  menubar, dock, sidebar, widgets, note and phone all follow; a window opened
+  *after* the switch is correct; closing and reopening it, or reloading, fixes
+  it. Cause, isolated on the live page: Chrome does not start a transition, and
+  keeps the old used value, when the only change is a custom property that a
+  transitioned property references. Proved with a minimal probe — two divs with
+  `transition: background-color`, one reading a plain custom property and one a
+  property registered with `@property { syntax: "<color>" }`; flipping an
+  attribute on `:root` left **both** at the old colour, so `@property` is not
+  the answer either. `.kos-sidebar` follows correctly only because it has no
+  background transition, and `style.transition = "none"` on the window snaps it
+  to the right colour both ways.
+  Affected selectors: **`.kos-window`** (the visible one), `.kos-light`,
+  `.kos-transport button`, `.kos-track`.
+  Two fixes, neither applied (the deploy budget was spent and the supervisor's
+  condition was to record and stop):
+  1. one line — drop `background-color` from `.kos-window`'s persistent
+     transition in `app/kalpos.css`, keeping `box-shadow 180ms`; the frost then
+     changes instantly on focus while the shadow still lifts. Proven by the
+     `transition: none` probe.
+  2. better — wrap the swap in `document.startViewTransition(() =>
+     applyAppearance(a))` inside `setAppearanceWithCrossfade` (`lib/appearance.ts`).
+     The DOM change happens with styles recalculated, so the pin cannot occur,
+     and it replaces the per-property crossfade with a real compositor-level
+     one. Whoever does this should delete the `.kos-appearance-shift` rule in
+     `app/globals.css` and the class handling in `lib/appearance.ts` with it,
+     and keep the reduced-motion branch (View Transitions must be skipped under
+     `prefers-reduced-motion`).
+
 - **The power screen's caption** is the only thing between the hub and a 1.00
   Lighthouse accessibility score: `.kos-power-caption`, `rgba(243,242,242,.45)`
   on black, 4.05:1 against a 4.5:1 bar. Pre-existing, identical in light and
