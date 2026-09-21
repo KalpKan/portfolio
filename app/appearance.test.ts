@@ -281,6 +281,17 @@ describe("the dark desk keeps the shape of the light one", () => {
  * rgb(248,244,244), and clearing the transition snapped it to the right
  * colour. Colours now change with no class or attribute change on the
  * element, so the shorthand must never be transitioned again.
+ *
+ * T6.12a (2026-09-21): narrowing to the `background-color` LONGHAND was not
+ * enough either — the same live defect persisted on `.kos-window`,
+ * `.kos-light`, `.kos-transport button` and `.kos-track`, because the bug is
+ * about a custom property changing under a persistent transition, not about
+ * the shorthand specifically. The proven fix is to drop `background-color`
+ * from those four selectors' persistent `transition` lists entirely (other
+ * transitioned properties, e.g. `box-shadow`/`transform`, are unaffected and
+ * kept); the appearance switch itself still cross-fades every colour via the
+ * temporary `.kos-appearance-shift` class below, so nothing is lost except an
+ * instant-instead-of-eased colour change on hover/focus/current-row.
  */
 describe("nothing transitions the `background` shorthand", () => {
   /*
@@ -312,10 +323,28 @@ describe("nothing transitions the `background` shorthand", () => {
     });
   }
 
-  it("the window still cross-fades its background-color and its shadow on focus", () => {
+  it("the window still cross-fades its shadow on focus, but not a persistent background-color (T6.12a)", () => {
     const win = ruleFor(KALPOS, ".kos-window");
-    expect(win.transition).toContain("background-color 180ms ease");
     expect(win.transition).toContain("box-shadow 180ms ease");
+    expect(win.transition).not.toMatch(/background-color/);
+  });
+
+  /*
+   * T6.12a: the live "already-open window keeps its old background" defect
+   * also hit these three selectors. None of them may carry a persistent
+   * `background-color` transition any more; `.kos-transport button` keeps its
+   * `transform` transition and `.kos-light`/`.kos-track` are left with none.
+   */
+  it("no persistent background-color transition on .kos-light, .kos-transport button, or .kos-track (T6.12a)", () => {
+    const light = ruleFor(KALPOS, ".kos-light");
+    expect(light.transition ?? "").not.toMatch(/background-color/);
+
+    const transport = ruleFor(EXTRAS, ".kos-transport button");
+    expect(transport.transition ?? "").not.toMatch(/background-color/);
+    expect(transport.transition).toContain("transform 160ms");
+
+    const track = ruleFor(EXTRAS, ".kos-track");
+    expect(track.transition ?? "").not.toMatch(/background-color/);
   });
 });
 

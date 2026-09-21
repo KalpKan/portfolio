@@ -2655,3 +2655,13 @@ _Entries begin below, oldest first._
   before trusting any screenshot taken for a named breakpoint, and state in the report
   which widths came from Playwright and which from Chrome.
 - **Reported by:** the promptflip redesigner
+
+## 2026-09-21: hub `vercel.json` `ignoreCommand` root-caused and fixed — it was diffing only the tip commit against its parent (T6.12b)
+
+- **Date:** 2026-09-21 (kalpos fixes batch)
+- **Affected:** `KalpKan/portfolio` `vercel.json`
+- **Symptom:** three separate prior incidents (T4.1 2026-09-20 16:13 UTC above, T6.1, T6.11/H19) all had the same shape: a push whose *last* commit was docs-only (a `STATUS.md` session-log or fixup commit) got its whole deploy cancelled, even though an earlier commit in the same push changed `app/` or another real path. Each one was worked around by hand with a forced `npx vercel --prod`.
+- **Root cause:** the `ignoreCommand` was `git diff --quiet HEAD^ HEAD -- . ...`, which only ever compares the tip commit to its immediate parent — one commit's worth of history, not the range since the last deploy. A multi-commit push with real code changes early and a docs-only commit last always produces an empty `HEAD^..HEAD` diff.
+- **Fix:** `ignoreCommand` now diffs `"${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}" HEAD` — the platform-provided SHA of the commit last actually deployed, so the *whole* range since the last real deploy is checked, with the exact same path excludes; `${VAR:-HEAD^}` keeps the old behaviour when the variable is unset or empty (local runs). Verified locally against real repository history (see runbook "Hub: ignored build step"): `HEAD^ HEAD` on the current tip (a docs-only commit) reports no diff and would wrongly skip; diffing against an actual earlier `VERCEL_GIT_PREVIOUS_SHA` a few commits back correctly finds the code change and proceeds. Also verified that an unresolvable `VERCEL_GIT_PREVIOUS_SHA` (e.g. outside a shallow clone's history) makes `git diff` exit non-zero (fatal error, exit 128), which is the safe direction under `ignoreCommand`'s "exit 0 = skip, anything else = build" contract — an unknown previous SHA causes a deploy, never a silent skip.
+- **Prevention:** this closes the root cause behind the T4.1, T6.1 and T6.11/H19 workarounds; a docs-only tip commit on an otherwise code-carrying push should no longer cancel the deploy. The manual-forced-deploy workaround in "Hub: ignored build step" stays documented for the rare case (e.g. `VERCEL_GIT_PREVIOUS_SHA` unset on a non-Vercel run, or wanting to force a deploy for an otherwise genuinely docs-only push).
+- **Reported by:** the T6.10 dark-mode worker (`docs/RESUME.md`), fixed by the kalpos fixes batch

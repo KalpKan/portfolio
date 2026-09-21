@@ -928,7 +928,9 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   margin: 0;
   font: 400 12px/1 var(--font-system);
   letter-spacing: 0.01em;
-  color: rgba(243, 242, 242, 0.45);
+  /* 0.45 measured 4.05:1 on the black power screen, just under the 4.5:1 bar
+     (T6.12c). 0.5 measures ~4.86:1; the power screen is otherwise unchanged. */
+  color: rgba(243, 242, 242, 0.5);
   white-space: nowrap;
 }
 .kos-boot-mark {
@@ -1228,13 +1230,15 @@ html[data-kos-boot="desk"] .kos-lock {
   /* Never under the dock: the desk top (86 px) plus the dock's band (116 px). */
   max-height: calc(100vh - 202px);
   max-height: calc(100dvh - 202px);
-  transition:
-    box-shadow 180ms ease,
-    /* background-color, never the `background` shorthand: Chrome does not
-       re-resolve a shorthand transition when only an underlying custom
-       property changes, so an open window would keep its light colour when
-       the appearance is switched under it (T6.10, found on the live site). */
-    background-color 180ms ease;
+  /* box-shadow only: a persistent `background-color` transition here left an
+     already-open window stuck at its old colour when the appearance was
+     switched, because Chrome does not restart the transition when only a
+     custom property the colour references changes under the element (T6.10
+     live defect, found and root-caused 2026-09-21; the temporary
+     `.kos-appearance-shift` class still cross-fades the colour on the switch
+     itself, so removing the persistent transition loses nothing there — it
+     only changes focus, which is instant now instead of a 180ms ease). */
+  transition: box-shadow 180ms ease;
   transform-origin: 0 0;
   will-change: transform;
 }
@@ -1340,7 +1344,9 @@ html[data-kos-boot="desk"] .kos-lock {
   border: 0;
   padding: 0;
   background: var(--light-off);
-  transition: background-color 180ms ease;
+  /* No persistent background-color transition: same T6.10 stuck-colour bug as
+     .kos-window above. The appearance switch itself still cross-fades via
+     `.kos-appearance-shift`; only the focus colour change is now instant. */
   cursor: default;
 }
 .kos-window[data-focused="true"] .kos-light--close { background: var(--light-close); }
