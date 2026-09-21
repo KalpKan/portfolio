@@ -36,9 +36,9 @@ describe("Phone sheet (card 1e)", () => {
     const { container, unmount } = mount();
     expect(container.querySelector(".kos-phone-bar")?.textContent).toContain("KalpOS");
     expect(container.querySelector(".kos-phone-name")?.textContent).toBe("Kalp Kansara");
-    expect(container.querySelector(".kos-phone-line")?.textContent).toBe("Tap a folder. 12 projects, checking for live signals…");
+    expect(container.querySelector(".kos-phone-line")?.textContent).toBe("Tap a folder. 13 projects, checking for live signals…");
     const folders = [...container.querySelectorAll(".kos-phone-grid button")].map((b) => b.textContent?.trim());
-    expect(folders).toEqual(["12Projects", "Hobbies", "About", "Contact", ">_Terminal", "Trash"]);
+    expect(folders).toEqual(["13Projects", "Hobbies", "About", "Contact", ">_Terminal", "Trash"]);
     expect(container.querySelector(".kos-phone-note")?.textContent).toContain("measure something real");
     unmount();
   });
@@ -46,7 +46,7 @@ describe("Phone sheet (card 1e)", () => {
   it("shows the measured live count once the checks are done", () => {
     const sig = Object.fromEntries(tiles.map((t) => [t.slug, t.healthUrl ? "ok" : "none"])) as Record<string, "ok" | "none">;
     const { container, unmount } = mount({ signals: sig, checkedAt: new Date() });
-    expect(container.querySelector(".kos-phone-line")?.textContent).toBe("Tap a folder. 12 projects, 7 with a live signal right now.");
+    expect(container.querySelector(".kos-phone-line")?.textContent).toBe("Tap a folder. 13 projects, 8 with a live signal right now.");
     unmount();
   });
 
@@ -54,9 +54,9 @@ describe("Phone sheet (card 1e)", () => {
     const { container, unmount } = mount();
     const sheet = container.querySelector(".kos-sheet")!;
     expect(sheet.querySelector(".kos-sheet-head")?.textContent).toContain("Projects");
-    expect(sheet.querySelector(".kos-sheet-head")?.textContent).toContain("12 items · 7 live");
+    expect(sheet.querySelector(".kos-sheet-head")?.textContent).toContain("13 items · 8 live");
     const rows = sheet.querySelectorAll(".kos-row");
-    expect(rows.length).toBe(12);
+    expect(rows.length).toBe(13);
     expect(rows[0].textContent).toContain("promptflip");
     expect(rows[0].textContent).toContain("checking…");
     unmount();

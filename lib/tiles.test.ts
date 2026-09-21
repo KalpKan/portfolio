@@ -97,10 +97,10 @@ describe("filters", () => {
 });
 
 describe("the committed registry", () => {
-  it("has 12 tiles, 7 live and 2 coming (the counts the desk shows)", () => {
+  it("has 13 tiles, 8 live and 2 coming (the counts the desk shows)", () => {
     const c = filterCounts(tilesFor(loadProjects()));
-    expect(c.all).toBe(12);
-    expect(c.live).toBe(7);
+    expect(c.all).toBe(13);
+    expect(c.live).toBe(8);
     expect(c.coming).toBe(2);
     expect(c.case).toBe(5);
   });

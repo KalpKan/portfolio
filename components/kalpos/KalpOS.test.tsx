@@ -173,9 +173,9 @@ describe("KalpOS power screen → boot → lock → desk (a Mac starts from its 
     const fill = container.querySelector<HTMLElement>(".kos-boot-bar i")!;
     act(() => { vi.advanceTimersByTime(700); });
     // The registry step only (1 of 8).
-    expect(fill.style.transform).toBe("scaleX(0.125)");
+    expect(fill.style.transform).toBe("scaleX(0.1111111111111111)");
     expect(fill.style.transitionDuration).toBe("400ms");
-    const seen = [0.125];
+    const seen = [1 / 9];
     const answer = async () => {
       pending.shift()!();
       await flush();
@@ -183,7 +183,7 @@ describe("KalpOS power screen → boot → lock → desk (a Mac starts from its 
     };
     await answer();
     await answer();
-    expect(seen).toEqual([0.125, 0.25, 0.375]);
+    expect(seen).toEqual([1 / 9, 2 / 9, 3 / 9]);
     act(() => { vi.advanceTimersByTime(300); });
     while (pending.length) await answer();
     expect(seen.at(-1)).toBe(1);

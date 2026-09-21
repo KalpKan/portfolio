@@ -27,6 +27,7 @@ All are HTTP(s) monitors (v2 `type: 1`, v3 `type: HTTP`), method `GET`, interval
 | `pushups health` | https://pushups.kalpkan.com/health.json | 5 min | the pushup tracker (static Vite site on Vercel, no database); `{"ok":true,"service":"pushups"}` | n/a (no DB) | `804031518` (created 2026-09-19 00:20 UTC, Phase 2–4 audit, v3 API; on the status page) |
 | `emotes health` | https://emotes.kalpkan.com/health.json | 5 min | the emote detector (static Vite site on Vercel, no database); `{"ok":true,"service":"emotes"}` | n/a (no DB) | `804031519` (created 2026-09-19 00:20 UTC, Phase 2–4 audit; on the status page) |
 | `microtubules health` | https://microtubules.kalpkan.com/health.json | 5 min | the microtubule quantifier (static Vite site on Vercel, no database); `{"ok":true,"service":"microtubules"}` | n/a (no DB) | `804031520` (created 2026-09-19 00:20 UTC, Phase 2–4 audit; on the status page) |
+| `sift health (DB, Project B)` | https://sift.kalpkan.com/api/health | 5 min | Sift, the research-paper widget (Next.js on Vercel, Supabase Project B schema `sift`); `{"ok":true,"service":"sift","db":"ok"}` | **yes** — the route runs `sift.health_select_one()` through PostgREST, so it keeps Project B awake alongside the `health` Edge Function | `804044195` (created 2026-09-21; on the status page) |
 
 ### Notes and deviations from the plan
 

@@ -117,7 +117,7 @@
     },
     {
       "slug": "unpark",
-      "name": "UnPark \u2014 Parkinson's freeze detection",
+      "name": "UnPark — Parkinson's freeze detection",
       "tagline": "Built for a competition: a haptic ankle device that catches freezing-of-gait episodes in Parkinson's with an accelerometer and logs them straight to your phone.",
       "type": "showcase",
       "status": "live",
@@ -191,6 +191,24 @@
         "LTspice",
         "Neurotech",
         "Hardware"
+      ],
+      "hero": null
+    },
+    {
+      "slug": "sift",
+      "name": "Sift",
+      "tagline": "The two or three papers from this week that are actually worth reading.",
+      "type": "app",
+      "status": "live",
+      "url": "https://sift.kalpkan.com",
+      "repo": "https://github.com/KalpKan/sift",
+      "healthUrl": "https://sift.kalpkan.com/api/health",
+      "tags": [
+        "Next.js",
+        "Supabase",
+        "Swift",
+        "WidgetKit",
+        "PubMed"
       ],
       "hero": null
     }

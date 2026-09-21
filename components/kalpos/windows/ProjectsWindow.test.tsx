@@ -24,8 +24,8 @@ describe("Projects window (card 2d)", () => {
   it("lists the five filters with real counts and the header count", () => {
     const { container, unmount } = mount();
     const rows = [...container.querySelectorAll(".kos-filter")].map((b) => b.textContent);
-    expect(rows).toEqual(["All12", "Live signal7", "Hardware5", "Case studies5", "Coming2"]);
-    expect(container.querySelector(".kos-main-count")?.textContent).toBe("12 items, 7 live");
+    expect(rows).toEqual(["All13", "Live signal8", "Hardware5", "Case studies5", "Coming2"]);
+    expect(container.querySelector(".kos-main-count")?.textContent).toBe("13 items, 8 live");
     expect(container.querySelector(".kos-sidebar-foot")?.textContent).toContain("checking");
     unmount();
   });
@@ -72,7 +72,7 @@ describe("Projects window (card 2d)", () => {
   it("reports the ping line once every check has answered", () => {
     const sig = Object.fromEntries(tiles.map((t) => [t.slug, t.healthUrl ? "ok" : "none"])) as Record<string, "ok" | "none">;
     const { container, unmount } = mount({ signals: sig, checkedAt: new Date(2026, 8, 19, 11, 42, 6) });
-    expect(container.querySelector(".kos-sidebar-foot")?.textContent).toBe("pinged 11:42:06 · 7/7 ok");
+    expect(container.querySelector(".kos-sidebar-foot")?.textContent).toBe("pinged 11:42:06 · 8/8 ok");
     unmount();
   });
 });

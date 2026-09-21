@@ -63,7 +63,7 @@ describe("Desk (card 2c)", () => {
   it("draws the folders and icons as buttons, with the Projects badge = tile count, and hides Now playing while empty", () => {
     const { container, unmount } = mount();
     const icons = [...container.querySelectorAll("button.kos-icon")].map((b) => b.textContent?.trim());
-    expect(icons).toEqual(["12Projects", "Hobbies", "About me", "Contact", "Trash"]);
+    expect(icons).toEqual(["13Projects", "Hobbies", "About me", "Contact", "Trash"]);
     expect(container.querySelector(".kos-now")).toBeNull();
     unmount();
   });
