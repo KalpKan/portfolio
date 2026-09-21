@@ -677,6 +677,27 @@ Because Vercel does a shallow clone, `VERCEL_GIT_PREVIOUS_SHA` can point at a co
 
 To force a deploy after a docs-only push regardless, run `npx vercel@latest --prod --scope kks-projects-2edcb11a` from the hub checkout, or make sure the push's last commit touches code (a `--no-ff` merge whose first-parent diff includes `app/` or `vercel.json` is enough). Remove the `ignoreCommand` key from `vercel.json` entirely to restore deploy-on-every-push. (The REST API route for this setting returned "Not authorized" for the CLI token, so the in-repo key is used.)
 
+### Rollout to the other project repos (2026-09-21)
+
+The night of 2026-09-21 every docs-only push to plato and emotes triggered a full production build (plato: 8 deploys; emotes: 6) because neither had an ignore step at all. The hub's proven `ignoreCommand` (above, `e4ffacf`) was copied to five repos, adapted per repo's layout:
+
+| Repo | Where `ignoreCommand` lives | Excludes | Commit | Deployed |
+|---|---|---|---|---|
+| `KalpKan/Plato` | `vercel.json` (repo root; Root Directory `.`) | `docs`, `scripts`, `STATUS.md`, `*.md` | `ad55e7e` | yes — `plato.kalpkan.com` Ready, `/api/health` 200 |
+| `KalpKan/emote-detector-web` | `vercel.json` (repo root; Root Directory `.`) | `docs`, `scripts`, `STATUS.md`, `*.md` | `810c87e` | yes — `emotes.kalpkan.com` Ready, `/health.json` 200 |
+| `KalpKan/Basketball-Stat-Tracker` | `apps/web/vercel.json` (Root Directory `apps/web`) | `docs`, `*.md` (scoped to `apps/web/**` only, since `ignoreCommand`'s cwd is the Root Directory — root-level `docs/`, `STATUS.md`, `supabase/` are already out of scope) | `7a4bb75` (see gotchas below) | yes — `hoops.kalpkan.com` Ready, `/api/health` 200 |
+| `KalpKan/sift` | `vercel.json` (new file, repo root; Root Directory `.`) | `docs`, `scripts`, `STATUS.md`, `ios` (the separate Xcode/WidgetKit app, not part of this Vercel project's Next.js build), `*.md` | `09ca142` | **no — see below** |
+| `KalpKan/Microtubule-Quantification` | `web/vercel.json` (Root Directory `web`) | `docs`, `scripts`, `*.md` (scoped to `web/**`; root-level `docs/`, `STATUS.md` are already out of scope) | `7586734` | yes — `microtubules.kalpkan.com` Ready, `/health.json` 200 |
+
+`promptflip` and `plantit` were explicitly out of scope for this pass and still have no ignore step.
+
+**Two gotchas hit while wiring Basketball-Stat-Tracker (a pnpm/Turborepo monorepo, Root Directory `apps/web`), both now fixed:**
+
+1. **`.vercelignore` had `.git` in it.** Vercel strips `.vercelignore` paths from the checkout *before* running `ignoreCommand`, so with `.git` gone the command failed outright (`warning: Not a git repository`) and errored the deploy instead of skipping or building. Fixed by dropping the `.git` line (`6844bbd`) — nothing in the build needed it excluded. Check any repo's `.vercelignore` for `.git` before relying on a git-based `ignoreCommand`.
+2. **`vercel.json` in a monorepo is read from the project's Root Directory, not the repo root, once one exists there.** Adding `apps/web/vercel.json` with only `ignoreCommand` silently dropped the repo-root `vercel.json`'s `buildCommand` (`pnpm --filter @basketball-stat-tracker/web build`), `installCommand` (`pnpm install --frozen-lockfile`) and `framework` (`nextjs`) — Vercel fell back to auto-detecting a Turborepo build (`turbo run build --filter={apps/web}...`) using whatever `turbo` is globally installed on the build image, which failed because this repo's `turbo.json` still uses the pre-2.0 `pipeline` key. Fixed (`7a4bb75`) by copying `buildCommand`/`installCommand`/`framework` into `apps/web/vercel.json` alongside `ignoreCommand`. **Rule of thumb: when a monorepo project's Root Directory doesn't already have its own `vercel.json`, adding one there means replicating every key the repo-root `vercel.json` had, not just the new one — the two files do not merge.** The repo-root `vercel.json` is now unused for this project; `turbo.json`'s `pipeline`→`tasks` migration is still open (out of scope for this task).
+
+**Sift could not be deployed.** `vercel.json` (`09ca142`) is committed and pushed to `main`, and the diff logic is verified against the repo's own history, but the live site still runs the pre-`09ca142` build: `vercel project inspect sift` shows no Git integration on this project (it was deliberately held to its own manual deploy budget per its `STATUS.md`), so the push alone never triggers a build, and running `vercel --prod` by hand was blocked for this agent by the Claude Code permission system ("Production Deploy" action). Per the overnight-supervisor policy, bypassing a denied permission is not something the supervisor can authorise, so this needs Kalp: either approve a one-off `npx vercel@latest --prod --scope kks-projects-2edcb11a` from `~/projects/sift`, or connect the GitHub repo in the Vercel dashboard so future pushes auto-deploy.
+
 
 ## Tune and re-verify the Plato outline parser against its corpus
 
