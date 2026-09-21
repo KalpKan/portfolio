@@ -22,6 +22,7 @@ import AboutWindow from "./windows/AboutWindow";
 import CaseStudyWindow from "./windows/CaseStudyWindow";
 import ContactWindow from "./windows/ContactWindow";
 import HobbiesWindow from "./windows/HobbiesWindow";
+import ReadingWindow from "./windows/ReadingWindow";
 import MusicWindow from "./windows/MusicWindow";
 import ProjectsWindow from "./windows/ProjectsWindow";
 import TerminalWindow from "./windows/TerminalWindow";
@@ -40,7 +41,8 @@ const WIDTH: Record<string, number> = {
   projects: 760,
   about: 520,
   contact: 520,
-  hobbies: 460,
+  hobbies: 520,
+  reading: 470,
   trash: 520,
   music: 520,
   terminal: 560,
@@ -52,6 +54,7 @@ const TITLES: Record<string, string> = {
   about: "About me",
   contact: "Contact",
   hobbies: "Hobbies",
+  reading: "Reading",
   trash: "Trash",
   music: "Music",
   terminal: "Terminal",
@@ -106,6 +109,8 @@ export default function Desk({
   const top = topWindow(windows);
   const playlist = playlistOf(site);
   const playing = playlist.length > 0;
+  /** The Hobbies folder counts what its window shows, the way Projects counts the registry. */
+  const hobbyBadge = site.hobbies?.length ? String(site.hobbies.length).padStart(2, "0") : undefined;
 
   const present: IconId[] = playing ? ["projects", "hobbies", "about", "contact", "music", "trash"] : ["projects", "hobbies", "about", "contact", "trash"];
   const icons = useIconLayout(present);
@@ -286,7 +291,9 @@ export default function Desk({
       case "contact":
         return <ContactWindow contact={site.contact} name={site.name} />;
       case "hobbies":
-        return <HobbiesWindow />;
+        return <HobbiesWindow hobbies={site.hobbies} />;
+      case "reading":
+        return <ReadingWindow reading={site.reading} />;
       case "trash":
         return <TrashWindow />;
       case "music":
@@ -330,7 +337,7 @@ export default function Desk({
           <FolderGlyph tint="projects" badge={String(tiles.length).padStart(2, "0")} />
         </DeskIcon>
         <DeskIcon label="Hobbies" index={1} onOpen={(o) => open("hobbies", o)} {...iconProps("hobbies")}>
-          <FolderGlyph tint="hobbies" />
+          <FolderGlyph tint="hobbies" badge={hobbyBadge} />
         </DeskIcon>
         <DeskIcon label="About me" index={2} onOpen={(o) => open("about", o)} {...iconProps("about")}>
           <DocGlyph />
@@ -349,7 +356,7 @@ export default function Desk({
       </div>
       <TrashSwat phase={swat.phase} bin={swat.bin} toast={toast} />
 
-      <Widgets site={site} onOpenMusic={(o) => open("music", o)} />
+      <Widgets site={site} onOpenMusic={(o) => open("music", o)} onOpenReading={(o) => open("reading", o)} />
 
       <div className="kos-windows">
         {windows.windows.map((w, i) =>

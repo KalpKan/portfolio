@@ -9,6 +9,39 @@ export const PLAYLIST: readonly Track[] = [
 ];
 
 /**
+ * One book on the READING widget. `cover` is the real jacket, committed under
+ * public/images/reading/ (Open Library's cover API, shown for identification);
+ * `url` is where a reader can go and look the book up.
+ */
+export type Book = { title: string; authors: string; cover: string; url: string };
+
+/** What Kalp is reading right now; the first entry is the one on the desk. */
+export const READING: readonly Book[] = [
+  {
+    title: "The Molecule of More",
+    authors: "Daniel Z. Lieberman & Michael E. Long",
+    cover: "/images/reading/molecule-of-more.jpg",
+    url: "https://openlibrary.org/isbn/9781946885111",
+  },
+];
+
+/**
+ * One hobby: `slug` picks the drawn mini-glyph (components/kalpos/HobbyGlyph)
+ * and names the terminal's /hobbies/<slug>.md, `line` is Kalp's own sentence.
+ */
+export type Hobby = { slug: HobbyGlyphId; name: string; line: string };
+export type HobbyGlyphId = "swimming" | "tennis" | "sim-racing" | "clash-royale" | "reselling";
+
+/** What Kalp does when he is not at the desk. */
+export const HOBBIES: readonly Hobby[] = [
+  { slug: "swimming", name: "Swimming", line: "I love swimming." },
+  { slug: "tennis", name: "Tennis", line: "And playing tennis." },
+  { slug: "sim-racing", name: "Sim racing", line: "Really into sim racing." },
+  { slug: "clash-royale", name: "Clash Royale", line: "Ten years in, 14K trophies." },
+  { slug: "reselling", name: "Reselling", line: "Clothing and shoes. I love the hunt." },
+];
+
+/**
  * Hub identity, copy and links. Every optional field renders nothing while it
  * is empty, so Kalp can fill these in later with a one-line edit and a push:
  * no code change is needed (STATUS.md H6).
@@ -28,27 +61,34 @@ export const PLAYLIST: readonly Track[] = [
  *               first entry is what the desk plays first. `nowPlaying` is a
  *               getter on the first entry for anything that still reads it.
  *  - musicTitle: the heading of the Music window ("On repeat").
+ *  - reading:   the books on the READING widget and the Reading window; the
+ *               widget, the window, the phone row and the terminal's
+ *               /about/reading.md all hide while the list is empty.
+ *  - hobbies:   the Hobbies window, the phone sheet and the terminal's
+ *               /hobbies/<slug>.md; the folder badge counts them.
  *  - contact:   email / GitHub handle or URL / LinkedIn handle or URL.
  */
 export const SITE = {
   name: "Kalp Kansara",
   url: "https://kalpkan.com",
   repo: "https://github.com/KalpKan/portfolio",
-  note: "Hi — I'm Kalp. Western University, headed for physician-scientist work in neurotech. Everything on this desk shipped.",
+  note: "Hi — I'm Kalp. Western University, headed for physician-scientist work in neurotech. Open a folder.",
   tagline: "Western University. I build things that measure something real.",
   resumeUrl: "",
   photo: "/images/kalp/desk.webp",
   portrait: "/images/kalp/about.webp",
   musicTitle: "On repeat",
   playlist: PLAYLIST,
+  reading: READING,
+  hobbies: HOBBIES,
   /** The first song of the playlist (empty strings while the list is empty). */
   get nowPlaying(): NowPlaying {
     return PLAYLIST[0] ?? { title: "", artist: "" };
   },
   contact: {
-    email: "",
-    github: "",
-    linkedin: "",
+    email: "Kalpkansara123@gmail.com",
+    github: "https://github.com/KalpKan",
+    linkedin: "https://www.linkedin.com/in/kalp-kansara123/",
   },
 } as const;
 
@@ -68,6 +108,10 @@ export type SiteConfig = {
   /** Optional so older fixtures that only set nowPlaying still type-check. */
   playlist?: readonly Track[];
   musicTitle?: string;
+  /** Optional so older fixtures still type-check; empty hides the widget. */
+  reading?: readonly Book[];
+  /** Optional so older fixtures still type-check; empty is the Hobbies empty state. */
+  hobbies?: readonly Hobby[];
   contact: Contact;
 };
 

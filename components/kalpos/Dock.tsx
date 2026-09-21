@@ -1,16 +1,18 @@
 "use client";
 
-import { EnvelopeSimple, FilePdf, Folders, Image as ImageIcon, MusicNotes, Note, TerminalWindow } from "@phosphor-icons/react";
+import { FilePdf, Folders, Image as ImageIcon, MusicNotes, Note, TerminalWindow } from "@phosphor-icons/react";
 import { useState } from "react";
 import type { WindowId, WindowsState } from "@/lib/windows";
 import { isOpen } from "@/lib/windows";
 import type { Rect } from "@/lib/windows";
-import { rectOf, TrashGlyph } from "./DeskIcons";
+import { MailGlyph, rectOf, TrashGlyph } from "./DeskIcons";
 
 type DockTile = { key: string; label: string; window?: WindowId; href?: string; icon: React.ReactNode };
 
 /**
- * Card 2c's dock: Finder (Projects), Notes (About me), Mail (Contact), Music
+ * Card 2c's dock: Finder (Projects), Notes (About me), Mail (Contact: the
+ * desk's own drawn envelope, MailGlyph, so the tile and the desk icon are the
+ * same drawing), Music
  * (hidden while the playlist is empty), Photos (Hobbies), Terminal (the
  * health log), PDF (Résumé, hidden while empty), a separator, Trash (the desk's own drawing, small;
  * DeskIcons.tsx). A running dot marks an open
@@ -36,7 +38,7 @@ export default function Dock({
   const tiles: DockTile[] = [
     { key: "finder", label: "Projects", window: "projects", icon: <Folders weight="duotone" /> },
     { key: "notes", label: "About me", window: "about", icon: <Note weight="duotone" /> },
-    { key: "mail", label: "Contact", window: "contact", icon: <EnvelopeSimple weight="duotone" /> },
+    { key: "mail", label: "Contact", window: "contact", icon: <MailGlyph size="dock" /> },
     ...(hasMusic ? [{ key: "music", label: "Music", window: "music" as WindowId, icon: <MusicNotes weight="duotone" /> }] : []),
     { key: "photos", label: "Hobbies", window: "hobbies", icon: <ImageIcon weight="duotone" /> },
     { key: "terminal", label: "Terminal", window: "terminal", icon: <TerminalWindow weight="duotone" /> },

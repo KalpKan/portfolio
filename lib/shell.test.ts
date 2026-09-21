@@ -105,9 +105,9 @@ describe("ls", () => {
     expect(text(runLine(ctx, INITIAL_STATE, "ls nope").lines)).toBe("ls: nope: No such file or directory");
   });
 
-  it("ls of a file prints the file; an empty dir prints nothing; -l is a long listing", () => {
+  it("ls of a file prints the file; hobbies lists one .md per hobby; -l is a long listing", () => {
     expect(text(runLine(ctx, INITIAL_STATE, "ls etc/motd").lines)).toBe("motd");
-    expect(runLine(ctx, INITIAL_STATE, "ls hobbies").lines).toEqual([]);
+    expect(text(runLine(ctx, INITIAL_STATE, "ls hobbies").lines)).toBe("swimming.md  tennis.md");
     const long = text(runLine(ctx, INITIAL_STATE, "ls -la etc").lines).split("\n");
     expect(long[0]).toBe("total 4");
     expect(long[1]).toMatch(/^dr--r--r--  kalp  staff\s+\d+  \.$/);

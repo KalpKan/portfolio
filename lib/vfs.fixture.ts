@@ -43,13 +43,19 @@ export function fixtureVfs(): VDir {
     caseStudies: { unpark, eeg },
     site: {
       name: "Kalp Kansara",
-      note: "Everything shipped.",
+      note: "Open a folder.",
       tagline: "Western University.",
       musicTitle: "On repeat",
       playlist: [
         { title: "Suffer", artist: "Bex" },
         { title: "Choosin' Texas", artist: "Drake & Don Toliver", tag: "unreleased" },
       ],
+      reading: [{ title: "The Molecule of More", authors: "Lieberman & Long", cover: "/images/reading/molecule-of-more.jpg", url: "https://openlibrary.org/isbn/9781946885111" }],
+      hobbies: [
+        { slug: "swimming", name: "Swimming", line: "I love swimming." },
+        { slug: "tennis", name: "Tennis", line: "And playing tennis." },
+      ],
+      contact: { email: "k@example.com", github: "https://github.com/KalpKan", linkedin: "https://www.linkedin.com/in/kalp-kansara123/" },
     },
     scrapped: [{ name: "token-coinflip", line: "The first cut.", href: "https://github.com/KalpKan/token-coinflip" }],
     hostname: "kalpkan.com",
