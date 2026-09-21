@@ -63,3 +63,12 @@ Decisions handed to worker agents while Kalp slept. One entry per question: UTC 
 - **Reversible by:** nothing to reverse; one merge in the morning.
 
 ---
+
+## 2026-09-21 10:54 UTC — KalpOS dark mode: second extra deploy for the open-window colour pin
+
+- **From:** `af1d1317d7912d4e1` (KalpOS dark-mode worker; T6.10 live via merge `3025ac9`, which also resolved H19).
+- **Asked:** Live check found that an already-open window keeps its light background after switching appearance: four rules transition the `background` shorthand and Chrome does not re-resolve it when only a custom property changes (proved on the live page). Fix is `background` → `background-color` in four places plus a regression test. Budget of 1 extra deploy is used; ship a second?
+- **Decision:** Ship it, one deploy, verified once on production (Light → Dark → Light with a window open, 1440 and 390), then stop; a visible defect on the hub outweighs a budget line and a Vercel build costs nothing. Conditions: confirm each rule is a solid colour before narrowing to `background-color`; take the dark-desk screenshot for the "default auto" Needs-Kalp line after the fix; record the overrun in STATUS.md.
+- **Reversible by:** reverting the one commit.
+
+---
