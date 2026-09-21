@@ -22,7 +22,7 @@
   overflow: hidden;
   background: #000;
   font-family: var(--font-system);
-  color: #201e1d;
+  color: var(--ink);
   isolation: isolate;
 }
 
@@ -33,8 +33,8 @@
   z-index: 100;
   padding: 6px 12px;
   border-radius: 999px;
-  background: #0088b0;
-  color: #fff;
+  background: var(--cyan);
+  color: var(--on-accent);
   font-size: 12px;
   transform: translateY(-200%);
   opacity: 0;
@@ -55,7 +55,7 @@
 .kos-desk {
   position: absolute;
   inset: 0;
-  background: #f3f2f2;
+  background: var(--paper);
   opacity: 0;
   filter: blur(10px);
   transform: scale(1.06);
@@ -109,13 +109,13 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 .kos-dots {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(32, 30, 29, 0.18) 1.1px, transparent 1.3px);
+  background-image: radial-gradient(var(--dot) 1.1px, transparent 1.3px);
   background-size: 22px 22px;
 }
 .kos-sheen {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 15%, rgba(255, 255, 255, 0.6), transparent 62%);
+  background: radial-gradient(ellipse at 50% 15%, var(--sheen), transparent 62%);
 }
 
 /* --------------------------------------------------------------- menubar */
@@ -126,18 +126,18 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   right: 0;
   top: 0;
   height: 32px;
-  background: rgba(248, 244, 244, 0.72);
+  background: var(--frost);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   backdrop-filter: blur(20px) saturate(1.4);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 1px 2px rgba(45, 43, 43, 0.06);
+  border-bottom: 1px solid var(--frost-edge);
+  box-shadow: var(--sh-bar);
   display: flex;
   align-items: center;
   gap: 22px;
   padding: 0 18px;
   box-sizing: border-box;
   font: 400 13px var(--font-system);
-  color: #201e1d;
+  color: var(--ink);
   z-index: 40;
 }
 .kos-menubar b {
@@ -158,13 +158,13 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   gap: 6px;
   padding: 3px 10px;
   border-radius: 999px;
-  background: #0088b0;
-  color: #fff;
+  background: var(--cyan);
+  color: var(--on-accent);
   font-size: 12px;
   text-decoration: none;
 }
 .kos-pill:hover {
-  background: #006786;
+  background: var(--teal);
 }
 .kos-clock {
   font-size: 12.5px;
@@ -189,7 +189,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   opacity: 1;
 }
 .kos-mute:focus-visible {
-  outline: 2px solid #0088b0;
+  outline: 2px solid var(--cyan);
   outline-offset: 1px;
 }
 
@@ -208,10 +208,10 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 }
 .kos-brand:hover,
 .kos-brand[data-open="true"] {
-  background: rgba(32, 30, 29, 0.09);
+  background: var(--tint-09);
 }
 .kos-brand:focus-visible {
-  outline: 2px solid #0088b0;
+  outline: 2px solid var(--cyan);
   outline-offset: 1px;
 }
 /* The dropdown is the dock's frost (2c): .62 paper, blur 24, radius 12, white .75 edge, lg shadow. */
@@ -222,12 +222,12 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   min-width: 228px;
   padding: 6px;
   box-sizing: border-box;
-  background: rgba(248, 244, 244, 0.62);
+  background: var(--frost-dock);
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
   backdrop-filter: blur(24px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--frost-edge-strong);
   border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--sh-menu);
   z-index: 60;
   transform-origin: 12px 0;
   animation: kos-menu-in 140ms var(--kos-ease) both;
@@ -245,7 +245,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   border: 0;
   border-radius: 7px;
   background: none;
-  color: #201e1d;
+  color: var(--ink);
   font: 400 13px/1.3 var(--font-system);
   text-align: left;
   cursor: default;
@@ -254,7 +254,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 .kos-menu-row:hover,
 .kos-menu-row:focus-visible,
 .kos-menu-row:focus {
-  background: rgba(32, 30, 29, 0.09);
+  background: var(--tint-09);
 }
 .kos-menu-label {
   flex: 1;
@@ -269,7 +269,45 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   display: block;
   height: 1px;
   margin: 5px 8px;
-  background: rgba(32, 30, 29, 0.1);
+  background: var(--tint-10);
+}
+
+/* Appearance ▸ (T6.10). The row owns the flyout, so the flyout is placed
+   from the row rather than from the panel; the wrapper is role="none" and
+   adds nothing to the menu's semantics. */
+.kos-menu-nest {
+  position: relative;
+}
+.kos-menu-more {
+  opacity: 0.5;
+  font-size: 11px;
+  line-height: 1;
+}
+.kos-submenu {
+  position: absolute;
+  left: calc(100% + 1px);
+  top: -7px;
+  min-width: 150px;
+  padding: 6px;
+  box-sizing: border-box;
+  background: var(--frost-dock);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid var(--frost-edge-strong);
+  border-radius: 12px;
+  box-shadow: var(--sh-menu);
+  transform-origin: 0 12px;
+  animation: kos-menu-in 140ms var(--kos-ease) both;
+}
+/* The ✓ column keeps the three labels on one x, checked or not. */
+.kos-menu-check {
+  width: 12px;
+  flex: none;
+  font-size: 11px;
+  opacity: 0.8;
+}
+.kos-menu-row[aria-checked="true"] .kos-menu-label {
+  font-weight: 500;
 }
 
 /* "Restart KalpOS?": a window-idiom sheet (2d) over a light scrim; above the windows, under the lock. */
@@ -281,7 +319,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgba(32, 30, 29, 0.18);
+  background: var(--scrim);
   animation: kos-fade-in 180ms ease both;
 }
 .kos-alert {
@@ -289,13 +327,13 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   max-width: 100%;
   padding: 22px 22px 18px;
   box-sizing: border-box;
-  background: #f8f4f4;
+  background: var(--paper-raised);
   border-radius: 12px;
   box-shadow:
-    0 12px 32px rgba(45, 43, 43, 0.22),
-    0 0 0 1px rgba(32, 30, 29, 0.1);
+    var(--sh-lg),
+    var(--hair-strong);
   text-align: center;
-  color: #201e1d;
+  color: var(--ink);
   animation: kos-alert-in 220ms var(--kos-ease) both;
 }
 @keyframes kos-alert-in {
@@ -308,7 +346,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   margin: 0 auto 12px;
   border-radius: 12px;
   background: #0b0b0c;
-  color: #f3f2f2;
+  color: var(--on-dark);
   font: 600 18px/48px var(--font-system);
   letter-spacing: -0.02em;
 }
@@ -319,7 +357,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 .kos-alert p {
   margin: 4px 0 0;
   font: 400 13px/1.45 var(--font-system);
-  color: #605d5d;
+  color: var(--ink-2);
 }
 .kos-alert-actions {
   display: flex;
@@ -332,23 +370,23 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   padding: 6px 12px;
   border: 0;
   border-radius: 7px;
-  background: #eae7e7;
-  color: #201e1d;
+  background: var(--pad);
+  color: var(--ink);
   font: 500 13px var(--font-system);
   cursor: pointer;
 }
 .kos-alert-btn:hover {
-  background: #e4e1e1;
+  background: var(--rule-soft);
 }
 .kos-alert-btn--primary {
-  background: #0088b0;
-  color: #fff;
+  background: var(--cyan);
+  color: var(--on-accent);
 }
 .kos-alert-btn--primary:hover {
-  background: #006786;
+  background: var(--teal);
 }
 .kos-alert-btn:focus-visible {
-  outline: 2px solid #0088b0;
+  outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
 
@@ -427,7 +465,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   border: 0;
   background: none;
   font: 400 13px var(--font-system);
-  color: #201e1d;
+  color: var(--ink);
   cursor: default;
   touch-action: none;
   user-select: none;
@@ -451,8 +489,8 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   outline: none;
 }
 .kos-icon:focus-visible > span:last-child {
-  background: #0088b0;
-  color: #fff;
+  background: var(--cyan);
+  color: var(--on-accent);
 }
 .kos-icon--quiet > span:last-child {
   opacity: 0.65;
@@ -463,7 +501,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   position: relative;
   width: 70px;
   height: 56px;
-  filter: drop-shadow(0 2px 3px rgba(45, 43, 43, 0.25));
+  filter: var(--sh-folder);
 }
 .kos-folder span {
   position: absolute;
@@ -489,7 +527,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   right: 0;
   top: 15px;
   height: 4px;
-  background: #fff;
+  background: var(--card);
   border-radius: 3px;
 }
 .kos-folder .front {
@@ -499,13 +537,13 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   bottom: 0;
   background: var(--f-front);
   border-radius: 4px 4px 10px 10px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 1px 0 var(--gloss-soft);
 }
 .kos-folder .badge {
   right: 8px;
   bottom: 6px;
   font: 400 10px var(--font-system);
-  color: #fff;
+  color: var(--on-accent);
   opacity: 0.8;
 }
 .kos-folder--projects {
@@ -523,11 +561,11 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 .kos-doc {
   width: 50px;
   height: 62px;
-  background: #fff;
+  background: var(--card);
   border-radius: 8px;
   box-shadow:
-    0 1px 2px rgba(45, 43, 43, 0.14),
-    0 0 0 1px rgba(32, 30, 29, 0.08);
+    var(--sh-sm),
+    var(--hair);
   padding: 10px 8px;
   box-sizing: border-box;
   display: flex;
@@ -536,7 +574,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 }
 .kos-doc i {
   height: 2px;
-  background: #d7d3d3;
+  background: var(--light-off);
   border-radius: 1px;
   display: block;
 }
@@ -548,15 +586,15 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   width: 58px;
   height: 58px;
   border-radius: 14px;
-  box-shadow: 0 1px 2px rgba(45, 43, 43, 0.14);
+  box-shadow: var(--sh-sm);
   display: flex;
   align-items: center;
   justify-content: center;
   font: 600 22px var(--font-system);
-  color: #fff;
+  color: var(--on-accent);
 }
-.kos-app--contact { background: #0088b0; }
-.kos-app--music { background: #d6006c; }
+.kos-app--contact { background: var(--cyan); }
+.kos-app--music { background: var(--magenta); }
 
 /* The Trash drawing (SVG) and the Terminal live in app/kalpos-extras.css (T6.1). */
 
@@ -572,10 +610,11 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 }
 .kos-note {
   grid-column: span 2;
-  background: #f6e7ae;
+  background: var(--note);
+  color: var(--note-ink);
   border-radius: 18px;
   padding: 18px 20px;
-  box-shadow: 0 3px 10px rgba(45, 43, 43, 0.12);
+  box-shadow: var(--sh-md);
 }
 .kos-label {
   margin: 0 0 6px;
@@ -589,15 +628,15 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   font: 400 15px/1.45 var(--font-system);
 }
 .kos-photo {
-  background: #fff;
+  background: var(--card);
   border-radius: 18px;
   padding: 10px;
-  box-shadow: 0 3px 10px rgba(45, 43, 43, 0.12);
+  box-shadow: var(--sh-md);
 }
 .kos-photo > div {
   aspect-ratio: 1;
   border-radius: 12px;
-  background: repeating-linear-gradient(45deg, #e4e1e1 0 6px, #f1eeee 6px 12px);
+  background: repeating-linear-gradient(45deg, var(--rule-soft) 0 6px, var(--rule-soft-2) 6px 12px);
   display: flex;
   align-items: flex-end;
   padding: 9px;
@@ -615,16 +654,16 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 .kos-photo span {
   font: 400 10px var(--font-system);
   font-style: italic;
-  color: #605d5d;
+  color: var(--ink-2);
 }
 .kos-now {
-  background: rgba(248, 244, 244, 0.72);
+  background: var(--frost);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   backdrop-filter: blur(20px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--frost-edge-soft);
   border-radius: 18px;
   padding: 14px 16px;
-  box-shadow: 0 3px 10px rgba(45, 43, 43, 0.12);
+  box-shadow: var(--sh-md);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -642,7 +681,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #d6006c;
+  background: var(--magenta);
 }
 .kos-now .title {
   margin: 0;
@@ -656,14 +695,14 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 .kos-now .bar {
   height: 3px;
   border-radius: 2px;
-  background: rgba(32, 30, 29, 0.12);
+  background: var(--tint-12);
 }
 .kos-now .bar i {
   display: block;
   width: 38%;
   height: 100%;
   border-radius: 2px;
-  background: #0088b0;
+  background: var(--cyan);
 }
 
 /* ------------------------------------------------------------------ dock */
@@ -677,12 +716,12 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   align-items: center;
   gap: 10px;
   padding: 9px;
-  background: rgba(248, 244, 244, 0.62);
+  background: var(--frost-dock);
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
   backdrop-filter: blur(24px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--frost-edge-strong);
   border-radius: 22px;
-  box-shadow: 0 12px 32px rgba(45, 43, 43, 0.2);
+  box-shadow: var(--sh-dock);
   z-index: 40;
 }
 .kos-dock-item {
@@ -720,11 +759,11 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   transform: translateX(-50%) translateY(4px);
   padding: 4px 9px;
   border-radius: 7px;
-  background: rgba(248, 244, 244, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  box-shadow: 0 3px 10px rgba(45, 43, 43, 0.16);
+  background: var(--frost-plate);
+  border: 1px solid var(--frost-edge-strong);
+  box-shadow: var(--sh-md-strong);
   font: 400 12px var(--font-system);
-  color: #201e1d;
+  color: var(--ink);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
@@ -745,7 +784,7 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #444141;
+  background: var(--mark);
 }
 .kos-dock-item[data-bounce="true"] {
   animation: kos-bounce 480ms var(--kos-ease);
@@ -758,62 +797,62 @@ html[data-kos-boot="desk"] .kos .kos-desk {
 .kos-dock-sep {
   width: 1px;
   height: 40px;
-  background: rgba(32, 30, 29, 0.16);
+  background: var(--tint-16);
   margin: 0 3px;
 }
 .kos-dock-item--finder {
   background: linear-gradient(180deg, #62c5ee, #1186ac);
-  color: #fff;
+  color: var(--on-accent);
   box-shadow:
-    0 1px 2px rgba(45, 43, 43, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    var(--sh-sm-strong),
+    inset 0 1px 0 var(--gloss);
 }
 .kos-dock-item--notes {
-  background: linear-gradient(180deg, #fff6d6, #f6e7ae);
-  color: #201e1d;
+  background: linear-gradient(180deg, var(--note-hi), var(--note));
+  color: var(--note-ink);
   box-shadow:
-    0 1px 2px rgba(45, 43, 43, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    var(--sh-sm-strong),
+    inset 0 1px 0 var(--gloss-strong);
 }
 .kos-dock-item--mail {
   background: linear-gradient(180deg, #38a6cf, #006786);
-  color: #fff;
+  color: var(--on-accent);
   box-shadow:
-    0 1px 2px rgba(45, 43, 43, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    var(--sh-sm-strong),
+    inset 0 1px 0 var(--gloss);
 }
 .kos-dock-item--music {
   background: linear-gradient(180deg, #ff458e, #aa0b56);
-  color: #fff;
+  color: var(--on-accent);
   box-shadow:
-    0 1px 2px rgba(45, 43, 43, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    var(--sh-sm-strong),
+    inset 0 1px 0 var(--gloss);
 }
 .kos-dock-item--photos {
-  background: #fff;
-  color: #d6006c;
+  background: var(--card);
+  color: var(--magenta-on-card);
   box-shadow:
-    0 1px 2px rgba(45, 43, 43, 0.18),
-    0 0 0 1px rgba(32, 30, 29, 0.06);
+    var(--sh-sm-strong),
+    0 0 0 1px var(--tint-06);
 }
 .kos-dock-item--terminal {
   background: linear-gradient(180deg, #444141, #201e1d);
-  color: #f3f2f2;
+  color: var(--on-dark);
   box-shadow:
-    0 1px 2px rgba(45, 43, 43, 0.18),
+    var(--sh-sm-strong),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 .kos-dock-item--pdf {
-  background: linear-gradient(180deg, #f8f4f4, #eae7e7);
-  color: #201e1d;
+  background: linear-gradient(180deg, var(--paper-raised), var(--pad));
+  color: var(--ink);
   box-shadow:
-    0 1px 2px rgba(45, 43, 43, 0.18),
-    0 0 0 1px rgba(32, 30, 29, 0.06);
+    var(--sh-sm-strong),
+    0 0 0 1px var(--tint-06);
 }
 .kos-dock-item--trash {
-  background: rgba(255, 255, 255, 0.55);
-  color: #605d5d;
-  box-shadow: 0 0 0 1px rgba(32, 30, 29, 0.12);
+  background: var(--plate);
+  color: var(--ink-2);
+  box-shadow: 0 0 0 1px var(--tint-12);
 }
 
 /* ------------------------------------------------------------ boot order */
@@ -1177,11 +1216,11 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-window {
   position: absolute;
   pointer-events: auto;
-  background: rgba(248, 244, 244, 0.9);
+  background: var(--frost-strong);
   border-radius: 12px;
   box-shadow:
-    0 3px 10px rgba(45, 43, 43, 0.16),
-    0 0 0 1px rgba(32, 30, 29, 0.08);
+    var(--sh-md-strong),
+    var(--hair);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1200,10 +1239,10 @@ html[data-kos-boot="desk"] .kos-lock {
   outline: none;
 }
 .kos-window[data-focused="true"] {
-  background: #f8f4f4;
+  background: var(--paper-raised);
   box-shadow:
-    0 12px 32px rgba(45, 43, 43, 0.22),
-    0 0 0 1px rgba(32, 30, 29, 0.1);
+    var(--sh-lg),
+    var(--hair-strong);
 }
 .kos-window[data-anim="open"] {
   animation: kos-win-open 380ms var(--kos-ease) both;
@@ -1296,13 +1335,13 @@ html[data-kos-boot="desk"] .kos-lock {
   border-radius: 50%;
   border: 0;
   padding: 0;
-  background: #d7d3d3;
+  background: var(--light-off);
   transition: background 180ms ease;
   cursor: default;
 }
-.kos-window[data-focused="true"] .kos-light--close { background: #ff5f57; }
-.kos-window[data-focused="true"] .kos-light--min { background: #febc2e; }
-.kos-window[data-focused="true"] .kos-light--zoom { background: #28c840; }
+.kos-window[data-focused="true"] .kos-light--close { background: var(--light-close); }
+.kos-window[data-focused="true"] .kos-light--min { background: var(--light-min); }
+.kos-window[data-focused="true"] .kos-light--zoom { background: var(--light-zoom); }
 .kos-light:focus-visible {
   outline-offset: 1px;
 }
@@ -1321,10 +1360,10 @@ html[data-kos-boot="desk"] .kos-lock {
 
 /* 2d: frosted sidebar with the traffic lights inside it. */
 .kos-sidebar {
-  background: rgba(234, 233, 233, 0.7);
+  background: var(--frost-sidebar);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(32, 30, 29, 0.08);
+  border-right: 1px solid var(--tint-08);
   padding: 12px 12px 14px;
   display: flex;
   flex-direction: column;
@@ -1361,7 +1400,7 @@ html[data-kos-boot="desk"] .kos-lock {
   cursor: default;
 }
 .kos-filter[aria-pressed="true"] {
-  background: rgba(32, 30, 29, 0.09);
+  background: var(--tint-09);
 }
 .kos-filter span {
   opacity: 0.55;
@@ -1394,7 +1433,7 @@ html[data-kos-boot="desk"] .kos-lock {
   align-items: center;
   gap: 12px;
   padding: 0 16px;
-  border-bottom: 1px solid rgba(32, 30, 29, 0.08);
+  border-bottom: 1px solid var(--tint-08);
   /* Also the window's drag handle (2d has no title bar). */
   touch-action: none;
   user-select: none;
@@ -1413,7 +1452,7 @@ html[data-kos-boot="desk"] .kos-lock {
   width: 26px;
   height: 24px;
   border-radius: 6px;
-  background: rgba(32, 30, 29, 0.08);
+  background: var(--tint-08);
   display: block;
 }
 .kos-main-title {
@@ -1431,15 +1470,15 @@ html[data-kos-boot="desk"] .kos-lock {
   height: 26px;
   border-radius: 7px;
   border: 0;
-  background: rgba(32, 30, 29, 0.06);
+  background: var(--tint-06);
   padding: 0 10px;
   font: 400 12px var(--font-system);
-  color: #201e1d;
+  color: var(--ink);
   box-sizing: border-box;
   min-width: 0;
 }
 .kos-search::placeholder {
-  color: #201e1d;
+  color: var(--ink);
   opacity: 0.5;
 }
 .kos-search:focus-visible {
@@ -1469,7 +1508,7 @@ html[data-kos-boot="desk"] .kos-lock {
   padding: 8px 16px 10px;
   font: 400 11.5px var(--font-system);
   opacity: 0.5;
-  border-top: 1px solid rgba(32, 30, 29, 0.08);
+  border-top: 1px solid var(--tint-08);
 }
 .kos-empty {
   grid-column: 1 / -1;
@@ -1512,15 +1551,15 @@ html[data-kos-boot="desk"] .kos-lock {
   transform: translateY(-2px);
 }
 .kos-tile-art--live {
-  background: #0088b0;
-  box-shadow: 0 1px 2px rgba(45, 43, 43, 0.14);
+  background: var(--cyan);
+  box-shadow: var(--sh-sm);
 }
 .kos-tile-art--grey {
-  background: #eae7e7;
-  box-shadow: 0 1px 2px rgba(45, 43, 43, 0.1);
+  background: var(--pad);
+  box-shadow: var(--sh-sm-soft);
 }
 .kos-tile-art--coming {
-  border: 1.5px dashed #bab6b6;
+  border: 1.5px dashed var(--quiet);
 }
 .kos-tile-art svg {
   position: absolute;
@@ -1537,7 +1576,7 @@ html[data-kos-boot="desk"] .kos-lock {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 1.5px solid #9b9797;
+  border: 1.5px solid var(--mark-quiet);
   box-sizing: border-box;
 }
 .kos-mark-down {
@@ -1546,7 +1585,7 @@ html[data-kos-boot="desk"] .kos-lock {
   bottom: 12px;
   width: 12px;
   height: 1.5px;
-  background: #9b9797;
+  background: var(--mark-quiet);
 }
 .kos-mark-case {
   position: absolute;
@@ -1556,7 +1595,7 @@ html[data-kos-boot="desk"] .kos-lock {
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-bottom: 10px solid #444141;
+  border-bottom: 10px solid var(--mark);
 }
 .kos-tile-name {
   margin: 0;
@@ -1571,7 +1610,7 @@ html[data-kos-boot="desk"] .kos-lock {
   opacity: 0.55;
 }
 .kos-tile-status--live {
-  color: #006786;
+  color: var(--teal);
   opacity: 1;
 }
 .kos-tile--coming .kos-tile-status {
@@ -1592,11 +1631,11 @@ html[data-kos-boot="desk"] .kos-lock {
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: rgba(248, 244, 244, 0.9);
-  color: #201e1d;
+  background: var(--frost-strong);
+  color: var(--ink);
   font: italic 600 12px/22px var(--font-system);
   text-align: center;
-  box-shadow: 0 1px 2px rgba(45, 43, 43, 0.14);
+  box-shadow: var(--sh-sm);
   opacity: 0;
   transition: opacity 120ms ease;
   cursor: default;
@@ -1607,7 +1646,7 @@ html[data-kos-boot="desk"] .kos-lock {
   opacity: 1;
 }
 .kos-ql-btn:hover {
-  background: #eae7e7;
+  background: var(--pad);
 }
 @media (hover: none) {
   .kos-ql-btn {
@@ -1615,7 +1654,7 @@ html[data-kos-boot="desk"] .kos-lock {
   }
 }
 .kos-grid > li[data-previewed="true"] .kos-tile-art {
-  outline: 2px solid #0088b0;
+  outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
 
@@ -1634,12 +1673,12 @@ html[data-kos-boot="desk"] .kos-lock {
   box-sizing: border-box;
   overflow: auto;
   overscroll-behavior: contain;
-  background: rgba(234, 233, 233, 0.88);
+  background: var(--frost-sidebar-strong);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
-  border-left: 1px solid rgba(32, 30, 29, 0.08);
+  border-left: 1px solid var(--tint-08);
   font: 400 13px/1.45 var(--font-system);
-  color: #201e1d;
+  color: var(--ink);
   animation: kos-fade-in 160ms ease both;
 }
 @media (min-width: 1024px) {
@@ -1669,13 +1708,13 @@ html[data-kos-boot="desk"] .kos-lock {
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: rgba(32, 30, 29, 0.09);
-  color: #201e1d;
+  background: var(--tint-09);
+  color: var(--ink);
   font: 400 15px/22px var(--font-system);
   cursor: default;
 }
 .kos-ql-close:hover {
-  background: rgba(32, 30, 29, 0.14);
+  background: var(--tint-14);
 }
 .kos-ql-frame {
   flex: none;
@@ -1683,10 +1722,10 @@ html[data-kos-boot="desk"] .kos-lock {
   aspect-ratio: 16 / 10;
   border-radius: 10px;
   overflow: hidden;
-  background: #eae7e7;
+  background: var(--pad);
   box-shadow:
-    0 1px 2px rgba(45, 43, 43, 0.14),
-    0 0 0 1px rgba(32, 30, 29, 0.08);
+    var(--sh-sm),
+    var(--hair);
 }
 .kos-ql-frame .kos-tile-art {
   position: absolute;
@@ -1721,7 +1760,7 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-ql-tags li {
   padding: 2px 8px;
   border-radius: 999px;
-  background: rgba(32, 30, 29, 0.08);
+  background: var(--tint-08);
   font: 400 11px var(--font-system);
 }
 .kos-ql-actions {
@@ -1751,7 +1790,7 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-body {
   padding: 18px 22px 24px;
   font: 400 13.5px/1.55 var(--font-system);
-  color: #201e1d;
+  color: var(--ink);
 }
 .kos-body h2 {
   margin: 0 0 4px;
@@ -1766,10 +1805,10 @@ html[data-kos-boot="desk"] .kos-lock {
   margin: 0 0 10px;
 }
 .kos-body a {
-  color: #006786;
+  color: var(--teal);
 }
 .kos-body a:hover {
-  color: #0a303e;
+  color: var(--link-hover);
 }
 .kos-muted {
   opacity: 0.55;
@@ -1782,7 +1821,7 @@ html[data-kos-boot="desk"] .kos-lock {
   margin: 2px 0 10px 16px;
   border-radius: 12px;
   object-fit: cover;
-  box-shadow: 0 2px 8px rgba(45, 43, 43, 0.14);
+  box-shadow: var(--sh-media);
 }
 .kos-about::after {
   content: "";
@@ -1799,7 +1838,7 @@ html[data-kos-boot="desk"] .kos-lock {
   gap: 12px;
   align-items: center;
   padding: 11px 0;
-  border-bottom: 1px solid rgba(32, 30, 29, 0.1);
+  border-bottom: 1px solid var(--tint-10);
 }
 .kos-row:last-child {
   border-bottom: 0;
@@ -1822,10 +1861,10 @@ html[data-kos-boot="desk"] .kos-lock {
   height: 26px;
   flex: none;
   border-radius: 6px;
-  background: #e4e1e1;
+  background: var(--rule-soft);
 }
 .kos-row--icon.live {
-  background: #0088b0;
+  background: var(--cyan);
 }
 .kos-mail-head {
   display: grid;
@@ -1833,7 +1872,7 @@ html[data-kos-boot="desk"] .kos-lock {
   gap: 6px 12px;
   padding: 0 0 14px;
   margin: 0 0 14px;
-  border-bottom: 1px solid rgba(32, 30, 29, 0.1);
+  border-bottom: 1px solid var(--tint-10);
   font: 400 13px var(--font-system);
 }
 .kos-mail-head dt {
@@ -1858,12 +1897,12 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-phone {
   position: absolute;
   inset: 0;
-  background: #f3f2f2;
+  background: var(--paper);
   overflow: hidden;
   font-family: var(--font-system);
 }
 .kos-phone .kos-dots {
-  background-image: radial-gradient(rgba(32, 30, 29, 0.2) 1.1px, transparent 1.3px);
+  background-image: radial-gradient(var(--dot-phone) 1.1px, transparent 1.3px);
   background-size: 20px 20px;
 }
 .kos-phone-bar {
@@ -1872,11 +1911,11 @@ html[data-kos-boot="desk"] .kos-lock {
   right: 0;
   top: 0;
   height: 30px;
-  background: rgba(248, 244, 244, 0.72);
+  background: var(--frost);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   backdrop-filter: blur(20px) saturate(1.4);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 1px 2px rgba(45, 43, 43, 0.06);
+  border-bottom: 1px solid var(--frost-edge);
+  box-shadow: var(--sh-bar);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1893,7 +1932,7 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-phone-bar .mark {
   width: 10px;
   height: 10px;
-  background: #201e1d;
+  background: var(--ink);
   border-radius: 2px;
 }
 .kos-phone-bar b {
@@ -1919,8 +1958,23 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-phone .kos-menu-sep {
   margin: 6px 8px;
 }
+/* There is no room beside a 240 px panel on a phone: the Appearance submenu
+   becomes an indented group under its row, with the same 44 px rows. */
+.kos-phone .kos-submenu {
+  position: static;
+  min-width: 0;
+  margin: 2px 0 2px 14px;
+  padding: 2px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--tint-06);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  animation: none;
+}
 .kos-phone-bar a {
-  color: #006786;
+  color: var(--teal);
   text-decoration: none;
 }
 .kos-phone-bar .kos-clock {
@@ -1965,10 +2019,11 @@ html[data-kos-boot="desk"] .kos-lock {
 }
 .kos-phone-note {
   margin: 30px 0 0;
-  background: #f6e7ae;
+  background: var(--note);
+  color: var(--note-ink);
   border-radius: 18px;
   padding: 16px 18px;
-  box-shadow: 0 3px 10px rgba(45, 43, 43, 0.16);
+  box-shadow: var(--sh-md-strong);
   transform: rotate(-1deg);
   font: 400 14px/1.5 var(--font-system);
 }
@@ -1978,9 +2033,9 @@ html[data-kos-boot="desk"] .kos-lock {
   right: 0;
   bottom: 0;
   height: 100%;
-  background: #f8f4f4;
-  border-top: 1px solid rgba(32, 30, 29, 0.28);
-  box-shadow: 0 -8px 24px rgba(45, 43, 43, 0.14);
+  background: var(--paper-raised);
+  border-top: 1px solid var(--tint-28);
+  box-shadow: var(--sh-sheet);
   border-radius: 14px 14px 0 0;
   display: flex;
   flex-direction: column;
@@ -2006,7 +2061,7 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-sheet-handle i {
   width: 44px;
   height: 3px;
-  background: rgba(32, 30, 29, 0.3);
+  background: var(--scrim-sheet);
   border-radius: 2px;
   display: block;
 }
@@ -2016,7 +2071,7 @@ html[data-kos-boot="desk"] .kos-lock {
   display: flex;
   align-items: baseline;
   gap: 9px;
-  border-bottom: 1px solid rgba(32, 30, 29, 0.14);
+  border-bottom: 1px solid var(--tint-14);
 }
 .kos-sheet-head b {
   font: 600 16px var(--font-system);
@@ -2031,7 +2086,7 @@ html[data-kos-boot="desk"] .kos-lock {
   background: none;
   padding: 0;
   font: 400 11px var(--font-mono);
-  color: #006786;
+  color: var(--teal);
 }
 .kos-sheet-body {
   flex: 1;
@@ -2049,17 +2104,17 @@ html[data-kos-boot="desk"] .kos-lock {
   width: 100%;
   text-align: left;
   font: inherit;
-  border-bottom: 1px solid rgba(32, 30, 29, 0.1);
+  border-bottom: 1px solid var(--tint-10);
 }
 .kos-sheet-body .kos-row:last-child {
   border-bottom: 0;
 }
 .kos-sheet-body .kos-row--icon {
-  border: 1.2px solid #201e1d;
+  border: 1.2px solid var(--ink);
   border-radius: 0;
 }
 .kos-sheet-body .kos-row small.live {
-  color: #006786;
+  color: var(--teal);
   opacity: 1;
 }
 .kos-sheet .kos-body {
@@ -2102,6 +2157,7 @@ html[data-kos-boot="desk"] .kos-lock {
   }
   .kos[data-stage="locking"] .kos-lock,
   .kos-menu,
+  .kos-submenu,
   .kos-alert,
   .kos-alert-scrim,
   .kos-restart {

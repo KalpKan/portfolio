@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { DEFAULT_APPEARANCE, readAppearance, setAppearanceWithCrossfade, subscribeAppearance } from "@/lib/appearance";
 import type { Chunk } from "@/lib/fake-claude";
 import { complete, historyFor, INITIAL_STATE, promptFor, runLine, type Effect, type Line, type ShellState } from "@/lib/shell";
 import { hasCheck, runHealthChecks, type Signal } from "@/lib/signal";
@@ -51,6 +52,8 @@ const defaultLoad = () => import("@/lib/vfs-data").then((m) => m.buildKalpVfs())
 
 export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, onLock, onRestart, loadRoot = defaultLoad, fetcher }: TerminalWindowProps) {
   const [root, setRoot] = useState<VDir | null>(null);
+  /** `theme` with no argument reports this. */
+  const appearance = useSyncExternalStore(subscribeAppearance, readAppearance, () => DEFAULT_APPEARANCE);
   const [shell, setShell] = useState<ShellState>(INITIAL_STATE);
   const [rows, setRows] = useState<Row[]>([]);
   const [input, setInput] = useState("");
@@ -188,6 +191,9 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, on
           case "status":
             runStatus();
             break;
+          case "appearance":
+            setAppearanceWithCrossfade(e.value);
+            break;
           case "reply":
             play(e.chunks);
             break;
@@ -200,7 +206,7 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, on
   const submit = useCallback(() => {
     if (!root || busy) return;
     const prompt = promptFor(shell);
-    const result = runLine({ root, tiles, signals }, shell, input);
+    const result = runLine({ root, tiles, signals, appearance }, shell, input);
     const echo: Line = [{ text: `${prompt} `, tone: "dim" }, { text: input }];
     // `clear` wipes the log including the echoed command line.
     if (result.effects.some((e) => e.type === "clear")) setRows([]);
@@ -212,7 +218,7 @@ export default function TerminalWindow({ tiles, signals, onOpenCase, onClose, on
     draft.current = "";
     if (result.name) track("terminal_command", { name: result.name });
     perform(result.effects);
-  }, [root, busy, shell, tiles, signals, input, append, perform]);
+  }, [root, busy, shell, tiles, signals, appearance, input, append, perform]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const el = e.currentTarget;

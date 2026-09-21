@@ -13,7 +13,7 @@
 .kos-bin {
   display: block;
   overflow: visible;
-  filter: drop-shadow(0 2px 3px rgba(45, 43, 43, 0.22));
+  filter: drop-shadow(0 2px 3px var(--c-sh-lg));
 }
 .kos-bin--desk {
   width: 48px;
@@ -22,7 +22,7 @@
 .kos-bin--dock {
   width: 26px;
   height: 30px;
-  filter: drop-shadow(0 1px 1px rgba(45, 43, 43, 0.2));
+  filter: drop-shadow(0 1px 1px var(--c-sh-dock));
 }
 /* 2e: the rim lifts on hover (220 ms, the one spring), and while another icon is held over it (data-lid="up", lib/swat.ts). */
 .kos-bin-lid {
@@ -92,7 +92,7 @@
   width: 52px;
   height: 68px;
   transform-origin: 50% 100%;
-  filter: drop-shadow(0 2px 3px rgba(45, 43, 43, 0.25));
+  filter: var(--sh-folder);
 }
 .kos-hand[data-hand="out"] {
   animation:
@@ -123,13 +123,13 @@
   transform: translateX(-50%);
   padding: 5px 10px;
   border-radius: 999px;
-  background: rgba(248, 244, 244, 0.72);
+  background: var(--frost);
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
   backdrop-filter: blur(24px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  box-shadow: 0 6px 18px rgba(45, 43, 43, 0.16);
+  border: 1px solid var(--frost-edge-strong);
+  box-shadow: 0 6px 18px var(--c-sh-md-strong);
   font: 500 12px var(--font-system);
-  color: #201e1d;
+  color: var(--ink);
   white-space: nowrap;
   pointer-events: none;
   z-index: 31;
@@ -315,13 +315,13 @@ button.kos-now {
   transition: box-shadow 180ms var(--kos-ease), transform 180ms var(--kos-ease);
 }
 button.kos-now:hover {
-  box-shadow: 0 6px 16px rgba(45, 43, 43, 0.16), 0 0 0 1px rgba(32, 30, 29, 0.08);
+  box-shadow: 0 6px 16px var(--c-sh-md-strong), var(--hair);
 }
 button.kos-now:active {
   transform: scale(0.985);
 }
 button.kos-now:focus-visible {
-  outline: 2px solid #0088b0;
+  outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
 .kos-now header i {
@@ -329,7 +329,7 @@ button.kos-now:focus-visible {
 }
 .kos-now[data-paused="true"] header i {
   animation: none;
-  background: #9b9797;
+  background: var(--mark-quiet);
 }
 @keyframes kos-now-pulse {
   0%,
@@ -372,7 +372,7 @@ button.kos-now[data-paused="true"] .bar i {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 3px 10px rgba(45, 43, 43, 0.16), 0 0 0 1px rgba(32, 30, 29, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: var(--sh-md-strong), var(--hair), inset 0 1px 0 var(--gloss);
 }
 .kos-cover::after {
   content: "";
@@ -385,20 +385,20 @@ button.kos-now[data-paused="true"] .bar i {
   position: relative;
   font: 600 64px/1 var(--font-system);
   letter-spacing: -0.04em;
-  color: #fff;
+  color: var(--on-accent);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
 .kos-music-progress .bar {
   height: 3px;
   border-radius: 2px;
-  background: rgba(32, 30, 29, 0.12);
+  background: var(--tint-12);
   overflow: hidden;
 }
 .kos-music-progress .bar i {
   display: block;
   height: 100%;
   border-radius: 2px;
-  background: #0088b0;
+  background: var(--cyan);
   transition: width 260ms linear;
 }
 .kos-music-progress .times {
@@ -426,30 +426,30 @@ button.kos-now[data-paused="true"] .bar i {
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  color: #201e1d;
-  background: rgba(32, 30, 29, 0.07);
+  color: var(--ink);
+  background: var(--tint-07);
   cursor: default;
   transition: background 160ms var(--kos-ease), transform 160ms var(--kos-ease);
 }
 .kos-transport button:hover {
-  background: rgba(32, 30, 29, 0.13);
+  background: var(--tint-13);
 }
 .kos-transport button:active {
   transform: scale(0.94);
 }
 .kos-transport button:focus-visible {
-  outline: 2px solid #0088b0;
+  outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
 .kos-transport button.play {
   width: 42px;
   height: 42px;
   font-size: 20px;
-  color: #f8f4f4;
-  background: #201e1d;
+  color: var(--paper-raised);
+  background: var(--ink);
 }
 .kos-transport button.play:hover {
-  background: #444141;
+  background: var(--mark);
 }
 .kos-music-main {
   display: flex;
@@ -484,14 +484,14 @@ button.kos-now[data-paused="true"] .bar i {
   transition: background 160ms var(--kos-ease);
 }
 .kos-track:hover {
-  background: rgba(32, 30, 29, 0.06);
+  background: var(--tint-06);
 }
 .kos-track:focus-visible {
-  outline: 2px solid #0088b0;
+  outline: 2px solid var(--cyan);
   outline-offset: -2px;
 }
 .kos-track[aria-current="true"] {
-  background: rgba(0, 136, 176, 0.12);
+  background: var(--cyan-wash);
 }
 .kos-track .n {
   font: 400 11px var(--font-mono);
@@ -500,7 +500,7 @@ button.kos-now[data-paused="true"] .bar i {
   font-variant-numeric: tabular-nums;
 }
 .kos-track[aria-current="true"] .n {
-  color: #006786;
+  color: var(--teal);
   opacity: 1;
 }
 .kos-track .who {
@@ -561,7 +561,7 @@ button.kos-now[data-paused="true"] .bar i {
   text-transform: uppercase;
   padding: 2px 7px;
   border-radius: 999px;
-  border: 1px solid rgba(32, 30, 29, 0.28);
+  border: 1px solid var(--tint-28);
   opacity: 0.75;
   white-space: nowrap;
 }
@@ -655,13 +655,13 @@ button.kos-now[data-paused="true"] .bar i {
   flex-direction: column;
   gap: 10px;
   text-align: left;
-  background: rgba(248, 244, 244, 0.72);
+  background: var(--frost);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
   backdrop-filter: blur(20px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--frost-edge-soft);
   border-radius: 18px;
   padding: 14px 16px;
-  box-shadow: 0 3px 10px rgba(45, 43, 43, 0.12);
+  box-shadow: var(--sh-md);
   cursor: default;
   transition: transform 160ms var(--kos-ease);
 }
@@ -672,7 +672,7 @@ button.kos-now[data-paused="true"] .bar i {
   transform: translateY(0) scale(0.995);
 }
 .kos-reading:focus-visible {
-  outline: 2px solid #0088b0;
+  outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
 .kos-reading .row {
@@ -702,13 +702,13 @@ button.kos-now[data-paused="true"] .bar i {
   flex: none;
   object-fit: cover;
   border-radius: 2px 3px 3px 2px;
-  background: #e4e1e1;
+  background: var(--rule-soft);
   box-shadow:
-    1px 0 0 rgba(255, 255, 255, 0.75),
-    2px 0 0 rgba(32, 30, 29, 0.14),
-    3px 0 0 rgba(255, 255, 255, 0.6),
-    4px 0 0 rgba(32, 30, 29, 0.1),
-    0 3px 8px rgba(45, 43, 43, 0.22);
+    1px 0 0 var(--frost-edge-strong),
+    2px 0 0 var(--tint-14),
+    3px 0 0 var(--gloss-strong),
+    4px 0 0 var(--tint-10),
+    0 3px 8px var(--c-sh-lg);
 }
 .kos-book--thumb {
   width: 44px;
@@ -764,12 +764,12 @@ button.kos-now[data-paused="true"] .bar i {
   width: 34px;
   height: 34px;
   border-radius: 10px;
-  background: #eae7e7;
-  color: #0088b0;
+  background: var(--pad);
+  color: var(--cyan);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 0 0 1px rgba(32, 30, 29, 0.06);
+  box-shadow: inset 0 0 0 1px var(--tint-06);
 }
 
 /* ------------------------------------------------------- phone variants */

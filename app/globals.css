@@ -1,36 +1,261 @@
 @import "tailwindcss";
 
 /*
-  KalpOS tokens (docs/design/KalpOS-Mockups.dc.html, turn 2/3). Paper is the
-  only surface; black is only the lock screen. The old token names are kept
-  because components/showcase/* use them as Tailwind colour utilities; their
-  values are now the KalpOS palette. No dark variant: the spec says black is
-  the only dark surface, so the desk never inverts.
+  KalpOS tokens (docs/design/KalpOS-Mockups.dc.html, turn 2/3). Every colour
+  the chrome uses is named here once and used as a var() everywhere else;
+  app/kalpos.css and app/kalpos-extras.css hold no literal colour except the
+  boot / lock / power / restart screens, which are black in both appearances,
+  and the drawn icons' own tints.
+
+  APPEARANCE (T6.10, 2026-09-21, Kalp: "implement a dark mode to the portfolio
+  website"). This supersedes the earlier "black is the only dark surface, the
+  desk never inverts" decision. Each token is one declaration whose value is a
+  `light-dark()` pair, and the three selectors below decide which half is used
+  by setting `color-scheme`:
+
+    :root                                                   -> light (default)
+    :root[data-appearance="dark"]                           -> dark
+    (prefers-color-scheme: dark) + [data-appearance="auto"] -> dark
+
+  <html data-appearance> is written before the first paint by
+  APPEARANCE_SCRIPT (lib/appearance.ts, inlined in app/layout.tsx), so there
+  is no flash; the default is light (lib/appearance.ts explains why). Writing
+  the pair on one line rather than keeping a second, parallel dark block is
+  what stops the two appearances drifting apart. Each token also declares its
+  plain light value first, as the fallback a browser without `light-dark()`
+  (Baseline 2024) keeps: such a browser simply stays light everywhere.
+
+  `light-dark()` returns a colour, so it cannot hold a whole `box-shadow`.
+  Shadows are therefore split: the geometry is written once, in the shadow
+  token, and only its colour is a pair. That matches how macOS retunes depth
+  across appearances anyway — the same offsets, a deeper and blacker colour,
+  because a warm grey shadow is invisible on a near-black desk and the
+  hairline ring does more of the separating.
 */
+
 :root {
+  color-scheme: light;
+}
+:root[data-appearance="light"] {
+  color-scheme: light;
+}
+:root[data-appearance="dark"] {
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  /* Auto follows the machine. The :not() arm covers a visitor with JavaScript
+     off, for whom the pre-paint script never ran and no attribute exists. */
+  :root[data-appearance="auto"],
+  :root:not([data-appearance]) {
+    color-scheme: dark;
+  }
+}
+
+:root {
+  /* ---------------------------------------------------------- surfaces */
+  /* The desk ground, and the phone's. Dark is near-black, under every window. */
   --paper: #f3f2f2;
+  --paper: light-dark(#f3f2f2, #121214);
+  /* A focused window, the phone bottom sheet, the confirm sheet. */
   --paper-raised: #f8f4f4;
-  --ink: #201e1d;
-  --ink-2: #605d5d;
-  --ink-3: #8a8686;
-  --rule: #d7d3d3;
-  --rule-soft: #e4e1e1;
+  --paper-raised: light-dark(#f8f4f4, #2a2a2e);
+  /* A drawn sheet of paper: the About document, the photo frame's mount, the
+     folder slip, the Music dock tile. White on paper; a raised dark card on a
+     dark desk. */
+  --card: #ffffff;
+  --card: light-dark(#ffffff, #1e1e22);
+  /* Secondary fills: a button at rest, the grey project tile, the search
+     field, the Quick Look frame. */
   --pad: #eae7e7;
+  --pad: light-dark(#eae7e7, #2b2b2f);
+  --rule-soft: #e4e1e1;
+  --rule-soft: light-dark(#e4e1e1, #2f2f33);
+  /* The lighter half of the photo placeholder's 45° stripes. */
+  --rule-soft-2: #f1eeee;
+  --rule-soft-2: light-dark(#f1eeee, #26262a);
+  --rule: #d7d3d3;
+  --rule: light-dark(#d7d3d3, #3d3d42);
+
+  /* -------------------------------------------------------------- ink */
+  --ink: #201e1d;
+  --ink: light-dark(#201e1d, #ededec);
+  --ink-2: #605d5d;
+  --ink-2: light-dark(#605d5d, #a9a5a5);
+  --ink-3: #8a8686;
+  --ink-3: light-dark(#8a8686, #9a9696);
+  /* Text on a filled accent (cyan tile, magenta tile, folder badge). */
+  --on-accent: #ffffff;
+  /* Ink on a surface that is black in BOTH appearances: the Restart sheet's
+     KK mark and the Terminal dock tile. It must not follow --paper. */
+  --on-dark: #f3f2f2;
+
+  /* ------------------------------------------------------------ tints */
+  /* Ink at a low alpha on paper; white at a low alpha on the dark desk. The
+     alpha is in the name so the light values below are exactly the mock's and
+     a reader can see at a glance which weight a rule is using. */
+  --tint-06: rgba(32, 30, 29, 0.06);
+  --tint-06: light-dark(rgba(32, 30, 29, 0.06), rgba(255, 255, 255, 0.06));
+  --tint-07: rgba(32, 30, 29, 0.07);
+  --tint-07: light-dark(rgba(32, 30, 29, 0.07), rgba(255, 255, 255, 0.07));
+  --tint-08: rgba(32, 30, 29, 0.08);
+  --tint-08: light-dark(rgba(32, 30, 29, 0.08), rgba(255, 255, 255, 0.09));
+  --tint-09: rgba(32, 30, 29, 0.09);
+  --tint-09: light-dark(rgba(32, 30, 29, 0.09), rgba(255, 255, 255, 0.1));
+  --tint-10: rgba(32, 30, 29, 0.1);
+  --tint-10: light-dark(rgba(32, 30, 29, 0.1), rgba(255, 255, 255, 0.11));
+  --tint-12: rgba(32, 30, 29, 0.12);
+  --tint-12: light-dark(rgba(32, 30, 29, 0.12), rgba(255, 255, 255, 0.13));
+  --tint-13: rgba(32, 30, 29, 0.13);
+  --tint-13: light-dark(rgba(32, 30, 29, 0.13), rgba(255, 255, 255, 0.14));
+  --tint-14: rgba(32, 30, 29, 0.14);
+  --tint-14: light-dark(rgba(32, 30, 29, 0.14), rgba(255, 255, 255, 0.15));
+  --tint-16: rgba(32, 30, 29, 0.16);
+  --tint-16: light-dark(rgba(32, 30, 29, 0.16), rgba(255, 255, 255, 0.16));
+  --tint-18: rgba(32, 30, 29, 0.18);
+  --tint-18: light-dark(rgba(32, 30, 29, 0.18), rgba(255, 255, 255, 0.18));
+  --tint-20: rgba(32, 30, 29, 0.2);
+  --tint-20: light-dark(rgba(32, 30, 29, 0.2), rgba(255, 255, 255, 0.2));
+  --tint-28: rgba(32, 30, 29, 0.28);
+  --tint-28: light-dark(rgba(32, 30, 29, 0.28), rgba(255, 255, 255, 0.24));
+
+  /* ------------------------------------------------------------ frost */
+  /* The Frost Rule: anything floating over the desk is frosted, never opaque.
+     Same blur(20px) / blur(24px) and saturate(1.4) in both appearances; only
+     the tint changes, and the "light from above" edge drops to a hairline,
+     because on a dark ground a bright edge reads as a glow, not a bevel. */
+  --frost: rgba(248, 244, 244, 0.72);
+  --frost: light-dark(rgba(248, 244, 244, 0.72), rgba(34, 34, 38, 0.72));
+  --frost-dock: rgba(248, 244, 244, 0.62);
+  --frost-dock: light-dark(rgba(248, 244, 244, 0.62), rgba(28, 28, 32, 0.68));
+  --frost-strong: rgba(248, 244, 244, 0.9);
+  --frost-strong: light-dark(rgba(248, 244, 244, 0.9), rgba(32, 32, 36, 0.9));
+  /* The dock's hover label: a touch more opaque than the menubar's frost. */
+  --frost-plate: rgba(248, 244, 244, 0.92);
+  --frost-plate: light-dark(rgba(248, 244, 244, 0.92), rgba(32, 32, 36, 0.92));
+  --frost-sidebar: rgba(234, 233, 233, 0.7);
+  --frost-sidebar: light-dark(rgba(234, 233, 233, 0.7), rgba(22, 22, 26, 0.72));
+  --frost-sidebar-strong: rgba(234, 233, 233, 0.88);
+  --frost-sidebar-strong: light-dark(rgba(234, 233, 233, 0.88), rgba(22, 22, 26, 0.9));
+  --frost-edge: rgba(255, 255, 255, 0.65);
+  --frost-edge: light-dark(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.09));
+  --frost-edge-strong: rgba(255, 255, 255, 0.75);
+  --frost-edge-strong: light-dark(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.11));
+  --frost-edge-soft: rgba(255, 255, 255, 0.7);
+  --frost-edge-soft: light-dark(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.09));
+  /* The inset top highlight on a dock tile and a folder front. */
+  --gloss: rgba(255, 255, 255, 0.35);
+  --gloss: light-dark(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.18));
+  --gloss-strong: rgba(255, 255, 255, 0.6);
+  --gloss-strong: light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.22));
+  --gloss-soft: rgba(255, 255, 255, 0.45);
+  --gloss-soft: light-dark(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.18));
+  /* The dock's hover label plate, over the dock's own frost. */
+  --plate: rgba(255, 255, 255, 0.55);
+  --plate: light-dark(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.1));
+
+  /* -------------------------------------------------------- the ground */
+  /* 22 px dot grid: the same pitch in both, at a low alpha on the dark desk. */
+  --dot: rgba(32, 30, 29, 0.18);
+  --dot: light-dark(rgba(32, 30, 29, 0.18), rgba(255, 255, 255, 0.085));
+  --dot-phone: rgba(32, 30, 29, 0.2);
+  --dot-phone: light-dark(rgba(32, 30, 29, 0.2), rgba(255, 255, 255, 0.1));
+  /* The desk's overhead sheen. A dark desk keeps it, barely. */
+  --sheen: rgba(255, 255, 255, 0.6);
+  --sheen: light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.045));
+  /* A modal scrim darkens in both appearances: it is shade, not a tint. */
+  --scrim: rgba(32, 30, 29, 0.18);
+  --scrim: light-dark(rgba(32, 30, 29, 0.18), rgba(0, 0, 0, 0.52));
+  --scrim-sheet: rgba(32, 30, 29, 0.3);
+  --scrim-sheet: light-dark(rgba(32, 30, 29, 0.3), rgba(0, 0, 0, 0.58));
+
+  /* ---------------------------------------------------------- accents */
+  /* Cyan and magenta are fills carrying white text, so their value does not
+     move: white on #0088b0 is the same 4.0:1 in both appearances, and
+     #0088b0 on the dark desk is 4.6:1. What has to move is accent *text* on
+     a surface — #006786 on a dark window would be 1.9:1. */
   --cyan: #0088b0;
   --teal: #006786;
+  --teal: light-dark(#006786, #5cc3ec);
+  --link-hover: #0a303e;
+  --link-hover: light-dark(#0a303e, #a8e2f6);
+  /* The playing row's wash behind cyan text. */
+  --cyan-wash: rgba(0, 136, 176, 0.12);
+  --cyan-wash: light-dark(rgba(0, 136, 176, 0.12), rgba(92, 195, 236, 0.16));
   --magenta: #d6006c;
+  --magenta-on-card: #d6006c;
+  --magenta-on-card: light-dark(#d6006c, #ff7fb0);
+  /* The NOTE widget stays yellow, muted rather than inverted, with its own
+     ink so the handwriting stays AA (7.3:1 in dark). */
   --note: #f6e7ae;
-  --frost: rgba(248, 244, 244, 0.72);
-  --frost-dock: rgba(248, 244, 244, 0.62);
-  --frost-edge: rgba(255, 255, 255, 0.65);
+  --note: light-dark(#f6e7ae, #54492a);
+  --note-hi: #fff6d6;
+  --note-hi: light-dark(#fff6d6, #6b5d33);
+  --note-ink: #201e1d;
+  --note-ink: light-dark(#201e1d, #f3e9c6);
+  /* Drawn marks on a tile: ▲ case study, the dock's running dot. */
+  --mark: #444141;
+  --mark: light-dark(#444141, #c6c2c2);
+  /* ○ checking, — no signal. */
+  --mark-quiet: #9b9797;
+  --mark-quiet: light-dark(#9b9797, #8b8787);
+  /* The dashed outline of a "coming" tile. */
+  --quiet: #bab6b6;
+  --quiet: light-dark(#bab6b6, #5d5a5a);
+  /* Traffic lights: the three colours are macOS's in both appearances; only
+     the unfocused grey moves. */
+  --light-off: #d7d3d3;
+  --light-off: light-dark(#d7d3d3, #4a4a4f);
+  --light-close: #ff5f57;
+  --light-min: #febc2e;
+  --light-zoom: #28c840;
 
-  /* Legacy names used by the showcase components. */
+  /* ---------------------------------------------------------- shadows */
+  /* Depth is frost plus three shadows (sm / md / lg). The geometry is the
+     mock's in both appearances; only the colour is a light-dark pair. */
+  --c-sh-sm: rgba(45, 43, 43, 0.14);
+  --c-sh-sm: light-dark(rgba(45, 43, 43, 0.14), rgba(0, 0, 0, 0.58));
+  --c-sh-sm-strong: rgba(45, 43, 43, 0.18);
+  --c-sh-sm-strong: light-dark(rgba(45, 43, 43, 0.18), rgba(0, 0, 0, 0.64));
+  --c-sh-sm-soft: rgba(45, 43, 43, 0.1);
+  --c-sh-sm-soft: light-dark(rgba(45, 43, 43, 0.1), rgba(0, 0, 0, 0.5));
+  --c-sh-md: rgba(45, 43, 43, 0.12);
+  --c-sh-md: light-dark(rgba(45, 43, 43, 0.12), rgba(0, 0, 0, 0.5));
+  --c-sh-md-strong: rgba(45, 43, 43, 0.16);
+  --c-sh-md-strong: light-dark(rgba(45, 43, 43, 0.16), rgba(0, 0, 0, 0.56));
+  --c-sh-lg: rgba(45, 43, 43, 0.22);
+  --c-sh-lg: light-dark(rgba(45, 43, 43, 0.22), rgba(0, 0, 0, 0.68));
+  --c-sh-dock: rgba(45, 43, 43, 0.2);
+  --c-sh-dock: light-dark(rgba(45, 43, 43, 0.2), rgba(0, 0, 0, 0.64));
+  --c-sh-menu: rgba(0, 0, 0, 0.2);
+  --c-sh-menu: light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
+  --c-sh-bar: rgba(45, 43, 43, 0.06);
+  --c-sh-bar: light-dark(rgba(45, 43, 43, 0.06), rgba(0, 0, 0, 0.5));
+  --c-sh-folder: rgba(45, 43, 43, 0.25);
+  --c-sh-folder: light-dark(rgba(45, 43, 43, 0.25), rgba(0, 0, 0, 0.62));
+
+  --sh-sm: 0 1px 2px var(--c-sh-sm);
+  --sh-sm-soft: 0 1px 2px var(--c-sh-sm-soft);
+  --sh-sm-strong: 0 1px 2px var(--c-sh-sm-strong);
+  --sh-md: 0 3px 10px var(--c-sh-md);
+  --sh-md-strong: 0 3px 10px var(--c-sh-md-strong);
+  --sh-lg: 0 12px 32px var(--c-sh-lg);
+  --sh-dock: 0 12px 32px var(--c-sh-dock);
+  --sh-menu: 0 12px 32px var(--c-sh-menu);
+  --sh-bar: 0 1px 2px var(--c-sh-bar);
+  --sh-sheet: 0 -8px 24px var(--c-sh-sm);
+  --sh-media: 0 2px 8px var(--c-sh-sm);
+  --sh-folder: drop-shadow(0 2px 3px var(--c-sh-folder));
+  /* The hairline ring that separates a surface from the ground. */
+  --hair: 0 0 0 1px var(--tint-08);
+  --hair-strong: 0 0 0 1px var(--tint-10);
+
+  /* ----------------------------------- legacy names (showcase components) */
   --sheet: var(--paper);
   --sheet-raised: var(--paper-raised);
   --signal: var(--cyan);
   --signal-ink: #ffffff;
   --signal-soft: #d9eef5;
-  --quiet: #bab6b6;
+  --signal-soft: light-dark(#d9eef5, #14323d);
   --ring: var(--cyan);
 
   --font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
@@ -59,7 +284,6 @@
 
 html {
   background: var(--paper);
-  color-scheme: light;
   overflow-x: hidden;
 }
 
@@ -88,6 +312,40 @@ a {
 * {
   scrollbar-color: var(--rule) transparent;
   scrollbar-width: thin;
+}
+
+/*
+  Changing appearance is one 160 ms crossfade of the whole desk rather than a
+  hundred independent colour transitions (T6.10): `.kos-appearance-shift` is
+  put on <html> for exactly that long by the Appearance row, and every surface
+  and ink in the chrome eases together. Only paint properties are listed, so
+  nothing moves and no layout or transform animation is disturbed. Under
+  reduced motion the swap is instant: a crossfade of a full-screen frosted
+  desk is precisely what that setting asks us to drop.
+*/
+html.kos-appearance-shift,
+html.kos-appearance-shift body,
+html.kos-appearance-shift .kos *,
+html.kos-appearance-shift .kos *::before,
+html.kos-appearance-shift .kos *::after {
+  transition:
+    background-color 160ms ease,
+    background-image 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    fill 160ms ease,
+    stroke 160ms ease,
+    outline-color 160ms ease !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.kos-appearance-shift,
+  html.kos-appearance-shift body,
+  html.kos-appearance-shift .kos *,
+  html.kos-appearance-shift .kos *::before,
+  html.kos-appearance-shift .kos *::after {
+    transition: none !important;
+  }
 }
 
 /* Case-study headings inside a window: the KalpOS type, 600 weight, tight. */

@@ -1,0 +1,181 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`contrast in both appearances > meets the bar for every pair, and the measured table is recorded 1`] = `
+"pair                                      light   dark    bar (light / dark)
+desk label on the desk                    14.86   15.97   4.5 / 4.5
+menubar label on the menubar frost        15.11   14.27   4.5 / 4.5
+dock hover label on its plate             15.18   14.04   4.5 / 4.5
+menu row on the menu frost                15.08   15.00   4.5 / 4.5
+window body on a focused window           15.21   12.20   4.5 / 4.5
+case-study prose on a focused window      5.97    5.86    4.5 / 4.5
+meta on a focused window (--ink-3)        3.30    4.89    3 / 4.5
+sidebar label on the sidebar frost        14.04   15.57   4.5 / 4.5
+Quick Look text on its frost              13.84   15.46   4.5 / 4.5
+note text on the NOTE widget              13.41   7.31    4.5 / 4.5
+ink on a card (document, photo frame)     16.60   14.18   4.5 / 4.5
+photo caption on a card                   6.52    6.81    4.5 / 4.5
+ink on a pad button                       13.51   12.04   4.5 / 4.5
+dock label ink on its plate               6.21    5.90    4.5 / 4.5
+link inside a window                      5.86    7.13    4.5 / 4.5
+link hover inside a window                12.78   10.12   4.5 / 4.5
+'Live signal' under a tile                5.86    7.13    4.5 / 4.5
+the Music dock tile's note on its card    5.15    7.05    4.5 / 4.5
+white on the Music (magenta) tile         5.15    5.15    4.5 / 4.5
+white on a live (cyan) tile               4.08    4.08    3 / 3
+a cyan tile against the desk              3.65    4.59    3 / 3
+the focus ring against the desk           3.65    4.59    3 / 3
+the focus ring against a window           3.74    3.50    3 / 3
+the ▲ case-study mark on a grey tile      8.22    7.99    3 / 3
+the ○ checking mark on a grey tile        2.35    3.97    2 / 3
+the dashed 'coming' outline on a window   1.84    2.09    1.5 / 1.5
+a hairline rule on a focused window       1.36    1.32    1.2 / 1.2"
+`;
+
+exports[`what each surface is painted, in both appearances > resolves to these colours 1`] = `
+"desk ground  (.kos-desk)
+  background     light  #f3f2f2
+                 dark   #121214
+
+dot grid  (.kos-dots)
+  background-image light  radial-gradient(rgba(32, 30, 29, 0.18) 1.1px, transparent 1.3px)
+                 dark   radial-gradient(rgba(255, 255, 255, 0.085) 1.1px, transparent 1.3px)
+
+desk sheen  (.kos-sheen)
+  background     light  radial-gradient(ellipse at 50% 15%, rgba(255, 255, 255, 0.6), transparent 62%)
+                 dark   radial-gradient(ellipse at 50% 15%, rgba(255, 255, 255, 0.045), transparent 62%)
+
+menubar  (.kos-menubar)
+  background     light  rgba(248, 244, 244, 0.72)
+                 dark   rgba(34, 34, 38, 0.72)
+  border-bottom  light  1px solid rgba(255, 255, 255, 0.65)
+                 dark   1px solid rgba(255, 255, 255, 0.09)
+  box-shadow     light  0 1px 2px rgba(45, 43, 43, 0.06)
+                 dark   0 1px 2px rgba(0, 0, 0, 0.5)
+  color          light  #201e1d
+                 dark   #ededec
+
+KalpOS menu  (.kos-menu)
+  background     light  rgba(248, 244, 244, 0.62)
+                 dark   rgba(28, 28, 32, 0.68)
+  border         light  1px solid rgba(255, 255, 255, 0.75)
+                 dark   1px solid rgba(255, 255, 255, 0.11)
+  box-shadow     light  0 12px 32px rgba(0, 0, 0, 0.2)
+                 dark   0 12px 32px rgba(0, 0, 0, 0.7)
+
+Appearance submenu  (.kos-submenu)
+  background     light  rgba(248, 244, 244, 0.62)
+                 dark   rgba(28, 28, 32, 0.68)
+  border         light  1px solid rgba(255, 255, 255, 0.75)
+                 dark   1px solid rgba(255, 255, 255, 0.11)
+  box-shadow     light  0 12px 32px rgba(0, 0, 0, 0.2)
+                 dark   0 12px 32px rgba(0, 0, 0, 0.7)
+
+dock  (.kos-dock)
+  background     light  rgba(248, 244, 244, 0.62)
+                 dark   rgba(28, 28, 32, 0.68)
+  border         light  1px solid rgba(255, 255, 255, 0.75)
+                 dark   1px solid rgba(255, 255, 255, 0.11)
+  box-shadow     light  0 12px 32px rgba(45, 43, 43, 0.2)
+                 dark   0 12px 32px rgba(0, 0, 0, 0.64)
+
+dock hover label  (.kos-dock-label)
+  background     light  rgba(248, 244, 244, 0.92)
+                 dark   rgba(32, 32, 36, 0.92)
+  border         light  1px solid rgba(255, 255, 255, 0.75)
+                 dark   1px solid rgba(255, 255, 255, 0.11)
+  box-shadow     light  0 3px 10px rgba(45, 43, 43, 0.16)
+                 dark   0 3px 10px rgba(0, 0, 0, 0.56)
+  color          light  #201e1d
+                 dark   #ededec
+
+window (unfocused)  (.kos-window)
+  background     light  rgba(248, 244, 244, 0.9)
+                 dark   rgba(32, 32, 36, 0.9)
+  box-shadow     light  0 3px 10px rgba(45, 43, 43, 0.16), 0 0 0 1px rgba(32, 30, 29, 0.08)
+                 dark   0 3px 10px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(255, 255, 255, 0.09)
+
+window (focused)  (.kos-window[data-focused="true"])
+  background     light  #f8f4f4
+                 dark   #2a2a2e
+  box-shadow     light  0 12px 32px rgba(45, 43, 43, 0.22), 0 0 0 1px rgba(32, 30, 29, 0.1)
+                 dark   0 12px 32px rgba(0, 0, 0, 0.68), 0 0 0 1px rgba(255, 255, 255, 0.11)
+
+window sidebar  (.kos-sidebar)
+  background     light  rgba(234, 233, 233, 0.7)
+                 dark   rgba(22, 22, 26, 0.72)
+  border-right   light  1px solid rgba(32, 30, 29, 0.08)
+                 dark   1px solid rgba(255, 255, 255, 0.09)
+
+NOTE widget  (.kos-note)
+  background     light  #f6e7ae
+                 dark   #54492a
+  color          light  #201e1d
+                 dark   #f3e9c6
+  box-shadow     light  0 3px 10px rgba(45, 43, 43, 0.12)
+                 dark   0 3px 10px rgba(0, 0, 0, 0.5)
+
+photo frame  (.kos-photo)
+  background     light  #ffffff
+                 dark   #1e1e22
+  box-shadow     light  0 3px 10px rgba(45, 43, 43, 0.12)
+                 dark   0 3px 10px rgba(0, 0, 0, 0.5)
+
+NOW PLAYING widget  (.kos-now)
+  background     light  rgba(248, 244, 244, 0.72)
+                 dark   rgba(34, 34, 38, 0.72)
+  border         light  1px solid rgba(255, 255, 255, 0.7)
+                 dark   1px solid rgba(255, 255, 255, 0.09)
+  box-shadow     light  0 3px 10px rgba(45, 43, 43, 0.12)
+                 dark   0 3px 10px rgba(0, 0, 0, 0.5)
+
+About document icon  (.kos-doc)
+  background     light  #ffffff
+                 dark   #1e1e22
+  box-shadow     light  0 1px 2px rgba(45, 43, 43, 0.14), 0 0 0 1px rgba(32, 30, 29, 0.08)
+                 dark   0 1px 2px rgba(0, 0, 0, 0.58), 0 0 0 1px rgba(255, 255, 255, 0.09)
+
+project tile art (live)  (.kos-tile-art--live)
+  background     light  #0088b0
+                 dark   #0088b0
+  box-shadow     light  0 1px 2px rgba(45, 43, 43, 0.14)
+                 dark   0 1px 2px rgba(0, 0, 0, 0.58)
+
+project tile art (grey)  (.kos-tile-art--grey)
+  background     light  #eae7e7
+                 dark   #2b2b2f
+  box-shadow     light  0 1px 2px rgba(45, 43, 43, 0.1)
+                 dark   0 1px 2px rgba(0, 0, 0, 0.5)
+
+project tile art (coming)  (.kos-tile-art--coming)
+  border         light  1.5px dashed #bab6b6
+                 dark   1.5px dashed #5d5a5a
+
+Quick Look panel  (.kos-ql)
+  background     light  rgba(234, 233, 233, 0.88)
+                 dark   rgba(22, 22, 26, 0.9)
+  border-left    light  1px solid rgba(32, 30, 29, 0.08)
+                 dark   1px solid rgba(255, 255, 255, 0.09)
+  color          light  #201e1d
+                 dark   #ededec
+
+confirm sheet  (.kos-alert)
+  background     light  #f8f4f4
+                 dark   #2a2a2e
+  box-shadow     light  0 12px 32px rgba(45, 43, 43, 0.22), 0 0 0 1px rgba(32, 30, 29, 0.1)
+                 dark   0 12px 32px rgba(0, 0, 0, 0.68), 0 0 0 1px rgba(255, 255, 255, 0.11)
+  color          light  #201e1d
+                 dark   #ededec
+
+phone desk  (.kos-phone)
+  background     light  #f3f2f2
+                 dark   #121214
+
+phone sheet  (.kos-sheet)
+  background     light  #f8f4f4
+                 dark   #2a2a2e
+  border-top     light  1px solid rgba(32, 30, 29, 0.28)
+                 dark   1px solid rgba(255, 255, 255, 0.24)
+  box-shadow     light  0 -8px 24px rgba(45, 43, 43, 0.14)
+                 dark   0 -8px 24px rgba(0, 0, 0, 0.58)
+"
+`;

@@ -4,6 +4,7 @@ import { describe, it, expect, vi, beforeAll, beforeEach } from "vitest";
 vi.mock("@/lib/track", () => ({ track: vi.fn() }));
 import { click, fire, render } from "@/test/render";
 import KalpOSMenu from "./KalpOSMenu";
+import { APPEARANCE_KEY, readAppearance, _resetAppearanceForTests } from "@/lib/appearance";
 import { _resetChimeForTests, isMuted } from "@/lib/chime";
 import { track } from "@/lib/track";
 
@@ -13,7 +14,9 @@ beforeAll(() => {
 
 beforeEach(() => {
   localStorage.clear();
+  document.documentElement.removeAttribute("data-appearance");
   _resetChimeForTests();
+  _resetAppearanceForTests();
   (track as ReturnType<typeof vi.fn>).mockClear();
 });
 
@@ -31,7 +34,10 @@ function mount() {
   const menu = () => r.container.querySelector<HTMLElement>('[role="menu"]');
   const items = () => [...r.container.querySelectorAll<HTMLElement>('[role="menuitem"]')];
   const item = (label: string) => items().find((i) => i.textContent?.includes(label))!;
-  return { ...r, button, menu, items, item, onAbout, onLock, onRestart };
+  const submenu = () => r.container.querySelector<HTMLElement>(".kos-submenu");
+  const choices = () => [...r.container.querySelectorAll<HTMLElement>('[role="menuitemradio"]')];
+  const choice = (label: string) => choices().find((i) => i.textContent?.includes(label))!;
+  return { ...r, button, menu, items, item, submenu, choices, choice, onAbout, onLock, onRestart };
 }
 
 describe("the KalpOS menu (the brand word in the menubar)", () => {
@@ -43,8 +49,14 @@ describe("the KalpOS menu (the brand word in the menubar)", () => {
     click(m.button);
     expect(m.button.getAttribute("aria-expanded")).toBe("true");
     expect(m.menu()).not.toBeNull();
-    expect(m.items().map((i) => i.querySelector(".kos-menu-label")?.textContent)).toEqual(["About KalpOS", "Lock Screen", "Restart…", "Mute chime"]);
-    expect(m.menu()!.querySelectorAll('[role="separator"]').length).toBe(2);
+    expect(m.items().map((i) => i.querySelector(".kos-menu-label")?.textContent)).toEqual([
+      "About KalpOS",
+      "Lock Screen",
+      "Restart…",
+      "Appearance",
+      "Mute chime",
+    ]);
+    expect(m.menu()!.querySelectorAll('[role="separator"]').length).toBe(3);
     expect(m.item("Lock Screen").querySelector(".kos-menu-kbd")?.textContent).toBe("⌃⌘Q");
     expect(m.item("Restart…").querySelector(".kos-menu-kbd")?.textContent).toBe("⌃⌘R");
     expect(document.activeElement).toBe(m.items()[0]);
@@ -92,9 +104,9 @@ describe("the KalpOS menu (the brand word in the menubar)", () => {
     expect(document.activeElement).toBe(m.items()[1]);
     fire(document.activeElement!, "keydown", { key: "ArrowUp" });
     fire(document.activeElement!, "keydown", { key: "ArrowUp" });
-    expect(document.activeElement).toBe(m.items()[3]);
+    expect(document.activeElement).toBe(m.items()[4]);
     fire(document.activeElement!, "keydown", { key: "End" });
-    expect(document.activeElement).toBe(m.items()[3]);
+    expect(document.activeElement).toBe(m.items()[4]);
     fire(document.activeElement!, "keydown", { key: "Home" });
     expect(document.activeElement).toBe(m.items()[0]);
     fire(document.activeElement!, "keydown", { key: "Escape" });
@@ -105,6 +117,81 @@ describe("the KalpOS menu (the brand word in the menubar)", () => {
     fire(document.activeElement!, "keydown", { key: "ArrowDown" });
     click(document.activeElement!);
     expect(m.onLock).toHaveBeenCalledTimes(1);
+    m.unmount();
+  });
+
+  it("Appearance ▸ is a submenu of Light / Dark / Auto with a ✓ on the current one", () => {
+    const m = mount();
+    click(m.button);
+    const row = m.item("Appearance");
+    expect(row.getAttribute("aria-haspopup")).toBe("menu");
+    expect(row.getAttribute("aria-expanded")).toBe("false");
+    expect(m.submenu()).toBeNull();
+
+    click(row);
+    expect(row.getAttribute("aria-expanded")).toBe("true");
+    expect(m.choices().map((c) => c.querySelector(".kos-menu-label")?.textContent)).toEqual(["Light", "Dark", "Auto"]);
+    // Light is the default, so it is the one checked, and it takes the focus.
+    expect(m.choices().map((c) => c.getAttribute("aria-checked"))).toEqual(["true", "false", "false"]);
+    expect(document.activeElement).toBe(m.choices()[0]);
+    expect(m.choice("Light").querySelector(".kos-menu-check")?.textContent).toBe("✓");
+    expect(m.choice("Dark").querySelector(".kos-menu-check")?.textContent).toBe("");
+    m.unmount();
+  });
+
+  it("choosing Dark stores it, dresses <html>, closes the whole menu and reports menu_action {item, value}", () => {
+    const m = mount();
+    click(m.button);
+    click(m.item("Appearance"));
+    click(m.choice("Dark"));
+
+    expect(readAppearance()).toBe("dark");
+    expect(localStorage.getItem(APPEARANCE_KEY)).toBe("dark");
+    expect(document.documentElement.getAttribute("data-appearance")).toBe("dark");
+    expect(track).toHaveBeenCalledWith("menu_action", { item: "appearance", value: "dark" });
+    expect(m.menu()).toBeNull();
+    expect(document.activeElement).toBe(m.button);
+
+    // Reopened, the submenu now opens on Dark and Auto is still selectable.
+    click(m.button);
+    click(m.item("Appearance"));
+    expect(document.activeElement).toBe(m.choices()[1]);
+    expect(m.choices().map((c) => c.getAttribute("aria-checked"))).toEqual(["false", "true", "false"]);
+    click(m.choice("Auto"));
+    expect(readAppearance()).toBe("auto");
+    expect(document.documentElement.getAttribute("data-appearance")).toBe("auto");
+    expect(track).toHaveBeenCalledWith("menu_action", { item: "appearance", value: "auto" });
+    m.unmount();
+  });
+
+  it("keyboard: → opens the submenu, ↑/↓ wrap inside it, ← and Esc go back to the row without choosing", () => {
+    const m = mount();
+    click(m.button);
+    m.item("Appearance").focus();
+    fire(document.activeElement!, "keydown", { key: "ArrowRight" });
+    expect(m.submenu()).not.toBeNull();
+    expect(document.activeElement).toBe(m.choices()[0]);
+
+    fire(document.activeElement!, "keydown", { key: "ArrowDown" });
+    expect(document.activeElement).toBe(m.choices()[1]);
+    fire(document.activeElement!, "keydown", { key: "ArrowUp" });
+    fire(document.activeElement!, "keydown", { key: "ArrowUp" });
+    expect(document.activeElement).toBe(m.choices()[2]);
+    fire(document.activeElement!, "keydown", { key: "Home" });
+    expect(document.activeElement).toBe(m.choices()[0]);
+
+    // ← closes the submenu only; the menu itself stays open on the row.
+    fire(document.activeElement!, "keydown", { key: "ArrowLeft" });
+    expect(m.submenu()).toBeNull();
+    expect(m.menu()).not.toBeNull();
+    expect(document.activeElement).toBe(m.item("Appearance"));
+
+    // Esc inside the submenu does the same, and never closes the whole menu.
+    fire(document.activeElement!, "keydown", { key: "ArrowRight" });
+    fire(document.activeElement!, "keydown", { key: "Escape" });
+    expect(m.submenu()).toBeNull();
+    expect(m.menu()).not.toBeNull();
+    expect(readAppearance()).toBe("light");
     m.unmount();
   });
 
