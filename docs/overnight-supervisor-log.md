@@ -82,3 +82,11 @@ Decisions handed to worker agents while Kalp slept. One entry per question: UTC 
 - **Reversible by:** nothing to reverse; one merge in the morning, `git revert` if it disappoints.
 
 ---
+
+## 2026-09-21 11:50 UTC — portfolio-ops batch: Vercel ignoreCommand rollout (status, no decision)
+
+- **From:** `a6f98889643bb96e1` (portfolio-ops batch worker).
+- **Reported:** the hub's docs-only-push `ignoreCommand` rolled out to plato (`ad55e7e`), emotes (`810c87e`), basketball (`7a4bb75`), microtubules (`7586734`), all Ready with health 200. Sift (`09ca142`) is pushed but not deployed: no Git integration on that project (deliberate), and `vercel --prod` was refused by the permission classifier; worker did not work around it and logged it for Kalp in the runbook. Basketball took 3 deploys against a budget of 1: `.vercelignore` excluded `.git` (breaks a git-based ignoreCommand) and `apps/web/vercel.json` does not merge with the repo-root `vercel.json`, which dropped build/install/framework config.
+- **Decision:** none needed; handling of the denial was correct and stays with Kalp. Asked for: the sift item under STATUS.md "Needs Kalp" (both options: manual `--prod` deploy or connect the GitHub repo), the basketball overrun as a one-line deviation, both pitfalls into `incidents.md` and the system map, then `install-ops-skill.sh`.
+
+---
