@@ -1,8 +1,11 @@
 # Resume here
 
-Written 2026-09-21 by the T6.10 (dark mode) worker at wind-down. It replaces
-the T6.9 worker's hand-over, whose two "not started" items — dark mode and the
-Spotify links — are both now done and live.
+Updated 2026-09-21 by the kalpos fixes-batch worker (T6.12a/b/c) at wind-down.
+It replaces the T6.10 dark-mode worker's hand-over: all three items that
+worker left open — the live dark-mode defect, the power screen's contrast, and
+the `ignoreCommand` root cause — are now done and live. That worker's earlier
+write-up follows below, kept for the "Before you touch KalpOS colours again"
+section, which is still current.
 
 ## Done and live
 
@@ -12,10 +15,20 @@ Spotify links — are both now done and live.
   never deployed (`STATUS.md` H19: the pushed range's tip commit was docs-only,
   so `vercel.json`'s `ignoreCommand` cancelled the build). The T6.10 merge
   carried it to production; all three rows show the "open ↗" hint on the live
-  site, so **H19 is resolved** and can be struck.
+  site, so **H19 is resolved** and can be struck. Re-confirmed live 2026-09-21
+  (kalpos fixes batch): a real double-click on "These Words" opened
+  `open.spotify.com/track/7leW1Dmvs9A4oDh9i5Qwpz` in a new tab.
 - **T6.10** (dark mode) — merges `3025ac9` and the follow-up fix. Done-criteria,
-  evidence, deviations and the one known issue are at the top of `STATUS.md`
-  and in the T6.10 task row; screenshots in `docs/images/kalpos/dark/`.
+  evidence, deviations are at the top of `STATUS.md` and in the T6.10 task row;
+  screenshots in `docs/images/kalpos/dark/`.
+- **T6.12a** (dark mode's one live defect) — an already-open window now
+  correctly changes background when appearance is switched under it. See
+  "Before you touch KalpOS colours again" below for the fix.
+- **T6.12b** (`vercel.json` `ignoreCommand` root cause) — fixed; see
+  `skills/portfolio-ops/runbooks.md` ("Hub: ignored build step") and
+  `skills/portfolio-ops/incidents.md`.
+- **T6.12c** (power screen caption contrast) — fixed; Lighthouse accessibility
+  on `/` is now **1.00** live.
 
 Nothing is half-finished and no branch is waiting to be picked up.
 
@@ -39,10 +52,22 @@ Four things that cost real time and are worth not rediscovering:
 1. **Do not transition a property whose value comes from an appearance token.**
    Chrome does not start a transition, and leaves the property at its old used
    value, when the only thing that changed is a custom property referenced by a
-   transitioned property. A test now forbids the `background` *shorthand* (the
-   lock screen's pill is the one stated exemption, since the lock is black in
-   both appearances), but narrowing to `background-color` is **not** enough —
-   see the open item below.
+   transitioned property. A test forbids the `background` *shorthand* (the lock
+   screen's pill is the one stated exemption, since the lock is black in both
+   appearances). Narrowing to the `background-color` *longhand* was not enough
+   either — the fix (T6.12a, 2026-09-21) is to drop `background-color` from the
+   *persistent* `transition` list entirely on any selector whose colour is an
+   appearance token: `.kos-window`, `.kos-light`, `.kos-transport button` and
+   `.kos-track` all had this and are now fixed (other transitioned properties —
+   `box-shadow`, `transform` — are unaffected). The appearance switch itself
+   still cross-fades every colour through the temporary `.kos-appearance-shift`
+   class (`app/globals.css`), so nothing is lost except an
+   instant-instead-of-eased colour change on hover/focus/current-row. If you add
+   a new persistent transition anywhere in KalpOS, it must not include
+   `background-color` (or `background`) if the colour comes from a
+   `light-dark()` token — `app/appearance.test.ts` has a guard for the four
+   known selectors but not a blanket one, so a new offender would not be caught
+   automatically.
 2. **`light-dark()` returns a colour**, so it cannot hold a whole `box-shadow` or
    a `filter`. Shadows are split: `--c-sh-lg` is the colour pair,
    `--sh-lg: 0 12px 32px var(--c-sh-lg)` the geometry shared by both. Do the
@@ -64,47 +89,24 @@ Four things that cost real time and are worth not rediscovering:
   change `DEFAULT_APPEARANCE` in `lib/appearance.ts` to `"auto"`, update the test
   that deliberately pins `"light"` (it will fail and tell you), close H20, and fix
   the one sentence in `README.md` and `DESIGN.md`. Nothing else depends on it.
-- **An already-open window keeps its old background when you switch appearance.**
-  The only thing still wrong with dark mode, and it is live. The desk, dots,
-  menubar, dock, sidebar, widgets, note and phone all follow; a window opened
-  *after* the switch is correct; closing and reopening it, or reloading, fixes
-  it. Cause, isolated on the live page: Chrome does not start a transition, and
-  keeps the old used value, when the only change is a custom property that a
-  transitioned property references. Proved with a minimal probe — two divs with
-  `transition: background-color`, one reading a plain custom property and one a
-  property registered with `@property { syntax: "<color>" }`; flipping an
-  attribute on `:root` left **both** at the old colour, so `@property` is not
-  the answer either. `.kos-sidebar` follows correctly only because it has no
-  background transition, and `style.transition = "none"` on the window snaps it
-  to the right colour both ways.
-  Affected selectors: **`.kos-window`** (the visible one), `.kos-light`,
-  `.kos-transport button`, `.kos-track`.
-  Two fixes, neither applied (the deploy budget was spent and the supervisor's
-  condition was to record and stop):
-  1. one line — drop `background-color` from `.kos-window`'s persistent
-     transition in `app/kalpos.css`, keeping `box-shadow 180ms`; the frost then
-     changes instantly on focus while the shadow still lifts. Proven by the
-     `transition: none` probe.
-  2. better — wrap the swap in `document.startViewTransition(() =>
-     applyAppearance(a))` inside `setAppearanceWithCrossfade` (`lib/appearance.ts`).
-     The DOM change happens with styles recalculated, so the pin cannot occur,
-     and it replaces the per-property crossfade with a real compositor-level
-     one. Whoever does this should delete the `.kos-appearance-shift` rule in
-     `app/globals.css` and the class handling in `lib/appearance.ts` with it,
-     and keep the reduced-motion branch (View Transitions must be skipped under
-     `prefers-reduced-motion`).
+  This is the only item this worker left untouched — it needs Kalp's word, not
+  a fix.
+- **`startViewTransition`** is still not implemented (T6.12a's brief explicitly
+  excluded it). The persistent-transition fix above is sufficient and live; a
+  real compositor-level crossfade via `document.startViewTransition(() =>
+  applyAppearance(a))` inside `setAppearanceWithCrossfade`
+  (`lib/appearance.ts`) remains a "better, not needed" option for whoever wants
+  it — see the git history of this file (2026-09-21, T6.10 worker's original
+  write-up) for the full sketch of what that would involve (deleting
+  `.kos-appearance-shift` and its class handling, keeping the reduced-motion
+  branch).
 
-- **The power screen's caption** is the only thing between the hub and a 1.00
-  Lighthouse accessibility score: `.kos-power-caption`, `rgba(243,242,242,.45)`
-  on black, 4.05:1 against a 4.5:1 bar. Pre-existing, identical in light and
-  dark, and left alone only because the T6.10 brief said that screen is
-  unchanged. Raising the alpha to `.55` (~5.2:1) is a one-line fix.
-- **`vercel.json`'s `ignoreCommand`** diffs only `HEAD^..HEAD`, so any push whose
-  tip commit is docs-only cancels its own deploy. This has now bitten T4.1, T6.1
-  and T6.11. The root fix is to diff against the last *deployed* commit; until
-  someone does it, make sure the last commit of a push touches code — a
-  `--no-ff` merge commit whose first-parent diff includes `app/` or
-  `components/` is enough.
+Everything else this file used to list here — the live dark-mode defect, the
+power screen's caption contrast, and the `vercel.json` `ignoreCommand` root
+cause — was fixed 2026-09-21 by the kalpos fixes batch (T6.12a/b/c, one merge,
+one production deploy). See the T6.12a/b/c rows in `STATUS.md` for the
+evidence and `skills/portfolio-ops/incidents.md` for the `ignoreCommand`
+incident write-up.
 
 ## Verifying dark mode still works
 
