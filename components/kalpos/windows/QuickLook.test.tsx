@@ -179,7 +179,7 @@ describe("Quick Look in the Projects window", () => {
     await until(() => panel()?.querySelector("img.kos-ql-img") !== null);
     const img = panel()?.querySelector<HTMLImageElement>("img.kos-ql-img");
     expect(img).not.toBeNull();
-    expect(decodeURIComponent(img?.getAttribute("src") ?? "")).toContain("tennis-ball");
+    expect(decodeURIComponent(img?.getAttribute("src") ?? "")).toContain("floor-run");
     expect(img?.getAttribute("loading")).toBe("lazy");
     click(panel()!.querySelector(".kos-ql-action")!);
     expect(onOpenCase).toHaveBeenCalledWith("rc-car", expect.anything());

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { readdirSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { loadProjects } from "@/lib/projects";
 import { caseStudies } from "@/content/projects";
@@ -43,6 +43,39 @@ describe("showcase registry <-> content", () => {
       expect(c.howItWorks.steps.length, `${p.slug} how-it-works steps`).toBeGreaterThanOrEqual(3);
       expect(c.tech.length, `${p.slug} tech list`).toBeGreaterThanOrEqual(2);
       expect(c.status.length, `${p.slug} status line`).toBeGreaterThan(0);
+    }
+  });
+
+  it("a video file is hosted (never a path into the repo) and its poster is a committed WebP", () => {
+    for (const c of Object.values(caseStudies)) {
+      if (!c.video || !("kind" in c.video) || c.video.kind !== "file") continue;
+      expect(c.video.url, c.slug).toMatch(/^https:\/\/[^/]+\/.+\.mp4$/);
+      expect(c.video.title.length, c.slug).toBeGreaterThan(0);
+      // Vite hands tests a URL string for a static import; Next hands the app StaticImageData.
+      const poster = c.video.poster?.src as unknown as string | { src: string } | undefined;
+      if (poster) expect(typeof poster === "string" ? poster : poster.src, c.slug).toMatch(/\/public\/images\/projects\/.+\.webp$/);
+    }
+  });
+
+  it("status links point at committed files under public/ (a pitch deck, never a secret or a remote URL)", () => {
+    const pub = path.resolve(__dirname, "..", "public");
+    for (const c of Object.values(caseStudies)) {
+      for (const l of c.links ?? []) {
+        expect(l.label.length, c.slug).toBeGreaterThan(0);
+        expect(l.href, `${c.slug} ${l.href}`).toMatch(/^\/docs\/[\w.-]+\.pdf$/);
+        expect(existsSync(path.join(pub, l.href)), `${c.slug} ${l.href} is not in public/`).toBe(true);
+      }
+    }
+  });
+
+  it("wanted is a short list of plain sentences (the same wording as docs/content/media-wanted.md)", () => {
+    for (const c of Object.values(caseStudies)) {
+      if (!c.wanted) continue;
+      expect(Array.isArray(c.wanted), c.slug).toBe(true);
+      for (const w of c.wanted) {
+        expect(typeof w, c.slug).toBe("string");
+        expect(w.trim().length, `${c.slug} wanted entry`).toBeGreaterThan(10);
+      }
     }
   });
 

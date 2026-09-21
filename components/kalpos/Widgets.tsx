@@ -19,7 +19,7 @@ export default function Widgets({ site, onOpenMusic }: { site: SiteConfig; onOpe
         <div>
           {site.photo ? (
             // eslint-disable-next-line @next/next/no-img-element -- a fixed 130 px frame, no need for next/image
-            <img src={site.photo} alt={`Photo of ${site.name}`} />
+            <img src={site.photo} alt={site.name} width={640} height={640} />
           ) : (
             <span>photo of {site.name.split(" ")[0]}</span>
           )}

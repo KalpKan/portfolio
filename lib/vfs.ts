@@ -66,6 +66,7 @@ export function caseStudyText(c: CaseStudy): string {
     out.push(`${i + 1}. ${s.title}`, `   ${s.body}`, "");
   });
   out.push("## Tech", "", c.tech.map((t) => `- ${t}`).join("\n"), "", "## Status", "", c.status);
+  for (const l of c.links ?? []) out.push("", `${l.label.toLowerCase()}: ${l.href}`);
   if (c.repo) out.push("", `repo: ${c.repo}`);
   return out.join("\n");
 }

@@ -1,16 +1,22 @@
 import type { CaseStudy } from "@/content/case-study";
-import chassis from "@/public/images/projects/rc-car/chassis.webp";
+import chassisTop from "@/public/images/projects/rc-car/chassis-top.webp";
 import wiring from "@/public/images/projects/rc-car/wiring.webp";
 import front from "@/public/images/projects/rc-car/front.webp";
 import driving from "@/public/images/projects/rc-car/driving.webp";
-import tennisBall from "@/public/images/projects/rc-car/tennis-ball.webp";
+import floorRun from "@/public/images/projects/rc-car/floor-run.webp";
+import drivePoster from "@/public/images/projects/rc-car/drive-poster.webp";
 
 // Kalp's own description (docs/content/project-descriptions.md) sets the
 // framing; the technical specifics are from KalpKan/Automatic-RC-Car
 // (ps4_controller_integrated.cpp, data_prep_scripts/, README_PS4_INTEGRATED.md,
-// docs/project_plan_and_status.md in the local clone) and the two build videos
-// on Kalp's Mac, from which the photos below are single frames. The videos
-// themselves are not in the repo.
+// docs/project_plan_and_status.md in the local clone). The chassis photo is
+// Kalp's own (2026-09-20); the hero, the poster and the remaining gallery
+// frames are single frames from his driving video, which is hosted in the
+// Supabase Storage bucket `portfolio-media` (runbook "Host a video for a case
+// study"), never in the repo.
+
+/** The 77 s driving video (H.264 1080p, 21.6 MB), Supabase Storage, public bucket. */
+const DRIVE_VIDEO_URL = "https://yzppfufqaekgaxcrsqxp.supabase.co/storage/v1/object/public/portfolio-media/rc-car/drive.mp4";
 
 const rcCar: CaseStudy = {
   slug: "rc-car",
@@ -19,10 +25,9 @@ const rcCar: CaseStudy = {
   lede:
     "A small RC car we built around a Raspberry Pi: drive it with a PS4 controller, or switch it to self-driving and it follows any green tennis ball you throw, using the computer-vision model loaded on the Pi.",
   hero: {
-    src: tennisBall,
-    alt: "The RC car on a hardwood floor, turning toward a yellow-green tennis ball a few centimetres ahead of its camera",
-    caption: "Autonomous mode: the car steers toward the largest green blob in the camera frame. Frame from the build video.",
-    position: "50% 62%",
+    src: floorRun,
+    alt: "Seen from above on a hardwood floor: a white PS4 controller set down at the top left, the RC car with its Raspberry Pi and wiring beside it, and a yellow-green tennis ball a metre ahead",
+    caption: "Controller down, ball thrown: the car is about to go after it on its own. Frame from the driving video.",
   },
   problem:
     "This is one of my hardware projects. Most hobby RC cars are a radio and a motor; I wanted one where every layer was ours: the chassis and gear train in CAD and on a 3D printer, the motor and steering wiring on a Raspberry Pi, a controller stack in C++ that reads a PS4 DualShock 4 the way the Linux kernel exposes it, and a computer-vision model that detects tennis balls, loaded onto the Pi so the car can drive itself. The finishing test was not a lap time. It was whether I could put the controller down, throw a green tennis ball across a hardwood floor, and watch the car go after it.",
@@ -62,9 +67,9 @@ const rcCar: CaseStudy = {
     aspect: "9/16",
     items: [
       {
-        src: chassis,
-        alt: "The 3D-printed blue chassis on a desk with a steering servo and rear N20 motor wired in, before the electronics were mounted",
-        caption: "Printed chassis, steering servo and the N20 gear motor.",
+        src: chassisTop,
+        alt: "Top-down photo of the 3D-printed dark blue-grey chassis on a table: four wheels, an N20 gear motor at the back, an orange-and-brown steering servo at the front and a red and black wire pair, before the Raspberry Pi was mounted",
+        caption: "The printed chassis: N20 motor at the back, steering servo at the front, before the Pi went on.",
       },
       {
         src: wiring,
@@ -86,9 +91,13 @@ const rcCar: CaseStudy = {
   // No phone app, so no screens section; the controller's terminal output is in the repo README.
   screens: null,
   video: {
-    kind: "placeholder",
-    label: "Build and driving video coming: Kalp has two clips on disk (100 s build log, 10 s autonomous run); they go on YouTube (unlisted), not in the repo",
-    aspect: "9/16",
+    kind: "file",
+    url: DRIVE_VIDEO_URL,
+    poster: {
+      src: drivePoster,
+      alt: "The RC car on a hardwood floor, seen from above, driving toward a tennis ball",
+    },
+    title: "Automatic RC Car: manual driving on the PS4 controller, then the autonomous tennis-ball run (77 s)",
   },
   tech: [
     "Raspberry Pi",
@@ -107,8 +116,7 @@ const rcCar: CaseStudy = {
   status:
     "Working prototype: drives on a PS4 controller and follows a green tennis ball on its own · Repo history purge open as a pull request · Not a product",
   wanted: [
-    "the two clips already on the Mac, Videos/Car Video.mp4 (100 s) and Videos/Autonomous Car Video.mp4 (10 s), uploaded to YouTube as unlisted; send the links",
-    "optional: 2 phone photos of the car (the frames on the page are pulled from video and are soft), one with the controller in shot",
+    "optional: a phone photo of the finished car with the Pi and camera on (the wiring and camera frames are still pulled from video and are soft)",
   ],
 };
 

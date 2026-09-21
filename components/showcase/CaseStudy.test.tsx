@@ -23,10 +23,18 @@ describe("CaseStudy page body", () => {
     expect(html).toContain(">05<");
   });
 
-  it("draws labelled placeholders where media is missing, sized like the final media", () => {
-    expect(html).toContain("Device photo coming: Kalp will add");
-    expect((html.match(/data-placeholder/g) ?? []).length).toBe(1 + 2 + 3 + 1); // hero + 2 photos + 3 screens + video
-    expect(html).toContain("aspect-[9/19.5]");
+  it("draws a labelled placeholder only where media is still missing, sized like the final media", () => {
+    expect(html).toContain("Demo video coming");
+    expect((html.match(/data-placeholder/g) ?? []).length).toBe(1); // the video; hero, photos and screens are real since 2026-09-20
+    expect(html).toContain("aspect-[16/9]");
+  });
+
+  it("shows the deck's media: the CAD render hero, four photos, two iPad screens, and links the pitch deck from the status line", () => {
+    expect(html).toContain('alt="CAD render of the UnPark ankle enclosure');
+    expect((html.match(/<figure/g) ?? []).length).toBe(1 + 4 + 2);
+    expect(html).toContain("Risk prediction and the AI insights: 62 %");
+    expect(html).toContain('href="/docs/unpark-medsprint-pitch.pdf"');
+    expect(html).toContain("Pitch deck (PDF)");
   });
 
   it("has the diagram twice (phone and desktop) with an accessible name", () => {
@@ -50,9 +58,16 @@ describe("CaseStudy with real images", () => {
 
   it("renders next/image figures with alt text and captions, and no placeholder for the hero", () => {
     expect(html).toContain("<img");
-    expect(html).toContain("Printed chassis, steering servo");
+    expect(html).toContain("The printed chassis: N20 motor at the back");
     expect(html).toContain('alt="The car head-on');
-    expect(html).not.toContain("Device photo coming");
+    expect(html).not.toContain("data-placeholder");
+  });
+
+  it("plays the hosted driving video with a committed poster, never a file from the repo", () => {
+    expect(html).toContain("<video");
+    expect(html).toMatch(/<source src="https:\/\/yzppfufqaekgaxcrsqxp\.supabase\.co\/storage\/v1\/object\/public\/portfolio-media\/rc-car\/drive\.mp4"/);
+    expect(html).toMatch(/poster="[^"]*drive-poster\.webp"/);
+    expect(html).toContain('preload="metadata"');
   });
 
   it("hides the repo link when the content has none", () => {

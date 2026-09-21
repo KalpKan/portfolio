@@ -1774,6 +1774,21 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-muted {
   opacity: 0.55;
 }
+/* About: the portrait floats beside the bio and the text wraps under it. */
+.kos-about-portrait {
+  float: right;
+  width: 96px;
+  height: 128px;
+  margin: 2px 0 10px 16px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(45, 43, 43, 0.14);
+}
+.kos-about::after {
+  content: "";
+  display: block;
+  clear: both;
+}
 .kos-rows {
   margin: 0;
   padding: 0;
