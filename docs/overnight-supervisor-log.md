@@ -18,3 +18,12 @@ Decisions handed to worker agents while Kalp slept. One entry per question: UTC 
 - **Effect on every ruling from here:** (1) every agent must hold an explicit, verifiable done-checklist in its STATUS.md; "mostly done" is not a state. (2) Prefer "record it and move on" over further iteration; the same fix or the same sub-agent failing twice ends that thread with the last error written to STATUS.md. (3) When an agent reports done, the answer includes: stop every sub-agent and background process you own (TaskStop, dev servers, Playwright, Lighthouse, vitest), spawn nothing new, write docs/RESUME.md and the final STATUS.md, send one report to main, end your turn. (4) Budget hygiene: haiku `scout` for lookups, opus for building, max 2 Vercel deploys per app, one reviewer and one verifier per deliverable. (5) Supervisor address for workers: `a21ad9136d53a6e5e`.
 
 ---
+
+## 2026-09-21 06:21 UTC — emotes redesign: Playwright vs existing puppeteer harness; CSS beam
+
+- **From:** `a7ce614dc674e707a` (emotes redesigner, "Your own arena").
+- **Asked:** (1) Brief says "Playwright + fake camera", but `scripts/e2e-camera.mjs` (puppeteer-core, fake device, committed .mjpeg, 1000/390) already is the detection gate. Keep it or port? (2) `beam-glow-states` is a React package; app is vanilla TS. Hand-write the behaviour in CSS?
+- **Decision:** (1) Keep puppeteer-core and extend it to assert the redesigned HUD/arena DOM at 1440 and 390; no Playwright. The brief's intent is fake-camera e2e, not the vendor; a second automation dep re-validates nothing and costs CI time (simpler tool, night-protocol budget hygiene). One-line deviation note in STATUS.md. (2) Yes, CSS only, no React. Beam runs only while score is genuinely 0.35–0.5 (measured, never decorative); reduced-motion lands on the static gold border as a complete final state; one beam per viewport.
+- **Reversible by:** a later Playwright port; assertions target the page's own DOM ids either way.
+
+---
