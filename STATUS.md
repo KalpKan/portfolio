@@ -133,11 +133,54 @@ Authorisation (Kalp, 2026-09-21): "implement a dark mode to the portfolio websit
 6. ✅ Tests: `npx vitest run --pool=forks --maxWorkers=1` → **44 files / 405 tests, all passing** (was 42/359 + the Spotify feature's); `npm run lint` clean; `npm run build` clean.
 7. ✅ Verified in Chrome at 1440 and at 390 (same-origin iframe: Chrome clamps the shared window to 1200 px) in dark, page console clean, Lighthouse in dark ≥ 0.90 in every category (perf 0.95 / 0.99 / 0.97, a11y 0.96, best-practices 1.00, SEO 1.00); screenshots in `docs/images/kalpos/dark/`.
 8. ✅ Docs: `DESIGN.md` (an "Appearance" section, the dark value beside every colour, the 160 ms crossfade beat, the submenu's keyboard model, and the key characteristic rewritten to say the earlier "no dark desk" decision is superseded), `README.md` (a `lib/appearance.ts` inventory row telling Kalp how to switch and how to change the default), `docs/hosting-plan.md` decision 12, `skills/portfolio-ops/SKILL.md` hub row + a `verification.md` row, `scripts/install-ops-skill.sh` run, this STATUS.md.
-9. ✅ Live on https://kalpkan.com — see the T6.10 task row. **2 deploys against a budget of 1, supervisor-approved** (`docs/overnight-supervisor-log.md`): the first shipped dark mode, the second fixed a bug that only the live check could find — see below.
+9. ✅ Live on https://kalpkan.com — see the T6.10 task row. **2 deploys against a budget of 1, supervisor-approved** (`docs/overnight-supervisor-log.md`): the first shipped dark mode, the second narrowed a bug that only the live check could find. ⚠️ That second fix did **not** fully cure it — see below. Dark mode itself is live and correct; the residual defect is one narrow case.
 
-**The bug the live check found, and the deploy it cost.** Switching appearance with a **window already open** left that window light. The cause was pre-existing CSS that only became a bug once colours could change with no class or attribute change on the element: four rules transitioned the `background` **shorthand**, and Chrome does not re-resolve a shorthand transition when only an underlying custom property changes, so the element stays pinned at the colour it had when the transition list was set. Proved on the live page — `--paper-raised` computed to `#2a2a2e` on the window while its `background-color` stayed `rgb(248,244,244)`, and clearing the transition snapped it to `rgb(42,42,46)`. Fixed by transitioning `background-color` instead in all four (`.kos-window`, the traffic lights, the Music transport buttons, the Music track rows — every one a solid colour, checked, so nothing else about them changes), with a regression test that fails on any shorthand-`background` transition in either stylesheet. The lock screen's pill is the one exemption, stated in the test: it is black in both appearances, so nothing there can be pinned, and it keeps "boot / lock / power unchanged" literally true.
+**The bug the live check found, the deploy it cost, and what is still wrong.**
+Switching appearance with a **window already open** leaves that window's
+background at its old colour. The desk, dots, menubar, dock, sidebar, widgets,
+note and phone all follow correctly; a window opened *after* the switch is
+correct; closing and reopening the window, or reloading, fixes it. So the
+residual defect is narrow — **an already-open window's frame keeps its old
+background until it is reopened** — but it is real and it is still live.
 
-**Known issue found, deliberately not fixed:** Lighthouse's `color-contrast` audit fails on the **power screen's** "press any key to start" caption — `rgba(243,242,242,.45)` on black is 4.05:1, just under 4.5:1. It is identical in light and in dark, predates T6.10, and the brief said the power screen is unchanged, so it was left alone. One line in `app/kalpos.css` (`.kos-power-caption` → `.55`, about 5.2:1) fixes it whenever Kalp wants; it is the only thing standing between the hub and a 1.00 accessibility score.
+*First diagnosis (deployed, and a genuine improvement, but not the cure):* four
+rules transitioned the `background` **shorthand**. They now transition
+`background-color` (`.kos-window`, the traffic lights, the Music transport
+buttons, the Music track rows — every one a solid colour, checked), and
+`app/appearance.test.ts` fails if the shorthand comes back. The lock screen's
+pill is the one stated exemption: it is black in both appearances, so nothing
+there can be pinned, and it keeps "boot / lock / power unchanged" literally
+true.
+
+*Real cause, isolated on the live page after that deploy:* **Chrome does not
+start a transition, and leaves the property at its old used value, when the
+only thing that changed is a custom property referenced by a transitioned
+property.** Proved with a minimal probe injected into the live page — two
+identical divs with `transition: background-color`, one reading an unregistered
+custom property and one reading a property registered via
+`@property { syntax: "<color>" }`; flipping an attribute on `:root` that changes
+both left **both** divs at the old colour. So it is not the shorthand, not the
+token design, and `@property` registration does not fix it. `.kos-sidebar` and
+the menubar follow correctly precisely because they have no transition on their
+background; setting `style.transition = "none"` on the window snaps it to the
+right colour instantly, in both directions.
+
+*The two fixes, neither deployed (the budget is spent and the overnight
+supervisor's condition was "if anything else is still pinned, do not iterate:
+record it and stop"):*
+1. **Drop `background-color` from `.kos-window`'s persistent transition**
+   (`app/kalpos.css`, the `.kos-window` rule), keeping `box-shadow 180ms`. The
+   focus beat then changes the frost instantly while the shadow still lifts over
+   180 ms. Proven to work by the `transition: none` probe. One line.
+2. **Use the View Transition API** for the appearance swap —
+   `document.startViewTransition(() => applyAppearance(a))` in
+   `setAppearanceWithCrossfade`. The DOM change happens inside the callback with
+   styles recalculated, so the pin cannot occur, and it gives a real
+   compositor-level crossfade of the whole page instead of the per-property one.
+   This is the better answer and it also makes the 160 ms crossfade honest.
+
+Exact selectors for whoever picks this up: `.kos-window` (the visible one),
+`.kos-light`, `.kos-transport button`, `.kos-track`. Also in `docs/RESUME.md`.
 
 ## Tasks
 | ID | Phase | Task | Status | URL | Verified by | Date |
