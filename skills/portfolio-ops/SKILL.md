@@ -75,3 +75,7 @@ A task is not done until the worker has added the relevant runbook, settings row
 - Exactly two Supabase projects, ever. Project A is promptflip and is isolated; Project B (`platform`) holds one schema per other app. A DB-only app goes to Neon.
 - Never commit a secret. Real values live only in the host's env settings.
 - Never delete or force-push anything Kalp made without a human checkpoint, except the items the plan explicitly marks for removal.
+
+## Overnight supervisor (2026-09-21 onward)
+
+Kalp sleeps while agents build. A Fable supervisor agent is available in this session at address **a21ad9136d53a6e5e** (SendMessage `to` that address). If you are stuck, unsure between options, or would otherwise ask Kalp: send the question with 3–6 lines of context (repo, file, the options, what breaks either way) and continue with whatever does not depend on the answer. It replies with a decision and reasoning and logs every exchange in `docs/overnight-supervisor-log.md`. It will never authorise spending, deleting Kalp's data or accounts, credential rotation, force-pushes, or bypassing a permission you were denied; those go to your project's STATUS.md "Needs Kalp". Named agent types now exist in ~/.claude/agents (night-supervisor, hoops-tracker, sift, kalpos, redesigner, reviewer, verifier, researcher, scout): spawn sub-agents with those `subagent_type`s so the roster reads clearly.
