@@ -429,7 +429,7 @@ button.kos-now[data-paused="true"] .bar i {
   color: var(--ink);
   background: var(--tint-07);
   cursor: default;
-  transition: background 160ms var(--kos-ease), transform 160ms var(--kos-ease);
+  transition: background-color 160ms var(--kos-ease), transform 160ms var(--kos-ease);
 }
 .kos-transport button:hover {
   background: var(--tint-13);
@@ -481,7 +481,7 @@ button.kos-now[data-paused="true"] .bar i {
   font: inherit;
   text-align: left;
   cursor: default;
-  transition: background 160ms var(--kos-ease);
+  transition: background-color 160ms var(--kos-ease);
 }
 .kos-track:hover {
   background: var(--tint-06);

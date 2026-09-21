@@ -1,84 +1,97 @@
 # Resume here
 
-Written 2026-09-21 by the T6.9 worker at wind-down. Everything below is
-unstarted work, in the order it was handed over.
+Written 2026-09-21 by the T6.10 (dark mode) worker at wind-down. It replaces
+the T6.9 worker's hand-over, whose two "not started" items — dark mode and the
+Spotify links — are both now done and live.
 
 ## Done and live
 
-T6.9 (KalpOS personal info) is merged (`985705c`) and live on
-https://kalpkan.com via deployment `portfolio-hkb795k89`. Its done-criteria
-checklist, evidence and deviations are at the top of `STATUS.md` and in the
-T6.9 task row; screenshots are in `docs/images/kalpos/personal/` (taken
-against production).
+- **T6.9** (KalpOS personal info) — merge `985705c`, deployment
+  `portfolio-hkb795k89`.
+- **T6.11** (Spotify links on the Music songs) — code `93fc69a`. Its own push
+  never deployed (`STATUS.md` H19: the pushed range's tip commit was docs-only,
+  so `vercel.json`'s `ignoreCommand` cancelled the build). The T6.10 merge
+  carried it to production; all three rows show the "open ↗" hint on the live
+  site, so **H19 is resolved** and can be struck.
+- **T6.10** (dark mode) — merges `3025ac9` and the follow-up fix. Done-criteria,
+  evidence, deviations and the one known issue are at the top of `STATUS.md`
+  and in the T6.10 task row; screenshots in `docs/images/kalpos/dark/`.
 
-## Not started — T6.10, dark mode (assigned, then reassigned away from the
-T6.9 worker; nothing exists yet)
+Nothing is half-finished and no branch is waiting to be picked up.
 
-Kalp's brief, verbatim in substance:
+## Before you touch KalpOS colours again
 
-1. macOS-style dark appearance: dark desk ground (near-black, same 22 px dot
-   grid at low alpha), dark frosted menubar and dock (dark rgba frost, the
-   same blur/saturate values as light), dark window chrome / frames /
-   sidebars with the same radii and shadows retuned for a dark ground,
-   widgets (the note stays yellow but muted; photo, reading and now-playing
-   cards go dark), the phone sheet; the terminal is already dark. Text
-   contrast AA everywhere. The drawn icons (folders, envelope, trash, hobby
-   glyphs) keep their tints but get dark-appropriate shading. Lock and boot
-   are unchanged: they are already black.
-2. Appearance control: an "Appearance ▸ Light / Dark / Auto" row in the
-   KalpOS menu (Auto = `prefers-color-scheme`), persisted in `localStorage`
-   `kalpos:appearance`, applied by a pre-paint script on
-   `<html data-appearance>` so there is no flash on load. The phone menu gets
-   the same row. Terminal: `theme dark|light|auto`.
-3. Tokens: lift the light values already in `app/kalpos.css` into CSS custom
-   properties on `:root`, override them under `[data-appearance="dark"]` and
-   under `(prefers-color-scheme: dark)` when `data-appearance="auto"`. No
-   per-component hex duplication.
-4. The OG image stays as it is.
-5. Tests: appearance state and persistence, the pre-paint attribute, the menu
-   row, and a snapshot of the key components in dark.
-6. Verify in claude-in-chrome at 1440 and 390 in dark (screenshots to
-   `docs/images/kalpos/dark/`), console clean, Lighthouse ≥ 0.90. At most one
-   extra deploy (push to `main`).
-7. Update `DESIGN.md` (dark tokens + the appearance beat; say that it
-   supersedes the earlier "no dark desk" decision), `README.md`,
-   `docs/hosting-plan.md` decisions list (one line),
-   `skills/portfolio-ops/verification.md` (a row), `STATUS.md` (a T6.10 row).
-   PostHog `menu_action { item: "appearance", value }`.
+The one rule: **`app/kalpos.css` and `app/kalpos-extras.css` must not contain a
+colour literal.** Every colour is a token on `:root` in `app/globals.css`:
 
-Note for whoever picks this up: `app/kalpos.css` is 2139 lines of literal hex
-copied from the design mock, and `app/kalpos-extras.css` another 750. The
-token lift is the bulk of the work; do it first and prove light is unchanged
-(the existing screenshots in `docs/images/kalpos/` are the before-picture)
-before adding a single dark value.
+```css
+--paper: #f3f2f2;                        /* light, and the no-light-dark() fallback */
+--paper: light-dark(#f3f2f2, #121214);   /* the pair */
+```
 
-## Not started — Spotify links in the Music app (small; Kalp wanted this on a
-Sonnet sub-agent)
+used as `var(--paper)`. `app/appearance.test.ts` fails the build if a literal
+appears outside the documented exceptions (the power / boot / lock / restart
+layers, the Terminal, the drawn icons, the folder and dock tile tints), and the
+exception list lives in that test so adding one is a decision, not an accident.
 
-In the Music window and the phone Music sheet, **double-clicking** a song (and,
-for the keyboard, Enter on a focused row that is already the current track;
-a single click keeps selecting/playing as it does now) opens that song on
-Spotify in a new tab.
+Four things that cost real time and are worth not rediscovering:
 
-- Add `spotifyUrl` to each `PLAYLIST` entry in `lib/site.ts`.
-- Find the real track URLs (`open.spotify.com/track/<id>`) with WebSearch:
-  "Suffer" by BEX (2025 single), "These Words" by Badger & Natasha Bedingfield
-  (2024 single), "Sleep" by The Kid LAROI. **Verify each** with Spotify's
-  keyless oEmbed endpoint (`https://open.spotify.com/oembed?url=<track url>`
-  returns JSON whose title matches the song and artist) and record the
-  verification in the commit message. If a track cannot be verified, leave its
-  `spotifyUrl` empty and add a line under "Needs Kalp" in `STATUS.md`.
-- A tiny "open ↗" hint on the row on hover and focus (text, never a Spotify
-  logo asset), and `open <n>` in the terminal's `music.md` listing.
-- PostHog `music_opened_spotify { index }`.
-- Tests for the double-click handler and a URL guard that accepts only
-  `https://open.spotify.com/track/` URLs.
+1. **Never transition the `background` shorthand.** Chrome does not re-resolve a
+   shorthand transition when only an underlying custom property changes, so the
+   element stays pinned at its old colour — which is exactly how an open window
+   kept its light background after switching appearance. Transition
+   `background-color`. A test now enforces this; the lock screen's pill is the
+   one stated exemption, because the lock is black in both appearances.
+2. **`light-dark()` returns a colour**, so it cannot hold a whole `box-shadow` or
+   a `filter`. Shadows are split: `--c-sh-lg` is the colour pair,
+   `--sh-lg: 0 12px 32px var(--c-sh-lg)` the geometry shared by both. Do the
+   same for any new shadow.
+3. **Not every `#fff` is the same `#fff`.** White that is *text on an accent
+   fill* is `--on-accent` and stays white; white that is *a sheet of paper* (the
+   About document, the photo frame, the folder slip, the Music dock tile) is
+   `--card` and goes dark. Likewise `#f3f2f2`: as a desk ground it is `--paper`,
+   but on the Restart mark and the Terminal dock tile it is ink on a surface
+   that is black in *both* appearances, which is `--on-dark`.
+4. **A scrim is not a tint.** `--scrim` and `--scrim-sheet` get *darker* in dark;
+   the `--tint-*` ladder flips from ink to white. Their light values look alike
+   and they behave oppositely.
+
+## Open items, smallest first
+
+- **`STATUS.md` H20 — "default auto?"** Dark mode defaults to **Light**, so
+  nobody sees the dark desk unless they choose it. If Kalp says *"default auto"*:
+  change `DEFAULT_APPEARANCE` in `lib/appearance.ts` to `"auto"`, update the test
+  that deliberately pins `"light"` (it will fail and tell you), close H20, and fix
+  the one sentence in `README.md` and `DESIGN.md`. Nothing else depends on it.
+- **The power screen's caption** is the only thing between the hub and a 1.00
+  Lighthouse accessibility score: `.kos-power-caption`, `rgba(243,242,242,.45)`
+  on black, 4.05:1 against a 4.5:1 bar. Pre-existing, identical in light and
+  dark, and left alone only because the T6.10 brief said that screen is
+  unchanged. Raising the alpha to `.55` (~5.2:1) is a one-line fix.
+- **`vercel.json`'s `ignoreCommand`** diffs only `HEAD^..HEAD`, so any push whose
+  tip commit is docs-only cancels its own deploy. This has now bitten T4.1, T6.1
+  and T6.11. The root fix is to diff against the last *deployed* commit; until
+  someone does it, make sure the last commit of a push touches code — a
+  `--no-ff` merge commit whose first-parent diff includes `app/` or
+  `components/` is enough.
+
+## Verifying dark mode still works
+
+`skills/portfolio-ops/verification.md` → the row **"Dark mode: the Appearance
+row, the pre-paint attribute, the dark desk (T6.10)"** has the exact commands,
+including how to run Lighthouse *in dark* (seed `kalpos:appearance` in a Chrome
+started on a debugging port, then `lighthouse --port`), which is not obvious.
+Note that Chrome clamps the shared window to ~1200 px, so 390 px checks go
+through a same-origin iframe.
 
 ## House rules in force
 
 - Overnight protocol: `docs/night-protocol.md`. Done-criteria first, no retry
   loops past two attempts, stop your own processes and worktrees at the end.
 - Model rule (2026-09-21): easy/routine features go to a Sonnet sub-agent
-  (`subagent_type: "kalpos"`), Haiku only for lookups, Opus for end-to-end
-  apps and full UI overhauls (dark mode counts).
-- Two Vercel deploys per app per batch, $0 spend.
+  (`subagent_type: "kalpos"`), Haiku only for lookups, Opus for end-to-end apps
+  and full UI overhauls.
+- Two Vercel deploys per app per batch, $0 spend. If a live-only defect forces a
+  third, ask the overnight supervisor rather than shipping something broken —
+  that is what happened here, and the ruling is in
+  `docs/overnight-supervisor-log.md`.
