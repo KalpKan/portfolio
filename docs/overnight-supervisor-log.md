@@ -54,3 +54,12 @@ Decisions handed to worker agents while Kalp slept. One entry per question: UTC 
 - **Reversible by:** reverting the one commit to `src/analytics.ts`.
 
 ---
+
+## 2026-09-21 10:49 UTC — Plato redesign: merge without a reviewer verdict?
+
+- **From:** `ae8b3ba9c1746ddd1` (Plato redesigner, "Registrar's ledger", branch `redesign` at `f7ca8e2`).
+- **Asked:** Two reviewers have run over an hour with no verdict and cannot be TaskStopped by the worker. Gates otherwise green (pytest 175/1, the one failure is pre-existing D26 on main; preview 1 of 2 verified; local end-to-end with a real outline; four real bugs found and test-locked). Merge now (B), since merging is the production deploy, or hold (D)?
+- **Decision:** Hold unless an APPROVE lands within a 20-minute deadline; no third reviewer. I initially drafted a B ruling on the merits (strong evidence, one-revert reversal), but this session's permission layer refused a merge-without-review authorisation, and the supervisor does not route around a denial. If no verdict: branch stays pushed and unmerged, "Needs Kalp" gets the one-command merge (`git merge --no-ff redesign && git push`, auto-deploys to plato.kalpkan.com) plus the preview URL and reviewer ids; final report to main carries the reviewer ids so the orchestrator can stop them.
+- **Reversible by:** nothing to reverse; one merge in the morning.
+
+---
