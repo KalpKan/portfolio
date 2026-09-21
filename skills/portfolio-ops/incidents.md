@@ -2609,3 +2609,49 @@ _Entries begin below, oldest first._
 - **Fix:** `21c9ef2`: load `posthog-js` with a dynamic `import()` inside `requestIdleCallback` (2.5 s timeout cap) with a `setTimeout(…, 1200)` fallback for Safari, which has no `requestIdleCallback`, and queue any event fired before it lands so nothing is dropped. Initial JS 300.33 KB → 12.93 KB; 95.65 KB gz moved into a lazy chunk.
 - **Prevention / pattern to reuse:** **on any app whose first seconds are spent loading a model or a wasm runtime, load `posthog-js` after content — dynamic import in an idle callback, a real `setTimeout` fallback (not just the `timeout` option), and an event queue.** The analytics contract in `docs/analytics.md` is unaffected: the same custom events, cookieless `persistence: "memory"`, autocapture, replay with inputs masked, `send_instantly` + `sendBeacon`. Pin it with unit tests that assert posthog is *not* loaded at import time and that a pre-load event is queued and then sent. `plantit` took the same decision in FIX round 2 ("PostHog after content").
 - **Reported by:** the microtubules redesigner
+
+## 2026-09-21 — a stale `next start` reads as a colour-contrast regression
+
+- **Symptom:** during the promptflip redesign, Lighthouse on a local production build
+  reported accessibility **0.92** with a wall of `color-contrast` failures naming the
+  header nav, the wordmark and the skip link, plus `errors-in-console`. Production, on the
+  *old* design, scored 1.00. It looked exactly like a real regression introduced by the
+  redesign's token change.
+- **Cause:** the `next start` server had been left running across two `npm run build`s.
+  `.next` changed underneath it, so the HTML it served referenced chunk hashes that no
+  longer existed: `/_next/static/chunks/3f601or-k5pql.css` and one JS chunk both **404**.
+  With no stylesheet at all, axe measured Chrome's *default* unvisited-link colour
+  (`#9e9eff`) on the UA's default white — 2.38:1 — on every link on the page. The
+  "failing" colours were never ours.
+- **Fix:** restart the server. Same commit, fresh `next start`: performance 0.93–0.95,
+  accessibility **1.00**, best practices **1.00**, CLS 0.
+- **Prevention / pattern to reuse:** **restart `next start` after every rebuild, before
+  measuring anything.** The tell is `errors-in-console` firing alongside the contrast
+  failures, and reported foreground/background colours that appear nowhere in the design
+  tokens (`#9e9eff` on `#ffffff` is the UA default link on the UA default page). If a
+  contrast failure names a colour you never wrote, suspect the stylesheet never loaded
+  before you suspect the palette.
+- **Reported by:** the promptflip redesigner
+
+## 2026-09-21 — `resize_window` reports success but does not change the viewport
+
+- **Symptom:** `mcp__claude-in-chrome__resize_window` returned "Successfully resized
+  window … to 1440x900" while `window.innerWidth` stayed at 720 and `outerWidth` at 588.
+  Repeated calls at several sizes all reported success and changed nothing; a request for
+  2880 was correctly refused with "Bounds must be at least 50% within visible screen
+  space", so the tool was reachable and working.
+- **Cause:** several agents were holding tabs in the same Chrome window, and the window
+  manager did not apply the resize. The KalpOS T6.9 worker hit the identical thing the
+  same night (`innerWidth` stuck at 500 all session), so this is the shared-browser
+  failure mode, not a one-off.
+- **Fix / workaround:** take viewport-specific evidence with Playwright instead —
+  `@playwright/test` is already a devDependency in `promptflip` and `microtubules`, so a
+  throwaway script run from inside one of those repos gives exact `1440×900` and `390×844`
+  contexts with `deviceScaleFactor`, `colorScheme` and `reducedMotion` all controllable,
+  plus console capture and an overflow check. Use the real Chrome for what only it can do:
+  the signed-in session, extensions, and hand checks at whatever width it gives you.
+- **Prevention / pattern to reuse:** **never treat `resize_window`'s success message as
+  evidence of a viewport.** Assert the width from inside the page (`window.innerWidth`)
+  before trusting any screenshot taken for a named breakpoint, and state in the report
+  which widths came from Playwright and which from Chrome.
+- **Reported by:** the promptflip redesigner
