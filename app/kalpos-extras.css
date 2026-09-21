@@ -541,7 +541,7 @@ button.kos-now[data-paused="true"] .bar i {
   top: 50%;
   transform: translateY(-50%);
   font: 400 11px var(--font-mono);
-  color: #0088b0;
+  color: var(--teal);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
