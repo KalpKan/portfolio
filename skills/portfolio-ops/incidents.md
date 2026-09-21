@@ -2589,3 +2589,23 @@ _Entries begin below, oldest first._
 - **Fix:** `npx vercel@latest --prod --scope kks-projects-2edcb11a --yes` from the worktree → `portfolio-g9349f8p8` (`dpl_7tQSyHRt53U61W4EEuw5ZxNDUJFQ`) Ready at 16:15 UTC; verified by `curl` (`kos-bin--desk` in the HTML) and in Chrome. Budget was 59/100 for the day, so the extra record was harmless.
 - **Prevention:** when merging a branch whose last commit is docs-only, either put the docs commit first and a code commit last, or go straight to the forced `--prod` (runbook "Hub: ignored build step"). The Canceled record still counts toward the 100/day cap.
 
+
+## 2026-09-21: microtubules, a stray Vercel project `web` created by running the CLI from the app subfolder (redesigner)
+
+- **Date:** 2026-09-21 03:03 UTC
+- **Affected:** Vercel team `kks-projects-2edcb11a`; new project **`web`** (`prj_gAWZ3JcOb6cyl53grmQRe4gsjXhA`, https://web-nu-coral-58.vercel.app)
+- **Symptom:** `npx vercel --scope kks-projects-2edcb11a --yes` run from `~/projects/microtubules/web` answered "This is the project's first deployment, so it was assigned to production" and created a brand-new project instead of a preview of `microtubules`.
+- **Cause:** `~/projects/microtubules/.vercel/project.json` (project `microtubules`, Root Directory `web` set in the dashboard) lives at the **repo root**. The CLI looks for the link in the cwd, found none in `web/`, and treated the folder as a new project.
+- **Fix:** the stray local link `web/.vercel` was deleted immediately. Deleting the Vercel project itself was refused by the agent's permission layer and is a human checkpoint, so it is written into `~/projects/microtubules/STATUS.md` under "Needs Kalp" with the exact command. It is inert: no domain, no env vars, no data, a static copy of the same page.
+- **Prevention:** **for any app whose Vercel Root Directory is a subfolder, run `npx vercel` from the repo root, never from the app folder.** That is `microtubules` (root dir `web`) and `v0-basketball-analytics-dashboard` (root dir `apps/web`). Check with `cat .vercel/project.json` before deploying; if the cwd has no `.vercel`, you are in the wrong place.
+- **Reported by:** the microtubules redesigner
+
+## 2026-09-21: microtubules, Lighthouse performance 0.85 on production because posthog-js was in the initial bundle (redesigner)
+
+- **Date:** 2026-09-21 03:15 UTC
+- **Affected:** `KalpKan/Microtubule-Quantification` `web/src/analytics.ts`; the same shape applies to every browser-ML app (`pushups`, `emotes`) and any Vite app on the platform
+- **Symptom:** after the "Lab bench" redesign, Lighthouse on `https://microtubules.kalpkan.com` gave accessibility 1.00, best practices 1.00, SEO 1.00 and **performance 0.85**, against a 0.90 gate. FCP 1.4 s, LCP 1.6 s, CLS 0.007, Speed Index 1.4 s were all fine; the whole loss was total blocking time at 580 ms.
+- **Cause:** `posthog-js` was imported at module scope. It is ~100 KB gzipped — larger than the entire rest of the app — and the trace attributed 163 ms of main-thread script to `posthog-recorder.js` plus most of the initial bundle's 539 ms to posthog itself, all of it competing during startup with the OpenCV.js the visitor actually came for.
+- **Fix:** `21c9ef2`: load `posthog-js` with a dynamic `import()` inside `requestIdleCallback` (2.5 s timeout cap) with a `setTimeout(…, 1200)` fallback for Safari, which has no `requestIdleCallback`, and queue any event fired before it lands so nothing is dropped. Initial JS 300.33 KB → 12.93 KB; 95.65 KB gz moved into a lazy chunk.
+- **Prevention / pattern to reuse:** **on any app whose first seconds are spent loading a model or a wasm runtime, load `posthog-js` after content — dynamic import in an idle callback, a real `setTimeout` fallback (not just the `timeout` option), and an event queue.** The analytics contract in `docs/analytics.md` is unaffected: the same custom events, cookieless `persistence: "memory"`, autocapture, replay with inputs masked, `send_instantly` + `sendBeacon`. Pin it with unit tests that assert posthog is *not* loaded at import time and that a pre-load event is queued and then sent. `plantit` took the same decision in FIX round 2 ("PostHog after content").
+- **Reported by:** the microtubules redesigner
