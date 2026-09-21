@@ -928,7 +928,9 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   margin: 0;
   font: 400 12px/1 var(--font-system);
   letter-spacing: 0.01em;
-  color: rgba(243, 242, 242, 0.45);
+  /* 0.45 measured 4.05:1 on the black power screen, just under the 4.5:1 bar
+     (T6.12c). 0.5 measures ~4.86:1; the power screen is otherwise unchanged. */
+  color: rgba(243, 242, 242, 0.5);
   white-space: nowrap;
 }
 .kos-boot-mark {
