@@ -1,14 +1,20 @@
 # Resume here
 
-Updated 2026-09-21 by the kalpos fixes-batch worker (T6.12a/b/c) at wind-down.
-It replaces the T6.10 dark-mode worker's hand-over: all three items that
-worker left open — the live dark-mode defect, the power screen's contrast, and
-the `ignoreCommand` root cause — are now done and live. That worker's earlier
-write-up follows below, kept for the "Before you touch KalpOS colours again"
-section, which is still current.
+Updated 2026-10-02 by the Research-folder worker (T6.13) at wind-down. Adds
+one entry to "Done and live" and one gotcha to "Before you touch KalpOS
+colours again"'s neighbourhood — see "Before you add another desk folder"
+below, new in this update. Everything from the 2026-09-21 kalpos fixes-batch
+worker (T6.12a/b/c) follows unchanged; nothing in this update touches dark
+mode or the `ignoreCommand` fix.
 
 ## Done and live
 
+- **T6.13** (Research folder) — a new desk folder, sibling of Projects,
+  listing Kalp's volunteer research (lib/research.ts: the neuromod SCA
+  review, two MRI RF-heating phantom studies, the GP63 Biochem project) in
+  the Projects list's row grammar. Merge on top of `4b54ec7`, one production
+  push. Nothing left open; see the T6.13 row in `STATUS.md` for the full
+  evidence trail.
 - **T6.9** (KalpOS personal info) — merge `985705c`, deployment
   `portfolio-hkb795k89`.
 - **T6.11** (Spotify links on the Music songs) — code `93fc69a`. Its own push
@@ -81,6 +87,27 @@ Four things that cost real time and are worth not rediscovering:
 4. **A scrim is not a tint.** `--scrim` and `--scrim-sheet` get *darker* in dark;
    the `--tint-*` ladder flips from ink to white. Their light values look alike
    and they behave oppositely.
+
+## Before you add another desk folder
+
+`lib/icons.ts`'s `DEFAULT_LAYOUT` is a flat grid, two columns 5 cells apart
+(`0, 5`), new rows 5 cells down (`0, 5, 10, 15, ...`); each icon's footprint is
+5×5 cells and `overlaps()` treats anything with `|Δc| < 5 && |Δr| < 5` as
+colliding. The first attempt at the Research folder (T6.13) put it at
+`(10, 0)` — "a third column, same row as Projects" — which looked free on
+paper but sat inside Hobbies' obstacle radius (Hobbies is at `(5, 0)`, and
+`|10-5|=5` is the exact boundary only for a *destination* cell; the arrow-key
+pathing in `moveIcon` treats every cell from 6 through 14 as blocked while
+stepping through). That silently changed Hobbies' arrow-key routing and broke
+four tests that assumed the space to its right was empty
+(`lib/icons.test.ts`, `components/kalpos/Desk.test.tsx`) — a real behaviour
+change, not just a test gotcha, since a visitor who drags Hobbies rightward
+would have hit the new folder sooner than before. Fixed by giving Research
+its own row, `(0, 15)`, matching the grid's existing row-every-5 pattern. If
+you add a seventh icon: pick an unused `(c, r)` on the same 5-cell grid, run
+`lib/icons.test.ts` and `components/kalpos/Desk.test.tsx`'s arrow-key tests,
+and if either fails for an *existing* icon (not the one you added), the new
+cell is too close — move it, don't patch the test.
 
 ## Open items, smallest first
 
