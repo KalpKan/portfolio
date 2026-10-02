@@ -556,6 +556,11 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   --f-back: #8e0f4a;
   --f-front: linear-gradient(180deg, #ff90b1 0%, #ff458e 45%, #d82071 100%);
 }
+.kos-folder--research {
+  --f-tab: #5b2a86;
+  --f-back: #4a2170;
+  --f-front: linear-gradient(180deg, #b48cff 0%, #8a5cf0 45%, #6a35d9 100%);
+}
 
 /* 2c document (About me): 50×62 white sheet with grey lines. */
 .kos-doc {
@@ -1890,6 +1895,30 @@ html[data-kos-boot="desk"] .kos-lock {
 }
 .kos-mail-head dd {
   margin: 0;
+}
+/* Research window: the Projects list's row grammar (bold name, status word,
+   muted meta) as full rows, since each entry carries more than a tile. */
+.kos-research {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.kos-research-row {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--tint-10);
+}
+.kos-research-row:last-child {
+  border-bottom: 0;
+}
+.kos-research-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.kos-research-meta {
+  margin: 2px 0 8px;
+  font: 400 11px var(--font-system);
 }
 /* Case study inside a window: components/showcase renders into this. */
 .kos-case {

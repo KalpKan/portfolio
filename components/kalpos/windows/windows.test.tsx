@@ -3,9 +3,11 @@ import { act } from "react";
 import { SITE } from "@/lib/site";
 import { fixtureVfs } from "@/lib/vfs.fixture";
 import { render } from "@/test/render";
+import { RESEARCH, RESEARCH_HEADER } from "@/lib/research";
 import AboutWindow from "./AboutWindow";
 import ContactWindow from "./ContactWindow";
 import HobbiesWindow from "./HobbiesWindow";
+import ResearchWindow from "./ResearchWindow";
 import TrashWindow from "./TrashWindow";
 import MusicWindow from "./MusicWindow";
 import TerminalWindow from "./TerminalWindow";
@@ -101,6 +103,22 @@ describe("the small windows", () => {
   it("Hobbies is the empty state while nothing is filed", () => {
     const { container, unmount } = render(<HobbiesWindow />);
     expect(container.textContent).toContain("Nothing filed yet");
+    unmount();
+  });
+
+  it("Research shows the header line, then one row per entry with its title, status, role/where and description, no images and no links beyond what's given", () => {
+    const { container, unmount } = render(<ResearchWindow />);
+    expect(container.textContent).toContain(RESEARCH_HEADER);
+    const rows = container.querySelectorAll(".kos-research-row");
+    expect(rows.length).toBe(RESEARCH.length);
+    const first = RESEARCH[0];
+    expect(rows[0].querySelector(".kos-tile-name")?.textContent).toBe(first.title);
+    expect(rows[0].querySelector(".kos-tile-status")?.textContent).toBe(first.status);
+    expect(rows[0].textContent).toContain(first.role);
+    expect(rows[0].textContent).toContain(first.where);
+    expect(rows[0].textContent).toContain(first.description);
+    expect(container.querySelector("a")).toBeNull();
+    expect(container.querySelector("img")).toBeNull();
     unmount();
   });
 

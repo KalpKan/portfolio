@@ -8,6 +8,7 @@ import { checksDone, okCount, statusWord } from "@/lib/signal";
 import { playlistOf, type SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
 import { track } from "@/lib/track";
+import { RESEARCH } from "@/lib/research";
 import { AppGlyph, DeskIcon, DocGlyph, FolderGlyph, TrashGlyph } from "./DeskIcons";
 import KalpOSMenu from "./KalpOSMenu";
 import Reading from "./Reading";
@@ -18,6 +19,7 @@ import ContactWindow from "./windows/ContactWindow";
 import HobbiesWindow from "./windows/HobbiesWindow";
 import ReadingWindow from "./windows/ReadingWindow";
 import MusicWindow from "./windows/MusicWindow";
+import ResearchWindow from "./windows/ResearchWindow";
 import TerminalWindow from "./windows/TerminalWindow";
 import TrashWindow from "./windows/TrashWindow";
 
@@ -32,13 +34,14 @@ import TrashWindow from "./windows/TrashWindow";
  * full-height sheets, never floating windows.
  */
 
-type SheetId = "projects" | "hobbies" | "about" | "contact" | "music" | "reading" | "trash" | "terminal" | `case:${string}`;
+type SheetId = "projects" | "research" | "hobbies" | "about" | "contact" | "music" | "reading" | "trash" | "terminal" | `case:${string}`;
 type Level = "peek" | "full" | "closed";
 
 const PEEK_PX = 230;
 
 const TITLES: Record<string, string> = {
   projects: "Projects",
+  research: "Research",
   hobbies: "Hobbies",
   about: "About",
   contact: "Contact",
@@ -197,6 +200,8 @@ export default function PhoneSheet({
             })}
           </ul>
         );
+      case "research":
+        return <ResearchWindow />;
       case "hobbies":
         return <HobbiesWindow hobbies={site.hobbies} />;
       case "reading":
@@ -243,6 +248,7 @@ export default function PhoneSheet({
         <p className="kos-phone-line">{line}</p>
         <ul className="kos-phone-grid" aria-label="Folders">
           <li><DeskIcon label="Projects" draggable={false} onOpen={() => openSheet("projects")}><FolderGlyph tint="projects" badge={String(tiles.length).padStart(2, "0")} /></DeskIcon></li>
+          <li><DeskIcon label="Research" draggable={false} onOpen={() => openSheet("research")}><FolderGlyph tint="research" badge={String(RESEARCH.length).padStart(2, "0")} /></DeskIcon></li>
           <li><DeskIcon label="Hobbies" draggable={false} onOpen={() => openSheet("hobbies")}><FolderGlyph tint="hobbies" badge={site.hobbies?.length ? String(site.hobbies.length).padStart(2, "0") : undefined} /></DeskIcon></li>
           <li><DeskIcon label="About" draggable={false} onOpen={() => openSheet("about")}><DocGlyph /></DeskIcon></li>
           <li><DeskIcon label="Contact" draggable={false} onOpen={() => openSheet("contact")}><AppGlyph kind="contact" /></DeskIcon></li>

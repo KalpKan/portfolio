@@ -63,7 +63,7 @@ describe("Desk (card 2c)", () => {
   it("draws the folders and icons as buttons, with the Projects badge = tile count, and hides Now playing while empty", () => {
     const { container, unmount } = mount();
     const icons = [...container.querySelectorAll("button.kos-icon")].map((b) => b.textContent?.trim());
-    expect(icons).toEqual(["13Projects", "Hobbies", "About me", "Contact", "Trash"]);
+    expect(icons).toEqual(["13Projects", "04Research", "Hobbies", "About me", "Contact", "Trash"]);
     expect(container.querySelector(".kos-now")).toBeNull();
     unmount();
   });
@@ -400,10 +400,10 @@ describe("Desk: the personal shelves (T6.9)", () => {
 
   it("badges the Hobbies folder with what its window shows, and nothing while empty", () => {
     const bare = mount();
-    expect([...bare.container.querySelectorAll("button.kos-icon")][1].textContent?.trim()).toBe("Hobbies");
+    expect([...bare.container.querySelectorAll("button.kos-icon")][2].textContent?.trim()).toBe("Hobbies");
     bare.unmount();
     const { container, unmount } = mount({ site: { ...site, hobbies } });
-    expect([...container.querySelectorAll("button.kos-icon")][1].textContent?.trim()).toBe("02Hobbies");
+    expect([...container.querySelectorAll("button.kos-icon")][2].textContent?.trim()).toBe("02Hobbies");
     unmount();
   });
 });
