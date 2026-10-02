@@ -41,6 +41,9 @@ export function fixtureVfs(): VDir {
   return buildVfs({
     projects,
     caseStudies: { unpark, eeg },
+    research: [
+      { slug: "heating-study", title: "A heating study", role: "Research assistant", where: "UHN", status: "In progress", description: "A phantom study." },
+    ],
     site: {
       name: "Kalp Kansara",
       note: "Open a folder.",

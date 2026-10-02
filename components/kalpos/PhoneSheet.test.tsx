@@ -38,7 +38,7 @@ describe("Phone sheet (card 1e)", () => {
     expect(container.querySelector(".kos-phone-name")?.textContent).toBe("Kalp Kansara");
     expect(container.querySelector(".kos-phone-line")?.textContent).toBe("Tap a folder. 13 projects, checking for live signals…");
     const folders = [...container.querySelectorAll(".kos-phone-grid button")].map((b) => b.textContent?.trim());
-    expect(folders).toEqual(["13Projects", "Hobbies", "About", "Contact", ">_Terminal", "Trash"]);
+    expect(folders).toEqual(["13Projects", "04Research", "Hobbies", "About", "Contact", ">_Terminal", "Trash"]);
     expect(container.querySelector(".kos-phone-note")?.textContent).toContain("measure something real");
     unmount();
   });
@@ -151,8 +151,8 @@ describe("Phone: the personal shelves (T6.9)", () => {
   it("opens the Hobbies sheet with the drawn list, and badges the folder", () => {
     const { container, unmount } = mount({ site: { ...site, hobbies } });
     const folders = [...container.querySelectorAll(".kos-phone-grid button")];
-    expect(folders[1].textContent?.trim()).toBe("01Hobbies");
-    click(folders[1] as HTMLButtonElement);
+    expect(folders[2].textContent?.trim()).toBe("01Hobbies");
+    click(folders[2] as HTMLButtonElement);
     expect(container.querySelector(".kos-sheet-head b")?.textContent).toBe("Hobbies");
     expect(container.querySelector(".kos-sheet-body .kos-hobbies b")?.textContent).toBe("Swimming");
     expect(container.querySelector(".kos-sheet-body .kos-hobby-glyph svg")).not.toBeNull();

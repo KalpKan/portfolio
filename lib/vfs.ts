@@ -1,6 +1,7 @@
 import type { CaseStudy } from "@/content/case-study";
 import type { Project } from "./projects";
 import { projectKind } from "./projects";
+import type { ResearchEntry } from "./research";
 import type { Scrapped } from "./scrapped";
 import { contactLinks } from "./contact";
 import type { Book, Hobby, SiteConfig, Track } from "./site";
@@ -93,16 +94,23 @@ export function hobbyText(h: Hobby): string {
   return [`# ${h.name}`, "", h.line].join("\n");
 }
 
+/** One research entry as its own .md file: title, role/where/status, then the description. */
+export function researchText(r: ResearchEntry): string {
+  return [`# ${r.title}`, "", `role:   ${r.role}`, `where:  ${r.where}`, `status: ${r.status}`, "", r.description].join("\n");
+}
+
 export interface VfsInput {
   projects: Project[];
   caseStudies: Record<string, CaseStudy>;
   site: Pick<SiteConfig, "name" | "note" | "tagline"> & Partial<Pick<SiteConfig, "playlist" | "musicTitle" | "reading" | "hobbies" | "contact">>;
   scrapped: readonly Scrapped[];
+  /** Volunteer research outside the apps on this desk (/research/<slug>.md); empty leaves the dir there with nothing in it. */
+  research?: readonly ResearchEntry[];
   /** Overrides the build-time hostname in /etc/hostname (tests). */
   hostname?: string;
 }
 
-export function buildVfs({ projects, caseStudies, site, scrapped, hostname = "kalpkan.com" }: VfsInput): VDir {
+export function buildVfs({ projects, caseStudies, site, scrapped, research = [], hostname = "kalpkan.com" }: VfsInput): VDir {
   const projectDirs: Record<string, VNode> = {};
   for (const p of projects) {
     const children: Record<string, VNode> = { "README.md": file(readmeFor(p)) };
@@ -135,8 +143,12 @@ export function buildVfs({ projects, caseStudies, site, scrapped, hostname = "ka
   const hobbies: Record<string, VNode> = {};
   for (const h of site.hobbies ?? []) hobbies[`${h.slug}.md`] = file(hobbyText(h));
 
+  const researchDir: Record<string, VNode> = {};
+  for (const r of research) researchDir[`${r.slug}.md`] = file(researchText(r));
+
   return dir({
     projects: dir(projectDirs),
+    research: dir(researchDir),
     about: dir(about),
     hobbies: dir(hobbies),
     trash: dir(trash),

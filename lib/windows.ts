@@ -5,6 +5,7 @@
  */
 export type WindowId =
   | "projects"
+  | "research"
   | "about"
   | "contact"
   | "hobbies"

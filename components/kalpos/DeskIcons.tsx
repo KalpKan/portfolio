@@ -30,7 +30,7 @@ import { useDrag } from "./useDrag";
 export const GRID = 22;
 export const DOUBLE_CLICK_MS = 400;
 
-export function FolderGlyph({ tint, badge }: { tint: "projects" | "hobbies"; badge?: string }) {
+export function FolderGlyph({ tint, badge }: { tint: "projects" | "research" | "hobbies"; badge?: string }) {
   return (
     <div className={`kos-folder kos-folder--${tint}`} aria-hidden>
       <span className="tab" />

@@ -93,9 +93,9 @@ describe("the prompt and the plain commands", () => {
 describe("ls", () => {
   it("lists the cwd, hides dotfiles unless -a, and marks directories", () => {
     const r = runLine(ctx, INITIAL_STATE, "ls");
-    expect(text(r.lines)).toBe("about  etc  hobbies  projects  trash");
+    expect(text(r.lines)).toBe("about  etc  hobbies  projects  research  trash");
     expect(r.lines[0][0]).toEqual({ text: "about", tone: "dir" });
-    expect(text(runLine(ctx, INITIAL_STATE, "ls -a").lines)).toBe(".secret  about  etc  hobbies  projects  trash");
+    expect(text(runLine(ctx, INITIAL_STATE, "ls -a").lines)).toBe(".secret  about  etc  hobbies  projects  research  trash");
   });
 
   it("takes a path, relative or absolute, and errors on a missing one", () => {
@@ -108,6 +108,8 @@ describe("ls", () => {
   it("ls of a file prints the file; hobbies lists one .md per hobby; -l is a long listing", () => {
     expect(text(runLine(ctx, INITIAL_STATE, "ls etc/motd").lines)).toBe("motd");
     expect(text(runLine(ctx, INITIAL_STATE, "ls hobbies").lines)).toBe("swimming.md  tennis.md");
+    expect(text(runLine(ctx, INITIAL_STATE, "ls /research").lines)).toBe("heating-study.md");
+    expect(text(runLine(ctx, INITIAL_STATE, "cat /research/heating-study.md").lines)).toContain("# A heating study");
     const long = text(runLine(ctx, INITIAL_STATE, "ls -la etc").lines).split("\n");
     expect(long[0]).toBe("total 4");
     expect(long[1]).toMatch(/^dr--r--r--  kalp  staff\s+\d+  \.$/);

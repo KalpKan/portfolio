@@ -39,8 +39,8 @@ describe("buildVfs", () => {
   });
 
   it("has about, hobbies, the trash, /etc and the hidden secret", () => {
-    expect(listDir(root)).toEqual(["about", "etc", "hobbies", "projects", "trash"]);
-    expect(listDir(root, true)).toEqual([".secret", "about", "etc", "hobbies", "projects", "trash"]);
+    expect(listDir(root)).toEqual(["about", "etc", "hobbies", "projects", "research", "trash"]);
+    expect(listDir(root, true)).toEqual([".secret", "about", "etc", "hobbies", "projects", "research", "trash"]);
     expect((getNode(root, "/about/README.md") as { content: string }).content).toContain("Western University.");
     expect(listDir(getNode(root, "/about") as VDir)).toEqual(["README.md", "music.md", "reading.md"]);
     const music = (getNode(root, "/about/music.md") as { content: string }).content;
@@ -84,7 +84,13 @@ describe("buildVfs", () => {
     expect((getNode(root, "/hobbies/swimming.md") as { content: string }).content).toBe("# Swimming\n\nI love swimming.\n");
   });
 
-  it("leaves /about and /hobbies bare when the site has no reading list, hobbies or contacts", () => {
+  it("derives one /research/<slug>.md per research entry (ls /research, cat /research/<slug>.md)", () => {
+    expect(listDir(getNode(root, "/research") as VDir)).toEqual(["heating-study.md"]);
+    const text = (getNode(root, "/research/heating-study.md") as { content: string }).content;
+    expect(text).toBe("# A heating study\n\nrole:   Research assistant\nwhere:  UHN\nstatus: In progress\n\nA phantom study.\n");
+  });
+
+  it("leaves /about, /hobbies and /research bare when the site has no reading list, hobbies, contacts or research", () => {
     const bare = buildVfs({
       projects: [],
       caseStudies: {},
@@ -93,6 +99,7 @@ describe("buildVfs", () => {
     });
     expect(listDir(getNode(bare, "/about") as VDir)).toEqual(["README.md"]);
     expect(listDir(getNode(bare, "/hobbies") as VDir)).toEqual([]);
+    expect(listDir(getNode(bare, "/research") as VDir)).toEqual([]);
     expect((getNode(bare, "/about/README.md") as { content: string }).content).toBe("# K\n\nt\n\nn\n");
   });
 });
