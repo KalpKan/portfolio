@@ -450,7 +450,8 @@ Common failures:
 - `RuntimeError: SECRET_KEY ...` in the function logs: the env var is missing for that environment (production vs preview). Add it and redeploy.
 - `413 FUNCTION_PAYLOAD_TOO_LARGE`: the upload exceeded Vercel's 4.5 MB body limit. Not fixable on Hobby without a client-side direct upload; the README tells users to keep PDFs under 4.5 MB.
 - Static file 404: it is not under `public/`, or Flask's `static_folder` was changed. Check `curl -sI https://<host>/static/style.css`.
-- Slow first request after idle (2 to 3 s): Vercel cold start plus Neon wake; expected. If every request is slow, `curl -w '%{time_total}'` on `/api/health` vs `/` tells whether it is the database or the function.
+- Slow first request after idle (2 to 3 s): Vercel cold start plus Neon wake; expected. If every request is slow, `curl -w '%{time_total}'` on `/api/health?db=1` vs `/api/health` tells whether it is the database or the function.
+- **Never let a periodic monitor query Neon.** Neon Free meters compute: 100 CU-hours per project per month, and the smallest compute is 0.25 CU, so anything that wakes it every 5 minutes burns ~0.25 × 24 × 30 = 180 CU-h and the project is cut off mid-month ("Your account or project has exceeded the quota"; it happened to Plato on 2026-10-19). Health routes for monitors are liveness only; the DB ping lives behind a query flag (`?db=1`) for humans. Any app on Neon should also survive the database refusing connections (Plato: `FallbackCache`, SQLite in `/tmp`).
 - `vercel inspect` shows Ready but the page 500s: run `npx vercel@latest logs <deployment-url> --scope kks-projects-2edcb11a` and look for the Python traceback; the usual cause is an import that works locally (Python 3.14 on the Mac) but not on 3.12, or a missing runtime dependency in `requirements.txt`.
 
 ## Deploy a static Vite app to Vercel
