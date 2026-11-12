@@ -740,12 +740,12 @@ button.kos-now[data-paused="true"] .bar i {
 }
 
 /* Recently read (2026-11-12): the finished books as a row of smaller jackets
-   under the current one, in the order they were read. Same .kos-book object
-   edge, 96 px wide (2:3), the title under each in the ink colour (the cover is
+   under the current one, in the order they were read, and a second shelf of
+   Favourites in the same cut. Same .kos-book object edge, 84 px wide (2:3) in a 112 px column so the titles get room to wrap, the title under each in the ink colour (the cover is
    the link, so the caption must not turn teal), a hairline above the shelf. */
 .kos-shelf {
-  margin-top: 22px;
-  padding-top: 16px;
+  margin-top: 16px;
+  padding-top: 12px;
   border-top: 1px solid var(--rule-soft);
 }
 .kos-shelf ul {
@@ -753,8 +753,8 @@ button.kos-now[data-paused="true"] .bar i {
   padding: 0;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 96px));
-  gap: 18px 20px;
+  grid-template-columns: repeat(3, minmax(0, 112px));
+  gap: 14px;
 }
 .kos-shelf li {
   min-width: 0;
@@ -770,7 +770,7 @@ button.kos-now[data-paused="true"] .bar i {
   outline-offset: 4px;
 }
 .kos-shelf .kos-book {
-  width: 100%;
+  width: min(84px, 100%);
   height: auto;
   aspect-ratio: 2 / 3;
   transition: transform 160ms var(--kos-ease);
@@ -782,6 +782,12 @@ button.kos-now[data-paused="true"] .bar i {
   display: block;
   margin-top: 8px;
   font: 600 12px/1.25 var(--font-system);
+}
+.kos-shelf-note {
+  display: block;
+  margin-top: 2px;
+  font: 400 11.5px/1.3 var(--font-system);
+  opacity: 0.6;
 }
 
 /* ------------------------------------------------- Hobbies list (T6.9) */
@@ -843,9 +849,6 @@ button.kos-now[data-paused="true"] .bar i {
   .kos-reading-win .kos-book {
     width: 96px;
     height: 144px;
-  }
-  .kos-shelf ul {
-    gap: 16px;
   }
 }
 

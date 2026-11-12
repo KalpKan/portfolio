@@ -58,6 +58,7 @@ export function fixtureVfs(): VDir {
         { title: "Red Rising", authors: "Pierce Brown", cover: "/images/reading/red-rising.jpg", url: "https://openlibrary.org/isbn/9780345539786" },
         { title: "Golden Son", authors: "Pierce Brown", cover: "/images/reading/golden-son.jpg", url: "https://openlibrary.org/isbn/9780345539816" },
       ],
+      favourites: [{ title: "A Series of Unfortunate Events", authors: "Lemony Snicket", note: "13 books", cover: "/images/reading/a-series-of-unfortunate-events.jpg", url: "https://openlibrary.org/isbn/9780060283124" }],
       hobbies: [
         { slug: "swimming", name: "Swimming", line: "I love swimming." },
         { slug: "tennis", name: "Tennis", line: "And playing tennis." },

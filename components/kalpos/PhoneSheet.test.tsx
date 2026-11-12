@@ -147,12 +147,14 @@ describe("Phone: the personal shelves (T6.9)", () => {
       { title: "Red Rising", authors: "Pierce Brown", cover: "/images/reading/red-rising.jpg", url: "https://openlibrary.org/isbn/9780345539786" },
       { title: "Golden Son", authors: "Pierce Brown", cover: "/images/reading/golden-son.jpg", url: "https://openlibrary.org/isbn/9780345539816" },
     ];
-    const { container, unmount } = mount({ site: { ...site, reading, recentlyRead } });
+    const favourites = [{ title: "The Stranger", authors: "Albert Camus", cover: "/images/reading/the-stranger.jpg", url: "https://openlibrary.org/isbn/9780679720201" }];
+    const { container, unmount } = mount({ site: { ...site, reading, recentlyRead, favourites } });
     const row = container.querySelector<HTMLButtonElement>(".kos-phone-scroll button.kos-reading")!;
     expect(row.textContent).not.toContain("Red Rising");
     click(row);
     const titles = [...container.querySelectorAll(".kos-sheet-body .kos-shelf-title")].map((n) => n.textContent);
-    expect(titles).toEqual(["Red Rising", "Golden Son"]);
+    expect(titles).toEqual(["Red Rising", "Golden Son", "The Stranger"]);
+    expect(container.querySelector(".kos-sheet-body .kos-shelf--favourites .kos-label")?.textContent).toBe("Favourites");
     unmount();
   });
 

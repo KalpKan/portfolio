@@ -79,8 +79,8 @@ export function playlistText(playlist: readonly Track[], title: string): string 
   return [`# ${title}`, "", ...rows, "", "Visual only: the desk's Music app plays nothing, it just keeps the list."].join("\n");
 }
 
-/** The reading list (lib/site.ts) as plain text; the first book is the current one, then the recently read shelf in series order. */
-export function readingText(reading: readonly Book[], recentlyRead: readonly Book[] = []): string {
+/** The reading list (lib/site.ts) as plain text; the first book is the current one, then the recently read shelf in series order, then the favourites. */
+export function readingText(reading: readonly Book[], recentlyRead: readonly Book[] = [], favourites: readonly Book[] = []): string {
   const out: string[] = [];
   const section = (heading: string, books: readonly Book[]) => {
     if (!books.length) return;
@@ -88,11 +88,14 @@ export function readingText(reading: readonly Book[], recentlyRead: readonly Boo
     out.push(heading, "");
     books.forEach((b, i) => {
       if (i) out.push("");
-      out.push(b.title, `by ${b.authors}`, b.url);
+      out.push(b.title, `by ${b.authors}`);
+      if (b.note) out.push(b.note);
+      out.push(b.url);
     });
   };
   section("# Currently reading", reading);
   section("# Recently read", recentlyRead);
+  section("# Favourites", favourites);
   return out.join("\n");
 }
 
@@ -109,7 +112,7 @@ export function researchText(r: ResearchEntry): string {
 export interface VfsInput {
   projects: Project[];
   caseStudies: Record<string, CaseStudy>;
-  site: Pick<SiteConfig, "name" | "note" | "tagline"> & Partial<Pick<SiteConfig, "playlist" | "musicTitle" | "reading" | "recentlyRead" | "hobbies" | "contact">>;
+  site: Pick<SiteConfig, "name" | "note" | "tagline"> & Partial<Pick<SiteConfig, "playlist" | "musicTitle" | "reading" | "recentlyRead" | "favourites" | "hobbies" | "contact">>;
   scrapped: readonly Scrapped[];
   /** Volunteer research outside the apps on this desk (/research/<slug>.md); empty leaves the dir there with nothing in it. */
   research?: readonly ResearchEntry[];
@@ -145,7 +148,9 @@ export function buildVfs({ projects, caseStudies, site, scrapped, research = [],
   }
   const about: Record<string, VNode> = { "README.md": file(readme.join("\n")) };
   if (site.playlist?.length) about["music.md"] = file(playlistText(site.playlist, site.musicTitle ?? "On repeat"));
-  if (site.reading?.length || site.recentlyRead?.length) about["reading.md"] = file(readingText(site.reading ?? [], site.recentlyRead ?? []));
+  if (site.reading?.length || site.recentlyRead?.length || site.favourites?.length) {
+    about["reading.md"] = file(readingText(site.reading ?? [], site.recentlyRead ?? [], site.favourites ?? []));
+  }
 
   const hobbies: Record<string, VNode> = {};
   for (const h of site.hobbies ?? []) hobbies[`${h.slug}.md`] = file(hobbyText(h));

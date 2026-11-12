@@ -21,7 +21,14 @@ export const PLAYLIST: readonly Track[] = [
  * public/images/reading/ (Open Library's cover API, shown for identification);
  * `url` is where a reader can go and look the book up.
  */
-export type Book = { title: string; authors: string; cover: string; url: string };
+export type Book = {
+  title: string;
+  authors: string;
+  cover: string;
+  url: string;
+  /** A short line under the title on a shelf, e.g. "13 books" for a series. */
+  note?: string;
+};
 
 /** What Kalp is reading right now; the first entry is the one on the desk. */
 export const READING: readonly Book[] = [
@@ -34,7 +41,8 @@ export const READING: readonly Book[] = [
 ];
 
 /**
- * Books Kalp has finished lately, in the order he read them. They show as a
+ * The three books Kalp finished most recently (older ones, such as The
+ * Molecule of More, are deliberately not shown), in series order. They show as a
  * cover shelf in the Reading window, the phone sheet and the terminal's
  * /about/reading.md, never on the desk widget; the shelf hides while empty.
  */
@@ -56,6 +64,34 @@ export const RECENTLY_READ: readonly Book[] = [
     authors: "Pierce Brown",
     cover: "/images/reading/morning-star.jpg",
     url: "https://openlibrary.org/isbn/9780345539847",
+  },
+];
+
+/**
+ * Kalp's three favourite books: exactly three slots on the "Favourites" shelf
+ * of the Reading window, the phone sheet and /about/reading.md (hidden while
+ * empty). A Series of Unfortunate Events stands for the whole series (13 books),
+ * so its jacket is book 1, The Bad Beginning, and `url` is that book's page.
+ */
+export const FAVOURITES: readonly Book[] = [
+  {
+    title: "Surely You're Joking, Mr. Feynman!",
+    authors: "Richard P. Feynman",
+    cover: "/images/reading/surely-youre-joking-mr-feynman.jpg",
+    url: "https://openlibrary.org/isbn/9780393316049",
+  },
+  {
+    title: "A Series of Unfortunate Events",
+    authors: "Lemony Snicket",
+    note: "13 books",
+    cover: "/images/reading/a-series-of-unfortunate-events.jpg",
+    url: "https://openlibrary.org/isbn/9780060283124",
+  },
+  {
+    title: "The Stranger",
+    authors: "Albert Camus",
+    cover: "/images/reading/the-stranger.jpg",
+    url: "https://openlibrary.org/isbn/9780679720201",
   },
 ];
 
@@ -101,6 +137,8 @@ export const HOBBIES: readonly Hobby[] = [
  *  - recentlyRead: the cover shelf under the current book in the Reading
  *               window, the phone sheet and /about/reading.md; hidden while
  *               empty. The desk widget never shows it.
+ *  - favourites: the three favourite books, a second shelf under Recently read
+ *               in the same three places; hidden while empty.
  *  - hobbies:   the Hobbies window, the phone sheet and the terminal's
  *               /hobbies/<slug>.md; the folder badge counts them.
  *  - contact:   email / GitHub handle or URL / LinkedIn handle or URL.
@@ -118,6 +156,7 @@ export const SITE = {
   playlist: PLAYLIST,
   reading: READING,
   recentlyRead: RECENTLY_READ,
+  favourites: FAVOURITES,
   hobbies: HOBBIES,
   /** The first song of the playlist (empty strings while the list is empty). */
   get nowPlaying(): NowPlaying {
@@ -150,6 +189,8 @@ export type SiteConfig = {
   reading?: readonly Book[];
   /** Optional; empty hides the Recently read shelf. */
   recentlyRead?: readonly Book[];
+  /** Optional; empty hides the Favourites shelf. */
+  favourites?: readonly Book[];
   /** Optional so older fixtures still type-check; empty is the Hobbies empty state. */
   hobbies?: readonly Hobby[];
   contact: Contact;

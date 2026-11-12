@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { render } from "@/test/render";
-import { READING, RECENTLY_READ, SITE } from "@/lib/site";
+import { FAVOURITES, READING, RECENTLY_READ, SITE } from "@/lib/site";
 import Reading from "./Reading";
 import ReadingWindow from "./windows/ReadingWindow";
 
@@ -21,6 +21,12 @@ const recent = [
   { title: "Red Rising", authors: "Pierce Brown", cover: "/images/reading/red-rising.jpg", url: "https://openlibrary.org/isbn/9780345539786" },
   { title: "Golden Son", authors: "Pierce Brown", cover: "/images/reading/golden-son.jpg", url: "https://openlibrary.org/isbn/9780345539816" },
   { title: "Morning Star", authors: "Pierce Brown", cover: "/images/reading/morning-star.jpg", url: "https://openlibrary.org/isbn/9780345539847" },
+];
+
+const favourites = [
+  { title: "Surely You're Joking, Mr. Feynman!", authors: "Richard P. Feynman", cover: "/images/reading/surely-youre-joking-mr-feynman.jpg", url: "https://openlibrary.org/isbn/9780393316049" },
+  { title: "A Series of Unfortunate Events", authors: "Lemony Snicket", note: "13 books", cover: "/images/reading/a-series-of-unfortunate-events.jpg", url: "https://openlibrary.org/isbn/9780060283124" },
+  { title: "The Stranger", authors: "Albert Camus", cover: "/images/reading/the-stranger.jpg", url: "https://openlibrary.org/isbn/9780679720201" },
 ];
 
 const root = path.resolve(__dirname, "..", "..");
@@ -81,7 +87,7 @@ describe("the Reading window", () => {
 describe("the Reading window's Recently read shelf", () => {
   it("shows each recent book as a linked cover with a real alt and its title, in order, under the current book", () => {
     const { container, unmount } = render(<ReadingWindow reading={[book]} recentlyRead={recent} />);
-    const shelf = container.querySelector(".kos-shelf")!;
+    const shelf = container.querySelector(".kos-shelf--recent")!;
     expect(shelf).not.toBeNull();
     expect(shelf.querySelector(".kos-label")!.textContent).toBe("Recently read");
     const items = [...shelf.querySelectorAll("li")];
@@ -103,14 +109,51 @@ describe("the Reading window's Recently read shelf", () => {
 
   it("hides the shelf while the recently-read list is empty", () => {
     const { container, unmount } = render(<ReadingWindow reading={[book]} recentlyRead={[]} />);
-    expect(container.querySelector(".kos-shelf")).toBeNull();
+    expect(container.querySelector(".kos-shelf--recent")).toBeNull();
     expect(container.textContent).not.toContain("Recently read");
     unmount();
   });
 
   it("still shows the shelf when nothing is current", () => {
     const { container, unmount } = render(<ReadingWindow reading={[]} recentlyRead={recent} />);
-    expect(container.querySelector(".kos-shelf")).not.toBeNull();
+    expect(container.querySelector(".kos-shelf--recent")).not.toBeNull();
+    expect(container.textContent).not.toContain("Nothing on the nightstand");
+    unmount();
+  });
+});
+
+describe("the Reading window's Favourites shelf", () => {
+  it("is its own shelf under Recently read: three linked covers, the series with its note", () => {
+    const { container, unmount } = render(<ReadingWindow reading={[book]} recentlyRead={recent} favourites={favourites} />);
+    const shelves = [...container.querySelectorAll(".kos-shelf")];
+    expect(shelves.map((s) => s.querySelector(".kos-label")!.textContent)).toEqual(["Recently read", "Favourites"]);
+    const fav = container.querySelector(".kos-shelf--favourites")!;
+    const items = [...fav.querySelectorAll("li")];
+    expect(items.map((li) => li.querySelector(".kos-shelf-title")!.textContent)).toEqual([
+      "Surely You're Joking, Mr. Feynman!",
+      "A Series of Unfortunate Events",
+      "The Stranger",
+    ]);
+    expect(items[1].querySelector(".kos-shelf-note")!.textContent).toBe("13 books");
+    expect(items[0].querySelector(".kos-shelf-note")).toBeNull();
+    expect(items[1].querySelector("img.kos-book")!.getAttribute("alt")).toBe("A Series of Unfortunate Events book cover");
+    const a = items[2].querySelector("a")!;
+    expect(a.getAttribute("href")).toBe(favourites[2].url);
+    expect(a.getAttribute("rel")).toBe("noreferrer");
+    unmount();
+  });
+
+  it("hides the Favourites shelf while the list is empty, and keeps Recently read", () => {
+    const { container, unmount } = render(<ReadingWindow reading={[book]} recentlyRead={recent} favourites={[]} />);
+    expect(container.querySelector(".kos-shelf--favourites")).toBeNull();
+    expect(container.textContent).not.toContain("Favourites");
+    expect(container.querySelector(".kos-shelf--recent")).not.toBeNull();
+    unmount();
+  });
+
+  it("shows only Favourites when it is the only list", () => {
+    const { container, unmount } = render(<ReadingWindow favourites={favourites} />);
+    expect(container.querySelector(".kos-shelf--favourites")).not.toBeNull();
     expect(container.textContent).not.toContain("Nothing on the nightstand");
     unmount();
   });
@@ -120,7 +163,8 @@ describe("the committed cover", () => {
   it("SITE.reading points at a committed JPEG of 120 KB or less", () => {
     expect(SITE.reading).toBe(READING);
     expect(SITE.recentlyRead).toBe(RECENTLY_READ);
-    for (const b of [...READING, ...RECENTLY_READ]) {
+    expect(SITE.favourites).toBe(FAVOURITES);
+    for (const b of [...READING, ...RECENTLY_READ, ...FAVOURITES]) {
       expect(b.cover).toMatch(/^\/images\/reading\/.+\.jpg$/);
       const file = path.join(root, "public", b.cover);
       expect(existsSync(file), file).toBe(true);
@@ -151,8 +195,31 @@ describe("the reading data (2026-11-12)", () => {
     ]);
   });
 
+  it("pins the list lengths: 1 current, 3 recent (the three most recent only), 3 favourites", () => {
+    expect(READING).toHaveLength(1);
+    expect(RECENTLY_READ).toHaveLength(3);
+    expect(FAVOURITES).toHaveLength(3);
+  });
+
+  it("The Molecule of More is finished but not shown anywhere, and its jacket is gone", () => {
+    const shown = [...READING, ...RECENTLY_READ, ...FAVOURITES].map((b) => b.title);
+    expect(shown).not.toContain("The Molecule of More");
+    expect(existsSync(path.join(root, "public/images/reading/molecule-of-more.jpg"))).toBe(false);
+  });
+
+  it("favourites are Feynman, the Series of Unfortunate Events (as a series, with a note) and The Stranger", () => {
+    expect(FAVOURITES.map((b) => b.title)).toEqual(["Surely You're Joking, Mr. Feynman!", "A Series of Unfortunate Events", "The Stranger"]);
+    expect(FAVOURITES.map((b) => b.authors)).toEqual(["Richard P. Feynman", "Lemony Snicket", "Albert Camus"]);
+    expect(FAVOURITES[1].note).toBe("13 books");
+    expect(FAVOURITES.map((b) => b.url)).toEqual([
+      "https://openlibrary.org/isbn/9780393316049",
+      "https://openlibrary.org/isbn/9780060283124",
+      "https://openlibrary.org/isbn/9780679720201",
+    ]);
+  });
+
   it("every cover on the shelf is a distinct file", () => {
-    const covers = [...READING, ...RECENTLY_READ].map((b) => b.cover);
+    const covers = [...READING, ...RECENTLY_READ, ...FAVOURITES].map((b) => b.cover);
     expect(new Set(covers).size).toBe(covers.length);
   });
 });

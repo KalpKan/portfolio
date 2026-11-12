@@ -71,7 +71,7 @@ describe("buildVfs", () => {
 
   it("lists the recently read books under the current one in /about/reading.md", () => {
     const text = (getNode(root, "/about/reading.md") as { content: string }).content;
-    expect(text.split("\n").slice(5)).toEqual([
+    expect(text.split("\n").slice(5, 15)).toEqual([
       "",
       "# Recently read",
       "",
@@ -82,8 +82,24 @@ describe("buildVfs", () => {
       "Golden Son",
       "by Pierce Brown",
       "https://openlibrary.org/isbn/9780345539816",
-      "", // file() ends every file with a newline
     ]);
+  });
+
+  it("lists the favourites in /about/reading.md, with the series note, and hides the heading while empty", () => {
+    const text = (getNode(root, "/about/reading.md") as { content: string }).content;
+    const i = text.split("\n").indexOf("# Favourites");
+    expect(i).toBeGreaterThan(0);
+    expect(text.split("\n").slice(i, i + 7)).toEqual([
+      "# Favourites",
+      "",
+      "A Series of Unfortunate Events",
+      "by Lemony Snicket",
+      "13 books",
+      "https://openlibrary.org/isbn/9780060283124",
+      "",
+    ]);
+    expect(readingText([], [], [])).toBe("");
+    expect(readingText([{ title: "A", authors: "B", cover: "/c.jpg", url: "https://x" }], [], [])).not.toContain("Favourites");
   });
 
   it("has no Recently read heading while the list is empty", () => {
