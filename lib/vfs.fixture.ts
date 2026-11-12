@@ -54,6 +54,10 @@ export function fixtureVfs(): VDir {
         { title: "Choosin' Texas", artist: "Drake & Don Toliver", tag: "unreleased" },
       ],
       reading: [{ title: "The Molecule of More", authors: "Lieberman & Long", cover: "/images/reading/molecule-of-more.jpg", url: "https://openlibrary.org/isbn/9781946885111" }],
+      recentlyRead: [
+        { title: "Red Rising", authors: "Pierce Brown", cover: "/images/reading/red-rising.jpg", url: "https://openlibrary.org/isbn/9780345539786" },
+        { title: "Golden Son", authors: "Pierce Brown", cover: "/images/reading/golden-son.jpg", url: "https://openlibrary.org/isbn/9780345539816" },
+      ],
       hobbies: [
         { slug: "swimming", name: "Swimming", line: "I love swimming." },
         { slug: "tennis", name: "Tennis", line: "And playing tennis." },

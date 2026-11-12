@@ -205,7 +205,7 @@ export default function PhoneSheet({
       case "hobbies":
         return <HobbiesWindow hobbies={site.hobbies} />;
       case "reading":
-        return <ReadingWindow reading={site.reading} />;
+        return <ReadingWindow reading={site.reading} recentlyRead={site.recentlyRead} />;
       case "about":
         return <AboutWindow site={site} />;
       case "contact":

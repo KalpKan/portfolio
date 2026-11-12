@@ -142,6 +142,20 @@ describe("Phone: the personal shelves (T6.9)", () => {
     unmount();
   });
 
+  it("shows the Recently read shelf in the Reading sheet, and the READING row stays the current book only", () => {
+    const recentlyRead = [
+      { title: "Red Rising", authors: "Pierce Brown", cover: "/images/reading/red-rising.jpg", url: "https://openlibrary.org/isbn/9780345539786" },
+      { title: "Golden Son", authors: "Pierce Brown", cover: "/images/reading/golden-son.jpg", url: "https://openlibrary.org/isbn/9780345539816" },
+    ];
+    const { container, unmount } = mount({ site: { ...site, reading, recentlyRead } });
+    const row = container.querySelector<HTMLButtonElement>(".kos-phone-scroll button.kos-reading")!;
+    expect(row.textContent).not.toContain("Red Rising");
+    click(row);
+    const titles = [...container.querySelectorAll(".kos-sheet-body .kos-shelf-title")].map((n) => n.textContent);
+    expect(titles).toEqual(["Red Rising", "Golden Son"]);
+    unmount();
+  });
+
   it("has no READING row while the reading list is empty", () => {
     const { container, unmount } = mount();
     expect(container.querySelector(".kos-reading")).toBeNull();

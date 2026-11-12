@@ -301,7 +301,7 @@ export default function Desk({
       case "hobbies":
         return <HobbiesWindow hobbies={site.hobbies} />;
       case "reading":
-        return <ReadingWindow reading={site.reading} />;
+        return <ReadingWindow reading={site.reading} recentlyRead={site.recentlyRead} />;
       case "trash":
         return <TrashWindow />;
       case "music":

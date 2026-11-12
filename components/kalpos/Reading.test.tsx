@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { render } from "@/test/render";
-import { READING, SITE } from "@/lib/site";
+import { READING, RECENTLY_READ, SITE } from "@/lib/site";
 import Reading from "./Reading";
 import ReadingWindow from "./windows/ReadingWindow";
 
@@ -16,6 +16,12 @@ const book = {
   cover: "/images/reading/molecule-of-more.jpg",
   url: "https://openlibrary.org/isbn/9781946885111",
 };
+
+const recent = [
+  { title: "Red Rising", authors: "Pierce Brown", cover: "/images/reading/red-rising.jpg", url: "https://openlibrary.org/isbn/9780345539786" },
+  { title: "Golden Son", authors: "Pierce Brown", cover: "/images/reading/golden-son.jpg", url: "https://openlibrary.org/isbn/9780345539816" },
+  { title: "Morning Star", authors: "Pierce Brown", cover: "/images/reading/morning-star.jpg", url: "https://openlibrary.org/isbn/9780345539847" },
+];
 
 const root = path.resolve(__dirname, "..", "..");
 
@@ -72,10 +78,49 @@ describe("the Reading window", () => {
   });
 });
 
+describe("the Reading window's Recently read shelf", () => {
+  it("shows each recent book as a linked cover with a real alt and its title, in order, under the current book", () => {
+    const { container, unmount } = render(<ReadingWindow reading={[book]} recentlyRead={recent} />);
+    const shelf = container.querySelector(".kos-shelf")!;
+    expect(shelf).not.toBeNull();
+    expect(shelf.querySelector(".kos-label")!.textContent).toBe("Recently read");
+    const items = [...shelf.querySelectorAll("li")];
+    expect(items.map((li) => li.querySelector(".kos-shelf-title")!.textContent)).toEqual(["Red Rising", "Golden Son", "Morning Star"]);
+    expect(items.map((li) => li.querySelector("img.kos-book")!.getAttribute("alt"))).toEqual([
+      "Red Rising book cover",
+      "Golden Son book cover",
+      "Morning Star book cover",
+    ]);
+    const a = items[1].querySelector("a")!;
+    expect(a.getAttribute("href")).toBe(recent[1].url);
+    expect(a.getAttribute("target")).toBe("_blank");
+    expect(a.getAttribute("rel")).toBe("noreferrer");
+    // The current book is still first.
+    expect(container.querySelector("h2")!.textContent).toBe(book.title);
+    expect(container.querySelector(".kos-reading-win")!.compareDocumentPosition(shelf) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    unmount();
+  });
+
+  it("hides the shelf while the recently-read list is empty", () => {
+    const { container, unmount } = render(<ReadingWindow reading={[book]} recentlyRead={[]} />);
+    expect(container.querySelector(".kos-shelf")).toBeNull();
+    expect(container.textContent).not.toContain("Recently read");
+    unmount();
+  });
+
+  it("still shows the shelf when nothing is current", () => {
+    const { container, unmount } = render(<ReadingWindow reading={[]} recentlyRead={recent} />);
+    expect(container.querySelector(".kos-shelf")).not.toBeNull();
+    expect(container.textContent).not.toContain("Nothing on the nightstand");
+    unmount();
+  });
+});
+
 describe("the committed cover", () => {
   it("SITE.reading points at a committed JPEG of 120 KB or less", () => {
     expect(SITE.reading).toBe(READING);
-    for (const b of READING) {
+    expect(SITE.recentlyRead).toBe(RECENTLY_READ);
+    for (const b of [...READING, ...RECENTLY_READ]) {
       expect(b.cover).toMatch(/^\/images\/reading\/.+\.jpg$/);
       const file = path.join(root, "public", b.cover);
       expect(existsSync(file), file).toBe(true);
@@ -86,5 +131,28 @@ describe("the committed cover", () => {
       expect([...head]).toEqual([0xff, 0xd8, 0xff]);
       expect(b.url.startsWith("https://")).toBe(true);
     }
+  });
+});
+
+describe("the reading data (2026-11-12)", () => {
+  it("is A Brief History of Time now, and The Molecule of More is off the desk", () => {
+    expect(READING.map((b) => b.title)).toEqual(["A Brief History of Time"]);
+    expect(READING[0].authors).toBe("Stephen Hawking");
+    expect(READING[0].url).toBe("https://openlibrary.org/isbn/9780553380163");
+  });
+
+  it("recently read is the first three Red Rising books in series order", () => {
+    expect(RECENTLY_READ.map((b) => b.title)).toEqual(["Red Rising", "Golden Son", "Morning Star"]);
+    for (const b of RECENTLY_READ) expect(b.authors).toBe("Pierce Brown");
+    expect(RECENTLY_READ.map((b) => b.url)).toEqual([
+      "https://openlibrary.org/isbn/9780345539786",
+      "https://openlibrary.org/isbn/9780345539816",
+      "https://openlibrary.org/isbn/9780345539847",
+    ]);
+  });
+
+  it("every cover on the shelf is a distinct file", () => {
+    const covers = [...READING, ...RECENTLY_READ].map((b) => b.cover);
+    expect(new Set(covers).size).toBe(covers.length);
   });
 });

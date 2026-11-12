@@ -26,10 +26,36 @@ export type Book = { title: string; authors: string; cover: string; url: string 
 /** What Kalp is reading right now; the first entry is the one on the desk. */
 export const READING: readonly Book[] = [
   {
-    title: "The Molecule of More",
-    authors: "Daniel Z. Lieberman & Michael E. Long",
-    cover: "/images/reading/molecule-of-more.jpg",
-    url: "https://openlibrary.org/isbn/9781946885111",
+    title: "A Brief History of Time",
+    authors: "Stephen Hawking",
+    cover: "/images/reading/a-brief-history-of-time.jpg",
+    url: "https://openlibrary.org/isbn/9780553380163",
+  },
+];
+
+/**
+ * Books Kalp has finished lately, in the order he read them. They show as a
+ * cover shelf in the Reading window, the phone sheet and the terminal's
+ * /about/reading.md, never on the desk widget; the shelf hides while empty.
+ */
+export const RECENTLY_READ: readonly Book[] = [
+  {
+    title: "Red Rising",
+    authors: "Pierce Brown",
+    cover: "/images/reading/red-rising.jpg",
+    url: "https://openlibrary.org/isbn/9780345539786",
+  },
+  {
+    title: "Golden Son",
+    authors: "Pierce Brown",
+    cover: "/images/reading/golden-son.jpg",
+    url: "https://openlibrary.org/isbn/9780345539816",
+  },
+  {
+    title: "Morning Star",
+    authors: "Pierce Brown",
+    cover: "/images/reading/morning-star.jpg",
+    url: "https://openlibrary.org/isbn/9780345539847",
   },
 ];
 
@@ -72,6 +98,9 @@ export const HOBBIES: readonly Hobby[] = [
  *  - reading:   the books on the READING widget and the Reading window; the
  *               widget, the window, the phone row and the terminal's
  *               /about/reading.md all hide while the list is empty.
+ *  - recentlyRead: the cover shelf under the current book in the Reading
+ *               window, the phone sheet and /about/reading.md; hidden while
+ *               empty. The desk widget never shows it.
  *  - hobbies:   the Hobbies window, the phone sheet and the terminal's
  *               /hobbies/<slug>.md; the folder badge counts them.
  *  - contact:   email / GitHub handle or URL / LinkedIn handle or URL.
@@ -88,6 +117,7 @@ export const SITE = {
   musicTitle: "On repeat",
   playlist: PLAYLIST,
   reading: READING,
+  recentlyRead: RECENTLY_READ,
   hobbies: HOBBIES,
   /** The first song of the playlist (empty strings while the list is empty). */
   get nowPlaying(): NowPlaying {
@@ -118,6 +148,8 @@ export type SiteConfig = {
   musicTitle?: string;
   /** Optional so older fixtures still type-check; empty hides the widget. */
   reading?: readonly Book[];
+  /** Optional; empty hides the Recently read shelf. */
+  recentlyRead?: readonly Book[];
   /** Optional so older fixtures still type-check; empty is the Hobbies empty state. */
   hobbies?: readonly Hobby[];
   contact: Contact;

@@ -739,6 +739,51 @@ button.kos-now[data-paused="true"] .bar i {
   margin: 0 0 4px;
 }
 
+/* Recently read (2026-11-12): the finished books as a row of smaller jackets
+   under the current one, in the order they were read. Same .kos-book object
+   edge, 96 px wide (2:3), the title under each in the ink colour (the cover is
+   the link, so the caption must not turn teal), a hairline above the shelf. */
+.kos-shelf {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule-soft);
+}
+.kos-shelf ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 96px));
+  gap: 18px 20px;
+}
+.kos-shelf li {
+  min-width: 0;
+}
+.kos-body .kos-shelf a {
+  display: block;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 4px;
+}
+.kos-shelf a:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 4px;
+}
+.kos-shelf .kos-book {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  transition: transform 160ms var(--kos-ease);
+}
+.kos-shelf a:hover .kos-book {
+  transform: translateY(-2px);
+}
+.kos-shelf-title {
+  display: block;
+  margin-top: 8px;
+  font: 600 12px/1.25 var(--font-system);
+}
+
 /* ------------------------------------------------- Hobbies list (T6.9) */
 
 /* Two columns on the desk (the window is 460 px), one on the phone sheet.
@@ -799,10 +844,14 @@ button.kos-now[data-paused="true"] .bar i {
     width: 96px;
     height: 144px;
   }
+  .kos-shelf ul {
+    gap: 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kos-reading {
+  .kos-reading,
+  .kos-shelf .kos-book {
     transition: none;
   }
 }

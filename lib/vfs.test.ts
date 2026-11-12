@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { PLAYLIST } from "./site";
-import { buildVfs, caseStudyText, countTree, displayPath, getNode, listDir, playlistText, resolvePath, treeLines, type VDir } from "./vfs";
+import { buildVfs, caseStudyText, countTree, displayPath, getNode, listDir, playlistText, readingText, resolvePath, treeLines, type VDir } from "./vfs";
 import { fixtureVfs, unpark } from "./vfs.fixture";
 
 describe("buildVfs", () => {
@@ -67,6 +67,27 @@ describe("buildVfs", () => {
       "by Lieberman & Long",
       "https://openlibrary.org/isbn/9781946885111",
     ]);
+  });
+
+  it("lists the recently read books under the current one in /about/reading.md", () => {
+    const text = (getNode(root, "/about/reading.md") as { content: string }).content;
+    expect(text.split("\n").slice(5)).toEqual([
+      "",
+      "# Recently read",
+      "",
+      "Red Rising",
+      "by Pierce Brown",
+      "https://openlibrary.org/isbn/9780345539786",
+      "",
+      "Golden Son",
+      "by Pierce Brown",
+      "https://openlibrary.org/isbn/9780345539816",
+      "", // file() ends every file with a newline
+    ]);
+  });
+
+  it("has no Recently read heading while the list is empty", () => {
+    expect(readingText([{ title: "A", authors: "B", cover: "/c.jpg", url: "https://x" }], [])).not.toContain("Recently read");
   });
 
   it("lists each song's real Spotify link in /about/music.md (cat /about/music.md)", () => {
