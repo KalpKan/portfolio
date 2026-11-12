@@ -2696,3 +2696,15 @@ feature commit. Worth checking which of the other app repos are in the same posi
 - **Residual until 2026-11-01 (quota reset):** Postgres refuses connections, so Plato runs on the SQLite stand-in — a visitor whose next request lands on a different function instance is asked to upload again; nothing is lost permanently (the database is only a cache). Nothing on the free plan can restore it sooner, and upgrading is out of bounds. The archived branch un-archives itself on the first successful connection.
 - **Prevention:** rule added to `runbooks.md` ("Never let a periodic monitor query Neon") and `architecture.md` (Supabase is paused when idle, Neon is cut off when busy — opposite keep-alive policies); `docs/monitors.md` row rewritten; `verification.md` rows split into liveness vs on-demand DB ping with the Neon quota command. Expected Neon usage from now on: minutes per month.
 - **Reported by:** UptimeRobot alert e-mail → Kalp → this session (triaged with the portfolio-ops first-5 checks)
+
+## 2026-11-12 — sift: a production deploy failed in 2 s because `ignoreCommand` hit a commit missing from Vercel's shallow clone
+
+- **Date:** 2026-11-12 21:16 UTC (deployment `sift-1sl4rfyoj`, status Error, 2 s); fixed by `KalpKan/sift` commit "ops: ignoreCommand builds instead of erroring…", next deploy `sift-f1da2zfch` Ready 21:19 UTC
+- **Affected:** `sift.kalpkan.com` stayed on the previous good build for ~3 minutes; nothing user-visible
+- **Symptom:** a 10-commit push to `KalpKan/sift` `main` produced a deployment in state **Error**; the build log ends at the ignore step: `fatal: bad object 7a8c020…`
+- **Root cause:** the `ignoreCommand` (`git diff --quiet "${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}" HEAD -- …`) diffs against the last deployed commit, which was more than the shallow clone's depth behind. `git diff` exited **128**, and Vercel treats an ignore command that exits with anything other than 0 or 1 as a **failed deployment**, not as "build". The runbook "Hub: ignored build step" said the opposite ("an error here always causes a deploy"); that was never true on Vercel and is corrected there.
+- **Fix:** check the commit exists first and build when it does not:
+  `P="${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}"; git cat-file -e "$P^{commit}" 2>/dev/null || exit 1; git diff --quiet "$P" HEAD -- . …`
+  Pinned by a test in sift (`lib/cron.test.ts`, "vercel.json ignoreCommand": a bogus SHA must exit 1, `HEAD` must exit 0).
+- **Prevention:** the hub and every repo that copied the 2026-09-21 rollout carry the same unguarded command and will fail the same way on the first push that is more than the clone depth past the last deploy. Apply the guarded form to each (`runbooks.md`, "Hub: ignored build step").
+- **Also found the same day:** the sift Vercel project had **no Git integration** at all, so pushes never deployed; connected with `vercel git connect` (runbooks rollout note).
