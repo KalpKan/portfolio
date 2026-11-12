@@ -23,7 +23,8 @@ Conventions used below:
 | Redeploy an app | Written 2026-09-18 (T1.1: hoops dashboard by CLI) |
 | Restore a paused Supabase project | Written 2026-09-18 (T0.3); **executed 2026-09-18 (T1.1, Project B via the dashboard; API call blocked by the agent sandbox)** |
 | Re-point OAuth redirects (promptflip on the new domain) | Written and executed 2026-09-18 (H5 / promptflip domain task) |
-| Regenerate Supabase types | Written and executed 2026-09-18 (T1.1) |
+| Regenerate Supabase types | Written and executed 2026-09-18 (T1.1); rewritten 2026-11-12 with the Management API command (sift 0003) |
+| Run the Sift Obsidian bridge (Mac only) | Written 2026-11-12; dry run executed, `--push` waits for Kalp (sift H7) |
 | Add a case study | Written and executed 2026-09-18 (T4.1: unpark, rc-car, porsche-pcb-keychain live; eeg published as "under construction" with status `coming` (H14); flashcards reduced to the placeholder page and Outline removed per Kalp 17:57; classmyschedule removed 18:05, H9 closed; reviewer fixes 2026-09-18: stacked edge labels, DRC wording, draft gate documented) |
 | Refresh app screenshots | Written and executed 2026-09-20 (T6.6: five heroes under `public/images/projects/<slug>/hero.webp`, originals under `docs/images/apps/`) |
 | Host a video for a case study | Written and executed 2026-09-20 (T6.8: the RC car's 77 s driving video → Supabase Project B Storage, public bucket `portfolio-media`, `rc-car/drive.mp4`, 21.6 MB) |
@@ -299,7 +300,15 @@ Executed 2026-09-18 when `promptflip.kalpkan.com` went live. Use it again whenev
 
 ## Regenerate Supabase types
 
-Not yet written, added when T1.1 lands. (`supabase gen types typescript --project-id <ref> --schema <app> > src/types/database.ts`.)
+Executed 2026-11-12 for `sift` (after migration `0003_sift_radar.sql`). No CLI login or database password is needed; the Management API returns the same file the CLI would:
+
+```bash
+set -a; source ~/.config/portfolio-ops/secrets.env; set +a
+curl -s "https://api.supabase.com/v1/projects/yzppfufqaekgaxcrsqxp/types/typescript?included_schemas=<app>" \
+  -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" | jq -r .types > lib/database.types.ts
+```
+
+Then `npx tsc --noEmit` and the app's tests. `included_schemas=<app>` keeps other apps' schemas (and `public`) out of the file. The CLI equivalent is `npx supabase@2 gen types typescript --project-id <ref> --schema <app>`.
 
 ## Add a case study
 
@@ -697,7 +706,7 @@ The night of 2026-09-21 every docs-only push to plato and emotes triggered a ful
 1. **`.vercelignore` had `.git` in it.** Vercel strips `.vercelignore` paths from the checkout *before* running `ignoreCommand`, so with `.git` gone the command failed outright (`warning: Not a git repository`) and errored the deploy instead of skipping or building. Fixed by dropping the `.git` line (`6844bbd`) — nothing in the build needed it excluded. Check any repo's `.vercelignore` for `.git` before relying on a git-based `ignoreCommand`.
 2. **`vercel.json` in a monorepo is read from the project's Root Directory, not the repo root, once one exists there.** Adding `apps/web/vercel.json` with only `ignoreCommand` silently dropped the repo-root `vercel.json`'s `buildCommand` (`pnpm --filter @basketball-stat-tracker/web build`), `installCommand` (`pnpm install --frozen-lockfile`) and `framework` (`nextjs`) — Vercel fell back to auto-detecting a Turborepo build (`turbo run build --filter={apps/web}...`) using whatever `turbo` is globally installed on the build image, which failed because this repo's `turbo.json` still uses the pre-2.0 `pipeline` key. Fixed (`7a4bb75`) by copying `buildCommand`/`installCommand`/`framework` into `apps/web/vercel.json` alongside `ignoreCommand`. **Rule of thumb: when a monorepo project's Root Directory doesn't already have its own `vercel.json`, adding one there means replicating every key the repo-root `vercel.json` had, not just the new one — the two files do not merge.** The repo-root `vercel.json` is now unused for this project; `turbo.json`'s `pipeline`→`tasks` migration is still open (out of scope for this task).
 
-**Sift could not be deployed.** `vercel.json` (`09ca142`) is committed and pushed to `main`, and the diff logic is verified against the repo's own history, but the live site still runs the pre-`09ca142` build: `vercel project inspect sift` shows no Git integration on this project (it was deliberately held to its own manual deploy budget per its `STATUS.md`), so the push alone never triggers a build, and running `vercel --prod` by hand was blocked for this agent by the Claude Code permission system ("Production Deploy" action). Per the overnight-supervisor policy, bypassing a denied permission is not something the supervisor can authorise, so this needs Kalp: either approve a one-off `npx vercel@latest --prod --scope kks-projects-2edcb11a` from `~/projects/sift`, or connect the GitHub repo in the Vercel dashboard so future pushes auto-deploy.
+**Update 2026-11-12:** the sift Vercel project is now connected to `KalpKan/sift` (`vercel git connect https://github.com/KalpKan/sift --scope kks-projects-2edcb11a --yes` from `~/projects/sift`), and the first push deployed (`sift-myh7wlkzs`). Pushes to `main` now deploy, subject to `vercel.json`'s `ignoreCommand`. The rest of this paragraph is history. **Sift could not be deployed.** `vercel.json` (`09ca142`) is committed and pushed to `main`, and the diff logic is verified against the repo's own history, but the live site still runs the pre-`09ca142` build: `vercel project inspect sift` shows no Git integration on this project (it was deliberately held to its own manual deploy budget per its `STATUS.md`), so the push alone never triggers a build, and running `vercel --prod` by hand was blocked for this agent by the Claude Code permission system ("Production Deploy" action). Per the overnight-supervisor policy, bypassing a denied permission is not something the supervisor can authorise, so this needs Kalp: either approve a one-off `npx vercel@latest --prod --scope kks-projects-2edcb11a` from `~/projects/sift`, or connect the GitHub repo in the Vercel dashboard so future pushes auto-deploy.
 
 
 ## Tune and re-verify the Plato outline parser against its corpus
@@ -730,6 +739,19 @@ Why both engines: Node tests (`vitest` + pngjs) prove the pure pipeline, but the
 4. **Exit code 1 on any failed assertion**, `PASS: browser checks in chromium + webkit` on success, `OUT=<json>` for the evidence file; wire it as `npm run test:browser` and put the rows in verification.md.
 5. Known emulation limits: Playwright WebKit's `setOffline(true)` fails in-memory blob decodes (test offline in Chromium); WebKit has no `performance.memory`; headless Chromium will not lay out below 500 px without `isMobile`.
 
+
+## Run the Sift Obsidian bridge (Mac only)
+
+Written 2026-11-12 (sift v2 Phase 3); dry run executed against the real vault, **`--push` not yet run** (sift STATUS.md H7: Kalp reads the dry run first). Contract: `docs/obsidian-bridge.md` in `KalpKan/sift`; it is binding.
+
+What it does: reads Kalp's "KK's Mind" vault (Google Drive path, override `SIFT_VAULT_PATH`) **on his Mac**, keeps only notes whose `Tags:` line has `[[research]]` and not `[[private]]`, never from `7 - Journal`, `0 - Inbox`, `1 - Rough Notes`, `5 - Template` or dot folders, and turns their tag names into `sift.interests` rows (`source='obsidian'`). Nothing but tag names leaves the Mac; Vercel never sees the vault.
+
+1. Dry run (sends nothing, needs no credentials): `cd ~/projects/sift && env -u NODE_OPTIONS node scripts/obsidian-interests.mjs`. It prints the term/weight table, the dropped generic and too-broad tags, suggested topics, and "Nothing sent".
+2. Show the dry run to Kalp. **Never paste the term list into a repo, issue or PR**: `KalpKan/sift` is public.
+3. Only after he says so, and only after his first sign-in at `https://sift.kalpkan.com/me` (the push refuses without an owner row): `env -u NODE_OPTIONS node --env-file=.env.local scripts/obsidian-interests.mjs --push`. It upserts the terms for every owner and deletes Obsidian terms that left the vault; taps and manual rows are untouched.
+4. Verify: `/me/settings` lists the terms; `curl -s https://sift.kalpkan.com/ | grep -c <term>` and the same for every `/t/<slug>` is 0 (public pages never personalise; `lib/public-pages.test.ts` guards it in CI).
+
+Tests: `lib/obsidian-interests.test.ts` runs the script against `tests/fixtures/vault/`, where every planted word containing "secret" sits somewhere the bridge must not read.
 
 ## Secret scan (run before any repo goes public, and after agent bursts)
 
