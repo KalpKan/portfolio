@@ -106,14 +106,14 @@ describe("the small windows", () => {
     unmount();
   });
 
-  it("Research shows the header line, then one row per entry with its title, status, role/where and description, no images and no links beyond what's given", () => {
+  it("Research shows the header line, then one row per entry with its title, status, role/where and description, a drawn glyph (SVG, no images) and no links beyond what's given", () => {
     const { container, unmount } = render(<ResearchWindow />);
     expect(container.textContent).toContain(RESEARCH_HEADER);
     const rows = container.querySelectorAll(".kos-research-row");
     expect(rows.length).toBe(RESEARCH.length);
     const first = RESEARCH[0];
-    expect(rows[0].querySelector(".kos-tile-name")?.textContent).toBe(first.title);
-    expect(rows[0].querySelector(".kos-tile-status")?.textContent).toBe(first.status);
+    expect(rows[0].querySelector(".kos-research-title")?.textContent).toBe(first.title);
+    expect(rows[0].querySelector(".kos-research-pill")?.textContent).toBe(first.status);
     expect(rows[0].textContent).toContain(first.role);
     expect(rows[0].textContent).toContain(first.where);
     expect(rows[0].textContent).toContain(first.description);

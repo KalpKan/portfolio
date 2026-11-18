@@ -1,27 +1,31 @@
 import { RESEARCH, RESEARCH_HEADER } from "@/lib/research";
+import ResearchGlyph from "../ResearchGlyph";
 
 /**
- * Not mocked; the Research folder (2026-10-02): Kalp's volunteer research
- * outside the apps on this desk, in the Projects list's row grammar (a bold
- * title, a status word, a muted meta line, one description paragraph) but as
- * full rows rather than tiles, since each entry carries more than a tile can
- * show. Content is lib/research.ts; rendered exactly, nothing added here.
+ * The Research folder (2026-10-02; redrawn 2026-11-18, Kalp: "a little bland"):
+ * a shelf of entries, each a drawn glyph, the title, a muted role · where line,
+ * a status pill and the description. RESEARCH_HEADER is the intro. Content is
+ * lib/research.ts, rendered exactly, nothing added here. Also the phone
+ * sheet's Research page.
  */
 export default function ResearchWindow() {
   return (
-    <div className="kos-body">
-      <p className="kos-muted">{RESEARCH_HEADER}</p>
+    <div className="kos-body kos-research-body">
+      <p className="kos-research-intro">{RESEARCH_HEADER}</p>
       <ul className="kos-research">
         {RESEARCH.map((r) => (
           <li key={r.slug} className="kos-research-row">
-            <div className="kos-research-head">
-              <b className="kos-tile-name">{r.title}</b>
-              <span className="kos-tile-status">{r.status}</span>
+            <ResearchGlyph id={r.glyph} />
+            <div className="kos-research-main">
+              <h3 className="kos-research-title">{r.title}</h3>
+              <p className="kos-research-meta">
+                {r.role} · {r.where}
+              </p>
+              <p className="kos-research-desc">{r.description}</p>
+              <span className={`kos-research-pill${r.status.startsWith("Written") ? " kos-research-pill--written" : " kos-research-pill--progress"}`}>
+                {r.status}
+              </span>
             </div>
-            <p className="kos-muted kos-research-meta">
-              {r.role} · {r.where}
-            </p>
-            <p>{r.description}</p>
           </li>
         ))}
       </ul>

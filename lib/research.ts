@@ -13,7 +13,13 @@ export type ResearchEntry = {
   where: string;
   status: string;
   description: string;
+  /** Which drawn mark leads the row (ResearchGlyph.tsx); missing or unknown falls back to a document. */
+  glyph?: ResearchGlyphId;
 };
+
+/** Every mark ResearchGlyph can draw. `ultrasound` and `molecule-chain` are drawn ahead of the entries that will use them. */
+export const RESEARCH_GLYPH_IDS = ["brain", "mri-lead", "mri-electrode", "molecule", "ultrasound", "molecule-chain", "document"] as const;
+export type ResearchGlyphId = (typeof RESEARCH_GLYPH_IDS)[number];
 
 /** The Research window's header line. */
 export const RESEARCH_HEADER =
@@ -23,6 +29,7 @@ export const RESEARCH_HEADER =
 export const RESEARCH: readonly ResearchEntry[] = [
   {
     slug: "neuromod-sca",
+    glyph: "brain",
     title: "Neuromodulation for spinocerebellar ataxia: a systematic review",
     role: "Co-first author (with Malin Daunt)",
     where: "University Health Network / Western University",
@@ -32,6 +39,7 @@ export const RESEARCH: readonly ResearchEntry[] = [
   },
   {
     slug: "dbs-mri-heating",
+    glyph: "mri-lead",
     title: "RF heating of deep brain stimulation systems in MRI at 0.5 T and 7 T",
     role: "Undergraduate research assistant",
     where: "University Health Network",
@@ -41,6 +49,7 @@ export const RESEARCH: readonly ResearchEntry[] = [
   },
   {
     slug: "seeg-mri-heating",
+    glyph: "mri-electrode",
     title: "RF heating of stereo-EEG electrodes in MRI at 0.5 T and 3 T",
     role: "Undergraduate research assistant",
     where: "University Health Network",
@@ -49,6 +58,7 @@ export const RESEARCH: readonly ResearchEntry[] = [
   },
   {
     slug: "gp63-leishmaniasis",
+    glyph: "molecule",
     title: "Computational identification and optimization of GP63 inhibitors for leishmaniasis",
     role: "Co-author (Biochem 3381 group project)",
     where: "Western University",

@@ -1974,27 +1974,106 @@ html[data-kos-boot="desk"] .kos-lock {
 }
 /* Research window: the Projects list's row grammar (bold name, status word,
    muted meta) as full rows, since each entry carries more than a tile. */
+.kos-research-body {
+  padding-bottom: 28px;
+}
+.kos-research-body .kos-research-intro {
+  margin: 4px 0 20px;
+  max-width: 60ch;
+  font: 400 15px/1.55 var(--font-system);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
 .kos-research {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-.kos-research-row {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--tint-10);
-}
-.kos-research-row:last-child {
-  border-bottom: 0;
-}
-.kos-research-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  display: grid;
   gap: 12px;
 }
-.kos-research-meta {
-  margin: 2px 0 8px;
-  font: 400 11px var(--font-system);
+.kos-research-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--tint-08);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .kos-research-row:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 0 1px var(--tint-14);
+  }
+}
+.kos-research-glyph {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--cyan-wash);
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.kos-research-main {
+  min-width: 0;
+}
+.kos-research-body .kos-research-title {
+  margin: 0;
+  font: 600 17px/1.3 var(--font-system);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.kos-research-body .kos-research-meta {
+  margin: 4px 0 0;
+  font: 400 12.5px/1.4 var(--font-system);
+  color: var(--ink-2);
+}
+.kos-research-body .kos-research-desc {
+  margin: 10px 0 12px;
+  max-width: 62ch;
+  font: 400 14px/1.6 var(--font-system);
+}
+.kos-research-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  font: 500 11.5px/1.3 var(--font-system);
+  color: var(--ink);
+  background: var(--pad);
+}
+.kos-research-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.kos-research-pill--written {
+  background: var(--cyan-wash);
+  color: var(--teal);
+}
+.kos-research-pill--progress {
+  background: color-mix(in srgb, var(--magenta-on-card) 12%, transparent);
+  color: var(--ink);
+}
+.kos-research-pill--progress::before {
+  background: var(--magenta-on-card);
+}
+@media (max-width: 768px) {
+  .kos-research-row {
+    padding: 16px;
+    gap: 12px;
+  }
+  .kos-research-glyph {
+    width: 40px;
+    height: 40px;
+  }
 }
 /* Case study inside a window: components/showcase renders into this. */
 .kos-case {
