@@ -1,5 +1,6 @@
 import type { Project } from "./projects";
 import { projectKind } from "./projects";
+import { coverFor, type Cover } from "./covers";
 
 /**
  * Registry → Projects-window tiles (card 2d). Three tile kinds:
@@ -35,6 +36,8 @@ export interface Tile {
    * this stays null for showcases; null also means "no picture yet".
    */
   hero?: string | null;
+  /** The picture the tile shows (lib/covers.ts): a 480 x 360 WebP rendition or a drawn SVG. */
+  cover?: Cover | null;
 }
 
 export const HARDWARE_TAGS = new Set(
@@ -64,6 +67,7 @@ export function tileFor(p: Project): Tile {
     tags: p.tags,
     showcase: p.type === "showcase",
     hero: p.hero ?? null,
+    cover: coverFor(p.slug),
   };
   switch (kind) {
     case "live":

@@ -5,23 +5,27 @@ import { statusWord, tileMark } from "@/lib/signal";
 import type { Tile as TileT } from "@/lib/tiles";
 import type { Rect } from "@/lib/windows";
 import { track } from "@/lib/track";
+import { COVER_H, COVER_W } from "@/lib/covers";
 import { rectOf } from "./DeskIcons";
+import CoverArt from "./CoverArt";
 
 /** The spike trace the current hub draws on a live pad; drawn once (1.6 s) when the check answers ok. */
 export const TRACE = "M2 14h9l3-8 5 14 4-10 3 4h8l3-6 4 10 3-4h18";
 
 export function TraceMark() {
   return (
-    <svg viewBox="0 0 64 24" aria-hidden fill="none" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round">
+    <svg viewBox="0 0 64 24" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round">
       <path className="trace" d={TRACE} />
     </svg>
   );
 }
 
 /**
- * Card 2d's tile: 4:3 art + name + status word. Live tiles that answered ok
- * are cyan with the trace; checking / no signal are grey with ○ / —; case
- * studies are grey with ▲ and open inside a window; coming are dashed.
+ * Card 2d's tile: 4:3 picture + name + status word. The picture is the
+ * project's cover (lib/covers.ts); the live status is a pill over it: a live
+ * tile that answered ok gets the cyan pill with the trace, checking / no
+ * signal ○ / —, case studies ▲ (and open inside a window), coming a dashed
+ * dot on a dimmed, dashed-outline picture.
  * A live tile is an <a> to the app in a new tab (project_card_clicked).
  */
 export default function Tile({
@@ -35,14 +39,23 @@ export default function Tile({
 }) {
   const mark = tileMark(tile, signal);
   const word = statusWord(tile, signal);
-  const artClass =
-    mark === "trace" ? "kos-tile-art--live" : mark === "coming" ? "kos-tile-art--coming" : "kos-tile-art--grey";
+  // The picture fills the art box; the status is a pill laid over it. A
+  // coming tile keeps its dashed outline and its picture is dimmed.
   const art = (
-    <div className={`kos-tile-art ${artClass}`} aria-hidden>
-      {mark === "trace" ? <TraceMark /> : null}
-      {mark === "checking" ? <i className="kos-mark-check" /> : null}
-      {mark === "down" ? <i className="kos-mark-down" /> : null}
-      {mark === "case" ? <i className="kos-mark-case" /> : null}
+    <div className={`kos-tile-art kos-tile-art--pic${mark === "coming" ? " kos-tile-art--coming" : ""}`} aria-hidden>
+      {tile.cover?.kind === "image" ? (
+        // eslint-disable-next-line @next/next/no-img-element -- a 480 px rendition made for the tile; fixed size, no optimiser round trip
+        <img className="kos-pic" src={tile.cover.src} alt="" width={COVER_W} height={COVER_H} loading="lazy" decoding="async" draggable={false} />
+      ) : tile.cover?.kind === "drawn" ? (
+        <CoverArt id={tile.cover.id} />
+      ) : null}
+      <span className={`kos-pill kos-pill--${mark}`}>
+        {mark === "trace" ? <TraceMark /> : null}
+        {mark === "checking" ? <i className="kos-mark-check" /> : null}
+        {mark === "down" ? <i className="kos-mark-down" /> : null}
+        {mark === "case" ? <i className="kos-mark-case" /> : null}
+        {mark === "coming" ? <i className="kos-mark-coming" /> : null}
+      </span>
     </div>
   );
   const text = (

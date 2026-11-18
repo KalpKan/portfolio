@@ -4,7 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { CLOCK_IDS, formatLockTime } from "@/lib/clock";
 import { MS, reducedMotion } from "@/lib/motion";
 import type { Signal } from "@/lib/signal";
-import { checksDone, okCount, statusWord } from "@/lib/signal";
+import { checksDone, okCount, statusWord, tileMark } from "@/lib/signal";
+import { COVER_H, COVER_W } from "@/lib/covers";
+import CoverArt from "./CoverArt";
+import { TraceMark } from "./Tile";
 import { playlistOf, type SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
 import { track } from "@/lib/track";
@@ -166,7 +169,21 @@ export default function PhoneSheet({
               const isLive = s === "ok";
               const inner = (
                 <>
-                  <i className={`kos-row--icon${isLive ? " live" : ""}`} aria-hidden />
+                  <i className={`kos-row--icon${isLive ? " live" : ""}`} aria-hidden>
+                    {t.cover?.kind === "image" ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- the tile's 480 px rendition, fixed size
+                      <img className="kos-pic" src={t.cover.src} alt="" width={COVER_W} height={COVER_H} loading="lazy" decoding="async" draggable={false} />
+                    ) : t.cover?.kind === "drawn" ? (
+                      <CoverArt id={t.cover.id} />
+                    ) : null}
+                    <span className={`kos-pill kos-pill--mini kos-pill--${tileMark(t, s)}`}>
+                      {tileMark(t, s) === "trace" ? <TraceMark /> : null}
+                      {tileMark(t, s) === "checking" ? <i className="kos-mark-check" /> : null}
+                      {tileMark(t, s) === "down" ? <i className="kos-mark-down" /> : null}
+                      {tileMark(t, s) === "case" ? <i className="kos-mark-case" /> : null}
+                      {tileMark(t, s) === "coming" ? <i className="kos-mark-coming" /> : null}
+                    </span>
+                  </i>
                   <span style={{ minWidth: 0 }}>
                     <b>{t.name}</b>
                     <small className={isLive ? "live" : undefined}>{word}</small>

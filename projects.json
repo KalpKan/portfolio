@@ -80,7 +80,7 @@
         "TensorFlow.js",
         "Browser ML"
       ],
-      "hero": null
+      "hero": "/images/projects/pushups/hero.webp"
     },
     {
       "slug": "emotes",
@@ -97,7 +97,7 @@
         "Canvas",
         "Computer vision"
       ],
-      "hero": null
+      "hero": "/images/projects/emotes/hero.webp"
     },
     {
       "slug": "microtubules",
@@ -210,7 +210,7 @@
         "WidgetKit",
         "PubMed"
       ],
-      "hero": null
+      "hero": "/images/projects/sift/hero.webp"
     }
   ]
 }

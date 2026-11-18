@@ -47,8 +47,29 @@ describe("Projects window (card 2d)", () => {
     expect(live.getAttribute("href")).toBe("https://promptflip.kalpkan.com");
     expect(live.getAttribute("target")).toBe("_blank");
     const checking = [...container.querySelectorAll(".kos-tile")].find((t) => t.textContent?.includes("Plato"))!;
-    expect(checking.querySelector(".kos-mark-check")).not.toBeNull();
+    expect(checking.querySelector(".kos-pill .kos-mark-check")).not.toBeNull();
     expect(checking.querySelector(".kos-tile-status")?.textContent).toBe("Checking…");
+    unmount();
+  });
+
+  it("every tile shows a picture and keeps its status pill over it", () => {
+    const { container, unmount } = mount();
+    const arts = [...container.querySelectorAll(".kos-tile-art")];
+    expect(arts.length).toBe(13);
+    for (const art of arts) {
+      const img = art.querySelector("img.kos-pic");
+      const drawn = art.querySelector("svg.kos-pic-drawn");
+      expect(img || drawn).not.toBeNull();
+      if (img) {
+        expect(img.getAttribute("src")).toMatch(/^\/images\/covers\/[a-z-]+\.webp$/);
+        expect(img.getAttribute("width")).toBe("480");
+        expect(img.getAttribute("height")).toBe("360");
+        expect(img.getAttribute("loading")).toBe("lazy");
+        expect(img.getAttribute("alt")).toBe("");
+      }
+      expect(art.querySelector(".kos-pill")).not.toBeNull();
+    }
+    expect(container.querySelectorAll("svg.kos-pic-drawn").length).toBe(2);
     unmount();
   });
 

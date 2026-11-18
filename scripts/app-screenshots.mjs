@@ -39,6 +39,9 @@ const HERO_FRAME = {
   basketball: "shot-map.png",
   microtubules: "result.png",
   plantit: "landing.png",
+  pushups: "landing.png",
+  emotes: "landing.png",
+  sift: "landing.png",
 };
 
 const args = process.argv.slice(2);
@@ -154,6 +157,29 @@ const capture = {
     });
     await page.waitForTimeout(600);
     await shoot(page, "basketball", "shot-map.png");
+    await page.close();
+  },
+
+  // Landing pages only: no camera permission is granted, nobody is signed in,
+  // and sift is the public front page (never /me or anything signed in).
+  async pushups(ctx) {
+    const page = await ctx.newPage();
+    await open(page, "https://pushups.kalpkan.com/", 2500);
+    await shoot(page, "pushups", "landing.png");
+    await page.close();
+  },
+
+  async emotes(ctx) {
+    const page = await ctx.newPage();
+    await open(page, "https://emotes.kalpkan.com/", 2500);
+    await shoot(page, "emotes", "landing.png");
+    await page.close();
+  },
+
+  async sift(ctx) {
+    const page = await ctx.newPage();
+    await open(page, "https://sift.kalpkan.com/", 3000);
+    await shoot(page, "sift", "landing.png");
     await page.close();
   },
 

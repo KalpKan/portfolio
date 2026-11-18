@@ -1612,6 +1612,88 @@ html[data-kos-boot="desk"] .kos-lock {
   border-right: 6px solid transparent;
   border-bottom: 10px solid var(--mark);
 }
+/* Project covers (2026-11-18): the picture fills the 4:3 art box; the live
+   status is a pill over its bottom-right corner. Token colours only. */
+.kos-tile-art--pic {
+  background: var(--pad);
+  box-shadow: var(--sh-sm), var(--hair);
+}
+.kos-pic,
+.kos-pic-drawn {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+}
+.kos-tile-art--pic svg.kos-pic-drawn {
+  bottom: auto;
+  height: 100%;
+}
+/* A coming tile: dashed outline over a dimmed picture. */
+.kos-tile-art--pic.kos-tile-art--coming {
+  box-shadow: none;
+}
+.kos-tile-art--coming .kos-pic,
+.kos-tile-art--coming .kos-pic-drawn {
+  opacity: 0.55;
+}
+.kos-pill {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 11px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--frost-strong);
+  box-shadow: var(--sh-sm), var(--hair);
+  color: var(--mark);
+}
+.kos-pill--trace {
+  background: var(--cyan);
+  color: var(--on-accent);
+  box-shadow: var(--sh-sm);
+}
+.kos-pill--coming {
+  background: var(--frost-strong);
+  box-shadow: none;
+  border: 1.5px dashed var(--quiet);
+}
+.kos-tile-art .kos-pill svg {
+  position: static;
+  width: 30px;
+  height: 11px;
+}
+.kos-pill i {
+  position: static;
+  flex: none;
+}
+.kos-pill .kos-mark-check {
+  width: 10px;
+  height: 10px;
+}
+.kos-pill .kos-mark-down {
+  width: 12px;
+  height: 1.5px;
+}
+.kos-pill .kos-mark-coming {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--mark-quiet);
+  box-sizing: border-box;
+}
+.kos-tile-art--live svg {
+  color: var(--on-accent);
+}
+
 .kos-tile-name {
   margin: 0;
   font: 600 13.5px/1.2 var(--font-system);
@@ -2149,8 +2231,51 @@ html[data-kos-boot="desk"] .kos-lock {
   border-bottom: 0;
 }
 .kos-sheet-body .kos-row--icon {
-  border: 1.2px solid var(--ink);
-  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+  width: 56px;
+  height: 42px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--pad);
+  box-shadow: var(--sh-sm), var(--hair);
+}
+.kos-sheet-body .kos-row--icon.live {
+  background: var(--pad);
+}
+.kos-row--icon .kos-tile-art--coming {
+  opacity: 1;
+}
+.kos-pill--mini {
+  right: 3px;
+  bottom: 3px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 7px;
+}
+.kos-pill--mini svg {
+  width: 20px !important;
+  height: 8px !important;
+}
+.kos-pill--mini .kos-mark-check {
+  width: 7px;
+  height: 7px;
+}
+.kos-pill--mini .kos-mark-down {
+  width: 8px;
+}
+.kos-pill--mini .kos-mark-case {
+  border-left-width: 4px;
+  border-right-width: 4px;
+  border-bottom-width: 7px;
+}
+.kos-pill--mini .kos-mark-coming {
+  width: 6px;
+  height: 6px;
+}
+.kos-row--icon .kos-pic-drawn {
+  opacity: 0.55;
 }
 .kos-sheet-body .kos-row small.live {
   color: var(--teal);
