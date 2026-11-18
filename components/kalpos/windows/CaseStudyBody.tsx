@@ -15,7 +15,7 @@ import type { Tile } from "@/lib/tiles";
 export default function CaseStudyBody({ tile }: { tile: Tile }) {
   const study = getCaseStudy(tile.slug);
   if (!study || study.draft) return <CasePlaceholder name={tile.name} tagline={tile.tagline} repo={tile.repo} />;
-  return <CaseStudy study={study} underConstruction={tile.kind === "coming"} />;
+  return <CaseStudy study={study} underConstruction={tile.kind === "coming" || Boolean(study.underConstruction)} />;
 }
 
 export function CasePlaceholder({ name, tagline, repo }: { name: string; tagline: string; repo: string | null }) {

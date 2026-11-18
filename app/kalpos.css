@@ -1618,8 +1618,7 @@ html[data-kos-boot="desk"] .kos-lock {
   background: var(--pad);
   box-shadow: var(--sh-sm), var(--hair);
 }
-.kos-pic,
-.kos-pic-drawn {
+.kos-pic {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -1628,16 +1627,11 @@ html[data-kos-boot="desk"] .kos-lock {
   display: block;
   user-select: none;
 }
-.kos-tile-art--pic svg.kos-pic-drawn {
-  bottom: auto;
-  height: 100%;
-}
 /* A coming tile: dashed outline over a dimmed picture. */
 .kos-tile-art--pic.kos-tile-art--coming {
   box-shadow: none;
 }
-.kos-tile-art--coming .kos-pic,
-.kos-tile-art--coming .kos-pic-drawn {
+.kos-tile-art--coming .kos-pic {
   opacity: 0.55;
 }
 .kos-pill {
@@ -2273,9 +2267,6 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-pill--mini .kos-mark-coming {
   width: 6px;
   height: 6px;
-}
-.kos-row--icon .kos-pic-drawn {
-  opacity: 0.55;
 }
 .kos-sheet-body .kos-row small.live {
   color: var(--teal);

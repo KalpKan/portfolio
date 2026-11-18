@@ -17,7 +17,7 @@ describe("tile covers", () => {
       expect(statSync(file).size, t.cover.src).toBeLessThanOrEqual(45 * 1024);
     }
   });
-  it("only projects with nothing to photograph are drawn", () => {
-    expect(tiles.filter((t) => t.cover?.kind === "drawn").map((t) => t.slug).sort()).toEqual(["eeg"]);
+  it("every cover is a picture file (no drawn covers are left)", () => {
+    for (const t of tiles) expect(t.cover?.kind, t.slug).toBe("image");
   });
 });

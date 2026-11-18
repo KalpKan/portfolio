@@ -170,7 +170,7 @@
       "name": "DIY EEG",
       "tagline": "Under construction: a home-built EEG front end; the schematic and LTspice simulation are done, the board and firmware are next.",
       "type": "showcase",
-      "status": "coming",
+      "status": "live",
       "repo": null,
       "tags": [
         "KiCad",

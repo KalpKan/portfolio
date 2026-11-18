@@ -16,9 +16,10 @@ async function render(slug: string) {
 }
 
 describe("case-study page publishing rule", () => {
-  it("publishes a non-draft content file whose registry status is coming as under construction", async () => {
+  it("publishes DIY EEG (registry live, content flagged underConstruction) as under construction", async () => {
     const entry = loadProjects().find((p) => p.slug === "eeg");
-    expect(entry?.status).toBe("coming");
+    expect(entry?.status).toBe("live");
+    expect(getCaseStudy("eeg")?.underConstruction).toBe(true);
     expect(getCaseStudy("eeg")?.draft).not.toBe(true);
     const html = await render("eeg");
     expect(html).toContain("under construction");

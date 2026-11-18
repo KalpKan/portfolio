@@ -24,7 +24,7 @@ describe("Projects window (card 2d)", () => {
   it("lists the five filters with real counts and the header count", () => {
     const { container, unmount } = mount();
     const rows = [...container.querySelectorAll(".kos-filter")].map((b) => b.textContent);
-    expect(rows).toEqual(["All12", "Live signal8", "Hardware5", "Case studies4", "Coming1"]);
+    expect(rows).toEqual(["All12", "Live signal8", "Hardware5", "Case studies4", "Coming0"]);
     expect(container.querySelector(".kos-main-count")?.textContent).toBe("12 items, 8 live");
     expect(container.querySelector(".kos-sidebar-foot")?.textContent).toContain("checking");
     unmount();
@@ -32,10 +32,12 @@ describe("Projects window (card 2d)", () => {
 
   it("filters the grid when a sidebar row is pressed", () => {
     const { container, unmount } = mount();
-    click([...container.querySelectorAll(".kos-filter")][4]);
+    click([...container.querySelectorAll(".kos-filter")][3]);
     const names = [...container.querySelectorAll(".kos-tile-name")].map((n) => n.textContent);
-    expect(names).toEqual(["DIY EEG"]);
-    expect(container.querySelectorAll(".kos-tile-art--coming").length).toBe(1);
+    expect(names).toContain("DIY EEG");
+    expect(names.length).toBe(4);
+    click([...container.querySelectorAll(".kos-filter")][4]);
+    expect(container.querySelectorAll(".kos-tile-name").length).toBe(0);
     unmount();
   });
 
@@ -58,18 +60,15 @@ describe("Projects window (card 2d)", () => {
     expect(arts.length).toBe(12);
     for (const art of arts) {
       const img = art.querySelector("img.kos-pic");
-      const drawn = art.querySelector("svg.kos-pic-drawn");
-      expect(img || drawn).not.toBeNull();
-      if (img) {
-        expect(img.getAttribute("src")).toMatch(/^\/images\/covers\/[a-z-]+\.webp$/);
-        expect(img.getAttribute("width")).toBe("480");
-        expect(img.getAttribute("height")).toBe("360");
-        expect(img.getAttribute("loading")).toBe("lazy");
-        expect(img.getAttribute("alt")).toBe("");
-      }
+      expect(img).not.toBeNull();
+      expect(img!.getAttribute("src")).toMatch(/^\/images\/covers\/[a-z-]+\.webp$/);
+      expect(img!.getAttribute("width")).toBe("480");
+      expect(img!.getAttribute("height")).toBe("360");
+      expect(img!.getAttribute("loading")).toBe("lazy");
+      expect(img!.getAttribute("alt")).toBe("");
       expect(art.querySelector(".kos-pill")).not.toBeNull();
     }
-    expect(container.querySelectorAll("svg.kos-pic-drawn").length).toBe(1);
+    expect(container.querySelectorAll(".kos-tile-art--coming").length).toBe(0);
     unmount();
   });
 

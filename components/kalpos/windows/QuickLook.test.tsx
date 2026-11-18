@@ -188,8 +188,11 @@ describe("Quick Look in the Projects window", () => {
   });
 
   it("a coming tile says Coming and has no link", () => {
-    const { cells, panel, focusTile, key, unmount } = mount();
-    const i = cells().findIndex((c) => c.dataset.slug === "eeg");
+    // Nothing in the committed registry is coming any more, so add one.
+    const later: Tile = { ...tiles[0], slug: "later", name: "Later", kind: "coming", href: null, healthUrl: null, hero: null };
+    const withComing = [...tiles, later];
+    const { cells, panel, focusTile, key, unmount } = mount({ tiles: withComing, signals: initialSignals(withComing) });
+    const i = cells().findIndex((c) => c.dataset.slug === "later");
     focusTile(i);
     key(" ");
     const action = panel()?.querySelector(".kos-ql-action");

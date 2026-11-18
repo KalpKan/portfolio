@@ -2,7 +2,7 @@
 // Make the Projects window's tile covers: public/images/covers/<slug>.webp,
 // 480x360 (the 4:3 art box at 2x of its ~240 px width), WebP, ~40 KB or less.
 // Sources are the registry heroes (app screenshots), the case studies' own
-// photos, or nothing: flashcards and eeg are drawn SVG (components/kalpos/CoverArt.tsx).
+// photos, or a simulation plot (eeg).
 //
 // Usage: node scripts/tile-covers.mjs [slug ...]
 import { mkdirSync, statSync } from "node:fs";
@@ -28,6 +28,7 @@ const COVERS = {
   sift: { src: img("sift", "hero.webp"), crop: { left: 100, top: 0, width: 960, height: 720 } },
   unpark: { src: img("unpark", "enclosure-render.webp"), crop: { left: 140, top: 0, width: 960, height: 720 } },
   "rc-car": { src: img("rc-car", "front.webp"), crop: { left: 0, top: 290, width: 608, height: 456 } },
+  eeg: { src: img("eeg", "simulation.webp") },
   "porsche-pcb-keychain": { src: img("porsche-pcb-keychain", "render-both.webp"), crop: { left: 240, top: 60, width: 1120, height: 840 } },
 };
 

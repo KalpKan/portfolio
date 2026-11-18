@@ -6,7 +6,6 @@ import { MS, reducedMotion } from "@/lib/motion";
 import type { Signal } from "@/lib/signal";
 import { checksDone, okCount, statusWord, tileMark } from "@/lib/signal";
 import { COVER_H, COVER_W } from "@/lib/covers";
-import CoverArt from "./CoverArt";
 import { TraceMark } from "./Tile";
 import { playlistOf, type SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
@@ -173,8 +172,6 @@ export default function PhoneSheet({
                     {t.cover?.kind === "image" ? (
                       // eslint-disable-next-line @next/next/no-img-element -- the tile's 480 px rendition, fixed size
                       <img className="kos-pic" src={t.cover.src} alt="" width={COVER_W} height={COVER_H} loading="lazy" decoding="async" draggable={false} />
-                    ) : t.cover?.kind === "drawn" ? (
-                      <CoverArt id={t.cover.id} />
                     ) : null}
                     <span className={`kos-pill kos-pill--mini kos-pill--${tileMark(t, s)}`}>
                       {tileMark(t, s) === "trace" ? <TraceMark /> : null}

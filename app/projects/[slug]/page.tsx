@@ -29,7 +29,7 @@ function publishable(slug: string) {
   if (!p) return null;
   const study = getCaseStudy(slug);
   const publishable = p.type === "showcase" && study && !study.draft;
-  return { p, study: publishable ? study : undefined, underConstruction: p.status === "coming" };
+  return { p, study: publishable ? study : undefined, underConstruction: p.status === "coming" || Boolean(study?.underConstruction) };
 }
 
 export async function generateMetadata({

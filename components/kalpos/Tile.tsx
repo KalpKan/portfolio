@@ -7,7 +7,6 @@ import type { Rect } from "@/lib/windows";
 import { track } from "@/lib/track";
 import { COVER_H, COVER_W } from "@/lib/covers";
 import { rectOf } from "./DeskIcons";
-import CoverArt from "./CoverArt";
 
 /** The spike trace the current hub draws on a live pad; drawn once (1.6 s) when the check answers ok. */
 export const TRACE = "M2 14h9l3-8 5 14 4-10 3 4h8l3-6 4 10 3-4h18";
@@ -46,8 +45,6 @@ export default function Tile({
       {tile.cover?.kind === "image" ? (
         // eslint-disable-next-line @next/next/no-img-element -- a 480 px rendition made for the tile; fixed size, no optimiser round trip
         <img className="kos-pic" src={tile.cover.src} alt="" width={COVER_W} height={COVER_H} loading="lazy" decoding="async" draggable={false} />
-      ) : tile.cover?.kind === "drawn" ? (
-        <CoverArt id={tile.cover.id} />
       ) : null}
       <span className={`kos-pill kos-pill--${mark}`}>
         {mark === "trace" ? <TraceMark /> : null}

@@ -91,6 +91,13 @@ export type CaseStudy = {
    * Local paths only; nothing here is a secret or a private file.
    */
   links?: { label: string; href: string }[];
+  /**
+   * True for a case study that is published but belongs to a project still being
+   * built (DIY EEG): the meta line says "under construction" instead of "case study".
+   * (The registry `coming` status does the same on the standalone page, but a
+   * `coming` showcase's tile opens nothing, so a written work in progress is `live`.)
+   */
+  underConstruction?: boolean;
   /** True while the page must not be published (registry stays "coming"). */
   draft?: boolean;
   /** What media Kalp should supply; mirrored in STATUS.md under H3. */
