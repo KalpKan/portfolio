@@ -52,7 +52,7 @@ describe("no 'everything shipped' claim anywhere a visitor reads", () => {
   });
 
   it("the desk note introduces Kalp and points at a folder, claiming nothing", () => {
-    expect(SITE.note).toBe("Hi — I'm Kalp. Western University, headed for physician-scientist work in neurotech. Open a folder.");
+    expect(SITE.note).toBe("Hi, I'm Kalp. I want to become a physician-scientist in neurotech, building tools that read and repair the brain, from brain–computer interfaces to deep brain stimulation, and bringing them safely to patients.");
   });
 });
 

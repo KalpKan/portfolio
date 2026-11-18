@@ -147,7 +147,7 @@ export const SITE = {
   name: "Kalp Kansara",
   url: "https://kalpkan.com",
   repo: "https://github.com/KalpKan/portfolio",
-  note: "Hi — I'm Kalp. Western University, headed for physician-scientist work in neurotech. Open a folder.",
+  note: "Hi, I'm Kalp. I want to become a physician-scientist in neurotech, building tools that read and repair the brain, from brain–computer interfaces to deep brain stimulation, and bringing them safely to patients.",
   tagline: "Western University. I build things that measure something real.",
   resumeUrl: "",
   photo: "/images/kalp/desk.webp",

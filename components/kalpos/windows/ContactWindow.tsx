@@ -4,7 +4,7 @@ import type { Contact } from "@/lib/site";
 const FIELD: Record<string, string> = { email: "To", github: "GitHub", linkedin: "LinkedIn" };
 
 /** Not mocked; mail-style: one header row per contact that is set, nothing for empties. */
-export default function ContactWindow({ contact, name }: { contact: Contact; name: string }) {
+export default function ContactWindow({ contact }: { contact: Contact; name?: string }) {
   const links = contactLinks(contact);
   return (
     <div className="kos-body">
@@ -24,8 +24,7 @@ export default function ContactWindow({ contact, name }: { contact: Contact; nam
               </div>
             ))}
           </dl>
-          <p>Hi {name.split(" ")[0]} — </p>
-          <p className="kos-muted">Say hello about neurotech, a project on this desk, or anything you think should be on it.</p>
+          <p>Feel free to reach out. I&rsquo;m always happy to talk and discuss anything we have in common.</p>
         </>
       )}
     </div>
