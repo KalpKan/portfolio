@@ -4,14 +4,11 @@ import {
   GRID,
   ICON_CELL,
   ICON_ORIGIN,
-  ICONS_KEY,
   cellBounds,
   fitLayout,
-  loadLayout,
   moveIcon,
   overlaps,
   placeIcon,
-  saveLayout,
   toCell,
   toPx,
   type IconLayout,
@@ -95,21 +92,5 @@ describe("the desk's icon grid (card 2c, free layout 2026-09-20)", () => {
     for (const a of ids) for (const b of ids) if (a !== b) expect(overlaps(fitted[a]!, fitted[b]!), `${a} vs ${b}`).toBe(false);
     // only the icons given are placed (a hidden Now playing keeps its saved cell elsewhere)
     expect(Object.keys(fitLayout({ projects: { c: 0, r: 0 } }, small))).toEqual(["projects"]);
-  });
-
-  it("persists per icon in localStorage kalpos:icons and restores it, ignoring junk", () => {
-    const store = new Map<string, string>();
-    const storage = { getItem: (k: string) => store.get(k) ?? null, setItem: (k: string, v: string) => void store.set(k, v) };
-    expect(loadLayout(storage)).toEqual(DEFAULT_LAYOUT);
-    saveLayout(storage, { ...DEFAULT_LAYOUT, hobbies: { c: 40, r: 12 } });
-    expect(JSON.parse(store.get(ICONS_KEY)!).hobbies).toEqual({ c: 40, r: 12 });
-    expect(loadLayout(storage).hobbies).toEqual({ c: 40, r: 12 });
-    store.set(ICONS_KEY, '{"hobbies":{"c":"x","r":1},"about":[1,2],"nope":{"c":1,"r":1}}');
-    expect(loadLayout(storage)).toEqual(DEFAULT_LAYOUT);
-    store.set(ICONS_KEY, "not json");
-    expect(loadLayout(storage)).toEqual(DEFAULT_LAYOUT);
-    const throwing = { getItem: () => { throw new Error("private mode"); }, setItem: () => { throw new Error("private mode"); } };
-    expect(loadLayout(throwing)).toEqual(DEFAULT_LAYOUT);
-    expect(() => saveLayout(throwing, DEFAULT_LAYOUT)).not.toThrow();
   });
 });

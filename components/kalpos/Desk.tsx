@@ -33,8 +33,8 @@ import TrashWindow from "./windows/TrashWindow";
 /*
  * Card 2c, the desk: frosted menubar, dotted ground, the icons (the card's
  * two-column grid by default, but each one can be dragged anywhere on the
- * desk and snaps to the dots: useIconLayout / lib/icons.ts, persisted in
- * localStorage), the widgets at top-right (fixed), the dock at the bottom,
+ * desk and snaps to the dots: useIconLayout / lib/icons.ts, in memory
+ * for the visit, every load starts organised), the widgets at top-right (fixed), the dock at the bottom,
  * and the windows layer in between. Window state lives in the parent
  * (lib/windows.ts reducer); this component only renders it and dispatches.
  */

@@ -5,11 +5,10 @@ import {
   cellBounds,
   DEFAULT_LAYOUT,
   fitLayout,
-  loadLayout,
+  ICONS_KEY,
   moveIcon,
   pick,
   placeIcon,
-  saveLayout,
   toCell,
   type Dir,
   type IconId,
@@ -17,11 +16,12 @@ import {
 } from "@/lib/icons";
 
 /**
- * The desk's icon layout: restored from localStorage `kalpos:icons` before
- * the first paint (re-fitted to this viewport, and again on resize), every
- * change persisted per icon. Only the icons on the desk right now (`present`)
- * count as obstacles: a hidden Now playing keeps its saved cell. Lock and
- * Restart leave it alone (the desk stays mounted and the storage holds it);
+ * The desk's icon layout: every page load starts at DEFAULT_LAYOUT (re-fitted
+ * to this viewport before the first paint, and again on resize); drags, arrow
+ * moves and Clean Up live in React state only, nothing is stored, and the
+ * retired localStorage `kalpos:icons` is removed on mount. Only the icons on the desk right now (`present`)
+ * count as obstacles: a hidden Now playing keeps its cell. Lock and
+ * Restart leave it alone (the desk stays mounted, so the state holds it);
  * Clean Up puts the default card 2c grid back.
  */
 export function useIconLayout(present: IconId[]) {
@@ -32,16 +32,15 @@ export function useIconLayout(present: IconId[]) {
   }, [present]);
 
   const bounds = () => cellBounds(window.innerWidth, window.innerHeight);
-  const storage = () => (typeof localStorage === "undefined" ? undefined : localStorage);
-
-  const commit = useCallback((next: IconLayout) => {
-    setLayout(next);
-    saveLayout(storage(), next);
-  }, []);
+  const commit = setLayout;
 
   useLayoutEffect(() => {
-    const loaded = loadLayout(storage());
-    setLayout({ ...loaded, ...fitLayout(pick(loaded, presentRef.current), bounds()) });
+    try {
+      localStorage.removeItem(ICONS_KEY);
+    } catch {
+      // no storage (private mode): nothing to clean up
+    }
+    setLayout({ ...DEFAULT_LAYOUT, ...fitLayout(pick(DEFAULT_LAYOUT, presentRef.current), bounds()) });
   }, []);
 
   useEffect(() => {

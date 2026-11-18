@@ -6,9 +6,10 @@
  * every icon owns a 5×5-cell footprint (110 × 110 px, the icon is 96 × ≤ 89)
  * and no two footprints may intersect. The default layout is the card's
  * two-column grid. Bounds keep an icon off the menubar (top ≥ 44), off the
- * dock's band (bottom ≤ vh − 106) and 12 px inside the sides. Persisted per
- * icon in localStorage `kalpos:icons`; "Clean Up" in the KalpOS menu (⌥⌘1)
- * restores the default.
+ * dock's band (bottom ≤ vh − 106) and 12 px inside the sides. Moves live in
+ * React state for the visit only (every load starts at the default; the old
+ * localStorage `kalpos:icons` is removed on mount); "Clean Up" in the KalpOS
+ * menu (⌥⌘1) restores the default.
  */
 
 export const GRID = 22;
@@ -17,6 +18,7 @@ export const ICON_ORIGIN = { x: 38, y: 64 } as const;
 export const ICON_CELL = { w: 5, h: 5 } as const;
 /** The icon's own box in px (the tallest is About me at 89). */
 export const ICON_BOX = { w: 96, h: 89 } as const;
+/** The retired localStorage key: layouts are no longer saved, the key is deleted on mount. */
 export const ICONS_KEY = "kalpos:icons";
 
 export type IconId = "projects" | "research" | "hobbies" | "about" | "contact" | "music" | "trash";
@@ -131,39 +133,4 @@ export function pick(layout: IconLayout, ids: IconId[]): Partial<IconLayout> {
   const out: Partial<IconLayout> = {};
   for (const id of ids) out[id] = layout[id];
   return out;
-}
-
-export interface StorageLike {
-  getItem(key: string): string | null;
-  setItem(key: string, value: string): void;
-}
-
-function isCell(v: unknown): v is Cell {
-  return !!v && typeof v === "object" && !Array.isArray(v) && Number.isInteger((v as Cell).c) && Number.isInteger((v as Cell).r);
-}
-
-/** The saved layout over the default; anything that is not {id: {c, r}} for a known id is ignored. */
-export function loadLayout(storage: StorageLike | undefined): IconLayout {
-  const out: IconLayout = { ...DEFAULT_LAYOUT };
-  try {
-    const raw = storage?.getItem(ICONS_KEY);
-    if (!raw) return out;
-    const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return out;
-    for (const id of ICON_IDS) {
-      const v = (parsed as Record<string, unknown>)[id];
-      if (isCell(v)) out[id] = { c: v.c, r: v.r };
-    }
-  } catch {
-    // no storage (private mode) or junk: the default layout
-  }
-  return out;
-}
-
-export function saveLayout(storage: StorageLike | undefined, layout: IconLayout): void {
-  try {
-    storage?.setItem(ICONS_KEY, JSON.stringify(layout));
-  } catch {
-    // storage full or blocked: the layout lives for this page only
-  }
 }

@@ -147,7 +147,7 @@ describe("Desk icons move anywhere (2026-09-20)", () => {
     unmount();
   });
 
-  it("a drag moves the icon 1:1 and, on release, snaps it to the 22 px grid and persists kalpos:icons", () => {
+  it("a drag moves the icon 1:1 and, on release, snaps it to the 22 px grid and writes nothing to storage", () => {
     localStorage.clear();
     const { container, unmount } = mount();
     const hob = icon(container, "Hobbies");
@@ -165,15 +165,16 @@ describe("Desk icons move anywhere (2026-09-20)", () => {
     // 448 → cell round((448-38)/22) = 19 → 456; 94 → cell round((94-64)/22) = 1 → 86
     expect(hob.style.left).toBe("456px");
     expect(hob.style.top).toBe("86px");
-    expect(JSON.parse(localStorage.getItem("kalpos:icons")!).hobbies).toEqual({ c: 19, r: 1 });
+    expect(localStorage.getItem("kalpos:icons")).toBeNull();
     unmount();
   });
 
-  it("restores the saved layout on mount; a drop onto another icon nudges to a free cell; the layout survives a remount (lock / restart)", () => {
+  it("ignores and deletes a saved layout on mount; a drop onto another icon nudges to a free cell", () => {
     localStorage.setItem("kalpos:icons", JSON.stringify({ contact: { c: 20, r: 2 } }));
     const { container, unmount } = mount();
-    expect(icon(container, "Contact").style.left).toBe("478px");
-    expect(icon(container, "Contact").style.top).toBe("108px");
+    expect(icon(container, "Contact").style.left).toBe("148px");
+    expect(icon(container, "Contact").style.top).toBe("174px");
+    expect(localStorage.getItem("kalpos:icons")).toBeNull();
     const hob = icon(container, "Hobbies");
     act(() => {
       hob.dispatchEvent(pointer("pointerdown", 200, 100));
@@ -181,16 +182,18 @@ describe("Desk icons move anywhere (2026-09-20)", () => {
       hob.dispatchEvent(pointer("pointerup", 90, 100));
     });
     // wanted cell (0,0) is Projects: nudged to the nearest free cell, never on top of it
-    const saved = JSON.parse(localStorage.getItem("kalpos:icons")!);
-    expect(saved.hobbies).not.toEqual({ c: 0, r: 0 });
-    expect(Math.abs(saved.hobbies.c - 0) >= 5 || Math.abs(saved.hobbies.r - 0) >= 5).toBe(true);
+    const left = parseInt(hob.style.left, 10), top = parseInt(hob.style.top, 10);
+    expect(left === 38 && top === 64).toBe(false);
+    expect(Math.abs(left - 38) >= 110 || Math.abs(top - 64) >= 110).toBe(true);
+    expect(localStorage.getItem("kalpos:icons")).toBeNull();
     unmount();
+    // a fresh page load starts organised again
     const again = mount();
-    expect(icon(again.container, "Contact").style.left).toBe("478px");
+    expect(icon(again.container, "Hobbies").style.left).toBe("148px");
     again.unmount();
   });
 
-  it("arrow keys move a focused icon one grid cell and persist it", () => {
+  it("arrow keys move a focused icon one grid cell (in memory only)", () => {
     localStorage.clear();
     const { container, unmount } = mount();
     const hob = icon(container, "Hobbies");
@@ -206,20 +209,26 @@ describe("Desk icons move anywhere (2026-09-20)", () => {
     // one plain cell when nothing is in the way
     fire(icon(container, "Trash"), "keydown", { key: "ArrowDown" });
     expect(icon(container, "Trash").style.top).toBe("306px");
-    expect(JSON.parse(localStorage.getItem("kalpos:icons")!).hobbies).toEqual({ c: 6, r: 0 });
+    expect(localStorage.getItem("kalpos:icons")).toBeNull();
     unmount();
   });
 
   it("Clean Up in the KalpOS menu (and ⌥⌘1) restores the default layout", () => {
-    localStorage.setItem("kalpos:icons", JSON.stringify({ hobbies: { c: 30, r: 3 } }));
+    localStorage.clear();
     const { container, unmount } = mount();
-    expect(icon(container, "Hobbies").style.left).toBe("698px");
+    const h = icon(container, "Hobbies");
+    act(() => {
+      h.dispatchEvent(pointer("pointerdown", 200, 100));
+      h.dispatchEvent(pointer("pointermove", 700, 100));
+      h.dispatchEvent(pointer("pointerup", 700, 100));
+    });
+    expect(icon(container, "Hobbies").style.left).not.toBe("148px");
     click(container.querySelector('.kos-menubar button[aria-haspopup="menu"]')!);
     const row = [...container.querySelectorAll<HTMLElement>('[role="menuitem"]')].find((i) => i.textContent?.includes("Clean Up"))!;
     expect(row.querySelector(".kos-menu-kbd")?.textContent).toBe("⌥⌘1");
     click(row);
     expect(icon(container, "Hobbies").style.left).toBe("148px");
-    expect(JSON.parse(localStorage.getItem("kalpos:icons")!).hobbies).toEqual({ c: 5, r: 0 });
+    expect(localStorage.getItem("kalpos:icons")).toBeNull();
     fire(icon(container, "Hobbies"), "keydown", { key: "ArrowRight" });
     expect(icon(container, "Hobbies").style.left).toBe("170px");
     fire(document.body, "keydown", { key: "1", metaKey: true, altKey: true });
@@ -264,7 +273,7 @@ describe("Drag an icon into the Trash: crumple, sink, the hand swats it back (20
     expect(bin.getAttribute("data-lid")).toBeNull();
     release(hob, 500, 320);
     // a normal drop: it moved
-    expect(JSON.parse(localStorage.getItem("kalpos:icons")!).hobbies).not.toEqual({ c: 5, r: 0 });
+    expect(icon(container, "Hobbies").style.left).not.toBe("148px");
     expect(track).not.toHaveBeenCalledWith("trash_swat", expect.anything());
     unmount();
   });
