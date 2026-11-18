@@ -26,9 +26,9 @@ export const RESEARCH: readonly ResearchEntry[] = [
     title: "Neuromodulation for spinocerebellar ataxia: a systematic review",
     role: "Co-first author (with Malin Daunt)",
     where: "University Health Network / Western University",
-    status: "In progress — writing",
+    status: "Written — in review",
     description:
-      "Systematic review of deep brain stimulation, transcranial direct current stimulation and transcranial magnetic stimulation for the symptoms of spinocerebellar ataxia. Screening and data extraction complete; manuscript in preparation.",
+      "Systematic review of deep brain stimulation, transcranial direct current stimulation and transcranial magnetic stimulation for the symptoms of spinocerebellar ataxia. Screening and data extraction complete; manuscript written and in review.",
   },
   {
     slug: "dbs-mri-heating",
@@ -37,7 +37,7 @@ export const RESEARCH: readonly ResearchEntry[] = [
     where: "University Health Network",
     status: "In progress",
     description:
-      "Phantom study of radiofrequency heating of an implanted DBS system during MRI at low and ultra-high field. Led by MSc candidate Hezekiah Au; PI Dr. Alexandre Boutet.",
+      "Radiofrequency heating of implanted DBS systems during MRI at low and ultra-high field. At 0.5 T, patients are starting to be scanned; at 7 T, the work is still at the animal-study stage. Led by MSc candidate Hezekiah Au; PI Dr. Alexandre Boutet.",
   },
   {
     slug: "seeg-mri-heating",
