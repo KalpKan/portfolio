@@ -76,7 +76,7 @@ export function caseStudyText(c: CaseStudy): string {
 /** The playlist (lib/site.ts) as a numbered list; tags in brackets, the Spotify link (when set) after a dash. */
 export function playlistText(playlist: readonly Track[], title: string): string {
   const rows = playlist.map((t, i) => `${i + 1}. ${t.title} — ${t.artist}${t.tag ? ` [${t.tag}]` : ""}${t.spotifyUrl ? ` — ${t.spotifyUrl}` : ""}`);
-  return [`# ${title}`, "", ...rows, "", "Visual only: the desk's Music app plays nothing, it just keeps the list."].join("\n");
+  return [`# ${title}`, "", ...rows].join("\n");
 }
 
 /** The reading list (lib/site.ts) as plain text; the first book is the current one, then the recently read shelf in series order, then the favourites. */

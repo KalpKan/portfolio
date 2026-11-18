@@ -573,13 +573,6 @@ button.kos-now[data-paused="true"] .bar i {
   opacity: 0.75;
   white-space: nowrap;
 }
-.kos-music .kos-music-foot {
-  margin: auto 0 0;
-  padding-top: 14px;
-  font: 400 10.5px var(--font-system);
-  letter-spacing: 0.02em;
-  opacity: 0.45;
-}
 
 /* The phone sheet: one column, the cover and transport centred, the list under. */
 .kos-sheet-body .kos-music {
@@ -603,9 +596,6 @@ button.kos-now[data-paused="true"] .bar i {
 }
 .kos-sheet-body .kos-track {
   padding: 12px 10px;
-}
-.kos-sheet-body .kos-music .kos-music-foot {
-  padding-top: 18px;
 }
 
 @media (prefers-reduced-motion: reduce) {

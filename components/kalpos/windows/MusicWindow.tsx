@@ -159,7 +159,6 @@ export default function MusicWindow({ playlist, title = "On repeat" }: { playlis
             </li>
           ))}
         </ol>
-        <p className="kos-music-foot">Visual only · no audio plays</p>
       </div>
     </div>
   );

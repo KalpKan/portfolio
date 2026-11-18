@@ -33,7 +33,7 @@ describe("MusicWindow (the Music app)", () => {
     expect(r[0].querySelector(".kos-tag")).toBeNull();
     expect(current(container)).toBe(0);
     expect(r[0].querySelector(".n")?.textContent).toBe("♪");
-    expect(container.textContent).toContain("Visual only");
+    expect(container.textContent).not.toContain("Visual only");
     unmount();
   });
 
