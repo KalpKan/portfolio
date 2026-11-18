@@ -24,8 +24,8 @@ describe("Projects window (card 2d)", () => {
   it("lists the five filters with real counts and the header count", () => {
     const { container, unmount } = mount();
     const rows = [...container.querySelectorAll(".kos-filter")].map((b) => b.textContent);
-    expect(rows).toEqual(["All13", "Live signal8", "Hardware5", "Case studies5", "Coming2"]);
-    expect(container.querySelector(".kos-main-count")?.textContent).toBe("13 items, 8 live");
+    expect(rows).toEqual(["All12", "Live signal8", "Hardware5", "Case studies4", "Coming1"]);
+    expect(container.querySelector(".kos-main-count")?.textContent).toBe("12 items, 8 live");
     expect(container.querySelector(".kos-sidebar-foot")?.textContent).toContain("checking");
     unmount();
   });
@@ -34,8 +34,8 @@ describe("Projects window (card 2d)", () => {
     const { container, unmount } = mount();
     click([...container.querySelectorAll(".kos-filter")][4]);
     const names = [...container.querySelectorAll(".kos-tile-name")].map((n) => n.textContent);
-    expect(names).toEqual(["FlashCards", "DIY EEG"]);
-    expect(container.querySelectorAll(".kos-tile-art--coming").length).toBe(2);
+    expect(names).toEqual(["DIY EEG"]);
+    expect(container.querySelectorAll(".kos-tile-art--coming").length).toBe(1);
     unmount();
   });
 
@@ -55,7 +55,7 @@ describe("Projects window (card 2d)", () => {
   it("every tile shows a picture and keeps its status pill over it", () => {
     const { container, unmount } = mount();
     const arts = [...container.querySelectorAll(".kos-tile-art")];
-    expect(arts.length).toBe(13);
+    expect(arts.length).toBe(12);
     for (const art of arts) {
       const img = art.querySelector("img.kos-pic");
       const drawn = art.querySelector("svg.kos-pic-drawn");
@@ -69,7 +69,7 @@ describe("Projects window (card 2d)", () => {
       }
       expect(art.querySelector(".kos-pill")).not.toBeNull();
     }
-    expect(container.querySelectorAll("svg.kos-pic-drawn").length).toBe(2);
+    expect(container.querySelectorAll("svg.kos-pic-drawn").length).toBe(1);
     unmount();
   });
 

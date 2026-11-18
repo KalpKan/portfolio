@@ -25,15 +25,6 @@ export const DIAGRAMS: Record<DiagramId, FlowData> = {
     ],
     edges: ["events / frames", "PWM"],
   },
-  flashcards: {
-    title: "FlashCards structure: sign-in, sets and cards, study view, widget",
-    nodes: [
-      { id: "auth", title: "Sign in", sub: ["LoginView, SignupView", "AuthViewModel", "Firebase Auth"] },
-      { id: "sets", title: "Sets and cards", sub: ["FlashcardSet, FlashCard", "MainView, FlashcardSetView", "PersistenceManager"] },
-      { id: "study", title: "Study", sub: ["FlashCardView", "FlashcardsWidget", "WidgetKit"] },
-    ],
-    edges: ["AppState", "cards"],
-  },
   "porsche-pcb-keychain": {
     title: "Porsche PCB keychain: a USB-C plug takes 5 V from the phone, three LEDs on the underside light the Porsche cut through the board",
     nodes: [

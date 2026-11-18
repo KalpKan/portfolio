@@ -18,6 +18,6 @@ describe("tile covers", () => {
     }
   });
   it("only projects with nothing to photograph are drawn", () => {
-    expect(tiles.filter((t) => t.cover?.kind === "drawn").map((t) => t.slug).sort()).toEqual(["eeg", "flashcards"]);
+    expect(tiles.filter((t) => t.cover?.kind === "drawn").map((t) => t.slug).sort()).toEqual(["eeg"]);
   });
 });

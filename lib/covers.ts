@@ -24,7 +24,7 @@ export const RASTER_COVERS = new Set([
 ]);
 
 /** Slugs with a drawn SVG cover instead (nothing to photograph yet). */
-export const DRAWN_COVERS = { flashcards: "cards", eeg: "eeg" } as const;
+export const DRAWN_COVERS = { eeg: "eeg" } as const;
 export type DrawnCover = (typeof DRAWN_COVERS)[keyof typeof DRAWN_COVERS];
 
 export type Cover = { kind: "image"; src: string } | { kind: "drawn"; id: DrawnCover };

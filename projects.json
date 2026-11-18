@@ -150,20 +150,6 @@
       "hero": null
     },
     {
-      "slug": "flashcards",
-      "name": "FlashCards",
-      "tagline": "Under construction: an iPhone flashcard app, nothing to show yet.",
-      "type": "showcase",
-      "status": "coming",
-      "repo": null,
-      "tags": [
-        "iOS",
-        "Swift",
-        "Firebase"
-      ],
-      "hero": null
-    },
-    {
       "slug": "porsche-pcb-keychain",
       "name": "Porsche PCB keychain",
       "tagline": "One of my first PCB designs, made for Yash's birthday: a keychain-sized board with a Porsche cut through it, USB-C, and three LEDs underneath so the Porsche glows when you plug it into your phone.",

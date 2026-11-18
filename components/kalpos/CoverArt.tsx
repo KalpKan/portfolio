@@ -5,27 +5,9 @@ import type { DrawnCover } from "@/lib/covers";
  * HobbyGlyph and DeskIcons (stroke drawings, round caps, no stock art), on the
  * pad grey, in token colours only so they follow the appearance.
  *
- * cards: a fanned stack of three flash cards, the front one with a question
- *        line and answer lines.
  * eeg:   four electrode dots on the left, each feeding a trace that runs across.
  */
 const S = { fill: "none", strokeLinecap: "round", strokeLinejoin: "round" } as const;
-
-function Cards() {
-  return (
-    <>
-      <g transform="rotate(-9 80 62)">
-        <rect x="38" y="30" width="78" height="52" rx="7" fill="var(--card)" stroke="var(--quiet)" strokeWidth="1.5" />
-      </g>
-      <g transform="rotate(7 80 62)">
-        <rect x="46" y="28" width="78" height="52" rx="7" fill="var(--card)" stroke="var(--mark-quiet)" strokeWidth="1.5" />
-      </g>
-      <rect x="42" y="36" width="78" height="52" rx="7" fill="var(--card)" stroke="var(--teal)" strokeWidth="2" />
-      <path d="M52 50h30" {...S} stroke="var(--teal)" strokeWidth="3" />
-      <path d="M52 62h56M52 71h44" {...S} stroke="var(--mark-quiet)" strokeWidth="2" />
-    </>
-  );
-}
 
 function Eeg() {
   const rows = [
@@ -47,10 +29,11 @@ function Eeg() {
   );
 }
 
-export default function CoverArt({ id }: { id: DrawnCover }) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- only "eeg" is drawn today; the id stays for the next one
+export default function CoverArt(_props: { id: DrawnCover }) {
   return (
     <svg className="kos-pic-drawn" viewBox="0 0 160 120" aria-hidden preserveAspectRatio="xMidYMid slice">
-      {id === "cards" ? <Cards /> : <Eeg />}
+      <Eeg />
     </svg>
   );
 }

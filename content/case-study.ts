@@ -58,7 +58,6 @@ export type Video =
 export type DiagramId =
   | "unpark"
   | "rc-car"
-  | "flashcards"
   | "porsche-pcb-keychain"
   | "eeg";
 

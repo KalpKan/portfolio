@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import pcb from "@/content/projects/porsche-pcb-keychain";
 import eeg from "@/content/projects/eeg";
-import flashcards from "@/content/projects/flashcards";
 import { isPlaceholder } from "@/content/case-study";
 
 // The two hardware pages are written from the KiCad / LTspice files on
@@ -30,12 +29,6 @@ describe("DIY EEG content", () => {
     expect(all).toMatch(/48 ?Hz/);
     expect(eeg.status.toLowerCase()).toContain("under construction");
     expect(isPlaceholder(eeg.hero)).toBe(false); // the schematic render
-  });
-});
-
-describe("FlashCards", () => {
-  it("stays a draft so the page is the short placeholder (Kalp, 2026-09-18)", () => {
-    expect(flashcards.draft).toBe(true);
   });
 });
 

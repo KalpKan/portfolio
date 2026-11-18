@@ -26,12 +26,10 @@ describe("case-study page publishing rule", () => {
     expect(html).not.toContain("Case study coming soon");
   });
 
-  it("keeps a draft content file on the placeholder page whatever the registry says", async () => {
-    expect(getCaseStudy("flashcards")?.draft).toBe(true);
-    const html = await render("flashcards");
-    expect(html).toContain("Case study coming soon");
-    expect(html).not.toContain('id="problem-head"');
-    expect(html).not.toContain("under construction");
+  it("404s a removed slug like any unknown one", async () => {
+    expect(loadProjects().some((p) => p.slug === "flashcards")).toBe(false);
+    expect(getCaseStudy("flashcards")).toBeUndefined();
+    await expect(render("flashcards")).rejects.toThrow();
   });
 
   it("labels a live, non-draft page as a case study", async () => {
