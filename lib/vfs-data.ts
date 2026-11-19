@@ -1,6 +1,7 @@
 import { caseStudies } from "@/content/projects";
 import { loadProjects } from "./projects";
 import { RESEARCH } from "./research";
+import { OUTSIDE } from "./outside";
 import { SCRAPPED } from "./scrapped";
 import { SITE } from "./site";
 import { buildVfs, type VDir } from "./vfs";
@@ -11,5 +12,5 @@ import { buildVfs, type VDir } from "./vfs";
  * window so the case-study text stays out of the desk's first bundle.
  */
 export function buildKalpVfs(): VDir {
-  return buildVfs({ projects: loadProjects(), caseStudies, site: SITE, scrapped: SCRAPPED, research: RESEARCH });
+  return buildVfs({ projects: loadProjects(), caseStudies, site: SITE, scrapped: SCRAPPED, research: RESEARCH, outside: OUTSIDE });
 }

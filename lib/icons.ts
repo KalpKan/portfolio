@@ -21,8 +21,8 @@ export const ICON_BOX = { w: 96, h: 89 } as const;
 /** The retired localStorage key: layouts are no longer saved, the key is deleted on mount. */
 export const ICONS_KEY = "kalpos:icons";
 
-export type IconId = "projects" | "research" | "hobbies" | "about" | "contact" | "music" | "trash";
-export const ICON_IDS: IconId[] = ["projects", "research", "hobbies", "about", "contact", "music", "trash"];
+export type IconId = "projects" | "research" | "outside" | "hobbies" | "about" | "contact" | "music" | "trash";
+export const ICON_IDS: IconId[] = ["projects", "research", "outside", "hobbies", "about", "contact", "music", "trash"];
 
 export interface Cell {
   c: number;
@@ -35,6 +35,7 @@ export type Dir = "up" | "down" | "left" | "right";
 export const DEFAULT_LAYOUT: IconLayout = {
   projects: { c: 0, r: 0 },
   research: { c: 0, r: 15 },
+  outside: { c: 5, r: 15 },
   hobbies: { c: 5, r: 0 },
   about: { c: 0, r: 5 },
   contact: { c: 5, r: 5 },

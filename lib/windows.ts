@@ -6,6 +6,7 @@
 export type WindowId =
   | "projects"
   | "research"
+  | "outside"
   | "about"
   | "contact"
   | "hobbies"

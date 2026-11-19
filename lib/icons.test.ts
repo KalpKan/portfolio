@@ -27,6 +27,7 @@ describe("the desk's icon grid (card 2c, free layout 2026-09-20)", () => {
     expect(DEFAULT_LAYOUT).toEqual({
       projects: { c: 0, r: 0 },
       research: { c: 0, r: 15 },
+      outside: { c: 5, r: 15 },
       hobbies: { c: 5, r: 0 },
       about: { c: 0, r: 5 },
       contact: { c: 5, r: 5 },

@@ -562,6 +562,12 @@ html[data-kos-boot="desk"] .kos .kos-desk {
   --f-front: linear-gradient(180deg, #b48cff 0%, #8a5cf0 45%, #6a35d9 100%);
 }
 
+.kos-folder--outside {
+  --f-tab: #1d6b3d;
+  --f-back: #195a34;
+  --f-front: linear-gradient(180deg, #8fe3a6 0%, #45bf6c 45%, #2a9a4f 100%);
+}
+
 /* 2c document (About me): 50×62 white sheet with grey lines. */
 .kos-doc {
   width: 50px;
@@ -2064,6 +2070,20 @@ html[data-kos-boot="desk"] .kos-lock {
 }
 .kos-research-pill--progress::before {
   background: var(--magenta-on-card);
+}
+/* Outside class: section headings over the shared Research cards. */
+.kos-outside-section + .kos-outside-section {
+  margin-top: 24px;
+}
+.kos-research-body .kos-outside-heading {
+  margin: 0 0 10px 4px;
+  font: 600 12px/1.3 var(--font-system);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.kos-research-body .kos-outside-desc {
+  margin-bottom: 0;
 }
 @media (max-width: 768px) {
   .kos-research-row {

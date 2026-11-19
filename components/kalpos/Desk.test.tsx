@@ -63,7 +63,7 @@ describe("Desk (card 2c)", () => {
   it("draws the folders and icons as buttons, with the Projects badge = tile count, and hides Now playing while empty", () => {
     const { container, unmount } = mount();
     const icons = [...container.querySelectorAll("button.kos-icon")].map((b) => b.textContent?.trim());
-    expect(icons).toEqual(["12Projects", "04Research", "Hobbies", "About me", "Contact", "Trash"]);
+    expect(icons).toEqual(["12Projects", "04Research", "Hobbies", "07Outside class", "About me", "Contact", "Trash"]);
     expect(container.querySelector(".kos-now")).toBeNull();
     unmount();
   });
@@ -201,14 +201,14 @@ describe("Desk icons move anywhere (2026-09-20)", () => {
     const ev = fire(hob, "keydown", { key: "ArrowRight" });
     expect(ev.defaultPrevented).toBe(true);
     expect(hob.style.left).toBe("170px");
-    // down: Contact (c 5, r 5) and the Trash (c 5, r 10) are in the way, so it lands on the far side of both (r 15)
+    // down: Contact (c 5, r 5), the Trash (c 5, r 10) and Outside class (c 5, r 15) are in the way, so it lands on the far side of all three (r 20)
     fire(hob, "keydown", { key: "ArrowDown" });
-    expect(hob.style.top).toBe("394px");
+    expect(hob.style.top).toBe("504px");
     fire(hob, "keydown", { key: "ArrowUp" });
     expect(hob.style.top).toBe("64px");
     // one plain cell when nothing is in the way
-    fire(icon(container, "Trash"), "keydown", { key: "ArrowDown" });
-    expect(icon(container, "Trash").style.top).toBe("306px");
+    fire(icon(container, "Contact"), "keydown", { key: "ArrowRight" });
+    expect(icon(container, "Contact").style.left).toBe("170px");
     expect(localStorage.getItem("kalpos:icons")).toBeNull();
     unmount();
   });

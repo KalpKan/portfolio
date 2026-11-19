@@ -93,9 +93,9 @@ describe("the prompt and the plain commands", () => {
 describe("ls", () => {
   it("lists the cwd, hides dotfiles unless -a, and marks directories", () => {
     const r = runLine(ctx, INITIAL_STATE, "ls");
-    expect(text(r.lines)).toBe("about  etc  hobbies  projects  research  trash");
+    expect(text(r.lines)).toBe("about  etc  hobbies  outside  projects  research  trash");
     expect(r.lines[0][0]).toEqual({ text: "about", tone: "dir" });
-    expect(text(runLine(ctx, INITIAL_STATE, "ls -a").lines)).toBe(".secret  about  etc  hobbies  projects  research  trash");
+    expect(text(runLine(ctx, INITIAL_STATE, "ls -a").lines)).toBe(".secret  about  etc  hobbies  outside  projects  research  trash");
   });
 
   it("takes a path, relative or absolute, and errors on a missing one", () => {

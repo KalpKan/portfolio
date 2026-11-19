@@ -44,6 +44,9 @@ export function fixtureVfs(): VDir {
     research: [
       { slug: "heating-study", title: "A heating study", role: "Research assistant", where: "UHN", status: "In progress", description: "A phantom study." },
     ],
+    outside: [
+      { slug: "a-club", title: "A club", role: "Organizer", where: "Campus", dates: "", text: "Ran a club." },
+    ],
     site: {
       name: "Kalp Kansara",
       note: "Open a folder.",

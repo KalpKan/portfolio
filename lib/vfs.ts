@@ -2,6 +2,7 @@ import type { CaseStudy } from "@/content/case-study";
 import type { Project } from "./projects";
 import { projectKind } from "./projects";
 import type { ResearchEntry } from "./research";
+import type { OutsideEntry } from "./outside";
 import type { Scrapped } from "./scrapped";
 import { contactLinks } from "./contact";
 import type { Book, Hobby, SiteConfig, Track } from "./site";
@@ -109,6 +110,12 @@ export function researchText(r: ResearchEntry): string {
   return [`# ${r.title}`, "", `role:   ${r.role}`, `where:  ${r.where}`, `status: ${r.status}`, "", r.description].join("\n");
 }
 
+/** One outside-class entry as its own .md file: title, role/where/dates (empty ones left out), then the text. */
+export function outsideText(e: OutsideEntry): string {
+  const meta = [["role:  ", e.role], ["where: ", e.where], ["dates: ", e.dates]].filter(([, v]) => v).map(([k, v]) => `${k} ${v}`);
+  return [`# ${e.title}`, "", ...(meta.length ? [...meta, ""] : []), e.text].join("\n");
+}
+
 export interface VfsInput {
   projects: Project[];
   caseStudies: Record<string, CaseStudy>;
@@ -116,11 +123,13 @@ export interface VfsInput {
   scrapped: readonly Scrapped[];
   /** Volunteer research outside the apps on this desk (/research/<slug>.md); empty leaves the dir there with nothing in it. */
   research?: readonly ResearchEntry[];
+  /** What Kalp does outside class (/outside/<slug>.md). */
+  outside?: readonly OutsideEntry[];
   /** Overrides the build-time hostname in /etc/hostname (tests). */
   hostname?: string;
 }
 
-export function buildVfs({ projects, caseStudies, site, scrapped, research = [], hostname = "kalpkan.com" }: VfsInput): VDir {
+export function buildVfs({ projects, caseStudies, site, scrapped, research = [], outside = [], hostname = "kalpkan.com" }: VfsInput): VDir {
   const projectDirs: Record<string, VNode> = {};
   for (const p of projects) {
     const children: Record<string, VNode> = { "README.md": file(readmeFor(p)) };
@@ -158,8 +167,12 @@ export function buildVfs({ projects, caseStudies, site, scrapped, research = [],
   const researchDir: Record<string, VNode> = {};
   for (const r of research) researchDir[`${r.slug}.md`] = file(researchText(r));
 
+  const outsideDir: Record<string, VNode> = {};
+  for (const e of outside) outsideDir[`${e.slug}.md`] = file(outsideText(e));
+
   return dir({
     projects: dir(projectDirs),
+    outside: dir(outsideDir),
     research: dir(researchDir),
     about: dir(about),
     hobbies: dir(hobbies),

@@ -7,6 +7,7 @@ import { EASE, reducedMotion } from "@/lib/motion";
 import { arcFrames, hitIndex, IDLE_SWAT, playSwat, SWAT_MS, swatReducer, swatTimeline, type Bin } from "@/lib/swat";
 import type { Signal } from "@/lib/signal";
 import { RESEARCH } from "@/lib/research";
+import { OUTSIDE } from "@/lib/outside";
 import { playlistOf, type SiteConfig } from "@/lib/site";
 import type { Tile } from "@/lib/tiles";
 import type { Rect, WindowId, WindowsAction, WindowsState } from "@/lib/windows";
@@ -27,6 +28,7 @@ import ReadingWindow from "./windows/ReadingWindow";
 import MusicWindow from "./windows/MusicWindow";
 import ProjectsWindow from "./windows/ProjectsWindow";
 import ResearchWindow from "./windows/ResearchWindow";
+import OutsideWindow from "./windows/OutsideWindow";
 import TerminalWindow from "./windows/TerminalWindow";
 import TrashWindow from "./windows/TrashWindow";
 
@@ -42,6 +44,7 @@ import TrashWindow from "./windows/TrashWindow";
 const WIDTH: Record<string, number> = {
   projects: 760,
   research: 620,
+  outside: 620,
   about: 520,
   contact: 520,
   hobbies: 520,
@@ -55,6 +58,7 @@ const WIDTH: Record<string, number> = {
 const TITLES: Record<string, string> = {
   projects: "Projects",
   research: "Research",
+  outside: "Outside class",
   about: "About me",
   contact: "Contact",
   hobbies: "Hobbies",
@@ -117,8 +121,8 @@ export default function Desk({
   const hobbyBadge = site.hobbies?.length ? String(site.hobbies.length).padStart(2, "0") : undefined;
 
   const present: IconId[] = playing
-    ? ["projects", "research", "hobbies", "about", "contact", "music", "trash"]
-    : ["projects", "research", "hobbies", "about", "contact", "trash"];
+    ? ["projects", "research", "outside", "hobbies", "about", "contact", "music", "trash"]
+    : ["projects", "research", "outside", "hobbies", "about", "contact", "trash"];
   const icons = useIconLayout(present);
   const cleanUp = useCallback(() => {
     track("menu_action", { item: "cleanup" });
@@ -294,6 +298,8 @@ export default function Desk({
         return <ProjectsWindow tiles={tiles} signals={signals} onOpenCase={openCase} checkedAt={checkedAt} />;
       case "research":
         return <ResearchWindow />;
+      case "outside":
+        return <OutsideWindow />;
       case "about":
         return <AboutWindow site={site} />;
       case "contact":
@@ -350,18 +356,21 @@ export default function Desk({
         <DeskIcon label="Hobbies" index={2} onOpen={(o) => open("hobbies", o)} {...iconProps("hobbies")}>
           <FolderGlyph tint="hobbies" badge={hobbyBadge} />
         </DeskIcon>
-        <DeskIcon label="About me" index={3} onOpen={(o) => open("about", o)} {...iconProps("about")}>
+        <DeskIcon label="Outside class" index={3} onOpen={(o) => open("outside", o)} {...iconProps("outside")}>
+          <FolderGlyph tint="outside" badge={String(OUTSIDE.length).padStart(2, "0")} />
+        </DeskIcon>
+        <DeskIcon label="About me" index={4} onOpen={(o) => open("about", o)} {...iconProps("about")}>
           <DocGlyph />
         </DeskIcon>
-        <DeskIcon label="Contact" index={4} onOpen={(o) => open("contact", o)} {...iconProps("contact")}>
+        <DeskIcon label="Contact" index={5} onOpen={(o) => open("contact", o)} {...iconProps("contact")}>
           <AppGlyph kind="contact" />
         </DeskIcon>
         {playing ? (
-          <DeskIcon label="Now playing" index={5} onOpen={(o) => open("music", o)} {...iconProps("music")}>
+          <DeskIcon label="Now playing" index={6} onOpen={(o) => open("music", o)} {...iconProps("music")}>
             <AppGlyph kind="music" />
           </DeskIcon>
         ) : null}
-        <DeskIcon label="Trash" index={6} quiet onOpen={(o) => open("trash", o)} {...iconProps("trash")} lid={busy && swat.where === "desk"}>
+        <DeskIcon label="Trash" index={7} quiet onOpen={(o) => open("trash", o)} {...iconProps("trash")} lid={busy && swat.where === "desk"}>
           <TrashGlyph />
         </DeskIcon>
       </div>
