@@ -31,7 +31,7 @@ const BUILDING: readonly OutsideEntry[] = [
     slug: "western-igem",
     glyph: "dna",
     title: "Western iGEM",
-    role: "Helping start the team",
+    role: "Director of Lab and Research",
     where: "Western University",
     dates: "2026 – present",
     text: "Helping launch Western's iGEM team, for the international synthetic biology competition, under the Western Engineering Biomedical Club. We reached out to faculty across campus to find our advisors: Dr. Karas is our primary PI and Dr. Pearce our secondary PI, and Dr. Pyne is also working with us. Through Dr. Pearce's FAST lab, our project is about upcycling post-consumer PLA plastic into yeast biomass. In January the team pitches ideas for where the project should go to a panel of faculty judges.",
@@ -43,7 +43,7 @@ const BUILDING: readonly OutsideEntry[] = [
     role: "Director of Events",
     where: "Western University",
     dates: "",
-    text: "Director of Events for Western's Students Fight Parkinson's club.",
+    text: "Director of Events for Western's Students Fight Parkinson's club, running events like a sports night, a trivia night, podcasts and a charity run.",
   },
   {
     slug: "tdsb-chess-league",
@@ -64,7 +64,7 @@ const CARING: readonly OutsideEntry[] = [
     role: "Receptionist and residence volunteer",
     where: "Vaughan, Ontario",
     dates: "Jun 2025 – present",
-    text: "At the front desk and with residents, helping with whatever they need, whether that's support, food or getting a nurse. Around 300 hours so far.",
+    text: "At the front desk and with residents, helping with whatever they need, whether that's support, food or getting a nurse.",
   },
   {
     slug: "lhsc-victoria",
@@ -73,7 +73,7 @@ const CARING: readonly OutsideEntry[] = [
     role: "Helping Hand volunteer",
     where: "London, Ontario",
     dates: "Jun 2026 – present",
-    text: "Delivering devices to patients. Around 150 hours so far.",
+    text: "Delivering devices to patients.",
   },
 ];
 
