@@ -2071,7 +2071,7 @@ html[data-kos-boot="desk"] .kos-lock {
 .kos-research-pill--progress::before {
   background: var(--magenta-on-card);
 }
-/* Outside class: section headings over the shared Research cards. */
+/* Involvement: section headings over the shared Research cards. */
 .kos-outside-section + .kos-outside-section {
   margin-top: 24px;
 }

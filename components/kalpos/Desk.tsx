@@ -58,7 +58,7 @@ const WIDTH: Record<string, number> = {
 const TITLES: Record<string, string> = {
   projects: "Projects",
   research: "Research",
-  outside: "Outside class",
+  outside: "Involvement",
   about: "About me",
   contact: "Contact",
   hobbies: "Hobbies",
@@ -356,7 +356,7 @@ export default function Desk({
         <DeskIcon label="Hobbies" index={2} onOpen={(o) => open("hobbies", o)} {...iconProps("hobbies")}>
           <FolderGlyph tint="hobbies" badge={hobbyBadge} />
         </DeskIcon>
-        <DeskIcon label="Outside class" index={3} onOpen={(o) => open("outside", o)} {...iconProps("outside")}>
+        <DeskIcon label="Involvement" index={3} onOpen={(o) => open("outside", o)} {...iconProps("outside")}>
           <FolderGlyph tint="outside" badge={String(OUTSIDE.length).padStart(2, "0")} />
         </DeskIcon>
         <DeskIcon label="About me" index={4} onOpen={(o) => open("about", o)} {...iconProps("about")}>

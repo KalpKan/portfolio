@@ -39,8 +39,8 @@ describe("buildVfs", () => {
   });
 
   it("has about, hobbies, the trash, /etc and the hidden secret", () => {
-    expect(listDir(root)).toEqual(["about", "etc", "hobbies", "outside", "projects", "research", "trash"]);
-    expect(listDir(root, true)).toEqual([".secret", "about", "etc", "hobbies", "outside", "projects", "research", "trash"]);
+    expect(listDir(root)).toEqual(["about", "etc", "hobbies", "involvement", "projects", "research", "trash"]);
+    expect(listDir(root, true)).toEqual([".secret", "about", "etc", "hobbies", "involvement", "projects", "research", "trash"]);
     expect((getNode(root, "/about/README.md") as { content: string }).content).toContain("Western University.");
     expect(listDir(getNode(root, "/about") as VDir)).toEqual(["README.md", "music.md", "reading.md"]);
     const music = (getNode(root, "/about/music.md") as { content: string }).content;
@@ -180,9 +180,9 @@ describe("tree", () => {
 });
 
 describe("outside class files", () => {
-  it("derives /outside/<slug>.md, leaving empty fields out", () => {
+  it("derives /involvement/<slug>.md, leaving empty fields out", () => {
     const root = fixtureVfs();
-    expect(listDir(getNode(root, "/outside") as VDir)).toEqual(["a-club.md"]);
-    expect((getNode(root, "/outside/a-club.md") as { content: string }).content).toBe("# A club\n\nrole:   Organizer\nwhere:  Campus\n\nRan a club.\n");
+    expect(listDir(getNode(root, "/involvement") as VDir)).toEqual(["a-club.md"]);
+    expect((getNode(root, "/involvement/a-club.md") as { content: string }).content).toBe("# A club\n\nrole:   Organizer\nwhere:  Campus\n\nRan a club.\n");
   });
 });

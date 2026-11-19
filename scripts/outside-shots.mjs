@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Screenshot the Outside class window (1440 light, 1440 dark, 390 phone sheet), fail on console errors.
+// Screenshot the Involvement window (1440 light, 1440 dark, 390 phone sheet), fail on console errors.
 // Usage: BASE=http://localhost:3000 OUT=docs/images/kalpos/outside SUFFIX=-after node scripts/outside-shots.mjs
 import { createRequire } from "node:module";
 import os from "node:os";
@@ -20,8 +20,8 @@ async function shot(name, { width, height, scheme, phone }) {
   page.on("pageerror", (e) => errors.push(String(e)));
   await page.goto(base + "/?desk", { waitUntil: "load" });
   await page.waitForTimeout(1200);
-  if (phone) await page.locator('button:has-text("Outside class")').first().tap();
-  else await page.locator('button.kos-icon:has-text("Outside class")').first().click({ delay: 300 });
+  if (phone) await page.locator('button:has-text("Involvement")').first().tap();
+  else await page.locator('button.kos-icon:has-text("Involvement")').first().click({ delay: 300 });
   await page.waitForTimeout(1500);
   await page.screenshot({ path: path.join(out, `${name}${sfx}.png`) });
   console.log(name, JSON.stringify({ errors }));

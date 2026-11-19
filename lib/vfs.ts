@@ -123,7 +123,7 @@ export interface VfsInput {
   scrapped: readonly Scrapped[];
   /** Volunteer research outside the apps on this desk (/research/<slug>.md); empty leaves the dir there with nothing in it. */
   research?: readonly ResearchEntry[];
-  /** What Kalp does outside class (/outside/<slug>.md). */
+  /** What Kalp does outside class (/involvement/<slug>.md). */
   outside?: readonly OutsideEntry[];
   /** Overrides the build-time hostname in /etc/hostname (tests). */
   hostname?: string;
@@ -172,7 +172,7 @@ export function buildVfs({ projects, caseStudies, site, scrapped, research = [],
 
   return dir({
     projects: dir(projectDirs),
-    outside: dir(outsideDir),
+    involvement: dir(outsideDir),
     research: dir(researchDir),
     about: dir(about),
     hobbies: dir(hobbies),

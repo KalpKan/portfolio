@@ -2,7 +2,7 @@ import { OUTSIDE_INTRO, OUTSIDE_SECTIONS } from "@/lib/outside";
 import OutsideGlyph from "../OutsideGlyph";
 
 /**
- * The Outside class folder (2026-11-18): the Research window's look (drawn
+ * The Involvement folder (2026-11-18): the Research window's look (drawn
  * glyph chip, title, muted meta line, one paragraph; the .kos-research-*
  * styles are shared) under three small headings. Content is lib/outside.ts,
  * rendered exactly; an empty role, place or dates renders nothing. Also the

@@ -46,7 +46,7 @@ const PEEK_PX = 230;
 const TITLES: Record<string, string> = {
   projects: "Projects",
   research: "Research",
-  outside: "Outside class",
+  outside: "Involvement",
   hobbies: "Hobbies",
   about: "About",
   contact: "Contact",
@@ -269,7 +269,7 @@ export default function PhoneSheet({
           <li><DeskIcon label="Projects" draggable={false} onOpen={() => openSheet("projects")}><FolderGlyph tint="projects" badge={String(tiles.length).padStart(2, "0")} /></DeskIcon></li>
           <li><DeskIcon label="Research" draggable={false} onOpen={() => openSheet("research")}><FolderGlyph tint="research" badge={String(RESEARCH.length).padStart(2, "0")} /></DeskIcon></li>
           <li><DeskIcon label="Hobbies" draggable={false} onOpen={() => openSheet("hobbies")}><FolderGlyph tint="hobbies" badge={site.hobbies?.length ? String(site.hobbies.length).padStart(2, "0") : undefined} /></DeskIcon></li>
-          <li><DeskIcon label="Outside class" draggable={false} onOpen={() => openSheet("outside")}><FolderGlyph tint="outside" badge={String(OUTSIDE.length).padStart(2, "0")} /></DeskIcon></li>
+          <li><DeskIcon label="Involvement" draggable={false} onOpen={() => openSheet("outside")}><FolderGlyph tint="outside" badge={String(OUTSIDE.length).padStart(2, "0")} /></DeskIcon></li>
           <li><DeskIcon label="About" draggable={false} onOpen={() => openSheet("about")}><DocGlyph /></DeskIcon></li>
           <li><DeskIcon label="Contact" draggable={false} onOpen={() => openSheet("contact")}><AppGlyph kind="contact" /></DeskIcon></li>
           {playlistOf(site).length ? (

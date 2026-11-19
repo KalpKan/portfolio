@@ -1,7 +1,7 @@
 import { OUTSIDE_GLYPH_IDS, type OutsideGlyphId } from "@/lib/outside";
 
 /*
- * The Outside class window's marks (2026-11-18): original 26 x 26 line drawings
+ * The Involvement window's marks (2026-11-18): original 26 x 26 line drawings
  * in the ResearchGlyph / HobbyGlyph idiom (stroke, currentColor, no emoji) on
  * the same chip (.kos-research-glyph). Unknown or missing id draws the neutral mark.
  *
